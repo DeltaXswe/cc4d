@@ -1,0 +1,135 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[left=2.5cm, right=2.5cm]{geometry}
+\usepackage{svg}
+\usepackage{eurosym}
+
+\title{
+\vspace{-3cm}
+\begin{figure}[h]
+  \centering
+  \includesvg[width=10em]{logo.svg}
+\end{figure}
+\vspace{-0.5cm}
+DeltaX \\
+\vspace{0.3cm}
+Candidatura per il progetto di Ingegneria del Software
+}
+\author{
+Dardouri Leila, Lazari Alberto, Micheletti Christian, \\
+Pavan Riccardo, Stafa Diego, Stevanato Giacomo, Trentin Daniele \vspace{0.4cm}\\
+deltax.swe@gmail.com
+}
+\date{16 Novembre 2021}
+
+\begin{document}
+
+\maketitle
+
+\section*{Candidatura e promessa di consegna}
+
+Il gruppo \textit{DeltaX} si candida per il capitolato C3 \textit{"CC4D"}, impegnandosi a consegnare il prodotto richiesto dal proponente entro il 11 Aprile 2022. 
+
+\section*{Preventivo costi e impegno orario}
+
+Stimiamo un preventivo di \euro 14980 per 700 ore di lavoro totali, distribuite per ruolo e tra i vari componenti del gruppo nei seguenti modi:
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Membro} & \textbf{Impegno orario} \\
+        \hline
+        Dardouri Leila       & 100 \\
+        Lazari Alberto       & 100 \\
+        Micheletti Christian & 100 \\
+        Pavan Riccardo       & 100 \\
+        Stafa Diego          & 100 \\
+        Stevanato Giacomo    & 100 \\
+        Trentin Daniele      & 100 \\
+        \hline
+        \textbf{Totale} & 700 \\
+        \hline
+    \end{tabular}
+    \quad\quad\quad\quad\quad
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Ruolo} & \textbf{Ore} & \textbf{Costo} \\
+        \hline
+        Responsabile    & 119 & \euro 3570 \\
+        Amministratore  &  63 & \euro 1260 \\
+        Analista        & 119 & \euro 2975 \\
+        Progettista     & 119 & \euro 2975 \\
+        Programmatore   & 175 & \euro 2625 \\
+        Verificatore    & 105 & \euro 1575 \\
+        \hline
+        \textbf{Totale} & 700 & \euro 14980 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\section*{Motivazione della scelta}
+
+Abbiamo scelto questo capitolato perché:
+\begin{itemize}
+    \item è utile, vediamo concrete applicazioni in vari ambiti di produzione e non solo
+    \item va a toccare diverse aree dello sviluppo software, ad esempio sia frontend che backend
+    \item si presta ad una soluzione modulare ed elegante
+    \item abbiamo avuto una buona impressione dell'azienda, sia durante la presentazione che durante gli incontri
+    \item ci lascia la libertà di scegliere le tecnologie che preferiamo
+    \item ha dei requisiti chiari, che non lasciano troppo spazio all'interpretazione
+    \item abbiamo già familiarità con gran parte delle tecnologie necessarie
+\end{itemize}
+
+\section*{Resoconto incontri con il proponente}
+
+Abbiamo effettuato un incontro con il proponente in data 5 Novembre, con lo scopo di ottenere più informazioni sulle parti del capitolato che ci erano meno chiare e comprendere meglio i rischi e le complessità a cui dovremo far fronte. Di seguito riportiamo le tematiche discusse:
+\begin{enumerate}
+    \item {
+        Domanda: Ci verranno fornite spiegazioni e supporto relativi alle carte di controllo?
+        
+        Risposta: Si, sono spiegate alla grande su Wikipedia ma noi ve le spiegheremo e vi potremo anche fornire materiale aggiuntivo in forma di link web e libri di statistica. 
+    }
+    \item {
+        Domanda: Cosa vi aspettate che vengano registrate le caratteristiche?
+        
+        Risposta: Per semplificare ogni caratteristica è legata ad una macchina, la quale si assume produca un solo tipo di articolo.
+    }
+    \item {
+        Domanda: Che tipo di sicurezza vi aspettate?
+        
+        Risposta: Per l'app web ci aspettiamo un livello di sicurezza minimo, username e password dovrebbero bastare. Gli admin saranno solo ad uso interno, mentre per gli utenti normali sarà permessa la connessione dall'esterno, ma in ogni caso saranno limitati alla sola visualizzazione. Per la rilevazione dati ci aspettiamo invece di usare un API token permanente configurabile in un relativo file. 
+    }
+    \item {
+        Domanda: Su che piattaforme dovrà girare il software lato server?
+        
+        Risposta: Non c'è una piattaforma specifica ma preferiamo che utilizzi i container Docker.
+    }
+    \item {
+        Domanda: Come deve reagire il software all'identificazione di una anomalia?
+        
+        Risposta: I punti anomali dovranno essere marcati nei grafici, che continueranno comunque a mostrare nuovi dati. Ci si aspetta che l'utente possa tornare indietro a vedere punti e anomalie precedenti.
+    }
+    \item {
+        Domanda: Ci sono limitazioni a ciò che un utente può fare, ad esempio visualizzare solo alcune macchine?
+        
+        Risposta: No, gli utenti possono vedere tutte le macchine.
+    }
+    \item {
+        Domanda: C'è un carico di rilevazioni che ci possiamo aspettare?
+        
+        Risposta: Dipende dall'azienda che userà il prodotto, ma in generale non meno di una rilevazione al secondo per caratteristica, e possono arrivare in parallelo. Andrà specificato un valore minimo nei requisiti contro cui bisognerà testare.
+    }
+    \item {
+        Domanda: Potremo fare test con macchine simili a quelle in produzione?
+        
+        Risposta: No, ma vi forniremo dataset simili, libreria che li possano generare ed eventualmente supporto da parte di statistici. 
+    }
+    \item {
+        Domanda: Che interazioni con voi possiamo aspettarci durante lo sviluppo del prodotto?
+        
+        Risposta: Siamo disponibili a fare chiamate di 10--60 minuti per dubbi sull'applicativo, domande generali, feedback e revisioni.
+    }
+\end{enumerate}
+
+\end{document}
