@@ -1,0 +1,1 @@
+docker run -d --name db-cnofigurazione-container -p 5432:5432 db-cnofigurazione
