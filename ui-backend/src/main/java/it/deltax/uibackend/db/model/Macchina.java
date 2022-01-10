@@ -7,19 +7,19 @@ import javax.persistence.Id;
 public class Macchina {
 
     @Id()
-    private String cod;
+    private long ser;
 
     private String name;
 
     protected Macchina() {}
 
-    public Macchina(String cod, String name) {
-        this.cod = cod;
+    public Macchina(long cod, String name) {
+        this.ser = cod;
         this.name = name;
     }
 
-    public String getCod() {
-        return cod;
+    public long getSer() {
+        return ser;
     }
 
     public String getName() {
