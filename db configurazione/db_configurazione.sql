@@ -9,7 +9,7 @@ create table macchina (
 create table caratteristica (
 	codice				name	,
 	nome				name	not null unique,
-	macchina			serial
+	macchina			integer
 		references	macchina (id)
 		on delete	cascade
 		on update	cascade,
