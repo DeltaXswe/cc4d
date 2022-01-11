@@ -1,2 +1,2 @@
-docker build -t db-configurazione ./
-docker run -d --name db-configurazione-container -p 5432:5432 db-configurazione
+docker build -t db-rilevazioni ./
+docker run -d --name db-rilevazioni-container -p 5433:5432 db-rilevazioni

@@ -8,3 +8,9 @@ create table rilevazione (
 
 	constraint chk_creazione	check (creazione_utc >= 0)
 );
+
+create user backend		password 'backend';
+grant select			on all tables in schema public	to backend;
+
+create user api			password 'api';
+grant select, insert	on all tables in schema public	to api;
