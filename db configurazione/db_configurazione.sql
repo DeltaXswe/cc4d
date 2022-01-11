@@ -2,14 +2,15 @@ drop table if exists macchina;
 drop table if exists caratteristica;
 
 create table macchina (
-	ser		serial	primary key,
+	id		serial	primary key,
 	nome	name	not null
 );
 
 create table caratteristica (
-	nome				name	,
+	codice				name	,
+	nome				name	not null unique,
 	macchina			serial
-		references	macchina (ser)
+		references	macchina (id)
 		on delete	cascade
 		on update	cascade,
 	limite_min			numeric	not null,
@@ -18,13 +19,13 @@ create table caratteristica (
 	adattamento			boolean	not null,
 	ampiezza_campione	numeric	,
 	
-	primary key (nome, macchina),
+	primary key (codice, macchina),
 	constraint chk_intervallo 	check (limite_min <= limite_max),
 	constraint chk_ampiezza 	check (ampiezza_campione >= 0)
 );
 
-insert into macchina (nome) values
-('Macchina a vapore');
+create user backend	password 'backend';
+grant select, insert, update, delete	on all tables in schema public	to backend;
 
-insert into caratteristica (nome, macchina, limite_min, limite_max, media, adattamento, ampiezza_campione) values
-('Frequenza di oscillazione pistone', 1, 10, 10000, 500, true, 0);
+create user api		password 'api';
+grant select							on all tables in schema public	to api;
