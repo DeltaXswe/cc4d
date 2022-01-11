@@ -1,0 +1,34 @@
+
+.machines {
+   margin: 0 0 2em 0;
+   list-style-type: none;
+   padding: 0;
+   width: 15em;
+ }
+ .machines li {
+   cursor: pointer;
+   position: relative;
+   left: 0;
+   background-color: #EEE;
+   margin: .5em;
+   padding: .3em 0;
+   height: 2.3em;
+   border-radius: 4px;
+ }
+ .machines li:hover {
+   color: #2c3a41;
+   background-color: #e6e6e6;
+   left: .1em;
+ }
+ .machines li.selected {
+   background-color: black;
+   color: white;
+ }
+ .machines li.selected:hover {
+   background-color: #505050;
+   color: white;
+ }
+ .machines li.selected:active {
+   background-color: black;
+   color: white;
+ }
