@@ -1,10 +1,14 @@
-<div class="column">
-   <h2>Lista macchine</h2>
-   <ul class="machines">
-      <li *ngFor="let machine of machines" [class.selected]="machine === selectedMachine" (click)="machineOnSelect(machine)" >
-         <span>{{ machine.ser }}</span><br> 
-         <span>{{ machine.nome }}</span>
-      </li>
-   </ul>
+<div class="row">
+   <div class="column">
+      <h2 id="h2_macchine">Lista macchine</h2>
+      <ul class="machines">
+         <li *ngFor="let machine of machines" [class.selected]="machine === selectedMachine" (click)="machineOnSelect(machine)" >
+            <span>{{ machine.ser }}</span><br> 
+            <span>{{ machine.nome }}</span>
+         </li>
+      </ul>
+   </div>
+   <div class="column">
+      <app-characteristic [machine]="selectedMachine"></app-characteristic>
+   </div>
 </div>
-<app-characteristic [machine]="selectedMachine"></app-characteristic>
