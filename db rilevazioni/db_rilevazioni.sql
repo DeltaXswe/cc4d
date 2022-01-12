@@ -5,6 +5,7 @@ create table rilevazione (
 	caratteristica	name				not null,
 	macchina		integer				not null,
 	valore			double precision	not null,
+	anomalo			boolean				not null default false,
 
 	constraint chk_creazione	check (creazione_utc >= 0)
 );
