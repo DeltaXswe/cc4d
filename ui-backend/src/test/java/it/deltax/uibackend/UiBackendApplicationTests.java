@@ -25,8 +25,8 @@ class UiBackendApplicationTests {
 	@Autowired
 	private MachinesController machineController;
 
-	@Autowired
-	private MacchinaRepository macchinaRepository;
+	//@Autowired
+	// private MacchinaRepository macchinaRepository;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -39,7 +39,7 @@ class UiBackendApplicationTests {
 
 	@Test
 	public void listAllMacchine() throws Exception {
-		macchinaRepository.save(new Macchina("One"));
+		// macchinaRepository.save(new Macchina("One"));
 
 		mockMvc.perform(get("/macchine"))
 				.andDo(print())

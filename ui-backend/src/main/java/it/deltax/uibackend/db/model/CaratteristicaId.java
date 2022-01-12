@@ -14,6 +14,8 @@ public class CaratteristicaId implements Serializable {
     @Column(name = "codice", nullable = false)
     private String codice;
 
+    protected CaratteristicaId() {}
+
     public CaratteristicaId(long macchina, String codice) {
         this.macchina = macchina;
         this.codice = codice;
