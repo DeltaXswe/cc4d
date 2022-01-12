@@ -2,7 +2,7 @@ package it.deltax.uibackend.web;
 
 import it.deltax.uibackend.business.domain.CharacteristicTimeseries;
 import it.deltax.uibackend.business.ports.in.GetCharacteristicTimeseriesUseCase;
-import it.deltax.uibackend.web.errors.ResourceNotFoundException;
+import it.deltax.uibackend.web.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,9 +23,7 @@ public class TimeseriesController {
     public CharacteristicTimeseries getCharacteristicTimeseries(
             @PathVariable long machine,
             @PathVariable String characteristic
-    )
-            throws ResourceNotFoundException
-    {
+    ) {
         Optional<CharacteristicTimeseries> ct = timeseriesUseCase.getCharacteristicTimeSeries(machine, characteristic);
         return ct.orElseThrow(() -> {
             HashMap<String, Object> keys = new HashMap<>();
