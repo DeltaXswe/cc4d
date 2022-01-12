@@ -5,7 +5,7 @@ import it.deltax.uibackend.business.domain.CharacteristicLight;
 import it.deltax.uibackend.business.ports.out.FindCharacteristicInfoPort;
 import it.deltax.uibackend.business.ports.out.ListAllCharacteristicsPort;
 import it.deltax.uibackend.db.configurazione.model.CaratteristicaId;
-import it.deltax.uibackend.db.configurazione.repos.CaratteristicaRepository;
+import it.deltax.uibackend.db.configurazione.repository.CaratteristicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

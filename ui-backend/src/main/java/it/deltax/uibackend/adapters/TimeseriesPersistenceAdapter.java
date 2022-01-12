@@ -2,7 +2,7 @@ package it.deltax.uibackend.adapters;
 
 import it.deltax.uibackend.business.domain.TimeseriesPointLight;
 import it.deltax.uibackend.business.ports.out.TimeseriesPort;
-import it.deltax.uibackend.db.rilevazioni.repo.RilevazioneRepository;
+import it.deltax.uibackend.db.rilevazioni.repository.RilevazioneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

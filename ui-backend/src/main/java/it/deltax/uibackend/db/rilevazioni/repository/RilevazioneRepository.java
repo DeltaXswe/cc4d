@@ -1,4 +1,4 @@
-package it.deltax.uibackend.db.rilevazioni.repo;
+package it.deltax.uibackend.db.rilevazioni.repository;
 
 import it.deltax.uibackend.db.rilevazioni.model.Rilevazione;
 import org.springframework.data.repository.CrudRepository;

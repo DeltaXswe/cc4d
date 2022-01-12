@@ -3,7 +3,7 @@ package it.deltax.uibackend.adapters;
 import it.deltax.uibackend.business.domain.MachineLight;
 import it.deltax.uibackend.business.ports.out.FindMachinePort;
 import it.deltax.uibackend.business.ports.out.ListAllMachinesPort;
-import it.deltax.uibackend.db.configurazione.repos.MacchinaRepository;
+import it.deltax.uibackend.db.configurazione.repository.MacchinaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

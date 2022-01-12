@@ -1,4 +1,4 @@
-package it.deltax.uibackend.db.configurazione.repos;
+package it.deltax.uibackend.db.configurazione.repository;
 
 import it.deltax.uibackend.db.configurazione.model.Caratteristica;
 import it.deltax.uibackend.db.configurazione.model.CaratteristicaId;
