@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class MacchinaPersistenceAdapter implements ListAllMachinesPort {
+public class MachinePersistenceAdapter implements ListAllMachinesPort {
 
     @Autowired
     private MacchinaRepository repo;

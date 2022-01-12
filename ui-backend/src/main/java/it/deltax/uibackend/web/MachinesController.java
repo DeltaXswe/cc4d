@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/macchine")
-public class MacchineController {
+public class MachinesController {
 
     @Autowired
     private ListAllMachinesUseCase useCase;
