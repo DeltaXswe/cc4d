@@ -1,9 +1,24 @@
-
+#h2_macchine{
+  font-size: 1.5em;
+  margin-bottom: 1.5em;
+}
+.row {
+  display:flex;
+  width: 100%;
+}
+.column {
+  flex: 50%;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  margin: 1em;
+  margin-top: 3em;
+  text-align: center;
+}
 .machines {
-   margin: 0 0 2em 0;
+   margin: auto;
    list-style-type: none;
    padding: 0;
    width: 15em;
+   font-size: 1.3em;
  }
  .machines li {
    cursor: pointer;
@@ -11,8 +26,8 @@
    left: 0;
    background-color: #EEE;
    margin: .5em;
-   padding: .3em 0;
-   height: 2.3em;
+   padding: .4em;
+   height: fit-content;
    border-radius: 4px;
  }
  .machines li:hover {
