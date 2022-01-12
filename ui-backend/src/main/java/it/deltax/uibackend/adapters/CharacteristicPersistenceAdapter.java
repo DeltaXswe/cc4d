@@ -18,7 +18,7 @@ public class CharacteristicPersistenceAdapter implements ListAllCharacteristicsP
     @Override
     public List<CharacteristicLight> listAllCharacteristics() {
         List<CharacteristicLight> characteristics = new ArrayList<>();
-        repo.findAll().forEach(caratteristica -> characteristics.add(new CharacteristicLight(caratteristica.getNome(), caratteristica.getMacchina())));
+        repo.findAll().forEach(caratteristica -> characteristics.add(new CharacteristicLight(caratteristica.getNome(), caratteristica.getId().getMacchina())));
         return characteristics;
     }
 }

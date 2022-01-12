@@ -1,28 +1,34 @@
 package it.deltax.uibackend.db.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "macchina")
 public class Macchina {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private long id;
 
-    @Id()
-    private long ser;
-
-    private String name;
+    @Column(name = "nome", nullable = false)
+    private String nome;
 
     protected Macchina() {}
 
-    public Macchina(long cod, String name) {
-        this.ser = cod;
-        this.name = name;
+    public Macchina(String nome) {
+        this.nome = nome;
     }
 
-    public long getSer() {
-        return ser;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
+
+    public long getId() {
+        return id;
+    }
+
 }

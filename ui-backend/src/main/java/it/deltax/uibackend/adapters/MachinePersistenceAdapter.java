@@ -18,7 +18,7 @@ public class MachinePersistenceAdapter implements ListAllMachinesPort {
     @Override
     public List<MachineLight> listAllMachines() {
         List<MachineLight> macchine = new ArrayList<>();
-        repo.findAll().forEach(macchina -> macchine.add(new MachineLight(macchina.getSer(), macchina.getName())));
+        repo.findAll().forEach(macchina -> macchine.add(new MachineLight(macchina.getId(), macchina.getNome())));
         return macchine;
     }
 }

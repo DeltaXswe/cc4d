@@ -39,7 +39,7 @@ class UiBackendApplicationTests {
 
 	@Test
 	public void listAllMacchine() throws Exception {
-		macchinaRepository.save(new Macchina(1, "One"));
+		macchinaRepository.save(new Macchina("One"));
 
 		mockMvc.perform(get("/macchine"))
 				.andDo(print())

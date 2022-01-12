@@ -25,7 +25,8 @@ create table caratteristica (
 );
 
 create user backend	password 'backend';
-grant select, insert, update, delete	on all tables in schema public	to backend;
+grant select, insert, update, delete	on all tables 		in schema public	to backend;
+grant usage, select						on all sequences 	in schema public 	to backend;
 
 create user api		password 'api';
-grant select							on all tables in schema public	to api;
+grant select							on all tables 		in schema public	to api;
