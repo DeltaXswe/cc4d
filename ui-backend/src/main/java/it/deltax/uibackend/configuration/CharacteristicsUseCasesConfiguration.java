@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ListAllCharacteristicsConfiguration {
+public class CharacteristicsUseCasesConfiguration {
 
     @Bean
     ListAllCharacteristicsUseCase listAllCharacteristicsUseCase(ListAllCharacteristicsPort port) {

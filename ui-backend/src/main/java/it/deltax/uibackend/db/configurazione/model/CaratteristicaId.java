@@ -1,4 +1,4 @@
-package it.deltax.uibackend.db.model;
+package it.deltax.uibackend.db.configurazione.model;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

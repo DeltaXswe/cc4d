@@ -2,8 +2,6 @@ package it.deltax.uibackend;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import it.deltax.uibackend.db.model.Macchina;
-import it.deltax.uibackend.db.repos.MacchinaRepository;
 import it.deltax.uibackend.web.MachinesController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,7 @@ class UiBackendApplicationTests {
 	@Autowired
 	private MachinesController machineController;
 
-	//@Autowired
+	// @Autowired
 	// private MacchinaRepository macchinaRepository;
 
 	@Autowired
