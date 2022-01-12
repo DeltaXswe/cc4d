@@ -41,3 +41,8 @@ Queste azioni possono essere categorizzate:
 - azioni eseguibili dal dominio sullo strato di persistenza (out-ports)
 
 I casi d'uso sono implementati tramite i Services. Un Service implementa un solo caso d'uso.
+
+## Sistema gestione errori
+
+Le richieste che non trovano la risorsa (id sbagliati) restituiscono 404, 
+con un oggetto nella body che indica le chiavi e la risorsa cercata. 
