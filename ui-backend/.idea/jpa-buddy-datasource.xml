@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="JpbDataSourceConfig">
-    <data-sources>
-      <data-source id="2965c66d-3e49-4625-8699-fe477197f5e8" name="configurazioni" url="jdbc:postgresql://localhost/configurazione" driverClass="org.postgresql.Driver" />
-      <data-source id="07657768-632d-414a-8936-0a6729593ef3" name="rilevazioni" url="jdbc:postgresql://localhost:5433/rilevazioni" driverClass="org.postgresql.Driver" />
-    </data-sources>
-  </component>
-</project>
