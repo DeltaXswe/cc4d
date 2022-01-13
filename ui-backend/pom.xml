@@ -8,7 +8,7 @@
 		<version>2.6.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>it.deltax</groupId>
+	<groupId>it.deltax.produlytics</groupId>
 	<artifactId>ui-backend</artifactId>
 	<version>0.0.1</version>
 	<name>ui-backend</name>
@@ -33,6 +33,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>it.deltax.produlytics</groupId>
+			<artifactId>persistence</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 
