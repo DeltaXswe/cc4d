@@ -1,4 +1,4 @@
-package it.deltax.uibackend;
+package it.deltax.produlytics.uibackend;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
