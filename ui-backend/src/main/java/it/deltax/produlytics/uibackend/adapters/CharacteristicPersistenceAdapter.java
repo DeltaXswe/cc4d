@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+// object adapter (Target sono le port, Adaptee è la repo)
+
 @Component
 public class CharacteristicPersistenceAdapter implements ListAllCharacteristicsPort, FindCharacteristicInfoPort {
 
