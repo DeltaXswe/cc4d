@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/macchine")
+@RequestMapping("/machines")
 public class MachinesController {
 
     @Autowired

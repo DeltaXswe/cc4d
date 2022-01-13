@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/rilevazioni")
+@RequestMapping("/time_series")
 public class TimeseriesController {
 
     @Autowired
