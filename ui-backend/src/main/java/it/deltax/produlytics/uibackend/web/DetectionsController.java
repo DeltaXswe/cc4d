@@ -1,15 +1,11 @@
 package it.deltax.produlytics.uibackend.web;
 
-import it.deltax.produlytics.uibackend.business.domain.CharacteristicDetections;
-import it.deltax.produlytics.uibackend.web.exceptions.ResourceNotFoundException;
-import it.deltax.produlytics.uibackend.business.ports.in.GetCharacteristicDetectionsUseCase;
+import it.deltax.produlytics.uibackend.business.domain.DetectionLight;
+import it.deltax.produlytics.uibackend.business.ports.in.ListDetectionsUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -17,19 +13,14 @@ import java.util.Optional;
 public class DetectionsController {
 
     @Autowired
-    GetCharacteristicDetectionsUseCase timeseriesUseCase;
+    ListDetectionsUseCase listDetectionsUseCase;
 
     @GetMapping("/{machine}/{characteristic}")
-    public CharacteristicDetections getCharacteristicTimeseries(
+    public List<DetectionLight> getCharacteristicDetections(
             @PathVariable long machine,
-            @PathVariable String characteristic
+            @PathVariable String characteristic,
+            @RequestParam("createdAfter") Optional<Long> createdAfter
     ) {
-        Optional<CharacteristicDetections> ct = timeseriesUseCase.getCharacteristicDetections(machine, characteristic);
-        return ct.orElseThrow(() -> {
-            HashMap<String, Object> keys = new HashMap<>();
-            keys.put("machine", machine);
-            keys.put("characteristic", characteristic);
-            return new ResourceNotFoundException("rilevazioni", keys);
-        });
+        return listDetectionsUseCase.listDetections(machine, characteristic, createdAfter);
     }
 }
