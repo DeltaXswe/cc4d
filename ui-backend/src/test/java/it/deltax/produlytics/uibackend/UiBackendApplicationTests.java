@@ -37,6 +37,7 @@ class UiBackendApplicationTests {
 	@Test
 	void contextLoads() {
 		assertThat(machineController).isNotNull();
+		assertThat(macchinaRepository).isNotNull();
 	}
 
 	@Test
@@ -48,6 +49,4 @@ class UiBackendApplicationTests {
 				.andExpect(status().isOk());
 
 	}
-
-
 }
