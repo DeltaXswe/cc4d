@@ -1,8 +1,8 @@
 package it.deltax.produlytics.uibackend.web;
 
-import it.deltax.produlytics.uibackend.business.domain.CharacteristicTimeseries;
+import it.deltax.produlytics.uibackend.business.domain.CharacteristicDetections;
 import it.deltax.produlytics.uibackend.web.exceptions.ResourceNotFoundException;
-import it.deltax.produlytics.uibackend.business.ports.in.GetCharacteristicTimeseriesUseCase;
+import it.deltax.produlytics.uibackend.business.ports.in.GetCharacteristicDetectionsUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,18 +13,18 @@ import java.util.HashMap;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/time_series")
-public class TimeseriesController {
+@RequestMapping("/detections")
+public class DetectionsController {
 
     @Autowired
-    GetCharacteristicTimeseriesUseCase timeseriesUseCase;
+    GetCharacteristicDetectionsUseCase timeseriesUseCase;
 
     @GetMapping("/{machine}/{characteristic}")
-    public CharacteristicTimeseries getCharacteristicTimeseries(
+    public CharacteristicDetections getCharacteristicTimeseries(
             @PathVariable long machine,
             @PathVariable String characteristic
     ) {
-        Optional<CharacteristicTimeseries> ct = timeseriesUseCase.getCharacteristicTimeSeries(machine, characteristic);
+        Optional<CharacteristicDetections> ct = timeseriesUseCase.getCharacteristicDetections(machine, characteristic);
         return ct.orElseThrow(() -> {
             HashMap<String, Object> keys = new HashMap<>();
             keys.put("machine", machine);
