@@ -8,6 +8,7 @@ import java.math.BigDecimal;
         @Index(name = "caratteristica_nome_key", columnList = "nome", unique = true)
 })
 public class Caratteristica {
+
     @EmbeddedId
     private CaratteristicaId id;
 
@@ -28,6 +29,22 @@ public class Caratteristica {
 
     @Column(name = "ampiezza_campione", precision = 131089)
     private BigDecimal ampiezzaCampione;
+
+    protected Caratteristica() {}
+
+    public Caratteristica(CaratteristicaId id, String nome, BigDecimal limiteMin, BigDecimal limiteMax, BigDecimal media, Boolean adattamento, BigDecimal ampiezzaCampione) {
+        this.id = id;
+        this.nome = nome;
+        this.limiteMin = limiteMin;
+        this.limiteMax = limiteMax;
+        this.media = media;
+        this.adattamento = adattamento;
+        this.ampiezzaCampione = ampiezzaCampione;
+    }
+
+    public void setId(CaratteristicaId id) {
+        this.id = id;
+    }
 
     public void setNome(String nome) {
         this.nome = nome;
