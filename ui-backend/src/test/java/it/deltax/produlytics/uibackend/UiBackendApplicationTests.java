@@ -2,11 +2,14 @@ package it.deltax.produlytics.uibackend;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import it.deltax.produlytics.persistence.configurazione.Macchina;
+import it.deltax.produlytics.uibackend.db.configurazione.repositories.MacchinaRepository;
 import it.deltax.produlytics.uibackend.web.MachinesController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 
@@ -17,14 +20,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(
 		webEnvironment = SpringBootTest.WebEnvironment.MOCK
 )
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
 class UiBackendApplicationTests {
 
 	@Autowired
 	private MachinesController machineController;
 
-	// @Autowired
-	// private MacchinaRepository macchinaRepository;
+	@Autowired
+	private MacchinaRepository macchinaRepository;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -37,7 +41,7 @@ class UiBackendApplicationTests {
 
 	@Test
 	public void listAllMacchine() throws Exception {
-		// macchinaRepository.save(new Macchina("One"));
+		macchinaRepository.save(new Macchina("One"));
 
 		mockMvc.perform(get("/machines"))
 				.andDo(print())

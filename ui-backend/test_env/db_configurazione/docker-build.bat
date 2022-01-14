@@ -1,2 +1,2 @@
-docker build -t db-configurazione ./
-docker run -d --name db-configurazione-container -p 5432:5432 db-configurazione
+docker build -t ti-db-configurazione ./
+docker run -d --name ti-db-configurazione-container -p 65432:5432 ti-db-configurazione
