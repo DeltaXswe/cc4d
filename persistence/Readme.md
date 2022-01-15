@@ -1,16 +1,25 @@
 # Produlytics persistence class
 
-## How to use
-1. installare nella repository locale di maven (dal progetto dove vuoi installarlo)
+## Build and deploy
+1. Costruire il package
 ```
-.\mvnw install:install-file -Dfile=..\persistence\target\persistence-1.0.0.jar -DpomFile=..\persistence\pom.xml
+mvn package
 ```
-2. aggiungi la seguente riga nel `pom.xml`
+2. installare nella repository locale di maven (da questo progetto)
+```
+mvn install:install-file -Dfile=.\target\persistence-${versione}.jar -DpomFile=pom.xml
+```
+## Nel progetto dove mi vuoi installare
+3. Vai nel progetto dove lo vuoi installare
+```
+cd ../root_progetto
+```
+4. aggiungi la seguente riga nel `pom.xml`
 ```
 <dependency>
     <groupId>it.deltax.produlytics</groupId>
     <artifactId>persistence</artifactId>
-    <version>1.0.0</version>
+    <version>${versione}</version>
 </dependency>
 ```
-3. Installare `.\mvnw dependency:resolve`
+5. Installare `.\mvnw dependency:resolve`
