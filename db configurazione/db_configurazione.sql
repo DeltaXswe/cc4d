@@ -20,13 +20,14 @@ create table caratteristica (
 	ampiezza_campione	numeric	,
 	
 	primary key (codice, macchina),
-	constraint chk_intervallo 	check (limite_min <= limite_max),
-	constraint chk_ampiezza 	check (ampiezza_campione >= 0)
+	constraint chk_intervallo	check (limite_min <= limite_max),
+	constraint chk_ampiezza		check (ampiezza_campione >= 0)
 );
 
 create user backend	password 'backend';
-grant select, insert, update, delete	on all tables 		in schema public	to backend;
-grant usage, select						on all sequences 	in schema public 	to backend;
+grant select, insert, update, delete	on all tables		in schema public	to backend;
+grant usage, select						on all sequences	in schema public	to backend;
 
 create user api		password 'api';
-grant select							on all tables 		in schema public	to api;
+grant select							on all tables		in schema public	to api;
+grant usage, select						on all sequences	in schema public	to api;
