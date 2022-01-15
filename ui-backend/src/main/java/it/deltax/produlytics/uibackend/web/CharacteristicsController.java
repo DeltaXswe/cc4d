@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/characteristics")
 public class CharacteristicsController {
 
-    @Autowired
-    private ListAllCharacteristicsUseCase useCase;
+    private final ListAllCharacteristicsUseCase useCase;
+
+    public CharacteristicsController(ListAllCharacteristicsUseCase useCase) {
+        this.useCase = useCase;
+    }
 
     @GetMapping("")
     Iterable<CharacteristicLight> listAllCharacteristics() {

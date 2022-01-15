@@ -12,8 +12,11 @@ import java.util.Optional;
 @RequestMapping("/detections")
 public class DetectionsController {
 
-    @Autowired
-    ListDetectionsUseCase listDetectionsUseCase;
+    private final ListDetectionsUseCase listDetectionsUseCase;
+
+    public DetectionsController(ListDetectionsUseCase listDetectionsUseCase) {
+        this.listDetectionsUseCase = listDetectionsUseCase;
+    }
 
     @GetMapping("/{machine}/{characteristic}")
     public List<DetectionLight> getCharacteristicDetections(

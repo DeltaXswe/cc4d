@@ -15,8 +15,11 @@ import java.util.stream.StreamSupport;
 @Component
 public class DetectionsPersistenceAdapter implements ListDetectionsPort {
 
-    @Autowired
-    RilevazioneRepository repo;
+    private final RilevazioneRepository repo;
+
+    public DetectionsPersistenceAdapter(RilevazioneRepository repo) {
+        this.repo = repo;
+    }
 
     @Override
     public List<DetectionLight> listDetections(long machineId, String characteristicName, Optional<Long> createdAfter) {

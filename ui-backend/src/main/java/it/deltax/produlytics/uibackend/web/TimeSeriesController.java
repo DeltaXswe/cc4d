@@ -17,8 +17,11 @@ import java.util.Optional;
 @RequestMapping("/time_series")
 public class TimeSeriesController {
 
-    @Autowired
-    TimeSeriesUseCase listDetectionsUseCase;
+    private final TimeSeriesUseCase listDetectionsUseCase;
+
+    public TimeSeriesController(TimeSeriesUseCase listDetectionsUseCase) {
+        this.listDetectionsUseCase = listDetectionsUseCase;
+    }
 
     @GetMapping("/{machine}/{characteristic}")
     public TimeSeries getTimeSeries(

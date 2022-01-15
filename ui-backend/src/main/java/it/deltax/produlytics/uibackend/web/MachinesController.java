@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/machines")
 public class MachinesController {
 
-    @Autowired
     private ListAllMachinesUseCase useCase;
+
+    public MachinesController(ListAllMachinesUseCase useCase) {
+        this.useCase = useCase;
+    }
 
     @GetMapping("")
     Iterable<MachineLight> listAllMachines() {

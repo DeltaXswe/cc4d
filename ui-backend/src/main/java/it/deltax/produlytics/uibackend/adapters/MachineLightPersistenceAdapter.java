@@ -14,8 +14,11 @@ import java.util.Optional;
 @Component
 public class MachineLightPersistenceAdapter implements ListAllMachinesPort, FindMachinePort {
 
-    @Autowired
-    private MacchinaRepository repo;
+    private final MacchinaRepository repo;
+
+    public MachineLightPersistenceAdapter(MacchinaRepository repo) {
+        this.repo = repo;
+    }
 
     @Override
     public List<MachineLight> listAllMachines() {

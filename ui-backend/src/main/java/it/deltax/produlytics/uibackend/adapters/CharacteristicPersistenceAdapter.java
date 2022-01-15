@@ -18,8 +18,11 @@ import java.util.Optional;
 @Component
 public class CharacteristicPersistenceAdapter implements ListAllCharacteristicsPort, FindCharacteristicInfoPort {
 
-    @Autowired
-    private CaratteristicaRepository repo;
+    private final CaratteristicaRepository repo;
+
+    public CharacteristicPersistenceAdapter(CaratteristicaRepository repo) {
+        this.repo = repo;
+    }
 
     @Override
     public List<CharacteristicLight> listAllCharacteristics() {
