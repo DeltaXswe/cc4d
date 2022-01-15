@@ -3,10 +3,9 @@ package it.deltax.produlytics.uibackend.adapters;
 import it.deltax.produlytics.uibackend.business.domain.CharacteristicInfo;
 import it.deltax.produlytics.uibackend.business.domain.CharacteristicLight;
 import it.deltax.produlytics.uibackend.business.ports.out.FindCharacteristicInfoPort;
-import it.deltax.produlytics.uibackend.business.ports.out.ListAllCharacteristicsPort;
+import it.deltax.produlytics.uibackend.business.ports.out.ListCharacteristicsByMachinePort;
 import it.deltax.produlytics.persistence.configurazione.CaratteristicaId;
 import it.deltax.produlytics.uibackend.db.configurazione.repositories.CaratteristicaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.Optional;
 // object adapter (Target sono le port, Adaptee è la repo)
 
 @Component
-public class CharacteristicPersistenceAdapter implements ListAllCharacteristicsPort, FindCharacteristicInfoPort {
+public class CharacteristicPersistenceAdapter implements ListCharacteristicsByMachinePort, FindCharacteristicInfoPort {
 
     private final CaratteristicaRepository repo;
 
@@ -25,9 +24,9 @@ public class CharacteristicPersistenceAdapter implements ListAllCharacteristicsP
     }
 
     @Override
-    public List<CharacteristicLight> listAllCharacteristics() {
+    public List<CharacteristicLight> listCharacteristicsByMachine(long machine) {
         List<CharacteristicLight> characteristics = new ArrayList<>();
-        repo.findAll().forEach(caratteristica -> characteristics.add(new CharacteristicLight(caratteristica.getNome(), caratteristica.getId().getMacchina())));
+        repo.findByIdMacchina(machine).forEach(caratteristica -> characteristics.add(new CharacteristicLight(caratteristica.getId().getCodice(), caratteristica.getNome(), caratteristica.getId().getMacchina())));
         return characteristics;
     }
 

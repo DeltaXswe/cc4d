@@ -1,8 +1,8 @@
 package it.deltax.produlytics.uibackend.configuration;
 
-import it.deltax.produlytics.uibackend.business.ports.ListAllCharacteristicsService;
-import it.deltax.produlytics.uibackend.business.ports.in.ListAllCharacteristicsUseCase;
-import it.deltax.produlytics.uibackend.business.ports.out.ListAllCharacteristicsPort;
+import it.deltax.produlytics.uibackend.business.ports.ListCharacteristicsByMachineService;
+import it.deltax.produlytics.uibackend.business.ports.in.ListCharacteristicsByMachineUseCase;
+import it.deltax.produlytics.uibackend.business.ports.out.ListCharacteristicsByMachinePort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class CharacteristicsUseCasesConfiguration {
 
     @Bean
-    ListAllCharacteristicsUseCase listAllCharacteristicsUseCase(ListAllCharacteristicsPort port) {
-        return new ListAllCharacteristicsService(port);
+    ListCharacteristicsByMachineUseCase listAllCharacteristicsUseCase(ListCharacteristicsByMachinePort port) {
+        return new ListCharacteristicsByMachineService(port);
     }
 }
