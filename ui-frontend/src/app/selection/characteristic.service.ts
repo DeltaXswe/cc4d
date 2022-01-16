@@ -11,7 +11,7 @@ export class CharacteristicService {
 
   constructor(private http: HttpClient,) { }
 
-  private characteristicsUrl = '/characteristics/${machine}';
+  private characteristicsUrl = '/api/characteristics/${machine}';
 
   getCharacteristics(machine: number): Observable<Characteristic[]>{
     return this.http.get<Characteristic[]>(this.characteristicsUrl);
