@@ -30,7 +30,7 @@ export class CharacteristicComponent implements OnInit {
   }
   
   characteristicOnSelect(characteristic: Characteristic){
-    this.router.navigate(['grafico', characteristic.machine, characteristic.name]);
+    this.router.navigate(['chart', characteristic.machine, characteristic.name]);
   }
 
   getCharacteristics(machine: Machine):void{

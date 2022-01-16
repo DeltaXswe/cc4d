@@ -6,7 +6,7 @@ import { ChartComponent } from './chart/chart.component';
 
 const routes: Routes = [
   { path: '', component: SelectionComponent },
-  { path: 'grafico/:machine/:characteristic', component: ChartComponent },
+  { path: 'chart/:machine/:characteristic', component: ChartComponent },
 ];
 
 @NgModule({
