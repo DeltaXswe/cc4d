@@ -26,10 +26,7 @@ public class MachineLightPersistenceAdapter implements ListAllMachinesPort, Find
     public List<MachineLight> listAll() {
         return StreamSupport.stream(repo.findAll().spliterator(), false)
             .map(macchina ->
-                new MachineLight(
-                    macchina.getId(),
-                    macchina.getNome()
-                )
+                new MachineLight(macchina.getId(), macchina.getNome())
             )
             .collect(Collectors.toList());
     }
@@ -38,10 +35,7 @@ public class MachineLightPersistenceAdapter implements ListAllMachinesPort, Find
     public Optional<MachineLight> find(long machineId) {
         return repo.findById(machineId)
             .map(macchina ->
-                new MachineLight(
-                    macchina.getId(),
-                    macchina.getNome()
-                )
+                new MachineLight(macchina.getId(), macchina.getNome())
             );
     }
 }

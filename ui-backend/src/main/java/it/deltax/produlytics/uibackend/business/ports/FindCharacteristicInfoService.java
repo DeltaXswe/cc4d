@@ -12,7 +12,10 @@ public class FindCharacteristicInfoService implements FindCharacteristicInfoUseC
     private final FindCharacteristicPort findCharacteristicPort;
     private final FindMachinePort findMachinePort;
 
-    public FindCharacteristicInfoService(FindCharacteristicPort findCharacteristicPort, FindMachinePort findMachinePort) {
+    public FindCharacteristicInfoService(
+        FindCharacteristicPort findCharacteristicPort,
+        FindMachinePort findMachinePort
+    ) {
         this.findCharacteristicPort = findCharacteristicPort;
         this.findMachinePort = findMachinePort;
     }
@@ -22,10 +25,7 @@ public class FindCharacteristicInfoService implements FindCharacteristicInfoUseC
         return findCharacteristicPort.find(machineId, code)
             .flatMap(characteristic -> findMachinePort.find(machineId)
                 .map(machine ->
-                    new CharacteristicDisplayInfo(
-                        machine,
-                        characteristic
-                    )
+                    new CharacteristicDisplayInfo(machine, characteristic)
                 )
             );
     }

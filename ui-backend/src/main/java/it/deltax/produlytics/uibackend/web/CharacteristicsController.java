@@ -1,6 +1,5 @@
 package it.deltax.produlytics.uibackend.web;
 
-import it.deltax.produlytics.uibackend.business.domain.Characteristic;
 import it.deltax.produlytics.uibackend.business.domain.CharacteristicDisplayInfo;
 import it.deltax.produlytics.uibackend.business.domain.CharacteristicLight;
 import it.deltax.produlytics.uibackend.business.ports.in.FindCharacteristicInfoUseCase;
@@ -21,7 +20,10 @@ public class CharacteristicsController {
     private final ListCharacteristicsByMachineUseCase listCharacteristicsByMachine;
     private final FindCharacteristicInfoUseCase getCharacteristicInfo;
 
-    public CharacteristicsController(ListCharacteristicsByMachineUseCase listCharacteristicsByMachine, FindCharacteristicInfoUseCase getCharacteristicInfo) {
+    public CharacteristicsController(
+            ListCharacteristicsByMachineUseCase listCharacteristicsByMachine,
+            FindCharacteristicInfoUseCase getCharacteristicInfo
+    ) {
         this.listCharacteristicsByMachine = listCharacteristicsByMachine;
         this.getCharacteristicInfo = getCharacteristicInfo;
     }

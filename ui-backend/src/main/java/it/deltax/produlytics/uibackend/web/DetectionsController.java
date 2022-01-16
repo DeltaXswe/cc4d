@@ -11,10 +11,10 @@ import java.util.Optional;
 @RequestMapping("/detections")
 public class DetectionsController {
 
-    private final ListDetectionsByCharacteristicUseCase listDetectionsByCharacteristicUseCase;
+    private final ListDetectionsByCharacteristicUseCase listDetectionsByCharacteristic;
 
-    public DetectionsController(ListDetectionsByCharacteristicUseCase listDetectionsByCharacteristicUseCase) {
-        this.listDetectionsByCharacteristicUseCase = listDetectionsByCharacteristicUseCase;
+    public DetectionsController(ListDetectionsByCharacteristicUseCase listDetectionsByCharacteristic) {
+        this.listDetectionsByCharacteristic = listDetectionsByCharacteristic;
     }
 
     @GetMapping("/{machine}/{characteristic}")
@@ -23,6 +23,6 @@ public class DetectionsController {
             @PathVariable String characteristic,
             @RequestParam("createdAfter") Optional<Long> createdAfter
     ) {
-        return listDetectionsByCharacteristicUseCase.listByCharacteristic(machine, characteristic, createdAfter);
+        return listDetectionsByCharacteristic.listByCharacteristic(machine, characteristic, createdAfter);
     }
 }

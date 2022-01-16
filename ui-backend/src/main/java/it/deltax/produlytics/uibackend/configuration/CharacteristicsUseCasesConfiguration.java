@@ -24,9 +24,6 @@ public class CharacteristicsUseCasesConfiguration {
         FindCharacteristicPort findCharacteristicPort,
         FindMachinePort findMachinePort
     ) {
-        return new FindCharacteristicInfoService(
-            findCharacteristicPort,
-            findMachinePort
-        );
+        return new FindCharacteristicInfoService(findCharacteristicPort, findMachinePort);
     }
 }
