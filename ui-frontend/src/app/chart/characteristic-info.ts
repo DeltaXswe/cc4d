@@ -1,6 +1,14 @@
 export interface CharacteristicInfo {
-    nome_macchina: string;
-    media: number;
-    limite_min: number;
-    limite_max: number;
+  machine: {
+    id: number;
+    name: string;
+  };
+  characteristic: {
+    code: string;
+    name: string;
+    machine: number;
+    lowerLimit: number;
+    upperLimit: number;
+    average: number;
+  };
 }

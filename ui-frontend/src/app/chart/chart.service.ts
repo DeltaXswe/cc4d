@@ -22,7 +22,7 @@ export class ChartService {
     const points_url = `/api/detections/${macchina}/${caratteristica}`;
     const points = this.http.get<ChartPoint[]>(points_url);
 
-    return zip(info, points)
+    return zip(info, points);
   }
 
   getNextPoints(

@@ -3,7 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import * as d3 from 'd3';
 import { Subscription, interval, of } from 'rxjs';
-import { concatMap, tap } from 'rxjs/operators';
+import { concatMap } from 'rxjs/operators';
+import { CharacteristicInfo } from './characteristic-info';
 
 import { ChartPoint } from './chart-point';
 import { ChartService } from './chart.service';
@@ -19,13 +20,8 @@ export class ChartComponent implements OnInit, OnDestroy {
     private chartService: ChartService
   ) {}
 
-  private macchina = Number(this.route.snapshot.paramMap.get('macchina'));
-  caratteristica = String(this.route.snapshot.paramMap.get('caratteristica'));
-  nome_macchina!: string;
-  private media!: number;
-  private limite_min!: number;
-  private limite_max!: number;
-  private punti: ChartPoint[] = [];
+  info!: CharacteristicInfo;
+  private points: ChartPoint[] = [];
 
   private updateSubscription?: Subscription;
 
@@ -39,14 +35,15 @@ export class ChartComponent implements OnInit, OnDestroy {
   }
 
   setupInitialPoints() {
+    const machine = Number(this.route.snapshot.paramMap.get('machine'));
+    const characteristic = String(
+      this.route.snapshot.paramMap.get('characteristic')
+    );
     this.chartService
-      .getInitialPoints(this.macchina, this.caratteristica)
-      .subscribe(([info, punti]) => {
-        this.nome_macchina = info.nome_macchina;
-        this.media = info.media;
-        this.limite_min = info.limite_min;
-        this.limite_max = info.limite_max;
-        this.punti = punti;
+      .getInitialPoints(machine, characteristic)
+      .subscribe(([info, points]) => {
+        this.info = info;
+        this.points = points;
         this.drawChart();
         this.subscribeToUpdates();
       });
@@ -57,15 +54,15 @@ export class ChartComponent implements OnInit, OnDestroy {
       .pipe(
         concatMap(() =>
           this.chartService.getNextPoints(
-            this.macchina,
-            this.caratteristica,
-            this.punti[this.punti.length - 1].createdAtUtc
+            this.info.machine.id,
+            this.info.characteristic.code,
+            this.points[this.points.length - 1].createdAtUtc
           )
         )
       )
-      .subscribe((rilevazioni) => {
-        rilevazioni.forEach((p) => this.punti.push(p));
-        this.punti = this.punti.slice(rilevazioni.length);
+      .subscribe((new_points) => {
+        new_points.forEach((p) => this.points.push(p));
+        this.points = this.points.slice(new_points.length);
         this.drawChart();
       });
   }
@@ -118,19 +115,19 @@ export class ChartComponent implements OnInit, OnDestroy {
   }
 
   drawChart() {
-    if (this.punti.length == 0) return;
-    const punti = this.punti;
-
-    const delta = Math.floor((this.limite_max - this.limite_min) / 6);
+    if (this.points.length == 0) return;
+    const points = this.points;
+    const { lowerLimit, upperLimit, average } = this.info.characteristic;
+    const delta = Math.floor((upperLimit - lowerLimit) / 6);
 
     // TODO: includi i punti in ymin e ymax
-    const [ymin, ymax] = d3.extent(punti, (p) => p.value);
+    const [ymin, ymax] = d3.extent(points, (p) => p.value);
     this.xScale.domain(
-      d3.extent(punti, (p) => p.createdAtUtc * 1000) as [number, number]
+      d3.extent(points, (p) => p.createdAtUtc * 1000) as [number, number]
     );
     this.yScale.domain([
-      Math.min(this.limite_min - delta, ...(ymin ? [ymin] : [])),
-      Math.max(this.limite_max + delta, ...(ymax ? [ymax] : [])),
+      Math.min(lowerLimit - delta, ...(ymin ? [ymin] : [])),
+      Math.max(upperLimit + delta, ...(ymax ? [ymax] : [])),
     ]);
 
     this.svg.select<SVGGElement>('.axis-x').call(d3.axisBottom(this.xScale));
@@ -139,19 +136,19 @@ export class ChartComponent implements OnInit, OnDestroy {
     const setGuideLine = (cls: string, y: number) => {
       this.svg.select(cls).attr('y1', y).attr('y2', y);
     };
-    setGuideLine('.line-media', this.yScale(this.media));
-    setGuideLine('.line-limite-min', this.yScale(this.limite_min));
-    setGuideLine('.line-limite-max', this.yScale(this.limite_max));
+    setGuideLine('.line-media', this.yScale(average));
+    setGuideLine('.line-limite-min', this.yScale(lowerLimit));
+    setGuideLine('.line-limite-max', this.yScale(upperLimit));
 
     let xp = (p: ChartPoint) => this.xScale(p.createdAtUtc * 1000);
     let yp = (p: ChartPoint) => this.yScale(p.value);
-    this.svg.select('.chart-path').datum(punti).attr('d', d3.line(xp, yp));
+    this.svg.select('.chart-path').datum(points).attr('d', d3.line(xp, yp));
 
     // TODO: Evidenzia i punti anomali
     this.svg
       .select('.chart-points')
       .selectAll('circle')
-      .data(punti)
+      .data(points)
       .join(
         (enter) =>
           enter
