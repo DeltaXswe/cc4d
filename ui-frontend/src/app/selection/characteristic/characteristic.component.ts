@@ -19,15 +19,6 @@ export class CharacteristicComponent implements OnInit {
 }
 
   characteristics: Characteristic[] = [];
-
-
-  characteristicShow(characteristic: Characteristic): boolean{
-    if(characteristic.machine==this.machine?.id){
-      return true;
-    }else{
-      return false;
-    }
-  }
   
   characteristicOnSelect(characteristic: Characteristic){
     this.router.navigate(['chart', characteristic.machine, characteristic.name]);
