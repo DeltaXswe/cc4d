@@ -1,5 +1,5 @@
 export interface ChartPoint {
-  creato_il_utc: number;
-  valore: number;
-  anomalo: boolean;
+  createdAtUtc: number;
+  value: number;
+  anomalous: boolean;
 }

@@ -41,12 +41,12 @@ export class ChartComponent implements OnInit, OnDestroy {
   setupInitialPoints() {
     this.chartService
       .getInitialPoints(this.macchina, this.caratteristica)
-      .subscribe((data) => {
-        this.nome_macchina = data.nome_macchina;
-        this.media = data.media;
-        this.limite_min = data.limite_min;
-        this.limite_max = data.limite_max;
-        this.punti = data.rilevazioni;
+      .subscribe(([info, punti]) => {
+        this.nome_macchina = info.nome_macchina;
+        this.media = info.media;
+        this.limite_min = info.limite_min;
+        this.limite_max = info.limite_max;
+        this.punti = punti;
         this.drawChart();
         this.subscribeToUpdates();
       });
@@ -59,7 +59,7 @@ export class ChartComponent implements OnInit, OnDestroy {
           this.chartService.getNextPoints(
             this.macchina,
             this.caratteristica,
-            this.punti[this.punti.length - 1].creato_il_utc
+            this.punti[this.punti.length - 1].createdAtUtc
           )
         )
       )
@@ -124,9 +124,9 @@ export class ChartComponent implements OnInit, OnDestroy {
     const delta = Math.floor((this.limite_max - this.limite_min) / 6);
 
     // TODO: includi i punti in ymin e ymax
-    const [ymin, ymax] = d3.extent(punti, (p) => p.valore);
+    const [ymin, ymax] = d3.extent(punti, (p) => p.value);
     this.xScale.domain(
-      d3.extent(punti, (p) => p.creato_il_utc * 1000) as [number, number]
+      d3.extent(punti, (p) => p.createdAtUtc * 1000) as [number, number]
     );
     this.yScale.domain([
       Math.min(this.limite_min - delta, ...(ymin ? [ymin] : [])),
@@ -143,8 +143,8 @@ export class ChartComponent implements OnInit, OnDestroy {
     setGuideLine('.line-limite-min', this.yScale(this.limite_min));
     setGuideLine('.line-limite-max', this.yScale(this.limite_max));
 
-    let xp = (p: ChartPoint) => this.xScale(p.creato_il_utc * 1000);
-    let yp = (p: ChartPoint) => this.yScale(p.valore);
+    let xp = (p: ChartPoint) => this.xScale(p.createdAtUtc * 1000);
+    let yp = (p: ChartPoint) => this.yScale(p.value);
     this.svg.select('.chart-path').datum(punti).attr('d', d3.line(xp, yp));
 
     // TODO: Evidenzia i punti anomali
@@ -157,11 +157,11 @@ export class ChartComponent implements OnInit, OnDestroy {
           enter
             .append('circle')
             .attr('class', (p) =>
-              p.anomalo ? 'circle-anomalo' : 'circle-normal'
+              p.anomalous ? 'circle-anomalo' : 'circle-normal'
             ),
         (update) =>
           update.attr('class', (p) =>
-            p.anomalo ? 'circle-anomalo' : 'circle-normal'
+            p.anomalous ? 'circle-anomalo' : 'circle-normal'
           ),
         (exit) => exit.remove()
       )
