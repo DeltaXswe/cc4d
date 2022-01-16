@@ -36,7 +36,7 @@ public class CharacteristicsController {
         return getCharacteristicInfo.find(machineId, code)
                 .orElseThrow(() -> {
                     HashMap<String, Object> keys = new HashMap<>();
-                    keys.put("machine_id", machineId);
+                    keys.put("machineId", machineId);
                     keys.put("code", code);
                     return new ResourceNotFoundException("characteristics", keys);
                 });

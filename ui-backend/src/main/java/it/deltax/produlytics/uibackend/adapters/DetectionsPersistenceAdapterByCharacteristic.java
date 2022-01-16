@@ -24,9 +24,9 @@ public class DetectionsPersistenceAdapterByCharacteristic implements ListDetecti
     public List<DetectionLight> listByCharacteristic(long machineId, String characteristicCode, Optional<Long> createdAfter) {
         List<Rilevazione> detections;
         if (createdAfter.isPresent()) {
-            detections = repo.findByMacchinaAndCaratteristicaAndCreazioneUtcGreaterThan(machineId, characteristicCode, createdAfter.get());
+            detections = repo.findByMacchinaAndCaratteristicaAndCreazioneUtcGreaterThan(machineId, characteristicCode, createdAfter.get(), Sort.by("creazioneUtc"));
         } else {
-            detections = repo.findByMacchinaAndCaratteristica(machineId, characteristicCode);
+            detections = repo.findByMacchinaAndCaratteristica(machineId, characteristicCode, Sort.by("creazioneUtc"));
         }
         return detections.stream()
                 .map(rilevazione -> new DetectionLight(rilevazione.getValore(), rilevazione.getCreazioneUtc(), rilevazione.getAnomalo()))
