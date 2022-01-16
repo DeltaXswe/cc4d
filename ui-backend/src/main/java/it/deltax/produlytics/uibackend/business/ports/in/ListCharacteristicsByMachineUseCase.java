@@ -5,5 +5,5 @@ import it.deltax.produlytics.uibackend.business.domain.CharacteristicLight;
 import java.util.List;
 
 public interface ListCharacteristicsByMachineUseCase {
-    List<CharacteristicLight> listCharacteristicsByMachine(long machine);
+    List<CharacteristicLight> listByMachine(long machineId);
 }

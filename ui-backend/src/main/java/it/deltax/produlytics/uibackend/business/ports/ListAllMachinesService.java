@@ -15,7 +15,7 @@ public class ListAllMachinesService implements ListAllMachinesUseCase {
     }
 
     @Override
-    public List<MachineLight> listAllMachines() {
-        return port.listAllMachines();
+    public List<MachineLight> listAll() {
+        return port.listAll();
     }
 }

@@ -1,8 +1,8 @@
 package it.deltax.produlytics.uibackend.configuration;
 
-import it.deltax.produlytics.uibackend.business.ports.ListDetectionsService;
-import it.deltax.produlytics.uibackend.business.ports.in.ListDetectionsUseCase;
-import it.deltax.produlytics.uibackend.business.ports.out.ListDetectionsPort;
+import it.deltax.produlytics.uibackend.business.ports.ListDetectionsByCharacteristicService;
+import it.deltax.produlytics.uibackend.business.ports.in.ListDetectionsByCharacteristicUseCase;
+import it.deltax.produlytics.uibackend.business.ports.out.ListDetectionsByCharacteristicPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,9 +10,9 @@ import org.springframework.context.annotation.Configuration;
 public class DetectionsUseCasesConfiguration {
 
     @Bean
-    ListDetectionsUseCase getListAllDetectionsAfterUseCase(
-            ListDetectionsPort port
+    ListDetectionsByCharacteristicUseCase getListDetectionsByCharacteristicUseCase(
+            ListDetectionsByCharacteristicPort port
     ) {
-        return new ListDetectionsService(port);
+        return new ListDetectionsByCharacteristicService(port);
     }
 }

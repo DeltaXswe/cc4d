@@ -1,8 +1,7 @@
 package it.deltax.produlytics.uibackend.web;
 
 import it.deltax.produlytics.uibackend.business.domain.DetectionLight;
-import it.deltax.produlytics.uibackend.business.ports.in.ListDetectionsUseCase;
-import org.springframework.beans.factory.annotation.Autowired;
+import it.deltax.produlytics.uibackend.business.ports.in.ListDetectionsByCharacteristicUseCase;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,10 +11,10 @@ import java.util.Optional;
 @RequestMapping("/detections")
 public class DetectionsController {
 
-    private final ListDetectionsUseCase listDetectionsUseCase;
+    private final ListDetectionsByCharacteristicUseCase listDetectionsByCharacteristicUseCase;
 
-    public DetectionsController(ListDetectionsUseCase listDetectionsUseCase) {
-        this.listDetectionsUseCase = listDetectionsUseCase;
+    public DetectionsController(ListDetectionsByCharacteristicUseCase listDetectionsByCharacteristicUseCase) {
+        this.listDetectionsByCharacteristicUseCase = listDetectionsByCharacteristicUseCase;
     }
 
     @GetMapping("/{machine}/{characteristic}")
@@ -24,6 +23,6 @@ public class DetectionsController {
             @PathVariable String characteristic,
             @RequestParam("createdAfter") Optional<Long> createdAfter
     ) {
-        return listDetectionsUseCase.listDetections(machine, characteristic, createdAfter);
+        return listDetectionsByCharacteristicUseCase.listByCharacteristic(machine, characteristic, createdAfter);
     }
 }

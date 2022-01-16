@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Component
 public class MachineLightPersistenceAdapter implements ListAllMachinesPort, FindMachinePort {
@@ -21,15 +23,25 @@ public class MachineLightPersistenceAdapter implements ListAllMachinesPort, Find
     }
 
     @Override
-    public List<MachineLight> listAllMachines() {
-        List<MachineLight> macchine = new ArrayList<>();
-        repo.findAll().forEach(macchina -> macchine.add(new MachineLight(macchina.getId(), macchina.getNome())));
-        return macchine;
+    public List<MachineLight> listAll() {
+        return StreamSupport.stream(repo.findAll().spliterator(), false)
+            .map(macchina ->
+                new MachineLight(
+                    macchina.getId(),
+                    macchina.getNome()
+                )
+            )
+            .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<MachineLight> find(long machine) {
-        return repo.findById(machine)
-                .map(macchina -> new MachineLight(macchina.getId(), macchina.getNome()));
+    public Optional<MachineLight> find(long machineId) {
+        return repo.findById(machineId)
+            .map(macchina ->
+                new MachineLight(
+                    macchina.getId(),
+                    macchina.getNome()
+                )
+            );
     }
 }

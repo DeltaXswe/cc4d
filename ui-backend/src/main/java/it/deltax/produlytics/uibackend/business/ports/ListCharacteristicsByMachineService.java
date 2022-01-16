@@ -15,8 +15,8 @@ public class ListCharacteristicsByMachineService implements ListCharacteristicsB
     }
 
     @Override
-    public List<CharacteristicLight> listCharacteristicsByMachine(long machine) {
-        return port.listCharacteristicsByMachine(machine);
+    public List<CharacteristicLight> listByMachine(long machineId) {
+        return port.listByMachine(machineId);
     }
 }
 
