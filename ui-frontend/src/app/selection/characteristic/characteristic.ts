@@ -1,4 +1,5 @@
 export interface Characteristic {
-   nome: string;
-   macchina: number;
+  code: string;
+  name: string;
+  machine: number;
  }

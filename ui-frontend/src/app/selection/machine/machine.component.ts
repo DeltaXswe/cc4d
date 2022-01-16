@@ -16,7 +16,7 @@ export class MachineComponent implements OnInit {
   }
 
   machines: Machine[] = [];
-  selectedMachine? : Machine;
+  selectedMachine! : Machine;
 
   machineOnSelect(machine: Machine): void{
     this.selectedMachine = machine;

@@ -1,4 +1,4 @@
 export interface Machine {
-   ser: number;
-   nome: string;
+   id: number;
+   name: string;
  }

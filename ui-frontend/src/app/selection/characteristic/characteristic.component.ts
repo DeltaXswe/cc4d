@@ -12,28 +12,28 @@ import { Router } from '@angular/router';
 export class CharacteristicComponent implements OnInit {
 
   constructor(private characteristicService: CharacteristicService, private router: Router) { }
+  @Input() machine!: Machine;
 
   ngOnInit(): void {
-    this.getCharacteristics();
+    this.getCharacteristics(this.machine);
 }
 
   characteristics: Characteristic[] = [];
-  @Input() machine?: Machine;
+
 
   characteristicShow(characteristic: Characteristic): boolean{
-    if(characteristic.macchina==this.machine?.ser){
+    if(characteristic.machine==this.machine?.id){
       return true;
     }else{
       return false;
     }
   }
   
-
   characteristicOnSelect(characteristic: Characteristic){
-    this.router.navigate(['grafico', characteristic.macchina, characteristic.nome]);
+    this.router.navigate(['grafico', characteristic.machine, characteristic.name]);
   }
 
-  getCharacteristics():void{
-    this.characteristicService.getCharacteristics().subscribe(characteristics => this.characteristics = characteristics);
+  getCharacteristics(machine: Machine):void{
+    this.characteristicService.getCharacteristics(machine.id).subscribe(characteristics => this.characteristics = characteristics);
   }
 }
