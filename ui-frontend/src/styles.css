@@ -1,0 +1,19 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+.topbar {
+  width: 100%;
+  height: fit-content;
+  background-color: #d32f2f;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.topbar h1 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.5em;
+  text-align: center;
+  vertical-align: center;
+  padding: 15px;
+  color: #ffffff;
+}

@@ -1,0 +1,10 @@
+<h2 id="h2_caratteristiche">Lista caratteristiche della macchina selezionata</h2>
+<div *ngIf="machine">
+   <ul class="characteristics">
+      <div *ngFor="let characteristic of characteristics">
+         <li (click)="characteristicOnSelect(characteristic)">
+            <span>{{ characteristic.name }}</span>
+         </li>
+      </div>
+   </ul>
+</div>
