@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CharacteristicService } from '../characteristic.service';
 import { Characteristic } from './characteristic';
 import { Machine } from '../machine/machine';
@@ -9,22 +9,29 @@ import { Router } from '@angular/router';
   templateUrl: './characteristic.component.html',
   styleUrls: ['./characteristic.component.css']
 })
-export class CharacteristicComponent implements OnInit {
+export class CharacteristicComponent implements OnChanges {
 
   constructor(private characteristicService: CharacteristicService, private router: Router) { }
-  @Input() machine!: Machine;
+  @Input() machine?: Machine;
 
-  ngOnInit(): void {
+  ngOnChanges(_changes: SimpleChanges): void {
     this.getCharacteristics(this.machine);
-}
+  }
 
   characteristics: Characteristic[] = [];
   
   characteristicOnSelect(characteristic: Characteristic){
-    this.router.navigate(['chart', characteristic.machine, characteristic.name]);
+    this.router.navigate(['chart', characteristic.machine, characteristic.code]);
   }
 
-  getCharacteristics(machine: Machine):void{
-    this.characteristicService.getCharacteristics(machine.id).subscribe(characteristics => this.characteristics = characteristics);
+  getCharacteristics(machine?: Machine):void{
+    if(machine) {
+      this
+        .characteristicService
+        .getCharacteristics(machine.id)
+        .subscribe(characteristics => this.characteristics = characteristics);
+    } else {
+      this.characteristics = [];
+    }
   }
 }
