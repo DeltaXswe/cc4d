@@ -13,18 +13,16 @@ import java.util.List;
 public interface RilevazioneRepository extends CrudRepository<Rilevazione, Long> {
 
     // autoimplementazione da parte di spring
-    @Query(
-        value = "select r from Rilevazione r where r.macchina = ?1 and r.caratteristica = ?2 order by creazione_utc",
-        nativeQuery = true
-    )
-    List<Rilevazione> findByMacchinaAndCaratteristica(long macchina, String caratteristica);
+    List<Rilevazione> findByMacchinaAndCaratteristica(
+            long macchina,
+            String caratteristica,
+            Sort sort
+    );
 
-    @Query(
-        value = "select r from rilevazione r where r.macchina = :macchina and r.caratteristica = :caratteristica and r.creazioneUtc > :creazione_utc order by creazione_utc",
-        nativeQuery = true
-    )
     List<Rilevazione> findByMacchinaAndCaratteristicaAndCreazioneUtcGreaterThan(
             @Param("macchina") long macchina,
             @Param("caratteristica") String caratteristica,
-            @Param("creazione_utc") long creazioneUtc);
+            @Param("creazione_utc") long creazioneUtc,
+            Sort sort
+    );
 }
