@@ -10,6 +10,8 @@ create table rilevazione (
 	constraint chk_creazione	check (creazione_utc >= 0)
 );
 
+select create_hypertable('rilevazione', 'creazione_utc', chunk_time_interval => 100000);
+
 create user backend		password 'backend';
 grant select			on all tables in schema public	to backend;
 

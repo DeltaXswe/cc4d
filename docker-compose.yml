@@ -1,20 +1,20 @@
 version: "3.9"
 services:
-  db-configurazione:
-    build: ./db configurazione
-  db-rilevazioni:
-    build: ./db rilevazioni
-  ui-backend:
-    build: 
-      context: .
-      dockerfile: ./ui-backend/Dockerfile
-    restart: always
-    depends_on:
-      - db-configurazione
-      - db-rilevazioni
-  ui-frontend:
-    build: ui-frontend
-    ports:
-      - "80:80"
-    depends_on:
-      - ui-backend
+    db-configurazione:
+        build: ./db-configurazione
+    db-rilevazioni:
+        build: ./db-rilevazioni
+    ui-backend:
+        build:
+            context: .
+            dockerfile: ./ui-backend/Dockerfile
+        restart: always
+        depends_on:
+            - db-configurazione
+            - db-rilevazioni
+    ui-frontend:
+        build: ui-frontend
+        ports:
+            - "80:80"
+        depends_on:
+            - ui-backend
