@@ -10,7 +10,7 @@ export class MachineService {
 
   constructor(private http: HttpClient,) { }
 
-  private machinesUrl = '/api/machines';
+  private machinesUrl = '/produlyticsweb/machines';
 
   getMachines(): Observable<Machine[]>{
     return this.http.get<Machine[]>(this.machinesUrl)
