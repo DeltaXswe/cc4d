@@ -4,12 +4,12 @@ COPY persistence /persistence
 COPY ui-backend /ui-backend
 
 WORKDIR /persistence
-RUN sed -i 's/^M$//' ./mvnw
+RUN sed -i 's/\r$//' ./mvnw
 RUN chmod +x ./mvnw
 RUN ./mvnw clean install
 
 WORKDIR /ui-backend
-RUN sed -i 's/^M$//' ./mvnw
+RUN sed -i 's/\r$//' ./mvnw
 RUN chmod +x ./mvnw
 RUN ./mvnw dependency:resolve
 RUN ./mvnw package -Dmaven.test.skip
