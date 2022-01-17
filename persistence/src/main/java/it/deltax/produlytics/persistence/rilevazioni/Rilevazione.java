@@ -8,70 +8,41 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "rilevazione")
 public class Rilevazione {
-    @Id
-    @Column(name = "creazione_utc", nullable = false)
-    private long creazioneUtc;
+	@EmbeddedId
+	private RilevazioneId id;
 
-    @Column(name = "caratteristica", nullable = false)
-    private String caratteristica;
+	@Column(name = "valore", nullable = false)
+	private Double valore;
 
-    @Column(name = "macchina", nullable = false)
-    private long macchina;
+	@Column(name = "anomalo", nullable = false)
+	private Boolean anomalo = false;
 
-    @Column(name = "valore", nullable = false)
-    private Double valore;
+	protected Rilevazione() {}
 
-    @Column(name = "anomalo", nullable = false)
-    private Boolean anomalo = false;
+	public Rilevazione(RilevazioneId id, Double valore, Boolean anomalo) {
+		this.id = id;
+		this.valore = valore;
+		this.anomalo = anomalo;
+	}
 
-    protected Rilevazione() {}
+	public RilevazioneId getID() {
+		return id;
+	}
+	public void setId(RilevazioneId id) {
+		this.id = id;
+	}
 
-    public Rilevazione(long creazioneUtc, String caratteristica, long macchina, Double valore, Boolean anomalo) {
-        this.creazioneUtc = creazioneUtc;
-        this.caratteristica = caratteristica;
-        this.macchina = macchina;
-        this.valore = valore;
-        this.anomalo = anomalo;
-    }
+	public Boolean getAnomalo() {
+		return anomalo;
+	}
+	public void setAnomalo(Boolean anomalo) {
+		this.anomalo = anomalo;
+	}
 
-    public void setCreazioneUtc(long creazioneUtc) {
-        this.creazioneUtc = creazioneUtc;
-    }
-
-    public void setMacchina(long macchina) {
-        this.macchina = macchina;
-    }
-
-    public long getMacchina() {
-        return macchina;
-    }
-
-    public long getCreazioneUtc() {
-        return creazioneUtc;
-    }
-
-    public Boolean getAnomalo() {
-        return anomalo;
-    }
-
-    public void setAnomalo(Boolean anomalo) {
-        this.anomalo = anomalo;
-    }
-
-    public Double getValore() {
-        return valore;
-    }
-
-    public void setValore(Double valore) {
-        this.valore = valore;
-    }
-
-    public String getCaratteristica() {
-        return caratteristica;
-    }
-
-    public void setCaratteristica(String caratteristica) {
-        this.caratteristica = caratteristica;
-    }
-
+	public Double getValore() {
+		return valore;
+	}
+	public void setValore(Double valore) {
+		this.valore = valore;
+	}
 }
