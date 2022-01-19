@@ -6,9 +6,9 @@ import time
 # media e varianza sono calcolati dai limiti, assumendo che:
 #  - la media è a metà tra i limiti
 #  - i limiti sono distanti dalla media di 3 * sigma 
-url = "http://api-macchina:8080/detections"
+url = "http://api:8081/detections"
 machine = 1
-characteristic = 1
+characteristic = "frequenza_di_oscillazione_pistone"
 limite_min = 100
 limite_max = 300
 
