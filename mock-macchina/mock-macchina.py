@@ -16,13 +16,13 @@ limite_max = 300
 rng = default_rng()
 mu = (limite_max + limite_min) / 2
 sigma = (limite_max - limite_min) / 6
+time.sleep(3) # Evita di crashare, anche se c'è il restart automatico
 while True:
     time.sleep(1)
     value = rng.normal(mu, sigma)
     json = {
-        'createdAtUtc': int(time.time()),
-        'machine': machine,
-        'characteristic': characteristic,
+        'macchina': machine,
+        'caratteristica': characteristic,
         'value': value
     }
     requests.post(url, json = json)

@@ -28,13 +28,13 @@ public class DetectionsPersistenceAdapterByCharacteristic implements ListDetecti
                 machineId,
                 characteristicCode,
                 createdAfter.get(),
-                Sort.by("creazioneUtc")
+                Sort.by("id.creazioneUtc")
             );
         } else {
             detections = repo.findByIdMacchinaAndIdCaratteristica(
                 machineId,
                 characteristicCode,
-                Sort.by("creazioneUtc")
+                Sort.by("id.creazioneUtc")
             );
         }
         return detections.stream()

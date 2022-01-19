@@ -9,7 +9,7 @@ import javax.persistence.Embeddable;
 public class RilevazioneId implements Serializable {
 
 	@Column(name = "creazione_utc", nullable = false)
-	private long creazione_utc;
+	private long creazioneUtc;
 
 	@Column(name = "caratteristica", nullable = false)
 	private String caratteristica;
@@ -19,14 +19,14 @@ public class RilevazioneId implements Serializable {
 
 	protected RilevazioneId() {}
 
-	public RilevazioneId(long creazione_utc, String caratteristica, long macchina) {
-		this.creazione_utc = creazione_utc;
+	public RilevazioneId(long creazioneUtc, String caratteristica, long macchina) {
+		this.creazioneUtc = creazioneUtc;
 		this.caratteristica = caratteristica;
 		this.macchina = macchina;
 	}
 
 	public long getCreazioneUtc() {
-		return creazione_utc;
+		return creazioneUtc;
 	}
 
 	public String getCaratteristica() {
