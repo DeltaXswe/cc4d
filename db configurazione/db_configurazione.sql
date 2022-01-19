@@ -16,7 +16,7 @@ create table caratteristica (
 	limite_min			double precision	not null,
 	limite_max			double precision	not null,
 	media				double precision	not null,
-	adattamento			boolean				not null,
+	auto_adjust			boolean				not null,
 	ampiezza_campione	integer				,
 	
 	primary key (codice, macchina)			,
