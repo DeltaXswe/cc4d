@@ -26,3 +26,8 @@ services:
         depends_on:
             - db-configurazione
             - db-rilevazioni
+    mock-macchina:
+        build: mock-macchina
+        restart: always
+        depends_on:
+            - api
