@@ -21,7 +21,7 @@ public class DetectionPersistenceAdapter implements InsertDetectionPort {
 
     @Override
     public Detection insertRilevazione(DetectionLight rilevazione) {
-        RilevazioneId id = new RilevazioneId(Instant.now().getEpochSecond(), rilevazione.caratteristica(), rilevazione.macchina());
+        RilevazioneId id = new RilevazioneId(Instant.now().getEpochSecond(), rilevazione.characteristic(), rilevazione.machine());
         Rilevazione nuova = new Rilevazione(id, rilevazione.value(), false);
         Rilevazione salvata = repo.save(nuova);
         

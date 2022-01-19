@@ -21,8 +21,8 @@ while True:
     time.sleep(1)
     value = rng.normal(mu, sigma)
     json = {
-        'macchina': machine,
-        'caratteristica': characteristic,
+        'machine': machine,
+        'characteristic': characteristic,
         'value': value
     }
     requests.post(url, json = json)
