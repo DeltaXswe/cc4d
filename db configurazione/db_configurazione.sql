@@ -3,11 +3,11 @@ drop table if exists caratteristica;
 
 create table macchina (
 	id					serial				primary key,
-	nome				text				not null
+	nome				text				not null unique
 );
 
 create table caratteristica (
-	codice				text				,
+	codice				serial				,
 	nome				text				not null unique,
 	macchina			integer
 		references	macchina (id)
