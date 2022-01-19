@@ -1,14 +1,17 @@
 drop table if exists rilevazione;
 
 create table rilevazione (
-	creazione_utc	bigint				primary key,
-	caratteristica	name				not null,
-	macchina		integer				not null,
+	creazione_utc	bigint				,
+	caratteristica	text				,
+	macchina		integer				,
 	valore			double precision	not null,
 	anomalo			boolean				not null default false,
-
-	constraint chk_creazione	check (creazione_utc >= 0)
+	
+	primary key		(creazione_utc, caratteristica, macchina),
+	constraint 		chk_creazione	check (creazione_utc >= 0)
 );
+
+select create_hypertable('rilevazione', 'creazione_utc', chunk_time_interval => 100000);
 
 create user backend		password 'backend';
 grant select			on all tables in schema public	to backend;
