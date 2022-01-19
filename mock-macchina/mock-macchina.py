@@ -25,4 +25,4 @@ while True:
         'characteristic': characteristic,
         'value': value
     }
-    requests.post(url, data = json)
+    requests.post(url, json = json)
