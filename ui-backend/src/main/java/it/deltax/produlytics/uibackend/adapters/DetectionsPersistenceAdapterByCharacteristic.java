@@ -24,14 +24,14 @@ public class DetectionsPersistenceAdapterByCharacteristic implements ListDetecti
     public List<DetectionLight> listByCharacteristic(long machineId, String characteristicCode, Optional<Long> createdAfter) {
         List<Rilevazione> detections;
         if (createdAfter.isPresent()) {
-            detections = repo.findByMacchinaAndCaratteristicaAndCreazioneUtcGreaterThan(
+            detections = repo.findByIdMacchinaAndIdCaratteristicaAndIdCreazioneUtcGreaterThan(
                 machineId,
                 characteristicCode,
                 createdAfter.get(),
                 Sort.by("creazioneUtc")
             );
         } else {
-            detections = repo.findByMacchinaAndCaratteristica(
+            detections = repo.findByIdMacchinaAndIdCaratteristica(
                 machineId,
                 characteristicCode,
                 Sort.by("creazioneUtc")
@@ -41,7 +41,7 @@ public class DetectionsPersistenceAdapterByCharacteristic implements ListDetecti
             .map(rilevazione ->
                 new DetectionLight(
                     rilevazione.getValore(),
-                    rilevazione.getCreazioneUtc(),
+                    rilevazione.getID().getCreazioneUtc(),
                     rilevazione.getAnomalo()
                 )
             )

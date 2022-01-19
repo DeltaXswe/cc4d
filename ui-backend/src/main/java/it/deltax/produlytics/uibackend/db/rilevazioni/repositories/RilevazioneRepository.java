@@ -13,9 +13,9 @@ import java.util.List;
 public interface RilevazioneRepository extends CrudRepository<Rilevazione, Long> {
 
     // autoimplementazione da parte di spring
-    List<Rilevazione> findByMacchinaAndCaratteristica(long macchina, String caratteristica, Sort sort);
+    List<Rilevazione> findByIdMacchinaAndIdCaratteristica(long macchina, String caratteristica, Sort sort);
 
-    List<Rilevazione> findByMacchinaAndCaratteristicaAndCreazioneUtcGreaterThan(
+    List<Rilevazione> findByIdMacchinaAndIdCaratteristicaAndIdCreazioneUtcGreaterThan(
             @Param("macchina") long macchina,
             @Param("caratteristica") String caratteristica,
             @Param("creazione_utc") long creazioneUtc,

@@ -1,10 +1,12 @@
-package it.deltax.produlytics.persistence.rilevazione;
+package it.deltax.produlytics.persistence.rilevazioni;
+
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class RilevazioneId {
+public class RilevazioneId implements Serializable {
 
 	@Column(name = "creazione_utc", nullable = false)
 	private long creazione_utc;
