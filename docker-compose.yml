@@ -18,3 +18,11 @@ services:
             - "80:80"
         depends_on:
             - ui-backend
+    api:
+        build:
+            context: .
+            dockerfile: ./api/Dockerfile
+        restart: always
+        depends_on:
+            - db-configurazione
+            - db-rilevazioni
