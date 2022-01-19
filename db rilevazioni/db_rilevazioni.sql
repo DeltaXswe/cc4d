@@ -2,7 +2,7 @@ drop table if exists rilevazione;
 
 create table rilevazione (
 	creazione_utc	bigint				,
-	caratteristica	text				,
+	caratteristica	integer				,
 	macchina		integer				,
 	valore			double precision	not null,
 	anomalo			boolean				not null default false,
