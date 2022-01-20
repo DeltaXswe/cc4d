@@ -4,7 +4,7 @@ WORKDIR /persistence
 COPY persistence/pom.xml .
 RUN mvn dependency:resolve-plugins dependency:go-offline
 
-COPY persistence .
+COPY persistence/src ./src
 RUN mvn package
 
 FROM maven:3.8.4-openjdk-17 as ui-backend
@@ -17,7 +17,7 @@ WORKDIR /ui-backend
 COPY ui-backend/pom.xml .
 RUN mvn dependency:resolve-plugins dependency:go-offline
 
-COPY ui-backend .
+COPY ui-backend/src ./src
 WORKDIR /ui-backend
 RUN mvn package -Dmaven.test.skip
 

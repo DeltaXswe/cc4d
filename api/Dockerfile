@@ -4,7 +4,7 @@ WORKDIR /persistence
 COPY persistence/pom.xml .
 RUN mvn dependency:resolve-plugins dependency:go-offline
 
-COPY persistence .
+COPY persistence/src ./src
 RUN mvn package
 
 FROM maven:3.8.4-openjdk-17 as api
@@ -17,7 +17,7 @@ WORKDIR /api
 COPY api/pom.xml .
 RUN mvn dependency:resolve-plugins dependency:go-offline
 
-COPY api .
+COPY api/src ./src
 WORKDIR /api
 RUN mvn package -Dmaven.test.skip
 

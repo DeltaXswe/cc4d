@@ -1,12 +1,12 @@
 #stage 1
-FROM node:latest as node
+FROM node:16 as node
 
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 
-WORKDIR /app
-COPY . .
+COPY src src
+COPY *.json *.js ./
 # RUN npm install
 RUN npm run build --prod
 
