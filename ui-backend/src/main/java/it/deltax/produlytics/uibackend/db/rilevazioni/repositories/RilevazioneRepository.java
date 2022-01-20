@@ -14,16 +14,16 @@ public interface RilevazioneRepository extends CrudRepository<Rilevazione, Long>
 
     // autoimplementazione da parte di spring
     @Query(
-    """
+    value = """
     select * from (
-        select r from Rilevazione r where 
-            r.macchina = :r.id.macchina and 
-            r.caratteristica = :r.id.caratteristica 
+        select * from rilevazione r where 
+            r.macchina = ?1 and 
+            r.caratteristica = ?2 
             order by creazione_utc desc 
             limit 100
         ) newest 
         order by newest.creazione_utc asc
-    """
+    """, nativeQuery = true
     )
     List<Rilevazione> findByIdMacchinaAndIdCaratteristica(
             @Param("macchina") long macchina,
