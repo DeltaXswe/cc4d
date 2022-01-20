@@ -1,17 +1,25 @@
-FROM openjdk:17-oracle
+FROM maven:3.8.4-openjdk-17 as persistence
 
-COPY persistence /persistence
 WORKDIR /persistence
-RUN sed -i 's/\r$//' ./mvnw
-RUN chmod +x ./mvnw
-RUN ./mvnw clean install
+COPY persistence/pom.xml .
+RUN mvn dependency:resolve-plugins dependency:go-offline
 
-COPY ui-backend /ui-backend
+COPY persistence .
+RUN mvn package
+
+FROM maven:3.8.4-openjdk-17 as ui-backend
+
+WORKDIR /persistence
+COPY --from=persistence /persistence/target/persistence.jar /persistence/pom.xml ./
+RUN mvn install:install-file -Dfile=persistence.jar -DpomFile=pom.xml
+
 WORKDIR /ui-backend
-RUN sed -i 's/\r$//' ./mvnw
-RUN chmod +x ./mvnw
-RUN ./mvnw dependency:resolve
-RUN ./mvnw package -Dmaven.test.skip
+COPY ui-backend/pom.xml .
+RUN mvn dependency:resolve-plugins dependency:go-offline
+
+COPY ui-backend .
+WORKDIR /ui-backend
+RUN mvn package -Dmaven.test.skip
 
 # CMD ["./mvnw", "test"]
 CMD ["java", "-jar", "./target/ui-backend.jar"]
