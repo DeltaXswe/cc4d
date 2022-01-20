@@ -12,7 +12,7 @@ export class CharacteristicService {
   constructor(private http: HttpClient,) { }
 
   getCharacteristics(machine: number): Observable<Characteristic[]>{
-    const characteristicsUrl = `/produlyticsweb/characteristics/${machine}`;
+    const characteristicsUrl = `/apiweb/characteristics/${machine}`;
     return this.http.get<Characteristic[]>(characteristicsUrl);
   }
 } 

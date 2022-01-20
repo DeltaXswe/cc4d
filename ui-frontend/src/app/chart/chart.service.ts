@@ -16,10 +16,10 @@ export class ChartService {
     macchina: number,
     caratteristica: string
   ): Observable<[CharacteristicInfo, ChartPoint[]]> {
-    const info_url = `/produlyticsweb/characteristics/${macchina}/${caratteristica}`;
+    const info_url = `/apiweb/characteristics/${macchina}/${caratteristica}`;
     const info = this.http.get<CharacteristicInfo>(info_url);
 
-    const points_url = `/produlyticsweb/detections/${macchina}/${caratteristica}`;
+    const points_url = `/apiweb/detections/${macchina}/${caratteristica}`;
     const points = this.http.get<ChartPoint[]>(points_url);
 
     return zip(info, points);
@@ -30,7 +30,7 @@ export class ChartService {
     caratteristica: string,
     ultimo_utc: number
   ): Observable<ChartPoint[]> {
-    const url = `/produlyticsweb/detections/${macchina}/${caratteristica}?createdAfter=${ultimo_utc}`;
+    const url = `/apiweb/detections/${macchina}/${caratteristica}?createdAfter=${ultimo_utc}`;
     return this.http.get<ChartPoint[]>(url);
   }
 }
