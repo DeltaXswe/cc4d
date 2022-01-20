@@ -33,8 +33,7 @@ public class DetectionsPersistenceAdapterByCharacteristic implements ListDetecti
         } else {
             detections = repo.findByIdMacchinaAndIdCaratteristica(
                 machineId,
-                characteristicCode,
-                Sort.by("id.creazioneUtc")
+                characteristicCode
             );
         }
         return detections.stream()
