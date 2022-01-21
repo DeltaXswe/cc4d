@@ -12,8 +12,8 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$produlytics-frontend-primary: mat.define-palette(mat.$indigo-palette);
-$produlytics-frontend-accent: mat.define-palette(mat.$red-palette, A700, A100, A200);
+$produlytics-frontend-primary: mat.define-palette(mat.$orange-palette, 900, A100, A200);
+$produlytics-frontend-accent: mat.define-palette(mat.$red-palette, 900, A100, A200);
 
 // The warn palette is optional (defaults to red).
 $produlytics-frontend-warn: mat.define-palette(mat.$red-palette);

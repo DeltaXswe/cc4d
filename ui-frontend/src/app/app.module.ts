@@ -12,8 +12,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from "@angular/material/button";
 import {MatListModule} from "@angular/material/list";
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {FlexModule} from "@angular/flex-layout";
+import {FlexLayoutModule, FlexModule} from "@angular/flex-layout";
 import {MatCardModule} from "@angular/material/card";
+import {MatIconModule} from "@angular/material/icon";
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -23,7 +26,7 @@ import {MatCardModule} from "@angular/material/card";
     MachineComponent,
     CharacteristicComponent,
   ],
-  imports: [AppRoutingModule, BrowserModule, HttpClientModule, BrowserAnimationsModule, MatButtonModule, MatListModule, MatToolbarModule, FlexModule, MatCardModule],
+  imports: [AppRoutingModule, BrowserModule, HttpClientModule, BrowserAnimationsModule, MatButtonModule, MatListModule, MatToolbarModule, FlexModule, MatCardModule, MatIconModule, MatTabsModule, MatTooltipModule, FlexLayoutModule],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import { MachineService } from '../machine.service';
 import { Machine } from './machine';
 
@@ -9,6 +9,9 @@ import { Machine } from './machine';
   encapsulation: ViewEncapsulation.None
 })
 export class MachineComponent implements OnInit {
+
+  @Output()
+  machineSelect = new EventEmitter<Machine>();
 
   constructor(private machineService: MachineService) { }
 
@@ -21,6 +24,7 @@ export class MachineComponent implements OnInit {
 
   machineOnSelect(machine: Machine): void{
     this.selectedMachine = machine;
+    this.machineSelect.emit(this.selectedMachine);
   }
 
   getMachines(): void{

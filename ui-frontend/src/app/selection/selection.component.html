@@ -1,4 +1,11 @@
 <mat-toolbar color="accent" class="mat-elevation-z6">
   <span>Pagina di selezione macchine e caratteristiche</span>
 </mat-toolbar>
-<app-machine></app-machine>
+<mat-tab-group [selectedIndex]="machine ? 1 : 0" mat-align-tabs="center">
+  <mat-tab label="Macchine" disabled> <!-- TODO translate -->
+    <app-machine (machineSelect)="machine = $event" fxLayout="row" fxLayoutAlign="center start"></app-machine>
+  </mat-tab>
+  <mat-tab label="Caratteristiche" disabled> <!-- TODO translate -->
+    <app-characteristic *ngIf="machine" [machine]="machine" (back)="machine = undefined" fxLayout="row" fxLayoutAlign="center start"></app-characteristic>
+  </mat-tab>
+</mat-tab-group>

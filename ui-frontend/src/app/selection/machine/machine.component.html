@@ -1,20 +1,17 @@
-<div fxLayout="row" fxLayoutAlign="space-around start">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>
-        Lista macchine <!-- TODO translate -->
-      </mat-card-title>
-    </mat-card-header>
-    <mat-divider inset></mat-divider>
-    <mat-card-content>
-      <mat-selection-list [multiple]="false" class="machines">
-        <mat-list-option *ngFor="let machine of machines" [value]="machine" (click)="machineOnSelect(machine)">
-          <span>{{ machine.name }}</span>
-        </mat-list-option>
-      </mat-selection-list>
-    </mat-card-content>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Seleziona una macchina <!-- TODO translate -->
+    </mat-card-title>
+  </mat-card-header>
+  <mat-divider inset></mat-divider>
+  <mat-card-content>
+    <mat-selection-list [multiple]="false" class="machines">
+      <mat-list-option *ngFor="let machine of machines" [value]="machine" (click)="machineOnSelect(machine)">
+        <span>{{ machine.name }}</span>
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-card-content>
+</mat-card>
 
-  </mat-card>
-  <app-characteristic [machine]="selectedMachine"></app-characteristic>
-</div>
 

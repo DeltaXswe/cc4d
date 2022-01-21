@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import { CharacteristicService } from '../characteristic.service';
 import { Characteristic } from './characteristic';
 import { Machine } from '../machine/machine';
@@ -11,15 +11,18 @@ import { Router } from '@angular/router';
 })
 export class CharacteristicComponent implements OnChanges {
 
-  constructor(private characteristicService: CharacteristicService, private router: Router) { }
+  @Output() back = new EventEmitter<void>();
+
   @Input() machine?: Machine;
+
+  constructor(private characteristicService: CharacteristicService, private router: Router) { }
 
   ngOnChanges(_changes: SimpleChanges): void {
     this.getCharacteristics(this.machine);
   }
 
   characteristics: Characteristic[] = [];
-  
+
   characteristicOnSelect(characteristic: Characteristic){
     this.router.navigate(['chart', characteristic.machine, characteristic.code]);
   }

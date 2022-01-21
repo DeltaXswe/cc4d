@@ -10,6 +10,7 @@ import { CharacteristicComponent } from './characteristic/characteristic.compone
   styleUrls: ['./selection.component.css']
 })
 export class SelectionComponent implements OnInit {
+  machine: Machine | undefined;
 
   constructor() { }
 
