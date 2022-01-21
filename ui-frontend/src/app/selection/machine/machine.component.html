@@ -1,14 +1,20 @@
-<div class="row">
-   <div class="column">
-      <h2 id="h2_macchine">Lista macchine</h2>
-      <ul class="machines">
-         <li *ngFor="let machine of machines" [class.selected]="machine === selectedMachine" (click)="machineOnSelect(machine)" >
-            <span>{{ machine.id }}</span><br> 
-            <span>{{ machine.name }}</span>
-         </li>
-      </ul>
-   </div>
-   <div class="column">
-      <app-characteristic [machine]="selectedMachine"></app-characteristic>
-   </div>
+<div fxLayout="row" fxLayoutAlign="space-around start">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Lista macchine <!-- TODO translate -->
+      </mat-card-title>
+    </mat-card-header>
+    <mat-divider inset></mat-divider>
+    <mat-card-content>
+      <mat-selection-list [multiple]="false" class="machines">
+        <mat-list-option *ngFor="let machine of machines" [value]="machine" (click)="machineOnSelect(machine)">
+          <span>{{ machine.name }}</span>
+        </mat-list-option>
+      </mat-selection-list>
+    </mat-card-content>
+
+  </mat-card>
+  <app-characteristic [machine]="selectedMachine"></app-characteristic>
 </div>
+

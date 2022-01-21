@@ -1,10 +1,15 @@
-<h2 id="h2_caratteristiche">Lista caratteristiche della macchina selezionata</h2>
-<div *ngIf="machine">
-   <ul class="characteristics">
-      <div *ngFor="let characteristic of characteristics">
-         <li (click)="characteristicOnSelect(characteristic)">
-            <span>{{ characteristic.name }}</span>
-         </li>
-      </div>
-   </ul>
-</div>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Lista caratteristiche della macchina selezionata <!-- TODO translate -->
+    </mat-card-title>
+  </mat-card-header>
+  <mat-divider inset></mat-divider>
+  <mat-card-content *ngIf="machine">
+    <mat-selection-list [multiple]="false" class="characteristics">
+      <mat-list-option *ngFor="let characteristic of characteristics" [value]="characteristic" (click)="characteristicOnSelect(characteristic)">
+        <span>{{ characteristic.name }}</span>
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-card-content>
+</mat-card>

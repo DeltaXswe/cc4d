@@ -8,6 +8,12 @@ import { ChartComponent } from './chart/chart.component';
 import { SelectionComponent } from './selection/selection.component';
 import { MachineComponent } from './selection/machine/machine.component';
 import { CharacteristicComponent } from './selection/characteristic/characteristic.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatButtonModule} from "@angular/material/button";
+import {MatListModule} from "@angular/material/list";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {FlexModule} from "@angular/flex-layout";
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -17,7 +23,7 @@ import { CharacteristicComponent } from './selection/characteristic/characterist
     MachineComponent,
     CharacteristicComponent,
   ],
-  imports: [AppRoutingModule, BrowserModule, HttpClientModule],
+  imports: [AppRoutingModule, BrowserModule, HttpClientModule, BrowserAnimationsModule, MatButtonModule, MatListModule, MatToolbarModule, FlexModule, MatCardModule],
   providers: [],
   bootstrap: [AppComponent],
 })

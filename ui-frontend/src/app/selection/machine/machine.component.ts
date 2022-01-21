@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import { MachineService } from '../machine.service';
 import { Machine } from './machine';
 
 @Component({
   selector: 'app-machine',
   templateUrl: './machine.component.html',
-  styleUrls: ['./machine.component.css']
+  styleUrls: ['./machine.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MachineComponent implements OnInit {
 
