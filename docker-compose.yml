@@ -2,13 +2,18 @@ version: "3.9"
 services:
     db-configurazione:
         build: ./db-configurazione
+        ports:
+            - "5432:5432"
     db-rilevazioni:
         build: ./db-rilevazioni
+        ports:
+            - "5433:5432"
     ui-backend:
         build:
             context: .
             dockerfile: ./ui-backend/Dockerfile
         restart: always
+        # no redirect - use proxy instead
         depends_on:
             - db-configurazione
             - db-rilevazioni

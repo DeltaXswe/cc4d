@@ -5,22 +5,23 @@ import { Observable, zip } from 'rxjs';
 
 import { ChartPoint } from './chart-point';
 import { CharacteristicInfo } from './characteristic-info';
+import {AppService} from "../app.service";
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChartService {
-  constructor(private http: HttpClient) {}
+  constructor(private appService: AppService) {}
 
   getInitialPoints(
     macchina: number,
     caratteristica: string
   ): Observable<[CharacteristicInfo, ChartPoint[]]> {
-    const info_url = `/apiweb/characteristics/${macchina}/${caratteristica}`;
-    const info = this.http.get<CharacteristicInfo>(info_url);
+    const info_url = `/characteristics/${macchina}/${caratteristica}`;
+    const info = this.appService.get<CharacteristicInfo>(info_url);
 
-    const points_url = `/apiweb/detections/${macchina}/${caratteristica}`;
-    const points = this.http.get<ChartPoint[]>(points_url);
+    const points_url = `/detections/${macchina}/${caratteristica}`;
+    const points = this.appService.get<ChartPoint[]>(points_url);
 
     return zip(info, points);
   }
@@ -30,7 +31,7 @@ export class ChartService {
     caratteristica: string,
     ultimo_utc: number
   ): Observable<ChartPoint[]> {
-    const url = `/apiweb/detections/${macchina}/${caratteristica}?createdAfter=${ultimo_utc}`;
-    return this.http.get<ChartPoint[]>(url);
+    const url = `/detections/${macchina}/${caratteristica}?createdAfter=${ultimo_utc}`;
+    return this.appService.get<ChartPoint[]>(url);
   }
 }

@@ -3,16 +3,17 @@ import { Characteristic } from './characteristic/characteristic';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Machine } from './machine/machine';
+import {AppService} from "../app.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CharacteristicService {
 
-  constructor(private http: HttpClient,) { }
+  constructor(private appService: AppService) { }
 
   getCharacteristics(machine: number): Observable<Characteristic[]>{
-    const characteristicsUrl = `/apiweb/characteristics/${machine}`;
-    return this.http.get<Characteristic[]>(characteristicsUrl);
+    const characteristicsUrl = `/characteristics/${machine}`;
+    return this.appService.get<Characteristic[]>(characteristicsUrl);
   }
-} 
+}
