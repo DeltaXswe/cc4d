@@ -3,7 +3,7 @@ package it.deltax.produlytics.api.adapters;
 import it.deltax.produlytics.api.business.domain.Detection;
 import it.deltax.produlytics.api.business.domain.DetectionLight;
 import it.deltax.produlytics.api.business.ports.out.InsertDetectionPort;
-import it.deltax.produlytics.api.db.repositories.RilevazioneRepository;
+import it.deltax.produlytics.api.db.rilevazioni.repositories.RilevazioneRepository;
 import it.deltax.produlytics.persistence.rilevazioni.Rilevazione;
 import it.deltax.produlytics.persistence.rilevazioni.RilevazioneId;
 
@@ -20,9 +20,9 @@ public class DetectionPersistenceAdapter implements InsertDetectionPort {
     private RilevazioneRepository repo;
 
     @Override
-    public Detection insertRilevazione(DetectionLight rilevazione) {
+    public Detection insertDetection(DetectionLight rilevazione) {
         RilevazioneId id = new RilevazioneId(Instant.now().getEpochSecond(), rilevazione.characteristic(), rilevazione.machine());
-        Rilevazione nuova = new Rilevazione(id, rilevazione.value(), false);
+        Rilevazione nuova = new Rilevazione(id, rilevazione.value(), rilevazione.anomalous());
         Rilevazione salvata = repo.save(nuova);
         
         return new Detection(salvata.getID().getMacchina(),

@@ -5,5 +5,5 @@ import it.deltax.produlytics.api.business.domain.DetectionLight;
 
 
 public interface InsertDetectionPort {
-    Detection insertRilevazione(DetectionLight rilevazione);
+    Detection insertDetection(DetectionLight rilevazione);
 }

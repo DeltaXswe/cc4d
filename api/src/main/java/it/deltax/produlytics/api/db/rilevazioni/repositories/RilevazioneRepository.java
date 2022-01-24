@@ -1,4 +1,4 @@
-package it.deltax.produlytics.api.db.repositories;
+package it.deltax.produlytics.api.db.rilevazioni.repositories;
 
 import it.deltax.produlytics.persistence.rilevazioni.Rilevazione;
 import org.springframework.data.repository.CrudRepository;

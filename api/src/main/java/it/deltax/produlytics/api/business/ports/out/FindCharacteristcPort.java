@@ -1,9 +1,8 @@
 package it.deltax.produlytics.api.business.ports.out;
 import java.util.Optional;
 
-import it.deltax.produlytics.api.business.domain.CharacteristicLight;
-
+import it.deltax.produlytics.api.business.domain.Characteristic;
 
 public interface FindCharacteristcPort{
-    Optional<CharacteristicLight> findCharacteristic(long macchina, String name);
+    Optional<Characteristic> findCharacteristic(long macchina, String name);
 }

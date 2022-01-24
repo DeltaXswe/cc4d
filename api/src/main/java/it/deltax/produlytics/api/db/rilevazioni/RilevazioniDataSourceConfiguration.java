@@ -6,6 +6,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -15,18 +16,20 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages            = { "it.deltax.produlytics.api.db.repositories" },
+        basePackages            = { "it.deltax.produlytics.api.db.rilevazioni.repositories" },
         entityManagerFactoryRef = "rilevazioniEntityManager",
         transactionManagerRef   = "rilevazioniTransactionManager"
 )
 public class RilevazioniDataSourceConfiguration {
 
+    @Primary
     @Bean(name = "rilevazioniDataSource")
     @ConfigurationProperties(prefix = "rilevazioni.datasource")
     public DataSource rilevazioniDataSource() {
         return DataSourceBuilder.create().build();
     }
 
+    @Primary
     @Bean(name = "rilevazioniEntityManager")
     public LocalContainerEntityManagerFactoryBean rilevazioniEntityManager(
             EntityManagerFactoryBuilder builder,
@@ -39,6 +42,7 @@ public class RilevazioniDataSourceConfiguration {
                 .build();
     }
 
+    @Primary
     @Bean(name = "rilevazioniTransactionManager")
     public PlatformTransactionManager rilevazioniTransactionManager(
             final @Qualifier("rilevazioniEntityManager") LocalContainerEntityManagerFactoryBean rilevazioniEntityManager
