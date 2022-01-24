@@ -8,6 +8,7 @@ import { CharacteristicInfo } from './characteristic-info';
 
 import { ChartPoint } from './chart-point';
 import { ChartService } from './chart.service';
+import { Location } from "@angular/common";
 
 @Component({
   selector: 'app-chart',
@@ -15,15 +16,17 @@ import { ChartService } from './chart.service';
   styleUrls: ['./chart.component.css'],
 })
 export class ChartComponent implements OnInit, OnDestroy {
-  constructor(
-    private route: ActivatedRoute,
-    private chartService: ChartService
-  ) {}
 
   info!: CharacteristicInfo;
   private points: ChartPoint[] = [];
 
   private updateSubscription?: Subscription;
+
+  constructor(
+    private route: ActivatedRoute,
+    private chartService: ChartService,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
     this.createChart();
@@ -164,5 +167,9 @@ export class ChartComponent implements OnInit, OnDestroy {
       )
       .attr('cx', xp)
       .attr('cy', yp);
+  }
+
+  back() {
+    this.location.back();
   }
 }
