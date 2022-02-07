@@ -2,10 +2,12 @@ version: "3.9"
 services:
     db-configurazione:
         build: ./db-configurazione
+        restart: always
         ports:
             - "5432:5432"
     db-rilevazioni:
         build: ./db-rilevazioni
+        restart: always
         ports:
             - "5433:5432"
     ui-backend:
