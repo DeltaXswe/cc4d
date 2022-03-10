@@ -1,10 +1,10 @@
 package it.deltax.produlytics.uibackend;
 
+import it.deltax.produlytics.persistence.DeviceEntity;
 import it.deltax.produlytics.uibackend.common.machine.web.MachinesController;
 import it.deltax.produlytics.uibackend.repositories.MacchinaRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import it.deltax.produlytics.persistence.configurazione.Macchina;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -42,7 +42,7 @@ class UiBackendApplicationTests {
 
 	@Test
 	public void listAllMacchine() throws Exception {
-		macchinaRepository.save(new Macchina("One"));
+		macchinaRepository.save(new DeviceEntity("One", false, false, ""));
 
 		mockMvc.perform(get("/machines"))
 				.andDo(print())
