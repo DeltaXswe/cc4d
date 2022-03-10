@@ -1,12 +1,9 @@
 package it.deltax.produlytics.api.detections.adapters;
 
 import it.deltax.produlytics.api.detections.business.domain.Detection;
-import it.deltax.produlytics.api.detections.business.domain.validate.ValidationInfo;
 import it.deltax.produlytics.api.detections.business.ports.out.FindLastDetectionsPort;
-import it.deltax.produlytics.api.detections.business.ports.out.FindValidationInfoPort;
 import it.deltax.produlytics.api.detections.business.ports.out.InsertDetectionPort;
 import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
-import it.deltax.produlytics.api.repositories.CharacteristicRepository;
 import it.deltax.produlytics.api.repositories.DetectionRepository;
 import it.deltax.produlytics.persistence.DetectionEntity;
 import it.deltax.produlytics.persistence.DetectionEntityId;
@@ -14,26 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class DetectionsAdapter
-	implements FindValidationInfoPort, FindLastDetectionsPort, InsertDetectionPort, MarkOutlierPort
+	implements FindLastDetectionsPort, InsertDetectionPort, MarkOutlierPort
 {
 	@Autowired
-	private CharacteristicRepository characteristicRepository;
-	@Autowired
 	private DetectionRepository detectionRepository;
-
-	@Override
-	public Optional<ValidationInfo> findValidationInfo(String apiKey, int characteristicId) {
-		return this.characteristicRepository.findValidationInfo(apiKey, characteristicId)
-			.map(validationInfoProjection -> new ValidationInfo(validationInfoProjection.apiKey(),
-				validationInfoProjection.deviceArchived(),
-				validationInfoProjection.deviceDeactivated(),
-				validationInfoProjection.characteristicArchived()
-			));
-	}
 
 	@Override
 	public List<Detection> findLastDetections(int deviceId, int characteristicId, int count) {
