@@ -24,9 +24,10 @@ public class DetectionsService implements ProcessIncomingDetectionUseCase {
 		CharacteristicArchivedException,
 		CharacteristicNotFoundException,
 		DeviceArchivedException,
-		NotAuthenticatedException
-	{
-		int deviceId = detectionValidator.validateAndFindDeviceId(incomingDetection.apiKey(), incomingDetection.characteristicId());
+		NotAuthenticatedException {
+		int deviceId = detectionValidator.validateAndFindDeviceId(incomingDetection.apiKey(),
+			incomingDetection.characteristicId()
+		);
 		detectionQueue.enqueueDetection(incomingDetection.toRawDetection(deviceId));
 	}
 }

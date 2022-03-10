@@ -35,7 +35,8 @@ public class DetectionCacheImpl implements DetectionCache {
 		if(this.lastDetections.size() == 15)
 			this.lastDetections.remove();
 
-		Detection detection = new Detection(rawDetection.deviceId(),
+		Detection detection = new Detection(
+			rawDetection.deviceId(),
 			rawDetection.characteristicId(),
 			rawDetection.creationTime(),
 			rawDetection.value(),

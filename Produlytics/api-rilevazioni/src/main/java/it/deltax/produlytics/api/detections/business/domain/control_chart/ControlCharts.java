@@ -13,9 +13,8 @@ public class ControlCharts implements ControlChart {
 	}
 
 	@Override
-	public void analyzeDetection(List<Detection> lastDetections, MarkOutlierPort markOutlierPort)
-	{
-		for(ControlChart controlChart: controlCharts) {
+	public void analyzeDetection(List<Detection> lastDetections, MarkOutlierPort markOutlierPort) {
+		for(ControlChart controlChart : controlCharts) {
 			controlChart.analyzeDetection(lastDetections, markOutlierPort);
 		}
 	}
