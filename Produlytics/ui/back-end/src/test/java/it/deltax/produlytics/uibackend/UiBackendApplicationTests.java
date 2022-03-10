@@ -1,10 +1,10 @@
 package it.deltax.produlytics.uibackend;
 
+import it.deltax.produlytics.uibackend.common.machine.web.MachinesController;
+import it.deltax.produlytics.uibackend.repositories.MacchinaRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import it.deltax.produlytics.persistence.configurazione.Macchina;
-import it.deltax.produlytics.uibackend.db.configurazione.repositories.MacchinaRepository;
-import it.deltax.produlytics.uibackend.web.MachinesController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
