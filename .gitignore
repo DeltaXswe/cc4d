@@ -15,10 +15,19 @@
 **/.sts4-cache
 
 ### IntelliJ IDEA ###
-**/.idea
+**/.idea/*
 **/*.iws
 **/*.iml
 **/*.ipr
+# Keep the code styles.
+!**/.idea/codeStyles
+**/.idea/codeStyles/*
+!**/.idea/codeStyles/Project.xml
+!**/.idea/codeStyles/codeStyleConfig.xml
+# Keep the inspection levels
+!**/.idea/inspectionProfiles
+**/.idea/inspectionProfiles/*
+!**/.idea/inspectionProfiles/Project_Default.xml
 
 ### NetBeans ###
 **/nbproject/private/

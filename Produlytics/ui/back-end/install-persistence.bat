@@ -1,0 +1,1 @@
+.\mvnw install:install-file -Dfile=..\persistence\target\persistence-1.0.0.jar -DpomFile=..\persistence\pom.xml

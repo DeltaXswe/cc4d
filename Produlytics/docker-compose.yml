@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+    db:
+        build: ./db
+        restart: always
+    ui:
+        build:
+            context: .
+            dockerfile: ./ui/Dockerfile
+        ports:
+            - "80:80"
+        restart: always
+        depends_on:
+            - db
+    api-rilevazioni:
+        build:
+            context: .
+            dockerfile: ./api-rilevazioni/Dockerfile
+        ports:
+            - "81:80"
+        restart: always
+        depends_on:
+            - db
