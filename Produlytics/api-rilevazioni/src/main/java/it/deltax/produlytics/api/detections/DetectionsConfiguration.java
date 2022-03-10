@@ -10,10 +10,7 @@ import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueue
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidator;
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidatorImpl;
 import it.deltax.produlytics.api.detections.business.ports.in.ProcessIncomingDetectionUseCase;
-import it.deltax.produlytics.api.detections.business.ports.out.FindLastDetectionsPort;
-import it.deltax.produlytics.api.detections.business.ports.out.FindValidationInfoPort;
-import it.deltax.produlytics.api.detections.business.ports.out.InsertDetectionPort;
-import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
+import it.deltax.produlytics.api.detections.business.ports.out.*;
 import it.deltax.produlytics.api.detections.business.ports.services.DetectionsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -24,12 +21,15 @@ import java.util.List;
 public class DetectionsConfiguration {
 	@Bean
 	ProcessIncomingDetectionUseCase createProcessDetectionUseCase(
-		FindValidationInfoPort findCharacteristicInfoPort,
+		FindDeviceValidationByApiKeyPort findDeviceValidationByApiKeyPort,
+		FindCharacteristicValidationPort findCharacteristicValidationPort,
 		FindLastDetectionsPort findLastDetectionsPort,
 		InsertDetectionPort insertDetectionPort,
 		MarkOutlierPort markOutlierPort
 	) {
-		DetectionValidator detectionValidation = new DetectionValidatorImpl(findCharacteristicInfoPort);
+		DetectionValidator detectionValidation = new DetectionValidatorImpl(findDeviceValidationByApiKeyPort,
+			findCharacteristicValidationPort
+		);
 
 		DetectionCacheFactory detectionCacheFactory = new DetectionCacheFactoryImpl(findLastDetectionsPort,
 			insertDetectionPort,

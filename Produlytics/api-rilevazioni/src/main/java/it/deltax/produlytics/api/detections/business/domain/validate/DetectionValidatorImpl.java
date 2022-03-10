@@ -4,13 +4,19 @@ import it.deltax.produlytics.api.detections.business.domain.exception.Characteri
 import it.deltax.produlytics.api.detections.business.domain.exception.CharacteristicNotFoundException;
 import it.deltax.produlytics.api.detections.business.domain.exception.DeviceArchivedException;
 import it.deltax.produlytics.api.detections.business.domain.exception.NotAuthenticatedException;
-import it.deltax.produlytics.api.detections.business.ports.out.FindValidationInfoPort;
+import it.deltax.produlytics.api.detections.business.ports.out.FindCharacteristicValidationPort;
+import it.deltax.produlytics.api.detections.business.ports.out.FindDeviceValidationByApiKeyPort;
 
 public class DetectionValidatorImpl implements DetectionValidator {
-	private final FindValidationInfoPort findCharacteristicInfoPort;
+	private final FindDeviceValidationByApiKeyPort findDeviceValidationByApiKeyPort;
+	private final FindCharacteristicValidationPort findCharacteristicValidationPort;
 
-	public DetectionValidatorImpl(FindValidationInfoPort findCharacteristicInfoPort) {
-		this.findCharacteristicInfoPort = findCharacteristicInfoPort;
+	public DetectionValidatorImpl(
+		FindDeviceValidationByApiKeyPort findDeviceValidationByApiKeyPort,
+		FindCharacteristicValidationPort findCharacteristicValidationPort
+	) {
+		this.findDeviceValidationByApiKeyPort = findDeviceValidationByApiKeyPort;
+		this.findCharacteristicValidationPort = findCharacteristicValidationPort;
 	}
 
 	@Override
@@ -20,22 +26,21 @@ public class DetectionValidatorImpl implements DetectionValidator {
 		DeviceArchivedException,
 		NotAuthenticatedException {
 
-		// TODO: Le Exception sono sbagliate
-		final ValidationInfo characteristicInfo = findCharacteristicInfoPort.findValidationInfo(apiKey,
+		DeviceValidationInfo deviceValidationInfo = this.findDeviceValidationByApiKeyPort.findDeviceByApiKey(apiKey)
+			.orElseThrow(NotAuthenticatedException::new);
+
+		if(deviceValidationInfo.archived() || deviceValidationInfo.deactivated()) {
+			throw new DeviceArchivedException();
+		}
+
+		CharacteristicValidationInfo characteristicValidationInfo = this.findCharacteristicValidationPort.findCharacteristicValidation(deviceValidationInfo.deviceId(),
 			characteristicId
 		).orElseThrow(CharacteristicNotFoundException::new);
-		if(!characteristicInfo.apiKey().equals(apiKey)) {
-			throw new NotAuthenticatedException();
-		}
-		if(characteristicInfo.characteristicArchived()) {
+
+		if(characteristicValidationInfo.archived()) {
 			throw new CharacteristicArchivedException();
 		}
-		if(characteristicInfo.deviceArchived()) {
-			throw new DeviceArchivedException();
-		}
-		if(characteristicInfo.deviceDeactivated()) {
-			throw new DeviceArchivedException();
-		}
-		throw new RuntimeException();
+
+		return deviceValidationInfo.deviceId();
 	}
 }
