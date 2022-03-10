@@ -10,7 +10,8 @@ public class CharacteristicEntityId implements Serializable {
 
 	protected CharacteristicEntityId() {}
 
-	public CharacteristicEntityId(Integer deviceId) {
+	public CharacteristicEntityId(Integer id, Integer deviceId) {
+		this.id = id;
 		this.deviceId = deviceId;
 	}
 
