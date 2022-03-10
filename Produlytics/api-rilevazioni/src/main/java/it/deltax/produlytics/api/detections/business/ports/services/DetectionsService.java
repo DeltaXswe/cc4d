@@ -9,7 +9,6 @@ import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueue
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidator;
 import it.deltax.produlytics.api.detections.business.ports.in.ProcessIncomingDetectionUseCase;
 
-@SuppressWarnings("ALL")
 public class DetectionsService implements ProcessIncomingDetectionUseCase {
 	private final DetectionValidator detectionValidator;
 	private final DetectionQueue detectionQueue;

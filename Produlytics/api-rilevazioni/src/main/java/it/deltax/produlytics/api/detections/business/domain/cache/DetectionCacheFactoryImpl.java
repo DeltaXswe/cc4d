@@ -4,7 +4,6 @@ import it.deltax.produlytics.api.detections.business.ports.out.FindLastDetection
 import it.deltax.produlytics.api.detections.business.ports.out.InsertDetectionPort;
 import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
 
-@SuppressWarnings("ALL")
 public class DetectionCacheFactoryImpl implements DetectionCacheFactory {
 	private final FindLastDetectionsPort findLastDetectionsPort;
 	private final InsertDetectionPort insertDetectionPort;
