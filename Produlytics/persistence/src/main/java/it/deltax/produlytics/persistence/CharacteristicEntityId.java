@@ -20,6 +20,11 @@ public class CharacteristicEntityId implements Serializable {
 	public CharacteristicEntityId(Integer deviceId) {
 		this.deviceId = deviceId;
 	}
+	
+	public CharacteristicEntityId(Integer deviceId, Integer id) {
+		this.deviceId = deviceId;
+		this.id = id;
+	}
 
 	public Integer getId() {
 		return this.id;
