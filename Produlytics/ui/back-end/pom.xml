@@ -10,9 +10,9 @@
 	</parent>
 	<groupId>it.deltax.produlytics</groupId>
 	<artifactId>back-end-ui</artifactId>
-	<version>0.0.1</version>
+	<version>1.0.0</version>
 	<name>back-end-ui</name>
-	<description>Back-end for UI Produlytics</description>
+	<description>UI back-end for Produlytics</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>

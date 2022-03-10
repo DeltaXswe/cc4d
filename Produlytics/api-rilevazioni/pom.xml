@@ -8,11 +8,11 @@
 		<version>2.6.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>it.deltax</groupId>
+	<groupId>it.deltax.produlytics</groupId>
 	<artifactId>api</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>api</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Detections API for Produlytics</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
