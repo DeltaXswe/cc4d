@@ -44,4 +44,4 @@ FROM java as runner
 WORKDIR /app
 COPY --from=front-end /front-end/dist/produlytics-frontend ./static
 COPY --from=back-end back-end/target/back-end-ui.jar .
-CMD ["java", "-jar", "ui-backend.jar"]
+CMD ["java", "-jar", "back-end-ui.jar"]

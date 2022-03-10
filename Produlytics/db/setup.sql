@@ -11,9 +11,9 @@ CREATE TABLE characteristic
 (
     id SERIAL,
     name TEXT NOT NULL,
-    lower_limit DOUBLE,
-    upper_limit DOUBLE,
-    average DOUBLE,
+    lower_limit DOUBLE PRECISION,
+    upper_limit DOUBLE PRECISION,
+    average DOUBLE PRECISION,
     auto_adjust BOOLEAN NOT NULL,
     sample_size INTEGER,
     device_id INTEGER NOT NULL REFERENCES device(id),
@@ -24,7 +24,7 @@ CREATE TABLE characteristic
 CREATE TABLE detection
 (
     creation_time TIMESTAMP,
-    value DOUBLE NOT NULL,
+    value DOUBLE PRECISION NOT NULL,
     outlier BOOLEAN NOT NULL,
     characteristic_id INTEGER NOT NULL,
     device_id INTEGER NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE detection
     FOREIGN KEY(device_id, characteristic_id) REFERENCES characteristic(device_id, id)
 );
 
-CREATE TABLE user
+CREATE TABLE account
 (
     username TEXT PRIMARY KEY,
     hashed_password TEXT NOT NULL,
@@ -40,8 +40,11 @@ CREATE TABLE user
     archived BOOLEAN NOT NULL
 );
 
-SELECT create_hypertable('detection', 'creation_time', chunk_time_interval => 100000);
+SELECT create_hypertable('detection', 'creation_time', chunk_time_interval => 100000000000);
 
+CREATE INDEX ON device(api_key);
+
+-- Autoincrement characteristic's id for those with the same machine_id
 CREATE OR REPLACE FUNCTION autofillCharacteristicId() RETURNS TRIGGER AS '
 BEGIN
   SELECT INTO NEW.id COALESCE(MAX(id), 0) + 1
@@ -54,4 +57,12 @@ CREATE TRIGGER "characteristicIdAutoFill"
 BEFORE INSERT ON characteristic
 FOR EACH ROW EXECUTE PROCEDURE autofillCharacteristicId();
 
--- TODO: CREATE USER ...
+-- users
+CREATE USER ui WITH PASSWORD 'ui';
+GRANT SELECT ON ALL TABLES IN SCHEMA PUBLIC TO ui;
+GRANT INSERT, UPDATE ON TABLE device, characteristic, account TO ui;
+GRANT USAGE, SELECT ON ALL sequences IN SCHEMA PUBLIC to ui;
+
+CREATE USER api WITH PASSWORD 'api';
+GRANT SELECT ON ALL TABLES IN SCHEMA PUBLIC TO api;
+GRANT INSERT, UPDATE ON TABLE detection TO api;
