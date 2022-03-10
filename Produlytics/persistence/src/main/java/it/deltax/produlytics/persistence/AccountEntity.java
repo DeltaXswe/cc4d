@@ -6,8 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user")
-public class UserEntity {
+@Table(name = "account")
+public class AccountEntity {
 	@Id
 	@Column(name = "username", nullable = false)
 	private String username;
@@ -21,9 +21,9 @@ public class UserEntity {
 	@Column(name = "archived", nullable = false)
 	private Boolean archived;
 
-	protected UserEntity() {}
+	protected AccountEntity() {}
 
-	public UserEntity(String username, String hashedPassword, Boolean administrator, Boolean archived) {
+	public AccountEntity(String username, String hashedPassword, Boolean administrator, Boolean archived) {
 		this.username = username;
 		this.hashedPassword = hashedPassword;
 		this.administrator = administrator;
