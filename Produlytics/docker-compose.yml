@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+    db:
+        build: ./db
+        restart: always
+    ui:
+        build:
+            context: .
+            dockerfile: ./ui/Dockerfile
+        restart: always
+        depends_on:
+            - db
+    api-rilevazioni:
+        build:
+            context: .
+            dockerfile: ./api-rilevazioni/Dockerfile
+        restart: always
+        depends_on:
+            - db
