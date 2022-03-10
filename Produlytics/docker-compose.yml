@@ -7,6 +7,8 @@ services:
         build:
             context: .
             dockerfile: ./ui/Dockerfile
+        ports:
+            - "80:80"
         restart: always
         depends_on:
             - db
@@ -14,6 +16,8 @@ services:
         build:
             context: .
             dockerfile: ./api-rilevazioni/Dockerfile
+        ports:
+            - "81:80"
         restart: always
         depends_on:
             - db
