@@ -13,12 +13,11 @@ WORKDIR /persistence
 COPY --from=persistence /persistence/target/persistence.jar /persistence/pom.xml ./
 RUN mvn install:install-file -Dfile=persistence.jar -DpomFile=pom.xml
 
-WORKDIR /api
-COPY api/pom.xml .
+WORKDIR /api-rilevazioni
+COPY api-rilevazioni/pom.xml .
 RUN mvn dependency:resolve-plugins dependency:go-offline
 
-COPY api/src ./src
-WORKDIR /api
+COPY api-rilevazioni/src ./src
 RUN mvn package -Dmaven.test.skip
 
 # CMD ["./mvnw", "test"]
