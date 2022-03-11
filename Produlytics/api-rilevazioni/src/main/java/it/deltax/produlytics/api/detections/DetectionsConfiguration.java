@@ -1,12 +1,12 @@
 package it.deltax.produlytics.api.detections;
 
-import it.deltax.produlytics.api.detections.business.domain.cache.DetectionCacheFactory;
-import it.deltax.produlytics.api.detections.business.domain.cache.DetectionCacheFactoryImpl;
+import it.deltax.produlytics.api.detections.business.domain.cache.CachedDetectionSerieFactory;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlChart;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlChart7SameOrder;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlCharts;
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueue;
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueueImpl;
+import it.deltax.produlytics.api.detections.business.domain.queue.DetectionSerieFactory;
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidator;
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidatorImpl;
 import it.deltax.produlytics.api.detections.business.ports.in.ProcessIncomingDetectionUseCase;
@@ -31,12 +31,12 @@ public class DetectionsConfiguration {
 			findCharacteristicValidationPort
 		);
 
-		DetectionCacheFactory detectionCacheFactory = new DetectionCacheFactoryImpl(findLastDetectionsPort,
+		DetectionSerieFactory detectionSerieFactory = new CachedDetectionSerieFactory(findLastDetectionsPort,
 			insertDetectionPort,
 			markOutlierPort
 		);
 		ControlChart controlCharts = new ControlCharts(List.of(new ControlChart7SameOrder() /* TODO: altre carte di controllo */));
-		DetectionQueue detectionQueue = new DetectionQueueImpl(detectionCacheFactory, controlCharts);
+		DetectionQueue detectionQueue = new DetectionQueueImpl(detectionSerieFactory, controlCharts);
 
 		return new DetectionsService(detectionValidation, detectionQueue);
 	}

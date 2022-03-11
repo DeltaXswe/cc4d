@@ -5,28 +5,26 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.processors.PublishProcessor;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.RawDetection;
-import it.deltax.produlytics.api.detections.business.domain.cache.DetectionCache;
-import it.deltax.produlytics.api.detections.business.domain.cache.DetectionCacheFactory;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlChart;
+import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
 
 import java.util.concurrent.TimeUnit;
 
 public class DetectionQueueImpl implements DetectionQueue {
-	private final DetectionCacheFactory cacheFactory;
+	private final DetectionSerieFactory serieFactory;
 	private final ControlChart controlChart;
 	private final PublishProcessor<RawDetection> detectionProcessor;
 
-	public DetectionQueueImpl(DetectionCacheFactory cacheFactory, ControlChart controlChart) {
-		this.cacheFactory = cacheFactory;
+	public DetectionQueueImpl(DetectionSerieFactory serieFactory, ControlChart controlChart) {
+		this.serieFactory = serieFactory;
 		this.controlChart = controlChart;
 		this.detectionProcessor = PublishProcessor.create();
 
+		// TODO: Fix warning subscribe ignored
 		this.detectionProcessor.observeOn(Schedulers.computation())
 			.groupBy(detection -> new CharacteristicId(detection.deviceId(), detection.characteristicId()))
-			.concatMapCompletable(group -> this.handleDetectionGroup(group.getKey(), group))
-			.subscribe();
+			.subscribe(group -> this.handleDetectionGroup(group.getKey(), group));
 	}
 
 	@Override
@@ -34,28 +32,25 @@ public class DetectionQueueImpl implements DetectionQueue {
 		this.detectionProcessor.onNext(detection);
 	}
 
-	private DetectionCache createCacheForKey(CharacteristicId key) {
-		return this.cacheFactory.createCache(key.deviceId(), key.id());
+	private void handleDetectionGroup(CharacteristicId key, Flowable<RawDetection> group) {
+		Single<DetectionSerie> serieSingle = this.createSerieForKey(key);
+		group.observeOn(Schedulers.computation())
+			.timeout(30, TimeUnit.SECONDS, Flowable.empty())
+			.concatMapCompletable(detection -> this.handleDetection(serieSingle, detection))
+			.subscribe();
 	}
 
-	private Completable handleDetectionGroup(CharacteristicId key, Flowable<RawDetection> group) {
-		return Single.fromCallable(() -> this.createCacheForKey(key))
-			.subscribeOn(Schedulers.io())
-			.doOnSuccess(cache -> this.subscribeToGroupWithCache(cache, group))
-			.subscribeOn(Schedulers.computation())
-			.ignoreElement();
+	private Single<DetectionSerie> createSerieForKey(CharacteristicId key) {
+		return Single.fromCallable(() -> this.serieFactory.createSerie(key.deviceId(), key.id()))
+			.cache()
+			.subscribeOn(Schedulers.io());
 	}
 
-	private void subscribeToGroupWithCache(DetectionCache cache, Flowable<RawDetection> group) {
-		group.observeOn(Schedulers.computation()).timeout(30, TimeUnit.SECONDS, Flowable.empty()).concatMapCompletable(
-			detection -> this.handleDetection(cache, detection)).subscribe();
-	}
-
-	private Completable handleDetection(DetectionCache cache, RawDetection rawDetection) {
-		return Completable.fromAction(() -> {
-			cache.insertDetection(rawDetection);
-			DetectionCacheAdapter ports = new DetectionCacheAdapter(cache);
-			this.controlChart.analyzeDetection(cache.findLastDetections(), ports);
-		}).subscribeOn(Schedulers.computation());
+	private Completable handleDetection(Single<DetectionSerie> serieSingle, RawDetection detection) {
+		return serieSingle.flatMapCompletable(serie -> Completable.fromAction(() -> {
+			serie.insertDetection(detection);
+			MarkOutlierPort markOutlierPort = new DetectionSerieMarkOutlierAdapter(serie);
+			this.controlChart.analyzeDetection(serie.lastDetectionsWindow(), markOutlierPort);
+		})).subscribeOn(Schedulers.computation());
 	}
 }

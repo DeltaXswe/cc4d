@@ -2,6 +2,7 @@ package it.deltax.produlytics.api.detections.business.domain.cache;
 
 import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.domain.RawDetection;
+import it.deltax.produlytics.api.detections.business.domain.queue.DetectionSerie;
 import it.deltax.produlytics.api.detections.business.ports.out.InsertDetectionPort;
 import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
 
@@ -9,12 +10,12 @@ import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
 
-public class DetectionCacheImpl implements DetectionCache {
+public class CachedDetectionSerie implements DetectionSerie {
 	private final InsertDetectionPort insertDetectionPort;
 	private final Queue<CachedDetection> lastDetections;
 	private final MarkOutlierPort markOutlierPort;
 
-	DetectionCacheImpl(
+	CachedDetectionSerie(
 		InsertDetectionPort insertDetectionPort, List<Detection> lastDetections, MarkOutlierPort markOutlierPort
 	) {
 		this.insertDetectionPort = insertDetectionPort;
@@ -26,7 +27,7 @@ public class DetectionCacheImpl implements DetectionCache {
 	}
 
 	@Override
-	public List<Detection> findLastDetections() {
+	public List<Detection> lastDetectionsWindow() {
 		return this.lastDetections.stream().map(CachedDetection::toDetection).toList();
 	}
 

@@ -13,9 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class DetectionsAdapter
-	implements FindLastDetectionsPort, InsertDetectionPort, MarkOutlierPort
-{
+public class DetectionsAdapter implements FindLastDetectionsPort, InsertDetectionPort, MarkOutlierPort {
 	@Autowired
 	private DetectionRepository detectionRepository;
 
