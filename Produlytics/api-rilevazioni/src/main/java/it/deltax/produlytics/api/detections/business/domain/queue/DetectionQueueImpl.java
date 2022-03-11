@@ -6,19 +6,15 @@ import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.processors.PublishProcessor;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.deltax.produlytics.api.detections.business.domain.RawDetection;
-import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlChart;
-import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
 
 import java.util.concurrent.TimeUnit;
 
 public class DetectionQueueImpl implements DetectionQueue {
 	private final DetectionSerieFactory serieFactory;
-	private final ControlChart controlChart;
 	private final PublishProcessor<RawDetection> detectionProcessor;
 
-	public DetectionQueueImpl(DetectionSerieFactory serieFactory, ControlChart controlChart) {
+	public DetectionQueueImpl(DetectionSerieFactory serieFactory) {
 		this.serieFactory = serieFactory;
-		this.controlChart = controlChart;
 		this.detectionProcessor = PublishProcessor.create();
 
 		// TODO: Fix warning subscribe ignored
@@ -47,10 +43,7 @@ public class DetectionQueueImpl implements DetectionQueue {
 	}
 
 	private Completable handleDetection(Single<DetectionSerie> serieSingle, RawDetection detection) {
-		return serieSingle.flatMapCompletable(serie -> Completable.fromAction(() -> {
-			serie.insertDetection(detection);
-			MarkOutlierPort markOutlierPort = new DetectionSerieMarkOutlierAdapter(serie);
-			this.controlChart.analyzeDetection(serie.lastDetectionsWindow(), markOutlierPort);
-		})).subscribeOn(Schedulers.computation());
+		return serieSingle.flatMapCompletable(serie -> Completable.fromAction(() -> serie.insertDetection(detection)))
+			.subscribeOn(Schedulers.computation());
 	}
 }

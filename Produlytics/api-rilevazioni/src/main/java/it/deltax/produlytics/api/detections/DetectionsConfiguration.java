@@ -3,7 +3,6 @@ package it.deltax.produlytics.api.detections;
 import it.deltax.produlytics.api.detections.business.domain.cache.CachedDetectionSerieFactory;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlChart;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlChart7SameOrder;
-import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlCharts;
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueue;
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueueImpl;
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionSerieFactory;
@@ -31,12 +30,15 @@ public class DetectionsConfiguration {
 			findCharacteristicValidationPort
 		);
 
+		List<ControlChart> controlCharts = List.of(new ControlChart7SameOrder() /* TODO: altre carte di controllo */);
+
 		DetectionSerieFactory detectionSerieFactory = new CachedDetectionSerieFactory(findLastDetectionsPort,
 			insertDetectionPort,
-			markOutlierPort
+			markOutlierPort,
+			controlCharts
 		);
-		ControlChart controlCharts = new ControlCharts(List.of(new ControlChart7SameOrder() /* TODO: altre carte di controllo */));
-		DetectionQueue detectionQueue = new DetectionQueueImpl(detectionSerieFactory, controlCharts);
+
+		DetectionQueue detectionQueue = new DetectionQueueImpl(detectionSerieFactory);
 
 		return new DetectionsService(detectionValidation, detectionQueue);
 	}
