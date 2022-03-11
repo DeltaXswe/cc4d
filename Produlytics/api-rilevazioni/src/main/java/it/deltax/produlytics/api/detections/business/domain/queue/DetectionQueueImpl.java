@@ -23,7 +23,7 @@ public class DetectionQueueImpl implements DetectionQueue {
 
 		// TODO: Fix warning subscribe ignored
 		this.detectionProcessor.observeOn(Schedulers.computation())
-			.groupBy(detection -> new CharacteristicId(detection.deviceId(), detection.characteristicId()))
+			.groupBy(detection -> new CharacteristicKey(detection.deviceId(), detection.characteristicId()))
 			.subscribe(group -> this.handleDetectionGroup(group.getKey(), group));
 	}
 
@@ -32,7 +32,7 @@ public class DetectionQueueImpl implements DetectionQueue {
 		this.detectionProcessor.onNext(detection);
 	}
 
-	private void handleDetectionGroup(CharacteristicId key, Flowable<RawDetection> group) {
+	private void handleDetectionGroup(CharacteristicKey key, Flowable<RawDetection> group) {
 		Single<DetectionSerie> serieSingle = this.createSerieForKey(key);
 		group.observeOn(Schedulers.computation())
 			.timeout(30, TimeUnit.SECONDS, Flowable.empty())
@@ -40,8 +40,8 @@ public class DetectionQueueImpl implements DetectionQueue {
 			.subscribe();
 	}
 
-	private Single<DetectionSerie> createSerieForKey(CharacteristicId key) {
-		return Single.fromCallable(() -> this.serieFactory.createSerie(key.deviceId(), key.id()))
+	private Single<DetectionSerie> createSerieForKey(CharacteristicKey key) {
+		return Single.fromCallable(() -> this.serieFactory.createSerie(key.deviceId(), key.characteristicId()))
 			.cache()
 			.subscribeOn(Schedulers.io());
 	}

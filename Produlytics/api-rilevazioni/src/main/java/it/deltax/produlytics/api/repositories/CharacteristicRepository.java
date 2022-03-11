@@ -16,8 +16,8 @@ public interface CharacteristicRepository extends CrudRepository<CharacteristicE
 		+ "device.deactivated AS deviceDeactivated, "
 		+ "characteristic.archived AS characteristicArchived "
 		+ "FROM characteristic "
-		+ "JOIN device ON characteristic.device_id = device.id "
-		+ "WHERE characteristic.id = :characteristicId")
+		+ "JOIN device ON characteristic.device_id = device.characteristicId "
+		+ "WHERE characteristic.characteristicId = :characteristicId")
 	Optional<ValidationInfoProjection> findValidationInfo(
 		@Param("apiKey") String apiKey, @Param("characteristicId") int charateristicId
 	);
