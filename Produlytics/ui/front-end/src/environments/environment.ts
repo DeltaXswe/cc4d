@@ -2,9 +2,13 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
+import {ProdulyticsEnvironment} from "./produlytics-environment";
+import {FakeChartService} from "../app/model/fake-chart.service";
+
+export const environment: ProdulyticsEnvironment = {
   production: false,
-  apiUrl: 'http://localhost/apiweb'
+  apiUrl: 'http://localhost/apiweb',
+  chartAbstractService: FakeChartService
 };
 
 /*
