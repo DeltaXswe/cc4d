@@ -34,7 +34,7 @@ public class ValidationAdapter implements FindDeviceValidationByApiKeyPort, Find
 	public Optional<CharacteristicValidationInfo> findCharacteristicValidation(
 		int deviceId, int characteristicId
 	) {
-		return this.characteristicRepository.findById(new CharacteristicEntityId(deviceId, characteristicId)).map(
-			characteristicEntity -> new CharacteristicValidationInfo(characteristicEntity.getArchived()));
+		return this.characteristicRepository.findById(new CharacteristicEntityId(deviceId, characteristicId))
+			.map(characteristicEntity -> new CharacteristicValidationInfo(characteristicEntity.getArchived()));
 	}
 }

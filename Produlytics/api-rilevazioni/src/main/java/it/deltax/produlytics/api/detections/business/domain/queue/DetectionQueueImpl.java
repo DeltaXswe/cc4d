@@ -6,6 +6,8 @@ import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.processors.PublishProcessor;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.deltax.produlytics.api.detections.business.domain.RawDetection;
+import it.deltax.produlytics.api.detections.business.domain.cache.DetectionSerie;
+import it.deltax.produlytics.api.detections.business.domain.cache.DetectionSerieFactory;
 
 import java.util.concurrent.TimeUnit;
 

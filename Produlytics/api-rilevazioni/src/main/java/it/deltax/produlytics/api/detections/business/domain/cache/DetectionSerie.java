@@ -1,4 +1,4 @@
-package it.deltax.produlytics.api.detections.business.domain.queue;
+package it.deltax.produlytics.api.detections.business.domain.cache;
 
 import it.deltax.produlytics.api.detections.business.domain.RawDetection;
 

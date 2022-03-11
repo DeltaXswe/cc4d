@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ControlChart7SameOrder implements ControlChart {
 	@Override
-	public void analyzeDetection(List<Detection> lastDetections, MarkOutlierPort markOutlierPort) {
+	public void analyzeDetection(List<Detection> lastDetections, MarkOutlierPort markOutlierPort, Limits limits) {
 		if(lastDetections.size() < 7) {
 			return;
 		}
@@ -23,8 +23,7 @@ public class ControlChart7SameOrder implements ControlChart {
 			int cmpResult = 0;
 			if(prev.value() < next.value()) {
 				cmpResult = 1;
-			}
-			else if(prev.value() > next.value()) {
+			} else if(prev.value() > next.value()) {
 				cmpResult = -1;
 			}
 

@@ -3,7 +3,8 @@ package it.deltax.produlytics.api.detections.business.domain.cache;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.domain.RawDetection;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlChart;
-import it.deltax.produlytics.api.detections.business.domain.queue.DetectionSerie;
+import it.deltax.produlytics.api.detections.business.domain.control_chart.Limits;
+import it.deltax.produlytics.api.detections.business.domain.limits.LimitsCalculator;
 import it.deltax.produlytics.api.detections.business.ports.out.FindLastDetectionsPort;
 import it.deltax.produlytics.api.detections.business.ports.out.InsertDetectionPort;
 import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
@@ -11,23 +12,29 @@ import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
+import java.util.Optional;
 
 public class CachedDetectionSerie implements DetectionSerie {
+	private static final int CONTROL_CHART_MIN_DETECTIONS = 15;
+
 	private final FindLastDetectionsPort findLastDetectionsPort;
 	private final InsertDetectionPort insertDetectionPort;
 	private final MarkOutlierPort markOutlierPort;
 
+	private final LimitsCalculator limitsCalculator;
 	private final List<ControlChart> controlCharts;
 
 	private final int deviceId;
 	private final int characteristicId;
 
 	private final Deque<CachedDetection> lastCachedDetections;
+	private int maxQueueSize;
 
 	CachedDetectionSerie(
 		FindLastDetectionsPort findLastDetectionsPort,
 		InsertDetectionPort insertDetectionPort,
 		MarkOutlierPort markOutlierPort,
+		LimitsCalculator limitsCalculator,
 		List<ControlChart> controlCharts,
 		int deviceId,
 		int characteristicId
@@ -35,12 +42,15 @@ public class CachedDetectionSerie implements DetectionSerie {
 		this.findLastDetectionsPort = findLastDetectionsPort;
 		this.insertDetectionPort = insertDetectionPort;
 		this.markOutlierPort = markOutlierPort;
+		this.limitsCalculator = limitsCalculator;
 		this.controlCharts = controlCharts;
 		this.deviceId = deviceId;
 		this.characteristicId = characteristicId;
 		this.lastCachedDetections = new ArrayDeque<>();
 
-		this.fetchLastDetections(15);
+		// TODO: supporta calcolatore limiti opzionale
+		// TODO: usa sampleSize della caratteristica
+		this.updateSampleSize(0);
 	}
 
 	private List<Detection> lastDetections() {
@@ -51,15 +61,15 @@ public class CachedDetectionSerie implements DetectionSerie {
 		this.lastCachedDetections.addLast(new CachedDetection(detection));
 	}
 
-	private void fetchLastDetections(int count) {
-		if(this.lastCachedDetections.size() > count) {
-			while(this.lastCachedDetections.size() > count) {
+	private void fetchLastDetections() {
+		if(this.lastCachedDetections.size() > this.maxQueueSize) {
+			while(this.lastCachedDetections.size() > this.maxQueueSize) {
 				this.lastCachedDetections.removeFirst();
 			}
 		} else {
 			List<Detection> lastDetections = this.findLastDetectionsPort.findLastDetections(this.deviceId,
 				this.characteristicId,
-				count
+				this.maxQueueSize
 			);
 			for(Detection detection : lastDetections) {
 				this.enqueueDetection(detection);
@@ -68,29 +78,35 @@ public class CachedDetectionSerie implements DetectionSerie {
 	}
 
 	public void updateSampleSize(int sampleSize) {
-		this.fetchLastDetections(Math.max(15, sampleSize));
+		this.maxQueueSize = Math.max(CONTROL_CHART_MIN_DETECTIONS, sampleSize);
+		this.fetchLastDetections();
 		// TODO: Aggiorna calcolatore limiti
 	}
 
 	@Override
 	public void insertDetection(RawDetection rawDetection) {
-		if(this.lastCachedDetections.size() == 15) {
-			this.lastCachedDetections.removeFirst();
-		}
-
-		Detection detection = new Detection(rawDetection.deviceId(),
+		Detection newDetection = new Detection(rawDetection.deviceId(),
 			rawDetection.characteristicId(),
 			rawDetection.creationTime(),
 			rawDetection.value(),
 			false
 		);
 
-		this.enqueueDetection(detection);
-		this.insertDetectionPort.insertDetection(detection);
+		if(this.lastCachedDetections.size() == this.maxQueueSize) {
+			Detection oldDetection = this.lastCachedDetections.removeFirst().toDetection();
+			this.limitsCalculator.update(oldDetection, newDetection);
+		} else {
+			this.limitsCalculator.update(newDetection);
+		}
 
-		List<Detection> lastDetectionWindow = this.lastDetections();
+		this.enqueueDetection(newDetection);
+		this.insertDetectionPort.insertDetection(newDetection);
+
+		// TODO: Usa limiti veri
+		Limits limits = new Limits(Optional.empty(), Optional.empty());
+		List<Detection> lastDetections = this.lastDetections();
 		for(ControlChart controlChart : this.controlCharts) {
-			controlChart.analyzeDetection(lastDetectionWindow, new CachedDetectionSerieMarkOutlierAdapter(this));
+			controlChart.analyzeDetection(lastDetections, new CachedDetectionSerieMarkOutlierAdapter(this), limits);
 		}
 	}
 
