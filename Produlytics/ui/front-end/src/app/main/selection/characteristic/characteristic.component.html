@@ -1,0 +1,21 @@
+<mat-card>
+  <mat-card-header>
+    <button mat-card-avatar mat-icon-button (click)="back.emit()" matTooltip="Torna alla selezione della macchina"> <!-- TODO translate -->
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <mat-card-title>
+      {{machine?.name}}
+    </mat-card-title>
+    <mat-card-subtitle>
+      Seleziona una caratteristica <!-- TODO translate -->
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider inset></mat-divider>
+  <mat-card-content *ngIf="machine">
+    <mat-selection-list [multiple]="false" class="characteristics">
+      <mat-list-option *ngFor="let characteristic of characteristics" [value]="characteristic" (click)="characteristicOnSelect(characteristic)">
+        <span>{{ characteristic.name }}</span>
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-card-content>
+</mat-card>
