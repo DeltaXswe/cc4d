@@ -1,13 +1,13 @@
 package it.deltax.produlytics.api.detections.business.domain.limits;
 
 import it.deltax.produlytics.api.detections.business.domain.Detection;
+import it.deltax.produlytics.api.detections.business.domain.control_chart.CalculatedLimits;
 
 import java.util.List;
 
 public interface LimitsCalculator {
-	void update(Detection newDetection);
-	void update(Detection oldDetection, Detection newDetection);
+	void add(Detection newDetection);
+	void slide(Detection oldDetection, Detection newDetection);
 	void reset(List<Detection> detections);
-	double getMean();
-	double getDeviation();
+	CalculatedLimits getCalculatedLimits();
 }

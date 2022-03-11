@@ -1,6 +1,7 @@
 package it.deltax.produlytics.api.detections.business.domain.cache;
 
 import it.deltax.produlytics.api.detections.business.domain.Detection;
+import it.deltax.produlytics.api.detections.business.domain.LimitsInfo;
 import it.deltax.produlytics.api.detections.business.domain.RawDetection;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlChart;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.Limits;
@@ -26,9 +27,9 @@ public class CachedDetectionSerie implements DetectionSerie {
 
 	private final int deviceId;
 	private final int characteristicId;
+	private Optional<Integer> sampleSize;
 
 	private final Deque<CachedDetection> lastCachedDetections;
-	private int maxQueueSize;
 
 	CachedDetectionSerie(
 		FindLastDetectionsPort findLastDetectionsPort,
@@ -46,11 +47,10 @@ public class CachedDetectionSerie implements DetectionSerie {
 		this.controlCharts = controlCharts;
 		this.deviceId = deviceId;
 		this.characteristicId = characteristicId;
-		this.lastCachedDetections = new ArrayDeque<>();
 
-		// TODO: supporta calcolatore limiti opzionale
-		// TODO: usa sampleSize della caratteristica
-		this.updateSampleSize(0);
+		this.sampleSize = Optional.empty();
+
+		this.lastCachedDetections = new ArrayDeque<>();
 	}
 
 	private List<Detection> lastDetections() {
@@ -61,49 +61,54 @@ public class CachedDetectionSerie implements DetectionSerie {
 		this.lastCachedDetections.addLast(new CachedDetection(detection));
 	}
 
-	private void fetchLastDetections() {
-		if(this.lastCachedDetections.size() > this.maxQueueSize) {
-			while(this.lastCachedDetections.size() > this.maxQueueSize) {
-				this.lastCachedDetections.removeFirst();
-			}
-		} else {
-			List<Detection> lastDetections = this.findLastDetectionsPort.findLastDetections(this.deviceId,
-				this.characteristicId,
-				this.maxQueueSize
-			);
-			for(Detection detection : lastDetections) {
-				this.enqueueDetection(detection);
-			}
-		}
-	}
-
-	public void updateSampleSize(int sampleSize) {
-		this.maxQueueSize = Math.max(CONTROL_CHART_MIN_DETECTIONS, sampleSize);
-		this.fetchLastDetections();
-		// TODO: Aggiorna calcolatore limiti
+	private int maxQueueSize() {
+		return Math.max(CONTROL_CHART_MIN_DETECTIONS, this.sampleSize.orElse(0));
 	}
 
 	@Override
 	public void insertDetection(RawDetection rawDetection) {
-		Detection newDetection = new Detection(rawDetection.deviceId(),
+		Detection newDetection = new Detection(
+			rawDetection.deviceId(),
 			rawDetection.characteristicId(),
 			rawDetection.creationTime(),
 			rawDetection.value(),
 			false
 		);
 
-		if(this.lastCachedDetections.size() == this.maxQueueSize) {
-			Detection oldDetection = this.lastCachedDetections.removeFirst().toDetection();
-			this.limitsCalculator.update(oldDetection, newDetection);
-		} else {
-			this.limitsCalculator.update(newDetection);
-		}
+		this.updateLimits(rawDetection.limitsInfo(), newDetection);
 
-		this.enqueueDetection(newDetection);
+		this.slideDetectionsWindow(newDetection);
+
 		this.insertDetectionPort.insertDetection(newDetection);
 
-		// TODO: Usa limiti veri
-		Limits limits = new Limits(Optional.empty(), Optional.empty());
+		this.updateControlCharts(rawDetection.limitsInfo());
+	}
+
+	private void updateLimits(LimitsInfo limitsInfo, Detection newDetection) {
+		if(limitsInfo.sampleSize() != this.sampleSize) {
+			this.sampleSize = limitsInfo.sampleSize();
+			// TODO: Se queue troppo lunga, tronca
+			// TODO: Se queue troppo corta, fetch
+			// TODO: Re-inizializza limitsCalculator con nuova queue (opzionalmente troncata)
+		} else {
+			// TODO: Aggiornare limitsCalculator
+		}
+	}
+
+	private void slideDetectionsWindow(Detection newDetection) {
+		if(this.lastCachedDetections.size() == this.maxQueueSize()) {
+			this.lastCachedDetections.removeFirst();
+		}
+		this.enqueueDetection(newDetection);
+	}
+
+	private void updateControlCharts(LimitsInfo limitsInfo) {
+		Limits limits = new Limits(
+			this.sampleSize.map(_sampleSize -> this.limitsCalculator.getCalculatedLimits()),
+			limitsInfo.lowerLimit(),
+			limitsInfo.upperLimit(),
+			limitsInfo.mean()
+		);
 		List<Detection> lastDetections = this.lastDetections();
 		for(ControlChart controlChart : this.controlCharts) {
 			controlChart.analyzeDetection(lastDetections, new CachedDetectionSerieMarkOutlierAdapter(this), limits);

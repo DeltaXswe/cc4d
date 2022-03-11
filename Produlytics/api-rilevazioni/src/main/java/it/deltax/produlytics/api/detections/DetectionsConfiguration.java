@@ -22,14 +22,15 @@ import java.util.List;
 public class DetectionsConfiguration {
 	@Bean
 	ProcessIncomingDetectionUseCase createProcessDetectionUseCase(
-		FindDeviceValidationByApiKeyPort findDeviceValidationByApiKeyPort,
-		FindCharacteristicValidationPort findCharacteristicValidationPort,
+		FindDeviceByApiKeyPort findDeviceByApiKeyPort,
+		FindCharacteristicPort findCharacteristicPort,
 		FindLastDetectionsPort findLastDetectionsPort,
 		InsertDetectionPort insertDetectionPort,
 		MarkOutlierPort markOutlierPort
 	) {
-		DetectionValidator detectionValidation = new DetectionValidatorImpl(findDeviceValidationByApiKeyPort,
-			findCharacteristicValidationPort
+		DetectionValidator detectionValidation = new DetectionValidatorImpl(
+			findDeviceByApiKeyPort,
+			findCharacteristicPort
 		);
 
 		LimitsCalculatorFactory limitsCalculatorFactory = new LimitsCalculatorFactoryImpl();

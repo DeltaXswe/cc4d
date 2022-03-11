@@ -1,6 +1,8 @@
 package it.deltax.produlytics.api.detections.business.ports.services;
 
+import it.deltax.produlytics.api.detections.business.domain.DetectionInfo;
 import it.deltax.produlytics.api.detections.business.domain.IncomingDetection;
+import it.deltax.produlytics.api.detections.business.domain.RawDetection;
 import it.deltax.produlytics.api.detections.business.domain.exception.CharacteristicArchivedException;
 import it.deltax.produlytics.api.detections.business.domain.exception.CharacteristicNotFoundException;
 import it.deltax.produlytics.api.detections.business.domain.exception.DeviceArchivedException;
@@ -8,6 +10,8 @@ import it.deltax.produlytics.api.detections.business.domain.exception.NotAuthent
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueue;
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidator;
 import it.deltax.produlytics.api.detections.business.ports.in.ProcessIncomingDetectionUseCase;
+
+import java.time.Instant;
 
 public class DetectionsService implements ProcessIncomingDetectionUseCase {
 	private final DetectionValidator detectionValidator;
@@ -24,9 +28,15 @@ public class DetectionsService implements ProcessIncomingDetectionUseCase {
 		CharacteristicNotFoundException,
 		DeviceArchivedException,
 		NotAuthenticatedException {
-		int deviceId = detectionValidator.validateAndFindDeviceId(incomingDetection.apiKey(),
+		DetectionInfo detectionInfo = detectionValidator.validateAndFindDeviceId(incomingDetection.apiKey(),
 			incomingDetection.characteristicId()
 		);
-		detectionQueue.enqueueDetection(incomingDetection.toRawDetection(deviceId));
+		RawDetection rawDetection = new RawDetection(detectionInfo.deviceId(),
+			incomingDetection.characteristicId(),
+			Instant.now(),
+			incomingDetection.value(),
+			detectionInfo.limitsInfo()
+		);
+		detectionQueue.enqueueDetection(rawDetection);
 	}
 }

@@ -1,21 +1,59 @@
 package it.deltax.produlytics.api.detections.adapters;
 
 import it.deltax.produlytics.api.detections.business.domain.Detection;
-import it.deltax.produlytics.api.detections.business.ports.out.FindLastDetectionsPort;
-import it.deltax.produlytics.api.detections.business.ports.out.InsertDetectionPort;
-import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
+import it.deltax.produlytics.api.detections.business.domain.LimitsInfo;
+import it.deltax.produlytics.api.detections.business.domain.validate.CharacteristicInfo;
+import it.deltax.produlytics.api.detections.business.domain.validate.DeviceInfo;
+import it.deltax.produlytics.api.detections.business.ports.out.*;
+import it.deltax.produlytics.api.repositories.CharacteristicRepository;
 import it.deltax.produlytics.api.repositories.DetectionRepository;
+import it.deltax.produlytics.api.repositories.DeviceRepository;
+import it.deltax.produlytics.persistence.CharacteristicEntityId;
 import it.deltax.produlytics.persistence.DetectionEntity;
 import it.deltax.produlytics.persistence.DetectionEntityId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
-public class DetectionsAdapter implements FindLastDetectionsPort, InsertDetectionPort, MarkOutlierPort {
+public class DetectionsAdapter implements FindDeviceByApiKeyPort,
+	FindCharacteristicPort,
+	FindLastDetectionsPort,
+	InsertDetectionPort,
+	MarkOutlierPort
+{
+	@Autowired
+	private CharacteristicRepository characteristicRepository;
+	@Autowired
+	private DeviceRepository deviceRepository;
 	@Autowired
 	private DetectionRepository detectionRepository;
+
+	@Override
+	public Optional<DeviceInfo> findDeviceByApiKey(
+		String apiKey
+	) {
+		return this.deviceRepository.findByApiKey(apiKey)
+			.map(deviceEntity -> new DeviceInfo(deviceEntity.getId(),
+				deviceEntity.getArchived(),
+				deviceEntity.getDeactivated()
+			));
+	}
+
+	@Override
+	public Optional<CharacteristicInfo> findCharacteristicValidation(
+		int deviceId, int characteristicId
+	) {
+		return this.characteristicRepository.findById(new CharacteristicEntityId(deviceId, characteristicId))
+			.map(characteristicEntity -> new CharacteristicInfo(characteristicEntity.getArchived(), new LimitsInfo(
+				Optional.ofNullable(characteristicEntity.getSampleSize()),
+				Optional.ofNullable(characteristicEntity.getLowerLimit()),
+				Optional.ofNullable(characteristicEntity.getUpperLimit()),
+				Optional.ofNullable(characteristicEntity.getAverage())
+			)));
+	}
 
 	@Override
 	public List<Detection> findLastDetections(int deviceId, int characteristicId, int count) {
