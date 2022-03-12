@@ -28,8 +28,7 @@ public class DetectionsConfiguration {
 		InsertDetectionPort insertDetectionPort,
 		MarkOutlierPort markOutlierPort
 	) {
-		DetectionValidator detectionValidation = new DetectionValidatorImpl(
-			findDeviceByApiKeyPort,
+		DetectionValidator detectionValidation = new DetectionValidatorImpl(findDeviceByApiKeyPort,
 			findCharacteristicPort
 		);
 

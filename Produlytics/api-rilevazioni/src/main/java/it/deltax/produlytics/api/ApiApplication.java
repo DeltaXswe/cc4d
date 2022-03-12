@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
-@EntityScan(value = {"it.deltax.produlytics.persistence"})
+@EntityScan(value = { "it.deltax.produlytics.persistence" })
 public class ApiApplication {
 
 	public static void main(String[] args) {
