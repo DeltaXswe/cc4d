@@ -3,7 +3,7 @@ package it.deltax.produlytics.api.detections.business.domain.cache;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
 
-public class CachedDetection {
+class CachedDetection {
 	private Detection detection;
 
 	CachedDetection(Detection detection) {
@@ -25,10 +25,5 @@ public class CachedDetection {
 			);
 			markOutlierPort.markOutlier(this.detection);
 		}
-	}
-
-	boolean isSameDetection(Detection detection) {
-		return this.detection.characteristicId() == detection.characteristicId()
-			&& this.detection.creationTime() == detection.creationTime();
 	}
 }
