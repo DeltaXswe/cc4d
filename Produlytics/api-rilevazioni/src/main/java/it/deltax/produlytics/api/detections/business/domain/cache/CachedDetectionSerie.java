@@ -53,9 +53,9 @@ public class CachedDetectionSerie implements DetectionSerie {
 		this.fetchLastDetections();
 	}
 
-	private Stream<Detection> lastDetectionsStream(int count) {
+	private Stream<CachedDetection> lastDetectionsStream(int count) {
 		int toSkip = this.cachedDetections.size() - Math.min(count, this.cachedDetections.size());
-		return this.cachedDetections.stream().map(CachedDetection::toDetection).skip(toSkip);
+		return this.cachedDetections.stream().skip(toSkip);
 	}
 
 	private void enqueueDetection(Detection detection) {
@@ -100,10 +100,10 @@ public class CachedDetectionSerie implements DetectionSerie {
 
 		this.sampleSize.ifPresent(sampleSize -> {
 			if(this.cachedDetections.size() >= sampleSize) {
-				Detection oldDetection = this.lastDetectionsStream(sampleSize).findFirst().get();
-				this.limitsCalculator.slide(oldDetection, newDetection);
+				double oldValue = this.lastDetectionsStream(sampleSize).findFirst().get().toDetection().value();
+				this.limitsCalculator.slide(oldValue, newDetection.value());
 			} else {
-				this.limitsCalculator.add(newDetection);
+				this.limitsCalculator.add(newDetection.value());
 			}
 		});
 	}
@@ -111,7 +111,9 @@ public class CachedDetectionSerie implements DetectionSerie {
 	private void resetLimits() {
 		this.fetchLastDetections();
 		this.sampleSize.ifPresent(sampleSize -> {
-			this.limitsCalculator.reset(this.lastDetectionsStream(sampleSize).toList());
+			this.limitsCalculator.reset(this.lastDetectionsStream(sampleSize)
+				.map(cachedDetection -> cachedDetection.toDetection().value())
+				.toList());
 		});
 	}
 
@@ -128,7 +130,9 @@ public class CachedDetectionSerie implements DetectionSerie {
 			limitsInfo.upperLimit(),
 			limitsInfo.mean()
 		);
-		List<Detection> lastDetections = this.lastDetectionsStream(CONTROL_CHART_DETECTIONS).toList();
+		List<Detection> lastDetections = this.lastDetectionsStream(CONTROL_CHART_DETECTIONS)
+			.map(CachedDetection::toDetection)
+			.toList();
 		for(ControlChart controlChart : this.controlCharts) {
 			controlChart.analyzeDetection(lastDetections, new CachedDetectionSerieMarkOutlierAdapter(this), limits);
 		}

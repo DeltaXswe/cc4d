@@ -6,8 +6,8 @@ import it.deltax.produlytics.api.detections.business.domain.control_chart.Calcul
 import java.util.List;
 
 public interface LimitsCalculator {
-	void add(Detection newDetection);
-	void slide(Detection oldDetection, Detection newDetection);
-	void reset(List<Detection> detections);
+	void add(double newValue);
+	void slide(double oldValue, double newvalue);
+	void reset(List<Double> values);
 	CalculatedLimits getCalculatedLimits();
 }
