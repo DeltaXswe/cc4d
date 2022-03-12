@@ -20,6 +20,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {ChartAbstractService} from "./model/chart/chart-abstract.service";
 import {environment} from "../environments/environment";
 import {ComponentsModule} from "./components/components.module";
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import {ComponentsModule} from "./components/components.module";
     MatListModule,
     MatIconModule,
     MatTooltipModule,
+    MatDialogModule,
     // Layout
     AppRoutingModule
   ],

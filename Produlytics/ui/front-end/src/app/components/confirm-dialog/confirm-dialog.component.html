@@ -1,0 +1,22 @@
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+  <div></div>
+  <h2 mat-dialog-title>
+    Conferma azione
+  </h2>
+  <button mat-icon-button (click)="cancel()">
+    <mat-icon>
+      clear
+    </mat-icon>
+  </button>
+</mat-toolbar>
+<div mat-dialog-content>
+  {{data.message}}
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
+    <button mat-raised-button (click)="cancel()">
+      Annulla
+    </button>
+    <button mat-raised-button color="accent" (click)="confirm()">
+      Confirm
+    </button>
+  </mat-dialog-actions>
+</div>
