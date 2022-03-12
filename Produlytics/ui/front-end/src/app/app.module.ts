@@ -21,6 +21,7 @@ import {ChartAbstractService} from "./model/chart/chart-abstract.service";
 import {environment} from "../environments/environment";
 import {ComponentsModule} from "./components/components.module";
 import {MatDialogModule} from "@angular/material/dialog";
+import {AdminModule} from "./admin/admin.module";
 
 @NgModule({
   declarations: [
@@ -47,8 +48,9 @@ import {MatDialogModule} from "@angular/material/dialog";
     MatIconModule,
     MatTooltipModule,
     MatDialogModule,
-    // Layout
+    // routing
     AppRoutingModule
+
   ],
   providers: [
     {

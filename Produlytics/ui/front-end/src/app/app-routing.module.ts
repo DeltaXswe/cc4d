@@ -7,6 +7,11 @@ import { ChartComponent } from './main/chart/chart.component';
 const routes: Routes = [
   { path: '', component: SelectionComponent },
   { path: 'chart/:machine/:characteristic', component: ChartComponent },
+  {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+    // canActivate: AdminGuard // TODO later
+  }
 ];
 
 @NgModule({
