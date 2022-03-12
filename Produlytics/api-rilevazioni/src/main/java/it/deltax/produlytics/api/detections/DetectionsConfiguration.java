@@ -2,8 +2,7 @@ package it.deltax.produlytics.api.detections;
 
 import it.deltax.produlytics.api.detections.business.domain.cache.CachedDetectionSerieFactory;
 import it.deltax.produlytics.api.detections.business.domain.cache.DetectionSerieFactory;
-import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlChart;
-import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlChart7SameOrder;
+import it.deltax.produlytics.api.detections.business.domain.control_chart.*;
 import it.deltax.produlytics.api.detections.business.domain.limits.LimitsCalculatorFactory;
 import it.deltax.produlytics.api.detections.business.domain.limits.LimitsCalculatorFactoryImpl;
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueue;
@@ -33,7 +32,15 @@ public class DetectionsConfiguration {
 		);
 
 		LimitsCalculatorFactory limitsCalculatorFactory = new LimitsCalculatorFactoryImpl();
-		List<ControlChart> controlCharts = List.of(new ControlChart7SameOrder() /* TODO: altre carte di controllo */);
+		List<ControlChart> controlCharts = List.of(new ControlChartBeyondLimits(),
+			new ControlChartZoneA(),
+			new ControlChartZoneB(),
+			new ControlChartZoneC(),
+			new ControlChartTrend(),
+			new ControlChartMixture(),
+			new ControlChartStratification(),
+			new ControlChartOverControl()
+		);
 
 		DetectionSerieFactory detectionSerieFactory = new CachedDetectionSerieFactory(findLastDetectionsPort,
 			insertDetectionPort,
