@@ -18,7 +18,7 @@ public class MarkableCachedDetectionAdaper implements MarkableDetection {
 	}
 
 	@Override
-	public void mark() {
+	public void markOutlier() {
 		this.cachedDetection.mark(markOutlierPort);
 	}
 }

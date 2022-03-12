@@ -25,6 +25,6 @@ public class ControlChart7SameOrder implements ControlChart {
 			prevCmpResult = cmpResult;
 		}
 
-		last7Detections.forEach(MarkableDetection::mark);
+		last7Detections.forEach(MarkableDetection::markOutlier);
 	}
 }
