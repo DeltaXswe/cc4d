@@ -5,6 +5,7 @@ import it.deltax.produlytics.api.detections.business.domain.LimitsInfo;
 import it.deltax.produlytics.api.detections.business.domain.RawDetection;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlChart;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.Limits;
+import it.deltax.produlytics.api.detections.business.domain.control_chart.MarkableDetection;
 import it.deltax.produlytics.api.detections.business.domain.limits.LimitsCalculator;
 import it.deltax.produlytics.api.detections.business.ports.out.FindLastDetectionsPort;
 import it.deltax.produlytics.api.detections.business.ports.out.InsertDetectionPort;
@@ -28,9 +29,8 @@ public class CachedDetectionSerie implements DetectionSerie {
 
 	private final int deviceId;
 	private final int characteristicId;
-	private Optional<Integer> sampleSize;
-
 	private final Deque<CachedDetection> cachedDetections;
+	private Optional<Integer> sampleSize;
 
 	CachedDetectionSerie(
 		FindLastDetectionsPort findLastDetectionsPort,
@@ -130,22 +130,12 @@ public class CachedDetectionSerie implements DetectionSerie {
 			limitsInfo.upperLimit(),
 			limitsInfo.mean()
 		);
-		List<Detection> lastDetections = this.lastDetectionsStream(CONTROL_CHART_DETECTIONS)
-			.map(CachedDetection::toDetection)
+		List<MarkableDetection> lastDetections = this.lastDetectionsStream(CONTROL_CHART_DETECTIONS)
+			.map(cachedDetection -> new MarkableCachedDetectionAdaper(cachedDetection, this.markOutlierPort))
+			.map(markableDetection -> (MarkableDetection) markableDetection)
 			.toList();
 		for(ControlChart controlChart : this.controlCharts) {
-			controlChart.analyzeDetection(lastDetections, new CachedDetectionSerieMarkOutlierAdapter(this), limits);
+			controlChart.analyzeDetection(lastDetections, limits);
 		}
-	}
-
-	void markOutlier(Detection detection) {
-		for(CachedDetection cachedDetection : this.cachedDetections) {
-			if(cachedDetection.isSameDetection(detection)) {
-				cachedDetection.mark(this.markOutlierPort);
-				return;
-			}
-		}
-
-		throw new IllegalStateException("markOutlier called with invalid detection");
 	}
 }
