@@ -1,6 +1,6 @@
 import {Observable} from "rxjs";
-import {CharacteristicInfo} from "../characteristic-info";
-import {ChartPoint} from "../chart-point";
+import {CharacteristicInfo} from "./characteristic-info";
+import {ChartPoint} from "./chart-point";
 import {Injectable} from "@angular/core";
 
 @Injectable()

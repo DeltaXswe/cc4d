@@ -17,9 +17,9 @@ import {AppRoutingModule} from "./app-routing.module";
 import {HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {ChartAbstractService} from "./model/repositories/chart-abstract.service";
-import {ChartService} from "./model/chart-service-impl.service";
+import {ChartAbstractService} from "./model/chart/chart-abstract.service";
 import {environment} from "../environments/environment";
+import {ComponentsModule} from "./components/components.module";
 
 @NgModule({
   declarations: [

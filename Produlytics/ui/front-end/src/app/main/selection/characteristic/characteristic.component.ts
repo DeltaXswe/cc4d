@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
-import { CharacteristicService } from '../../../model/characteristic.service';
-import { Characteristic } from '../../../model/characteristic';
-import { Machine } from '../../../model/machine';
+import { CharacteristicService } from '../../../model/characteristic/characteristic.service';
+import { Characteristic } from '../../../model/characteristic/characteristic';
+import { Machine } from '../../../model/device/machine';
 import { Router } from '@angular/router';
 
 @Component({

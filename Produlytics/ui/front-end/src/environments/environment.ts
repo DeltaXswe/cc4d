@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 import {ProdulyticsEnvironment} from "./produlytics-environment";
-import {FakeChartService} from "../app/model/fake-chart.service";
+import {FakeChartService} from "../app/test/chart/fake-chart.service";
 
 export const environment: ProdulyticsEnvironment = {
   production: false,

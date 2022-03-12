@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {ChartAbstractService} from "./repositories/chart-abstract.service";
+import {ChartAbstractService} from "../../model/chart/chart-abstract.service";
 import {BehaviorSubject, Observable, of} from "rxjs";
-import {CharacteristicInfo} from "./characteristic-info";
-import {ChartPoint} from "./chart-point";
+import {CharacteristicInfo} from "../../model/chart/characteristic-info";
+import {ChartPoint} from "../../model/chart/chart-point";
 
 @Injectable()
 export class FakeChartService implements ChartAbstractService {

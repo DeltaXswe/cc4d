@@ -1,4 +1,4 @@
-import {ChartService} from "../app/model/chart-service-impl.service";
+import {ChartService} from "../app/model/chart/chart-service.service";
 import {ProdulyticsEnvironment} from "./produlytics-environment";
 
 export const environment: ProdulyticsEnvironment = {

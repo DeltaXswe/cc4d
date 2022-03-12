@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Machine } from '../../model/machine';
+import { Machine } from '../../model/device/machine';
 import { MachineComponent } from './machine/machine.component';
-import { Characteristic } from '../../model/characteristic';
+import { Characteristic } from '../../model/characteristic/characteristic';
 import { CharacteristicComponent } from './characteristic/characteristic.component';
 
 @Component({

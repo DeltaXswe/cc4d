@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output, ViewEncapsulation} from '@angular/core';
-import { MachineService } from '../../../model/machine.service';
-import { Machine } from '../../../model/machine';
+import { MachineService } from '../../../model/device/machine.service';
+import { Machine } from '../../../model/device/machine';
 
 @Component({
   selector: 'app-machine',

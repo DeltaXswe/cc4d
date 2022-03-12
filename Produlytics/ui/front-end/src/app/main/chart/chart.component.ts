@@ -4,11 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import * as d3 from 'd3';
 import { Subscription, interval } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
-import { CharacteristicInfo } from '../../model/characteristic-info';
+import { CharacteristicInfo } from '../../model/chart/characteristic-info';
 
-import { ChartPoint } from '../../model/chart-point';
+import { ChartPoint } from '../../model/chart/chart-point';
 import { Location } from "@angular/common";
-import {ChartAbstractService} from "../../model/repositories/chart-abstract.service";
+import {ChartAbstractService} from "../../model/chart/chart-abstract.service";
 
 @Component({
   selector: 'app-chart',
