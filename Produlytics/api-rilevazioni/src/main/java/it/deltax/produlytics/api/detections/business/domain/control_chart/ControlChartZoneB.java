@@ -1,5 +1,7 @@
 package it.deltax.produlytics.api.detections.business.domain.control_chart;
 
+import it.deltax.produlytics.api.detections.business.domain.Utils;
+
 import java.util.List;
 
 public class ControlChartZoneB implements ControlChart {
@@ -10,7 +12,7 @@ public class ControlChartZoneB implements ControlChart {
 		if(lastDetections.size() < 5) {
 			return;
 		}
-		List<MarkableDetection> detections = lastDetections.subList(lastDetections.size() - 5, lastDetections.size());
+		List<MarkableDetection> detections = Utils.lastN(lastDetections, 5);
 
 		if(limits.calculatedLimits().isEmpty()) {
 			return;

@@ -1,5 +1,7 @@
 package it.deltax.produlytics.api.detections.business.domain.control_chart;
 
+import it.deltax.produlytics.api.detections.business.domain.Utils;
+
 import java.util.List;
 
 public class ControlChartStratification implements ControlChart {
@@ -10,7 +12,7 @@ public class ControlChartStratification implements ControlChart {
 		if(lastDetections.size() < 15) {
 			return;
 		}
-		List<MarkableDetection> detections = lastDetections.subList(lastDetections.size() - 15, lastDetections.size());
+		List<MarkableDetection> detections = Utils.lastN(lastDetections, 15);
 
 		if(limits.calculatedLimits().isEmpty()) {
 			return;

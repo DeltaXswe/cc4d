@@ -1,5 +1,7 @@
 package it.deltax.produlytics.api.detections.business.domain.control_chart;
 
+import it.deltax.produlytics.api.detections.business.domain.Utils;
+
 import java.util.List;
 
 public class ControlChartOverControl implements ControlChart {
@@ -8,23 +10,19 @@ public class ControlChartOverControl implements ControlChart {
 		if(lastDetections.size() < 14) {
 			return;
 		}
-		List<MarkableDetection> detections = lastDetections.subList(lastDetections.size() - 14, lastDetections.size());
+		List<MarkableDetection> detections = Utils.lastN(lastDetections, 14);
 
-		// TODO: Questo è incasinato
-		int prevCmpResult = 2;
-		for(int i = 0; i < 6; i++) {
-			double prev = detections.get(i).getValue();
-			double next = detections.get(i + 1).getValue();
-			int cmpResult = Integer.signum(Double.compare(prev, next));
-			if(cmpResult == 0) {
-				return;
-			}
-			if(prevCmpResult != 2 && prevCmpResult == cmpResult) {
-				return;
-			}
-			prevCmpResult = cmpResult;
+		boolean isOverControl = Utils.windows(detections, 3).allMatch(window -> {
+			double w0 = window.get(0).getValue();
+			double w1 = window.get(1).getValue();
+			double w2 = window.get(2).getValue();
+			int cmp1 = Integer.signum(Double.compare(w0, w1));
+			int cmp2 = Integer.signum(Double.compare(w1, w2));
+			return cmp1 != cmp2;
+		});
+
+		if(isOverControl) {
+			detections.forEach(MarkableDetection::markOutlier);
 		}
-
-		detections.forEach(MarkableDetection::markOutlier);
 	}
 }
