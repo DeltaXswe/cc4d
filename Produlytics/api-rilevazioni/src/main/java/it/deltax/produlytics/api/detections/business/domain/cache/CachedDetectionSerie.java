@@ -99,11 +99,12 @@ public class CachedDetectionSerie implements DetectionSerie {
 		}
 
 		this.sampleSize.ifPresent(sampleSize -> {
-			this.lastDetectionsStream(sampleSize)
-				.findFirst()
-				.ifPresentOrElse(oldDetection -> this.limitsCalculator.slide(oldDetection, newDetection),
-					() -> this.limitsCalculator.add(newDetection)
-				);
+			if(this.cachedDetections.size() >= sampleSize) {
+				Detection oldDetection = this.lastDetectionsStream(sampleSize).findFirst().get();
+				this.limitsCalculator.slide(oldDetection, newDetection);
+			} else {
+				this.limitsCalculator.add(newDetection);
+			}
 		});
 	}
 
