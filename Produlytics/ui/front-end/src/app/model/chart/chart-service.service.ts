@@ -14,7 +14,7 @@ export class ChartService implements ChartAbstractService{
 
   getInitialPoints(
     macchina: number,
-    caratteristica: string
+    caratteristica: number
   ): Observable<[CharacteristicInfo, ChartPoint[]]> {
     const info = this.httpClient.get<CharacteristicInfo>(`/characteristics/${macchina}/${caratteristica}`);
     const points = this.httpClient.get<ChartPoint[]>(`/detections/${macchina}/${caratteristica}`);

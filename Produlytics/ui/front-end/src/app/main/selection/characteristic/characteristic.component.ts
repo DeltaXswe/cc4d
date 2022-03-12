@@ -24,7 +24,7 @@ export class CharacteristicComponent implements OnChanges {
   characteristics: Characteristic[] = [];
 
   characteristicOnSelect(characteristic: Characteristic){
-    this.router.navigate(['chart', characteristic.machine, characteristic.code]);
+    this.router.navigate(['chart', this.machine?.id, characteristic.id]);
   }
 
   getCharacteristics(machine?: Machine):void{

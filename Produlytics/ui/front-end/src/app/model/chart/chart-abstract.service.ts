@@ -7,7 +7,7 @@ import {Injectable} from "@angular/core";
 export abstract class ChartAbstractService {
   abstract getInitialPoints(
     macchina: number,
-    caratteristica: string
+    caratteristica: number
   ): Observable<[CharacteristicInfo, ChartPoint[]]>;
 
   abstract getNextPoints(

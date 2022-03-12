@@ -24,7 +24,7 @@ export class FakeChartService implements ChartAbstractService {
 
   constructor() { }
 
-  getInitialPoints(macchina: number, caratteristica: string): Observable<[CharacteristicInfo, ChartPoint[]]> {
+  getInitialPoints(macchina: number, caratteristica: number): Observable<[CharacteristicInfo, ChartPoint[]]> {
     return this.fakeInitialPoints;
   }
 

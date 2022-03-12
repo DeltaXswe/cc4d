@@ -39,9 +39,7 @@ export class ChartComponent implements OnInit, OnDestroy {
 
   setupInitialPoints() {
     const machine = Number(this.route.snapshot.paramMap.get('machine'));
-    const characteristic = String(
-      this.route.snapshot.paramMap.get('characteristic')
-    );
+    const characteristic = Number(this.route.snapshot.paramMap.get('characteristic'));
     this.chartService
       .getInitialPoints(machine, characteristic)
       .subscribe(([info, points]) => {
