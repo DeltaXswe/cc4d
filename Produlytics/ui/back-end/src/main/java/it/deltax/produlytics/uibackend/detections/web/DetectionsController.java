@@ -22,7 +22,7 @@ public class DetectionsController {
     public List<DetectionLight> getCharacteristicDetections(
         @PathVariable int machine,
         @PathVariable int characteristic,
-        @RequestParam("createdAfter") Optional<Long> createdAfter
+        @RequestParam("createdAfter") Long createdAfter
     ) {
         return listDetectionsByCharacteristic.listByCharacteristic(machine, characteristic, createdAfter);
     }
