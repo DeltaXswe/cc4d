@@ -8,6 +8,7 @@ import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
 
 import java.util.List;
 
+// Implementazione di riferimento di `DetectionSerieFactory` che costruisce un nuovo `CachedDetectionSerie`.
 public class CachedDetectionSerieFactory implements DetectionSerieFactory {
 	private final FindLastDetectionsPort findLastDetectionsPort;
 	private final InsertDetectionPort insertDetectionPort;

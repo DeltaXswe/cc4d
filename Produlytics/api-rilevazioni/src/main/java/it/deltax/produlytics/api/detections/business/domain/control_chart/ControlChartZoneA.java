@@ -4,6 +4,8 @@ import it.deltax.produlytics.api.detections.business.domain.Utils;
 
 import java.util.List;
 
+// Implementazione della carta di controllo corrispondente al requisito ROF24.2.
+// Identifica se 2 punti su 3 consecutivi sono all'interno di una delle due zone A o oltre.
 public class ControlChartZoneA implements ControlChart {
 	@Override
 	public void analyzeDetection(

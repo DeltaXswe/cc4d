@@ -4,35 +4,62 @@ import it.deltax.produlytics.api.detections.business.domain.control_chart.Calcul
 
 import java.util.List;
 
+// Implementazione di riferimento di `LimitsCalculator`.
+// Viene utilizzato l'algoritmo di Welford:
+// https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.302.7503
 public class LimitsCalculatorImpl implements LimitsCalculator {
 	private double mean = 0;
-	private double dSquared = 0;
+	// `s` è la somma di (x_i - mean)^2 dove x_i sono tutti i valori considerati.
+	// Equivale a `S_n` dell'articolo citato.
+	private double s = 0;
 	private int count = 0;
 
 	@Override
 	public void add(double newValue) {
-		double oldMean = this.mean;
 		this.count++;
-		this.mean += (newValue - oldMean) / this.count;
-		this.dSquared += (newValue - this.mean) * (newValue - oldMean);
+
+		double factor = ((double) this.count - 1) / this.count;
+
+		// Equazione I dell'articolo citato.
+		double meanDiff = newValue - this.mean;
+		this.s += factor * meanDiff * meanDiff;
+
+		// Identità 1 dell'articolo citato.
+		this.mean = factor * this.mean + newValue / this.count;
+	}
+
+	// Effettua l'operazione inversa di `add`.
+	private void remove(double oldValue) {
+		double factor = ((double) this.count - 1) / this.count;
+
+		// Inverso dell'identità 1 dell'articolo citato.
+		this.mean = this.mean / factor - oldValue / (this.count - 1);
+
+		// Inverso dell'equazione I dell'articolo citato.
+		double meanDiff = oldValue - this.mean;
+		this.s -= factor * meanDiff * meanDiff;
+
+		this.count--;
 	}
 
 	@Override
 	public void slide(double oldValue, double newValue) {
-		double oldMean = this.mean;
-		this.mean += (newValue - oldValue) / this.count;
-		this.dSquared += (newValue - oldValue) * (newValue + oldValue - this.mean - oldMean);
+		this.remove(oldValue);
+		this.add(newValue);
 	}
 
 	@Override
 	public CalculatedLimits getCalculatedLimits() {
-		return new CalculatedLimits(this.mean, Math.sqrt(this.dSquared / (this.count - 1)));
+		// σ² = (sum_{i=1}^n (x_i - mean)^2) / n = s / n
+		// deviazione standard = σ = sqrt(s / n)
+		return new CalculatedLimits(this.mean, Math.sqrt(this.s / this.count));
 	}
 
 	@Override
 	public void reset(List<Double> values) {
-		this.mean = values.stream().mapToDouble(value -> value / values.size()).sum();
-		this.dSquared = values.stream().mapToDouble(value -> value - this.mean).map(d -> (d * d)).sum();
-		this.count = values.size();
+		this.mean = 0;
+		this.s = 0;
+		this.count = 0;
+		values.forEach(this::add);
 	}
 }

@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+// Implementazione di riferimento di `DetectionSerie` che si occupa di
+// tenere traccia delle ultime `maxCacheSize()` rilevazioni in aggiunta a
+// memorizzare quelle nuove e identificare anomalie.
 public class CachedDetectionSerie implements DetectionSerie {
 	private static final int CONTROL_CHART_DETECTIONS = 15;
 
@@ -30,6 +33,7 @@ public class CachedDetectionSerie implements DetectionSerie {
 	private final int deviceId;
 	private final int characteristicId;
 	private final Deque<CachedDetection> cachedDetections;
+	// Dimensione del campione per l'auto-adjust, se attivo.
 	private Optional<Integer> sampleSize;
 
 	CachedDetectionSerie(
@@ -53,6 +57,7 @@ public class CachedDetectionSerie implements DetectionSerie {
 		this.fetchLastDetections();
 	}
 
+	// Ritorna uno stream delle ultime `count` rilevazioni (o meno, se non sono presenti).
 	private Stream<CachedDetection> lastDetectionsStream(int count) {
 		int toSkip = this.cachedDetections.size() - Math.min(count, this.cachedDetections.size());
 		return this.cachedDetections.stream().skip(toSkip);
@@ -62,14 +67,16 @@ public class CachedDetectionSerie implements DetectionSerie {
 		this.cachedDetections.addLast(new CachedDetection(detection));
 	}
 
-	private int maxQueueSize() {
+	// La dimensione massima della cache prima che inizi a contenere elementi inutili.
+	private int maxCacheSize() {
 		return Math.max(CONTROL_CHART_DETECTIONS, this.sampleSize.orElse(0));
 	}
 
+	// Ripopola `cachedDetections` con le rilevazioni memorizzate.
 	private void fetchLastDetections() {
 		List<Detection> newLastDetections = this.findLastDetectionsPort.findLastDetections(this.deviceId,
 			this.characteristicId,
-			this.maxQueueSize()
+			this.maxCacheSize()
 		);
 		newLastDetections.forEach(this::enqueueDetection);
 	}
@@ -83,22 +90,39 @@ public class CachedDetectionSerie implements DetectionSerie {
 			false
 		);
 
+		// Questo è importante che sia prima della chiamata a `enqueueDetection`
+		// perchè assume che gli ultimi `sampleSize` elementi di `cachedDetections`
+		// siano quelli con cui sono attualmente calcolati media e deviazione standard.
 		this.updateLimits(rawDetection.limitsInfo(), newDetection);
 
-		this.slideDetectionsWindow(newDetection);
-
+		if(this.cachedDetections.size() == this.maxCacheSize()) {
+			this.cachedDetections.removeFirst();
+		}
+		this.enqueueDetection(newDetection);
 		this.insertDetectionPort.insertDetection(newDetection);
 
 		this.updateControlCharts(rawDetection.limitsInfo());
 	}
 
 	private void updateLimits(LimitsInfo limitsInfo, Detection newDetection) {
+		// Se la grandezza del campione è cambiata:
+		// - aggiornala;
+		// - aggiorna le rilevazioni in cache visto che potrebbero esserne richieste di più;
+		// - riesegui il calcolo di media e deviazione standard (se la nuova grandezza del campione è presente).
 		if(limitsInfo.sampleSize() != this.sampleSize) {
 			this.sampleSize = limitsInfo.sampleSize();
-			this.resetLimits();
+			this.fetchLastDetections();
+			this.sampleSize.ifPresent(sampleSize -> {
+				List<Double> newDetectionsValues = this.lastDetectionsStream(sampleSize)
+					.map(cachedDetection -> cachedDetection.toDetection().value())
+					.toList();
+				this.limitsCalculator.reset(newDetectionsValues);
+			});
 		}
 
 		this.sampleSize.ifPresent(sampleSize -> {
+			// Questo è necessario nel caso in cui il numero totale di rilevazioni sia inferiore al numero del campione,
+			// e in quel caso la rilevazione va solo aggiunta al calcolatore.
 			if(this.cachedDetections.size() >= sampleSize) {
 				double oldValue = this.lastDetectionsStream(sampleSize).findFirst().get().toDetection().value();
 				this.limitsCalculator.slide(oldValue, newDetection.value());
@@ -106,22 +130,6 @@ public class CachedDetectionSerie implements DetectionSerie {
 				this.limitsCalculator.add(newDetection.value());
 			}
 		});
-	}
-
-	private void resetLimits() {
-		this.fetchLastDetections();
-		this.sampleSize.ifPresent(sampleSize -> {
-			this.limitsCalculator.reset(this.lastDetectionsStream(sampleSize)
-				.map(cachedDetection -> cachedDetection.toDetection().value())
-				.toList());
-		});
-	}
-
-	private void slideDetectionsWindow(Detection newDetection) {
-		if(this.cachedDetections.size() == this.maxQueueSize()) {
-			this.cachedDetections.removeFirst();
-		}
-		this.enqueueDetection(newDetection);
 	}
 
 	private void updateControlCharts(LimitsInfo limitsInfo) {

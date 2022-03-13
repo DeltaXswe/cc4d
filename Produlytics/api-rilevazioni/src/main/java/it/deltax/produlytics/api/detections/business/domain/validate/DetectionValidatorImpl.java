@@ -8,6 +8,7 @@ import it.deltax.produlytics.api.detections.business.domain.exception.NotAuthent
 import it.deltax.produlytics.api.detections.business.ports.out.FindCharacteristicPort;
 import it.deltax.produlytics.api.detections.business.ports.out.FindDeviceByApiKeyPort;
 
+// Implementazione di riferimento di `DetectionValidator`.
 public class DetectionValidatorImpl implements DetectionValidator {
 	private final FindDeviceByApiKeyPort findDeviceByApiKeyPort;
 	private final FindCharacteristicPort findCharacteristicPort;
@@ -33,7 +34,7 @@ public class DetectionValidatorImpl implements DetectionValidator {
 			throw new DeviceArchivedException();
 		}
 
-		CharacteristicInfo characteristicInfo = this.findCharacteristicPort.findCharacteristicValidation(deviceInfo.deviceId(),
+		CharacteristicInfo characteristicInfo = this.findCharacteristicPort.findCharacteristic(deviceInfo.deviceId(),
 			characteristicId
 		).orElseThrow(CharacteristicNotFoundException::new);
 

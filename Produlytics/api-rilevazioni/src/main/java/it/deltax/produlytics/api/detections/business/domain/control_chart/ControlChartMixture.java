@@ -4,6 +4,8 @@ import it.deltax.produlytics.api.detections.business.domain.Utils;
 
 import java.util.List;
 
+// Implementazione della carta di controllo corrispondente al requisito ROF24.6.
+// Identifica se 8 punti consecutivi non appartengono alle zone C.
 public class ControlChartMixture implements ControlChart {
 	@Override
 	public void analyzeDetection(
@@ -22,13 +24,11 @@ public class ControlChartMixture implements ControlChart {
 		double lowerZone = calculatedLimits.mean() - calculatedLimits.deviation();
 		double upperZone = calculatedLimits.mean() + calculatedLimits.deviation();
 
-		for(MarkableDetection detection : detections) {
-			double value = detection.getValue();
-			if(lowerZone < value && value < upperZone) {
-				return;
-			}
+		boolean allOutside = detections.stream()
+			.map(MarkableDetection::getValue)
+			.allMatch(value -> value < lowerZone || value > upperZone);
+		if(allOutside) {
+			detections.forEach(MarkableDetection::markOutlier);
 		}
-
-		detections.forEach(MarkableDetection::markOutlier);
 	}
 }

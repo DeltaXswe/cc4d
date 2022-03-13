@@ -13,6 +13,7 @@ import it.deltax.produlytics.api.detections.business.ports.in.ProcessIncomingDet
 
 import java.time.Instant;
 
+// Implementazione di riferimento di `ProcessIncomingDetectionUseCase`.
 public class DetectionsService implements ProcessIncomingDetectionUseCase {
 	private final DetectionValidator detectionValidator;
 	private final DetectionQueue detectionQueue;

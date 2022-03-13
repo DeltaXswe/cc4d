@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@SuppressWarnings("unused")
 public class DetectionsAdapter implements FindDeviceByApiKeyPort,
 	FindCharacteristicPort,
 	FindLastDetectionsPort,
@@ -43,7 +44,7 @@ public class DetectionsAdapter implements FindDeviceByApiKeyPort,
 	}
 
 	@Override
-	public Optional<CharacteristicInfo> findCharacteristicValidation(
+	public Optional<CharacteristicInfo> findCharacteristic(
 		int deviceId, int characteristicId
 	) {
 		return this.characteristicRepository.findById(new CharacteristicEntityId(deviceId, characteristicId))

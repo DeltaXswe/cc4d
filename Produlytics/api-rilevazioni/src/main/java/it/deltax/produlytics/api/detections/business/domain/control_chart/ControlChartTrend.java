@@ -4,6 +4,8 @@ import it.deltax.produlytics.api.detections.business.domain.Utils;
 
 import java.util.List;
 
+// Implementazione della carta di controllo corrispondente al requisito ROF24.5.
+// Identifica se 7 punti consecutivi seguono lo stesso ordine.
 public class ControlChartTrend implements ControlChart {
 	@Override
 	public void analyzeDetection(List<MarkableDetection> lastDetections, Limits limits) {
@@ -12,16 +14,12 @@ public class ControlChartTrend implements ControlChart {
 		}
 		List<MarkableDetection> detections = Utils.lastN(lastDetections, 7);
 
-		boolean sameTrend = Utils.windows(detections, 3).allMatch(window -> {
-			double w0 = window.get(0).getValue();
-			double w1 = window.get(1).getValue();
-			double w2 = window.get(2).getValue();
-			int cmp1 = Integer.signum(Double.compare(w0, w1));
-			int cmp2 = Integer.signum(Double.compare(w1, w2));
-			return cmp1 == cmp2;
-		});
+		boolean allIncreasing = Utils.windows(detections, 2)
+			.allMatch(window -> window.get(0).getValue() <= window.get(1).getValue());
+		boolean allDecreasing = Utils.windows(detections, 2)
+			.allMatch(window -> window.get(0).getValue() >= window.get(1).getValue());
 
-		if(sameTrend) {
+		if(allIncreasing || allDecreasing) {
 			detections.forEach(MarkableDetection::markOutlier);
 		}
 	}

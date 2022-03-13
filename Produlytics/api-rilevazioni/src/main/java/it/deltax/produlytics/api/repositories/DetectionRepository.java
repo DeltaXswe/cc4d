@@ -12,13 +12,14 @@ import java.time.Instant;
 import java.util.List;
 
 @Repository
+@SuppressWarnings("unused")
 public interface DetectionRepository extends CrudRepository<DetectionEntity, DetectionEntityId> {
 	@Query("SELECT *"
 		+ "FROM ("
-		+ "SELECT * detection"
-		+ "WHERE characteristic_id = :characteristicId AND device_id = :device_id"
-		+ "ORDER BY creation_time DESC"
-		+ "LIMIT :count"
+		+ "    SELECT * detection"
+		+ "    WHERE characteristic_id = :characteristicId AND device_id = :device_id"
+		+ "    ORDER BY creation_time DESC"
+		+ "    LIMIT :count"
 		+ ")"
 		+ "ORDER BY creation_time ASC")
 	List<DetectionEntity> findLastNById(

@@ -6,6 +6,9 @@ import it.deltax.produlytics.api.detections.business.domain.exception.Characteri
 import it.deltax.produlytics.api.detections.business.domain.exception.DeviceArchivedException;
 import it.deltax.produlytics.api.detections.business.domain.exception.NotAuthenticatedException;
 
+// Caso d'uso per processare una rilevazione in arrivo da una macchina.
+// In caso di successo ritorna normalmente.
+// In caso di errore lancia una relativa eccezione.
 public interface ProcessIncomingDetectionUseCase {
 	void processIncomingDetection(IncomingDetection incomingDetection) throws
 		CharacteristicArchivedException,

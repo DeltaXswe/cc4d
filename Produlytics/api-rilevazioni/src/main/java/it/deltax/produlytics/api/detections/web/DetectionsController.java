@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/detections")
+@SuppressWarnings("unused")
 public class DetectionsController {
 	@Autowired
 	private ProcessIncomingDetectionUseCase processIncomingDetectionUseCase;

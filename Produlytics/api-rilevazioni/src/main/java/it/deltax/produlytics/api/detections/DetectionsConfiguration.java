@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@SuppressWarnings("unused")
 public class DetectionsConfiguration {
 	@Bean
 	ProcessIncomingDetectionUseCase createProcessDetectionUseCase(

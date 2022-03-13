@@ -2,6 +2,8 @@ package it.deltax.produlytics.api.detections.business.domain.control_chart;
 
 import java.util.List;
 
+// Implementazione della carta di controllo corrispondente al requisito ROF24.1.
+// Identifica i punti oltre i limiti di controllo.
 public class ControlChartBeyondLimits implements ControlChart {
 	@Override
 	public void analyzeDetection(

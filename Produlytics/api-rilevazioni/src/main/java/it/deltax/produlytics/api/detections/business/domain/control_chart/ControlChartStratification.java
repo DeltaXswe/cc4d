@@ -4,6 +4,8 @@ import it.deltax.produlytics.api.detections.business.domain.Utils;
 
 import java.util.List;
 
+// Implementazione della carta di controllo corrispondente al requisito ROF24.7.
+// Identifica se 15 punti consecutivi appartengono alle zone C.
 public class ControlChartStratification implements ControlChart {
 	@Override
 	public void analyzeDetection(
@@ -22,13 +24,11 @@ public class ControlChartStratification implements ControlChart {
 		double lowerZone = calculatedLimits.mean() - calculatedLimits.deviation();
 		double upperZone = calculatedLimits.mean() + calculatedLimits.deviation();
 
-		for(MarkableDetection detection : detections) {
-			double value = detection.getValue();
-			if(value < lowerZone || value > upperZone) {
-				return;
-			}
+		boolean allInside = detections.stream()
+			.map(MarkableDetection::getValue)
+			.allMatch(value -> lowerZone < value && value < upperZone);
+		if(allInside) {
+			detections.forEach(MarkableDetection::markOutlier);
 		}
-
-		detections.forEach(MarkableDetection::markOutlier);
 	}
 }

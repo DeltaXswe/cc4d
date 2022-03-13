@@ -4,6 +4,8 @@ import it.deltax.produlytics.api.detections.business.domain.Utils;
 
 import java.util.List;
 
+// Implementazione della carta di controllo corrispondente al requisito ROF24.4.
+// Identifica se 7 punti consecutivi sono dallo stesso lato rispetto alla media.
 public class ControlChartZoneC implements ControlChart {
 	@Override
 	public void analyzeDetection(
