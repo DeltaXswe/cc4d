@@ -1,7 +1,7 @@
 package it.deltax.produlytics.uibackend.devices.business.domain;
 
 public record CharacteristicDisplayInfo(
-	UnarchivedDeviceInfo machine,
+	MachineLight machine,
 	Characteristic characteristic
 ) {
 }
