@@ -1,8 +1,8 @@
-package it.deltax.produlytics.uibackend.detection.adapters;
+package it.deltax.produlytics.uibackend.detections.adapters;
 
 import it.deltax.produlytics.persistence.DetectionEntity;
-import it.deltax.produlytics.uibackend.detection.business.domain.DetectionLight;
-import it.deltax.produlytics.uibackend.detection.business.ports.out.ListDetectionsByCharacteristicPort;
+import it.deltax.produlytics.uibackend.detections.business.domain.DetectionLight;
+import it.deltax.produlytics.uibackend.detections.business.ports.out.ListDetectionsByCharacteristicPort;
 import it.deltax.produlytics.uibackend.repositories.RilevazioneRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;

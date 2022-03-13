@@ -1,4 +1,4 @@
-package it.deltax.produlytics.uibackend.detection.business.domain;
+package it.deltax.produlytics.uibackend.detections.business.domain;
 
 public record DetectionLight(
 	double value,

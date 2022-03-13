@@ -1,8 +1,8 @@
-package it.deltax.produlytics.uibackend.detection.business.ports;
+package it.deltax.produlytics.uibackend.detections.business.ports;
 
-import it.deltax.produlytics.uibackend.detection.business.domain.DetectionLight;
-import it.deltax.produlytics.uibackend.detection.business.ports.in.ListDetectionsByCharacteristicUseCase;
-import it.deltax.produlytics.uibackend.detection.business.ports.out.ListDetectionsByCharacteristicPort;
+import it.deltax.produlytics.uibackend.detections.business.domain.DetectionLight;
+import it.deltax.produlytics.uibackend.detections.business.ports.in.ListDetectionsByCharacteristicUseCase;
+import it.deltax.produlytics.uibackend.detections.business.ports.out.ListDetectionsByCharacteristicPort;
 
 import java.util.List;
 import java.util.Optional;
