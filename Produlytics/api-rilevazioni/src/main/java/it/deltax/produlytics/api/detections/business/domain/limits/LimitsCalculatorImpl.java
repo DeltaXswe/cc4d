@@ -9,8 +9,8 @@ import java.util.List;
 // https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.302.7503
 public class LimitsCalculatorImpl implements LimitsCalculator {
 	private double mean = 0;
-	// `s` è la somma di (x_i - mean)^2 dove x_i sono tutti i valori considerati.
-	// Equivale a `S_n` dell'articolo citato.
+	// s = sum_{i=1}^n (x_i - mean)^2, dove x_i sono tutti i valori considerati.
+	// Equivale a `S_n` presente nell'articolo citato.
 	private double s = 0;
 	private int count = 0;
 
