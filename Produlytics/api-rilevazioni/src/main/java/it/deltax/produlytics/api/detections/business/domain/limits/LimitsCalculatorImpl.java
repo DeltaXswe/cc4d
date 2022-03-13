@@ -30,6 +30,15 @@ public class LimitsCalculatorImpl implements LimitsCalculator {
 
 	// Effettua l'operazione inversa di `add`.
 	private void remove(double oldValue) {
+		// Se count == 1 allora l'algoritmo produrrebbe mean = mean / 0 - oldValue / 0 = NaN
+		// e questo rompe tutti gli altri algoritmi. Lo stato interno viene quindi resettato a mano.
+		if(this.count == 1) {
+			this.mean = 0;
+			this.s = 0;
+			this.count = 0;
+			return;
+		}
+
 		double factor = ((double) this.count - 1) / this.count;
 
 		// Inverso dell'identità 1 dell'articolo citato.
