@@ -1,10 +1,10 @@
-package it.deltax.produlytics.uibackend.machine.adapters;
+package it.deltax.produlytics.uibackend.devices.adapters;
 
 import it.deltax.produlytics.persistence.CharacteristicEntityId;
-import it.deltax.produlytics.uibackend.machine.business.domain.Characteristic;
-import it.deltax.produlytics.uibackend.machine.business.domain.CharacteristicLight;
-import it.deltax.produlytics.uibackend.machine.business.ports.out.FindCharacteristicPort;
-import it.deltax.produlytics.uibackend.machine.business.ports.out.ListCharacteristicsByMachinePort;
+import it.deltax.produlytics.uibackend.devices.business.domain.Characteristic;
+import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicLight;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicPort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.ListCharacteristicsByDevicePort;
 import it.deltax.produlytics.uibackend.repositories.CaratteristicaRepository;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 // object adapter (Target sono le port, Adaptee è la repo)
 
 @Component
-public class CharacteristicPersistenceAdapter implements ListCharacteristicsByMachinePort, FindCharacteristicPort {
+public class CharacteristicPersistenceAdapter implements ListCharacteristicsByDevicePort, FindCharacteristicPort {
 
     private final CaratteristicaRepository repo;
 

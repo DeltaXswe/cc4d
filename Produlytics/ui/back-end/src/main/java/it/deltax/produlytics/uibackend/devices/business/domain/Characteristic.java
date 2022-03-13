@@ -1,6 +1,5 @@
-package it.deltax.produlytics.uibackend.machine.business.domain;
+package it.deltax.produlytics.uibackend.devices.business.domain;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 
 public record Characteristic(

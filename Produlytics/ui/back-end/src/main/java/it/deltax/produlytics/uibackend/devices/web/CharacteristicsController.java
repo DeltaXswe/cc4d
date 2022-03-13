@@ -1,9 +1,9 @@
-package it.deltax.produlytics.uibackend.machine.web;
+package it.deltax.produlytics.uibackend.devices.web;
 
-import it.deltax.produlytics.uibackend.machine.business.domain.CharacteristicDisplayInfo;
-import it.deltax.produlytics.uibackend.machine.business.domain.CharacteristicLight;
-import it.deltax.produlytics.uibackend.machine.business.ports.in.FindCharacteristicInfoUseCase;
-import it.deltax.produlytics.uibackend.machine.business.ports.in.ListCharacteristicsByMachineUseCase;
+import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicDisplayInfo;
+import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicLight;
+import it.deltax.produlytics.uibackend.devices.business.ports.in.FindCharacteristicInfoUseCase;
+import it.deltax.produlytics.uibackend.devices.business.ports.in.ListCharacteristicsByDeviceUseCase;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,11 +17,11 @@ import java.util.List;
 @RequestMapping("/characteristics")
 public class CharacteristicsController {
 
-    private final ListCharacteristicsByMachineUseCase listCharacteristicsByMachine;
+    private final ListCharacteristicsByDeviceUseCase listCharacteristicsByMachine;
     private final FindCharacteristicInfoUseCase getCharacteristicInfo;
 
     public CharacteristicsController(
-        ListCharacteristicsByMachineUseCase listCharacteristicsByMachine,
+        ListCharacteristicsByDeviceUseCase listCharacteristicsByMachine,
         FindCharacteristicInfoUseCase getCharacteristicInfo
     ) {
         this.listCharacteristicsByMachine = listCharacteristicsByMachine;

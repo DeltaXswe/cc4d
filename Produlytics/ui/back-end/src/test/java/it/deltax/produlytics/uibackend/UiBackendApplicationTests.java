@@ -1,7 +1,7 @@
 package it.deltax.produlytics.uibackend;
 
 import it.deltax.produlytics.persistence.DeviceEntity;
-import it.deltax.produlytics.uibackend.machine.web.MachinesController;
+import it.deltax.produlytics.uibackend.devices.web.MachinesController;
 import it.deltax.produlytics.uibackend.repositories.MacchinaRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 
