@@ -2,10 +2,10 @@ package it.deltax.produlytics.uibackend.devices.adapters;
 
 import it.deltax.produlytics.persistence.CharacteristicEntityId;
 import it.deltax.produlytics.uibackend.devices.business.domain.Characteristic;
-import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicLight;
+import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTitle;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicPort;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.ListCharacteristicsByDevicePort;
-import it.deltax.produlytics.uibackend.repositories.CaratteristicaRepository;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchivedCharacteristicPort;
+import it.deltax.produlytics.uibackend.repositories.UnarchivedCharacteristicRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,22 +15,21 @@ import java.util.stream.Collectors;
 // object adapter (Target sono le port, Adaptee è la repo)
 
 @Component
-public class CharacteristicPersistenceAdapter implements ListCharacteristicsByDevicePort, FindCharacteristicPort {
+public class UnarchivedCharacteristicAdapter implements FindAllUnarchivedCharacteristicPort, FindCharacteristicPort {
 
-    private final CaratteristicaRepository repo;
+    private final UnarchivedCharacteristicRepository repo;
 
-    public CharacteristicPersistenceAdapter(CaratteristicaRepository repo) {
+    public UnarchivedCharacteristicAdapter(UnarchivedCharacteristicRepository repo) {
         this.repo = repo;
     }
 
     @Override
-    public List<CharacteristicLight> listByMachine(int machineId) {
-        return repo.findByIdDeviceId(machineId).stream()
+    public List<CharacteristicTitle> findAllByDeviceId(int deviceId) {
+        return repo.findByArchivedFalseAndDeviceId(deviceId).stream()
             .map(
-                caratteristica -> new CharacteristicLight(
-                    caratteristica.getId().getId(),
-                    caratteristica.getName(),
-                    caratteristica.getId().getDeviceId()
+                characteristic -> new CharacteristicTitle(
+                    characteristic.getId().getId(),
+                    characteristic.getName()
                 )
             )
             .collect(Collectors.toList());

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CaratteristicaRepository extends CrudRepository<CharacteristicEntity, CharacteristicEntityId> {
-    List<CharacteristicEntity> findByIdDeviceId(int deviceId);
+public interface UnarchivedCharacteristicRepository extends CrudRepository<CharacteristicEntity, CharacteristicEntityId> {
+    List<CharacteristicEntity> findByArchivedFalseAndDeviceId(int deviceId);
 }
