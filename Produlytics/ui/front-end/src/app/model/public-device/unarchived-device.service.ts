@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {ListUnarchivedDevicesAbstractService} from "./list-unarchived-devices-abstract.service";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class UnarchivedDeviceService implements ListUnarchivedDevicesAbstractService {
 
   constructor(private httpClient: HttpClient) { }

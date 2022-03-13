@@ -1,16 +1,16 @@
 <!-- HEADER -->
-<header fxLayout="row" fxLayoutAlign="space-between center">
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
   <h1>
     Gestione macchine
   </h1>
   <button mat-stroked-button (click)="createDevice()">
     Nuova macchina
   </button>
-</header>
+</mat-toolbar>
 <!-- / HEADER -->
 <!-- CONTENT -->
-<div>
-  <mat-table [dataSource]="devicesDatasource" class="mat-elevation-z8">
+<div class="content">
+  <mat-table [dataSource]="devices" class="mat-elevation-z8">
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef>
         Nome
@@ -20,8 +20,8 @@
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="edit">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let device">
+      <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
+      <mat-cell *matCellDef="let device" fxFlex="64px">
         <button mat-icon-button (click)="openDeviceDetail(device)">
           <mat-icon>
             edit
@@ -30,25 +30,33 @@
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="activation">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let device">
+      <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
+      <mat-cell *matCellDef="let device" fxFlex="64px">
         <button mat-icon-button (click)="toggleActivationDevice(device)">
-          <mat-icon>
+          <mat-icon [ngClass]="{
+              'green-text': !device.deactivated,
+              'red-text': device.deactivated
+            }">
             {{device.deactivated ? 'toggle_on' : 'toggle_off'}}
           </mat-icon>
         </button>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let device">
+      <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
+      <mat-cell *matCellDef="let device" fxFlex="64px">
         <button mat-icon-button (click)="toggleStatusDevice(device)">
-          <mat-icon>
-            {{device.archived ? 'visibility_on' : 'visibility_off'}}
+          <mat-icon [ngClass]="{
+              'red-text': !device.archived
+            }">
+            {{device.archived ? 'restore_from_trash' : 'delete'}}
           </mat-icon>
         </button>
       </mat-cell>
     </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 </div>
 <!-- / CONTENT -->

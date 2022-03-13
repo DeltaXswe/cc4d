@@ -23,6 +23,7 @@ import {ComponentsModule} from "./components/components.module";
 import {MatDialogModule} from "@angular/material/dialog";
 import {AdminModule} from "./admin/admin.module";
 import {ListUnarchivedDevicesAbstractService} from "./model/public-device/list-unarchived-devices-abstract.service";
+import {DeviceAbstractService} from "./model/admin-device/device-abstract.service";
 
 @NgModule({
   declarations: [
@@ -60,6 +61,10 @@ import {ListUnarchivedDevicesAbstractService} from "./model/public-device/list-u
     },
     {
       provide: ListUnarchivedDevicesAbstractService,
+      useClass: environment.unarchivedDeviceService
+    },
+    {
+      provide: DeviceAbstractService,
       useClass: environment.deviceService
     }
   ],

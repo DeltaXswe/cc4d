@@ -4,13 +4,14 @@
 
 import {ProdulyticsEnvironment} from "./produlytics-environment";
 import {FakeChartService} from "../app/test/chart/fake-chart.service";
-import {FakeUnarchivedDeviceService} from "../app/test/device/fake-unarchived-device.service";
+import {FakeDeviceService} from "../app/test/device/fake-device.service";
 
 export const environment: ProdulyticsEnvironment = {
   production: false,
   apiUrl: 'http://localhost/apiweb',
   chartService: FakeChartService,
-  deviceService: FakeUnarchivedDeviceService
+  unarchivedDeviceService: FakeDeviceService,
+  deviceService: FakeDeviceService
 };
 
 /*
