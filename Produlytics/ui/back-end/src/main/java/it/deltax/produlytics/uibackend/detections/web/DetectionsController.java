@@ -1,7 +1,7 @@
-package it.deltax.produlytics.uibackend.detection.web;
+package it.deltax.produlytics.uibackend.detections.web;
 
-import it.deltax.produlytics.uibackend.detection.business.domain.DetectionLight;
-import it.deltax.produlytics.uibackend.detection.business.ports.in.ListDetectionsByCharacteristicUseCase;
+import it.deltax.produlytics.uibackend.detections.business.domain.DetectionLight;
+import it.deltax.produlytics.uibackend.detections.business.ports.in.ListDetectionsByCharacteristicUseCase;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

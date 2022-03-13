@@ -1,6 +1,6 @@
-package it.deltax.produlytics.uibackend.detection.business.ports.in;
+package it.deltax.produlytics.uibackend.detections.business.ports.in;
 
-import it.deltax.produlytics.uibackend.detection.business.domain.DetectionLight;
+import it.deltax.produlytics.uibackend.detections.business.domain.DetectionLight;
 
 import java.util.List;
 import java.util.Optional;
