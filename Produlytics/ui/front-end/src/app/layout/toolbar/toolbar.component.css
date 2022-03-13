@@ -1,0 +1,31 @@
+/*Da completare*/
+#produlytics{
+   font-size: 150%;
+}
+
+.mat-toolbar{
+ height: 9vh;
+}
+
+div {
+   overflow: inherit;
+}
+
+a{
+   text-decoration: none;
+   font-size: 110%;
+   white-space: normal;
+}
+
+button{
+   font-size: 110%;
+   min-width: min-content;
+}
+
+.example-icon {
+   padding: 0 14px;
+ }
+
+ #spacer1 {
+   flex: 1 1 auto;
+ }

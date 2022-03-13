@@ -11,6 +11,8 @@ import {MatCardModule} from "@angular/material/card";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatListModule} from "@angular/material/list";
 import {MatIconModule} from "@angular/material/icon";
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
 import {BrowserModule} from "@angular/platform-browser";
 import {FlexLayoutModule, FlexModule} from "@angular/flex-layout";
 import {AppRoutingModule} from "./app-routing.module";
@@ -27,6 +29,7 @@ import {DeviceAbstractService} from "./model/admin-device/device-abstract.servic
 import {AccountAbstractService} from "./model/admin-account/account-abstract.service";
 import {SaveAccountService} from "./model/admin-account/save-account.service";
 import {SaveAccountAbstractService} from "./model/admin-account/save-account-abstract.service";
+import { ToolbarComponent } from './layout/toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,8 @@ import {SaveAccountAbstractService} from "./model/admin-account/save-account-abs
     SelectionComponent,
     MachineComponent,
     CharacteristicComponent,
-    ChartComponent
+    ChartComponent,
+    ToolbarComponent
   ],
   imports: [
     // angular
@@ -53,6 +57,8 @@ import {SaveAccountAbstractService} from "./model/admin-account/save-account-abs
     MatIconModule,
     MatTooltipModule,
     MatDialogModule,
+    MatMenuModule,
+    MatButtonModule,
     // routing
     AppRoutingModule
 
