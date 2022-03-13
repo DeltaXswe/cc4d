@@ -22,6 +22,7 @@ import {environment} from "../environments/environment";
 import {ComponentsModule} from "./components/components.module";
 import {MatDialogModule} from "@angular/material/dialog";
 import {AdminModule} from "./admin/admin.module";
+import {ListUnarchivedDevicesAbstractService} from "./model/public-device/list-unarchived-devices-abstract.service";
 
 @NgModule({
   declarations: [
@@ -55,7 +56,11 @@ import {AdminModule} from "./admin/admin.module";
   providers: [
     {
       provide: ChartAbstractService,
-      useClass: environment.chartAbstractService
+      useClass: environment.chartService
+    },
+    {
+      provide: ListUnarchivedDevicesAbstractService,
+      useClass: environment.deviceService
     }
   ],
   bootstrap: [

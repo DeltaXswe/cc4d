@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import { CharacteristicService } from '../../../model/characteristic/characteristic.service';
 import { Characteristic } from '../../../model/characteristic/characteristic';
-import { Machine } from '../../../model/device/machine';
+import { UnarchivedDeviceInfo } from '../../../model/public-device/unarchived_device_info';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,7 +13,7 @@ export class CharacteristicComponent implements OnChanges {
 
   @Output() back = new EventEmitter<void>();
 
-  @Input() machine?: Machine;
+  @Input() machine?: UnarchivedDeviceInfo;
 
   constructor(private characteristicService: CharacteristicService, private router: Router) { }
 
@@ -27,7 +27,7 @@ export class CharacteristicComponent implements OnChanges {
     this.router.navigate(['chart', this.machine?.id, characteristic.id]);
   }
 
-  getCharacteristics(machine?: Machine):void{
+  getCharacteristics(machine?: UnarchivedDeviceInfo):void{
     if(machine) {
       this
         .characteristicService

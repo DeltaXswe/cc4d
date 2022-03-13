@@ -4,8 +4,9 @@ import {RouterModule, Routes} from "@angular/router";
 
 const routes: Routes = [
   {
-    path: 'devices',
-    loadChildren: () => import('./devices/devices.module').then(m => m.DevicesModule) // lazy module
+    path: 'gestione-macchine',
+    loadChildren: () => import('./devices/devices.module').then(m => m.DevicesModule)
+    // canActivate: AdminGuard // TODO later
   }
 ];
 

@@ -12,4 +12,7 @@ export class DevicesComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  createDevice(): void {
+
+  }
 }

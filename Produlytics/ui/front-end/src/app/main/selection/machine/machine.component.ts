@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output, ViewEncapsulation} from '@angular/core';
-import { MachineService } from '../../../model/device/machine.service';
-import { Machine } from '../../../model/device/machine';
+import { UnarchivedDeviceService } from '../../../model/public-device/unarchived-device.service';
+import { UnarchivedDeviceInfo } from '../../../model/public-device/unarchived_device_info';
 
 @Component({
   selector: 'app-machine',
@@ -11,23 +11,23 @@ import { Machine } from '../../../model/device/machine';
 export class MachineComponent implements OnInit {
 
   @Output()
-  machineSelect = new EventEmitter<Machine>();
+  machineSelect = new EventEmitter<UnarchivedDeviceInfo>();
 
-  constructor(private machineService: MachineService) { }
+  constructor(private machineService: UnarchivedDeviceService) { }
 
   ngOnInit(): void {
     this.getMachines();
   }
 
-  machines: Machine[] = [];
-  selectedMachine! : Machine;
+  machines: UnarchivedDeviceInfo[] = [];
+  selectedMachine! : UnarchivedDeviceInfo;
 
-  machineOnSelect(machine: Machine): void{
+  machineOnSelect(machine: UnarchivedDeviceInfo): void{
     this.selectedMachine = machine;
     this.machineSelect.emit(this.selectedMachine);
   }
 
   getMachines(): void{
-    this.machineService.getMachines().subscribe(machines => this.machines = machines);
+    this.machineService.getUnarchivedDevices().subscribe(machines => this.machines = machines);
   }
 }

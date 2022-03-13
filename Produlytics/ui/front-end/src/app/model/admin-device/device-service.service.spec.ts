@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FakeChartService } from './fake-chart.service';
+import { DeviceServiceService } from './device-service.service';
 
-describe('FakeChartService', () => {
-  let service: FakeChartService;
+describe('DeviceServiceService', () => {
+  let service: DeviceServiceService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(FakeChartService);
+    service = TestBed.inject(DeviceServiceService);
   });
 
   it('should be created', () => {

@@ -1,1 +1,54 @@
-<p>devices works!</p>
+<!-- HEADER -->
+<header fxLayout="row" fxLayoutAlign="space-between center">
+  <h1>
+    Gestione macchine
+  </h1>
+  <button mat-stroked-button (click)="createDevice()">
+    Nuova macchina
+  </button>
+</header>
+<!-- / HEADER -->
+<!-- CONTENT -->
+<div>
+  <mat-table [dataSource]="devicesDatasource" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>
+        Nome
+      </mat-header-cell>
+      <mat-cell *matCellDef="let device">
+        {{device.name}}
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="edit">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let device">
+        <button mat-icon-button (click)="openDeviceDetail(device)">
+          <mat-icon>
+            edit
+          </mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="activation">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let device">
+        <button mat-icon-button (click)="toggleActivationDevice(device)">
+          <mat-icon>
+            {{device.deactivated ? 'toggle_on' : 'toggle_off'}}
+          </mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let device">
+        <button mat-icon-button (click)="toggleStatusDevice(device)">
+          <mat-icon>
+            {{device.archived ? 'visibility_on' : 'visibility_off'}}
+          </mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+  </mat-table>
+</div>
+<!-- / CONTENT -->

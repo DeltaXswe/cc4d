@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Machine } from '../../model/device/machine';
+import { UnarchivedDeviceInfo } from '../../model/public-device/unarchived_device_info';
 
 @Component({
   selector: 'app-selection',
@@ -7,7 +7,7 @@ import { Machine } from '../../model/device/machine';
   styleUrls: ['./selection.component.css']
 })
 export class SelectionComponent implements OnInit {
-  machine: Machine | undefined;
+  machine: UnarchivedDeviceInfo | undefined;
 
   constructor() { }
 
