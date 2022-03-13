@@ -1,4 +1,4 @@
-package it.deltax.produlytics.uibackend.machine.business.domain;
+package it.deltax.produlytics.uibackend.devices.business.domain;
 
 public record CharacteristicLight(
 	long code,
