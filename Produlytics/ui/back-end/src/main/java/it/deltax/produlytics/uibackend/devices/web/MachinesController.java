@@ -1,6 +1,6 @@
 package it.deltax.produlytics.uibackend.devices.web;
 
-import it.deltax.produlytics.uibackend.devices.business.domain.UnarchivedDeviceInfo;
+import it.deltax.produlytics.uibackend.devices.business.domain.MachineLight;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.ListAllDevicesUseCase;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,7 @@ public class MachinesController {
     }
 
     @GetMapping("")
-    Iterable<UnarchivedDeviceInfo> listAllMachines() {
+    Iterable<MachineLight> listAllMachines() {
         return useCase.listAll();
     }
 }

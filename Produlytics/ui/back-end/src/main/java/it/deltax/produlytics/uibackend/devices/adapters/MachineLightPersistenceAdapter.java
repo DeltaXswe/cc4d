@@ -1,7 +1,7 @@
 package it.deltax.produlytics.uibackend.devices.adapters;
 
-import it.deltax.produlytics.uibackend.devices.business.domain.UnarchivedDeviceInfo;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.FindDevicePort;
+import it.deltax.produlytics.uibackend.devices.business.domain.MachineLight;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.FindMachinePort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.ListAllDevicesPort;
 import it.deltax.produlytics.uibackend.repositories.MacchinaRepository;
 import org.springframework.stereotype.Component;
@@ -12,28 +12,28 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Component
-public class DeviceLightPersistenceAdapter implements ListAllDevicesPort, FindDevicePort {
+public class MachineLightPersistenceAdapter implements ListAllDevicesPort, FindMachinePort {
 
     private final MacchinaRepository repo;
 
-    public DeviceLightPersistenceAdapter(MacchinaRepository repo) {
+    public MachineLightPersistenceAdapter(MacchinaRepository repo) {
         this.repo = repo;
     }
 
     @Override
-    public List<UnarchivedDeviceInfo> listAll() {
+    public List<MachineLight> listAll() {
         return StreamSupport.stream(repo.findAll().spliterator(), false)
             .map(macchina ->
-                new UnarchivedDeviceInfo(macchina.getId(), macchina.getName())
+                new MachineLight(macchina.getId(), macchina.getName())
             )
             .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<UnarchivedDeviceInfo> find(int machineId) {
+    public Optional<MachineLight> find(int machineId) {
         return repo.findById(machineId)
             .map(macchina ->
-                new UnarchivedDeviceInfo(macchina.getId(), macchina.getName())
+                new MachineLight(macchina.getId(), macchina.getName())
             );
     }
 }

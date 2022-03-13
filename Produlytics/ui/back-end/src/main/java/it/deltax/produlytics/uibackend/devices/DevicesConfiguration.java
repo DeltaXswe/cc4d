@@ -6,7 +6,7 @@ import it.deltax.produlytics.uibackend.devices.business.ListCharacteristicsByDev
 import it.deltax.produlytics.uibackend.devices.business.ports.in.ListAllDevicesUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.ListCharacteristicsByDeviceUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicPort;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.FindDevicePort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.FindMachinePort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.ListAllDevicesPort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.ListCharacteristicsByDevicePort;
 import org.springframework.context.annotation.Bean;
@@ -30,9 +30,9 @@ public class DevicesConfiguration {
     @Bean
 	FindCharacteristicInfoService findCharacteristicInfoService(
         FindCharacteristicPort findCharacteristicPort,
-        FindDevicePort findDevicePort
+        FindMachinePort findMachinePort
     ) {
-        return new FindCharacteristicInfoService(findCharacteristicPort, findDevicePort);
+        return new FindCharacteristicInfoService(findCharacteristicPort, findMachinePort);
     }
 
 }

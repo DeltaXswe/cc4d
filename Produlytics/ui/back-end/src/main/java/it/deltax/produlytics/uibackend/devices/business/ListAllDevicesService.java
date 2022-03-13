@@ -1,6 +1,6 @@
 package it.deltax.produlytics.uibackend.devices.business;
 
-import it.deltax.produlytics.uibackend.devices.business.domain.UnarchivedDeviceInfo;
+import it.deltax.produlytics.uibackend.devices.business.domain.MachineLight;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.ListAllDevicesUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.ListAllDevicesPort;
 
@@ -15,7 +15,7 @@ public class ListAllDevicesService implements ListAllDevicesUseCase {
     }
 
     @Override
-    public List<UnarchivedDeviceInfo> listAll() {
+    public List<MachineLight> listAll() {
         return port.listAll();
     }
 }
