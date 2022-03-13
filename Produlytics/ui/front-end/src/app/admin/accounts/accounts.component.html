@@ -1,0 +1,55 @@
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+  <h1>
+    Gestione utenti
+  </h1>
+  <button mat-stroked-button (click)="openNewUserDialog()">
+    Nuovo utente
+  </button>
+</mat-toolbar>
+<div class="content">
+  <mat-table [dataSource]="accounts" class="mat-elevation-z8">
+    <ng-container matColumnDef="username">
+      <mat-header-cell *matHeaderCellDef>
+        Username
+      </mat-header-cell>
+      <mat-cell *matCellDef="let account">
+        {{account.username}}
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="admin">
+      <mat-header-cell *matHeaderCellDef fxFlex="96px">
+        Amministratore
+      </mat-header-cell>
+      <mat-cell *matCellDef="let account" fxFlex="96px">
+        <mat-icon class="green-text" *ngIf="account.admin">
+          done
+        </mat-icon>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="edit">
+      <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
+      <mat-cell *matCellDef="let user" fxFlex="64px">
+        <button mat-icon-button>
+          <mat-icon>
+            edit
+          </mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
+      <mat-cell *matCellDef="let user" fxFlex="64px">
+        <button mat-icon-button>
+          <mat-icon [ngClass]="{
+              'red-text': !user.archived
+            }">
+            {{user.archived ? 'restore_from_trash' : 'delete'}}
+          </mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>

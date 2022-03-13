@@ -7,6 +7,11 @@ const routes: Routes = [
     path: 'gestione-macchine',
     loadChildren: () => import('./devices/devices.module').then(m => m.DevicesModule)
     // canActivate: AdminGuard // TODO later
+  },
+  {
+    path: 'gestione-utenti',
+    loadChildren: () => import('./accounts/accounts.module').then(m => m.AccountsModule)
+    // canActivate: AdminGuard // TODO later
   }
 ];
 

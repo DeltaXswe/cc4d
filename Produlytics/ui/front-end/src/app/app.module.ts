@@ -24,6 +24,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {AdminRoutingModule} from "./admin/admin-routing.module";
 import {ListUnarchivedDevicesAbstractService} from "./model/public-device/list-unarchived-devices-abstract.service";
 import {DeviceAbstractService} from "./model/admin-device/device-abstract.service";
+import {AccountAbstractService} from "./model/admin-account/account-abstract.service";
 
 @NgModule({
   declarations: [
@@ -66,6 +67,10 @@ import {DeviceAbstractService} from "./model/admin-device/device-abstract.servic
     {
       provide: DeviceAbstractService,
       useClass: environment.deviceService
+    },
+    {
+      provide: AccountAbstractService,
+      useClass: environment.accountService
     }
   ],
   bootstrap: [

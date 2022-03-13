@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Device} from "../../model/admin-device/device";
 import {Router} from "@angular/router";
 import {DeviceAbstractService} from "../../model/admin-device/device-abstract.service";
-import {map, Observer, Subject} from "rxjs";
+import {map, Observer} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
 import {ErrorDialogComponent} from "../../components/error-dialog/error-dialog.component";
@@ -13,27 +13,22 @@ import {ConfirmDialogComponent} from "../../components/confirm-dialog/confirm-di
   templateUrl: './devices.component.html',
   styleUrls: ['./devices.component.css']
 })
-export class DevicesComponent implements OnInit, OnDestroy {
+export class DevicesComponent implements OnInit {
   private readonly reloader: Observer<void> = {
     next: () => {
-      this.deviceService.getDevices()
-        .subscribe(value => {
-          this.devices = value;
-        })
+      this.initTable();
     },
     error: err => {
       this.matDialog.open(ErrorDialogComponent, {
         data: {
           message: err
         }
-      })
+      });
     },
     complete: () => {
 
     }
   }
-
-  private unsubscribeAll = new Subject<void>();
 
   devices: Device[] = [];
   readonly displayedColumns = ['name', 'edit', 'activation', 'status'];
@@ -46,15 +41,7 @@ export class DevicesComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.deviceService.getDevices()
-      .subscribe(value => {
-        this.devices = value;
-      });
-  }
-
-  ngOnDestroy() {
-    this.unsubscribeAll.next();
-    this.unsubscribeAll.complete();
+    this.initTable();
   }
 
   createDevice(): void {
@@ -124,5 +111,21 @@ export class DevicesComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+
+  private initTable() {
+    this.deviceService.getDevices()
+      .subscribe({
+        next: value => {
+          this.devices = value;
+        },
+        error: err => {
+          this.matDialog.open(ErrorDialogComponent, {
+            data: {
+              message: err
+            }
+          });
+        }
+      });
   }
 }
