@@ -1,5 +1,5 @@
 export interface Account {
   username: string,
-  admin: boolean,
+  administrator: boolean,
   archived: boolean
 }

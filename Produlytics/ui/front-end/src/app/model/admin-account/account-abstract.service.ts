@@ -6,5 +6,7 @@ import {Account} from "./account";
 export abstract class AccountAbstractService {
   public abstract getAccounts(): Observable<Account[]>;
 
-  public abstract insertUser(rawValue: any): Observable<{username: string}>;
+  public abstract recoverAccount(account: Account): Observable<{}>;
+
+  public abstract archiveAccount(account: Account): Observable<{}>;
 }

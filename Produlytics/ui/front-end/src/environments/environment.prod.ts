@@ -3,6 +3,7 @@ import {ProdulyticsEnvironment} from "./produlytics-environment";
 import {UnarchivedDeviceService} from "../app/model/public-device/unarchived-device.service";
 import {DeviceService} from "../app/model/admin-device/device.service";
 import {AccountService} from "../app/model/admin-account/account.service";
+import {SaveAccountService} from "../app/model/admin-account/save-account.service";
 
 export const environment: ProdulyticsEnvironment = {
   production: true,
@@ -10,5 +11,6 @@ export const environment: ProdulyticsEnvironment = {
   chartService: ChartService,
   unarchivedDeviceService: UnarchivedDeviceService,
   deviceService: DeviceService,
-  accountService: AccountService
+  accountService: AccountService,
+  saveAccountService: SaveAccountService
 };

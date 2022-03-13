@@ -21,15 +21,15 @@
         Amministratore
       </mat-header-cell>
       <mat-cell *matCellDef="let account" fxFlex="96px">
-        <mat-icon class="green-text" *ngIf="account.admin">
+        <mat-icon *ngIf="account.administrator" class="green-text">
           done
         </mat-icon>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="edit">
       <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
-      <mat-cell *matCellDef="let user" fxFlex="64px">
-        <button mat-icon-button>
+      <mat-cell *matCellDef="let account" fxFlex="64px">
+        <button mat-icon-button (click)="openEditAccountDialog(account)">
           <mat-icon>
             edit
           </mat-icon>
@@ -38,12 +38,12 @@
     </ng-container>
     <ng-container matColumnDef="status">
       <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
-      <mat-cell *matCellDef="let user" fxFlex="64px">
-        <button mat-icon-button>
+      <mat-cell *matCellDef="let account" fxFlex="64px">
+        <button mat-icon-button (click)="toggleStatus(account)">
           <mat-icon [ngClass]="{
-              'red-text': !user.archived
+              'red-text': !account.archived
             }">
-            {{user.archived ? 'restore_from_trash' : 'delete'}}
+            {{account.archived ? 'restore_from_trash' : 'delete'}}
           </mat-icon>
         </button>
       </mat-cell>

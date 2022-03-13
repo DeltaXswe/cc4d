@@ -13,7 +13,8 @@ export const environment: ProdulyticsEnvironment = {
   chartService: FakeChartService,
   unarchivedDeviceService: FakeDeviceService,
   deviceService: FakeDeviceService,
-  accountService: FakeAccountService
+  accountService: FakeAccountService,
+  saveAccountService: FakeAccountService
 };
 
 /*

@@ -3,6 +3,9 @@ import {Account} from "../../model/admin-account/account";
 import {AccountAbstractService} from "../../model/admin-account/account-abstract.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ErrorDialogComponent} from "../../components/error-dialog/error-dialog.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {ConfirmDialogComponent} from "../../components/confirm-dialog/confirm-dialog.component";
+import {AccountFormDialogComponent} from "./account-form-dialog/account-form-dialog.component";
 
 @Component({
   selector: 'app-accounts',
@@ -15,7 +18,8 @@ export class AccountsComponent implements OnInit {
 
   constructor(
     private accountService: AccountAbstractService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private matSnackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -23,15 +27,12 @@ export class AccountsComponent implements OnInit {
   }
 
   openNewUserDialog(): void {
-    // const dialogRef = this.matDialog.open(NewUserFormDialog);
-    // dialogRef.afterClosed().subscribe(value => {
-    //   if (value) {
-    //     this.accountService.insertUser(value)
-    //       .subscribe(() => {
-    //         this.initTable();
-    //       });
-    //   }
-    // })
+    const dialogRef = this.matDialog.open(AccountFormDialogComponent);
+    dialogRef.afterClosed().subscribe(reload => {
+      if (reload) {
+        this.initTable();
+      }
+    })
   }
 
   private initTable() {
@@ -47,5 +48,49 @@ export class AccountsComponent implements OnInit {
         });
       }
     })
+  }
+
+  openEditAccountDialog(account: Account): void {
+    const dialogRef = this.matDialog.open(AccountFormDialogComponent, {
+      data: {
+        account
+      }
+    });
+    dialogRef.afterClosed().subscribe(reload => {
+      if (reload) {
+        this.initTable();
+      }
+    });
+  }
+
+  toggleStatus(account: Account) {
+    if (account.archived) {
+      this.accountService.recoverAccount(account)
+        .subscribe(() => {
+          this.initTable();
+          this.matSnackBar.open(
+            'Utente ripristinato con successo',
+            'Ok'
+          )
+        });
+    } else {
+      const dialogRef = this.matDialog.open(ConfirmDialogComponent, {
+        data: {
+          message: `L'utente ${account.username} verrà disabilitato.`
+        }
+      });
+      dialogRef.afterClosed().subscribe(confirm => {
+        if (confirm) {
+          this.accountService.archiveAccount(account)
+            .subscribe(() => {
+              this.initTable();
+              this.matSnackBar.open(
+                'Utente archiviato con successo',
+                'Ok'
+              )
+            });
+        }
+      })
+    }
   }
 }

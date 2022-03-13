@@ -25,6 +25,8 @@ import {AdminRoutingModule} from "./admin/admin-routing.module";
 import {ListUnarchivedDevicesAbstractService} from "./model/public-device/list-unarchived-devices-abstract.service";
 import {DeviceAbstractService} from "./model/admin-device/device-abstract.service";
 import {AccountAbstractService} from "./model/admin-account/account-abstract.service";
+import {SaveAccountService} from "./model/admin-account/save-account.service";
+import {SaveAccountAbstractService} from "./model/admin-account/save-account-abstract.service";
 
 @NgModule({
   declarations: [
@@ -71,6 +73,10 @@ import {AccountAbstractService} from "./model/admin-account/account-abstract.ser
     {
       provide: AccountAbstractService,
       useClass: environment.accountService
+    },
+    {
+      provide: SaveAccountAbstractService,
+      useClass: environment.saveAccountService
     }
   ],
   bootstrap: [

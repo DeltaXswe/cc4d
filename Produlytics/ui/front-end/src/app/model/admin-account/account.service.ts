@@ -15,8 +15,12 @@ export class AccountService implements AccountAbstractService {
     return this.httpClient.get<Account[]>(`admin/accounts`);
   }
 
-  insertUser(rawValue: any): Observable<{ username: string }> {
-    return this.httpClient.post<{ username: string }>(`admin/accounts`, rawValue);
+  archiveAccount(account: Account): Observable<{}> {
+    return this.httpClient.put(`admin/accounts/${account.username}/archived`, true);
+  }
+
+  recoverAccount(account: Account): Observable<{}> {
+    return this.httpClient.put(`admin/accounts/${account.username}/archived`, false);
   }
 
 }

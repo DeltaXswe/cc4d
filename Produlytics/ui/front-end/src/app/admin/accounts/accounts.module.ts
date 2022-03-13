@@ -9,6 +9,11 @@ import {MatTableModule} from "@angular/material/table";
 import {MatIconModule} from "@angular/material/icon";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { AccountFormDialogComponent } from './account-form-dialog/account-form-dialog.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 const routes: Routes = [
   {
@@ -19,7 +24,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    AccountsComponent
+    AccountsComponent,
+    AccountFormDialogComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +36,11 @@ const routes: Routes = [
     MatTableModule,
     MatIconModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule
   ]
 })
 export class AccountsModule { }
