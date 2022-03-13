@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { SelectionComponent } from './main/selection/selection.component';
 import { ChartComponent } from './main/chart/chart.component';
-import {AdminModule} from "./admin/admin.module";
+import {AdminRoutingModule} from "./admin/admin-routing.module";
 
 const routes: Routes = [
   { path: '', component: SelectionComponent },
@@ -13,7 +13,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' }),
-    AdminModule
+    AdminRoutingModule
   ],
   exports: [RouterModule],
 })

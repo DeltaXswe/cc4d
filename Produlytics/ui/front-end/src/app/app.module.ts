@@ -21,7 +21,7 @@ import {ChartAbstractService} from "./model/chart/chart-abstract.service";
 import {environment} from "../environments/environment";
 import {ComponentsModule} from "./components/components.module";
 import {MatDialogModule} from "@angular/material/dialog";
-import {AdminModule} from "./admin/admin.module";
+import {AdminRoutingModule} from "./admin/admin-routing.module";
 import {ListUnarchivedDevicesAbstractService} from "./model/public-device/list-unarchived-devices-abstract.service";
 import {DeviceAbstractService} from "./model/admin-device/device-abstract.service";
 
