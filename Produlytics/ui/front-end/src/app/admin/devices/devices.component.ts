@@ -7,6 +7,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
 import {ErrorDialogComponent} from "../../components/error-dialog/error-dialog.component";
 import {ConfirmDialogComponent} from "../../components/confirm-dialog/confirm-dialog.component";
+import {DeviceDatasource} from "./device.datasource";
 
 @Component({
   selector: 'app-devices',
@@ -30,7 +31,7 @@ export class DevicesComponent implements OnInit {
     }
   }
 
-  devices: Device[] = [];
+  devices = new DeviceDatasource();
   readonly displayedColumns = ['name', 'edit', 'activation', 'status'];
 
   constructor(
@@ -117,7 +118,7 @@ export class DevicesComponent implements OnInit {
     this.deviceService.getDevices()
       .subscribe({
         next: value => {
-          this.devices = value;
+          this.devices.setData(value);
         },
         error: err => {
           this.matDialog.open(ErrorDialogComponent, {

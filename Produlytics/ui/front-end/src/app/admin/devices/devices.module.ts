@@ -19,6 +19,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatListModule} from "@angular/material/list";
 import {MatCardModule} from "@angular/material/card";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatSortModule} from "@angular/material/sort";
 
 const routes: Routes = [
   {
@@ -37,22 +39,24 @@ const routes: Routes = [
     NewDeviceComponent,
     NewCharacteristicDialogComponent
   ],
-    imports: [
-      CommonModule,
-      RouterModule.forChild(routes),
-      FlexLayoutModule,
-      MatTableModule,
-      MatToolbarModule,
-      MatSnackBarModule,
-      MatButtonModule,
-      MatFormFieldModule,
-      MatInputModule,
-      ReactiveFormsModule,
-      MatListModule,
-      MatCardModule,
-      MatIconModule,
-      MatDialogModule,
-      MatCheckboxModule
-    ]
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    FlexLayoutModule,
+    MatTableModule,
+    MatToolbarModule,
+    MatSnackBarModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatListModule,
+    MatCardModule,
+    MatIconModule,
+    MatDialogModule,
+    MatCheckboxModule,
+    MatPaginatorModule,
+    MatSortModule
+  ]
 })
 export class DevicesModule { }

@@ -1,7 +1,7 @@
 export interface Device {
-   id: number
-   name: string
-   apiKey: string,
-   archived: boolean,
-   deactivated: boolean
+   readonly id: number,
+   readonly name: string,
+   readonly apiKey: string,
+   readonly archived: boolean,
+   readonly deactivated: boolean
 }

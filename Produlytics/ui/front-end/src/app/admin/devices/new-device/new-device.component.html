@@ -2,7 +2,7 @@
   <h1>
     Nuova macchina
   </h1>
-  <button mat-raised-button [disabled]="formGroup.invalid || formGroup.pristine || characteristics.length === 0">
+  <button mat-raised-button [disabled]="formGroup.invalid || formGroup.pristine || characteristics.length === 0" (click)="insertDevice()">
     Inserisci macchina
   </button>
 </mat-toolbar>

@@ -10,53 +10,57 @@
 <!-- / HEADER -->
 <!-- CONTENT -->
 <div class="content">
-  <mat-table [dataSource]="devices" class="mat-elevation-z8">
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef>
-        Nome
-      </mat-header-cell>
-      <mat-cell *matCellDef="let device">
-        {{device.name}}
-      </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="edit">
-      <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
-      <mat-cell *matCellDef="let device" fxFlex="64px">
-        <button mat-icon-button (click)="openDeviceDetail(device)">
-          <mat-icon>
-            edit
-          </mat-icon>
-        </button>
-      </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="activation">
-      <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
-      <mat-cell *matCellDef="let device" fxFlex="64px">
-        <button mat-icon-button (click)="toggleActivationDevice(device)">
-          <mat-icon [ngClass]="{
+  <div class="mat-elevation-z8">
+    <mat-table [dataSource]="devices" matSort>
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="name">
+          Nome
+        </mat-header-cell>
+        <mat-cell *matCellDef="let device">
+          {{device.name}}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="edit">
+        <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
+        <mat-cell *matCellDef="let device" fxFlex="64px">
+          <button mat-icon-button (click)="openDeviceDetail(device)">
+            <mat-icon>
+              edit
+            </mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="activation">
+        <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
+        <mat-cell *matCellDef="let device" fxFlex="64px">
+          <button mat-icon-button (click)="toggleActivationDevice(device)">
+            <mat-icon [ngClass]="{
               'green-text': !device.deactivated,
               'red-text': device.deactivated
             }">
-            {{device.deactivated ? 'toggle_on' : 'toggle_off'}}
-          </mat-icon>
-        </button>
-      </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
-      <mat-cell *matCellDef="let device" fxFlex="64px">
-        <button mat-icon-button (click)="toggleStatusDevice(device)">
-          <mat-icon [ngClass]="{
+              {{device.deactivated ? 'toggle_on' : 'toggle_off'}}
+            </mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
+        <mat-cell *matCellDef="let device" fxFlex="64px">
+          <button mat-icon-button (click)="toggleStatusDevice(device)">
+            <mat-icon [ngClass]="{
               'red-text': !device.archived
             }">
-            {{device.archived ? 'restore_from_trash' : 'delete'}}
-          </mat-icon>
-        </button>
-      </mat-cell>
-    </ng-container>
+              {{device.archived ? 'restore_from_trash' : 'delete'}}
+            </mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+  </div>
 </div>
 <!-- / CONTENT -->

@@ -4,15 +4,40 @@ import {Observable, of, throwError} from "rxjs";
 import {UnarchivedDeviceInfo} from "../../model/public-device/unarchived_device_info";
 import {DeviceAbstractService} from "../../model/admin-device/device-abstract.service";
 import {Device} from "../../model/admin-device/device";
+import {NewDeviceService} from "../../model/admin-device/new-device.service";
+import {DeviceCreationCommand} from "../../model/admin-device/device-creation-command";
+import {NewDeviceAbstractService} from "../../model/admin-device/new-device-abstract.service";
+
+class DeviceBuilder {
+
+   id: number;
+   name: string;
+   apiKey: string;
+   archived: boolean;
+   deactivated: boolean;
+
+  constructor(device: Device) {
+    this.id = device.id;
+    this.name = device.name;
+    this.apiKey = device.apiKey;
+    this.archived = device.archived;
+    this.deactivated = device.deactivated;
+  }
+
+  build(): Device {
+    return this;
+  }
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class FakeDeviceService implements
   ListUnarchivedDevicesAbstractService,
-  DeviceAbstractService
+  DeviceAbstractService,
+  NewDeviceAbstractService
 {
-  private devices: Device[] = [
+  private devices: DeviceBuilder[] = [
     {
       id: 1,
       name: 'Macchina 1',
@@ -34,7 +59,7 @@ export class FakeDeviceService implements
       deactivated: true,
       apiKey: 'CCC'
     }
-  ];
+  ].map(device => new DeviceBuilder(device));
 
   constructor() { }
 
@@ -86,4 +111,19 @@ export class FakeDeviceService implements
       return throwError('Macchina non trovata')
     }
   }
+
+  insertDevice(deviceCreationCommand: DeviceCreationCommand): Observable<{ id: number }> {
+    const nextId = Math.max(...this.devices.map(device => device.id)) + 1;
+    const newDevice = new DeviceBuilder({
+      id: nextId,
+      name: deviceCreationCommand.name,
+      apiKey: 'BULABULA',
+      deactivated: false,
+      archived: false
+    });
+    this.devices.push(newDevice);
+    return of(newDevice);
+  }
+
+
 }

@@ -32,6 +32,7 @@ import {SaveAccountAbstractService} from "./model/admin-account/save-account-abs
 import { ToolbarComponent } from './layout/toolbar/toolbar.component';
 import { LoginComponent } from './main/login/login.component';
 import {ComponentsModule} from "./components/components.module";
+import {NewDeviceAbstractService} from "./model/admin-device/new-device-abstract.service";
 
 @NgModule({
   declarations: [
@@ -90,6 +91,10 @@ import {ComponentsModule} from "./components/components.module";
     {
       provide: SaveAccountAbstractService,
       useExisting: environment.saveAccountService
+    },
+    {
+      provide: NewDeviceAbstractService,
+      useExisting: environment.newDeviceService
     }
   ],
   bootstrap: [
