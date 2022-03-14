@@ -26,26 +26,25 @@ export class NewCharacteristicDialogComponent implements OnInit {
           ? {duplicateCharacteristicName: true}
           : null;
       }]),
-      upperLimit: new FormControl(''),
-      lowerLimit: new FormControl(''),
       autoAdjust: new FormControl(false),
+      upperLimit: new FormControl('', Validators.required),
+      lowerLimit: new FormControl('', Validators.required),
       sampleSize: new FormControl('')
     });
   }
 
   ngOnInit(): void {
-    const autoAdjustField = this.formGroup.get('autoAdjust')!;
-    this.formGroup.get('upperLimit')?.setValidators(this.limitValidator(autoAdjustField));
-    this.formGroup.get('lowerLimit')?.setValidators(this.limitValidator(autoAdjustField));
-    this.formGroup.get('upperLimit')?.setValidators(control => {
-      if (autoAdjustField?.value) {
-        return {
-          autoAdjustOff: null
-        };
+    this.formGroup.get('autoAdjust')?.valueChanges.subscribe(selected => {
+      if (selected) {
+        this.formGroup.get('upperLimit')?.removeValidators(Validators.required);
+        this.formGroup.get('upperLimit')?.updateValueAndValidity();
+        this.formGroup.get('lowerLimit')?.removeValidators(Validators.required);
+        this.formGroup.get('lowerLimit')?.updateValueAndValidity();
       } else {
-        return {
-          autoAdjustOff: control.value && control.value !== '' ? null : true
-        };
+        this.formGroup.get('upperLimit')?.setValidators(Validators.required);
+        this.formGroup.get('upperLimit')?.updateValueAndValidity();
+        this.formGroup.get('lowerLimit')?.setValidators(Validators.required);
+        this.formGroup.get('lowerLimit')?.updateValueAndValidity();
       }
     });
   }
@@ -55,20 +54,13 @@ export class NewCharacteristicDialogComponent implements OnInit {
   }
 
   confirm(): void {
-    this.matDialogRef.close(this.formGroup.getRawValue());
-  }
-
-  private limitValidator(autoAdjustField: AbstractControl) {
-    return (control: AbstractControl) => {
-      if (autoAdjustField?.value) {
-        return {
-          autoAdjustOn: control.value && control.value !== '' ? true : null
-        };
-      } else {
-        return {
-          autoAdjustOn: null
-        };
-      }
+    const rawValue = this.formGroup.getRawValue();
+    if (rawValue.autoAdjust) {
+      rawValue.upperLimit = null;
+      rawValue.lowerLimit = null;
+    } else {
+      rawValue.sampleSize = null;
     }
+    this.matDialogRef.close(this.formGroup.getRawValue());
   }
 }

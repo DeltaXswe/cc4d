@@ -9,3 +9,7 @@
   margin: 0;
   padding: 24px;
 }
+
+.mat-checkbox {
+  margin-bottom: 8px;
+}

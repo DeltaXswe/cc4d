@@ -22,45 +22,38 @@
         Esiste già una caratteristica con questo nome
       </mat-error>
     </mat-form-field>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-      <mat-checkbox formControlName="autoAdjust">
-        Calcolo automatico dei limiti
-      </mat-checkbox>
-      <mat-form-field *ngIf="formGroup.get('sampleSize') as field" appearance="outline" floatLabel="always">
+    <mat-checkbox formControlName="autoAdjust">
+      Calcolo automatico dei limiti
+    </mat-checkbox>
+    <mat-form-field *ngIf="formGroup.get('autoAdjust')?.value" appearance="outline" floatLabel="always">
+      <mat-label>
+        Dimensione del campione per il calcolo automatico
+      </mat-label>
+      <input matInput formControlName="sampleSize" name="sample-size" type="number" />
+    </mat-form-field>
+    <div *ngIf="!formGroup.get('autoAdjust')?.value" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px">
+      <mat-form-field fxFlex="50" appearance="outline" floatLabel="always">
         <mat-label>
-          Dimensione del campione per il calcolo automatico
+          Limite inferiore
         </mat-label>
-        <input matInput formControlName="sampleSize" name="sample-size" type="number" />
-        <mat-error *ngIf="field.hasError('autoAdjustOff')">
-          Se il calcolo è disattivato questo campo deve essere vuoto
-        </mat-error>
+        <input matInput formControlName="lowerLimit" name="lower-limit" type="number" />
+        <mat-error>Il campo è richiesto</mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex="50" appearance="outline" floatLabel="always">
+        <mat-label>
+          Limite superiore
+        </mat-label>
+        <input matInput formControlName="upperLimit" name="upper-limit" type="number" />
+        <mat-error>Il campo è richiesto</mat-error>
       </mat-form-field>
     </div>
-    <mat-form-field *ngIf="formGroup.get('upperLimit') as field"  appearance="outline" floatLabel="always">
-      <mat-label>
-        Limite superiore
-      </mat-label>
-      <input matInput formControlName="upperLimit" name="upper-limit" type="number" />
-      <mat-error *ngIf="field.hasError('autoAdjustOn')">
-        Il calcolo automatico dei limiti ignorerà questo valore
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field *ngIf="formGroup.get('lowerLimit') as field"  appearance="outline" floatLabel="always">
-      <mat-label>
-        Limite inferiore
-      </mat-label>
-      <input matInput formControlName="lowerLimit" name="lower-limit" type="number" />
-      <mat-error *ngIf="field.hasError('autoAdjustOn')">
-        Il calcolo automatico dei limiti ignorerà questo valore
-      </mat-error>
-    </mat-form-field>
   </form>
 
   <mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
     <button mat-button (click)="cancel()">
       Annulla
     </button>
-    <button mat-raised-button [disabled]="formGroup.invalid" (click)="confirm()">
+    <button mat-raised-button color="primary" [disabled]="formGroup.invalid" (click)="confirm()">
       Conferma
     </button>
   </mat-dialog-actions>
