@@ -5,7 +5,9 @@ import {UnarchivedDeviceInfo} from "../../model/public-device/unarchived_device_
 import {DeviceAbstractService} from "../../model/admin-device/device-abstract.service";
 import {Device} from "../../model/admin-device/device";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class FakeDeviceService implements
   ListUnarchivedDevicesAbstractService,
   DeviceAbstractService

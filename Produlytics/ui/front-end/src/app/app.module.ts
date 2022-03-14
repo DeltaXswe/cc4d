@@ -31,6 +31,7 @@ import {AccountAbstractService} from "./model/admin-account/account-abstract.ser
 import {SaveAccountAbstractService} from "./model/admin-account/save-account-abstract.service";
 import { ToolbarComponent } from './layout/toolbar/toolbar.component';
 import { LoginComponent } from './main/login/login.component';
+import {ComponentsModule} from "./components/components.module";
 
 @NgModule({
   declarations: [
@@ -65,21 +66,22 @@ import { LoginComponent } from './main/login/login.component';
     MatInputModule,
     MatCheckboxModule,
     // routing
-    AppRoutingModule
-
+    AppRoutingModule,
+    // other
+    ComponentsModule
   ],
   providers: [
     {
       provide: ChartAbstractService,
-      useClass: environment.chartService
+      useExisting: environment.chartService
     },
     {
       provide: ListUnarchivedDevicesAbstractService,
-      useClass: environment.unarchivedDeviceService
+      useExisting: environment.unarchivedDeviceService
     },
     {
       provide: DeviceAbstractService,
-      useClass: environment.deviceService
+      useExisting: environment.deviceService
     },
     {
       provide: AccountAbstractService,

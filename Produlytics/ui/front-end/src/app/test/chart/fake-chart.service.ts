@@ -4,7 +4,9 @@ import {BehaviorSubject, Observable, of} from "rxjs";
 import {CharacteristicInfo} from "../../model/chart/characteristic-info";
 import {ChartPoint} from "../../model/chart/chart-point";
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class FakeChartService implements ChartAbstractService {
 
   fakeInitialPoints = new BehaviorSubject<[CharacteristicInfo, ChartPoint[]]>([{

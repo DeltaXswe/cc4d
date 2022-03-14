@@ -9,28 +9,50 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatDialogModule} from "@angular/material/dialog";
+import {NewDeviceComponent} from "./new-device/new-device.component";
+import {
+  NewCharacteristicDialogComponent
+} from "./new-characteristic-dialog/new-characteristic-dialog.component";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatListModule} from "@angular/material/list";
+import {MatCardModule} from "@angular/material/card";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 const routes: Routes = [
   {
     path: '',
     component: DevicesComponent
+  },
+  {
+    path: 'nuova',
+    component: NewDeviceComponent
   }
 ]
 
 @NgModule({
   declarations: [
-    DevicesComponent
+    DevicesComponent,
+    NewDeviceComponent,
+    NewCharacteristicDialogComponent
   ],
     imports: [
       CommonModule,
       RouterModule.forChild(routes),
       FlexLayoutModule,
-      MatButtonModule,
       MatTableModule,
-      MatIconModule,
       MatToolbarModule,
       MatSnackBarModule,
-      MatDialogModule
+      MatButtonModule,
+      MatFormFieldModule,
+      MatInputModule,
+      ReactiveFormsModule,
+      MatListModule,
+      MatCardModule,
+      MatIconModule,
+      MatDialogModule,
+      MatCheckboxModule
     ]
 })
 export class DevicesModule { }

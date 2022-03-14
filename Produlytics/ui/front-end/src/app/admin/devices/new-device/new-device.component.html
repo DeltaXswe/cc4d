@@ -1,0 +1,43 @@
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+  <h1>
+    Nuova macchina
+  </h1>
+  <button mat-raised-button [disabled]="formGroup.invalid || formGroup.pristine || characteristics.length === 0">
+    Inserisci macchina
+  </button>
+</mat-toolbar>
+<div class="content">
+  <mat-card fxFlex="65">
+    <mat-card-title>
+      Informazioni generali
+    </mat-card-title>
+    <form [formGroup]="formGroup">
+      <mat-form-field *ngIf="formGroup.get('name') as field" appearance="outline" floatLabel="always">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="name" name="name" />
+        <mat-error *ngIf="field.hasError('required')">
+          Il campo è richiesto
+        </mat-error>
+        <mat-error *ngIf="field.hasError('duplicateDeviceName')">
+          Esiste già una macchina con questo nome
+        </mat-error>
+      </mat-form-field>
+    </form>
+    <mat-card-subtitle fxLayout="row" fxLayoutAlign="start center">
+      <span>Caratteristiche</span>
+      <button mat-icon-button (click)="openNewCharacteristicDialog()">
+        <mat-icon class="green-text">
+          add
+        </mat-icon>
+      </button>
+    </mat-card-subtitle>
+    <mat-list disableRipple>
+      <mat-list-item *ngFor="let characteristic of characteristics">
+        <span>{{characteristic.name}}</span>
+        <mat-divider vertical></mat-divider>
+        <span *ngIf="characteristic.autoAdjust" class="green-text">Calcolo automatico abilitato sugli ultimi {{characteristic.sampleSize}} campioni</span>
+        <span *ngIf="!characteristic.autoAdjust">Limiti: [{{characteristic.lowerLimit}}, {{characteristic.upperLimit}}]</span>
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
+</div>

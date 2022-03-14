@@ -7,7 +7,9 @@ import { CharacteristicInfo } from './characteristic-info';
 import {ChartAbstractService} from "./chart-abstract.service";
 import {HttpClient} from "@angular/common/http";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ChartService implements ChartAbstractService{
 
   constructor(private httpClient: HttpClient) {}

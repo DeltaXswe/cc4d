@@ -45,7 +45,7 @@ export class DevicesComponent implements OnInit {
   }
 
   createDevice(): void {
-
+    this.router.navigate(['gestione-macchine', 'nuova']);
   }
 
   openDeviceDetail(device: Device): void {
