@@ -13,6 +13,9 @@ import {MatListModule} from "@angular/material/list";
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatInputModule} from '@angular/material/input';
 import {BrowserModule} from "@angular/platform-browser";
 import {FlexLayoutModule, FlexModule} from "@angular/flex-layout";
 import {AppRoutingModule} from "./app-routing.module";
@@ -30,6 +33,7 @@ import {AccountAbstractService} from "./model/admin-account/account-abstract.ser
 import {SaveAccountService} from "./model/admin-account/save-account.service";
 import {SaveAccountAbstractService} from "./model/admin-account/save-account-abstract.service";
 import { ToolbarComponent } from './layout/toolbar/toolbar.component';
+import { LoginComponent } from './main/login/login.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +42,8 @@ import { ToolbarComponent } from './layout/toolbar/toolbar.component';
     MachineComponent,
     CharacteristicComponent,
     ChartComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    LoginComponent
   ],
   imports: [
     // angular
@@ -59,6 +64,9 @@ import { ToolbarComponent } from './layout/toolbar/toolbar.component';
     MatDialogModule,
     MatMenuModule,
     MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
     // routing
     AppRoutingModule
 
