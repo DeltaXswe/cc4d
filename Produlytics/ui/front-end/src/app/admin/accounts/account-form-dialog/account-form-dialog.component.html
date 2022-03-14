@@ -13,7 +13,7 @@
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
       <mat-form-field *ngIf="formGroup.get('username') as field" appearance="outline" floatLabel="always">
         <mat-label>Username</mat-label>
-        <input matInput formControlName="username" name="username" />
+        <input matInput formControlName="username" name="username" autocomplete="new-username" />
         <mat-error *ngIf="field.hasError('required')">Il campo è richiesto</mat-error>
         <mat-error *ngIf="field.hasError('duplicateUsername')">Esiste già un utente con questo username</mat-error>
       </mat-form-field>
@@ -21,7 +21,7 @@
     </div>
     <mat-form-field *ngIf="formGroup.get('password') as field" appearance="outline" floatLabel="always">
       <mat-label>Password</mat-label>
-      <input matInput formControlName="password" name="pwd" type="password" />
+      <input matInput formControlName="password" name="password" type="password" autocomplete="new-password" />
       <mat-error *ngIf="field.hasError('invalidPassword')">La password non rispetta i criteri minimi di sicurezza.</mat-error>
     </mat-form-field>
   </form>

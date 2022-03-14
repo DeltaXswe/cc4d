@@ -4,7 +4,9 @@ import {Observable} from "rxjs";
 import {Account} from "./account";
 import {HttpClient} from "@angular/common/http";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AccountService implements AccountAbstractService {
 
   constructor(
@@ -22,5 +24,4 @@ export class AccountService implements AccountAbstractService {
   recoverAccount(account: Account): Observable<{}> {
     return this.httpClient.put(`admin/accounts/${account.username}/archived`, false);
   }
-
 }

@@ -28,7 +28,7 @@ export class AccountFormDialogComponent implements OnInit {
     this.formGroup = formBuilder.group({
       username: new FormControl(data?.account.username || '', Validators.required),
       administrator: new FormControl(data?.account.administrator || false),
-      password: new FormControl('', (control => {
+      password: new FormControl(data?.account.password || '', (control => {
         const length = control.value?.length;
         return length && length > 6 ? null : { invalidPassword: true }
       }))

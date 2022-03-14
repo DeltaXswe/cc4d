@@ -6,6 +6,7 @@ import {ErrorDialogComponent} from "../../components/error-dialog/error-dialog.c
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ConfirmDialogComponent} from "../../components/confirm-dialog/confirm-dialog.component";
 import {AccountFormDialogComponent} from "./account-form-dialog/account-form-dialog.component";
+import {AccountsDatasource} from "./accounts.datasource";
 
 @Component({
   selector: 'app-accounts',
@@ -14,7 +15,7 @@ import {AccountFormDialogComponent} from "./account-form-dialog/account-form-dia
 })
 export class AccountsComponent implements OnInit {
   readonly displayedColumns = ['username', 'admin', 'edit', 'status'];
-  accounts: Account[] = [];
+  accounts = new AccountsDatasource();
 
   constructor(
     private accountService: AccountAbstractService,
@@ -38,7 +39,7 @@ export class AccountsComponent implements OnInit {
   private initTable() {
     this.accountService.getAccounts().subscribe({
       next: value => {
-        this.accounts = value;
+        this.accounts.setData(value);
       },
       error: err => {
         this.matDialog.open(ErrorDialogComponent, {

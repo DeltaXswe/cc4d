@@ -4,7 +4,9 @@ import {Observable, of, throwError} from "rxjs";
 import {Account} from "../../model/admin-account/account";
 import {SaveAccountAbstractService} from "../../model/admin-account/save-account-abstract.service";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class FakeAccountService implements
   AccountAbstractService,
   SaveAccountAbstractService
@@ -14,19 +16,26 @@ export class FakeAccountService implements
     {
       username: 'billy',
       administrator: true,
-      archived: false
+      archived: false,
+      password: '$HDUHFDHUF'
     },
     {
       username: 'britney',
       administrator: false,
-      archived: false
+      archived: false,
+      password: '$HDUHFDHUF'
     },
     {
       username: 'bobby',
       administrator: false,
-      archived: true
+      archived: true,
+      password: '$HDUHFDHUF'
     }
   ];
+
+  constructor() {
+    console.log('Sono stato creato aaaaaaaaa end my sufferings');
+  }
 
   getAccounts(): Observable<Account[]> {
     return of(this.accounts);
@@ -53,8 +62,14 @@ export class FakeAccountService implements
   }
 
   insertAccount(rawValue: any): Observable<{ username: string }> {
-    this.accounts.push(rawValue);
-    return of(rawValue);
+    if (this.accounts.find(account => account.username === rawValue.username)) {
+      return throwError({
+        errorCode: 'duplicateUsername'
+      });
+    } else {
+      this.accounts.push(rawValue);
+      return of(rawValue);
+    }
   }
 
   updateAccount(username: string, rawValue: any): Observable<{}> {

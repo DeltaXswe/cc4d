@@ -78,11 +78,11 @@ import { ToolbarComponent } from './layout/toolbar/toolbar.component';
     },
     {
       provide: AccountAbstractService,
-      useClass: environment.accountService
+      useExisting: environment.accountService
     },
     {
       provide: SaveAccountAbstractService,
-      useClass: environment.saveAccountService
+      useExisting: environment.saveAccountService
     }
   ],
   bootstrap: [
