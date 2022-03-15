@@ -1,4 +1,4 @@
-FROM timescale/timescaledb:latest-pg12
+FROM timescale/timescaledb:latest-pg14
 
 # TODO: Queste andrebbero spostate da qualche parte (un file di configurazione forse?)
 ENV POSTGRES_USER deltax

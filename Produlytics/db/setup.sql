@@ -11,6 +11,7 @@ CREATE TABLE characteristic
 (
     id SERIAL,
     name TEXT NOT NULL,
+    archived BOOLEAN NOT NULL,
     lower_limit DOUBLE PRECISION,
     upper_limit DOUBLE PRECISION,
     average DOUBLE PRECISION,
@@ -28,7 +29,7 @@ CREATE TABLE detection
     outlier BOOLEAN NOT NULL,
     characteristic_id INTEGER NOT NULL,
     device_id INTEGER NOT NULL,
-    PRIMARY KEY(creation_time, device_id, characteristic_id),
+    PRIMARY KEY(device_id, characteristic_id, creation_time),
     FOREIGN KEY(device_id, characteristic_id) REFERENCES characteristic(device_id, id)
 );
 
@@ -42,14 +43,12 @@ CREATE TABLE account
 
 SELECT create_hypertable('detection', 'creation_time', chunk_time_interval => 100000000000);
 
-CREATE INDEX ON device(api_key);
-
--- Autoincrement characteristic's id for those with the same machine_id
+-- Autoincrement characteristic's id for those with the same device_id
 CREATE OR REPLACE FUNCTION autofillCharacteristicId() RETURNS TRIGGER AS '
 BEGIN
   SELECT INTO NEW.id COALESCE(MAX(id), 0) + 1
-  FROM Characteristic
-  WHERE machine_id = NEW.machine_id;
+  FROM characteristic
+  WHERE device_id = NEW.device_id;
   RETURN NEW;
 END; ' LANGUAGE plpgsql;
 
