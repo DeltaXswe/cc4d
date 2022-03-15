@@ -1,0 +1,39 @@
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+  <h2>
+    Modifica password
+  </h2>
+  <button mat-icon-button (click)="cancel()">
+    <mat-icon>
+      close
+    </mat-icon>
+  </button>
+</mat-toolbar>
+<div mat-dialog-content>
+  <form [formGroup]="modifyPw" fxLayout="column" fxLayoutAlign="start stretch">
+    <mat-form-field appearance="outline" floatLabel="always">
+      <mat-label>Password corrente</mat-label>
+      <input matInput formControlName="oldPw" type="password"/>
+      <mat-error>Campo obbligatorio</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" floatLabel="always">
+      <mat-label>Nuova password</mat-label>
+      <input matInput formControlName="newPw" type="password"/>
+      <mat-error>Campo obbligatorio</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" floatLabel="always">
+      <mat-label>Conferma nuova password</mat-label>
+      <input matInput formControlName="newPwRe" type="password"/>
+      <mat-error *ngIf="modifyPw.controls['newPwRe'].errors?.['mismatch']">
+        Le due password non coincidono
+      </mat-error>
+    </mat-form-field>
+  </form>
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
+    <button mat-raised-button (click)="cancel()">
+      Annulla
+    </button>
+    <button mat-raised-button color="accent" [disabled]="modifyPw.invalid || modifyPw.pristine">
+      Confirm
+    </button>
+  </mat-dialog-actions>
+</div>

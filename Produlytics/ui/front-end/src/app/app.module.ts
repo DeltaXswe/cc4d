@@ -33,6 +33,9 @@ import { ToolbarComponent } from './layout/toolbar/toolbar.component';
 import { LoginComponent } from './main/login/login.component';
 import {ComponentsModule} from "./components/components.module";
 import {NewDeviceAbstractService} from "./model/admin-device/new-device-abstract.service";
+import { FormsModule }   from '@angular/forms';
+import { ReactiveFormsModule }   from '@angular/forms';
+import { ModifyPwComponent } from './main/modify-pw/modify-pw.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,8 @@ import {NewDeviceAbstractService} from "./model/admin-device/new-device-abstract
     CharacteristicComponent,
     ChartComponent,
     ToolbarComponent,
-    LoginComponent
+    LoginComponent,
+    ModifyPwComponent
   ],
   imports: [
     // angular
@@ -68,6 +72,8 @@ import {NewDeviceAbstractService} from "./model/admin-device/new-device-abstract
     MatCheckboxModule,
     // routing
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     // other
     ComponentsModule
   ],

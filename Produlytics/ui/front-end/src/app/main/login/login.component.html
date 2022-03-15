@@ -1,17 +1,22 @@
-<div fxLayoutAlign="center center" fxFlexFill>
+<div fxLayoutAlign="center center" fxFlexFill class="main-div">
    <mat-card fxFlex="25">
-      <h2>Login</h2>
-      <form fxLayoutAlign="stretch" fxLayout="column">
+      <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="center center">
+         <mat-card-title>Login</mat-card-title>
+      </mat-toolbar>
+      <form fxLayoutAlign="stretch" fxLayout="column" class="login-form" [formGroup]="loginForm" (ngSubmit) = "onSubmit()">
          <mat-form-field appearance="fill">
             <mat-label>Nome utente</mat-label>
-            <input matInput>
+            <input matInput formControlName="un">
+            <mat-error><mat-icon>error</mat-icon>Campo obbligatorio</mat-error>
          </mat-form-field>
          <mat-form-field appearance="fill">
             <mat-label>Password</mat-label>
-            <input matInput type="password">
+            <input matInput type="password" formControlName="pw">
+            <mat-error *ngIf="loginForm.controls['pw'].errors?.['required']"><mat-icon>error</mat-icon>Campo obbligatorio</mat-error>
+            <mat-error *ngIf="loginForm.controls['pw'].errors?.['minlength']"><mat-icon>error</mat-icon>Minimo 6 caratteri</mat-error>
          </mat-form-field>
-         <mat-checkbox>Ricordami</mat-checkbox>
-         <button mat-button type="submit">Login</button>
+         <mat-checkbox formControlName="remember">Ricordami</mat-checkbox>
+         <button mat-button type="submit" value="submit">Login</button>
       </form>
    </mat-card>
 </div>

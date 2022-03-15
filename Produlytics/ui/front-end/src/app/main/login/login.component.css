@@ -1,3 +1,19 @@
 h2{
    text-align: center;
 }
+.main-div mat-card{
+   padding:0px;
+}
+mat-form-field{
+   padding-bottom: 0.5em;
+}
+.login-form{
+   padding: 20px;
+}
+
+mat-card{
+   display: flex;
+  justify-content: center; /* align horizontal */
+  align-items: center;
+}
+
