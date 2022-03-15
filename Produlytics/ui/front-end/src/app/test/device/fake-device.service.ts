@@ -8,7 +8,7 @@ import {NewDeviceService} from "../../model/admin-device/new-device.service";
 import {DeviceCreationCommand} from "../../model/admin-device/device-creation-command";
 import {NewDeviceAbstractService} from "../../model/admin-device/new-device-abstract.service";
 
-class DeviceBuilder {
+class DeviceMock {
 
    id: number;
    name: string;
@@ -37,7 +37,7 @@ export class FakeDeviceService implements
   DeviceAbstractService,
   NewDeviceAbstractService
 {
-  private devices: DeviceBuilder[] = [
+  private devices: DeviceMock[] = [
     {
       id: 1,
       name: 'Macchina 1',
@@ -59,7 +59,7 @@ export class FakeDeviceService implements
       deactivated: true,
       apiKey: 'CCC'
     }
-  ].map(device => new DeviceBuilder(device));
+  ].map(device => new DeviceMock(device));
 
   constructor() { }
 
@@ -114,7 +114,7 @@ export class FakeDeviceService implements
 
   insertDevice(deviceCreationCommand: DeviceCreationCommand): Observable<{ id: number }> {
     const nextId = Math.max(...this.devices.map(device => device.id)) + 1;
-    const newDevice = new DeviceBuilder({
+    const newDevice = new DeviceMock({
       id: nextId,
       name: deviceCreationCommand.name,
       apiKey: 'BULABULA',

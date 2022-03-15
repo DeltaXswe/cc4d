@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
+import {AccountSaveCommand} from "./account-save-command";
 
 @Injectable()
 export abstract class SaveAccountAbstractService {
 
-  public abstract updateAccount(username: string, rawValue: any): Observable<{}>;
+  public abstract updateAccount(command: AccountSaveCommand): Observable<{}>;
 
-  public abstract insertAccount(rawValue: any): Observable<{ username: string }>;
+  public abstract insertAccount(command: AccountSaveCommand): Observable<{ username: string }>;
 }

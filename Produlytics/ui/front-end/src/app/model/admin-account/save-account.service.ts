@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {SaveAccountAbstractService} from "./save-account-abstract.service";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {AccountSaveCommand} from "./account-save-command";
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,12 @@ export class SaveAccountService implements SaveAccountAbstractService {
     private httpClient: HttpClient
   ) { }
 
-  insertAccount(rawValue: any): Observable<{ username: string }> {
-    return this.httpClient.post<{ username: string }>(`admin/accounts`, rawValue);
+  insertAccount(command:AccountSaveCommand): Observable<{ username: string }> {
+    return this.httpClient.post<{ username: string }>(`admin/accounts`, command);
   }
 
-  updateAccount(username: string, rawValue: any): Observable<{}> {
-    return this.httpClient.post(`admin/accounts/${username}`, rawValue);
+  updateAccount(command:AccountSaveCommand): Observable<{}> {
+    return this.httpClient.post(`admin/accounts/${command.username}`, command);
   }
 
 

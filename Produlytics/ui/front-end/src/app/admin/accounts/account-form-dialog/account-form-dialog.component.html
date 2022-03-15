@@ -12,18 +12,35 @@
   <form [formGroup]="formGroup" fxLayout="column" fxLayoutAlign="start stretch">
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
       <mat-form-field *ngIf="formGroup.get('username') as field" appearance="outline" floatLabel="always">
-        <mat-label>Username</mat-label>
+        <mat-label>
+          Username
+        </mat-label>
         <input matInput formControlName="username" name="username" autocomplete="new-username" />
-        <mat-error *ngIf="field.hasError('required')">Il campo è richiesto</mat-error>
-        <mat-error *ngIf="field.hasError('duplicateUsername')">Esiste già un utente con questo username</mat-error>
+        <mat-error *ngIf="field.hasError('required')">
+          Il campo è richiesto
+        </mat-error>
+        <mat-error *ngIf="field.hasError('duplicateUsername')">
+          Esiste già un utente con questo username
+        </mat-error>
       </mat-form-field>
-      <mat-checkbox fxFlex="40" formControlName="administrator">Amministratore</mat-checkbox>
+      <mat-checkbox fxFlex="40" formControlName="administrator">
+        Amministratore
+      </mat-checkbox>
     </div>
-    <mat-form-field *ngIf="formGroup.get('password') as field" appearance="outline" floatLabel="always">
-      <mat-label>Password</mat-label>
-      <input matInput formControlName="password" name="password" type="password" autocomplete="new-password" />
-      <mat-error *ngIf="field.hasError('invalidPassword')">La password non rispetta i criteri minimi di sicurezza.</mat-error>
-    </mat-form-field>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px">
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>
+          Password
+        </mat-label>
+        <input matInput formControlName="password" name="password" type="password" autocomplete="new-password" />
+        <mat-error>
+          La password non rispetta i criteri minimi di sicurezza.
+        </mat-error>
+      </mat-form-field>
+      <mat-slide-toggle *ngIf="data?.account" (change)="changePassword($event)">
+        Cambia password
+      </mat-slide-toggle>
+    </div>
   </form>
   <mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
     <button mat-raised-button (click)="cancel()">

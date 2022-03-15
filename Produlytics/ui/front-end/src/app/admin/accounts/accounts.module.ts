@@ -16,6 +16,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 const routes: Routes = [
   {
@@ -29,22 +30,23 @@ const routes: Routes = [
     AccountsComponent,
     AccountFormDialogComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    MatToolbarModule,
-    FlexLayoutModule,
-    MatButtonModule,
-    MatTableModule,
-    MatIconModule,
-    MatDialogModule,
-    MatSnackBarModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatPaginatorModule,
-    MatSortModule
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        MatToolbarModule,
+        FlexLayoutModule,
+        MatButtonModule,
+        MatTableModule,
+        MatIconModule,
+        MatDialogModule,
+        MatSnackBarModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatCheckboxModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatSlideToggleModule
+    ]
 })
 export class AccountsModule { }
