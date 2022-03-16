@@ -27,17 +27,17 @@ public class CharacteristicsController {
         this.getCharacteristicInfo = getCharacteristicInfo;
     }
 
-    @GetMapping("/{machine_id}")
+    @GetMapping("/{device_id}")
     List<CharacteristicTitle> getCharacteristics(@PathVariable("device_id") int deviceId) {
         return getUnarchivedCharacteristics.getByDevice(deviceId);
     }
 
-    @GetMapping("/{machine_id}/characteristic/{id}")
-	CharacteristicDisplayInfo getCharacteristicInfo(@PathVariable("machine_id") int machineId, @PathVariable("id") int id) {
-        return getCharacteristicInfo.find(machineId, id)
+    @GetMapping("/{device_id}/characteristic/{id}")
+	CharacteristicDisplayInfo getCharacteristicInfo(@PathVariable("device_id") int deviceId, @PathVariable("id") int id) {
+        return getCharacteristicInfo.find(deviceId, id)
             .orElseThrow(() -> {
                 HashMap<String, Object> keys = new HashMap<>();
-                keys.put("machineId", machineId);
+                keys.put("deviceId", deviceId);
                 keys.put("id", id);
                 return new ResourceNotFoundException("characteristics", keys);
             });

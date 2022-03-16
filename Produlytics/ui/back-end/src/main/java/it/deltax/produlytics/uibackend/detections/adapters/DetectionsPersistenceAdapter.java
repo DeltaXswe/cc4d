@@ -22,10 +22,10 @@ public class DetectionsPersistenceAdapter implements ListDetectionsByCharacteris
     }
 
     @Override
-    public List<DetectionLight> listByCharacteristic(int machineId, int characteristicId, Long createdAfter) {
+    public List<DetectionLight> listByCharacteristic(int deviceId, int characteristicId, Long createdAfter) {
         List<DetectionEntity> detections;
         detections = repo.findByIdDeviceIdAndIdCharacteristicIdAndIdCreationTimeGreaterThan(
-            machineId,
+            deviceId,
             characteristicId,
             Instant.ofEpochMilli(createdAfter),
             Sort.by("creazioneUtc")

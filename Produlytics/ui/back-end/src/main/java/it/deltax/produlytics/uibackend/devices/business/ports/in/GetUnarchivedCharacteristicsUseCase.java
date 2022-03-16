@@ -5,5 +5,5 @@ import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTit
 import java.util.List;
 
 public interface GetUnarchivedCharacteristicsUseCase {
-    List<CharacteristicTitle> getByDevice(int machineId);
+    List<CharacteristicTitle> getByDevice(int deviceId);
 }

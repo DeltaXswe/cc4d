@@ -1,13 +1,13 @@
 package it.deltax.produlytics.uibackend.devices;
 
 import it.deltax.produlytics.uibackend.devices.business.FindCharacteristicInfoService;
-import it.deltax.produlytics.uibackend.devices.business.ListAllDevicesService;
+import it.deltax.produlytics.uibackend.devices.business.GetUnarchivedDevicesService;
 import it.deltax.produlytics.uibackend.devices.business.GetUnarchivedCharacteristicsService;
-import it.deltax.produlytics.uibackend.devices.business.ports.in.ListAllDevicesUseCase;
+import it.deltax.produlytics.uibackend.devices.business.ports.in.GetUnarchivedDevicesUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetUnarchivedCharacteristicsUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicPort;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.FindMachinePort;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.ListAllDevicesPort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.FindDevicePort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchivedDevicesPort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchivedCharacteristicPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +16,10 @@ import org.springframework.context.annotation.Configuration;
 public class DevicesConfiguration {
 
     @Bean
-	ListAllDevicesUseCase listAllDevicesUseCase(ListAllDevicesPort port) {
-        return new ListAllDevicesService(port);
+    GetUnarchivedDevicesUseCase getUnarchivedDevicesUseCase(
+            FindAllUnarchivedDevicesPort port
+    ) {
+        return new GetUnarchivedDevicesService(port);
     }
 
     @Bean
@@ -30,9 +32,9 @@ public class DevicesConfiguration {
     @Bean
 	FindCharacteristicInfoService findCharacteristicInfoService(
         FindCharacteristicPort findCharacteristicPort,
-        FindMachinePort findMachinePort
+        FindDevicePort findDevicePort
     ) {
-        return new FindCharacteristicInfoService(findCharacteristicPort, findMachinePort);
+        return new FindCharacteristicInfoService(findCharacteristicPort, findDevicePort);
     }
 
 }

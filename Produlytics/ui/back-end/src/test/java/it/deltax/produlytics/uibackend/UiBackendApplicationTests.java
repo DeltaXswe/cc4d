@@ -1,8 +1,8 @@
 package it.deltax.produlytics.uibackend;
 
 import it.deltax.produlytics.persistence.DeviceEntity;
-import it.deltax.produlytics.uibackend.devices.web.MachinesController;
-import it.deltax.produlytics.uibackend.repositories.MacchinaRepository;
+import it.deltax.produlytics.uibackend.devices.web.DevicesController;
+import it.deltax.produlytics.uibackend.repositories.UnarchivedDeviceRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
@@ -25,10 +25,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UiBackendApplicationTests {
 
 	@Autowired
-	private MachinesController machineController;
+	private DevicesController devicesController;
 
 	@Autowired
-	private MacchinaRepository macchinaRepository;
+	private UnarchivedDeviceRepository repo;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -36,15 +36,15 @@ class UiBackendApplicationTests {
 
 	@Test
 	void contextLoads() {
-		assertThat(machineController).isNotNull();
-		assertThat(macchinaRepository).isNotNull();
+		assertThat(devicesController).isNotNull();
+		assertThat(repo).isNotNull();
 	}
 
 	@Test
-	public void listAllMacchine() throws Exception {
-		macchinaRepository.save(new DeviceEntity("One", false, false, ""));
+	public void getDevices() throws Exception {
+		repo.save(new DeviceEntity("One", false, false, ""));
 
-		mockMvc.perform(get("/machines"))
+		mockMvc.perform(get("/devices"))
 				.andDo(print())
 				.andExpect(status().isOk());
 

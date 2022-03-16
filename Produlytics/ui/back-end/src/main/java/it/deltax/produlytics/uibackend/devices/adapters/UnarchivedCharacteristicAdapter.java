@@ -36,8 +36,8 @@ public class UnarchivedCharacteristicAdapter implements FindAllUnarchivedCharact
     }
 
     @Override
-    public Optional<Characteristic> find(int machineId, int id) {
-        return repo.findById(new CharacteristicEntityId(machineId, id))
+    public Optional<Characteristic> find(int deviceId, int id) {
+        return repo.findById(new CharacteristicEntityId(deviceId, id))
             .map(caratteristica ->
                 new Characteristic(
                     caratteristica.getId().getId(),

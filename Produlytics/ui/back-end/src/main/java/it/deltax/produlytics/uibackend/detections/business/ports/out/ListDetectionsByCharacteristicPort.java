@@ -6,5 +6,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ListDetectionsByCharacteristicPort {
-    List<DetectionLight> listByCharacteristic(int machineId, int characteristicId, Long lastUtc);
+    List<DetectionLight> listByCharacteristic(int deviceId, int characteristicId, Long lastUtc);
 }
