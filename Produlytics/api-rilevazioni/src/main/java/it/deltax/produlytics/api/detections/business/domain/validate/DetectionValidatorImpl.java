@@ -1,47 +1,45 @@
 package it.deltax.produlytics.api.detections.business.domain.validate;
 
-import it.deltax.produlytics.api.detections.business.domain.DetectionInfo;
-import it.deltax.produlytics.api.detections.business.domain.exception.CharacteristicArchivedException;
-import it.deltax.produlytics.api.detections.business.domain.exception.CharacteristicNotFoundException;
-import it.deltax.produlytics.api.detections.business.domain.exception.DeviceArchivedException;
+import it.deltax.produlytics.api.detections.business.domain.CharacteristicInfo;
+import it.deltax.produlytics.api.detections.business.domain.DeviceInfo;
+import it.deltax.produlytics.api.detections.business.domain.ValidationInfo;
+import it.deltax.produlytics.api.detections.business.domain.exception.ArchivedException;
 import it.deltax.produlytics.api.detections.business.domain.exception.NotAuthenticatedException;
-import it.deltax.produlytics.api.detections.business.ports.out.FindCharacteristicPort;
-import it.deltax.produlytics.api.detections.business.ports.out.FindDeviceByApiKeyPort;
+import it.deltax.produlytics.api.detections.business.domain.exception.NotFoundException;
+import it.deltax.produlytics.api.detections.business.ports.out.FindCharacteristicInfoPort;
+import it.deltax.produlytics.api.detections.business.ports.out.FindDeviceInfoByApiKeyPort;
 
 // Implementazione di riferimento di `DetectionValidator`.
 public class DetectionValidatorImpl implements DetectionValidator {
-	private final FindDeviceByApiKeyPort findDeviceByApiKeyPort;
-	private final FindCharacteristicPort findCharacteristicPort;
+	private final FindDeviceInfoByApiKeyPort findDeviceInfoByApiKeyPort;
+	private final FindCharacteristicInfoPort findCharacteristicInfoPort;
 
 	public DetectionValidatorImpl(
-		FindDeviceByApiKeyPort findDeviceByApiKeyPort, FindCharacteristicPort findCharacteristicPort
+		FindDeviceInfoByApiKeyPort findDeviceInfoByApiKeyPort, FindCharacteristicInfoPort findCharacteristicInfoPort
 	) {
-		this.findDeviceByApiKeyPort = findDeviceByApiKeyPort;
-		this.findCharacteristicPort = findCharacteristicPort;
+		this.findDeviceInfoByApiKeyPort = findDeviceInfoByApiKeyPort;
+		this.findCharacteristicInfoPort = findCharacteristicInfoPort;
 	}
 
 	@Override
-	public DetectionInfo validateAndFindDeviceId(String apiKey, int characteristicId) throws
-		CharacteristicNotFoundException,
-		CharacteristicArchivedException,
-		DeviceArchivedException,
-		NotAuthenticatedException {
+	public ValidationInfo validateAndFindDeviceId(String apiKey, int characteristicId)
+	throws NotFoundException, ArchivedException, NotAuthenticatedException {
 
-		DeviceInfo deviceInfo = this.findDeviceByApiKeyPort.findDeviceByApiKey(apiKey)
+		DeviceInfo deviceInfo = this.findDeviceInfoByApiKeyPort.findDeviceByApiKey(apiKey)
 			.orElseThrow(NotAuthenticatedException::new);
 
 		if(deviceInfo.archived() || deviceInfo.deactivated()) {
-			throw new DeviceArchivedException();
+			throw new ArchivedException();
 		}
 
-		CharacteristicInfo characteristicInfo = this.findCharacteristicPort.findCharacteristic(deviceInfo.deviceId(),
+		CharacteristicInfo characteristicInfo = this.findCharacteristicInfoPort.findCharacteristic(deviceInfo.deviceId(),
 			characteristicId
-		).orElseThrow(CharacteristicNotFoundException::new);
+		).orElseThrow(NotFoundException::new);
 
 		if(characteristicInfo.archived()) {
-			throw new CharacteristicArchivedException();
+			throw new ArchivedException();
 		}
 
-		return new DetectionInfo(deviceInfo.deviceId(), characteristicInfo.limitsInfo());
+		return new ValidationInfo(deviceInfo.deviceId());
 	}
 }

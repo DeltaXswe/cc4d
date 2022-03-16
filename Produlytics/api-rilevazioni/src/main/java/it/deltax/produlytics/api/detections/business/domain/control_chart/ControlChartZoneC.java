@@ -1,6 +1,7 @@
 package it.deltax.produlytics.api.detections.business.domain.control_chart;
 
-import it.deltax.produlytics.api.detections.business.domain.Utils;
+import it.deltax.produlytics.api.detections.business.domain.ControlLimits;
+import it.deltax.produlytics.api.detections.business.domain.MarkableDetection;
 
 import java.util.List;
 
@@ -8,23 +9,15 @@ import java.util.List;
 // Identifica se 7 punti consecutivi sono dallo stesso lato rispetto alla media.
 public class ControlChartZoneC implements ControlChart {
 	@Override
-	public void analyzeDetection(
-		List<MarkableDetection> lastDetections, Limits limits
-	) {
-		if(lastDetections.size() < 7) {
-			return;
-		}
-		List<MarkableDetection> detections = Utils.lastN(lastDetections, 7);
+	public int requiredDetectionCount() {
+		return 7;
+	}
 
-		if(limits.calculatedLimits().isEmpty()) {
-			return;
-		}
-		CalculatedLimits calculatedLimits = limits.calculatedLimits().get();
-
-		// TODO: Questo è un po' stupido
-		double mean = calculatedLimits.mean();
-		long inLowerZone = detections.stream().filter(detection -> detection.getValue() < mean).count();
-		long inUpperZone = detections.stream().filter(detection -> detection.getValue() > mean).count();
+	@Override
+	public void analyzeDetections(List<MarkableDetection> detections, ControlLimits limits) {
+		double mean = limits.mean();
+		long inLowerZone = detections.stream().filter(detection -> detection.value() < mean).count();
+		long inUpperZone = detections.stream().filter(detection -> detection.value() > mean).count();
 
 		if(inLowerZone >= 7 || inUpperZone >= 7) {
 			detections.forEach(MarkableDetection::markOutlier);

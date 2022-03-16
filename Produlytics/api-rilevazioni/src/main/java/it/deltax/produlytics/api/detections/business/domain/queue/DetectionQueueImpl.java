@@ -5,16 +5,16 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.processors.PublishProcessor;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import it.deltax.produlytics.api.detections.business.domain.RawDetection;
-import it.deltax.produlytics.api.detections.business.domain.cache.DetectionSerie;
-import it.deltax.produlytics.api.detections.business.domain.cache.DetectionSerieFactory;
+import it.deltax.produlytics.api.detections.business.domain.Detection;
+import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerie;
+import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerieFactory;
 
 import java.util.concurrent.TimeUnit;
 
 // Implementazione di riferimento di `DetectionQueue`.
 public class DetectionQueueImpl implements DetectionQueue {
 	private final DetectionSerieFactory serieFactory;
-	private final PublishProcessor<RawDetection> detectionProcessor;
+	private final PublishProcessor<Detection> detectionProcessor;
 
 	public DetectionQueueImpl(DetectionSerieFactory serieFactory) {
 		this.serieFactory = serieFactory;
@@ -33,7 +33,7 @@ public class DetectionQueueImpl implements DetectionQueue {
 	// `onNext` non è thread-safe, e `enqueueDetection` potrebbe essere chiamato da più thread,
 	// quindi questo metodo deve essere marcato synchronized.
 	@Override
-	public synchronized void enqueueDetection(RawDetection detection) {
+	public synchronized void enqueueDetection(Detection detection) {
 		this.detectionProcessor.onNext(detection);
 	}
 
@@ -46,7 +46,7 @@ public class DetectionQueueImpl implements DetectionQueue {
 	// Note importanti:
 	// - il parametro `Flowable.empty()` di `timeout` evita di lanciare errori in caso di timeout;
 	// - `concatMapCompletable` permette di finire di gestire una rilevazione prima della prossima.
-	private void handleDetectionGroup(CharacteristicKey key, Flowable<RawDetection> group) {
+	private void handleDetectionGroup(CharacteristicKey key, Flowable<Detection> group) {
 		Single<DetectionSerie> serieSingle = this.createSerieForKey(key);
 		// TODO: Fix warning subscribe ignored
 		group.observeOn(Schedulers.computation())
@@ -70,7 +70,7 @@ public class DetectionQueueImpl implements DetectionQueue {
 	// - ritorna un `Completable` su cui è settato `subscribeOn(Schedulers.computation())` così che ogni
 	//   rilevazione possa essere gestita su un thread diverso (altrimenti tutte le rilevazione di una
 	//   stessa caratteristica saranno gestite sullo stesso thread).
-	private Completable handleDetection(Single<DetectionSerie> serieSingle, RawDetection detection) {
+	private Completable handleDetection(Single<DetectionSerie> serieSingle, Detection detection) {
 		return serieSingle.flatMapCompletable(serie -> Completable.fromAction(() -> serie.insertDetection(detection)))
 			.subscribeOn(Schedulers.computation());
 	}

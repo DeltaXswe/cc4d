@@ -1,12 +1,10 @@
 package it.deltax.produlytics.api.detections;
 
-import it.deltax.produlytics.api.detections.business.domain.cache.CachedDetectionSerieFactory;
-import it.deltax.produlytics.api.detections.business.domain.cache.DetectionSerieFactory;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.*;
-import it.deltax.produlytics.api.detections.business.domain.limits.LimitsCalculatorFactory;
-import it.deltax.produlytics.api.detections.business.domain.limits.LimitsCalculatorFactoryImpl;
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueue;
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueueImpl;
+import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerieFactory;
+import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerieImplFactory;
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidator;
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidatorImpl;
 import it.deltax.produlytics.api.detections.business.ports.in.ProcessIncomingDetectionUseCase;
@@ -22,17 +20,16 @@ import java.util.List;
 public class DetectionsConfiguration {
 	@Bean
 	ProcessIncomingDetectionUseCase createProcessDetectionUseCase(
-		FindDeviceByApiKeyPort findDeviceByApiKeyPort,
-		FindCharacteristicPort findCharacteristicPort,
-		FindLastDetectionsPort findLastDetectionsPort,
+		FindDeviceInfoByApiKeyPort findDeviceInfoByApiKeyPort,
+		FindCharacteristicInfoPort findCharacteristicInfoPort,
 		InsertDetectionPort insertDetectionPort,
-		MarkOutlierPort markOutlierPort
+		FindLimitsPort findLimitsPort,
+		FindLastDetectionsPort findLastDetectionsPort
 	) {
-		DetectionValidator detectionValidation = new DetectionValidatorImpl(findDeviceByApiKeyPort,
-			findCharacteristicPort
+		DetectionValidator detectionValidation = new DetectionValidatorImpl(findDeviceInfoByApiKeyPort,
+			findCharacteristicInfoPort
 		);
 
-		LimitsCalculatorFactory limitsCalculatorFactory = new LimitsCalculatorFactoryImpl();
 		List<ControlChart> controlCharts = List.of(new ControlChartBeyondLimits(),
 			new ControlChartZoneA(),
 			new ControlChartZoneB(),
@@ -43,10 +40,9 @@ public class DetectionsConfiguration {
 			new ControlChartOverControl()
 		);
 
-		DetectionSerieFactory detectionSerieFactory = new CachedDetectionSerieFactory(findLastDetectionsPort,
-			insertDetectionPort,
-			markOutlierPort,
-			limitsCalculatorFactory,
+		DetectionSerieFactory detectionSerieFactory = new DetectionSerieImplFactory(insertDetectionPort,
+			findLimitsPort,
+			findLastDetectionsPort,
 			controlCharts
 		);
 

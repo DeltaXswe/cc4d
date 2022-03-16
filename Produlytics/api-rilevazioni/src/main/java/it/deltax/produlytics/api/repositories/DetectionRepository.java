@@ -14,22 +14,27 @@ import java.util.List;
 @Repository
 @SuppressWarnings("unused")
 public interface DetectionRepository extends CrudRepository<DetectionEntity, DetectionEntityId> {
-	@Query("SELECT *"
-		+ "FROM ("
-		+ "    SELECT * detection"
-		+ "    WHERE characteristic_id = :characteristicId AND device_id = :device_id"
-		+ "    ORDER BY creation_time DESC"
-		+ "    LIMIT :count"
-		+ ")"
-		+ "ORDER BY creation_time ASC")
+	@Query(value = """
+			SELECT *
+			FROM (
+				SELECT *
+				FROM detection
+				WHERE device_id = :deviceId AND characteristic_id = :characteristicId
+				ORDER BY creation_time DESC
+				LIMIT :count
+			)
+			ORDER BY creation_time ASC
+		""", nativeQuery = true)
 	List<DetectionEntity> findLastNById(
 		@Param("deviceId") int deviceId, @Param("characteristicId") int characteristicId, @Param("count") int count
 	);
 
 	@Modifying
-	@Query("UPDATE detection"
-		+ "SET outlier = true"
-		+ "WHERE device_id = :device_id AND characteristic_id = := characteristicId AND creationTime = :creationTime")
+	@Query(value = """
+			UPDATE detection
+			SET outlier = true
+			WHERE device_id = :deviceId AND characteristic_id = :characteristicId AND creation_time = :creationTime
+		""", nativeQuery = true)
 	void markOutlier(
 		@Param("deviceId") int deviceId,
 		@Param("characteristicId") int characteristicId,

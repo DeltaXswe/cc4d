@@ -1,13 +1,11 @@
 package it.deltax.produlytics.api.detections.adapters;
 
-import it.deltax.produlytics.api.detections.business.domain.Detection;
-import it.deltax.produlytics.api.detections.business.domain.LimitsInfo;
-import it.deltax.produlytics.api.detections.business.domain.validate.CharacteristicInfo;
-import it.deltax.produlytics.api.detections.business.domain.validate.DeviceInfo;
+import it.deltax.produlytics.api.detections.business.domain.*;
 import it.deltax.produlytics.api.detections.business.ports.out.*;
 import it.deltax.produlytics.api.repositories.CharacteristicRepository;
 import it.deltax.produlytics.api.repositories.DetectionRepository;
 import it.deltax.produlytics.api.repositories.DeviceRepository;
+import it.deltax.produlytics.api.repositories.LimitsEntity;
 import it.deltax.produlytics.persistence.CharacteristicEntityId;
 import it.deltax.produlytics.persistence.DetectionEntity;
 import it.deltax.produlytics.persistence.DetectionEntityId;
@@ -19,11 +17,11 @@ import java.util.Optional;
 
 @Component
 @SuppressWarnings("unused")
-public class DetectionsAdapter implements FindDeviceByApiKeyPort,
-	FindCharacteristicPort,
+public class DetectionsAdapter implements FindDeviceInfoByApiKeyPort,
+	FindCharacteristicInfoPort,
 	FindLastDetectionsPort,
 	InsertDetectionPort,
-	MarkOutlierPort
+	FindLimitsPort
 {
 	@Autowired
 	private CharacteristicRepository characteristicRepository;
@@ -48,44 +46,50 @@ public class DetectionsAdapter implements FindDeviceByApiKeyPort,
 		int deviceId, int characteristicId
 	) {
 		return this.characteristicRepository.findById(new CharacteristicEntityId(deviceId, characteristicId))
-			.map(characteristicEntity -> new CharacteristicInfo(characteristicEntity.getArchived(), new LimitsInfo(
-				Optional.ofNullable(characteristicEntity.getSampleSize()),
-				Optional.ofNullable(characteristicEntity.getLowerLimit()),
-				Optional.ofNullable(characteristicEntity.getUpperLimit()),
-				Optional.ofNullable(characteristicEntity.getAverage())
-			)));
+			.map(characteristicEntity -> new CharacteristicInfo(characteristicEntity.getArchived()));
 	}
 
 	@Override
-	public List<Detection> findLastDetections(int deviceId, int characteristicId, int count) {
+	public List<MarkableDetection> findLastDetections(int deviceId, int characteristicId, int count) {
 		return this.detectionRepository.findLastNById(deviceId, characteristicId, count)
 			.stream()
-			.map(detectionEntity -> new Detection(detectionEntity.getId().getDeviceId(),
+			.map(detectionEntity -> (MarkableDetection) new MarkableDetectionAdapter(this.detectionRepository,
+				detectionEntity.getId().getDeviceId(),
 				detectionEntity.getId().getCharacteristicId(),
 				detectionEntity.getId().getCreationTime(),
-				detectionEntity.getValue(),
-				detectionEntity.getOutlier()
+				detectionEntity.getValue()
 			))
 			.toList();
 	}
 
 	@Override
 	public void insertDetection(Detection detection) {
-		DetectionEntity detectionEntity = new DetectionEntity(new DetectionEntityId(detection.creationTime(),
+		DetectionEntityId detectionEntityId = new DetectionEntityId(detection.creationTime(),
 			detection.characteristicId(),
 			detection.deviceId()
-		),
-			detection.value(),
-			detection.outlier()
 		);
+		DetectionEntity detectionEntity = new DetectionEntity(detectionEntityId, detection.value(), false);
 		this.detectionRepository.save(detectionEntity);
 	}
 
 	@Override
-	public void markOutlier(Detection detection) {
-		this.detectionRepository.markOutlier(detection.deviceId(),
-			detection.characteristicId(),
-			detection.creationTime()
-		);
+	public LimitsInfo findLimits(int deviceId, int characteristicId) {
+		LimitsEntity limitsEntity = this.characteristicRepository.findLimits(deviceId, characteristicId);
+
+		Optional<TechnicalLimits> technicalLimits = Optional.empty();
+		if(limitsEntity.technicalLowerLimit().isPresent() && limitsEntity.technicalUpperLimit().isPresent()) {
+			double lowerLimit = limitsEntity.technicalLowerLimit().get();
+			double upperLimit = limitsEntity.technicalUpperLimit().get();
+			technicalLimits = Optional.of(new TechnicalLimits(lowerLimit, upperLimit));
+		}
+
+		Optional<MeanStddev> meanStddev = Optional.empty();
+		if(limitsEntity.computedMean().isPresent() && limitsEntity.computedStddev().isPresent()) {
+			double mean = limitsEntity.computedMean().get();
+			double stddev = limitsEntity.computedStddev().get();
+			meanStddev = Optional.of(new MeanStddev(mean, stddev));
+		}
+
+		return new LimitsInfo(technicalLimits, meanStddev);
 	}
 }

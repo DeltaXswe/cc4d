@@ -1,12 +1,11 @@
 package it.deltax.produlytics.api.detections.business.ports.services;
 
-import it.deltax.produlytics.api.detections.business.domain.DetectionInfo;
+import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.domain.IncomingDetection;
-import it.deltax.produlytics.api.detections.business.domain.RawDetection;
-import it.deltax.produlytics.api.detections.business.domain.exception.CharacteristicArchivedException;
-import it.deltax.produlytics.api.detections.business.domain.exception.CharacteristicNotFoundException;
-import it.deltax.produlytics.api.detections.business.domain.exception.DeviceArchivedException;
+import it.deltax.produlytics.api.detections.business.domain.ValidationInfo;
+import it.deltax.produlytics.api.detections.business.domain.exception.ArchivedException;
 import it.deltax.produlytics.api.detections.business.domain.exception.NotAuthenticatedException;
+import it.deltax.produlytics.api.detections.business.domain.exception.NotFoundException;
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueue;
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidator;
 import it.deltax.produlytics.api.detections.business.ports.in.ProcessIncomingDetectionUseCase;
@@ -24,20 +23,16 @@ public class DetectionsService implements ProcessIncomingDetectionUseCase {
 	}
 
 	@Override
-	public void processIncomingDetection(IncomingDetection incomingDetection) throws
-		CharacteristicArchivedException,
-		CharacteristicNotFoundException,
-		DeviceArchivedException,
-		NotAuthenticatedException {
-		DetectionInfo detectionInfo = detectionValidator.validateAndFindDeviceId(incomingDetection.apiKey(),
+	public void processIncomingDetection(IncomingDetection incomingDetection)
+	throws ArchivedException, NotFoundException, NotAuthenticatedException {
+		ValidationInfo validationInfo = detectionValidator.validateAndFindDeviceId(incomingDetection.apiKey(),
 			incomingDetection.characteristicId()
 		);
-		RawDetection rawDetection = new RawDetection(detectionInfo.deviceId(),
+		Detection detection = new Detection(validationInfo.deviceId(),
 			incomingDetection.characteristicId(),
 			Instant.now(),
-			incomingDetection.value(),
-			detectionInfo.limitsInfo()
+			incomingDetection.value()
 		);
-		detectionQueue.enqueueDetection(rawDetection);
+		detectionQueue.enqueueDetection(detection);
 	}
 }
