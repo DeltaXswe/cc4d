@@ -18,12 +18,12 @@ public class DetectionsController {
         this.listDetectionsByCharacteristic = listDetectionsByCharacteristic;
     }
 
-    @GetMapping("/{machine}/characteristics/{characteristic}")
+    @GetMapping("/{device}/characteristics/{characteristic}")
     public List<DetectionLight> getCharacteristicDetections(
-        @PathVariable int machine,
+        @PathVariable int device,
         @PathVariable int characteristic,
         @RequestParam("createdAfter") Long createdAfter
     ) {
-        return listDetectionsByCharacteristic.listByCharacteristic(machine, characteristic, createdAfter);
+        return listDetectionsByCharacteristic.listByCharacteristic(device, characteristic, createdAfter);
     }
 }

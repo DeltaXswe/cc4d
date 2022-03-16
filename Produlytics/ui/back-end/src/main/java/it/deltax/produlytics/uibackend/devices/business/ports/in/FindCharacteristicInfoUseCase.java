@@ -5,5 +5,5 @@ import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicDis
 import java.util.Optional;
 
 public interface FindCharacteristicInfoUseCase {
-    Optional<CharacteristicDisplayInfo> find(int machineId, int id);
+    Optional<CharacteristicDisplayInfo> find(int deviceId, int id);
 }

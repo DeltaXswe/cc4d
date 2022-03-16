@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -21,10 +22,10 @@ public class DetectionsPersistenceAdapter implements ListDetectionsByCharacteris
     }
 
     @Override
-    public List<DetectionLight> listByCharacteristic(int machineId, int characteristicId, Long createdAfter) {
+    public List<DetectionLight> listByCharacteristic(int deviceId, int characteristicId, Long createdAfter) {
         List<DetectionEntity> detections;
-        detections = repo.findByIdDeviceIdAndIdCharacteristicIdAndCreationTimeGreaterThan(
-            machineId,
+        detections = repo.findByIdDeviceIdAndIdCharacteristicIdAndIdCreationTimeGreaterThan(
+            deviceId,
             characteristicId,
             Instant.ofEpochMilli(createdAfter),
             Sort.by("creazioneUtc")

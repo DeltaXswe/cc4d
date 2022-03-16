@@ -16,7 +16,7 @@ public class ListDetectionsByCharacteristicService implements ListDetectionsByCh
     }
 
     @Override
-    public List<DetectionLight> listByCharacteristic(int machineId, int characteristicId, Long createdAfter) {
-        return port.listByCharacteristic(machineId, characteristicId, createdAfter);
+    public List<DetectionLight> listByCharacteristic(int deviceId, int characteristicId, Long createdAfter) {
+        return port.listByCharacteristic(deviceId, characteristicId, createdAfter);
     }
 }
