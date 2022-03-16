@@ -1,7 +1,6 @@
 package it.deltax.produlytics.api.detections.business.domain;
 
 public record ControlLimits(double lowerLimit, double upperLimit) {
-	// TODO: Utilities
 	public double mean() {
 		return (this.lowerLimit() + this.upperLimit()) / 2;
 	}

@@ -31,9 +31,7 @@ public class DetectionsAdapter implements FindDeviceInfoByApiKeyPort,
 	private DetectionRepository detectionRepository;
 
 	@Override
-	public Optional<DeviceInfo> findDeviceByApiKey(
-		String apiKey
-	) {
+	public Optional<DeviceInfo> findDeviceByApiKey(String apiKey) {
 		return this.deviceRepository.findByApiKey(apiKey)
 			.map(deviceEntity -> new DeviceInfo(deviceEntity.getId(),
 				deviceEntity.getArchived(),
@@ -42,9 +40,7 @@ public class DetectionsAdapter implements FindDeviceInfoByApiKeyPort,
 	}
 
 	@Override
-	public Optional<CharacteristicInfo> findCharacteristic(
-		int deviceId, int characteristicId
-	) {
+	public Optional<CharacteristicInfo> findCharacteristic(int deviceId, int characteristicId) {
 		return this.characteristicRepository.findById(new CharacteristicEntityId(deviceId, characteristicId))
 			.map(characteristicEntity -> new CharacteristicInfo(characteristicEntity.getArchived()));
 	}
@@ -77,16 +73,16 @@ public class DetectionsAdapter implements FindDeviceInfoByApiKeyPort,
 		LimitsEntity limitsEntity = this.characteristicRepository.findLimits(deviceId, characteristicId);
 
 		Optional<TechnicalLimits> technicalLimits = Optional.empty();
-		if(limitsEntity.technicalLowerLimit().isPresent() && limitsEntity.technicalUpperLimit().isPresent()) {
-			double lowerLimit = limitsEntity.technicalLowerLimit().get();
-			double upperLimit = limitsEntity.technicalUpperLimit().get();
+		if(limitsEntity.getTechnicalLowerLimit().isPresent() && limitsEntity.getTechnicalUpperLimit().isPresent()) {
+			double lowerLimit = limitsEntity.getTechnicalLowerLimit().get();
+			double upperLimit = limitsEntity.getTechnicalUpperLimit().get();
 			technicalLimits = Optional.of(new TechnicalLimits(lowerLimit, upperLimit));
 		}
 
 		Optional<MeanStddev> meanStddev = Optional.empty();
-		if(limitsEntity.computedMean().isPresent() && limitsEntity.computedStddev().isPresent()) {
-			double mean = limitsEntity.computedMean().get();
-			double stddev = limitsEntity.computedStddev().get();
+		if(limitsEntity.getComputedMean().isPresent() && limitsEntity.getComputedStddev().isPresent()) {
+			double mean = limitsEntity.getComputedMean().get();
+			double stddev = limitsEntity.getComputedStddev().get();
 			meanStddev = Optional.of(new MeanStddev(mean, stddev));
 		}
 

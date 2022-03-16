@@ -24,7 +24,7 @@ public class ControlChartOverControl implements ControlChart {
 		// cioè che w0, w1 e w2 siano a zig-zag.
 		// Con Utils.windows questa proprietà viene verificata ogni per finestra di 3 punti consecutivi,
 		// cioè per ogni coppia di segmenti collegati, quindi vale per tutti i punti di `detections`.
-		boolean isOverControl = Utils.windows(detections, 14).allMatch(window -> {
+		boolean isOverControl = Utils.windows(detections, 3).allMatch(window -> {
 			double w0 = window.get(0).value();
 			double w1 = window.get(1).value();
 			double w2 = window.get(2).value();

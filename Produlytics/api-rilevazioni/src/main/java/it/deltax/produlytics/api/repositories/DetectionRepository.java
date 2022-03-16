@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
@@ -22,13 +23,14 @@ public interface DetectionRepository extends CrudRepository<DetectionEntity, Det
 				WHERE device_id = :deviceId AND characteristic_id = :characteristicId
 				ORDER BY creation_time DESC
 				LIMIT :count
-			)
+			) helper
 			ORDER BY creation_time ASC
 		""", nativeQuery = true)
 	List<DetectionEntity> findLastNById(
 		@Param("deviceId") int deviceId, @Param("characteristicId") int characteristicId, @Param("count") int count
 	);
 
+	@Transactional
 	@Modifying
 	@Query(value = """
 			UPDATE detection

@@ -17,8 +17,8 @@ public class ControlChartBeyondLimits implements ControlChart {
 	public void analyzeDetections(List<MarkableDetection> lastDetections, ControlLimits limits) {
 		MarkableDetection detection = lastDetections.get(0);
 
-		double upperControlLimit = limits.upperLimit();
 		double lowerControlLimit = limits.lowerLimit();
+		double upperControlLimit = limits.upperLimit();
 
 		if(detection.value() > upperControlLimit || detection.value() < lowerControlLimit) {
 			detection.markOutlier();
