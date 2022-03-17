@@ -12,7 +12,7 @@ import java.time.Instant;
 import java.util.List;
 
 @Repository
-public interface RilevazioneRepository extends CrudRepository<DetectionEntity, DetectionEntityId> {
+public interface DetectionsRepository extends CrudRepository<DetectionEntity, DetectionEntityId> {
 
     @Query("""
         select d from DetectionEntity d
@@ -25,4 +25,8 @@ public interface RilevazioneRepository extends CrudRepository<DetectionEntity, D
         @Param("creation") Instant creation,
         Sort sort
     );
+
+    @Modifying
+    @Query("update User u set u.firstname = ?1, u.lastname = ?2 where u.id = ?3")
+    void setUserInfoById(String firstname, String lastname, Integer userId)
 }
