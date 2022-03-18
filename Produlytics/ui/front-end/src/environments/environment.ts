@@ -17,7 +17,9 @@ export const environment: ProdulyticsEnvironment = {
   accountService: FakeAccountService,
   saveAccountService: FakeAccountService,
   newDeviceService: FakeDeviceService,
-  loginService: FakeLoginService,
+  findDeviceService: FakeDeviceService,
+  characteristicService: FakeDeviceService,
+  loginService: FakeLoginService
 };
 
 /*

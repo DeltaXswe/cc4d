@@ -21,6 +21,12 @@ import {MatCardModule} from "@angular/material/card";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
+import { DeviceDetailComponent } from './device-detail/device-detail.component';
+import {DeviceDetailResolver} from "./device-detail/device-detail.resolver";
+import { UpdateCharacteristicDialogComponent } from './device-detail/update-characteristic-dialog/update-characteristic-dialog.component';
+import {MatChipsModule} from "@angular/material/chips";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {ClipboardModule} from "@angular/cdk/clipboard";
 
 const routes: Routes = [
   {
@@ -30,14 +36,22 @@ const routes: Routes = [
   {
     path: 'nuova',
     component: NewDeviceComponent
+  },
+  {
+    path: ':id',
+    component: DeviceDetailComponent,
+    resolve: {device: DeviceDetailResolver},
+
   }
-]
+];
 
 @NgModule({
   declarations: [
     DevicesComponent,
     NewDeviceComponent,
-    NewCharacteristicDialogComponent
+    NewCharacteristicDialogComponent,
+    DeviceDetailComponent,
+    UpdateCharacteristicDialogComponent
   ],
   imports: [
     CommonModule,
@@ -56,7 +70,10 @@ const routes: Routes = [
     MatDialogModule,
     MatCheckboxModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatChipsModule,
+    MatTooltipModule,
+    ClipboardModule
   ]
 })
 export class DevicesModule { }

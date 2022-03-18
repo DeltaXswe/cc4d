@@ -4,7 +4,9 @@ import {UnarchivedDeviceService} from "../app/model/public-device/unarchived-dev
 import {DeviceService} from "../app/model/admin-device/device.service";
 import {AccountService} from "../app/model/admin-account/account.service";
 import {SaveAccountService} from "../app/model/admin-account/save-account.service";
-import {NewDeviceService} from "../app/model/admin-device/new-device.service";
+import {NewDeviceService} from "../app/model/admin-device/new/new-device.service";
+import {FindDeviceService} from "../app/model/admin-device/find-detail/find-device.service";
+import {CharacteristicService} from "../app/model/admin-device/characteristic/characteristic.service";
 
 export const environment: ProdulyticsEnvironment = {
   production: true,
@@ -14,5 +16,7 @@ export const environment: ProdulyticsEnvironment = {
   deviceService: DeviceService,
   accountService: AccountService,
   saveAccountService: SaveAccountService,
-  newDeviceService: NewDeviceService
+  newDeviceService: NewDeviceService,
+  findDeviceService: FindDeviceService,
+  characteristicService: CharacteristicService
 };

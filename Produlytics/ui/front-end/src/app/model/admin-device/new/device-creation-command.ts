@@ -1,4 +1,4 @@
-import {CharacteristicCreationCommand} from "./characteristic_creation_command";
+import {CharacteristicCreationCommand} from "./characteristic-creation-command";
 
 export interface DeviceCreationCommand {
   readonly name: string,

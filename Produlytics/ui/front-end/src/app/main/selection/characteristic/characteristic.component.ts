@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
-import { CharacteristicService } from '../../../model/characteristic/characteristic.service';
-import { Characteristic } from '../../../model/characteristic/characteristic';
+import { UnarchivedCharacteristicService } from '../../../model/characteristic/unarchived-characteristic.service';
+import { UnarchivedCharacteristic } from '../../../model/characteristic/unarchived-characteristic';
 import { UnarchivedDeviceInfo } from '../../../model/public-device/unarchived_device_info';
 import { Router } from '@angular/router';
 
@@ -15,15 +15,15 @@ export class CharacteristicComponent implements OnChanges {
 
   @Input() machine?: UnarchivedDeviceInfo;
 
-  constructor(private characteristicService: CharacteristicService, private router: Router) { }
+  constructor(private characteristicService: UnarchivedCharacteristicService, private router: Router) { }
 
   ngOnChanges(_changes: SimpleChanges): void {
     this.getCharacteristics(this.machine);
   }
 
-  characteristics: Characteristic[] = [];
+  characteristics: UnarchivedCharacteristic[] = [];
 
-  characteristicOnSelect(characteristic: Characteristic){
+  characteristicOnSelect(characteristic: UnarchivedCharacteristic){
     this.router.navigate(['chart', this.machine?.id, characteristic.id]);
   }
 

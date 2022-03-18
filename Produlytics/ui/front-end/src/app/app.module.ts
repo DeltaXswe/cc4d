@@ -33,10 +33,12 @@ import {SaveAccountAbstractService} from "./model/admin-account/save-account-abs
 import { ToolbarComponent } from './layout/toolbar/toolbar.component';
 import { LoginComponent } from './main/login/login.component';
 import {ComponentsModule} from "./components/components.module";
-import {NewDeviceAbstractService} from "./model/admin-device/new-device-abstract.service";
+import {NewDeviceAbstractService} from "./model/admin-device/new/new-device-abstract.service";
 import { FormsModule }   from '@angular/forms';
 import { ReactiveFormsModule }   from '@angular/forms';
 import { ModifyPwComponent } from './main/modify-pw/modify-pw.component';
+import {FindDeviceAbstractService} from "./model/admin-device/find-detail/find-device-abstract.service";
+import {CharacteristicAbstractService} from "./model/admin-device/characteristic/characteristic-abstract.service";
 import { LoginAbstractService } from './model/login/login-abstract.service';
 
 @NgModule({
@@ -108,6 +110,14 @@ import { LoginAbstractService } from './model/login/login-abstract.service';
     {
       provide: LoginAbstractService,
       useExisting: environment.loginService
+    },
+    {
+      provide: FindDeviceAbstractService,
+      useExisting: environment.findDeviceService
+    },
+    {
+      provide: CharacteristicAbstractService,
+      useExisting: environment.characteristicService
     }
   ],
   bootstrap: [

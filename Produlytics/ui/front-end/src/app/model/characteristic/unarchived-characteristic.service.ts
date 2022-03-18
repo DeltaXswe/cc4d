@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Characteristic } from './characteristic';
+import { UnarchivedCharacteristic } from './unarchived-characteristic';
 import { Observable } from 'rxjs';
 import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
-export class CharacteristicService {
+export class UnarchivedCharacteristicService {
 
   constructor(
     private httpClient: HttpClient
@@ -16,7 +16,7 @@ export class CharacteristicService {
    * Ottiene le caratteristiche per delle ricerche leggere tra le caratteristiche della macchina.
    *
    * */
-  getCharacteristics(deviceId: number): Observable<Characteristic[]>{
-    return this.httpClient.get<Characteristic[]>(`/devices/${deviceId}/characteristics`);
+  getCharacteristics(deviceId: number): Observable<UnarchivedCharacteristic[]>{
+    return this.httpClient.get<UnarchivedCharacteristic[]>(`/devices/${deviceId}/characteristics`);
   }
 }

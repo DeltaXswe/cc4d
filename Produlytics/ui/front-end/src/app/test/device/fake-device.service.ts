@@ -4,9 +4,28 @@ import {Observable, of, throwError} from "rxjs";
 import {UnarchivedDeviceInfo} from "../../model/public-device/unarchived_device_info";
 import {DeviceAbstractService} from "../../model/admin-device/device-abstract.service";
 import {Device} from "../../model/admin-device/device";
-import {NewDeviceService} from "../../model/admin-device/new-device.service";
-import {DeviceCreationCommand} from "../../model/admin-device/device-creation-command";
-import {NewDeviceAbstractService} from "../../model/admin-device/new-device-abstract.service";
+import {DeviceCreationCommand} from "../../model/admin-device/new/device-creation-command";
+import {NewDeviceAbstractService} from "../../model/admin-device/new/new-device-abstract.service";
+import {FindDeviceAbstractService} from "../../model/admin-device/find-detail/find-device-abstract.service";
+import {CharacteristicAbstractService} from "../../model/admin-device/characteristic/characteristic-abstract.service";
+import {Characteristic} from "../../model/admin-device/characteristic/characteristic";
+import {CharacteristicCreationCommand} from "../../model/admin-device/new/characteristic-creation-command";
+
+class CharacteristicMock {
+  id: number;
+  name: string;
+  archived: boolean;
+
+  constructor(characteristic: Characteristic) {
+    this.id = characteristic.id;
+    this.name = characteristic.name;
+    this.archived = characteristic.archived;
+  }
+
+  build(): Characteristic {
+    return this;
+  }
+}
 
 class DeviceMock {
 
@@ -15,6 +34,7 @@ class DeviceMock {
    apiKey: string;
    archived: boolean;
    deactivated: boolean;
+   characteristics: CharacteristicMock[] = [];
 
   constructor(device: Device) {
     this.id = device.id;
@@ -35,7 +55,9 @@ class DeviceMock {
 export class FakeDeviceService implements
   ListUnarchivedDevicesAbstractService,
   DeviceAbstractService,
-  NewDeviceAbstractService
+  NewDeviceAbstractService,
+  FindDeviceAbstractService,
+  CharacteristicAbstractService
 {
   private devices: DeviceMock[] = [
     {
@@ -78,7 +100,9 @@ export class FakeDeviceService implements
       source.deactivated = false;
       return of({});
     } else {
-      return throwError('Macchina non trovata')
+      return throwError({
+        errorCode: 'deviceNotFound'
+      });
     }
   }
 
@@ -88,7 +112,9 @@ export class FakeDeviceService implements
       source.archived = true;
       return of({});
     } else {
-      return throwError('Macchina non trovata')
+      return throwError({
+        errorCode: 'deviceNotFound'
+      });
     }
   }
 
@@ -125,5 +151,74 @@ export class FakeDeviceService implements
     return of(newDevice);
   }
 
+  findDeviceById(id: number): Observable<Device> {
+    const device = this.devices.find(device => device.id === id);
+    if (device) {
+      return of(device);
+    } else {
+      return throwError('No device found');
+    }
+  }
 
+  getCharacteristicsByDevice(deviceId: number): Observable<Characteristic[]> {
+    const device = this.devices.find(device => device.id === deviceId);
+    if (device?.characteristics) {
+      return of(device?.characteristics);
+    } else {
+      return throwError({
+        errorCode: 'deviceNotFound'
+      });
+    }
+  }
+
+  addCharacteristic(deviceId: number, command: CharacteristicCreationCommand): Observable<{ id: number }> {
+    const device = this.devices.find(device => device.id === deviceId);
+    if (!device) {
+      return throwError({
+        errorCode: 'deviceNotFound'
+      });
+    }
+    if (device?.characteristics.find(char => char.name === command.name)) {
+      return throwError({
+        errorCode: 'duplicateCharacteristicName'
+      });
+    } else {
+      // TODO refine
+      const newId = Math.max(...device.characteristics.map(device => device.id)) + 1;
+      const inserted = new CharacteristicMock({
+        id: newId,
+        name: command.name,
+        archived: false
+      });
+      device.characteristics.push(inserted);
+      return of(inserted)
+    }
+  }
+
+  archiveCharacteristic(deviceId: number, id: number): Observable<{}> {
+    try {
+
+      const device = this.devices.find(device => device.id === deviceId)!;
+      const char = device.characteristics.find(char => char.id === id)!;
+      char.archived = true;
+      return of({});
+    } catch (err) {
+      return throwError({
+        errorCode: 'characteristicNotFound'
+      });
+    }
+  }
+
+  recoverCharacteristic(deviceId: number, id: number): Observable<{}> {
+    try {
+      const device = this.devices.find(device => device.id === deviceId)!;
+      const char = device.characteristics.find(char => char.id === id)!;
+      char.archived = false;
+      return of({});
+    } catch (err) {
+      return throwError({
+        errorCode: 'characteristicNotFound'
+      });
+    }
+  }
 }

@@ -1,0 +1,74 @@
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayout="column" fxLayoutAlign="start start">
+    <h1>
+      {{device.name}}
+    </h1>
+    <span>
+      <mat-icon>key</mat-icon>
+      {{device.id}}
+    </span>
+  </div>
+  <!-- cosa mettere qui? -->
+</mat-toolbar>
+<div class="content">
+  <mat-card>
+    <mat-card-subtitle>Informazioni</mat-card-subtitle>
+    <mat-card-title><strong>Nome</strong>: {{device.name}}</mat-card-title>
+    <mat-form-field appearance="outline" floatLabel="always">
+      <mat-label>Codice di accesso</mat-label>
+      <input matInput disabled [value]="device.apiKey" />
+      <button matSuffix mat-icon-button matTooltip="Copia contenuto" [cdkCopyToClipboard]="device.apiKey"
+              (cdkCopyToClipboardCopied)="notifyCopy()">
+        <mat-icon>
+          content_copy
+        </mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-card-content>
+      <mat-chip-list>
+        <mat-chip *ngIf="device.deactivated">
+          Disattivata
+        </mat-chip>
+        <mat-chip *ngIf="!device.deactivated" class="bg-green">
+          Attiva
+        </mat-chip>
+        <mat-chip *ngIf="device.archived" color="warn">
+          Archiviata
+        </mat-chip>
+      </mat-chip-list>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-title fxLayout="row" fxLayoutAlign="space-between center">
+      <span>Caratteristiche</span>
+      <button mat-stroked-button color="primary" (click)="openNewCharacteristicDialog()">
+        Nuova
+      </button>
+    </mat-card-title>
+    <mat-card-content>
+      <mat-table [dataSource]="characteristics">
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header="name">
+            Nome
+          </mat-header-cell>
+          <mat-cell *matCellDef="let characteristic">
+            {{characteristic.name}}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
+          <mat-cell *matCellDef="let characteristic" fxFlex="64px">
+            <button mat-icon-button (click)="toggleCharacteristicStatus(characteristic)">
+              <mat-icon [ngClass]="{
+              'red-text': !characteristic.archived
+            }">
+                {{characteristic.archived ? 'restore_from_trash' : 'delete'}}
+              </mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+      </mat-table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20, 100]" aria-label="Select page of characteristic"></mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {CharacteristicCreationCommand} from "../../../model/admin-device/characteristic_creation_command";
+import {CharacteristicCreationCommand} from "../../../model/admin-device/new/characteristic-creation-command";
 import {MatDialog} from "@angular/material/dialog";
 import {NewCharacteristicDialogComponent} from "../new-characteristic-dialog/new-characteristic-dialog.component";
-import {NewDeviceAbstractService} from "../../../model/admin-device/new-device-abstract.service";
+import {NewDeviceAbstractService} from "../../../model/admin-device/new/new-device-abstract.service";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ErrorDialogComponent} from "../../../components/error-dialog/error-dialog.component";
-import {DeviceCreationCommand} from "../../../model/admin-device/device-creation-command";
+import {DeviceCreationCommand} from "../../../model/admin-device/new/device-creation-command";
 
 @Component({
   selector: 'app-new-device',

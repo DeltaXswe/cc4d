@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {CharacteristicCreationCommand} from "../../../model/admin-device/characteristic_creation_command";
+import {CharacteristicCreationCommand} from "../../../model/admin-device/new/characteristic-creation-command";
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
