@@ -2,9 +2,12 @@ package it.deltax.produlytics.api.detections.business.domain.serie;
 
 import it.deltax.produlytics.api.detections.business.domain.*;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlChart;
+import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlLimits;
+import it.deltax.produlytics.api.detections.business.domain.control_chart.MarkableDetection;
 import it.deltax.produlytics.api.detections.business.ports.out.FindLastDetectionsPort;
 import it.deltax.produlytics.api.detections.business.ports.out.FindLimitsPort;
 import it.deltax.produlytics.api.detections.business.ports.out.InsertDetectionPort;
+import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
 
 import java.util.List;
 
@@ -12,6 +15,7 @@ public class DetectionSerieImpl implements DetectionSerie {
 	private final InsertDetectionPort insertDetectionPort;
 	private final FindLimitsPort findLimitsPort;
 	private final FindLastDetectionsPort findLastDetectionsPort;
+	private final MarkOutlierPort markOutlierPort;
 
 	private final List<ControlChart> controlCharts;
 
@@ -22,6 +26,7 @@ public class DetectionSerieImpl implements DetectionSerie {
 		InsertDetectionPort insertDetectionPort,
 		FindLimitsPort findLimitsPort,
 		FindLastDetectionsPort findLastDetectionsPort,
+		MarkOutlierPort markOutlierPort,
 		List<ControlChart> controlCharts,
 		int deviceId,
 		int characteristicId
@@ -29,6 +34,7 @@ public class DetectionSerieImpl implements DetectionSerie {
 		this.insertDetectionPort = insertDetectionPort;
 		this.findLimitsPort = findLimitsPort;
 		this.findLastDetectionsPort = findLastDetectionsPort;
+		this.markOutlierPort = markOutlierPort;
 		this.controlCharts = controlCharts;
 		this.deviceId = deviceId;
 		this.characteristicId = characteristicId;
@@ -48,7 +54,10 @@ public class DetectionSerieImpl implements DetectionSerie {
 	}
 
 	private List<MarkableDetection> detectionsForControlCharts() {
-		return this.findLastDetectionsPort.findLastDetections(this.deviceId, this.characteristicId, 15);
+		return this.findLastDetectionsPort.findLastDetections(this.deviceId, this.characteristicId, 15)
+			.stream()
+			.map(detection -> (MarkableDetection) new MarkableDetectionAdapter(this.markOutlierPort, detection))
+			.toList();
 	}
 
 	private ControlLimits computeControlLimits() {

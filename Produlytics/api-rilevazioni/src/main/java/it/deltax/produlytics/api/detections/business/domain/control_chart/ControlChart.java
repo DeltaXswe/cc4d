@@ -1,8 +1,5 @@
 package it.deltax.produlytics.api.detections.business.domain.control_chart;
 
-import it.deltax.produlytics.api.detections.business.domain.ControlLimits;
-import it.deltax.produlytics.api.detections.business.domain.MarkableDetection;
-
 import java.util.List;
 
 // Rappresenta l'implementazione di una carta di controllo.

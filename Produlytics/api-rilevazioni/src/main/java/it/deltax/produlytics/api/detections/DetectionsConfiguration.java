@@ -24,7 +24,8 @@ public class DetectionsConfiguration {
 		FindCharacteristicInfoPort findCharacteristicInfoPort,
 		InsertDetectionPort insertDetectionPort,
 		FindLimitsPort findLimitsPort,
-		FindLastDetectionsPort findLastDetectionsPort
+		FindLastDetectionsPort findLastDetectionsPort,
+		MarkOutlierPort markOutlierPort
 	) {
 		DetectionValidator detectionValidation = new DetectionValidatorImpl(findDeviceInfoByApiKeyPort,
 			findCharacteristicInfoPort
@@ -43,6 +44,7 @@ public class DetectionsConfiguration {
 		DetectionSerieFactory detectionSerieFactory = new DetectionSerieImplFactory(insertDetectionPort,
 			findLimitsPort,
 			findLastDetectionsPort,
+			markOutlierPort,
 			controlCharts
 		);
 

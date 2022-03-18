@@ -4,6 +4,7 @@ import it.deltax.produlytics.api.detections.business.domain.control_chart.Contro
 import it.deltax.produlytics.api.detections.business.ports.out.FindLastDetectionsPort;
 import it.deltax.produlytics.api.detections.business.ports.out.FindLimitsPort;
 import it.deltax.produlytics.api.detections.business.ports.out.InsertDetectionPort;
+import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ public class DetectionSerieImplFactory implements DetectionSerieFactory {
 	private final InsertDetectionPort insertDetectionPort;
 	private final FindLimitsPort findLimitsPort;
 	private final FindLastDetectionsPort findLastDetectionsPort;
+	private final MarkOutlierPort markOutlierPort;
 
 	private final List<ControlChart> controlCharts;
 
@@ -18,11 +20,13 @@ public class DetectionSerieImplFactory implements DetectionSerieFactory {
 		InsertDetectionPort insertDetectionPort,
 		FindLimitsPort findLimitsPort,
 		FindLastDetectionsPort findLastDetectionsPort,
+		MarkOutlierPort markOutlierPort,
 		List<ControlChart> controlCharts
 	) {
 		this.insertDetectionPort = insertDetectionPort;
 		this.findLimitsPort = findLimitsPort;
 		this.findLastDetectionsPort = findLastDetectionsPort;
+		this.markOutlierPort = markOutlierPort;
 		this.controlCharts = controlCharts;
 	}
 	@Override
@@ -31,6 +35,7 @@ public class DetectionSerieImplFactory implements DetectionSerieFactory {
 			this.insertDetectionPort,
 			this.findLimitsPort,
 			this.findLastDetectionsPort,
+			this.markOutlierPort,
 			this.controlCharts,
 			deviceId,
 			characteristicId

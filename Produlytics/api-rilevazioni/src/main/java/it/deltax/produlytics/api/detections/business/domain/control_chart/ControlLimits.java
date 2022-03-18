@@ -1,4 +1,4 @@
-package it.deltax.produlytics.api.detections.business.domain;
+package it.deltax.produlytics.api.detections.business.domain.control_chart;
 
 public record ControlLimits(double lowerLimit, double upperLimit) {
 	public double mean() {

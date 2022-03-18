@@ -2,7 +2,7 @@ package it.deltax.produlytics.api.detections.business.ports.services;
 
 import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.domain.IncomingDetection;
-import it.deltax.produlytics.api.detections.business.domain.ValidationInfo;
+import it.deltax.produlytics.api.detections.business.domain.validate.ValidationInfo;
 import it.deltax.produlytics.api.detections.business.domain.exception.ArchivedException;
 import it.deltax.produlytics.api.detections.business.domain.exception.NotAuthenticatedException;
 import it.deltax.produlytics.api.detections.business.domain.exception.NotFoundException;

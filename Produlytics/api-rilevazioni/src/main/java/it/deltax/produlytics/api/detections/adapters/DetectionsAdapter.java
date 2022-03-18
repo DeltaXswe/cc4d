@@ -1,6 +1,11 @@
 package it.deltax.produlytics.api.detections.adapters;
 
 import it.deltax.produlytics.api.detections.business.domain.*;
+import it.deltax.produlytics.api.detections.business.domain.serie.LimitsInfo;
+import it.deltax.produlytics.api.detections.business.domain.serie.MeanStddev;
+import it.deltax.produlytics.api.detections.business.domain.serie.TechnicalLimits;
+import it.deltax.produlytics.api.detections.business.domain.validate.CharacteristicInfo;
+import it.deltax.produlytics.api.detections.business.domain.validate.DeviceInfo;
 import it.deltax.produlytics.api.detections.business.ports.out.*;
 import it.deltax.produlytics.api.repositories.CharacteristicRepository;
 import it.deltax.produlytics.api.repositories.DetectionRepository;
@@ -21,7 +26,8 @@ public class DetectionsAdapter implements FindDeviceInfoByApiKeyPort,
 	FindCharacteristicInfoPort,
 	FindLastDetectionsPort,
 	InsertDetectionPort,
-	FindLimitsPort
+	FindLimitsPort,
+	MarkOutlierPort
 {
 	@Autowired
 	private CharacteristicRepository characteristicRepository;
@@ -46,11 +52,10 @@ public class DetectionsAdapter implements FindDeviceInfoByApiKeyPort,
 	}
 
 	@Override
-	public List<MarkableDetection> findLastDetections(int deviceId, int characteristicId, int count) {
+	public List<Detection> findLastDetections(int deviceId, int characteristicId, int count) {
 		return this.detectionRepository.findLastNById(deviceId, characteristicId, count)
 			.stream()
-			.map(detectionEntity -> (MarkableDetection) new MarkableDetectionAdapter(this.detectionRepository,
-				detectionEntity.getId().getDeviceId(),
+			.map(detectionEntity -> new Detection(detectionEntity.getId().getDeviceId(),
 				detectionEntity.getId().getCharacteristicId(),
 				detectionEntity.getId().getCreationTime(),
 				detectionEntity.getValue()
@@ -87,5 +92,13 @@ public class DetectionsAdapter implements FindDeviceInfoByApiKeyPort,
 		}
 
 		return new LimitsInfo(technicalLimits, meanStddev);
+	}
+
+	@Override
+	public void markOutlier(Detection detection) {
+		this.detectionRepository.markOutlier(detection.deviceId(),
+			detection.characteristicId(),
+			detection.creationTime()
+		);
 	}
 }
