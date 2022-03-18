@@ -7,7 +7,7 @@ import { LoginAbstractService } from './login-abstract.service';
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService implements LoginAbstractService {
+export class LoginService implements LoginAbstractService{
 
   endpoint: string = 'url';
 

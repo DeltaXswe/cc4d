@@ -7,7 +7,7 @@ import {SaveAccountService} from "../app/model/admin-account/save-account.servic
 import {NewDeviceService} from "../app/model/admin-device/new/new-device.service";
 import {FindDeviceService} from "../app/model/admin-device/find-detail/find-device.service";
 import {CharacteristicService} from "../app/model/admin-device/characteristic/characteristic.service";
-
+import { LoginService } from "src/app/model/login/login.service";
 export const environment: ProdulyticsEnvironment = {
   production: true,
   apiUrl: '',
@@ -19,4 +19,5 @@ export const environment: ProdulyticsEnvironment = {
   newDeviceService: NewDeviceService,
   findDeviceService: FindDeviceService,
   characteristicService: CharacteristicService
+  loginService: loginService
 };

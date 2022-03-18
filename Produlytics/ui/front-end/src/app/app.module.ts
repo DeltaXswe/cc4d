@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-
 import {AppComponent} from './app.component';
 import {SelectionComponent} from "./main/selection/selection.component";
 import {MachineComponent} from "./main/selection/machine/machine.component";
