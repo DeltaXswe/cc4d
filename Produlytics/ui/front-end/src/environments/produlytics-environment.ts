@@ -5,6 +5,7 @@ import {DeviceAbstractService} from "../app/model/admin-device/device-abstract.s
 import {AccountAbstractService} from "../app/model/admin-account/account-abstract.service";
 import {SaveAccountAbstractService} from "../app/model/admin-account/save-account-abstract.service";
 import {NewDeviceAbstractService} from "../app/model/admin-device/new-device-abstract.service";
+import { LoginAbstractService } from "src/app/model/login/login-abstract.service";
 
 export interface ProdulyticsEnvironment {
   readonly production: boolean
@@ -15,4 +16,5 @@ export interface ProdulyticsEnvironment {
   readonly accountService: Type<AccountAbstractService>
   readonly saveAccountService: Type<SaveAccountAbstractService>
   readonly newDeviceService: Type<NewDeviceAbstractService>
+  readonly loginService: Type<LoginAbstractService>
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { LoginService } from 'src/app/model/login/login.service';
 import {ViewEncapsulation} from '@angular/core';
+import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
 
 @Component({
   selector: 'app-login',
@@ -18,8 +18,14 @@ export class LoginComponent implements OnInit {
     remember: new FormControl('')
   });
 
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private loginService: LoginService) { 
-  }
+  constructor (private formBuilder: FormBuilder, 
+    private route: ActivatedRoute, 
+    private router: Router, 
+    private loginService: LoginAbstractService)
+    { 
+      if (this.loginService.isLogged())
+        this.router.navigate(['']) 
+    }
 
   ngOnInit(): void {
   }
@@ -28,6 +34,6 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-    this.loginService.login(this.loginForm.controls['un'].value, this.loginForm.controls['pw'].value);
+    this.loginService.login(this.loginForm.controls['un'].value, this.loginForm.controls['pw'].value)
   }
 }

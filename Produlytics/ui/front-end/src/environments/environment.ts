@@ -6,6 +6,7 @@ import {ProdulyticsEnvironment} from "./produlytics-environment";
 import {FakeChartService} from "../app/test/chart/fake-chart.service";
 import {FakeDeviceService} from "../app/test/device/fake-device.service";
 import {FakeAccountService} from "../app/test/account/fake-account.service";
+import { FakeLoginService } from "src/app/test/login/fake-login.service";
 
 export const environment: ProdulyticsEnvironment = {
   production: false,
@@ -15,7 +16,8 @@ export const environment: ProdulyticsEnvironment = {
   deviceService: FakeDeviceService,
   accountService: FakeAccountService,
   saveAccountService: FakeAccountService,
-  newDeviceService: FakeDeviceService
+  newDeviceService: FakeDeviceService,
+  loginService: FakeLoginService,
 };
 
 /*

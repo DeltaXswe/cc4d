@@ -25,6 +25,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {ChartAbstractService} from "./model/chart/chart-abstract.service";
 import {environment} from "../environments/environment";
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {ListUnarchivedDevicesAbstractService} from "./model/public-device/list-unarchived-devices-abstract.service";
 import {DeviceAbstractService} from "./model/admin-device/device-abstract.service";
 import {AccountAbstractService} from "./model/admin-account/account-abstract.service";
@@ -36,6 +37,7 @@ import {NewDeviceAbstractService} from "./model/admin-device/new-device-abstract
 import { FormsModule }   from '@angular/forms';
 import { ReactiveFormsModule }   from '@angular/forms';
 import { ModifyPwComponent } from './main/modify-pw/modify-pw.component';
+import { LoginAbstractService } from './model/login/login-abstract.service';
 
 @NgModule({
   declarations: [
@@ -74,6 +76,7 @@ import { ModifyPwComponent } from './main/modify-pw/modify-pw.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    MatSnackBarModule,
     // other
     ComponentsModule
   ],
@@ -101,6 +104,10 @@ import { ModifyPwComponent } from './main/modify-pw/modify-pw.component';
     {
       provide: NewDeviceAbstractService,
       useExisting: environment.newDeviceService
+    },
+    {
+      provide: LoginAbstractService,
+      useExisting: environment.loginService
     }
   ],
   bootstrap: [

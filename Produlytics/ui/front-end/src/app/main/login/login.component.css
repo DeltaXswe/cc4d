@@ -12,8 +12,8 @@ mat-form-field{
 }
 
 mat-card{
-   display: flex;
-  justify-content: center; /* align horizontal */
+display: flex;
+  justify-content: center;
   align-items: center;
 }
 
