@@ -261,6 +261,16 @@ $altTheme: (
   }
 }
 
+// custom
+
+
+.mat-card {
+  .mat-toolbar {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+}
+
 // custom colors
 
 .green-text {
@@ -271,8 +281,23 @@ $altTheme: (
   color: darkred;
 }
 
-.bg-green {
-  background-color: forestgreen;
-  color: white;
+// typography
+
+.title {
+  font-size: 24px;
 }
 
+.subtitle {
+  font-size: 16px;
+}
+
+.secondary-text {
+  opacity: 0.75;
+  font-size: 12px;
+  font-weight: lighter;
+}
+
+a[routerLink] {
+  color: whitesmoke;
+  text-decoration: underline;
+}

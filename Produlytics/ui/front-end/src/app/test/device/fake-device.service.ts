@@ -10,6 +10,7 @@ import {FindDeviceAbstractService} from "../../model/admin-device/find-detail/fi
 import {CharacteristicAbstractService} from "../../model/admin-device/characteristic/characteristic-abstract.service";
 import {Characteristic} from "../../model/admin-device/characteristic/characteristic";
 import {CharacteristicCreationCommand} from "../../model/admin-device/new/characteristic-creation-command";
+import {UpdateDeviceAbstractService} from "../../model/admin-device/update/update-device-abstract.service";
 
 class CharacteristicMock {
   id: number;
@@ -57,7 +58,8 @@ export class FakeDeviceService implements
   DeviceAbstractService,
   NewDeviceAbstractService,
   FindDeviceAbstractService,
-  CharacteristicAbstractService
+  CharacteristicAbstractService,
+  UpdateDeviceAbstractService
 {
   private devices: DeviceMock[] = [
     {
@@ -221,4 +223,24 @@ export class FakeDeviceService implements
       });
     }
   }
+
+  updateDeviceName(id: number, newName: string): Observable<{}> {
+    const device = this.devices.find(device => device.id === id);
+    if (device) {
+      const sameName = this.devices.find(device => device.name === newName);
+      if (!sameName) {
+        device.name = newName;
+        return of({});
+      } else {
+        return throwError({
+          errorCode: 'duplicateDeviceName'
+        });
+      }
+    } else {
+      return throwError({
+        errorCode: 'deviceNotFound'
+      })
+    }
+  }
+
 }

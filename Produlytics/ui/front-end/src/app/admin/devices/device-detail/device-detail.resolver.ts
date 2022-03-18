@@ -15,7 +15,7 @@ export class DeviceDetailResolver implements Resolve<Device> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Device> {
-    return this.findDeviceService.findDeviceById(route.params['id']);
+    return this.findDeviceService.findDeviceById(Number(route.params['id']));
   }
 
 }

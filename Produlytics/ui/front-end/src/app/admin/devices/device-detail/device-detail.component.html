@@ -1,54 +1,59 @@
 <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
   <div fxLayout="column" fxLayoutAlign="start start">
-    <h1>
+    <a class="secondary-text" routerLink="/gestione-macchine">Torna all'elenco</a>
+    <span class="title">
       {{device.name}}
-    </h1>
-    <span>
-      <mat-icon>key</mat-icon>
-      {{device.id}}
     </span>
   </div>
-  <!-- cosa mettere qui? -->
+  <span fxLayoutAlign="start center" fxLayoutGap="0.5em" matTooltip="Identificativo">
+    <mat-icon>key</mat-icon>
+    <span>{{device.id}}</span>
+  </span>
 </mat-toolbar>
-<div class="content">
-  <mat-card>
-    <mat-card-subtitle>Informazioni</mat-card-subtitle>
-    <mat-card-title><strong>Nome</strong>: {{device.name}}</mat-card-title>
-    <mat-form-field appearance="outline" floatLabel="always">
-      <mat-label>Codice di accesso</mat-label>
-      <input matInput disabled [value]="device.apiKey" />
-      <button matSuffix mat-icon-button matTooltip="Copia contenuto" [cdkCopyToClipboard]="device.apiKey"
-              (cdkCopyToClipboardCopied)="notifyCopy()">
-        <mat-icon>
-          content_copy
-        </mat-icon>
-      </button>
-    </mat-form-field>
+<div class="content" fxLayout="row wrap" fxLayoutGap="16px">
+  <mat-card fxFlex>
+    <mat-toolbar color="primary">
+      <mat-card-title>
+        Informazioni
+      </mat-card-title>
+    </mat-toolbar>
     <mat-card-content>
-      <mat-chip-list>
-        <mat-chip *ngIf="device.deactivated">
-          Disattivata
-        </mat-chip>
-        <mat-chip *ngIf="!device.deactivated" class="bg-green">
-          Attiva
-        </mat-chip>
-        <mat-chip *ngIf="device.archived" color="warn">
-          Archiviata
-        </mat-chip>
-      </mat-chip-list>
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+        <mat-form-field fxFlex appearance="outline" floatLabel="always">
+          <mat-label>Codice di accesso</mat-label>
+          <input matInput readonly [value]="device.apiKey" />
+          <button matSuffix mat-icon-button matTooltip="Copia contenuto" [cdkCopyToClipboard]="device.apiKey"
+                  (cdkCopyToClipboardCopied)="notifyCopy()">
+            <mat-icon>
+              content_copy
+            </mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-chip-list fxLayoutAlign="start center">
+          <mat-chip *ngIf="device.deactivated">
+            Disattivata
+          </mat-chip>
+          <mat-chip *ngIf="!device.deactivated" class="bg-green">
+            Attiva
+          </mat-chip>
+          <mat-chip *ngIf="device.archived" selected color="warn">
+            Archiviata
+          </mat-chip>
+        </mat-chip-list>
+      </div>
     </mat-card-content>
   </mat-card>
-  <mat-card>
-    <mat-card-title fxLayout="row" fxLayoutAlign="space-between center">
-      <span>Caratteristiche</span>
-      <button mat-stroked-button color="primary" (click)="openNewCharacteristicDialog()">
-        Nuova
-      </button>
-    </mat-card-title>
+  <mat-card fxFlex>
+    <mat-toolbar mat-card-title color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+        <span>Caratteristiche</span>
+        <button mat-stroked-button (click)="openNewCharacteristicDialog()">
+          Nuova
+        </button>
+    </mat-toolbar>
     <mat-card-content>
       <mat-table [dataSource]="characteristics">
         <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef mat-sort-header="name">
+          <mat-header-cell *matHeaderCellDef>
             Nome
           </mat-header-cell>
           <mat-cell *matCellDef="let characteristic">
@@ -67,6 +72,9 @@
             </button>
           </mat-cell>
         </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
       <mat-paginator [pageSizeOptions]="[5, 10, 20, 100]" aria-label="Select page of characteristic"></mat-paginator>
     </mat-card-content>

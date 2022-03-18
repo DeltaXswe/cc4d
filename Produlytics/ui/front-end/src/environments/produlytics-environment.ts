@@ -8,6 +8,7 @@ import {NewDeviceAbstractService} from "../app/model/admin-device/new/new-device
 import {FindDeviceAbstractService} from "../app/model/admin-device/find-detail/find-device-abstract.service";
 import {CharacteristicAbstractService} from "../app/model/admin-device/characteristic/characteristic-abstract.service";
 import { LoginAbstractService } from "src/app/model/login/login-abstract.service";
+import {UpdateDeviceAbstractService} from "../app/model/admin-device/update/update-device-abstract.service";
 
 export interface ProdulyticsEnvironment {
   readonly production: boolean
@@ -21,4 +22,5 @@ export interface ProdulyticsEnvironment {
   readonly findDeviceService: Type<FindDeviceAbstractService>
   readonly characteristicService: Type<CharacteristicAbstractService>
   readonly loginService: Type<LoginAbstractService>
+  readonly updateDeviceService: Type<UpdateDeviceAbstractService>
 }

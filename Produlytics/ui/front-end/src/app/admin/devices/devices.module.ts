@@ -41,7 +41,6 @@ const routes: Routes = [
     path: ':id',
     component: DeviceDetailComponent,
     resolve: {device: DeviceDetailResolver},
-
   }
 ];
 

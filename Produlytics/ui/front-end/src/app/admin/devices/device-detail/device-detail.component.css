@@ -1,3 +1,26 @@
 .content {
   padding: 24px;
 }
+
+.mat-toolbar {
+  padding: 24px;
+}
+
+.content .bg-green {
+  background-color: forestgreen;
+  color: white;
+}
+
+.mat-card {
+  padding: 0;
+  min-width: 400px;
+  margin-bottom: 16px;
+}
+
+.mat-card-content {
+  padding: 16px;
+}
+
+.mat-form-field-wrapper {
+  padding: 0;
+}

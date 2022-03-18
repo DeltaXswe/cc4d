@@ -1,6 +1,11 @@
-<div *ngIf="isLogged()"> 
+<div *ngIf="isLogged()">
    <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center" color="accent">
-      <a mat-button id="produlytics" routerLink="/"><span>Produlytics</span></a>
+       <button mat-button id="produlytics" fxLayoutAlign="start center" routerLink="/" matTooltip="Torna alla dashboard">
+           <mat-icon>home</mat-icon>
+           <span>
+               Produlytics
+           </span>
+       </button>
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px">
          <mat-icon>account_circle</mat-icon>
       <button mat-button [matMenuTriggerFor]="menu">
