@@ -1,12 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Characteristic} from "../../../model/admin-device/characteristic/characteristic";
 import {BehaviorSubject} from "rxjs";
+import {CharacteristicCreationCommand} from "../../../model/admin-device/new/characteristic-creation-command";
 
 @Component({
   selector: 'app-characteristic-form',
   templateUrl: './characteristic-form.component.html',
-  styleUrls: ['./characteristic-form.component.css']
+  styleUrls: ['./characteristic-form.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CharacteristicFormComponent implements OnInit {
   @Input()
@@ -59,7 +61,7 @@ export class CharacteristicFormComponent implements OnInit {
     });
   }
 
-  public requireData(): any {
+  public requireData(): CharacteristicCreationCommand {
     const rawValue = this.formGroup.getRawValue();
     if (rawValue.autoAdjust) {
       rawValue.upperLimit = null;

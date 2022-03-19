@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Characteristic} from "../../../model/admin-device/characteristic/characteristic";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
@@ -6,6 +6,7 @@ import {startWith} from "rxjs";
 import {
   UpdateCharacteristicAbstractService
 } from "../../../model/admin-device/characteristic/update-characteristic-abstract.service";
+import {CharacteristicFormComponent} from "../characteristic-form/characteristic-form.component";
 
 @Component({
   selector: 'app-update-characteristic-dialog',
@@ -14,7 +15,7 @@ import {
   encapsulation: ViewEncapsulation.None
 })
 export class UpdateCharacteristicDialogComponent implements OnInit {
-  formGroup: FormGroup;
+  @ViewChild('charForm') charForm!: CharacteristicFormComponent;
 
   constructor(
     private updateCharacteristicService: UpdateCharacteristicAbstractService,
@@ -25,31 +26,9 @@ export class UpdateCharacteristicDialogComponent implements OnInit {
     },
     formBuilder: FormBuilder
   ) {
-    this.formGroup = formBuilder.group({
-      name: new FormControl(data.characteristic.name, Validators.required),
-      autoAdjust: new FormControl(data.characteristic.autoAdjust),
-      lowerLimit: new FormControl(data.characteristic.lowerLimit),
-      upperLimit: new FormControl(data.characteristic.upperLimit),
-      sampleSize: new FormControl(data.characteristic.sampleSize)
-    });
   }
 
   ngOnInit(): void {
-    this.formGroup.get('autoAdjust')?.valueChanges
-      .pipe(startWith(this.data.characteristic.autoAdjust))
-      .subscribe(selected => {
-        if (selected) {
-          this.formGroup.get('upperLimit')?.removeValidators(Validators.required);
-          this.formGroup.get('upperLimit')?.updateValueAndValidity();
-          this.formGroup.get('lowerLimit')?.removeValidators(Validators.required);
-          this.formGroup.get('lowerLimit')?.updateValueAndValidity();
-        } else {
-          this.formGroup.get('upperLimit')?.setValidators(Validators.required);
-          this.formGroup.get('upperLimit')?.updateValueAndValidity();
-          this.formGroup.get('lowerLimit')?.setValidators(Validators.required);
-          this.formGroup.get('lowerLimit')?.updateValueAndValidity();
-        }
-      });
   }
 
   cancel() {
@@ -57,13 +36,7 @@ export class UpdateCharacteristicDialogComponent implements OnInit {
   }
 
   confirm(): void {
-    const rawValue = this.formGroup.getRawValue();
-    if (rawValue.autoAdjust) {
-      rawValue.upperLimit = null;
-      rawValue.lowerLimit = null;
-    } else {
-      rawValue.sampleSize = null;
-    }
+    const rawValue = this.charForm.requireData();
     this.updateCharacteristicService.updateCharacteristic({
       deviceId: this.data.deviceId,
       id: this.data.characteristic.id,
@@ -79,10 +52,7 @@ export class UpdateCharacteristicDialogComponent implements OnInit {
         },
         error: err => {
           if (err.errorCode === 'duplicateCharacteristicName') {
-            this.formGroup.get('name')?.setErrors({
-              duplicateCharacteristicName: true
-            });
-            this.formGroup.updateValueAndValidity();
+            this.charForm.duplicateNameBehavior.next(true);
           }
         }
       });
