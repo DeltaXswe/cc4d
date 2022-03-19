@@ -12,10 +12,8 @@
 </mat-toolbar>
 <div class="content" fxLayout="row wrap" fxLayoutGap="16px">
   <mat-card fxFlex>
-    <mat-toolbar color="primary">
-      <mat-card-title>
-        Informazioni
-      </mat-card-title>
+    <mat-toolbar mat-card-title color="primary" style="display: flex">
+      Informazioni
     </mat-toolbar>
     <mat-card-content>
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
@@ -60,6 +58,16 @@
             {{characteristic.name}}
           </mat-cell>
         </ng-container>
+        <ng-container matColumnDef="edit">
+          <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
+          <mat-cell *matCellDef="let characteristic" fxFlex="64px">
+            <button mat-icon-button (click)="openUpdateCharacteristicFormDialog(characteristic)">
+              <mat-icon>
+                edit
+              </mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
         <ng-container matColumnDef="status">
           <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
           <mat-cell *matCellDef="let characteristic" fxFlex="64px">
@@ -72,7 +80,6 @@
             </button>
           </mat-cell>
         </ng-container>
-
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>

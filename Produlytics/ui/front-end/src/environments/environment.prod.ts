@@ -9,6 +9,7 @@ import {FindDeviceService} from "../app/model/admin-device/find-detail/find-devi
 import {CharacteristicService} from "../app/model/admin-device/characteristic/characteristic.service";
 import { LoginService } from "src/app/model/login/login.service";
 import {UpdateDeviceService} from "../app/model/admin-device/update/update-device.service";
+import {UpdateCharacteristicService} from "../app/model/admin-device/characteristic/update-characteristic.service";
 export const environment: ProdulyticsEnvironment = {
   production: true,
   apiUrl: '',
@@ -21,5 +22,6 @@ export const environment: ProdulyticsEnvironment = {
   findDeviceService: FindDeviceService,
   characteristicService: CharacteristicService,
   loginService: LoginService,
-  updateDeviceService: UpdateDeviceService
+  updateDeviceService: UpdateDeviceService,
+  updateCharacteristicService: UpdateCharacteristicService
 };

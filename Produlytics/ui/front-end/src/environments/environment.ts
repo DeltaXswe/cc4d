@@ -22,7 +22,8 @@ export const environment: ProdulyticsEnvironment = {
   characteristicService: FakeDeviceService,
   loginService: FakeLoginService,
   updateDeviceService: FakeDeviceService,
-  modifyPwService: FakeModifyPwService
+  modifyPwService: FakeModifyPwService,
+  updateCharacteristicService: FakeDeviceService
 };
 
 /*

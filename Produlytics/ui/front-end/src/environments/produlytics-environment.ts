@@ -10,6 +10,9 @@ import {CharacteristicAbstractService} from "../app/model/admin-device/character
 import { LoginAbstractService } from "src/app/model/login/login-abstract.service";
 import {UpdateDeviceAbstractService} from "../app/model/admin-device/update/update-device-abstract.service";
 import { ModifyPwAbstractService } from "src/app/model/modify-pw/modify-pw-abstract.service";
+import {
+  UpdateCharacteristicAbstractService
+} from "../app/model/admin-device/characteristic/update-characteristic-abstract.service";
 
 export interface ProdulyticsEnvironment {
   readonly production: boolean
@@ -24,5 +27,6 @@ export interface ProdulyticsEnvironment {
   readonly characteristicService: Type<CharacteristicAbstractService>
   readonly loginService: Type<LoginAbstractService>
   readonly updateDeviceService: Type<UpdateDeviceAbstractService>
+  readonly updateCharacteristicService: Type<UpdateCharacteristicAbstractService>
   readonly modifyPwService: Type<ModifyPwAbstractService>
 }

@@ -40,6 +40,9 @@ import {FindDeviceAbstractService} from "./model/admin-device/find-detail/find-d
 import {CharacteristicAbstractService} from "./model/admin-device/characteristic/characteristic-abstract.service";
 import { LoginAbstractService } from './model/login/login-abstract.service';
 import {UpdateDeviceAbstractService} from "./model/admin-device/update/update-device-abstract.service";
+import {
+  UpdateCharacteristicAbstractService
+} from "./model/admin-device/characteristic/update-characteristic-abstract.service";
 import { ModifyPwService } from './model/modify-pw/modify-pw.service';
 import { ModifyPwAbstractService } from './model/modify-pw/modify-pw-abstract.service';
 
@@ -124,6 +127,10 @@ import { ModifyPwAbstractService } from './model/modify-pw/modify-pw-abstract.se
     {
       provide: UpdateDeviceAbstractService,
       useExisting: environment.updateDeviceService
+    },
+    {
+      provide: UpdateCharacteristicAbstractService,
+      useExisting: environment.updateCharacteristicService
     },
     {
       provide: ModifyPwAbstractService,

@@ -2,13 +2,17 @@
   padding: 24px;
 }
 
-.mat-toolbar {
-  padding: 24px;
+.content .mat-form-field-wrapper {
+  padding-bottom: 0;
 }
 
 .content .bg-green {
   background-color: forestgreen;
   color: white;
+}
+
+.mat-toolbar {
+  padding: 24px;
 }
 
 .mat-card {

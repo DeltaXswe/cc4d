@@ -27,7 +27,7 @@ export class DeviceDetailComponent implements OnInit {
   public device: Device;
   public characteristics = new CharacteristicsDatasource();
   public deviceNameForm: FormGroup;
-  displayedColumns = ['name', 'status'];
+  displayedColumns = ['name', 'edit', 'status'];
 
   constructor(
     private characteristicService: CharacteristicAbstractService,

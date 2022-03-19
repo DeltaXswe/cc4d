@@ -11,24 +11,32 @@ import {CharacteristicAbstractService} from "../../model/admin-device/characteri
 import {Characteristic} from "../../model/admin-device/characteristic/characteristic";
 import {CharacteristicCreationCommand} from "../../model/admin-device/new/characteristic-creation-command";
 import {UpdateDeviceAbstractService} from "../../model/admin-device/update/update-device-abstract.service";
+import {
+  UpdateCharacteristicAbstractService
+} from "../../model/admin-device/characteristic/update-characteristic-abstract.service";
+import {CharacteristicUpdateCommand} from "../../model/admin-device/characteristic/characteristic-update-command";
 
-class CharacteristicMock {
+class CharacteristicMock implements Characteristic {
   id: number;
   name: string;
   archived: boolean;
+  autoAdjust: boolean;
+  lowerLimit: number | null;
+  upperLimit: number | null;
+  sampleSize: number | null;
 
   constructor(characteristic: Characteristic) {
     this.id = characteristic.id;
     this.name = characteristic.name;
     this.archived = characteristic.archived;
-  }
-
-  build(): Characteristic {
-    return this;
+    this.autoAdjust = characteristic.autoAdjust;
+    this.lowerLimit = characteristic.lowerLimit;
+    this.upperLimit = characteristic.upperLimit;
+    this.sampleSize = characteristic.sampleSize;
   }
 }
 
-class DeviceMock {
+class DeviceMock implements Device {
 
    id: number;
    name: string;
@@ -37,16 +45,15 @@ class DeviceMock {
    deactivated: boolean;
    characteristics: CharacteristicMock[] = [];
 
-  constructor(device: Device) {
+  constructor(device: Device, chars?: Characteristic[]) {
     this.id = device.id;
     this.name = device.name;
     this.apiKey = device.apiKey;
     this.archived = device.archived;
     this.deactivated = device.deactivated;
-  }
-
-  build(): Device {
-    return this;
+    if (chars) {
+      this.characteristics = chars.map(char => new CharacteristicMock(char));
+    }
   }
 }
 
@@ -59,7 +66,8 @@ export class FakeDeviceService implements
   NewDeviceAbstractService,
   FindDeviceAbstractService,
   CharacteristicAbstractService,
-  UpdateDeviceAbstractService
+  UpdateDeviceAbstractService,
+  UpdateCharacteristicAbstractService
 {
   private devices: DeviceMock[] = [
     {
@@ -83,7 +91,35 @@ export class FakeDeviceService implements
       deactivated: true,
       apiKey: 'CCC'
     }
-  ].map(device => new DeviceMock(device));
+  ].map(device => new DeviceMock(device, [
+    {
+      id: 1,
+      name: 'Valvola',
+      archived: false,
+      autoAdjust: false,
+      lowerLimit: 10,
+      upperLimit: 20,
+      sampleSize: null
+    },
+    {
+      id: 2,
+      name: 'Isola',
+      archived: true,
+      autoAdjust: true,
+      lowerLimit: null,
+      upperLimit: null,
+      sampleSize: null
+    },
+    {
+      id: 3,
+      name: 'Asola',
+      archived: false,
+      autoAdjust: true,
+      lowerLimit: null,
+      upperLimit: null,
+      sampleSize: 12
+    }
+  ]));
 
   constructor() { }
 
@@ -126,7 +162,9 @@ export class FakeDeviceService implements
       source.deactivated = true;
       return of({});
     } else {
-      return throwError('Macchina non trovata')
+      return throwError({
+        errorCode: 'deviceNotFound'
+      });
     }
   }
 
@@ -136,7 +174,9 @@ export class FakeDeviceService implements
       source.archived = false;
       return of({});
     } else {
-      return throwError('Macchina non trovata')
+      return throwError({
+        errorCode: 'deviceNotFound'
+      });
     }
   }
 
@@ -158,7 +198,9 @@ export class FakeDeviceService implements
     if (device) {
       return of(device);
     } else {
-      return throwError('No device found');
+      return throwError({
+        errorCode: 'deviceNotFound'
+      });
     }
   }
 
@@ -190,7 +232,11 @@ export class FakeDeviceService implements
       const inserted = new CharacteristicMock({
         id: newId,
         name: command.name,
-        archived: false
+        archived: false,
+        autoAdjust: command.autoAdjust,
+        sampleSize: command.sampleSize,
+        upperLimit: command.upperLimit,
+        lowerLimit: command.lowerLimit
       });
       device.characteristics.push(inserted);
       return of(inserted)
@@ -239,7 +285,36 @@ export class FakeDeviceService implements
     } else {
       return throwError({
         errorCode: 'deviceNotFound'
-      })
+      });
+    }
+  }
+
+  updateCharacteristic(command: CharacteristicUpdateCommand): Observable<{}> {
+    const device = this.devices.find(device => device.id === command.deviceId);
+    if (device) {
+      const sameName = device.characteristics.find(char => char.name === command.name);
+      if (sameName) {
+        return throwError({
+          errorCode: 'duplicateCharacteristicName'
+        });
+      }
+      const existing = device.characteristics.find(char => char.id === command.id);
+      if (!existing) {
+        return throwError({
+          errorCode: 'characteristicNotFound'
+        });
+      } else {
+        existing.name = command.name;
+        existing.autoAdjust = command.autoAdjust;
+        existing.lowerLimit = command.lowerLimit;
+        existing.upperLimit = command.upperLimit;
+        existing.sampleSize = command.sampleSize;
+        return of({});
+      }
+    } else {
+      return throwError({
+        errorCode: 'characteristicNotFound'
+      });
     }
   }
 
