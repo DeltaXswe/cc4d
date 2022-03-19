@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormBuilder, AbstractControl, AbstractControlOptions } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import {MatDialogRef} from "@angular/material/dialog";
 import {ViewEncapsulation} from '@angular/core';
 import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
@@ -22,7 +22,7 @@ export class ModifyPwComponent implements OnInit {
       oldPw: ['', Validators.required],
       newPw: ['', [Validators.required, Validators.minLength(6)]],
       newPwRe: ['', Validators.required],
-  }, { validator: this.checkPasswords('newPw', 'newPwRe')as AbstractControlOptions})}; 
+  }, { validator: this.checkPasswords('newPw', 'newPwRe')/* as AbstractControlOptions */})}; 
 
   
   ngOnInit(): void {
@@ -33,14 +33,14 @@ export class ModifyPwComponent implements OnInit {
   }
   
   checkPasswords(newPw: string, newPwRe: string){
-    return (controls: AbstractControl/* group: FormGroup */) => {
-      if (controls.get(newPw) !== controls.get(newPwRe)) {
-        controls.get(newPwRe)/* ?.setErrors({mismatch: true}) */;
-        return ({mismatch:true});
+    return (group: FormGroup) => {
+      let passwordInput = group.controls[newPw],
+          passwordConfirmationInput = group.controls[newPwRe];
+      if (passwordInput.value !== passwordConfirmationInput.value) {
+        return passwordConfirmationInput.setErrors({mismatch: true})
       }
       else {
-        controls.get(newPwRe);
-        return null;
+          return passwordConfirmationInput.setErrors(null);
       }
     }
   }
