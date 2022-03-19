@@ -27,6 +27,7 @@ import { UpdateCharacteristicDialogComponent } from './update-characteristic-dia
 import {MatChipsModule} from "@angular/material/chips";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {ClipboardModule} from "@angular/cdk/clipboard";
+import { CharacteristicFormComponent } from './characteristic-form/characteristic-form.component';
 
 const routes: Routes = [
   {
@@ -50,7 +51,8 @@ const routes: Routes = [
     NewDeviceComponent,
     NewCharacteristicDialogComponent,
     DeviceDetailComponent,
-    UpdateCharacteristicDialogComponent
+    UpdateCharacteristicDialogComponent,
+    CharacteristicFormComponent
   ],
   imports: [
     CommonModule,
