@@ -32,7 +32,7 @@
     <button mat-raised-button (click)="cancel()">
       Annulla
     </button>
-    <button mat-raised-button color="accent" [disabled]="modifyPw.invalid || modifyPw.pristine">
+    <button mat-raised-button color="accent" [disabled]="modifyPw.invalid || modifyPw.pristine" (click)="modify()">
       Confirm
     </button>
   </mat-dialog-actions>

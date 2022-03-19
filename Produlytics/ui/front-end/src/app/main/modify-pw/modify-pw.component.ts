@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormBuilder, AbstractControl, AbstractControlOptions } from '@angular/forms';
 import {MatDialogRef} from "@angular/material/dialog";
-import { ModifyPwService } from 'src/app/model/modify-pw/modify-pw.service';
 import {ViewEncapsulation} from '@angular/core';
+import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
+import { ModifyPwAbstractService } from 'src/app/model/modify-pw/modify-pw-abstract.service';
 
 @Component({
   selector: 'app-modify-pw',
@@ -13,12 +14,15 @@ import {ViewEncapsulation} from '@angular/core';
 export class ModifyPwComponent implements OnInit {
   modifyPw: FormGroup;
 
-  constructor(private matDialogRef: MatDialogRef<ModifyPwComponent>, formBuilder: FormBuilder, private modifyPwService: ModifyPwService) {
+  constructor(private matDialogRef: MatDialogRef<ModifyPwComponent>,
+    formBuilder: FormBuilder,
+    private modifyPwService: ModifyPwAbstractService,
+    private loginService: LoginAbstractService) {
     this.modifyPw = formBuilder.group({
       oldPw: ['', Validators.required],
       newPw: ['', Validators.required, Validators.minLength(6)],
       newPwRe: ['', Validators.required],
-  }, { validator: this.checkPasswords('newPw', 'newPwRe')})};
+  }, { validator: this.checkPasswords('newPw', 'newPwRe')as AbstractControlOptions})};
 
   ngOnInit(): void {
   }
@@ -28,14 +32,14 @@ export class ModifyPwComponent implements OnInit {
   }
   
   checkPasswords(newPw: string, newPwRe:string){
-    return (group: FormGroup) => {
-      let passwordInput = group.controls[newPw],
-          passwordConfirmationInput = group.controls[newPwRe];
-      if (passwordInput.value !== passwordConfirmationInput.value) {
-        return passwordConfirmationInput.setErrors({mismatch: true})
+    return (controls: AbstractControl/* group: FormGroup */) => {
+      if (controls.get(newPw) !== controls.get(newPwRe)) {
+        controls.get(newPwRe)/* ?.setErrors({mismatch: true}) */;
+        return ({mismatch:true});
       }
       else {
-          return passwordConfirmationInput.setErrors(null);
+        controls.get(newPwRe);
+        return null;
       }
     }
   }
@@ -44,6 +48,8 @@ export class ModifyPwComponent implements OnInit {
     if (this.modifyPw.invalid) {
       return;
     }
-    this.modifyPwService.modify(this.modifyPw.controls['oldPw'].value, this.modifyPw.controls['newPw'].value);
+    this.modifyPwService.modify(this.loginService.getUsername(),
+      this.modifyPw.controls['oldPw'].value,
+      this.modifyPw.controls['newPw'].value);
   }
 }

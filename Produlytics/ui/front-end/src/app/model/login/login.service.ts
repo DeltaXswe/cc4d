@@ -8,13 +8,13 @@ import { LoginAbstractService } from './login-abstract.service';
   providedIn: 'root'
 })
 export class LoginService implements LoginAbstractService{
-
+  
   endpoint: string = 'url';
 
   constructor(private http: HttpClient, public router: Router) { }
 
-  login(user: string, pw: string): Observable<any>{
-    return this.http.post<any>(this.endpoint, {user, pw}).pipe(
+  login(username: string, password: string): Observable<any>{
+    return this.http.post<any>(this.endpoint, {username, password}).pipe(
       tap((res: any) => {
         localStorage.setItem('accessToken', res);
         this.router.navigate(['/']);

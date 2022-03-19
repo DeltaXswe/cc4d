@@ -3,23 +3,25 @@
    font-size: 150%;
 }
 
+#username{
+   font-size: 130%;
+}
 .mat-toolbar{
  height: 9vh;
 }
 
-div {
-   overflow: inherit;
+#home{
+   font-size: 90%;
+   margin-right: 3px;
+}
+#user{
+   margin-right: 6px;
 }
 
 a{
    text-decoration: none;
    font-size: 110%;
    white-space: normal;
-}
-
-button{
-   font-size: 110%;
-   min-width: min-content;
 }
 
 .example-icon {

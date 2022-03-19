@@ -40,6 +40,8 @@ import {FindDeviceAbstractService} from "./model/admin-device/find-detail/find-d
 import {CharacteristicAbstractService} from "./model/admin-device/characteristic/characteristic-abstract.service";
 import { LoginAbstractService } from './model/login/login-abstract.service';
 import {UpdateDeviceAbstractService} from "./model/admin-device/update/update-device-abstract.service";
+import { ModifyPwService } from './model/modify-pw/modify-pw.service';
+import { ModifyPwAbstractService } from './model/modify-pw/modify-pw-abstract.service';
 
 @NgModule({
   declarations: [
@@ -122,6 +124,10 @@ import {UpdateDeviceAbstractService} from "./model/admin-device/update/update-de
     {
       provide: UpdateDeviceAbstractService,
       useExisting: environment.updateDeviceService
+    },
+    {
+      provide: ModifyPwAbstractService,
+      useExisting: environment.modifyPwService
     }
   ],
   bootstrap: [

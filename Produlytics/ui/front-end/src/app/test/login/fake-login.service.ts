@@ -31,11 +31,11 @@ export class FakeLoginService implements LoginAbstractService {
 
   constructor(public router: Router, private matSnackBar: MatSnackBar) { }
 
-    public login(user: string, pw: string): Observable<any> {
-      if(this.accounts.find(account => account.username === user &&
-        this.accounts.find(account => account.password === pw))){
+    public login(username: string, password: string): Observable<any> {
+      if(this.accounts.find(account => account.username === username &&
+        this.accounts.find(account => account.password === password))){
         localStorage.setItem('accessToken', JSON.stringify(
-          this.accounts.find(wow => wow.username === user))
+          this.accounts.find(wow => wow.username === username))
         );
         this.router.navigate(['/']);
         return of({});
