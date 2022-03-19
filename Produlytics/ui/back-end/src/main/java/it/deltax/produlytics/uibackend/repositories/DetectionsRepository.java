@@ -4,6 +4,7 @@ import it.deltax.produlytics.persistence.DetectionEntity;
 import it.deltax.produlytics.persistence.DetectionEntityId;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -28,5 +29,5 @@ public interface DetectionsRepository extends CrudRepository<DetectionEntity, De
 
     @Modifying
     @Query("update User u set u.firstname = ?1, u.lastname = ?2 where u.id = ?3")
-    void setUserInfoById(String firstname, String lastname, Integer userId)
+    void setUserInfoById(String firstname, String lastname, Integer userId);
 }

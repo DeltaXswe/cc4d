@@ -1,8 +1,9 @@
 package it.deltax.produlytics.uibackend.users.business.domain;
 
-public record User(
+public record Account(
         String username,
-        boolean admin,
-        String hashedPassword
+        String hashedPassword,
+		boolean admin,
+		boolean archived
 ) {
 }
