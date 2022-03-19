@@ -181,6 +181,12 @@ export class FakeDeviceService implements
   }
 
   insertDevice(deviceCreationCommand: DeviceCreationCommand): Observable<{ id: number }> {
+    const sameName = this.devices.find(device => device.name === deviceCreationCommand.name);
+    if (sameName) {
+      return throwError({
+        errorCode: 'duplicateDeviceName'
+      });
+    }
     const nextId = Math.max(...this.devices.map(device => device.id)) + 1;
     const newDevice = new DeviceMock({
       id: nextId,

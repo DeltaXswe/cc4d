@@ -67,12 +67,19 @@ export class NewDeviceComponent implements OnInit {
           'Ok'
         );
       },
-      error: (err: string) => {
-        this.matDialog.open(ErrorDialogComponent, {
-          data: {
-            message: err
-          }
-        });
+      error: err => {
+        if (err.errorCode === 'duplicateDeviceName') {
+          this.formGroup.get('name')?.setErrors({
+            duplicateDeviceName: true
+          });
+          this.formGroup.updateValueAndValidity();
+        } else {
+          this.matDialog.open(ErrorDialogComponent, {
+            data: {
+              message: `Errore inaspettato: ${JSON.stringify(err)}`
+            }
+          });
+        }
       }
     })
   }
