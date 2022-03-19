@@ -1,11 +1,11 @@
 import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Characteristic} from "../../../../model/admin-device/characteristic/characteristic";
+import {Characteristic} from "../../../model/admin-device/characteristic/characteristic";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {startWith} from "rxjs";
 import {
   UpdateCharacteristicAbstractService
-} from "../../../../model/admin-device/characteristic/update-characteristic-abstract.service";
+} from "../../../model/admin-device/characteristic/update-characteristic-abstract.service";
 
 @Component({
   selector: 'app-update-characteristic-dialog',

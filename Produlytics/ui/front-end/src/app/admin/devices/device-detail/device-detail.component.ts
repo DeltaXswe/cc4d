@@ -13,7 +13,7 @@ import {Characteristic} from "../../../model/admin-device/characteristic/charact
 import {CharacteristicCreationCommand} from "../../../model/admin-device/new/characteristic-creation-command";
 import {
   UpdateCharacteristicDialogComponent
-} from "./update-characteristic-dialog/update-characteristic-dialog.component";
+} from "../update-characteristic-dialog/update-characteristic-dialog.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm-dialog.component";
 

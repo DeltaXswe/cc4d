@@ -23,7 +23,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
 import { DeviceDetailComponent } from './device-detail/device-detail.component';
 import {DeviceDetailResolver} from "./device-detail/device-detail.resolver";
-import { UpdateCharacteristicDialogComponent } from './device-detail/update-characteristic-dialog/update-characteristic-dialog.component';
+import { UpdateCharacteristicDialogComponent } from './update-characteristic-dialog/update-characteristic-dialog.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {ClipboardModule} from "@angular/cdk/clipboard";
