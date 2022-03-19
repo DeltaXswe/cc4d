@@ -15,15 +15,16 @@ export class ModifyPwComponent implements OnInit {
   modifyPw: FormGroup;
 
   constructor(private matDialogRef: MatDialogRef<ModifyPwComponent>,
-    formBuilder: FormBuilder,
+    private formBuilder: FormBuilder,
     private modifyPwService: ModifyPwAbstractService,
     private loginService: LoginAbstractService) {
-    this.modifyPw = formBuilder.group({
+    this.modifyPw = this.formBuilder.group({
       oldPw: ['', Validators.required],
-      newPw: ['', Validators.required, Validators.minLength(6)],
+      newPw: ['', [Validators.required, Validators.minLength(6)]],
       newPwRe: ['', Validators.required],
-  }, { validator: this.checkPasswords('newPw', 'newPwRe')as AbstractControlOptions})};
+  }, { validator: this.checkPasswords('newPw', 'newPwRe')as AbstractControlOptions})}; 
 
+  
   ngOnInit(): void {
   }
 
@@ -31,7 +32,7 @@ export class ModifyPwComponent implements OnInit {
     this.matDialogRef.close();
   }
   
-  checkPasswords(newPw: string, newPwRe:string){
+  checkPasswords(newPw: string, newPwRe: string){
     return (controls: AbstractControl/* group: FormGroup */) => {
       if (controls.get(newPw) !== controls.get(newPwRe)) {
         controls.get(newPwRe)/* ?.setErrors({mismatch: true}) */;
