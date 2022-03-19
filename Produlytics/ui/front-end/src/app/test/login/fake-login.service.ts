@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
-import { Login } from './login';
 import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {users} from './users';
 
 @Injectable({
   providedIn: 'root'
@@ -11,31 +11,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class FakeLoginService implements LoginAbstractService {
 
-  private accounts: Login[] = [
-    {
-      username: 'Gianni',
-      isAdmin: true,
-      password: 'Gianni'
-    },
-    {
-      username: 'Cosimo',
-      isAdmin: false,
-      password: 'Cosimo'
-    },
-    {
-      username: 'deltax',
-      isAdmin: true,
-      password: 'deltax'
-    }
-  ]
-
   constructor(public router: Router, private matSnackBar: MatSnackBar) { }
 
     public login(username: string, password: string): Observable<any> {
-      if(this.accounts.find(account => account.username === username &&
-        this.accounts.find(account => account.password === password))){
+      if(users.find(account => account.username === username &&
+        users.find(account => account.password === password))){
         localStorage.setItem('accessToken', JSON.stringify(
-          this.accounts.find(wow => wow.username === username))
+          users.find(wow => wow.username === username))
         );
         this.router.navigate(['/']);
         return of({});

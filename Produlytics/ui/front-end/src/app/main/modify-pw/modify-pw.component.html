@@ -12,17 +12,17 @@
   <form [formGroup]="modifyPw" fxLayout="column" fxLayoutAlign="start stretch">
     <mat-form-field appearance="outline" floatLabel="always">
       <mat-label>Password corrente</mat-label>
-      <input matInput formControlName="oldPw" type="password"/>
+      <input matInput type="password" formControlName="oldPw"/>
       <mat-error>Campo obbligatorio</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline" floatLabel="always">
       <mat-label>Nuova password</mat-label>
-      <input matInput formControlName="newPw" type="password"/>
+      <input matInput type="password" formControlName="newPw" />
       <mat-error>Campo obbligatorio</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline" floatLabel="always">
       <mat-label>Conferma nuova password</mat-label>
-      <input matInput formControlName="newPwRe" type="password"/>
+      <input matInput type="password" formControlName="newPwRe"/>
       <mat-error *ngIf="modifyPw.controls['newPwRe'].errors?.['mismatch']">
         Le due password non coincidono
       </mat-error>
