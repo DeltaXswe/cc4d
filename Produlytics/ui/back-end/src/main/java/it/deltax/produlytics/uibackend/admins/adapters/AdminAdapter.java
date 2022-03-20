@@ -2,17 +2,18 @@ package it.deltax.produlytics.uibackend.admins.adapters;
 
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
+import it.deltax.produlytics.uibackend.admins.business.ports.out.InsertAccountPort;
 import it.deltax.produlytics.uibackend.admins.business.ports.out.UpdateAccountAdminPort;
-import it.deltax.produlytics.uibackend.repositories.AccountAdminRepository;
+import it.deltax.produlytics.uibackend.repositories.AdminRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
-public class AccountAdminAdapter implements UpdateAccountAdminPort, FindAccountPort {
-	private final AccountAdminRepository repo;
+public class AdminAdapter implements UpdateAccountAdminPort, FindAccountPort, InsertAccountPort {
+	private final AdminRepository repo;
 
-	public AccountAdminAdapter(AccountAdminRepository repo) {this.repo = repo; }
+	public AdminAdapter(AdminRepository repo) {this.repo = repo; }
 
 	@Override
 	public boolean updateAccount(String username, String hashedPassword, boolean administrator){
@@ -34,6 +35,11 @@ public class AccountAdminAdapter implements UpdateAccountAdminPort, FindAccountP
 					utente.getAdministrator(),
 					utente.getArchived())
 			);
+	}
+
+	@Override
+	public void insertAccount(String username, String hashedPassword, boolean administrator){
+		repo.insertAccount(username, hashedPassword, administrator, false);
 	}
 
 }
