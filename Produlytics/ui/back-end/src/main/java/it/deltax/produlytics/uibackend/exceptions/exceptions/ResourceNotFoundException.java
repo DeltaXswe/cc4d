@@ -4,8 +4,7 @@ import java.util.HashMap;
 
 public class ResourceNotFoundException extends RuntimeException {
 
-    public record ResourceNotFoundInfo(String reason, String resourceName, HashMap<String, Object> keys) {
-    }
+    public record ResourceNotFoundInfo(String reason, String resourceName, HashMap<String, Object> keys) {}
 
     ResourceNotFoundInfo info;
 

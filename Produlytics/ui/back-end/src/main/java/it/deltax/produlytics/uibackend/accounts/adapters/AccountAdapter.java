@@ -1,8 +1,8 @@
-package it.deltax.produlytics.uibackend.users.adapters;
+package it.deltax.produlytics.uibackend.accounts.adapters;
 
-import it.deltax.produlytics.uibackend.users.business.domain.Account;
-import it.deltax.produlytics.uibackend.users.business.ports.out.FindAccountPort;
-import it.deltax.produlytics.uibackend.users.business.ports.out.UpdateAccountPort;
+import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
+import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
+import it.deltax.produlytics.uibackend.accounts.business.ports.out.UpdateAccountPort;
 import it.deltax.produlytics.uibackend.repositories.AccountRepository;
 import org.springframework.stereotype.Component;
 
