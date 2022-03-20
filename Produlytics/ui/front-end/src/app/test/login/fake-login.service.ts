@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {users} from './users';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +12,16 @@ import {users} from './users';
 
 export class FakeLoginService implements LoginAbstractService {
 
-  constructor(public router: Router, private matSnackBar: MatSnackBar) { }
+  constructor(public router: Router, private matSnackBar: MatSnackBar, private cookieService: CookieService) { }
 
-    public login(username: string, password: string): Observable<any> {
+    public login(username: string, password: string, rememberMe: boolean): Observable<any> {
       if(users.find(account => account.username === username &&
         users.find(account => account.password === password))){
         localStorage.setItem('accessToken', JSON.stringify(
           users.find(wow => wow.username === username))
         );
+        if (rememberMe)
+          this.cookieService.set('PRODULYTICS_RM', 'valore');
         this.router.navigate(['/']);
         return of({});
       } else
@@ -45,6 +48,7 @@ export class FakeLoginService implements LoginAbstractService {
 
   public logout(): void {
     localStorage.removeItem('accessToken');
+    this.cookieService.delete('PRODULYTICS_RM');
     this.router.navigate(['/login']);
   }
 

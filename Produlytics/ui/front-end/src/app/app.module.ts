@@ -45,6 +45,7 @@ import {
 } from "./model/admin-device/characteristic/update-characteristic-abstract.service";
 import { ModifyPwService } from './model/modify-pw/modify-pw.service';
 import { ModifyPwAbstractService } from './model/modify-pw/modify-pw-abstract.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -135,7 +136,8 @@ import { ModifyPwAbstractService } from './model/modify-pw/modify-pw-abstract.se
     {
       provide: ModifyPwAbstractService,
       useExisting: environment.modifyPwService
-    }
+    },
+    CookieService
   ],
   bootstrap: [
     AppComponent
