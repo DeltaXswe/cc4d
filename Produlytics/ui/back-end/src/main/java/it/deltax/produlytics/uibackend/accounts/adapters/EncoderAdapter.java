@@ -1,14 +1,14 @@
-package it.deltax.produlytics.uibackend.users.adapters;
+package it.deltax.produlytics.uibackend.accounts.adapters;
 
-import it.deltax.produlytics.uibackend.users.business.ports.out.PasswordEncrypterPort;
+import it.deltax.produlytics.uibackend.accounts.business.ports.out.EncoderPort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PasswordEncoderAdapter implements PasswordEncrypterPort {
+public class EncoderAdapter implements EncoderPort {
     final BCryptPasswordEncoder encoder;
 
-    PasswordEncoderAdapter(BCryptPasswordEncoder encoder){ this.encoder = encoder; }
+    EncoderAdapter(BCryptPasswordEncoder encoder){this.encoder = encoder; }
 
     @Override
     public String encrypt(String plainText){

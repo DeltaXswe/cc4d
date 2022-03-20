@@ -27,7 +27,7 @@ public interface DetectionsRepository extends CrudRepository<DetectionEntity, De
         Sort sort
     );
 
-    @Modifying
+    @Modifying //perché sta roba è qua?
     @Query("update User u set u.firstname = ?1, u.lastname = ?2 where u.id = ?3")
     void setUserInfoById(String firstname, String lastname, Integer userId);
 }

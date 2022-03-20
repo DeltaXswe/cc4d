@@ -1,4 +1,4 @@
-package it.deltax.produlytics.uibackend.users.business.domain;
+package it.deltax.produlytics.uibackend.accounts.business.domain;
 
 public record Account(
         String username,
