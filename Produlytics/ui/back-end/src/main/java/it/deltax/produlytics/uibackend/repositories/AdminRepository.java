@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface AccountAdminRepository extends CrudRepository<AccountEntity, String> {
+public interface AdminRepository extends CrudRepository<AccountEntity, String> {
 	@Modifying
 	@Query("update Account a set a.hashed_password = hashedPassword and a.administrator = administrator where a.username = username")
 	boolean updateAccount(
@@ -27,5 +27,14 @@ public interface AccountAdminRepository extends CrudRepository<AccountEntity, St
 	);
 
 	Optional<AccountEntity> findByUsername(String username);
+
+	@Modifying
+	@Query(value = "insert into Account a values (:username, :hashedPassword, :administrator, :archivided)", nativeQuery = true)
+	void insertAccount(
+		@Param("name") String name,
+		@Param("hashedPassword") String hashedPassword,
+		@Param("administrator") boolean administrator,
+		@Param("archived") boolean archived
+	);
 
 }
