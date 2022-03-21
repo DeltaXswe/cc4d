@@ -29,17 +29,16 @@ class DeviceNode implements SelectionNode {
 
   get criteria(): Observable<CharacteristicNode[]> {
     this._loading = true;
-    return this.service.getCharacteristicsByDevice(this.device.id)
-      .pipe(
-        map(
-          values => values.map(value => new CharacteristicNode(value))
-        ),
-        tap({
-          complete: () => {
-            this._loading = false;
-          }
-        })
-      );
+    return this.service.getCharacteristicsByDevice(this.device.id).pipe(
+      map(
+        values => values.map(value => new CharacteristicNode(value))
+      ),
+      tap({
+        complete: () => {
+          this._loading = false;
+        }
+      })
+    );
   }
 
   constructor(
@@ -65,6 +64,7 @@ class CharacteristicNode implements SelectionNode {
 
 class SelectionDataSource implements DataSource<SelectionNode> {
   private readonly dataStream = new BehaviorSubject<SelectionNode[]>([]);
+  private cache = new Map<SelectionNode, SelectionNode[]>();
 
   constructor(
     private treeControl: FlatTreeControl<SelectionNode>,
@@ -112,7 +112,20 @@ class SelectionDataSource implements DataSource<SelectionNode> {
     const data = this.dataStream.value;
     const index = data.indexOf(node);
     if (index < 0) { return; }
-    node.criteria.subscribe(nodes => {
+    let observable: Observable<SelectionNode[]>;
+    if (this.cache.has(node)) {
+      observable = of(this.cache.get(node)!);
+    } else {
+      observable = node.criteria
+        .pipe(
+          tap({
+            next: values => {
+              this.cache.set(node, values);
+            }
+          })
+        );
+    }
+    observable.subscribe(nodes => {
       data.splice(index + 1, 0, ...nodes);
       this.dataStream.next(data);
     });
@@ -138,6 +151,13 @@ export class DeviceSelectionComponent implements OnInit {
   public readonly treeControl: FlatTreeControl<SelectionNode, SelectionNode>;
   public readonly dataSource: DataSource<SelectionNode>;
 
+  private _loading = true;
+  chechedNodes: SelectionNode[] = [];
+
+  public get loading() {
+    return this._loading;
+  }
+
   constructor(
     private unarchivedDeviceService: UnarchivedDeviceAbstractService,
     private unarchivedCharacteristicService: UnarchivedCharacteristicAbstractService
@@ -150,7 +170,12 @@ export class DeviceSelectionComponent implements OnInit {
       this.treeControl,
       unarchivedDeviceService.getDevices()
         .pipe(
-          map(values => values.map(value => new DeviceNode(value, unarchivedCharacteristicService)))
+          map(values => values.map(value => new DeviceNode(value, unarchivedCharacteristicService))),
+          tap({
+            complete: () => {
+              this._loading = false;
+            }
+          })
         )
     );
   }
@@ -162,4 +187,7 @@ export class DeviceSelectionComponent implements OnInit {
     return node.expandable;
   }
 
+  nodeIsChecked(node: SelectionNode) {
+    return this.chechedNodes.indexOf(node) >= 0;
+  }
 }

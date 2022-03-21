@@ -1,7 +1,11 @@
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
     <button mat-icon-button disabled></button>
-    {{node.name}}
+    <mat-checkbox [checked]="nodeIsChecked(node)"
+                  (change)="$event.checked ? chechedNodes.push(node) : chechedNodes.splice(chechedNodes.indexOf(node), 1)">
+      {{node.name}}
+    </mat-checkbox>
   </mat-tree-node>
   <mat-tree-node *matTreeNodeDef="let node; when: hasChildren" matTreeNodePadding>
     <button mat-icon-button matTreeNodeToggle *ngIf="!node.loading">
