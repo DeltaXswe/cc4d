@@ -5,9 +5,11 @@ import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPo
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PwdEncrypterPort;
 import it.deltax.produlytics.uibackend.admins.business.ports.out.UpdateAccountAdminPort;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.ChangeAccountAdminUseCase;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class ChangeAccountAdminService implements ChangeAccountAdminUseCase {
 	private final UpdateAccountAdminPort updateAccountAdminPort;
 	private final FindAccountPort findAccountPort;
@@ -28,10 +30,12 @@ public class ChangeAccountAdminService implements ChangeAccountAdminUseCase {
 		if(result.isPresent()){ //se esiste
 			if(!newPassword.isEmpty()) { //se la password non è vuota cambio pwd e permessi
 				String encryptedNew = pwdEncrypterPort.encrypt(newPassword);
-				return updateAccountAdminPort.updateAccount(username, encryptedNew, administrator);
+				if(updateAccountAdminPort.updateAccount(username, encryptedNew, administrator)>0)
+					return true;
 			}
-			if (result.get().admin()!=administrator)
-				return updateAccountAdminPort.updateAccountPrivileges(username, administrator);
+			if (result.get().admin()!=administrator) //se la password è vuota allora controllo se ha cambiato i permessi
+				if(updateAccountAdminPort.updateAccountPrivileges(username, administrator)>0) //aggiorno i permessi
+					return true;
 		}
 		return false;
 	}

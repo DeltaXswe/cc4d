@@ -2,7 +2,7 @@ package it.deltax.produlytics.uibackend;
 
 import it.deltax.produlytics.persistence.DeviceEntity;
 import it.deltax.produlytics.uibackend.devices.web.DevicesController;
-import it.deltax.produlytics.uibackend.repositories.UnarchivedDeviceRepository;
+import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ class UiBackendApplicationTests {
 	private DevicesController devicesController;
 
 	@Autowired
-	private UnarchivedDeviceRepository repo;
+	private DeviceRepository repo;
 
 	@Autowired
 	protected MockMvc mockMvc;

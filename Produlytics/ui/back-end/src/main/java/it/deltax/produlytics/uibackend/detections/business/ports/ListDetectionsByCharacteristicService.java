@@ -3,10 +3,12 @@ package it.deltax.produlytics.uibackend.detections.business.ports;
 import it.deltax.produlytics.uibackend.detections.business.domain.DetectionLight;
 import it.deltax.produlytics.uibackend.detections.business.ports.in.ListDetectionsByCharacteristicUseCase;
 import it.deltax.produlytics.uibackend.detections.business.ports.out.ListDetectionsByCharacteristicPort;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ListDetectionsByCharacteristicService implements ListDetectionsByCharacteristicUseCase {
 
     ListDetectionsByCharacteristicPort port;

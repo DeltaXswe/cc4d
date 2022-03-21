@@ -12,16 +12,16 @@ import java.util.Optional;
 @Repository
 public interface AdminRepository extends CrudRepository<AccountEntity, String> {
 	@Modifying
-	@Query("update Account a set a.hashed_password = hashedPassword and a.administrator = administrator where a.username = username")
-	boolean updateAccount(
+	@Query("update account a set a.hashed_password = :hashedPassword and a.administrator = :administrator where a.username = :username")
+	int updateAccount(
 		@Param("username") String username,
 		@Param("hashedPassword") String hashedPassword,
 		@Param("administrator") boolean administrator
 	);
 
 	@Modifying
-	@Query("update Account a set a.administrator = administrator where a.username = username")
-	boolean updateAccountPrivileges(
+	@Query("update account a set a.administrator = :administrator where a.username = :username")
+	int updateAccountPrivileges(
 		@Param("username") String username,
 		@Param("administrator") boolean administrator
 	);
@@ -29,12 +29,16 @@ public interface AdminRepository extends CrudRepository<AccountEntity, String> {
 	Optional<AccountEntity> findByUsername(String username);
 
 	@Modifying
-	@Query(value = "insert into Account a values (:username, :hashedPassword, :administrator, :archivided)", nativeQuery = true)
+	@Query("insert into account a values (:username, :hashedPassword, :administrator, :archivided)")
 	void insertAccount(
 		@Param("name") String name,
 		@Param("hashedPassword") String hashedPassword,
 		@Param("administrator") boolean administrator,
 		@Param("archived") boolean archived
 	);
+
+	@Modifying
+	@Query("update device d set d.name = :name where d.id = :id")
+	int updateDeviceName(@Param("id") int id, @Param("name") String name);
 
 }

@@ -3,7 +3,8 @@ package it.deltax.produlytics.uibackend.devices.adapters;
 import it.deltax.produlytics.uibackend.devices.business.domain.UnarchivedDevice;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindDevicePort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchivedDevicesPort;
-import it.deltax.produlytics.uibackend.repositories.UnarchivedDeviceRepository;
+import it.deltax.produlytics.uibackend.admins.business.ports.out.ModifyDevicePort;
+import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,11 +13,11 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Component
-public class UnarchivedDeviceAdapter implements FindAllUnarchivedDevicesPort, FindDevicePort {
+public class DeviceAdapter implements FindAllUnarchivedDevicesPort, FindDevicePort {
 
-    private final UnarchivedDeviceRepository repo;
+    private final DeviceRepository repo;
 
-    public UnarchivedDeviceAdapter(UnarchivedDeviceRepository repo) {
+    public DeviceAdapter(DeviceRepository repo) {
         this.repo = repo;
     }
 
@@ -36,4 +37,5 @@ public class UnarchivedDeviceAdapter implements FindAllUnarchivedDevicesPort, Fi
                 new UnarchivedDevice(macchina.getId(), macchina.getName())
             );
     }
+
 }
