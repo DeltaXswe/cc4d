@@ -4,9 +4,11 @@ import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicDis
 import it.deltax.produlytics.uibackend.devices.business.ports.in.FindCharacteristicInfoUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicPort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindDevicePort;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class FindCharacteristicInfoService implements FindCharacteristicInfoUseCase {
 
     private final FindCharacteristicPort findCharacteristicPort;

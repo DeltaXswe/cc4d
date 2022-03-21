@@ -5,9 +5,11 @@ import it.deltax.produlytics.uibackend.accounts.business.ports.in.ChangeAccountP
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.EncoderPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.UpdateAccountPort;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class ChangeAccountPasswordService implements ChangeAccountPasswordUseCase {
     private final UpdateAccountPort updateAccountPort;
     private final FindAccountPort findUserPort;

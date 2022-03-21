@@ -5,9 +5,11 @@ import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPo
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PwdEncrypterPort;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.InsertAccountUseCase;
 import it.deltax.produlytics.uibackend.admins.business.ports.out.InsertAccountPort;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class InsertAccountService implements InsertAccountUseCase {
 	private final InsertAccountPort insertAccountPort;
 	private final FindAccountPort findAccountPort;
