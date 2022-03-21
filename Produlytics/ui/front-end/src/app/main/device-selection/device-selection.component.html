@@ -3,7 +3,7 @@
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
     <button mat-icon-button disabled></button>
     <mat-checkbox [checked]="nodeIsChecked(node)"
-                  (change)="$event.checked ? chechedNodes.push(node) : chechedNodes.splice(chechedNodes.indexOf(node), 1)">
+                  (change)="$event.checked ? checkedNodes.push(node) : checkedNodes.splice(checkedNodes.indexOf(node), 1)">
       {{node.name}}
     </mat-checkbox>
   </mat-tree-node>
