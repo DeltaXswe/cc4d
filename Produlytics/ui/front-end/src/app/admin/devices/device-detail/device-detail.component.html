@@ -1,26 +1,30 @@
-<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
-  <div fxLayout="column" fxLayoutAlign="start start">
-    <a class="secondary-text" routerLink="/gestione-macchine">Torna all'elenco</a>
-    <span class="title">
-      {{device.name}}
-    </span>
-  </div>
-  <span fxLayoutAlign="start center" fxLayoutGap="0.5em" matTooltip="Identificativo">
-    <mat-icon>key</mat-icon>
-    <span>{{device.id}}</span>
-  </span>
-</mat-toolbar>
-<div class="content" fxLayout="row wrap" fxLayoutGap="16px">
-  <mat-card fxFlex>
-    <mat-toolbar mat-card-title color="primary" style="display: flex">
-      Informazioni
+<div class="deltax-content">
+  <mat-card>
+    <mat-toolbar mat-card-title color="primary" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="8px">
+      <a mat-icon-button routerLink="/gestione-macchine" matTooltip="Torna all'elenco">
+        <mat-icon>
+          arrow_back
+        </mat-icon>
+      </a>
+      <span fxFlex>
+        {{device.name}}
+      </span>
+      <mat-icon>
+        key
+      </mat-icon>
+      <span matTooltip="Identificativo">
+        {{device.id}}
+      </span>
     </mat-toolbar>
     <mat-card-content>
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
         <mat-form-field fxFlex appearance="outline" floatLabel="always">
-          <mat-label>Codice di accesso</mat-label>
+          <mat-label>
+            Codice di accesso
+          </mat-label>
           <input matInput readonly [value]="device.apiKey" />
-          <button matSuffix mat-icon-button matTooltip="Copia contenuto" [cdkCopyToClipboard]="device.apiKey"
+          <button matSuffix mat-icon-button matTooltip="Copia contenuto"
+                  [cdkCopyToClipboard]="device.apiKey"
                   (cdkCopyToClipboardCopied)="notifyCopy()">
             <mat-icon>
               content_copy
@@ -39,16 +43,15 @@
           </mat-chip>
         </mat-chip-list>
       </div>
-    </mat-card-content>
-  </mat-card>
-  <mat-card fxFlex>
-    <mat-toolbar mat-card-title color="primary" fxLayout="row" fxLayoutAlign="space-between center">
-        <span>Caratteristiche</span>
-        <button mat-stroked-button (click)="openNewCharacteristicDialog()">
-          Nuova
+      <mat-divider></mat-divider>
+      <mat-card-subtitle style="margin-top: 8px" fxLayout="row" fxLayoutAlign="space-between center">
+        <span>
+          Caratteristiche
+        </span>
+        <button mat-stroked-button color="accent" (click)="openNewCharacteristicDialog()">
+          Nuova caratteristica
         </button>
-    </mat-toolbar>
-    <mat-card-content>
+      </mat-card-subtitle>
       <mat-table [dataSource]="characteristics">
         <ng-container matColumnDef="name">
           <mat-header-cell *matHeaderCellDef>

@@ -17,6 +17,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatCardModule} from "@angular/material/card";
 
 const routes: Routes = [
   {
@@ -46,7 +47,8 @@ const routes: Routes = [
         MatCheckboxModule,
         MatPaginatorModule,
         MatSortModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+        MatCardModule
     ]
 })
 export class AccountsModule { }

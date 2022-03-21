@@ -6,7 +6,7 @@ import {startWith} from "rxjs";
 import {
   UpdateCharacteristicAbstractService
 } from "../../../model/admin-device/characteristic/update-characteristic-abstract.service";
-import {CharacteristicFormComponent} from "../characteristic-form/characteristic-form.component";
+import {CharacteristicFormComponent} from "../../../components/characteristic-form/characteristic-form.component";
 
 @Component({
   selector: 'app-update-characteristic-dialog',

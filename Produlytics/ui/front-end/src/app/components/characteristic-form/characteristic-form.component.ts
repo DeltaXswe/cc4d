@@ -1,8 +1,8 @@
 import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Characteristic} from "../../../model/admin-device/characteristic/characteristic";
-import {BehaviorSubject} from "rxjs";
-import {CharacteristicCreationCommand} from "../../../model/admin-device/new/characteristic-creation-command";
+import {Characteristic} from "../../model/admin-device/characteristic/characteristic";
+import {BehaviorSubject, startWith} from "rxjs";
+import {CharacteristicCreationCommand} from "../../model/admin-device/new/characteristic-creation-command";
 
 @Component({
   selector: 'app-characteristic-form',
@@ -31,19 +31,6 @@ export class CharacteristicFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.formGroup.get('autoAdjust')?.valueChanges.subscribe(selected => {
-      if (selected) {
-        this.formGroup.get('upperLimit')?.removeValidators(Validators.required);
-        this.formGroup.get('upperLimit')?.updateValueAndValidity();
-        this.formGroup.get('lowerLimit')?.removeValidators(Validators.required);
-        this.formGroup.get('lowerLimit')?.updateValueAndValidity();
-      } else {
-        this.formGroup.get('upperLimit')?.setValidators(Validators.required);
-        this.formGroup.get('upperLimit')?.updateValueAndValidity();
-        this.formGroup.get('lowerLimit')?.setValidators(Validators.required);
-        this.formGroup.get('lowerLimit')?.updateValueAndValidity();
-      }
-    });
     if (this.startingData) {
       this.formGroup.setValue({
         name: this.startingData.name,
@@ -53,6 +40,21 @@ export class CharacteristicFormComponent implements OnInit {
         sampleSize: this.startingData.sampleSize
       });
     }
+    this.formGroup.get('autoAdjust')?.valueChanges
+      .pipe(startWith(this.startingData?.autoAdjust || false))
+      .subscribe(selected => {
+        if (selected) {
+          this.formGroup.get('upperLimit')?.removeValidators(Validators.required);
+          this.formGroup.get('upperLimit')?.updateValueAndValidity();
+          this.formGroup.get('lowerLimit')?.removeValidators(Validators.required);
+          this.formGroup.get('lowerLimit')?.updateValueAndValidity();
+        } else {
+          this.formGroup.get('upperLimit')?.setValidators(Validators.required);
+          this.formGroup.get('upperLimit')?.updateValueAndValidity();
+          this.formGroup.get('lowerLimit')?.setValidators(Validators.required);
+          this.formGroup.get('lowerLimit')?.updateValueAndValidity();
+        }
+      });
     this.duplicateNameBehavior.subscribe(isError => {
       this.formGroup.get('name')?.setErrors({
         duplicateCharacteristicName: isError

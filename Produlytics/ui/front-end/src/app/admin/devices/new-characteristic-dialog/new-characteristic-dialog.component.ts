@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {CharacteristicCreationCommand} from "../../../model/admin-device/new/characteristic-creation-command";
-import {CharacteristicFormComponent} from "../characteristic-form/characteristic-form.component";
+import {CharacteristicFormComponent} from "../../../components/characteristic-form/characteristic-form.component";
 
 @Component({
   selector: 'app-new-characteristic-dialog',
