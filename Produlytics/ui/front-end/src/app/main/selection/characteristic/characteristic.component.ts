@@ -31,7 +31,7 @@ export class CharacteristicComponent implements OnChanges {
     if(machine) {
       this
         .characteristicService
-        .getCharacteristics(machine.id)
+        .getCharacteristicsByDevice(machine.id)
         .subscribe(characteristics => this.characteristics = characteristics);
     } else {
       this.characteristics = [];

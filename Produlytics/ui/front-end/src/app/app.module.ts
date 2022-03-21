@@ -46,6 +46,15 @@ import {
 import { ModifyPwService } from './model/modify-pw/modify-pw.service';
 import { ModifyPwAbstractService } from './model/modify-pw/modify-pw-abstract.service';
 import { CookieService } from 'ngx-cookie-service';
+import { DeviceSelectionComponent } from './main/device-selection/device-selection.component';
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatTreeModule} from "@angular/material/tree";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {
+  UnarchivedCharacteristicAbstractService
+} from "./model/characteristic/unarchived-characteristic-abstract.service";
+import {UnarchivedDeviceAbstractService} from "./model/device/unarchived-device-abstract.service";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -56,7 +65,8 @@ import { CookieService } from 'ngx-cookie-service';
     ChartComponent,
     ToolbarComponent,
     LoginComponent,
-    ModifyPwComponent
+    ModifyPwComponent,
+    DeviceSelectionComponent
   ],
   imports: [
     // angular
@@ -86,7 +96,11 @@ import { CookieService } from 'ngx-cookie-service';
     ReactiveFormsModule,
     MatSnackBarModule,
     // other
-    ComponentsModule
+    ComponentsModule,
+    MatSidenavModule,
+    MatTreeModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     {
@@ -136,6 +150,14 @@ import { CookieService } from 'ngx-cookie-service';
     {
       provide: ModifyPwAbstractService,
       useExisting: environment.modifyPwService
+    },
+    {
+      provide: UnarchivedCharacteristicAbstractService,
+      useExisting: environment.unarchivedCharacteristicService
+    },
+    {
+      provide: UnarchivedDeviceAbstractService,
+      useExisting: environment.unarchivedDeviceService
     },
     CookieService
   ],

@@ -1,6 +1,5 @@
 import {ChartService} from "../app/model/chart/chart-service.service";
 import {ProdulyticsEnvironment} from "./produlytics-environment";
-import {UnarchivedDeviceService} from "../app/model/public-device/unarchived-device.service";
 import {DeviceService} from "../app/model/admin-device/device.service";
 import {AccountService} from "../app/model/admin-account/account.service";
 import {SaveAccountService} from "../app/model/admin-account/save-account.service";
@@ -10,11 +9,16 @@ import {CharacteristicService} from "../app/model/admin-device/characteristic/ch
 import { LoginService } from "src/app/model/login/login.service";
 import {UpdateDeviceService} from "../app/model/admin-device/update/update-device.service";
 import {UpdateCharacteristicService} from "../app/model/admin-device/characteristic/update-characteristic.service";
+import {UnarchivedDeviceService} from "../app/model/device/unarchived-device.service";
+import {ModifyPwService} from "../app/model/modify-pw/modify-pw.service";
+import {UnarchivedCharacteristicService} from "../app/model/characteristic/unarchived-characteristic.service";
+
 export const environment: ProdulyticsEnvironment = {
   production: true,
   apiUrl: '',
   chartService: ChartService,
   unarchivedDeviceService: UnarchivedDeviceService,
+  unarchivedCharacteristicService: UnarchivedCharacteristicService,
   deviceService: DeviceService,
   accountService: AccountService,
   saveAccountService: SaveAccountService,
@@ -23,5 +27,6 @@ export const environment: ProdulyticsEnvironment = {
   characteristicService: CharacteristicService,
   loginService: LoginService,
   updateDeviceService: UpdateDeviceService,
-  updateCharacteristicService: UpdateCharacteristicService
+  updateCharacteristicService: UpdateCharacteristicService,
+  modifyPwService: ModifyPwService
 };

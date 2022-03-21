@@ -13,12 +13,17 @@ import { ModifyPwAbstractService } from "src/app/model/modify-pw/modify-pw-abstr
 import {
   UpdateCharacteristicAbstractService
 } from "../app/model/admin-device/characteristic/update-characteristic-abstract.service";
+import {UnarchivedDeviceAbstractService} from "../app/model/device/unarchived-device-abstract.service";
+import {
+  UnarchivedCharacteristicAbstractService
+} from "../app/model/characteristic/unarchived-characteristic-abstract.service";
 
 export interface ProdulyticsEnvironment {
   readonly production: boolean
   readonly apiUrl: string
   readonly chartService: Type<ChartAbstractService>
-  readonly unarchivedDeviceService: Type<ListUnarchivedDevicesAbstractService>
+  readonly unarchivedDeviceService: Type<UnarchivedDeviceAbstractService>
+  readonly unarchivedCharacteristicService: Type<UnarchivedCharacteristicAbstractService>
   readonly deviceService: Type<DeviceAbstractService>
   readonly accountService: Type<AccountAbstractService>
   readonly saveAccountService: Type<SaveAccountAbstractService>

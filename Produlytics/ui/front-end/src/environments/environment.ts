@@ -8,12 +8,14 @@ import {FakeDeviceService} from "../app/test/device/fake-device.service";
 import {FakeAccountService} from "../app/test/account/fake-account.service";
 import { FakeLoginService } from "src/app/test/login/fake-login.service";
 import { FakeModifyPwService } from "src/app/test/modify-pw/fake-modify-pw.service";
+import {FakeUnarchivedService} from "../app/test/unarchived/fake-unarchived.service";
 
 export const environment: ProdulyticsEnvironment = {
   production: false,
   apiUrl: 'http://localhost/apiweb',
   chartService: FakeChartService,
-  unarchivedDeviceService: FakeDeviceService,
+  unarchivedDeviceService: FakeUnarchivedService,
+  unarchivedCharacteristicService: FakeUnarchivedService,
   deviceService: FakeDeviceService,
   accountService: FakeAccountService,
   saveAccountService: FakeAccountService,
