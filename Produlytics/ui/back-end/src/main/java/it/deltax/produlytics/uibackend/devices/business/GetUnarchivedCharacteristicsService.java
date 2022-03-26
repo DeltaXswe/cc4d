@@ -3,9 +3,12 @@ package it.deltax.produlytics.uibackend.devices.business;
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTitle;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetUnarchivedCharacteristicsUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchivedCharacteristicPort;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class GetUnarchivedCharacteristicsService implements GetUnarchivedCharacteristicsUseCase {
     private final FindAllUnarchivedCharacteristicPort port;
 
@@ -14,7 +17,7 @@ public class GetUnarchivedCharacteristicsService implements GetUnarchivedCharact
     }
 
     @Override
-    public List<CharacteristicTitle> getByDevice(int deviceId) {
+    public Optional<List<CharacteristicTitle>> getByDevice(int deviceId) {
         return port.findAllByDeviceId(deviceId);
     }
 }
