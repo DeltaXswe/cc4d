@@ -6,6 +6,7 @@ import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchi
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GetUnarchivedCharacteristicsService implements GetUnarchivedCharacteristicsUseCase {
@@ -17,7 +18,7 @@ public class GetUnarchivedCharacteristicsService implements GetUnarchivedCharact
     }
 
     @Override
-    public List<CharacteristicTitle> getByDevice(int deviceId) {
+    public Optional<List<CharacteristicTitle>> getByDevice(int deviceId) {
         return port.findAllByDeviceId(deviceId);
     }
 }
