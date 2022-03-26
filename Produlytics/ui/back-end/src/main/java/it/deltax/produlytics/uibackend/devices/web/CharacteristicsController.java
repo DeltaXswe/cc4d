@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
-import java.util.List;
 
 @RestController
-@RequestMapping("/characteristics")
+@RequestMapping("/devices/{deviceId}/characteristics")
 public class CharacteristicsController {
     private final GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristics;
     private final FindCharacteristicInfoUseCase getCharacteristicInfo;
@@ -27,17 +26,25 @@ public class CharacteristicsController {
         this.getCharacteristicInfo = getCharacteristicInfo;
     }
 
-    @GetMapping("/{machine_id}")
-    List<CharacteristicTitle> getCharacteristics(@PathVariable("device_id") int deviceId) {
-        return getUnarchivedCharacteristics.getByDevice(deviceId);
+    @GetMapping("")
+    Iterable<CharacteristicTitle> getCharacteristics(@PathVariable("deviceId") int deviceId) {
+        return getUnarchivedCharacteristics.getByDevice(deviceId)
+            .orElseThrow(() -> {
+                HashMap<String, Object> key = new HashMap<>();
+                key.put("deviceId", deviceId);
+                return new ResourceNotFoundException("device", key);
+            });
     }
 
-    @GetMapping("/{machine_id}/characteristic/{id}")
-	CharacteristicDisplayInfo getCharacteristicInfo(@PathVariable("machine_id") int machineId, @PathVariable("id") int id) {
-        return getCharacteristicInfo.find(machineId, id)
+    @GetMapping("{id}")
+	CharacteristicDisplayInfo getCharacteristicInfo(
+        @PathVariable("deviceId") int deviceId,
+        @PathVariable("id") int id
+    ) {
+        return getCharacteristicInfo.find(deviceId, id)
             .orElseThrow(() -> {
                 HashMap<String, Object> keys = new HashMap<>();
-                keys.put("machineId", machineId);
+                keys.put("deviceId", deviceId);
                 keys.put("id", id);
                 return new ResourceNotFoundException("characteristics", keys);
             });

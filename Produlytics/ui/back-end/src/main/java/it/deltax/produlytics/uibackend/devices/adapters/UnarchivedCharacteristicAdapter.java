@@ -8,6 +8,7 @@ import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchi
 import it.deltax.produlytics.uibackend.repositories.UnarchivedCharacteristicRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,15 +25,17 @@ public class UnarchivedCharacteristicAdapter implements FindAllUnarchivedCharact
     }
 
     @Override
-    public List<CharacteristicTitle> findAllByDeviceId(int deviceId) {
-        return repo.findByArchivedFalseAndDeviceId(deviceId).stream()
+    public Optional<List<CharacteristicTitle>> findAllByDeviceId(int deviceId) {
+        return Optional.of(repo.findByArchivedFalseAndDeviceId(deviceId)
+            .orElse(Collections.emptyList())
+            .stream()
             .map(
                 characteristic -> new CharacteristicTitle(
                     characteristic.getId().getId(),
                     characteristic.getName()
                 )
             )
-            .collect(Collectors.toList());
+            .collect(Collectors.toList()));
     }
 
     @Override

@@ -6,8 +6,9 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UnarchivedCharacteristicRepository extends CrudRepository<CharacteristicEntity, CharacteristicEntityId> {
-    List<CharacteristicEntity> findByArchivedFalseAndDeviceId(int deviceId);
+    Optional<List<CharacteristicEntity>> findByArchivedFalseAndDeviceId(int deviceId);
 }
