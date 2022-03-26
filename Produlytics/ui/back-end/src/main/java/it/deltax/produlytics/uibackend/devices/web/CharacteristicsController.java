@@ -5,36 +5,42 @@ import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTit
 import it.deltax.produlytics.uibackend.devices.business.ports.in.FindCharacteristicInfoUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetUnarchivedCharacteristicsUseCase;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
-import java.util.List;
 
 @RestController
-@RequestMapping("/characteristics")
+@RequestMapping("/devices/{deviceId}/characteristics")
 public class CharacteristicsController {
     private final GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristics;
     private final FindCharacteristicInfoUseCase getCharacteristicInfo;
 
     public CharacteristicsController(
-        @Qualifier("listCharacteristicsUseCase") GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristics,
+        GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristics,
         FindCharacteristicInfoUseCase getCharacteristicInfo
     ) {
         this.getUnarchivedCharacteristics = getUnarchivedCharacteristics;
         this.getCharacteristicInfo = getCharacteristicInfo;
     }
 
-    @GetMapping("/{device_id}")
-    List<CharacteristicTitle> getCharacteristics(@PathVariable("device_id") int deviceId) {
-        return getUnarchivedCharacteristics.getByDevice(deviceId);
+    @GetMapping("")
+    Iterable<CharacteristicTitle> getCharacteristics(@PathVariable("deviceId") int deviceId) {
+        return getUnarchivedCharacteristics.getByDevice(deviceId)
+            .orElseThrow(() -> {
+                HashMap<String, Object> key = new HashMap<>();
+                key.put("deviceId", deviceId);
+                return new ResourceNotFoundException("device", key);
+            });
     }
 
-    @GetMapping("/{device_id}/characteristic/{id}")
-	CharacteristicDisplayInfo getCharacteristicInfo(@PathVariable("device_id") int deviceId, @PathVariable("id") int id) {
+    @GetMapping("{id}")
+	CharacteristicDisplayInfo getCharacteristicInfo(
+        @PathVariable("deviceId") int deviceId,
+        @PathVariable("id") int id
+    ) {
         return getCharacteristicInfo.find(deviceId, id)
             .orElseThrow(() -> {
                 HashMap<String, Object> keys = new HashMap<>();
