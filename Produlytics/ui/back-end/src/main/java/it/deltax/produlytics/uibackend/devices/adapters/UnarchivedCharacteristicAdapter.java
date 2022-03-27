@@ -3,12 +3,11 @@ package it.deltax.produlytics.uibackend.devices.adapters;
 import it.deltax.produlytics.persistence.CharacteristicEntityId;
 import it.deltax.produlytics.uibackend.devices.business.domain.Characteristic;
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTitle;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicPort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchivedCharacteristicPort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicPort;
 import it.deltax.produlytics.uibackend.repositories.UnarchivedCharacteristicRepository;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,16 +25,14 @@ public class UnarchivedCharacteristicAdapter implements FindAllUnarchivedCharact
 
     @Override
     public Optional<List<CharacteristicTitle>> findAllByDeviceId(int deviceId) {
-        return Optional.of(repo.findByArchivedFalseAndDeviceId(deviceId)
-            .orElse(Collections.emptyList())
-            .stream()
-            .map(
-                characteristic -> new CharacteristicTitle(
-                    characteristic.getId().getId(),
-                    characteristic.getName()
-                )
-            )
-            .collect(Collectors.toList()));
+        return repo.findByArchivedFalseAndDeviceId(deviceId)
+            .map(characteristicEntitiesList -> characteristicEntitiesList
+                .stream()
+                .map(characteristicEntity -> new CharacteristicTitle(
+                    characteristicEntity.getId().getId(),
+                    characteristicEntity.getName()
+                ))
+                .collect(Collectors.toList()));
     }
 
     @Override
