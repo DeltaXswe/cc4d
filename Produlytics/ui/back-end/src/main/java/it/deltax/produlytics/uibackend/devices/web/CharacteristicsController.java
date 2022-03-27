@@ -27,7 +27,7 @@ public class CharacteristicsController {
     }
 
     @GetMapping("")
-    Iterable<CharacteristicTitle> getCharacteristics(@PathVariable("deviceId") int deviceId) {
+    Iterable<CharacteristicTitle> getUnarchivedCharacteristics(@PathVariable("deviceId") int deviceId) {
         return getUnarchivedCharacteristics.getByDevice(deviceId)
             .orElseThrow(() -> {
                 HashMap<String, Object> key = new HashMap<>();
