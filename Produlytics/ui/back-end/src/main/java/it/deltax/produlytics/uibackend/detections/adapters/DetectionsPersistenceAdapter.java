@@ -27,8 +27,7 @@ public class DetectionsPersistenceAdapter implements ListDetectionsByCharacteris
         detections = repo.findByIdDeviceIdAndIdCharacteristicIdAndIdCreationTimeGreaterThan(
             deviceId,
             characteristicId,
-            Instant.ofEpochMilli(createdAfter),
-            Sort.by("creazioneUtc")
+            Instant.ofEpochMilli(createdAfter)
         );
         return detections.stream()
             .map(rilevazione ->
