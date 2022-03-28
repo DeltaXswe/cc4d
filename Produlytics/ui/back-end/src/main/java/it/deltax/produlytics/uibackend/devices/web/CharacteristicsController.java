@@ -5,10 +5,12 @@ import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTit
 import it.deltax.produlytics.uibackend.devices.business.ports.in.FindCharacteristicInfoUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetUnarchivedCharacteristicsUseCase;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 
@@ -29,11 +31,8 @@ public class CharacteristicsController {
     @GetMapping("")
     Iterable<CharacteristicTitle> getUnarchivedCharacteristics(@PathVariable("deviceId") int deviceId) {
         var characteristics = getUnarchivedCharacteristics.getByDevice(deviceId);
-        if (characteristics.isEmpty()) {
-            HashMap<String, Object> key = new HashMap<>();
-            key.put("deviceId", deviceId);
-            throw new ResourceNotFoundException("device", key);
-        }
+        if (characteristics.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "deviceNotFound");
         else
             return characteristics;
     }
