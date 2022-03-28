@@ -5,6 +5,7 @@ import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPo
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PwdEncrypterPort;
 import it.deltax.produlytics.uibackend.admins.business.ports.out.UpdateAccountAdminPort;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.ChangeAccountAdminUseCase;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,8 +18,8 @@ public class ChangeAccountAdminService implements ChangeAccountAdminUseCase {
 
 	public ChangeAccountAdminService(
 		UpdateAccountAdminPort updateAccountAdminPort,
-		FindAccountPort findUserPort,
-		PwdEncrypterPort pwdEncrypterPort){
+		@Qualifier("adminAdapter") FindAccountPort findUserPort,
+		@Qualifier("pwdEncrypterAdapter") PwdEncrypterPort pwdEncrypterPort){
 		this.updateAccountAdminPort = updateAccountAdminPort;
 		this.findAccountPort = findUserPort;
 		this.pwdEncrypterPort = pwdEncrypterPort;

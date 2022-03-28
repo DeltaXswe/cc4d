@@ -5,6 +5,7 @@ import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTit
 import it.deltax.produlytics.uibackend.devices.business.ports.in.FindCharacteristicInfoUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetUnarchivedCharacteristicsUseCase;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.ResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ public class CharacteristicsController {
     private final FindCharacteristicInfoUseCase getCharacteristicInfo;
 
     public CharacteristicsController(
-        GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristics,
+        @Qualifier("listCharacteristicsUseCase") GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristics,
         FindCharacteristicInfoUseCase getCharacteristicInfo
     ) {
         this.getUnarchivedCharacteristics = getUnarchivedCharacteristics;

@@ -5,6 +5,7 @@ import it.deltax.produlytics.uibackend.accounts.business.ports.in.ChangeAccountP
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.EncoderPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.UpdateAccountPort;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,7 +18,7 @@ public class ChangeAccountPasswordService implements ChangeAccountPasswordUseCas
 
     public ChangeAccountPasswordService(
             UpdateAccountPort updateUserPort,
-            FindAccountPort findUserPort,
+            @Qualifier("accountAdapter") FindAccountPort findUserPort,
             EncoderPort passwordEncrypter){
         this.updateAccountPort = updateUserPort;
         this.findUserPort = findUserPort;

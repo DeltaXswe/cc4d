@@ -3,7 +3,9 @@ package it.deltax.produlytics.uibackend.admins.business;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.ModDevArchStatusUseCase;
 import it.deltax.produlytics.uibackend.admins.business.ports.out.ModDevArchStatusPort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindUnarchivedDevicePort;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ModDevArchStatusService implements ModDevArchStatusUseCase {
 	private final FindUnarchivedDevicePort findDevicePort;
 	private final ModDevArchStatusPort modDevArchStatusPort;

@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(
-		webEnvironment = SpringBootTest.WebEnvironment.MOCK
+	webEnvironment = SpringBootTest.WebEnvironment.MOCK
 )
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
@@ -28,7 +28,7 @@ class UiBackendApplicationTests {
 	private DevicesController devicesController;
 
 	@Autowired
-	private DeviceRepository repo;
+	private DeviceRepository deviceRepository;
 
 	@Autowired
 	protected MockMvc mockMvc;
@@ -37,16 +37,16 @@ class UiBackendApplicationTests {
 	@Test
 	void contextLoads() {
 		assertThat(devicesController).isNotNull();
-		assertThat(repo).isNotNull();
+		assertThat(deviceRepository).isNotNull();
 	}
 
 	@Test
-	public void getDevices() throws Exception {
-		repo.save(new DeviceEntity("One", false, false, ""));
+	public void listAllMacchine() throws Exception {
+		deviceRepository.save(new DeviceEntity("One", false, false, ""));
 
 		mockMvc.perform(get("/devices"))
-				.andDo(print())
-				.andExpect(status().isOk());
+			.andDo(print())
+			.andExpect(status().isOk());
 
 	}
 }

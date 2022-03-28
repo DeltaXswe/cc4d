@@ -15,19 +15,19 @@ import java.util.List;
 @Repository
 public interface DetectionsRepository extends CrudRepository<DetectionEntity, DetectionEntityId> {
 
-    @Query("""
-        select d from DetectionEntity d
-        where d.id.deviceId = :deviceId
-            and d.id.characteristicId = :characteristicId
-            and (creation is null or d.id.creationTime > :creation)""")
+    @Query(value = """
+        select d from detection d
+        where d.device_id = :device_id
+            and d.characteristic_id = :characteristic_id
+            and (creation_time is null or d.creation_time > :creation_time)
+        order by creation_time """, nativeQuery = true)
     List<DetectionEntity> findByIdDeviceIdAndIdCharacteristicIdAndIdCreationTimeGreaterThan(
-        @Param("deviceId") int deviceId,
-        @Param("characteristicId") int characteristicId,
-        @Param("creation") Instant creation,
-        Sort sort
+        @Param("device_id") int device_id,
+        @Param("characteristic_id") int characteristic_id,
+        @Param("creation_time") Instant creation_time
     );
 
     @Modifying //perché sta roba è qua?
-    @Query("update User u set u.firstname = ?1, u.lastname = ?2 where u.id = ?3")
+    @Query(value = "update User u set u.firstname = ?1, u.lastname = ?2 where u.id = ?3", nativeQuery = true)
     void setUserInfoById(String firstname, String lastname, Integer userId);
 }

@@ -12,10 +12,10 @@ import java.util.Optional;
 @Repository
 public interface AccountRepository extends CrudRepository<AccountEntity, String> {
     @Modifying
-    @Query("update Account a set a.hashed_password = hashedPassword where a.username = username")
-    boolean updateAccount(
+    @Query(value = "update Account a set a.hashed_password = :hashed_password where a.username = :username", nativeQuery = true)
+    int updateAccount(
             @Param("username") String username,
-            @Param("hashedPassword") String hashedPassword
+            @Param("hashed_password") String hashed_password
     );
 
     Optional<AccountEntity> findByUsername(String username);
