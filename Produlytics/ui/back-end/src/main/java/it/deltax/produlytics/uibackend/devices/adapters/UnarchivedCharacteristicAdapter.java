@@ -23,19 +23,18 @@ public class UnarchivedCharacteristicAdapter implements FindAllUnarchivedCharact
 
     @Override
     public List<CharacteristicTitle> findAllByDeviceId(int deviceId) {
-        return repo.findByArchivedFalseAndId(deviceId).stream()
-            .map(
-                characteristic -> new CharacteristicTitle(
-                    characteristic.getId().getId(),
-                    characteristic.getName()
-                )
-            )
-            .collect(Collectors.toList());
+        return repo.findByArchivedFalseAndId_DeviceId(deviceId)
+                .stream()
+                .map(characteristicEntity -> new CharacteristicTitle(
+                    characteristicEntity.getId().getId(),
+                    characteristicEntity.getName()
+                ))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Characteristic> find(int deviceId, int id) {
-        return repo.findById(new CharacteristicEntityId(deviceId, id))
+    public Optional<Characteristic> find(int machineId, int id) {
+        return repo.findById(new CharacteristicEntityId(machineId, id))
             .map(caratteristica ->
                 new Characteristic(
                     caratteristica.getId().getId(),
