@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-// object adapter (Target sono le port, Adaptee è la repo)
-
 @Component
 public class UnarchivedCharacteristicAdapter implements FindAllUnarchivedCharacteristicPort, FindCharacteristicPort {
 
@@ -25,7 +23,7 @@ public class UnarchivedCharacteristicAdapter implements FindAllUnarchivedCharact
 
     @Override
     public List<CharacteristicTitle> findAllByDeviceId(int deviceId) {
-        return repo.findByArchivedFalseAndDeviceId(deviceId)
+        return repo.findByArchivedFalseAndId_DeviceId(deviceId)
                 .stream()
                 .map(characteristicEntity -> new CharacteristicTitle(
                     characteristicEntity.getId().getId(),
