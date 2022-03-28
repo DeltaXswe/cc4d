@@ -12,14 +12,17 @@ import java.time.Instant;
 import java.util.List;
 
 @Repository
-public interface RilevazioneRepository extends CrudRepository<DetectionEntity, DetectionEntityId> {
+public interface DetectionRepository extends CrudRepository<DetectionEntity, DetectionEntityId> {
 
     @Query("""
-        select d from DetectionEntity d
+        select d
+        from DetectionEntity d
         where d.id.deviceId = :deviceId
-            and d.id.characteristicId = :characteristicId
-            and (creation is null or d.id.creationTime > :creation)""")
-    List<DetectionEntity> findByIdDeviceIdAndIdCharacteristicIdAndIdCreationTimeGreaterThan(
+        and d.id.characteristicId = :characteristicId
+        and (:creation is null or d.id.creationTime > :creation)
+        """
+    )
+    List<DetectionEntity> findByIdDeviceIdAndIdCharacteristicIdAndCreationTimeGreaterThan(
         @Param("deviceId") int deviceId,
         @Param("characteristicId") int characteristicId,
         @Param("creation") Instant creation,
