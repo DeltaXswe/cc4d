@@ -3,7 +3,7 @@ package it.deltax.produlytics.uibackend.devices.business;
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicDisplayInfo;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.FindCharacteristicInfoUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicPort;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.FindDevicePort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.FindUnarchivedDevicePort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,11 +12,11 @@ import java.util.Optional;
 public class FindCharacteristicInfoService implements FindCharacteristicInfoUseCase {
 
     private final FindCharacteristicPort findCharacteristicPort;
-    private final FindDevicePort findDevicePort;
+    private final FindUnarchivedDevicePort findDevicePort;
 
     public FindCharacteristicInfoService(
         FindCharacteristicPort findCharacteristicPort,
-        FindDevicePort findDevicePort
+        FindUnarchivedDevicePort findDevicePort
     ) {
         this.findCharacteristicPort = findCharacteristicPort;
         this.findDevicePort = findDevicePort;

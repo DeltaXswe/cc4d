@@ -2,6 +2,7 @@ package it.deltax.produlytics.uibackend.admins.web;
 
 import it.deltax.produlytics.uibackend.admins.business.ports.in.ChangeAccountAdminUseCase;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.InsertAccountUseCase;
+import it.deltax.produlytics.uibackend.admins.business.ports.in.ModDevArchStatusUseCase;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.ModifyDeviceUseCase;
 import static org.springframework.http.HttpStatus.*;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +14,18 @@ public class AdminsController {
 	private final ChangeAccountAdminUseCase changeAccountUseCase;
 	private final InsertAccountUseCase insertAccountUseCase;
 	private final ModifyDeviceUseCase modifyDeviceUseCase;
+	private final ModDevArchStatusUseCase modDevArchStatusUseCase;
 
 	public AdminsController(
 		ChangeAccountAdminUseCase changeAccountUseCase,
 		InsertAccountUseCase insertAccountUseCase,
-		ModifyDeviceUseCase modifyDeviceUseCase
+		ModifyDeviceUseCase modifyDeviceUseCase,
+		ModDevArchStatusUseCase modDevArchStatusUseCase
 	){
 		this.changeAccountUseCase = changeAccountUseCase;
 		this.insertAccountUseCase = insertAccountUseCase;
 		this.modifyDeviceUseCase = modifyDeviceUseCase;
+		this.modDevArchStatusUseCase = modDevArchStatusUseCase;
 	}
 
 	@PostMapping("/accounts")
@@ -48,13 +52,32 @@ public class AdminsController {
 		if(!newPassword.isEmpty() && newPassword.length() < 6)
 			return new ResponseEntity<>("invalidNewPassword", BAD_REQUEST); //400
 		else if(changeAccountUseCase.changeByUsername(username, newPassword, administrator)) {
-			return new ResponseEntity<>(NO_CONTENT); //204
+			return new ResponseEntity<>(NO_CONTENT);
 		} else {
-			return new ResponseEntity<>(BAD_REQUEST); //TODO temporaneo
+			return new ResponseEntity<>("accountNotFound", NOT_FOUND); //TODO aggiungere alla specifica archittettuarale il caso in cui non si trovi l'account
 		}
 	}
 
-	@PutMapping("devices/{deviceId}/name")
+	/*
+	@GetMapping("/devices/{deviceId}")
+	public ResponseEntity<String> modifyDevice(
+		@PathVariable("deviceId")){
+
+	}
+*/
+
+	@PutMapping("devices/{deviceId}/archived")
+	public ResponseEntity<String> modifyDeviceArchStatus(
+		@PathVariable("deviceId") int deviceId,
+		@RequestParam("archived") boolean archived) { //come si chiama il parametro?
+		if(modDevArchStatusUseCase.modDevArchStatus(deviceId, archived))
+			return new ResponseEntity<>(NO_CONTENT);
+		else
+			return new ResponseEntity<>("deviceNotFound", NOT_FOUND);
+	}
+
+
+	@PutMapping("/devices/{deviceId}/name")
 	public ResponseEntity<String> modifyDevice(
 		@PathVariable("deviceId") int deviceId,
 		@RequestParam("name") String name){

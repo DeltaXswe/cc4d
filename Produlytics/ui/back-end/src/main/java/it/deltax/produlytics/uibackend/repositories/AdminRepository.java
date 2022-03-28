@@ -41,4 +41,8 @@ public interface AdminRepository extends CrudRepository<AccountEntity, String> {
 	@Query("update device d set d.name = :name where d.id = :id")
 	int updateDeviceName(@Param("id") int id, @Param("name") String name);
 
+	@Modifying
+	@Query("update device d set d.archived = :archived where d.id = :id")
+	int updateDeviceArchivedStatus(@Param("id") int id, @Param("archived") boolean archived);
+
 }
