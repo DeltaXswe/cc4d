@@ -28,12 +28,14 @@ public class CharacteristicsController {
 
     @GetMapping("")
     Iterable<CharacteristicTitle> getUnarchivedCharacteristics(@PathVariable("deviceId") int deviceId) {
-        return getUnarchivedCharacteristics.getByDevice(deviceId)
-            .orElseThrow(() -> {
-                HashMap<String, Object> key = new HashMap<>();
-                key.put("deviceId", deviceId);
-                return new ResourceNotFoundException("device", key);
-            });
+        var characteristics = getUnarchivedCharacteristics.getByDevice(deviceId);
+        if (characteristics.isEmpty()) {
+            HashMap<String, Object> key = new HashMap<>();
+            key.put("deviceId", deviceId);
+            throw new ResourceNotFoundException("device", key);
+        }
+        else
+            return characteristics;
     }
 
     @GetMapping("{id}")
