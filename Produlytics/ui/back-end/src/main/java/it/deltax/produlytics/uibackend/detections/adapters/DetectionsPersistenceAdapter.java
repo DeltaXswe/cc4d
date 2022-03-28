@@ -3,28 +3,27 @@ package it.deltax.produlytics.uibackend.detections.adapters;
 import it.deltax.produlytics.persistence.DetectionEntity;
 import it.deltax.produlytics.uibackend.detections.business.domain.DetectionLight;
 import it.deltax.produlytics.uibackend.detections.business.ports.out.ListDetectionsByCharacteristicPort;
-import it.deltax.produlytics.uibackend.repositories.RilevazioneRepository;
+import it.deltax.produlytics.uibackend.repositories.DetectionRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
 public class DetectionsPersistenceAdapter implements ListDetectionsByCharacteristicPort {
 
-    private final RilevazioneRepository repo;
+    private final DetectionRepository repo;
 
-    public DetectionsPersistenceAdapter(RilevazioneRepository repo) {
+    public DetectionsPersistenceAdapter(DetectionRepository repo) {
         this.repo = repo;
     }
 
     @Override
     public List<DetectionLight> listByCharacteristic(int machineId, int characteristicId, Long createdAfter) {
         List<DetectionEntity> detections;
-        detections = repo.findByIdDeviceIdAndIdCharacteristicIdAndIdCreationTimeGreaterThan(
+        detections = repo.findByIdDeviceIdAndIdCharacteristicIdAndCreationTimeGreaterThan(
             machineId,
             characteristicId,
             Instant.ofEpochMilli(createdAfter),
