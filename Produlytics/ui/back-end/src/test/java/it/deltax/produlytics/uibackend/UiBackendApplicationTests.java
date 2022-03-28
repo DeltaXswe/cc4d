@@ -31,7 +31,7 @@ class UiBackendApplicationTests {
 	private MacchinaRepository macchinaRepository;
 
 	@Autowired
-	private MockMvc mockMvc;
+	protected MockMvc mockMvc;
 
 
 	@Test
