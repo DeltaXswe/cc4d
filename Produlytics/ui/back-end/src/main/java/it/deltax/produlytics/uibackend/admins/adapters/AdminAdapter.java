@@ -3,6 +3,7 @@ package it.deltax.produlytics.uibackend.admins.adapters;
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
 import it.deltax.produlytics.uibackend.admins.business.ports.out.InsertAccountPort;
+import it.deltax.produlytics.uibackend.admins.business.ports.out.ModDevArchStatusPort;
 import it.deltax.produlytics.uibackend.admins.business.ports.out.ModifyDevicePort;
 import it.deltax.produlytics.uibackend.admins.business.ports.out.UpdateAccountAdminPort;
 import it.deltax.produlytics.uibackend.repositories.AdminRepository;
@@ -11,7 +12,13 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class AdminAdapter implements UpdateAccountAdminPort, FindAccountPort, InsertAccountPort, ModifyDevicePort {
+public class AdminAdapter implements UpdateAccountAdminPort,
+	FindAccountPort,
+	InsertAccountPort,
+	ModifyDevicePort,
+	ModDevArchStatusPort
+{
+
 	private final AdminRepository repo;
 
 	public AdminAdapter(AdminRepository repo) {this.repo = repo; }
@@ -48,4 +55,8 @@ public class AdminAdapter implements UpdateAccountAdminPort, FindAccountPort, In
 		return repo.updateDeviceName(deviceId, name);
 	}
 
+	@Override
+	public int modifyDeviceArchivedStatus(int deviceId, boolean archived) {
+		return repo.updateDeviceArchivedStatus(deviceId, archived);
+	}
 }

@@ -5,6 +5,7 @@ import it.deltax.produlytics.uibackend.devices.business.domain.UnarchivedDevice;
 
 import java.util.List;
 
+// per operazioni in cui serve solo id e nome
 public interface FindAllUnarchivedDevicesPort {
     List<UnarchivedDevice> findAll();
 }
