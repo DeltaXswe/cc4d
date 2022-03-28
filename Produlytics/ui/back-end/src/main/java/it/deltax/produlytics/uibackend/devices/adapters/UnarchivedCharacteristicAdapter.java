@@ -3,16 +3,14 @@ package it.deltax.produlytics.uibackend.devices.adapters;
 import it.deltax.produlytics.persistence.CharacteristicEntityId;
 import it.deltax.produlytics.uibackend.devices.business.domain.Characteristic;
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTitle;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicPort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchivedCharacteristicPort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicPort;
 import it.deltax.produlytics.uibackend.repositories.UnarchivedCharacteristicRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-// object adapter (Target sono le port, Adaptee è la repo)
 
 @Component
 public class UnarchivedCharacteristicAdapter implements FindAllUnarchivedCharacteristicPort, FindCharacteristicPort {
@@ -25,19 +23,18 @@ public class UnarchivedCharacteristicAdapter implements FindAllUnarchivedCharact
 
     @Override
     public List<CharacteristicTitle> findAllByDeviceId(int deviceId) {
-        return repo.findByArchivedFalseAndId(deviceId).stream()
-            .map(
-                characteristic -> new CharacteristicTitle(
-                    characteristic.getId().getId(),
-                    characteristic.getName()
-                )
-            )
-            .collect(Collectors.toList());
+        return repo.findByArchivedFalseAndId_DeviceId(deviceId)
+                .stream()
+                .map(characteristicEntity -> new CharacteristicTitle(
+                    characteristicEntity.getId().getId(),
+                    characteristicEntity.getName()
+                ))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Characteristic> find(int deviceId, int id) {
-        return repo.findById(new CharacteristicEntityId(deviceId, id))
+    public Optional<Characteristic> find(int machineId, int id) {
+        return repo.findById(new CharacteristicEntityId(machineId, id))
             .map(caratteristica ->
                 new Characteristic(
                     caratteristica.getId().getId(),
