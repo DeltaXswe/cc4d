@@ -5,11 +5,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
+import java.util.HashMap;
+
 @ControllerAdvice
 public class ExceptionHandler {
+	@org.springframework.web.bind.annotation.ExceptionHandler(NotFoundException.class)
+	ResponseEntity<?> handleStatusException(NotFoundException e) {
+		var Error = new HashMap<String, String>();
+		Error.put("errorCode", e.getMessage());
 
-	@org.springframework.web.bind.annotation.ExceptionHandler()
-	ResponseEntity<Error> handleStatusException(NotFoundException e) {
-		return new ResponseEntity<Error>(new Error(e.getMessage()), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(Error, HttpStatus.NOT_FOUND);
 	}
 }
