@@ -3,9 +3,9 @@ package it.deltax.produlytics.uibackend.devices.business.domain;
 import java.util.Optional;
 
 public record Characteristic(
-	long id,
+	long id, //int
 	String name,
-	long machine,
+	int device,
 	Optional<Double> lowerLimit,
 	Optional<Double> upperLimit,
 	Optional<Double> average

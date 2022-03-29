@@ -2,6 +2,7 @@ package it.deltax.produlytics.uibackend.detections.web;
 
 import it.deltax.produlytics.uibackend.detections.business.domain.DetectionLight;
 import it.deltax.produlytics.uibackend.detections.business.ports.in.ListDetectionsByCharacteristicUseCase;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,16 +15,16 @@ public class DetectionsController {
 
     private final ListDetectionsByCharacteristicUseCase listDetectionsByCharacteristic;
 
-    public DetectionsController(ListDetectionsByCharacteristicUseCase listDetectionsByCharacteristic) {
+    public DetectionsController(@Qualifier("getListDetectionsByCharacteristicUseCase") ListDetectionsByCharacteristicUseCase listDetectionsByCharacteristic) {
         this.listDetectionsByCharacteristic = listDetectionsByCharacteristic;
     }
 
-    @GetMapping("/{machine}/characteristics/{characteristic}")
+    @GetMapping("/{device}/characteristics/{characteristic}")
     public List<DetectionLight> getCharacteristicDetections(
-        @PathVariable int machine,
+        @PathVariable int device,
         @PathVariable int characteristic,
         @RequestParam("createdAfter") Long createdAfter
     ) {
-        return listDetectionsByCharacteristic.listByCharacteristic(machine, characteristic, createdAfter);
+        return listDetectionsByCharacteristic.listByCharacteristic(device, characteristic, createdAfter);
     }
 }

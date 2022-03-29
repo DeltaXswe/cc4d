@@ -3,29 +3,31 @@ package it.deltax.produlytics.uibackend.devices.business;
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicDisplayInfo;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.FindCharacteristicInfoUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicPort;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.FindMachinePort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.FindUnarchivedDevicePort;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class FindCharacteristicInfoService implements FindCharacteristicInfoUseCase {
 
     private final FindCharacteristicPort findCharacteristicPort;
-    private final FindMachinePort findMachinePort;
+    private final FindUnarchivedDevicePort findDevicePort;
 
     public FindCharacteristicInfoService(
         FindCharacteristicPort findCharacteristicPort,
-        FindMachinePort findMachinePort
+        FindUnarchivedDevicePort findDevicePort
     ) {
         this.findCharacteristicPort = findCharacteristicPort;
-        this.findMachinePort = findMachinePort;
+        this.findDevicePort = findDevicePort;
     }
 
     @Override
-    public Optional<CharacteristicDisplayInfo> find(int machineId, int id) {
-        return findCharacteristicPort.find(machineId, id)
-            .flatMap(characteristic -> findMachinePort.find(machineId)
-                .map(machine ->
-                    new CharacteristicDisplayInfo(machine, characteristic)
+    public Optional<CharacteristicDisplayInfo> find(int deviceId, int id) {
+        return findCharacteristicPort.find(deviceId, id)
+            .flatMap(characteristic -> findDevicePort.find(deviceId)
+                .map(device ->
+                    new CharacteristicDisplayInfo(device, characteristic)
                 )
             );
     }
