@@ -1,11 +1,12 @@
 package it.deltax.produlytics.uibackend.devices.web;
 
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicDisplayInfo;
-import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTitle;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.FindCharacteristicInfoUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetUnarchivedCharacteristicsUseCase;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,9 +27,9 @@ public class CharacteristicsController {
     }
 
     @GetMapping("")
-    Iterable<CharacteristicTitle> getUnarchivedCharacteristics(@PathVariable("deviceId") int deviceId)
+    ResponseEntity<?> getUnarchivedCharacteristics(@PathVariable("deviceId") int deviceId)
     throws BusinessException {
-        return getUnarchivedCharacteristics.getByDevice(deviceId);
+        return new ResponseEntity<>(getUnarchivedCharacteristics.getByDevice(deviceId), HttpStatus.OK);
     }
 
     @GetMapping("{id}")

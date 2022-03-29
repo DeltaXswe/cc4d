@@ -13,7 +13,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class CharacteristicsTests extends UiBackendApplicationTests {
-
 	@Autowired
 	private CharacteristicsController characteristicsController;
 
@@ -30,7 +29,7 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 	void getUnarchivedCharacteristics() throws Exception {
 		unarchivedCharacteristicRepository.save(new CharacteristicEntity(
 			new CharacteristicEntityId(1, 1),
-			"char",
+			"temperatura",
 			100d,
 			10d,
 			true,
@@ -39,7 +38,7 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 		));
 		unarchivedCharacteristicRepository.save(new CharacteristicEntity(
 			new CharacteristicEntityId(1, 2),
-			"char2",
+			"pressione",
 			100d,
 			10d,
 			true,
@@ -49,7 +48,10 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 
 		mockMvc.perform(get("/devices/1/characteristics"))
 			.andDo(print())
-			.andExpect(status().isOk());
+			.andExpect(status().isOk())
+			.andExpect(content()
+				.string("[{\"id\":1,\"name\":\"temperatura\"},{\"id\":2,\"name\":\"pressione\"}]")
+			);
 	}
 
 	@Test
