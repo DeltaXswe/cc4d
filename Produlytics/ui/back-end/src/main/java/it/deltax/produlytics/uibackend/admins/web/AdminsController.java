@@ -30,16 +30,16 @@ public class AdminsController {
 
 	@PostMapping("/accounts")
 	public ResponseEntity<String> insertAccount(
-		@PathVariable("username") String username,
+		@RequestParam("username") String username,
 		@RequestParam("password") String password,
 		@RequestParam("administrator") boolean administrator){
 		if(password.length() < 6)
-			return new ResponseEntity<>("invalidNewPassword", BAD_REQUEST); //400
+			return new ResponseEntity<>("\"errorCode\": \"invalidNewPassword\"", BAD_REQUEST); //400
 		else{
 			if(insertAccountUseCase.insertAccount(username, password, administrator))
 				return new ResponseEntity<>(OK); //devo restituire l'username nel body (?)
 			else
-				return new ResponseEntity<>("duplicateUsername", BAD_REQUEST);
+				return new ResponseEntity<>("\"errorCode\": \"duplicateUsername\"", BAD_REQUEST);
 		}
 
 	}
@@ -50,11 +50,11 @@ public class AdminsController {
 		@RequestParam("newPassword") String newPassword,
 		@RequestParam("administrator") boolean administrator) {
 		if(!newPassword.isEmpty() && newPassword.length() < 6)
-			return new ResponseEntity<>("invalidNewPassword", BAD_REQUEST); //400
+			return new ResponseEntity<>("\"errorCode\": \"invalidNewPassword\"", BAD_REQUEST); //400
 		else if(changeAccountUseCase.changeByUsername(username, newPassword, administrator)) {
 			return new ResponseEntity<>(NO_CONTENT);
 		} else {
-			return new ResponseEntity<>("accountNotFound", NOT_FOUND); //TODO aggiungere alla specifica archittettuarale il caso in cui non si trovi l'account
+			return new ResponseEntity<>("\"errorCode\": \"accountNotFound\"", NOT_FOUND); //TODO aggiungere alla specifica archittettuarale il caso in cui non si trovi l'account
 		}
 	}
 
@@ -73,7 +73,7 @@ public class AdminsController {
 		if(modDevArchStatusUseCase.modDevArchStatus(deviceId, archived))
 			return new ResponseEntity<>(NO_CONTENT);
 		else
-			return new ResponseEntity<>("deviceNotFound", NOT_FOUND);
+			return new ResponseEntity<>("\"errorCode\": \"deviceNotFound\"", NOT_FOUND);
 	}
 
 
@@ -84,6 +84,6 @@ public class AdminsController {
 		if(modifyDeviceUseCase.modifyDevice(deviceId, name))
 			return new ResponseEntity<>(NO_CONTENT);
 		else
-			return new ResponseEntity<>("deviceNotFound", NOT_FOUND);
+			return new ResponseEntity<>("\"errorCode\": \"deviceNotFound\"", NOT_FOUND);
 	}
 }

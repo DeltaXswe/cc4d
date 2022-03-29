@@ -33,7 +33,7 @@ public class ChangeAccountAdminService implements ChangeAccountAdminUseCase {
 				String encryptedNew = pwdEncrypterPort.encrypt(newPassword);
 				return updateAccountAdminPort.updateAccount(username, encryptedNew, administrator)>0;
 			}
-			if (result.get().admin()!=administrator) //se la password è vuota allora controllo se ha cambiato i permessi
+			if (result.get().administrator()!=administrator) //se la password è vuota allora controllo se ha cambiato i permessi
 				return updateAccountAdminPort.updateAccountPrivileges(username, administrator)>0; //aggiorno i permessi
 		}
 		return false;

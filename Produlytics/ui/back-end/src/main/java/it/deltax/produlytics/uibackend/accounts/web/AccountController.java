@@ -19,12 +19,12 @@ public class AccountController {
         @RequestParam("currentPassword") String currentPassword,
         @RequestParam("newPassword") String newPassword) {
         if(newPassword.length() < 6)
-            return new ResponseEntity<>("invalidNewPassword", BAD_REQUEST); //400
+            return new ResponseEntity<>("\"errorCode\": \"invalidNewPassword\"", BAD_REQUEST); //400
         if(useCase.changeByUsername(username, currentPassword, newPassword)) {
             return new ResponseEntity<>(NO_CONTENT); //204
         }
         else {
-            return new ResponseEntity<>("wrongCurrentPassword", FORBIDDEN); //404
+            return new ResponseEntity<>("\"errorCode\": \"wrongCurrentPassword\"", FORBIDDEN); //404
         }
     }
 }
