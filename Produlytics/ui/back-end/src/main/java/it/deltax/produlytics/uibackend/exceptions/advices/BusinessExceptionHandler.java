@@ -1,4 +1,4 @@
-package it.deltax.produlytics.uibackend.exceptions;
+package it.deltax.produlytics.uibackend.exceptions.advices;
 
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.http.HttpStatus;
