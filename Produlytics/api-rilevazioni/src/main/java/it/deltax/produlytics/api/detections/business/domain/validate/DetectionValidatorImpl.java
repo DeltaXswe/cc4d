@@ -1,10 +1,9 @@
 package it.deltax.produlytics.api.detections.business.domain.validate;
 
-import it.deltax.produlytics.api.detections.business.domain.exception.ArchivedException;
-import it.deltax.produlytics.api.detections.business.domain.exception.NotAuthenticatedException;
-import it.deltax.produlytics.api.detections.business.domain.exception.NotFoundException;
 import it.deltax.produlytics.api.detections.business.ports.out.FindCharacteristicInfoPort;
 import it.deltax.produlytics.api.detections.business.ports.out.FindDeviceInfoByApiKeyPort;
+import it.deltax.produlytics.api.exceptions.BusinessException;
+import it.deltax.produlytics.api.exceptions.ErrorType;
 
 // Implementazione di riferimento di `DetectionValidator`.
 public class DetectionValidatorImpl implements DetectionValidator {
@@ -19,22 +18,22 @@ public class DetectionValidatorImpl implements DetectionValidator {
 	}
 
 	@Override
-	public ValidationInfo validateAndFindDeviceId(String apiKey, int characteristicId)
-	throws NotFoundException, ArchivedException, NotAuthenticatedException {
+	public ValidationInfo validateAndFindDeviceId(String apiKey, int characteristicId) throws BusinessException {
 
 		DeviceInfo deviceInfo = this.findDeviceInfoByApiKeyPort.findDeviceByApiKey(apiKey)
-			.orElseThrow(NotAuthenticatedException::new);
+			.orElseThrow(() -> new BusinessException("notAuthenticated", ErrorType.AUTHENTICATION));
 
 		if(deviceInfo.archived() || deviceInfo.deactivated()) {
-			throw new ArchivedException();
+			throw new BusinessException("archived", ErrorType.ARCHIVED);
 		}
 
 		CharacteristicInfo characteristicInfo = this.findCharacteristicInfoPort.findCharacteristic(deviceInfo.deviceId(),
-			characteristicId
-		).orElseThrow(NotFoundException::new);
+				characteristicId
+			)
+			.orElseThrow(() -> new BusinessException("characteristicNotFound", ErrorType.NOT_FOUND));
 
 		if(characteristicInfo.archived()) {
-			throw new ArchivedException();
+			throw new BusinessException("archived", ErrorType.ARCHIVED);
 		}
 
 		return new ValidationInfo(deviceInfo.deviceId());

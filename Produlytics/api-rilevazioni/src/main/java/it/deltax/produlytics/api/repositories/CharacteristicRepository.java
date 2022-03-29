@@ -7,9 +7,11 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+// Repository per interagire con la tabella `characteristic`.
 @Repository
 @SuppressWarnings("unused")
 public interface CharacteristicRepository extends CrudRepository<CharacteristicEntity, CharacteristicEntityId> {
+	// Trova i limiti tecnici e di processo di una caratteristica.
 	@Query(value = """
 		SELECT
 			ch.lower_limit as technicalLowerLimit,

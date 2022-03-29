@@ -6,7 +6,7 @@ import java.util.List;
 public interface ControlChart {
 	int requiredDetectionCount();
 
-	// `lastDetections` sono le ultime rilevazioni (massimo 15, ma potrebbero essere di meno).
+	// `lastDetections` sono le ultime requiredDetectionCount() rilevazioni
 	// `limits` sono i valori limite, calcolati o forniti dall'amministratore, della caratteristica in considerazione.
 	void analyzeDetections(List<MarkableDetection> lastDetections, ControlLimits limits);
 }

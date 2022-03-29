@@ -1,5 +1,20 @@
 package it.deltax.produlytics.api.detections.business.domain.control_chart;
 
+/*
+	------------------- <- upperLimit()
+	  Zona C superiore
+	------------------- <- upperBCLimit()
+	  Zona B superiore
+	------------------- <- upperABLimit()
+	  Zona A superiore
+	------------------- <- media                +
+	  Zona A inferiore                          | <- stddev()
+	------------------- <- lowerABLimit()       +
+	  Zona B inferiore
+	------------------- <- lowerBCLimit()
+	  Zona C inferiore
+	------------------- <- lowerLimit()
+ */
 public record ControlLimits(double lowerLimit, double upperLimit) {
 	public double mean() {
 		return (this.lowerLimit() + this.upperLimit()) / 2;

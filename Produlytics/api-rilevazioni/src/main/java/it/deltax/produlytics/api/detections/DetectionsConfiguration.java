@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+// Dependency Injection manuale visto che le classi di business non dovrebbero dipendere da quella di Spring.
 @Component
 @SuppressWarnings("unused")
 public class DetectionsConfiguration {

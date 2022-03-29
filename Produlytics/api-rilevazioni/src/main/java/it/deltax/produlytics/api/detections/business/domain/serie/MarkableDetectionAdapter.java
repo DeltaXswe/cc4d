@@ -4,6 +4,7 @@ import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.MarkableDetection;
 import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
 
+// Adapter da Detection e MarkOutlierPort a MarkableDetection.
 public class MarkableDetectionAdapter implements MarkableDetection {
 	private final MarkOutlierPort markOutlierPort;
 	private final Detection detection;

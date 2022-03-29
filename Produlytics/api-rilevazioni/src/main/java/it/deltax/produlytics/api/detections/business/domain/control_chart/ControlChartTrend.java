@@ -12,12 +12,19 @@ public class ControlChartTrend implements ControlChart {
 
 	@Override
 	public void analyzeDetections(List<MarkableDetection> detections, ControlLimits limits) {
-		boolean allIncreasing = Utils.windows(detections, 2)
-			.allMatch(window -> window.get(0).value() <= window.get(1).value());
-		boolean allDecreasing = Utils.windows(detections, 2)
-			.allMatch(window -> window.get(0).value() >= window.get(1).value());
+		// Per ogni tripletta di punti consecutivi w0, w1 e w2 controlla se sono tutti nello stesso ordine.
+		// Poichè le triplette si sovrappongono il trend deve continuare allo stesso modo in tutta la sequenza
+		// per poter risultare true alla fine.
+		boolean sameTrend = Utils.windows(detections,3).allMatch(window -> {
+			double w0 = window.get(0).value();
+			double w1 = window.get(1).value();
+			double w2 = window.get(2).value();
+			boolean alwaysInc = (w0 < w1) && (w1 < w2);
+			boolean alwaysDec = (w0 > w1) && (w1 > w2);
+			return alwaysInc || alwaysDec;
+		});
 
-		if(allIncreasing || allDecreasing) {
+		if(sameTrend) {
 			detections.forEach(MarkableDetection::markOutlier);
 		}
 	}

@@ -12,9 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.util.List;
 
+// Repository per interagire con la tabella `detection`.
 @Repository
 @SuppressWarnings("unused")
 public interface DetectionRepository extends CrudRepository<DetectionEntity, DetectionEntityId> {
+	// Trova le ultime `count` rilevazioni di una caratteristica, ordinate per data di creazione.
 	@Query(value = """
 			SELECT *
 			FROM (
@@ -26,10 +28,11 @@ public interface DetectionRepository extends CrudRepository<DetectionEntity, Det
 			) helper
 			ORDER BY creation_time ASC
 		""", nativeQuery = true)
-	List<DetectionEntity> findLastNById(
+	List<DetectionEntity> findLastDetectionsById(
 		@Param("deviceId") int deviceId, @Param("characteristicId") int characteristicId, @Param("count") int count
 	);
 
+	// Marca una rilevazione come anomala.
 	@Transactional
 	@Modifying
 	@Query(value = """

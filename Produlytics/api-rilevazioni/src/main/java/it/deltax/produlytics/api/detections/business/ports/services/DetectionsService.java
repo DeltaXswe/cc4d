@@ -2,13 +2,11 @@ package it.deltax.produlytics.api.detections.business.ports.services;
 
 import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.domain.IncomingDetection;
-import it.deltax.produlytics.api.detections.business.domain.validate.ValidationInfo;
-import it.deltax.produlytics.api.detections.business.domain.exception.ArchivedException;
-import it.deltax.produlytics.api.detections.business.domain.exception.NotAuthenticatedException;
-import it.deltax.produlytics.api.detections.business.domain.exception.NotFoundException;
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueue;
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidator;
+import it.deltax.produlytics.api.detections.business.domain.validate.ValidationInfo;
 import it.deltax.produlytics.api.detections.business.ports.in.ProcessIncomingDetectionUseCase;
+import it.deltax.produlytics.api.exceptions.BusinessException;
 
 import java.time.Instant;
 
@@ -23,8 +21,7 @@ public class DetectionsService implements ProcessIncomingDetectionUseCase {
 	}
 
 	@Override
-	public void processIncomingDetection(IncomingDetection incomingDetection)
-	throws ArchivedException, NotFoundException, NotAuthenticatedException {
+	public void processIncomingDetection(IncomingDetection incomingDetection) throws BusinessException {
 		ValidationInfo validationInfo = detectionValidator.validateAndFindDeviceId(incomingDetection.apiKey(),
 			incomingDetection.characteristicId()
 		);

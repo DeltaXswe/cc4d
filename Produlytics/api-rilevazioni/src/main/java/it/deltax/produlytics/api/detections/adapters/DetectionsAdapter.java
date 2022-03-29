@@ -53,7 +53,7 @@ public class DetectionsAdapter implements FindDeviceInfoByApiKeyPort,
 
 	@Override
 	public List<Detection> findLastDetections(int deviceId, int characteristicId, int count) {
-		return this.detectionRepository.findLastNById(deviceId, characteristicId, count)
+		return this.detectionRepository.findLastDetectionsById(deviceId, characteristicId, count)
 			.stream()
 			.map(detectionEntity -> new Detection(detectionEntity.getId().getDeviceId(),
 				detectionEntity.getId().getCharacteristicId(),

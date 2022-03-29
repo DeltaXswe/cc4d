@@ -8,6 +8,7 @@ import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
 
 import java.util.List;
 
+// Implementazione canonica di `DetectionSerieFactory` che costruisce una `DetectionSerieImpl`
 public class DetectionSerieImplFactory implements DetectionSerieFactory {
 	private final InsertDetectionPort insertDetectionPort;
 	private final FindLimitsPort findLimitsPort;

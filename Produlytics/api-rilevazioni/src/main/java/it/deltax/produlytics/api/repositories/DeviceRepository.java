@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+// Repository per interagire con la tabella `device`.
 @Repository
 @SuppressWarnings("unused")
 public interface DeviceRepository extends CrudRepository<DeviceEntity, Long> {

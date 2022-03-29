@@ -67,11 +67,13 @@ public class DetectionQueueImpl implements DetectionQueue {
 
 	// Gestisce una singola rilevazione, semplicemente chiamando `DetectionSerie::insertDetection`.
 	// Note importanti:
-	// - ritorna un `Completable` su cui è settato `subscribeOn(Schedulers.computation())` così che ogni
+	// - ritorna un `Completable` su cui è settato `subscribeOn(Schedulers.io())` così che ogni
 	//   rilevazione possa essere gestita su un thread diverso (altrimenti tutte le rilevazione di una
 	//   stessa caratteristica saranno gestite sullo stesso thread).
+	// - viene usato Schedulers.io() invece che Schedulers.computation() perchè il grosso del lavoro
+	//   sarà aspettare la risposta a chiamate al database.
 	private Completable handleDetection(Single<DetectionSerie> serieSingle, Detection detection) {
 		return serieSingle.flatMapCompletable(serie -> Completable.fromAction(() -> serie.insertDetection(detection)))
-			.subscribeOn(Schedulers.computation());
+			.subscribeOn(Schedulers.io());
 	}
 }
