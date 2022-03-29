@@ -1,7 +1,8 @@
 package it.deltax.produlytics.uibackend.devices.web;
 
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicDisplayInfo;
-import it.deltax.produlytics.uibackend.devices.business.ports.in.FindCharacteristicInfoUseCase;
+import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTitle;
+import it.deltax.produlytics.uibackend.devices.business.ports.in.GetLimitsUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetUnarchivedCharacteristicsUseCase;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
@@ -12,23 +13,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/devices/{deviceId}/characteristics")
 public class CharacteristicsController {
     private final GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristics;
-    private final FindCharacteristicInfoUseCase getCharacteristicInfo;
+    private final GetLimitsUseCase getCharacteristicInfo;
 
     public CharacteristicsController(
         GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristics,
-        FindCharacteristicInfoUseCase getCharacteristicInfo
+        GetLimitsUseCase getCharacteristicInfo
     ) {
         this.getUnarchivedCharacteristics = getUnarchivedCharacteristics;
         this.getCharacteristicInfo = getCharacteristicInfo;
     }
 
     @GetMapping("")
-    ResponseEntity<?> getUnarchivedCharacteristics(@PathVariable("deviceId") int deviceId)
-    throws BusinessException {
+    ResponseEntity<List<CharacteristicTitle>> getUnarchivedCharacteristics(
+        @PathVariable("deviceId") int deviceId
+    ) throws BusinessException {
         return new ResponseEntity<>(getUnarchivedCharacteristics.getByDevice(deviceId), HttpStatus.OK);
     }
 
