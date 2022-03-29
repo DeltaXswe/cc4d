@@ -7,7 +7,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
 import {ErrorDialogComponent} from "../../components/error-dialog/error-dialog.component";
 import {ConfirmDialogComponent} from "../../components/confirm-dialog/confirm-dialog.component";
-import {DeviceDatasource} from "./device.datasource";
+import {DeviceDataSource} from "./device.data-source";
 
 @Component({
   selector: 'app-devices',
@@ -31,7 +31,7 @@ export class DevicesComponent implements OnInit {
     }
   }
 
-  devices = new DeviceDatasource();
+  devices = new DeviceDataSource();
   readonly displayedColumns = ['name', 'edit', 'activation', 'status'];
 
   constructor(

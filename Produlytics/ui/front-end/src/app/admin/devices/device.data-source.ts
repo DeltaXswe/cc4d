@@ -4,15 +4,15 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {Sort} from "@angular/material/sort";
 import {compare} from "../../../lib/utils";
 
-export class DeviceDatasource implements DataSource<Device> {
+export class DeviceDataSource implements DataSource<Device> {
 
   private dataStream = new BehaviorSubject<Device[]>([]);
 
-  connect(collectionViewer: CollectionViewer): Observable<Device[]> {
+  connect(): Observable<Device[]> {
     return this.dataStream;
   }
 
-  disconnect(collectionViewer: CollectionViewer): void {
+  disconnect(): void {
     this.dataStream.complete();
   }
 
