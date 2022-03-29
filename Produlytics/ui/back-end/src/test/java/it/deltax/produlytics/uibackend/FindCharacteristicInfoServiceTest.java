@@ -12,64 +12,64 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-	public class FindCharacteristicInfoServiceTest extends UiBackendApplicationTests {
+public class FindCharacteristicInfoServiceTest extends UiBackendApplicationTests {
 
-		@Autowired
-		private CharacteristicsController characteristicsController;
+	@Autowired
+	private CharacteristicsController characteristicsController;
 
-		@Autowired
-		private UnarchivedCharacteristicRepository unarchivedCharacteristicRepository;
+	@Autowired
+	private UnarchivedCharacteristicRepository unarchivedCharacteristicRepository;
 
-		@Override
-		@Test
-		void contextLoads() {
-			assertThat(characteristicsController).isNotNull();
-		}
-
-		@Test
-		void getUnarchivedCharacteristics() throws Exception {
-			unarchivedCharacteristicRepository.save(new CharacteristicEntity(
-				new CharacteristicEntityId(1, 1),
-				"temperatura",
-				100d,
-				10d,
-				true,
-				0,
-				false
-			));
-			unarchivedCharacteristicRepository.save(new CharacteristicEntity(
-				new CharacteristicEntityId(1, 2),
-				"pressione",
-				100d,
-				10d,
-				true,
-				0,
-				false
-			));
-
-			mockMvc.perform(get("/devices/1/characteristics"))
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andExpect(content()
-					.string("[{\"id\":1,\"name\":\"temperatura\"},{\"id\":2,\"name\":\"pressione\"}]")
-				);
-		}
-
-		@Test
-		void getUnarchivedCharacteristicsError() throws Exception {
-			unarchivedCharacteristicRepository.save(new CharacteristicEntity(
-				new CharacteristicEntityId(1, 1),
-				"char",
-				100d,
-				10d,
-				true,
-				0,
-				false
-			));
-
-			mockMvc.perform(get("/devices/2/characteristics"))
-				.andDo(print())
-				.andExpect(status().isNotFound())
-				.andExpect(content().string("{\"errorCode\":\"deviceNotFound\"}"));
-		}
+	@Override
+	@Test
+	void contextLoads() {
+		assertThat(characteristicsController).isNotNull();
 	}
+
+	@Test
+	void getUnarchivedCharacteristics() throws Exception {
+		unarchivedCharacteristicRepository.save(new CharacteristicEntity(
+			new CharacteristicEntityId(1, 1),
+			"temperatura",
+			100d,
+			10d,
+			true,
+			0,
+			false
+		));
+		unarchivedCharacteristicRepository.save(new CharacteristicEntity(
+			new CharacteristicEntityId(1, 2),
+			"pressione",
+			100d,
+			10d,
+			true,
+			0,
+			false
+		));
+
+		mockMvc.perform(get("/devices/1/characteristics"))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(content()
+				.string("[{\"id\":1,\"name\":\"temperatura\"},{\"id\":2,\"name\":\"pressione\"}]")
+			);
+	}
+
+	@Test
+	void getUnarchivedCharacteristicsError() throws Exception {
+		unarchivedCharacteristicRepository.save(new CharacteristicEntity(
+			new CharacteristicEntityId(1, 1),
+			"char",
+			100d,
+			10d,
+			true,
+			0,
+			false
+		));
+
+		mockMvc.perform(get("/devices/2/characteristics"))
+			.andDo(print())
+			.andExpect(status().isNotFound())
+			.andExpect(content().string("{\"errorCode\":\"deviceNotFound\"}"));
+	}
+}
