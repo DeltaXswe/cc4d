@@ -4,6 +4,6 @@ import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTit
 
 import java.util.List;
 
-public interface FindAllUnarchivedCharacteristicPort {
+public interface FindAllUnarchivedCharacteristicsPort {
     List<CharacteristicTitle> findAllByDeviceId(int deviceId);
 }

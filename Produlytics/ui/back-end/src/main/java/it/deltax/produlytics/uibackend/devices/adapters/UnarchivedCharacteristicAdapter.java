@@ -1,10 +1,10 @@
 package it.deltax.produlytics.uibackend.devices.adapters;
 
 import it.deltax.produlytics.persistence.CharacteristicEntityId;
-import it.deltax.produlytics.uibackend.devices.business.domain.Characteristic;
+import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicLimits;
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTitle;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchivedCharacteristicPort;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicPort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchivedCharacteristicsPort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicLimitsPort;
 import it.deltax.produlytics.uibackend.repositories.UnarchivedCharacteristicRepository;
 import org.springframework.stereotype.Component;
 
@@ -13,8 +13,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-public class UnarchivedCharacteristicAdapter implements FindAllUnarchivedCharacteristicPort, FindCharacteristicPort {
-
+public class UnarchivedCharacteristicAdapter
+    implements FindAllUnarchivedCharacteristicsPort, FindCharacteristicLimitsPort {
     private final UnarchivedCharacteristicRepository repo;
 
     public UnarchivedCharacteristicAdapter(UnarchivedCharacteristicRepository repo) {
@@ -33,16 +33,12 @@ public class UnarchivedCharacteristicAdapter implements FindAllUnarchivedCharact
     }
 
     @Override
-    public Optional<Characteristic> find(int machineId, int id) {
-        return repo.findById(new CharacteristicEntityId(machineId, id))
-            .map(caratteristica ->
-                new Characteristic(
-                    caratteristica.getId().getId(),
-                    caratteristica.getName(),
-                    caratteristica.getId().getDeviceId(),
-                    Optional.ofNullable(caratteristica.getLowerLimit()),
-                    Optional.ofNullable(caratteristica.getUpperLimit()),
-                    Optional.ofNullable(caratteristica.getAverage())
+    public Optional<CharacteristicLimits> findByCharacteristic(int deviceId, int characteristicId) {
+        return repo.findById(new CharacteristicEntityId(deviceId, characteristicId))
+            .map(characteristic -> new CharacteristicLimits(
+                characteristic.getLowerLimit(),
+                characteristic.getUpperLimit(),
+                Optional.empty()
                 )
             );
     }

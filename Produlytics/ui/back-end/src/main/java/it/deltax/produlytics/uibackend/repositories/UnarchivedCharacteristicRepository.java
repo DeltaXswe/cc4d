@@ -10,6 +10,5 @@ import java.util.List;
 @Repository
 public interface UnarchivedCharacteristicRepository
     extends CrudRepository<CharacteristicEntity, CharacteristicEntityId> {
-
     List<CharacteristicEntity> findByArchivedFalseAndId_DeviceId(int deviceId);
 }
