@@ -13,7 +13,7 @@ public class AccountController {
 
     public AccountController(ChangeAccountPasswordUseCase useCase){this.useCase = useCase; }
 
-    @PutMapping("/{username}/password") //se non funziona RequestParam va usato RequestBody
+    @PutMapping("/{username}/password")
     public ResponseEntity<String> putAccountPassword(
         @PathVariable("username") String username,
         @RequestParam("currentPassword") String currentPassword,
