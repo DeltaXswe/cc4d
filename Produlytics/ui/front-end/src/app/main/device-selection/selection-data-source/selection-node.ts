@@ -1,59 +1,41 @@
-import {map, Observable, of, tap} from "rxjs";
 import {UnarchivedDevice} from "../../../model/device/unarchived-device";
-import {
-  UnarchivedCharacteristicAbstractService
-} from "../../../model/characteristic/unarchived-characteristic-abstract.service";
 import {UnarchivedCharacteristic} from "../../../model/characteristic/unarchived-characteristic";
+
 
 export interface SelectionNode {
   readonly level: number,
   readonly expandable: boolean,
-  readonly criteria: Observable<SelectionNode[]>,
-  readonly name: string,
-  readonly loading: boolean
+  readonly deviceId: number,
+  readonly description: string
 }
 
 export class DeviceNode implements SelectionNode {
   public readonly level = 0;
   public readonly expandable = true;
-  public readonly name: string;
+  public readonly deviceId: number;
+  public readonly description: string;
 
-  private _loading = false;
-  get loading() {
-    return this._loading;
-  }
-
-  get criteria(): Observable<CharacteristicNode[]> {
-    this._loading = true;
-    return this.service.getCharacteristicsByDevice(this.device.id).pipe(
-      map(
-        values => values.map(value => new CharacteristicNode(value))
-      ),
-      tap({
-        complete: () => {
-          this._loading = false;
-        }
-      })
-    );
-  }
-
-  constructor(
-    private readonly device: UnarchivedDevice,
-    private readonly service: UnarchivedCharacteristicAbstractService
-  ) {
-    this.name = device.name;
+  constructor(device: UnarchivedDevice) {
+    this.deviceId = device.id;
+    this.description = device.name;
   }
 }
 
 export class CharacteristicNode implements SelectionNode {
   public readonly level = 1;
   public readonly expandable = false;
-  public readonly name: string;
-  public readonly loading = false;
-  public readonly criteria = of([]);
+  public readonly deviceId: number;
+  public readonly description: string;
+
+  public readonly characteristicId: number;
+
   constructor(
-    public readonly characteristic: UnarchivedCharacteristic
+    public readonly parent: SelectionNode,
+    characteristic: UnarchivedCharacteristic
   ) {
-    this.name = characteristic.name;
+    this.deviceId = parent.deviceId;
+    this.description = characteristic.name;
+    this.characteristicId = characteristic.id;
   }
 }
+

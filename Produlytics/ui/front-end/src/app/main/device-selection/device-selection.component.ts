@@ -5,7 +5,7 @@ import {
 } from "../../model/characteristic/unarchived-characteristic-abstract.service";
 import {UnarchivedDeviceAbstractService} from "../../model/device/unarchived-device-abstract.service";
 import {DataSource} from "@angular/cdk/collections";
-import {DeviceNode, SelectionNode} from "./selection-data-source/selection-node";
+import {CharacteristicNode, DeviceNode, SelectionNode} from "./selection-data-source/selection-node";
 import {SelectionDataSource} from "./selection-data-source/selection.data-source";
 import {map, tap} from "rxjs";
 import { EventEmitter } from '@angular/core';
@@ -18,17 +18,12 @@ import { Characteristic } from 'src/app/model/admin-device/characteristic/charac
 })
 export class DeviceSelectionComponent implements OnInit {
   public readonly treeControl: FlatTreeControl<SelectionNode, SelectionNode>;
-  public readonly dataSource: DataSource<SelectionNode>;
+  public readonly dataSource: SelectionDataSource;
 
   @Output()
   public devicesChanged = new EventEmitter<Characteristic[]>();
 
-  private _loading = true;
-  checkedNodes: SelectionNode[] = [];
-
-  public get loading() {
-    return this._loading;
-  }
+  checkedNodes: CharacteristicNode[] = [];
 
   constructor(
     private unarchivedDeviceService: UnarchivedDeviceAbstractService,
@@ -38,18 +33,10 @@ export class DeviceSelectionComponent implements OnInit {
       node => node.level,
       node => node.expandable
     );
-    const devicesLoader = unarchivedDeviceService.getDevices()
-      .pipe(
-        map(values => values.map(value => new DeviceNode(value, unarchivedCharacteristicService))),
-        tap({
-          complete: () => {
-            this._loading = false;
-          }
-        })
-      );
     this.dataSource = new SelectionDataSource(
       this.treeControl,
-      devicesLoader
+      unarchivedDeviceService,
+      unarchivedCharacteristicService
     );
   }
 
@@ -60,7 +47,7 @@ export class DeviceSelectionComponent implements OnInit {
     return node.expandable;
   }
 
-  nodeIsChecked(node: SelectionNode) {
+  nodeIsChecked(node: CharacteristicNode) {
     return this.checkedNodes.indexOf(node) >= 0;
   }
 

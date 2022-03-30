@@ -1,20 +1,21 @@
-<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" *ngIf="dataSource.loading"></mat-progress-bar>
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+    <!--Here I am SURE that it's a CharacteristicNode -->
     <button mat-icon-button disabled></button>
     <mat-checkbox [checked]="nodeIsChecked(node)"
                   (change)="$event.checked ? checkedNodes.push(node) : checkedNodes.splice(checkedNodes.indexOf(node), 1)">
-      {{node.name}}
+      {{node.description}}
     </mat-checkbox>
   </mat-tree-node>
   <mat-tree-node *matTreeNodeDef="let node; when: hasChildren" matTreeNodePadding>
-    <button mat-icon-button matTreeNodeToggle *ngIf="!node.loading">
+    <button mat-icon-button matTreeNodeToggle *ngIf="!dataSource.isNodeLoading(node)">
       <mat-icon>
         {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
       </mat-icon>
     </button>
-    <mat-spinner diameter="24" style="margin: 8px" *ngIf="node.loading" mode="indeterminate"></mat-spinner>
-    {{node.name}}
+    <mat-spinner diameter="24" style="margin: 8px" *ngIf="dataSource.isNodeLoading(node)" mode="indeterminate"></mat-spinner>
+    {{node.description}}
   </mat-tree-node>
 </mat-tree>
 <button mat-button *ngIf="checkedNodes!=[]" (click)="onSubmit()">ciao</button>

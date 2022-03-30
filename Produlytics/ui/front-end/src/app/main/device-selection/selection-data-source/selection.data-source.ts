@@ -1,19 +1,36 @@
 import {CollectionViewer, DataSource, SelectionChange} from "@angular/cdk/collections";
-import {BehaviorSubject, map, merge, Observable, of, tap} from "rxjs";
+import {BehaviorSubject, merge, Observable, of, tap} from "rxjs";
+import { map } from "rxjs/operators";
 import {FlatTreeControl} from "@angular/cdk/tree";
-import {DeviceNode, SelectionNode} from "./selection-node";
+import {UnarchivedDeviceAbstractService} from "../../../model/device/unarchived-device-abstract.service";
+import {
+  UnarchivedCharacteristicAbstractService
+} from "../../../model/characteristic/unarchived-characteristic-abstract.service";
+import {CharacteristicNode, DeviceNode, SelectionNode} from "./selection-node";
 
 export class SelectionDataSource implements DataSource<SelectionNode> {
   private dataStream = new BehaviorSubject<SelectionNode[]>([]);
-  private cache = new Map<SelectionNode, SelectionNode[]>();
+  private cache = new Map<SelectionNode, CharacteristicNode[]>();
+  private loadingNodes = new Set<SelectionNode>();
+
+  private _loading = true;
+
+  public get loading() {
+    return this._loading;
+  }
 
   constructor(
     private treeControl: FlatTreeControl<SelectionNode>,
-    private dataInitializer: Observable<DeviceNode[]>
+    private unarchivedDeviceService: UnarchivedDeviceAbstractService,
+    private unarchivedCharacteristicService: UnarchivedCharacteristicAbstractService
   ) {
-    this.dataInitializer.subscribe(values => {
-      this.dataStream.next(values);
-    });
+    this.unarchivedDeviceService.getDevices()
+      .subscribe(values => {
+        this.dataStream.next(values.map(
+          device => new DeviceNode(device)
+        ));
+        this._loading = false;
+      });
   }
 
   connect(collectionViewer: CollectionViewer): Observable<SelectionNode[]> {
@@ -35,6 +52,10 @@ export class SelectionDataSource implements DataSource<SelectionNode> {
 
   disconnect(collectionViewer: CollectionViewer): void { }
 
+  isNodeLoading(node: SelectionNode) {
+    return this.loadingNodes.has(node);
+  }
+
   private handleChange(change: SelectionChange<SelectionNode>) {
     if (change.added) {
       change.added.forEach(node => this.addCharacteristics(node))
@@ -51,24 +72,11 @@ export class SelectionDataSource implements DataSource<SelectionNode> {
     const data = this.dataStream.value;
     const index = data.indexOf(node);
     if (index < 0) { return; }
-    let observable: Observable<SelectionNode[]>;
-    if (this.cache.has(node)) {
-      observable = of(this.cache.get(node)!);
-    } else {
-      observable = node.criteria
-        .pipe(
-          tap({
-            next: values => {
-              this.cache.set(node, values);
-              console.log(this.cache);
-            }
-          })
-        );
-    }
-    observable.subscribe(nodes => {
-      data.splice(index + 1, 0, ...nodes);
-      this.dataStream.next(data);
-    });
+    this.getChildrenForNode(node)
+      .subscribe(nodes => {
+        data.splice(index + 1, 0, ...nodes);
+        this.dataStream.next(data);
+      });
   }
 
   private removeCharacteristics(node: SelectionNode) {
@@ -80,5 +88,26 @@ export class SelectionDataSource implements DataSource<SelectionNode> {
     for (let i = index + 1; i < data.length && node.level < data[i].level; count++, i++) {}
     data.splice(index + 1, count);
     this.dataStream.next(data);
+  }
+
+  private getChildrenForNode(node: SelectionNode) {
+    let observable: Observable<CharacteristicNode[]>;
+    this.loadingNodes.add(node);
+    if (this.cache.has(node)) {
+      observable = of(this.cache.get(node)!);
+    } else {
+      observable = this.unarchivedCharacteristicService.getCharacteristicsByDevice(node.deviceId)
+        .pipe(
+          map(values => values.map(char => new CharacteristicNode(node, char))),
+          tap(values => {
+            this.cache.set(node, values);
+          })
+        );
+    }
+    return observable.pipe(
+      tap(() => {
+        this.loadingNodes.delete(node);
+      })
+    );
   }
 }
