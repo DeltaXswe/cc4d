@@ -5,8 +5,8 @@ import {
 } from "../../model/characteristic/unarchived-characteristic-abstract.service";
 import {UnarchivedDeviceAbstractService} from "../../model/device/unarchived-device-abstract.service";
 import {DataSource} from "@angular/cdk/collections";
-import {DeviceNode, SelectionNode} from "./selection-datasource/selection-node";
-import {SelectionDataSource} from "./selection-datasource/selection.data-source";
+import {DeviceNode, SelectionNode} from "./selection-data-source/selection-node";
+import {SelectionDataSource} from "./selection-data-source/selection.data-source";
 import {map, tap} from "rxjs";
 import { EventEmitter } from '@angular/core';
 import { Characteristic } from 'src/app/model/admin-device/characteristic/characteristic';

@@ -33,9 +33,7 @@ export class SelectionDataSource implements DataSource<SelectionNode> {
     );
   }
 
-  disconnect(collectionViewer: CollectionViewer): void {
-  }
-
+  disconnect(collectionViewer: CollectionViewer): void { }
 
   private handleChange(change: SelectionChange<SelectionNode>) {
     if (change.added) {
@@ -78,7 +76,8 @@ export class SelectionDataSource implements DataSource<SelectionNode> {
     const index = data.indexOf(node);
     if (index < 0) { return; }
     let count = 0;
-    for (let i = count + 1; i < data.length && node.level < data[i].level; count++, i++) {}
+    // partendo dal primo successivo, conto quanti sono i figli e i nipoti del nodo
+    for (let i = index + 1; i < data.length && node.level < data[i].level; count++, i++) {}
     data.splice(index + 1, count);
     this.dataStream.next(data);
   }
