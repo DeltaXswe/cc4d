@@ -38,17 +38,18 @@ export class DeviceSelectionComponent implements OnInit {
       node => node.level,
       node => node.expandable
     );
+    const devicesLoader = unarchivedDeviceService.getDevices()
+      .pipe(
+        map(values => values.map(value => new DeviceNode(value, unarchivedCharacteristicService))),
+        tap({
+          complete: () => {
+            this._loading = false;
+          }
+        })
+      );
     this.dataSource = new SelectionDataSource(
       this.treeControl,
-      unarchivedDeviceService.getDevices()
-        .pipe(
-          map(values => values.map(value => new DeviceNode(value, unarchivedCharacteristicService))),
-          tap({
-            complete: () => {
-              this._loading = false;
-            }
-          })
-        )
+      devicesLoader
     );
   }
 
@@ -63,7 +64,6 @@ export class DeviceSelectionComponent implements OnInit {
     return this.checkedNodes.indexOf(node) >= 0;
   }
 
-  onSubmit(){
-
+  onSubmit() {
   }
 }

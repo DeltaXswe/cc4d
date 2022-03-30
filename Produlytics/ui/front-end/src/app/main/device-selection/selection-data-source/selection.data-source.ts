@@ -4,7 +4,7 @@ import {FlatTreeControl} from "@angular/cdk/tree";
 import {DeviceNode, SelectionNode} from "./selection-node";
 
 export class SelectionDataSource implements DataSource<SelectionNode> {
-  private readonly dataStream = new BehaviorSubject<SelectionNode[]>([]);
+  private dataStream = new BehaviorSubject<SelectionNode[]>([]);
   private cache = new Map<SelectionNode, SelectionNode[]>();
 
   constructor(
