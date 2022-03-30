@@ -21,7 +21,7 @@ export class DeviceSelectionComponent implements OnInit {
   public readonly dataSource: SelectionDataSource;
 
   @Output()
-  public devicesChanged = new EventEmitter<Characteristic[]>();
+  public devicesChanged = new EventEmitter<CharacteristicNode[]>();
 
   checkedNodes: CharacteristicNode[] = [];
 
@@ -52,5 +52,6 @@ export class DeviceSelectionComponent implements OnInit {
   }
 
   onSubmit() {
+    this.devicesChanged.emit(this.checkedNodes);
   }
 }

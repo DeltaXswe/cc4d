@@ -1,7 +1,8 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {UnarchivedDeviceInfo} from '../../model/public-device/unarchived_device_info';
-import * as d3 from 'd3'; 
+import * as d3 from 'd3';
 import { Characteristic } from 'src/app/model/admin-device/characteristic/characteristic';
+import {CharacteristicNode} from "../device-selection/selection-data-source/selection-node";
 
 @Component({
   selector: 'app-selection',
@@ -11,13 +12,13 @@ import { Characteristic } from 'src/app/model/admin-device/characteristic/charac
 })
 export class SelectionComponent implements OnInit {
   machine: UnarchivedDeviceInfo | undefined;
-  characteristics: Characteristic[] = [];
+  characteristics: CharacteristicNode[] = [];
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  onSubmit(characteristics: Characteristic[]){
+  onSubmit(characteristics: CharacteristicNode[]){
     this.characteristics = characteristics;
   }
 }

@@ -84,7 +84,7 @@ export class SelectionDataSource implements DataSource<SelectionNode> {
     const index = data.indexOf(node);
     if (index < 0) { return; }
     let count = 0;
-    // partendo dal primo successivo, conto quanti sono i figli e i nipoti del nodo
+    // partendo dal primo successivo, conto quanti sono i figli e i nipoti del nodo (da togliere)
     for (let i = index + 1; i < data.length && node.level < data[i].level; count++, i++) {}
     data.splice(index + 1, count);
     this.dataStream.next(data);
