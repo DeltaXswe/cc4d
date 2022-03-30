@@ -1,5 +1,12 @@
-<mat-toolbar color="accent" class="mat-elevation-z6">
+<!-- <mat-toolbar color="accent" class="mat-elevation-z6">
   <button mat-icon-button (click)="back()"><mat-icon>arrow_back</mat-icon></button>
     <span>Macchina {{ info.machine.name }} - Caratteristica {{ info.characteristic.name }}</span>
-</mat-toolbar>
-<div id="d3svg"></div>
+</mat-toolbar>-->
+<button mat-button (click)="createChart()">ciao</button>
+<mat-grid-list cols="2" rowHeight="300px">
+  <mat-grid-tile *ngFor="let numero of numeroTiles; let i=index">
+    <div>
+      <svg class="d3svg" id="{{'d3svg' + i}}"></svg>
+    </div>
+  </mat-grid-tile> 
+</mat-grid-list>

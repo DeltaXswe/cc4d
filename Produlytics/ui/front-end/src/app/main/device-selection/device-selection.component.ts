@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import {FlatTreeControl} from "@angular/cdk/tree";
 import {
   UnarchivedCharacteristicAbstractService
@@ -8,6 +8,8 @@ import {DataSource} from "@angular/cdk/collections";
 import {DeviceNode, SelectionNode} from "./selection-datasource/selection-node";
 import {SelectionDataSource} from "./selection-datasource/selection.data-source";
 import {map, tap} from "rxjs";
+import { EventEmitter } from '@angular/core';
+import { Characteristic } from 'src/app/model/admin-device/characteristic/characteristic';
 
 @Component({
   selector: 'app-device-selection',
@@ -17,6 +19,9 @@ import {map, tap} from "rxjs";
 export class DeviceSelectionComponent implements OnInit {
   public readonly treeControl: FlatTreeControl<SelectionNode, SelectionNode>;
   public readonly dataSource: DataSource<SelectionNode>;
+
+  @Output()
+  public devicesChanged = new EventEmitter<Characteristic[]>();
 
   private _loading = true;
   checkedNodes: SelectionNode[] = [];
@@ -56,5 +61,9 @@ export class DeviceSelectionComponent implements OnInit {
 
   nodeIsChecked(node: SelectionNode) {
     return this.checkedNodes.indexOf(node) >= 0;
+  }
+
+  onSubmit(){
+
   }
 }

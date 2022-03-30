@@ -54,6 +54,7 @@ import {
   UnarchivedCharacteristicAbstractService
 } from "./model/characteristic/unarchived-characteristic-abstract.service";
 import {UnarchivedDeviceAbstractService} from "./model/device/unarchived-device-abstract.service";
+import {MatGridListModule} from '@angular/material/grid-list';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
@@ -100,7 +101,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatSidenavModule,
     MatTreeModule,
     MatProgressBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatGridListModule
   ],
   providers: [
     {

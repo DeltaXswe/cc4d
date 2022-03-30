@@ -62,6 +62,7 @@ export class SelectionDataSource implements DataSource<SelectionNode> {
           tap({
             next: values => {
               this.cache.set(node, values);
+              console.log(this.cache);
             }
           })
         );

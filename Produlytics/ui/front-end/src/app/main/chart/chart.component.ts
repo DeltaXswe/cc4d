@@ -19,7 +19,7 @@ export class ChartComponent implements OnInit, OnDestroy {
 
   info!: CharacteristicInfo;
   private points: ChartPoint[] = [];
-
+  numeroTiles: number[] = [0,1,2,3];
   private updateSubscription?: Subscription;
 
   constructor(
@@ -29,53 +29,22 @@ export class ChartComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.createChart();
-    this.setupInitialPoints();
+    /* this.createChart();
+    this.setupInitialPoints(); */
   }
 
   ngOnDestroy(): void {
     this.updateSubscription?.unsubscribe();
   }
 
-  setupInitialPoints() {
-    const machine = Number(this.route.snapshot.paramMap.get('machine'));
-    const characteristic = Number(this.route.snapshot.paramMap.get('characteristic'));
-    this.chartService
-      .getInitialPoints(machine, characteristic)
-      .subscribe(([info, points]) => {
-        this.info = info;
-        this.points = points;
-        this.drawChart();
-        this.subscribeToUpdates();
-      });
-  }
-
-  subscribeToUpdates() {
-    this.updateSubscription = interval(1000)
-      .pipe(
-        concatMap(() =>
-          this.chartService.getNextPoints(
-            this.info.machine.id,
-            this.info.characteristic.code,
-            this.points[this.points.length - 1].createdAtUtc
-          )
-        )
-      )
-      .subscribe((new_points) => {
-        new_points.forEach((p) => this.points.push(p));
-        this.points = this.points.slice(new_points.length);
-        this.drawChart();
-      });
-  }
-
   // TODO: Nomi migliori e separati dai metodi?
   margin = { top: 10, right: 60, bottom: 30, left: 60 };
   get chartWidth(): number {
-    const svgWidth = parseInt(d3.select('#d3svg').style('width'), 10);
-    return svgWidth - this.margin.left - this.margin.right;
+    const svgWidth = parseInt(d3.select('.d3svg').style('width'), 10);
+    return svgWidth- this.margin.left - this.margin.right;
   }
   get chartHeight(): number {
-    const svgHeight = parseInt(d3.select('#d3svg').style('height'), 10);
+    const svgHeight = parseInt(d3.select('.d3svg').style('height'), 10);
     return svgHeight - this.margin.top - this.margin.bottom;
   }
 
@@ -85,34 +54,50 @@ export class ChartComponent implements OnInit, OnDestroy {
   private yScale!: d3.ScaleLinear<number, number, never>;
 
   createChart() {
-    this.svg = d3
-      .select('#d3svg')
-      .append('svg')
-      .append('g')
-      .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
+    for (let i = 0; i<this.numeroTiles.length; i++){
+      this.svg = d3
+        .select(`#d3svg${i}`)
+        .append('svg')
+        .append('g')
+        .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
 
-    this.xScale = d3.scaleTime().range([0, this.chartWidth]);
-    this.yScale = d3.scaleLinear().range([this.chartHeight, 0]);
+      this.xScale = d3.scaleTime().range([0, this.chartWidth]);
+      this.yScale = d3.scaleLinear().range([this.chartHeight, 0]);
 
-    this.svg
-      .append('g')
-      .attr('class', 'axis-x')
-      .attr('transform', `translate(0, ${this.chartHeight})`);
-    this.svg.append('g').attr('class', 'axis-y');
-
-    const createGuideLine = (cls: string) => {
       this.svg
-        .append('line')
-        .attr('class', cls)
-        .attr('x1', 0)
-        .attr('x2', this.chartWidth);
-    };
-    createGuideLine('line-media');
-    createGuideLine('line-limite line-limite-min');
-    createGuideLine('line-limite line-limite-max');
+        .append('g')
+        .attr('class', 'axis-x')
+        .attr('transform', `translate(0, ${this.chartHeight})`);
+      this.svg.append('g').attr('class', 'axis-y');
 
-    this.svg.append('path').attr('class', 'chart-path');
-    this.svg.append('g').attr('class', 'chart-points');
+      const createGuideLine = (cls: string) => {
+        this.svg
+          .append('line')
+          .attr('class', cls)
+          .attr('x1', 0)
+          .attr('x2', this.chartWidth);
+      };
+      createGuideLine('line-media');
+      createGuideLine('line-limite line-limite-min');
+      createGuideLine('line-limite line-limite-max');
+
+      this.svg.append('path').attr('class', 'chart-path');
+      this.svg.append('g').attr('class', 'chart-points');
+      this.setupInitialPoints(this.numeroTiles[i]);
+    }
+  }
+
+  setupInitialPoints(i: number) {
+    const machine = 1;//Number(this.route.snapshot.paramMap.get('machine'));
+    const characteristic = 1;//Number(this.route.snapshot.paramMap.get('characteristic'));
+    this.chartService
+      .getInitialPoints(machine, characteristic)
+      .subscribe(([info, points]) => {
+        this.info = info;
+        this.points = points;
+        this.drawChart();
+        this.subscribeToUpdates();
+      });
   }
 
   drawChart() {
@@ -165,6 +150,24 @@ export class ChartComponent implements OnInit, OnDestroy {
       )
       .attr('cx', xp)
       .attr('cy', yp);
+  }
+
+  subscribeToUpdates() {
+    this.updateSubscription = interval(1000)
+      .pipe(
+        concatMap(() =>
+          this.chartService.getNextPoints(
+            this.info.machine.id,
+            this.info.characteristic.code,
+            this.points[this.points.length - 1].createdAtUtc
+          )
+        )
+      )
+      .subscribe((new_points) => {
+        new_points.forEach((p) => this.points.push(p));
+        this.points = this.points.slice(new_points.length);
+        this.drawChart();
+      });
   }
 
   back() {
