@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import * as d3 from 'd3';
@@ -9,13 +9,17 @@ import { CharacteristicInfo } from '../../model/chart/characteristic-info';
 import { ChartPoint } from '../../model/chart/chart-point';
 import { Location } from "@angular/common";
 import {ChartAbstractService} from "../../model/chart/chart-abstract.service";
+import { CharacteristicNode } from '../device-selection/selection-data-source/selection-node';
 
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css'],
 })
-export class ChartComponent implements OnInit, OnDestroy {
+export class ChartComponent implements OnInit, OnDestroy, OnChanges {
+  @Input()
+  selectedNodes!: CharacteristicNode[];  
+  
 
   info!: CharacteristicInfo;
   private points: ChartPoint[] = [];
@@ -31,6 +35,10 @@ export class ChartComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     /* this.createChart();
     this.setupInitialPoints(); */
+  }
+  ngOnChanges(){
+    if(this.selectedNodes != null)
+      this.createChart();
   }
 
   ngOnDestroy(): void {
@@ -54,7 +62,7 @@ export class ChartComponent implements OnInit, OnDestroy {
   private yScale!: d3.ScaleLinear<number, number, never>;
 
   createChart() {
-    for (let i = 0; i<this.numeroTiles.length; i++){
+    for (let i = 0; i<this.selectedNodes.length; i++){
       this.svg = d3
         .select(`#d3svg${i}`)
         .append('svg')
