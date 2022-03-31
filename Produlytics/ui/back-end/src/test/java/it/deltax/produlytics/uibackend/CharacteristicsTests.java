@@ -19,6 +19,26 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 	@Autowired
 	private CharacteristicsController controller;
 
+	private final CharacteristicEntity characteristic = new CharacteristicEntity(
+		new CharacteristicEntityId(1, 1),
+		"temperatura",
+		98d,
+		-13d,
+		true,
+		0,
+		false
+	);
+
+	private final CharacteristicEntity characteristic2 = new CharacteristicEntity(
+		new CharacteristicEntityId(1, 2),
+		"pressione",
+		100d,
+		10d,
+		true,
+		0,
+		false
+	);
+
 	@Override
 	@Test
 	void contextLoads() {
@@ -27,24 +47,8 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 
 	@Test
 	void getUnarchivedCharacteristics() throws Exception {
-		repository.save(new CharacteristicEntity(
-			new CharacteristicEntityId(1, 1),
-			"temperatura",
-			100d,
-			10d,
-			true,
-			0,
-			false
-		));
-		repository.save(new CharacteristicEntity(
-			new CharacteristicEntityId(1, 2),
-			"pressione",
-			100d,
-			10d,
-			true,
-			0,
-			false
-		));
+		repository.save(characteristic);
+		repository.save(characteristic2);
 
 		mockMvc.perform(get("/devices/1/characteristics"))
 			.andDo(print())
@@ -56,15 +60,7 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 
 	@Test
 	void deviceNotFoundError() throws Exception {
-		repository.save(new CharacteristicEntity(
-			new CharacteristicEntityId(1, 1),
-			"temperatura",
-			100d,
-			10d,
-			true,
-			0,
-			false
-		));
+		repository.save(characteristic);
 
 		mockMvc.perform(get("/devices/2/characteristics"))
 			.andDo(print())
@@ -74,15 +70,7 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 
 	@Test
 	void getCharacteristicLimits() throws Exception {
-		repository.save(new CharacteristicEntity(
-			new CharacteristicEntityId(1, 1),
-			"temperatura",
-			98d,
-			-13d,
-			true,
-			0,
-			false
-		));
+		repository.save(characteristic);
 
 		mockMvc.perform(get("/devices/1/characteristics/1/limits"))
 			.andDo(print())
@@ -92,15 +80,7 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 
 	@Test
 	void characteristicNotFoundError1() throws Exception {
-		repository.save(new CharacteristicEntity(
-			new CharacteristicEntityId(1, 1),
-			"temperatura",
-			98d,
-			-13d,
-			true,
-			0,
-			false
-		));
+		repository.save(characteristic);
 
 		mockMvc.perform(get("/devices/1/characteristics/2/limits"))
 			.andDo(print())
@@ -110,15 +90,7 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 
 	@Test
 	void characteristicNotFoundError2() throws Exception {
-		repository.save(new CharacteristicEntity(
-			new CharacteristicEntityId(1, 1),
-			"temperatura",
-			98d,
-			-13d,
-			true,
-			0,
-			false
-		));
+		repository.save(characteristic);
 
 		mockMvc.perform(get("/devices/2/characteristics/2/limits"))
 			.andDo(print())
