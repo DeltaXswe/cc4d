@@ -11,7 +11,7 @@ public class ControlChartMixture implements ControlChart {
 	}
 
 	@Override
-	public void analyzeDetections(List<MarkableDetection> detections, ControlLimits limits) {
+	public void analyzeDetections(List<? extends MarkableDetection> detections, ControlLimits limits) {
 		double lowerZone = limits.lowerBCLimit();
 		double upperZone = limits.upperBCLimit();
 

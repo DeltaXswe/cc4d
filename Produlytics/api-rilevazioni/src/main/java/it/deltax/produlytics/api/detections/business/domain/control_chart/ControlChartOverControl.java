@@ -11,7 +11,7 @@ public class ControlChartOverControl implements ControlChart {
 	}
 
 	@Override
-	public void analyzeDetections(List<MarkableDetection> detections, ControlLimits limits) {
+	public void analyzeDetections(List<? extends MarkableDetection> detections, ControlLimits limits) {
 		// Per ogni tripletta di punti consecutivi w0, w1 e w2 controlla se formino una forma a V o V rovesciata.
 		// Poichè le triplette si sovrappongono l'alternamento deve continuare allo stesso modo in tutta la sequenza
 		// per poter risultare true alla fine.

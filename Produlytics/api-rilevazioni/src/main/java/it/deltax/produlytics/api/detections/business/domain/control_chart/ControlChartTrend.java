@@ -11,7 +11,7 @@ public class ControlChartTrend implements ControlChart {
 	}
 
 	@Override
-	public void analyzeDetections(List<MarkableDetection> detections, ControlLimits limits) {
+	public void analyzeDetections(List<? extends MarkableDetection> detections, ControlLimits limits) {
 		// Per ogni tripletta di punti consecutivi w0, w1 e w2 controlla se sono tutti nello stesso ordine.
 		// Poichè le triplette si sovrappongono il trend deve continuare allo stesso modo in tutta la sequenza
 		// per poter risultare true alla fine.

@@ -11,7 +11,7 @@ public class ControlChartZoneC implements ControlChart {
 	}
 
 	@Override
-	public void analyzeDetections(List<MarkableDetection> detections, ControlLimits limits) {
+	public void analyzeDetections(List<? extends MarkableDetection> detections, ControlLimits limits) {
 		double mean = limits.mean();
 		long inLowerZone = detections.stream().filter(detection -> detection.value() < mean).count();
 		long inUpperZone = detections.stream().filter(detection -> detection.value() > mean).count();

@@ -11,7 +11,7 @@ public class ControlChartZoneA implements ControlChart {
 	}
 
 	@Override
-	public void analyzeDetections(List<MarkableDetection> detections, ControlLimits limits) {
+	public void analyzeDetections(List<? extends MarkableDetection> detections, ControlLimits limits) {
 		double lowerZone = limits.lowerABLimit();
 		long inLowerZone = detections.stream().filter(detection -> detection.value() < lowerZone).count();
 

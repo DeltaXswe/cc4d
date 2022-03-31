@@ -15,14 +15,14 @@ public class DetectionSerieImplFactory implements DetectionSerieFactory {
 	private final FindLastDetectionsPort findLastDetectionsPort;
 	private final MarkOutlierPort markOutlierPort;
 
-	private final List<ControlChart> controlCharts;
+	private final List<? extends ControlChart> controlCharts;
 
 	public DetectionSerieImplFactory(
 		InsertDetectionPort insertDetectionPort,
 		FindLimitsPort findLimitsPort,
 		FindLastDetectionsPort findLastDetectionsPort,
 		MarkOutlierPort markOutlierPort,
-		List<ControlChart> controlCharts
+		List<? extends ControlChart> controlCharts
 	) {
 		this.insertDetectionPort = insertDetectionPort;
 		this.findLimitsPort = findLimitsPort;

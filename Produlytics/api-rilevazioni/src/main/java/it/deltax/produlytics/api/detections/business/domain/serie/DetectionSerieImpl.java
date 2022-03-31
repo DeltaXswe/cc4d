@@ -18,7 +18,7 @@ public class DetectionSerieImpl implements DetectionSerie {
 	private final FindLastDetectionsPort findLastDetectionsPort;
 	private final MarkOutlierPort markOutlierPort;
 
-	private final List<ControlChart> controlCharts;
+	private final List<? extends ControlChart> controlCharts;
 
 	private final int deviceId;
 	private final int characteristicId;
@@ -28,7 +28,7 @@ public class DetectionSerieImpl implements DetectionSerie {
 		FindLimitsPort findLimitsPort,
 		FindLastDetectionsPort findLastDetectionsPort,
 		MarkOutlierPort markOutlierPort,
-		List<ControlChart> controlCharts,
+		List<? extends ControlChart> controlCharts,
 		int deviceId,
 		int characteristicId
 	) {
@@ -46,12 +46,12 @@ public class DetectionSerieImpl implements DetectionSerie {
 		this.insertDetectionPort.insertDetection(detection);
 
 		ControlLimits controlLimits = this.computeControlLimits();
-		List<MarkableDetection> lastDetections = this.detectionsForControlCharts();
+		List<? extends MarkableDetection> lastDetections = this.detectionsForControlCharts();
 		this.interrogateControlCharts(controlLimits, lastDetections);
 	}
 
 	// Interroga le liste di controllo, fornendo i limiti e le rilevazioni presi in input.
-	private void interrogateControlCharts(ControlLimits controlLimits, List<MarkableDetection> lastDetections) {
+	private void interrogateControlCharts(ControlLimits controlLimits, List<? extends MarkableDetection> lastDetections) {
 		for(ControlChart controlChart : this.controlCharts) {
 			// Evita d'interrogare la carta di controllo se non ci sono abbastanza rilevazioni.
 			int count = controlChart.requiredDetectionCount();
@@ -63,13 +63,13 @@ public class DetectionSerieImpl implements DetectionSerie {
 	}
 
 	// Ritorna una lista di rilevazioni marcabili per le carte di controllo.
-	private List<MarkableDetection> detectionsForControlCharts() {
+	private List<? extends MarkableDetection> detectionsForControlCharts() {
 		// Limita il numero di rilevazioni al numero massimo accettato dalle carte di controllo,
 		// o 0 se non ci sono carte di controllo.
 		int maxCount = this.controlCharts.stream().mapToInt(ControlChart::requiredDetectionCount).max().orElse(0);
 		return this.findLastDetectionsPort.findLastDetections(this.deviceId, this.characteristicId, maxCount)
 			.stream()
-			.map(detection -> (MarkableDetection) new MarkableDetectionAdapter(this.markOutlierPort, detection))
+			.map(detection -> new MarkableDetectionAdapter(this.markOutlierPort, detection))
 			.toList();
 	}
 
@@ -95,7 +95,7 @@ public class DetectionSerieImpl implements DetectionSerie {
 	}
 
 	// Ritorna una lista contenente solo le ultime `count` rilevazioni di `lastDetections`
-	private List<MarkableDetection> cutLastDetections(List<MarkableDetection> lastDetections, int count) {
+	private List<? extends MarkableDetection> cutLastDetections(List<? extends MarkableDetection> lastDetections, int count) {
 		return lastDetections.subList(lastDetections.size() - count, lastDetections.size());
 	}
 }

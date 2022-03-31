@@ -8,5 +8,5 @@ public interface ControlChart {
 
 	// `lastDetections` sono le ultime requiredDetectionCount() rilevazioni
 	// `limits` sono i valori limite, calcolati o forniti dall'amministratore, della caratteristica in considerazione.
-	void analyzeDetections(List<MarkableDetection> lastDetections, ControlLimits limits);
+	void analyzeDetections(List<? extends MarkableDetection> lastDetections, ControlLimits limits);
 }
