@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
 @Component
@@ -36,10 +35,9 @@ public class UnarchivedCharacteristicAdapter
     @Override
     public Optional<CharacteristicLimits> findByCharacteristic(int deviceId, int characteristicId) {
         return repo.findById(new CharacteristicEntityId(deviceId, characteristicId))
-            .map(characteristic -> new CharacteristicLimits(
+            .map(characteristic -> CharacteristicLimits.newCharacteristicLimits(
                 characteristic.getLowerLimit(),
-                characteristic.getUpperLimit(),
-                OptionalDouble.empty()
+                characteristic.getUpperLimit()
                 )
             );
     }

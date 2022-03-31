@@ -7,8 +7,6 @@ import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
-import java.util.stream.DoubleStream;
-
 @Service
 public class GetLimitsService implements GetLimitsUseCase {
     private final FindCharacteristicLimitsPort findCharacteristicLimitsPort;
@@ -19,14 +17,7 @@ public class GetLimitsService implements GetLimitsUseCase {
 
     @Override
     public CharacteristicLimits getByCharacteristic(int deviceId, int characteristicId) throws BusinessException {
-        CharacteristicLimits limits = findCharacteristicLimitsPort.findByCharacteristic(deviceId, characteristicId)
+        return findCharacteristicLimitsPort.findByCharacteristic(deviceId, characteristicId)
             .orElseThrow(() -> new BusinessException("characteristicNotFound", ErrorType.NOT_FOUND));
-
-        return new CharacteristicLimits(
-            limits.lowerLimit(),
-            limits.upperLimit(),
-            DoubleStream.of(limits.lowerLimit(), limits.upperLimit())
-                .average()
-        );
     }
 }
