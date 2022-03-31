@@ -1,10 +1,9 @@
 package it.deltax.produlytics.uibackend.devices.web;
 
-import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicDisplayInfo;
+import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicLimits;
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTitle;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetLimitsUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetUnarchivedCharacteristicsUseCase;
-import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,31 +18,34 @@ import java.util.List;
 @RequestMapping("/devices/{deviceId}/characteristics")
 public class CharacteristicsController {
     private final GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristics;
-    private final GetLimitsUseCase getCharacteristicInfo;
+    private final GetLimitsUseCase getLimitsUseCase;
 
     public CharacteristicsController(
         GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristics,
-        GetLimitsUseCase getCharacteristicInfo
+        GetLimitsUseCase getLimitsUseCase
     ) {
         this.getUnarchivedCharacteristics = getUnarchivedCharacteristics;
-        this.getCharacteristicInfo = getCharacteristicInfo;
+        this.getLimitsUseCase = getLimitsUseCase;
     }
 
     @GetMapping("")
     ResponseEntity<List<CharacteristicTitle>> getUnarchivedCharacteristics(
         @PathVariable("deviceId") int deviceId
     ) throws BusinessException {
-        return new ResponseEntity<>(getUnarchivedCharacteristics.getByDevice(deviceId), HttpStatus.OK);
+        return new ResponseEntity<>(
+            getUnarchivedCharacteristics.getByDevice(deviceId),
+            HttpStatus.OK
+        );
     }
 
-    @GetMapping("{id}")
-	CharacteristicDisplayInfo getCharacteristicInfo(
+    @GetMapping("{characteristicId}/limits")
+	ResponseEntity<CharacteristicLimits> getCharacteristicLimits(
         @PathVariable("deviceId") int deviceId,
-        @PathVariable("id") int id
+        @PathVariable("characteristicId") int characteristicId
     ) throws BusinessException {
-        return getCharacteristicInfo.find(deviceId, id)
-            .orElseThrow(
-                () -> {return new BusinessException("characteristicNotFound", ErrorType.NOT_FOUND);}
-            );
+        return new ResponseEntity<>(
+            getLimitsUseCase.getByCharacteristic(deviceId, characteristicId),
+            HttpStatus.OK
+        );
     }
 }
