@@ -1,6 +1,6 @@
 package it.deltax.produlytics.uibackend.devices.business;
 
-import it.deltax.produlytics.uibackend.devices.business.domain.UnarchivedDevice;
+import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetUnarchivedDevicesUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchivedDevicesPort;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class GetUnarchivedDevicesService implements GetUnarchivedDevicesUseCase 
     }
 
     @Override
-    public List<UnarchivedDevice> getAll() {
+    public List<TinyDevice> getAll() {
         return port.findAll();
     }
 }
