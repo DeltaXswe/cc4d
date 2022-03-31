@@ -1,11 +1,11 @@
 package it.deltax.produlytics.uibackend.devices.business.ports.out;
 
 
-import it.deltax.produlytics.uibackend.devices.business.domain.UnarchivedDevice;
+import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 
 import java.util.List;
 
 // per operazioni in cui serve solo id e nome
 public interface FindAllUnarchivedDevicesPort {
-    List<UnarchivedDevice> findAll();
+    List<TinyDevice> findAll();
 }

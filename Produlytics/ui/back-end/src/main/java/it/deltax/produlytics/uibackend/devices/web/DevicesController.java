@@ -1,6 +1,6 @@
 package it.deltax.produlytics.uibackend.devices.web;
 
-import it.deltax.produlytics.uibackend.devices.business.domain.UnarchivedDevice;
+import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetUnarchivedDevicesUseCase;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,7 @@ public class DevicesController {
     }
 
     @GetMapping("")
-    Iterable<UnarchivedDevice> getDevices() {
+    Iterable<TinyDevice> getDevices() {
         return useCase.getAll();
     }
 

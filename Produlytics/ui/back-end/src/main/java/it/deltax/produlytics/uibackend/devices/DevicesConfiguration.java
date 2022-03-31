@@ -5,7 +5,7 @@ import it.deltax.produlytics.uibackend.devices.business.GetUnarchivedDevicesServ
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetUnarchivedDevicesUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchivedDevicesPort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicPort;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.FindUnarchivedDevicePort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.FindTinyDevicePort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,7 +22,7 @@ public class DevicesConfiguration {
     @Bean
 	FindCharacteristicInfoService findCharacteristicInfoService(
         FindCharacteristicPort findCharacteristicPort,
-        FindUnarchivedDevicePort findDevicePort
+        FindTinyDevicePort findDevicePort
     ) {
         return new FindCharacteristicInfoService(findCharacteristicPort, findDevicePort);
     }

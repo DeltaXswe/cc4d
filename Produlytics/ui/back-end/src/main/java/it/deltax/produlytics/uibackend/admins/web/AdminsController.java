@@ -1,89 +1,74 @@
 package it.deltax.produlytics.uibackend.admins.web;
 
-import it.deltax.produlytics.uibackend.admins.business.ports.in.ChangeAccountAdminUseCase;
+import it.deltax.produlytics.uibackend.admins.business.domain.UpdateAdminAccout;
+import it.deltax.produlytics.uibackend.admins.business.domain.DeviceArchiveStatus;
+import it.deltax.produlytics.uibackend.admins.business.domain.InsertAccount;
+import it.deltax.produlytics.uibackend.admins.business.ports.in.UpdateAccountByAdminUseCase;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.InsertAccountUseCase;
-import it.deltax.produlytics.uibackend.admins.business.ports.in.ModDevArchStatusUseCase;
-import it.deltax.produlytics.uibackend.admins.business.ports.in.ModifyDeviceUseCase;
+import it.deltax.produlytics.uibackend.admins.business.ports.in.UpdateDeviceArchiveStatusUseCase;
+import it.deltax.produlytics.uibackend.admins.business.ports.in.UpdateDeviceNameUseCase;
+import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
+import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import static org.springframework.http.HttpStatus.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/admin")
 public class AdminsController {
-	private final ChangeAccountAdminUseCase changeAccountUseCase;
+	private final UpdateAccountByAdminUseCase updateAccountByAdminUseCase;
 	private final InsertAccountUseCase insertAccountUseCase;
-	private final ModifyDeviceUseCase modifyDeviceUseCase;
-	private final ModDevArchStatusUseCase modDevArchStatusUseCase;
+	private final UpdateDeviceNameUseCase updateDeviceNameUseCase;
+	private final UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase;
 
 	public AdminsController(
-		ChangeAccountAdminUseCase changeAccountUseCase,
+		UpdateAccountByAdminUseCase updateAccountByAdminUseCase,
 		InsertAccountUseCase insertAccountUseCase,
-		ModifyDeviceUseCase modifyDeviceUseCase,
-		ModDevArchStatusUseCase modDevArchStatusUseCase
+		UpdateDeviceNameUseCase updateDeviceNameUseCase,
+		UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase
 	){
-		this.changeAccountUseCase = changeAccountUseCase;
+		this.updateAccountByAdminUseCase = updateAccountByAdminUseCase;
 		this.insertAccountUseCase = insertAccountUseCase;
-		this.modifyDeviceUseCase = modifyDeviceUseCase;
-		this.modDevArchStatusUseCase = modDevArchStatusUseCase;
+		this.updateDeviceNameUseCase = updateDeviceNameUseCase;
+		this.updateDeviceArchiveStatusUseCase = updateDeviceArchiveStatusUseCase;
 	}
 
 	@PostMapping("/accounts")
 	public ResponseEntity<String> insertAccount(
 		@RequestParam("username") String username,
 		@RequestParam("password") String password,
-		@RequestParam("administrator") boolean administrator){
-		if(password.length() < 6)
-			return new ResponseEntity<>("\"errorCode\": \"invalidNewPassword\"", BAD_REQUEST); //400
-		else{
-			if(insertAccountUseCase.insertAccount(username, password, administrator))
-				return new ResponseEntity<>(OK); //devo restituire l'username nel body (?)
-			else
-				return new ResponseEntity<>("\"errorCode\": \"duplicateUsername\"", BAD_REQUEST);
-		}
-
+		@RequestParam("administrator") boolean administrator) throws BusinessException {
+		insertAccountUseCase.insertAccount(new InsertAccount(username, password, administrator));
+		return new ResponseEntity<>(OK); //TODO restituire l'username nel body
 	}
+
 
 	@PutMapping("/{username}")
 	public ResponseEntity<String> modifyAccount(
 		@PathVariable("username") String username,
-		@RequestParam("newPassword") String newPassword,
-		@RequestParam("administrator") boolean administrator) {
-		if(!newPassword.isEmpty() && newPassword.length() < 6)
-			return new ResponseEntity<>("\"errorCode\": \"invalidNewPassword\"", BAD_REQUEST); //400
-		else if(changeAccountUseCase.changeByUsername(username, newPassword, administrator)) {
-			return new ResponseEntity<>(NO_CONTENT);
-		} else {
-			return new ResponseEntity<>("\"errorCode\": \"accountNotFound\"", NOT_FOUND); //TODO aggiungere alla specifica archittettuarale il caso in cui non si trovi l'account
-		}
+		@RequestParam("newPassword") Optional<String> newPassword,
+		@RequestParam("administrator") boolean administrator) throws BusinessException {
+		updateAccountByAdminUseCase.updateByUsername(new UpdateAdminAccout(username, newPassword, administrator));
+		return new ResponseEntity<>(NO_CONTENT);
 	}
 
-	/*
-	@GetMapping("/devices/{deviceId}")
-	public ResponseEntity<String> modifyDevice(
-		@PathVariable("deviceId")){
-
-	}
-*/
 
 	@PutMapping("devices/{deviceId}/archived")
-	public ResponseEntity<String> modifyDeviceArchStatus(
+	public ResponseEntity<String> updateDeviceArchiveStatus(
 		@PathVariable("deviceId") int deviceId,
-		@RequestParam("archived") boolean archived) { //come si chiama il parametro?
-		if(modDevArchStatusUseCase.modDevArchStatus(deviceId, archived))
-			return new ResponseEntity<>(NO_CONTENT);
-		else
-			return new ResponseEntity<>("\"errorCode\": \"deviceNotFound\"", NOT_FOUND);
+		@RequestParam("archived") boolean archived) throws BusinessException {
+		updateDeviceArchiveStatusUseCase.modDevArchStatus(new DeviceArchiveStatus(deviceId, archived));
+		return new ResponseEntity<>(NO_CONTENT);
 	}
 
 
 	@PutMapping("/devices/{deviceId}/name")
-	public ResponseEntity<String> modifyDevice(
+	public ResponseEntity<String> updateDeviceName(
 		@PathVariable("deviceId") int deviceId,
-		@RequestParam("name") String name){
-		if(modifyDeviceUseCase.modifyDevice(deviceId, name))
-			return new ResponseEntity<>(NO_CONTENT);
-		else
-			return new ResponseEntity<>("\"errorCode\": \"deviceNotFound\"", NOT_FOUND);
+		@RequestParam("name") String name) throws BusinessException {
+		updateDeviceNameUseCase.updateDeviceName(new TinyDevice(deviceId, name));
+		return new ResponseEntity<>(NO_CONTENT);
 	}
 }

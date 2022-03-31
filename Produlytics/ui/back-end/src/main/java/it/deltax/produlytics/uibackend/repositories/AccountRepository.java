@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface AccountRepository extends CrudRepository<AccountEntity, String> {
     @Modifying
     @Query(value = "update Account a set a.hashed_password = :hashed_password where a.username = :username", nativeQuery = true)
-    int updateAccount(
+    void updateAccount(
             @Param("username") String username,
             @Param("hashed_password") String hashed_password
     );

@@ -1,7 +1,8 @@
 package it.deltax.produlytics.uibackend.accounts.web;
 
-import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
-import it.deltax.produlytics.uibackend.accounts.business.ports.in.ChangeAccountPasswordUseCase;
+import it.deltax.produlytics.uibackend.accounts.business.domain.UpdateAccountPassword;
+import it.deltax.produlytics.uibackend.accounts.business.ports.in.UpdateAccountPasswordUseCase;
+import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import static org.springframework.http.HttpStatus.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,22 +10,19 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
-    private final ChangeAccountPasswordUseCase useCase;
+    private final UpdateAccountPasswordUseCase updateAccountPasswordUseCase;
 
-    public AccountController(ChangeAccountPasswordUseCase useCase){this.useCase = useCase; }
+    public AccountController(UpdateAccountPasswordUseCase updateAccountPasswordUseCase){
+        this.updateAccountPasswordUseCase = updateAccountPasswordUseCase;
+    }
 
     @PutMapping("/{username}/password")
     public ResponseEntity<String> putAccountPassword(
         @PathVariable("username") String username,
         @RequestParam("currentPassword") String currentPassword,
-        @RequestParam("newPassword") String newPassword) {
-        if(newPassword.length() < 6)
-            return new ResponseEntity<>("\"errorCode\": \"invalidNewPassword\"", BAD_REQUEST); //400
-        if(useCase.changeByUsername(username, currentPassword, newPassword)) {
-            return new ResponseEntity<>(NO_CONTENT); //204
-        }
-        else {
-            return new ResponseEntity<>("\"errorCode\": \"wrongCurrentPassword\"", FORBIDDEN); //404
-        }
+        @RequestParam("newPassword") String newPassword) throws BusinessException {
+        updateAccountPasswordUseCase.updatePasswordByUsername(
+            new UpdateAccountPassword(username, currentPassword, newPassword));
+        return new ResponseEntity<>(NO_CONTENT);
     }
 }

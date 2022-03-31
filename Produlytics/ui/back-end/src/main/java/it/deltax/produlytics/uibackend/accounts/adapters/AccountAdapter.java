@@ -15,8 +15,8 @@ public class AccountAdapter implements UpdateAccountPort, FindAccountPort {
     public AccountAdapter(AccountRepository repo) {this.repo = repo; }
 
     @Override
-    public boolean updateAccount(String username, String hashedPassword){
-        return repo.updateAccount(username, hashedPassword) > 0;
+    public void updateAccount(String username, String hashedPassword){
+        repo.updateAccount(username, hashedPassword);
     }
 
     @Override

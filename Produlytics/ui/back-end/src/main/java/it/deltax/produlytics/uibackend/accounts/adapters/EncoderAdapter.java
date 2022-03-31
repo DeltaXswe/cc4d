@@ -14,8 +14,8 @@ public class EncoderAdapter implements EncoderPort {
     EncoderAdapter(BCryptPasswordEncoder encoder){this.encoder = encoder; }
 
     @Override
-    public String encrypt(String plainText){
-        return encoder.encode(plainText);
+    public String encode(String plainPassword){
+        return encoder.encode(plainPassword);
     }
 
     @Override

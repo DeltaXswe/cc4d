@@ -1,22 +1,21 @@
 package it.deltax.produlytics.uibackend.admins.adapters;
 
+import it.deltax.produlytics.persistence.AccountEntity;
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
 import it.deltax.produlytics.uibackend.admins.business.ports.out.InsertAccountPort;
-import it.deltax.produlytics.uibackend.admins.business.ports.out.ModDevArchStatusPort;
-import it.deltax.produlytics.uibackend.admins.business.ports.out.ModifyDevicePort;
-import it.deltax.produlytics.uibackend.admins.business.ports.out.UpdateAccountAdminPort;
+import it.deltax.produlytics.uibackend.admins.business.ports.out.UpdateDeviceArchiveStatus;
+import it.deltax.produlytics.uibackend.admins.business.ports.out.UpdateDeviceNamePort;
+import it.deltax.produlytics.uibackend.admins.business.ports.out.UpdateAccountByAdminPort;
 import it.deltax.produlytics.uibackend.repositories.AdminRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
-public class AdminAdapter implements UpdateAccountAdminPort,
+public class AdminAdapter implements UpdateAccountByAdminPort,
 	FindAccountPort,
-	InsertAccountPort,
-	ModifyDevicePort,
-	ModDevArchStatusPort
+	InsertAccountPort, UpdateDeviceNamePort, UpdateDeviceArchiveStatus
 {
 
 	private final AdminRepository repo;
@@ -24,14 +23,15 @@ public class AdminAdapter implements UpdateAccountAdminPort,
 	public AdminAdapter(AdminRepository repo) {this.repo = repo; }
 
 	@Override
-	public int updateAccount(String username, String hashedPassword, boolean administrator){
-		return repo.updateAccount(username, hashedPassword, administrator);
+	public void updateAccount(Account account){
+		repo.save(new AccountEntity(
+			account.username(),
+			account.hashedPassword(),
+			account.administrator(),
+			account.archived())
+		);
 	}
 
-	@Override
-	public int updateAccountPrivileges(String username, boolean administrator){
-		return repo.updateAccountPrivileges(username, administrator);
-	}
 
 	@Override
 	public Optional<Account> findByUsername(String username) {
@@ -46,17 +46,23 @@ public class AdminAdapter implements UpdateAccountAdminPort,
 	}
 
 	@Override
-	public void insertAccount(String username, String hashedPassword, boolean administrator){
-		repo.insertAccount(username, hashedPassword, administrator, false);
+	public void insertAccount(Account account){
+		repo.save(new AccountEntity(
+			account.username(),
+			account.hashedPassword(),
+			account.administrator(),
+			account.archived()
+			)
+		);
 	}
 
 	@Override
-	public int modifyDevicePort(int deviceId, String name){
-		return repo.updateDeviceName(deviceId, name);
+	public void updateDeviceNamePort(int deviceId, String name){
+		repo.updateDeviceName(deviceId, name);
 	}
 
 	@Override
-	public int modifyDeviceArchivedStatus(int deviceId, boolean archived) {
-		return repo.updateDeviceArchivedStatus(deviceId, archived);
+	public void updateDeviceArchiveStatus(int deviceId, boolean archived) {
+		repo.updateDeviceArchivedStatus(deviceId, archived);
 	}
 }
