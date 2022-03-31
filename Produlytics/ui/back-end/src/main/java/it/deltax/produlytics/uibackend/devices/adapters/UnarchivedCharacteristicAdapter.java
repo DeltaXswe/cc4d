@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
 @Component
@@ -38,7 +39,7 @@ public class UnarchivedCharacteristicAdapter
             .map(characteristic -> new CharacteristicLimits(
                 characteristic.getLowerLimit(),
                 characteristic.getUpperLimit(),
-                Optional.empty()
+                OptionalDouble.empty()
                 )
             );
     }

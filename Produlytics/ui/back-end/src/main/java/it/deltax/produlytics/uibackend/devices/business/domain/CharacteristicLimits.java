@@ -1,9 +1,9 @@
 package it.deltax.produlytics.uibackend.devices.business.domain;
 
-import java.util.Optional;
+import java.util.OptionalDouble;
 
 public record CharacteristicLimits(
 	double lowerLimit,
 	double upperLimit,
-	Optional<Double> mean
+	OptionalDouble mean
 ) {}
