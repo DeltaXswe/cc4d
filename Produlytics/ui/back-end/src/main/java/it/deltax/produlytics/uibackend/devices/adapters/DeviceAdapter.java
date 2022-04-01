@@ -1,5 +1,8 @@
 package it.deltax.produlytics.uibackend.devices.adapters;
 
+import it.deltax.produlytics.uibackend.admins.business.ports.out.UpdateDeviceArchiveStatusPort;
+import it.deltax.produlytics.uibackend.admins.business.ports.out.UpdateDeviceDeactivateStatusPort;
+import it.deltax.produlytics.uibackend.admins.business.ports.out.UpdateDeviceNamePort;
 import it.deltax.produlytics.uibackend.devices.business.domain.Device;
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindTinyDevicePort;
@@ -16,7 +19,11 @@ import java.util.stream.StreamSupport;
 @Component
 public class DeviceAdapter implements GetDevicesPort,
     GetAllUnarchivedDevicesPort,
-    FindTinyDevicePort {
+    FindTinyDevicePort,
+    UpdateDeviceNamePort,
+    UpdateDeviceArchiveStatusPort,
+    UpdateDeviceDeactivateStatusPort
+{
 
     private final DeviceRepository repo;
 
@@ -49,4 +56,20 @@ public class DeviceAdapter implements GetDevicesPort,
                 new TinyDevice(macchina.getId(), macchina.getName())
             );
     }
+
+    @Override
+    public void updateDeviceNamePort(int deviceId, String name){
+        repo.updateDeviceName(deviceId, name);
+    }
+
+    @Override
+    public void updateDeviceArchiveStatus(int deviceId, boolean archived) {
+        repo.updateDeviceArchivedStatus(deviceId, archived);
+    }
+
+    @Override
+    public void updateDeviceDeactivateStatus(int deviceId, boolean deactivated) {
+        repo.updateDeviceDeactivatedStatus(deviceId, deactivated);
+    }
+
 }
