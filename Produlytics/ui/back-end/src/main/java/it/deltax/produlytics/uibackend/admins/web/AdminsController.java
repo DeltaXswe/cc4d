@@ -7,7 +7,9 @@ import it.deltax.produlytics.uibackend.admins.business.ports.in.UpdateAccountByA
 import it.deltax.produlytics.uibackend.admins.business.ports.in.InsertAccountUseCase;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.UpdateDeviceArchiveStatusUseCase;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.UpdateDeviceNameUseCase;
+import it.deltax.produlytics.uibackend.devices.business.domain.Device;
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
+import it.deltax.produlytics.uibackend.admins.business.ports.in.GetDevicesUseCase;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import static org.springframework.http.HttpStatus.*;
 import org.springframework.http.ResponseEntity;
@@ -22,17 +24,19 @@ public class AdminsController {
 	private final InsertAccountUseCase insertAccountUseCase;
 	private final UpdateDeviceNameUseCase updateDeviceNameUseCase;
 	private final UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase;
+	private final GetDevicesUseCase getDevicesUseCase;
 
 	public AdminsController(
 		UpdateAccountByAdminUseCase updateAccountByAdminUseCase,
 		InsertAccountUseCase insertAccountUseCase,
 		UpdateDeviceNameUseCase updateDeviceNameUseCase,
-		UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase
+		UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase, GetDevicesUseCase getDevicesUseCase
 	){
 		this.updateAccountByAdminUseCase = updateAccountByAdminUseCase;
 		this.insertAccountUseCase = insertAccountUseCase;
 		this.updateDeviceNameUseCase = updateDeviceNameUseCase;
 		this.updateDeviceArchiveStatusUseCase = updateDeviceArchiveStatusUseCase;
+		this.getDevicesUseCase = getDevicesUseCase;
 	}
 
 	@PostMapping("/accounts")
@@ -54,6 +58,18 @@ public class AdminsController {
 		return new ResponseEntity<>(NO_CONTENT);
 	}
 
+	@GetMapping("/devices")
+	public Iterable<Device> getDevices() throws BusinessException {
+		return getDevicesUseCase.getDevices();
+	}
+
+	@PutMapping("/devices/{deviceId}/name")
+	public ResponseEntity<String> updateDeviceName(
+		@PathVariable("deviceId") int deviceId,
+		@RequestParam("name") String name) throws BusinessException {
+		updateDeviceNameUseCase.updateDeviceName(new TinyDevice(deviceId, name));
+		return new ResponseEntity<>(NO_CONTENT);
+	}
 
 	@PutMapping("devices/{deviceId}/archived")
 	public ResponseEntity<String> updateDeviceArchiveStatus(
@@ -63,12 +79,4 @@ public class AdminsController {
 		return new ResponseEntity<>(NO_CONTENT);
 	}
 
-
-	@PutMapping("/devices/{deviceId}/name")
-	public ResponseEntity<String> updateDeviceName(
-		@PathVariable("deviceId") int deviceId,
-		@RequestParam("name") String name) throws BusinessException {
-		updateDeviceNameUseCase.updateDeviceName(new TinyDevice(deviceId, name));
-		return new ResponseEntity<>(NO_CONTENT);
-	}
 }

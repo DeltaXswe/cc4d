@@ -6,8 +6,7 @@ public record Device(
 	int id,
 	String name,
 	boolean deactivated,
-	boolean archived,
-	String apiKey
+	boolean archived
 ) {
 	@Builder(toBuilder = true, builderMethodName = "", setterPrefix = "with")
 	public Device{}

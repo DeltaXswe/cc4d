@@ -3,19 +3,21 @@ package it.deltax.produlytics.uibackend.admins.adapters;
 import it.deltax.produlytics.persistence.AccountEntity;
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
-import it.deltax.produlytics.uibackend.admins.business.ports.out.InsertAccountPort;
-import it.deltax.produlytics.uibackend.admins.business.ports.out.UpdateDeviceArchiveStatus;
-import it.deltax.produlytics.uibackend.admins.business.ports.out.UpdateDeviceNamePort;
-import it.deltax.produlytics.uibackend.admins.business.ports.out.UpdateAccountByAdminPort;
+import it.deltax.produlytics.uibackend.admins.business.ports.out.*;
 import it.deltax.produlytics.uibackend.repositories.AdminRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 @Component
-public class AdminAdapter implements UpdateAccountByAdminPort,
+public class AdminAdapter implements
+	UpdateAccountByAdminPort,
 	FindAccountPort,
-	InsertAccountPort, UpdateDeviceNamePort, UpdateDeviceArchiveStatus
+	InsertAccountPort,
+	UpdateDeviceNamePort,
+	UpdateDeviceArchiveStatusPort
 {
 
 	private final AdminRepository repo;

@@ -5,5 +5,5 @@ import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import java.util.List;
 
 public interface GetUnarchivedDevicesUseCase {
-    List<TinyDevice> getAll();
+    List<TinyDevice> getUnarchivedDevices();
 }

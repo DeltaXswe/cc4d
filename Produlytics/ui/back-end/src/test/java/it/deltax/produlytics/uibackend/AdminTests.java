@@ -87,12 +87,21 @@ public class AdminTests extends UiBackendApplicationTests {
 			false));
 
 		String newPassword = "passwordnuova";
-		boolean administrator = false;
 		mockMvc.perform(put("/admin/nomeCheNonEsiste")
 				.param("newPassword", newPassword)
-				.param("administrator", String.valueOf(administrator))
+				.param("administrator", String.valueOf(false))
 			).andDo(print())
 			.andExpect(status().isNotFound());
+	}
+
+	@Test
+	public void testGetDevices() throws Exception{
+		deviceRepository.save(new DeviceEntity("Macchina1", false, false, ""));
+		deviceRepository.save(new DeviceEntity("Macchina2", true, false, ""));
+		mockMvc.perform(get("/admin/devices")
+				.param("administrator", String.valueOf(true)))
+			.andDo(print())
+			.andExpect(status().isOk());
 	}
 
 	@Test

@@ -9,15 +9,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/devices")
 public class DevicesController {
 
-    private final GetUnarchivedDevicesUseCase useCase;
+    private final GetUnarchivedDevicesUseCase getUnarchivedDevicesUseCase;
 
-    public DevicesController(@Qualifier("getUnarchivedDevicesUseCase") GetUnarchivedDevicesUseCase useCase) {
-        this.useCase = useCase;
+    public DevicesController(
+        @Qualifier("getUnarchivedDevicesUseCase") GetUnarchivedDevicesUseCase getUnarchivedDevicesUseCase) {
+        this.getUnarchivedDevicesUseCase = getUnarchivedDevicesUseCase;
     }
 
     @GetMapping("")
-    Iterable<TinyDevice> getDevices() {
-        return useCase.getAll();
+    public Iterable<TinyDevice> getUnarchivedDevices() {
+        return getUnarchivedDevicesUseCase.getUnarchivedDevices();
     }
 
 
