@@ -3,7 +3,6 @@ package it.deltax.produlytics.uibackend;
 import it.deltax.produlytics.persistence.AccountEntity;
 import it.deltax.produlytics.uibackend.accounts.web.AccountController;
 import it.deltax.produlytics.uibackend.repositories.AccountRepository;
-import it.deltax.produlytics.uibackend.repositories.AdminRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,20 +23,16 @@ public class AccountTests extends UiBackendApplicationTests {
 	@Autowired
 	private AccountRepository accountRepository;
 
-	@Autowired
-	private AdminRepository adminRepository;
-
 	@Override
 	@Test
 	void contextLoads() {
 		assertThat(accountController).isNotNull();
 		assertThat(accountRepository).isNotNull();
-		assertThat(adminRepository).isNotNull();
 	}
 
 	@Test
 	public void testUpdatePasswordOk() throws Exception {
-		adminRepository.save(new AccountEntity(
+		accountRepository.save(new AccountEntity(
 			"utente1",
 			"$2a$10$agOHp6bPzNdLi1F.yOf.QuP3jbeD1RPmrD0krDNwYabwNBg9viIre", //password ciao
 			true,
@@ -52,7 +47,7 @@ public class AccountTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testUpdatePasswordInvalidNewPassword() throws Exception {
-		adminRepository.save(new AccountEntity(
+		accountRepository.save(new AccountEntity(
 			"utente1",
 			"$2a$10$agOHp6bPzNdLi1F.yOf.QuP3jbeD1RPmrD0krDNwYabwNBg9viIre", //passwordciao
 			true,
@@ -67,7 +62,7 @@ public class AccountTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testUpdatePasswordWrongOldPassword() throws Exception {
-		adminRepository.save(new AccountEntity(
+		accountRepository.save(new AccountEntity(
 			"utente1",
 			"$2a$10$agOHp6bPzNdLi1F.yOf.QuP3jbeD1RPmrD0krDNwYabwNBg9viIre", //passwordciao
 			true,

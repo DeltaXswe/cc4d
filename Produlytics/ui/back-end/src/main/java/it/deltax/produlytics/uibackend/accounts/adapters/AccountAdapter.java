@@ -17,7 +17,8 @@ import java.util.Optional;
 public class AccountAdapter implements
     UpdateAccountPort,
     UpdateAccountByAdminPort,
-    FindAccountPort, InsertAccountPort, UpdateDeviceNamePort, UpdateDeviceArchiveStatusPort
+    FindAccountPort,
+    InsertAccountPort
 {
     private final AccountRepository repo;
 
@@ -60,13 +61,4 @@ public class AccountAdapter implements
         );
     }
 
-    @Override
-    public void updateDeviceNamePort(int deviceId, String name){
-        repo.updateDeviceName(deviceId, name);
-    }
-
-    @Override
-    public void updateDeviceArchiveStatus(int deviceId, boolean archived) {
-        repo.updateDeviceArchivedStatus(deviceId, archived);
-    }
 }

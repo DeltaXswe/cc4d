@@ -21,7 +21,7 @@ public class InsertAccountService implements InsertAccountUseCase {
 
 	public InsertAccountService(
 		InsertAccountPort insertAccountPort,
-		@Qualifier("adminAdapter") FindAccountPort findAccountPort,
+		FindAccountPort findAccountPort,
 		@Qualifier("passwordEncoderAdapter") PasswordEncoderPort passwordEncoderPort
 	){
 		this.insertAccountPort = insertAccountPort;

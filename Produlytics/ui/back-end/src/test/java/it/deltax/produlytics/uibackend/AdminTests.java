@@ -3,7 +3,7 @@ package it.deltax.produlytics.uibackend;
 import it.deltax.produlytics.persistence.AccountEntity;
 import it.deltax.produlytics.persistence.DeviceEntity;
 import it.deltax.produlytics.uibackend.admins.web.AdminsController;
-import it.deltax.produlytics.uibackend.repositories.AdminRepository;
+import it.deltax.produlytics.uibackend.repositories.AccountRepository;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ public class AdminTests extends UiBackendApplicationTests {
 	private AdminsController adminsController;
 
 	@Autowired
-	private AdminRepository adminRepository;
+	private AccountRepository accountRepository;
 
 	@Autowired
 	private DeviceRepository deviceRepository;
@@ -27,7 +27,7 @@ public class AdminTests extends UiBackendApplicationTests {
 	@Test
 	void contextLoads() {
 		assertThat(adminsController).isNotNull();
-		assertThat(adminRepository).isNotNull();
+		assertThat(accountRepository).isNotNull();
 		assertThat(deviceRepository).isNotNull();
 	}
 
@@ -46,7 +46,7 @@ public class AdminTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testModifyAccountOk() throws Exception {
-		adminRepository.save(new AccountEntity(
+		accountRepository.save(new AccountEntity(
 			"nomeprova",
 			"passworddd",
 			true,
@@ -63,7 +63,7 @@ public class AdminTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testModifyAccountInvalidNewPassword() throws Exception {
-		adminRepository.save(new AccountEntity(
+		accountRepository.save(new AccountEntity(
 			"nomeprova",
 			"passworddd",
 			true,
@@ -80,7 +80,7 @@ public class AdminTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testModifyAccountNotFound() throws Exception {
-		adminRepository.save(new AccountEntity(
+		accountRepository.save(new AccountEntity(
 			"nomeprova",
 			"passworddd",
 			true,
@@ -125,11 +125,21 @@ public class AdminTests extends UiBackendApplicationTests {
 	}
 
 	@Test
-	public void testModifyDeviceArchStatus() throws Exception {
+	public void testModifyDeviceArchiveStatus() throws Exception {
 		deviceRepository.save(new DeviceEntity("Macchina1", false, false, ""));
 
 		mockMvc.perform(put("/admin/devices/1/archived")
 				.param("archived", "true")
+			).andDo(print())
+			.andExpect(status().isNoContent());
+	}
+
+	@Test
+	public void testModifyDeviceDeactivateStatus() throws Exception {
+		deviceRepository.save(new DeviceEntity("Macchina1", false, false, ""));
+
+		mockMvc.perform(put("/admin/devices/1/deactivated")
+				.param("deactivated", "true")
 			).andDo(print())
 			.andExpect(status().isNoContent());
 	}
