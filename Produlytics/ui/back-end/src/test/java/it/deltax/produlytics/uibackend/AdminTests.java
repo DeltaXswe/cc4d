@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-public class AdminTest extends UiBackendApplicationTests {
+public class AdminTests extends UiBackendApplicationTests {
 	@Autowired
 	private AdminsController adminsController;
 
@@ -28,6 +28,7 @@ public class AdminTest extends UiBackendApplicationTests {
 	void contextLoads() {
 		assertThat(adminsController).isNotNull();
 		assertThat(adminRepository).isNotNull();
+		assertThat(deviceRepository).isNotNull();
 	}
 
 	@Test
