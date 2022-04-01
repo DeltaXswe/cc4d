@@ -20,7 +20,7 @@ public class UpdateAccountByAdminService implements UpdateAccountByAdminUseCase 
 	public UpdateAccountByAdminService(
 		UpdateAccountByAdminPort updateAccountByAdminPort,
 		@Qualifier("adminAdapter") FindAccountPort findUserPort,
-		@Qualifier("pwdEncrypterAdapter") PasswordEncoderPort passwordEncoderPort){
+		@Qualifier("passwordEncoderAdapter") PasswordEncoderPort passwordEncoderPort){
 		this.updateAccountByAdminPort = updateAccountByAdminPort;
 		this.findAccountPort = findUserPort;
 		this.passwordEncoderPort = passwordEncoderPort;
