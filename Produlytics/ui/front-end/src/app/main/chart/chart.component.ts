@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange } from '@angular/core';
+import { Component, DoCheck, Input, IterableDiffers, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import * as d3 from 'd3';
@@ -16,31 +16,34 @@ import { CharacteristicNode } from '../device-selection/selection-data-source/se
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css'],
 })
-export class ChartComponent implements OnInit, OnDestroy, OnChanges {
+export class ChartComponent implements OnInit, OnDestroy, DoCheck {
   @Input()
-  selectedNodes!: CharacteristicNode[];  
-  
+  selectedNodes: CharacteristicNode[] = [];
 
+  iterableDiffer: any;
+  numeroTiles: number[] = [1,2,4,5];
   info!: CharacteristicInfo;
   private points: ChartPoint[] = [];
-  numeroTiles: number[] = [0,1,2,3];
   private updateSubscription?: Subscription;
 
   constructor(
     private route: ActivatedRoute,
     private chartService: ChartAbstractService,
-    private location: Location
-  ) {}
-
-  ngOnInit(): void {
-    /* this.createChart();
-    this.setupInitialPoints(); */
+    private location: Location,
+    private iterableDiffers: IterableDiffers
+  ) {
+    this.iterableDiffer = iterableDiffers.find([]).create();
   }
-  ngOnChanges(){
-    if(this.selectedNodes != null)
+
+  ngOnInit(): void {}
+
+  ngDoCheck(){
+    let changes = this.iterableDiffer.diff(this.selectedNodes);
+    if (changes) {
+      this.clearCharts();
       this.createChart();
+    }
   }
-
   ngOnDestroy(): void {
     this.updateSubscription?.unsubscribe();
   }
@@ -91,15 +94,15 @@ export class ChartComponent implements OnInit, OnDestroy, OnChanges {
 
       this.svg.append('path').attr('class', 'chart-path');
       this.svg.append('g').attr('class', 'chart-points');
-      this.setupInitialPoints(this.numeroTiles[i]);
+      this.setupInitialPoints(this.selectedNodes[i].deviceId, this.selectedNodes[i].characteristicId);
     }
   }
 
-  setupInitialPoints(i: number) {
+  setupInitialPoints(deviceId: number, characteristicId: number) {
     const machine = 1;//Number(this.route.snapshot.paramMap.get('machine'));
     const characteristic = 1;//Number(this.route.snapshot.paramMap.get('characteristic'));
     this.chartService
-      .getInitialPoints(machine, characteristic)
+      .getInitialPoints(deviceId, characteristicId)
       .subscribe(([info, points]) => {
         this.info = info;
         this.points = points;
@@ -178,7 +181,8 @@ export class ChartComponent implements OnInit, OnDestroy, OnChanges {
       });
   }
 
-  back() {
-    this.location.back();
+  clearCharts(){
+    let svg = d3.selectAll('.d3svg');
+    svg.selectAll("*").remove();
   }
 }

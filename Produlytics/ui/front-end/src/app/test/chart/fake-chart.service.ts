@@ -56,8 +56,7 @@ export class FakeChartService implements ChartAbstractService {
   }
 
   getNextPoints(macchina: number, caratteristica: string, ultimo_utc: number): Observable<ChartPoint[]> {
-    //return of([]);
-    console.log('ciao');
-    return this.fakePoints;
+    return of([]);
+    //return this.fakePoints;
   }
 }
