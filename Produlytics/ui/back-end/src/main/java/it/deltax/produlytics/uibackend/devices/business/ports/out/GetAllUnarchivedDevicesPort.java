@@ -6,6 +6,6 @@ import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import java.util.List;
 
 // per operazioni in cui serve solo id e nome
-public interface FindAllUnarchivedDevicesPort {
-    List<TinyDevice> findAll();
+public interface GetAllUnarchivedDevicesPort {
+    List<TinyDevice> getUnarchivedDevices();
 }

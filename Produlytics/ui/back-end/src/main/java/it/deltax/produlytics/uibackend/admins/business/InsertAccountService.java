@@ -19,7 +19,7 @@ public class InsertAccountService implements InsertAccountUseCase {
 	private final FindAccountPort findAccountPort;
 	private final PasswordEncoderPort passwordEncoderPort;
 
-	private InsertAccountService(
+	public InsertAccountService(
 		InsertAccountPort insertAccountPort,
 		@Qualifier("adminAdapter") FindAccountPort findAccountPort,
 		@Qualifier("passwordEncoderAdapter") PasswordEncoderPort passwordEncoderPort
