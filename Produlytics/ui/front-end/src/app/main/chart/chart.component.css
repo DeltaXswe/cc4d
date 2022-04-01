@@ -9,6 +9,11 @@
   height: 100%;
 }
 
+::ng-deep .d3svg title {
+  fill: black;
+  text-anchor: middle;
+}
+
 ::ng-deep .d3svg line,
 ::ng-deep .d3svg path {
   fill: none;

@@ -97,12 +97,10 @@ export class ChartComponent implements OnInit, OnDestroy, DoCheck {
       this.svg
       .append("text")
       .attr("class", "title")
-      .attr("x", this.chartWidth / 2) //positions it at the middle of the width
-      .attr("y", this.margin.top) //positions it from the top by the margin top
-      .attr("font-family", "sans-serif")
-      .attr("fill", "green")
-      .attr("text-anchor", "middle")
+      .attr("x", this.chartWidth / 2)
+      .attr("y", this.margin.top) 
       .text(`${this.selectedNodes[i].deviceId} - ` + `${this.selectedNodes[i].characteristicId}`);
+      //sarebbe da sostituire coi nomi delle macchine/caratteristiche
       this.setupInitialPoints(this.selectedNodes[i].deviceId, this.selectedNodes[i].characteristicId);
     }
   }
