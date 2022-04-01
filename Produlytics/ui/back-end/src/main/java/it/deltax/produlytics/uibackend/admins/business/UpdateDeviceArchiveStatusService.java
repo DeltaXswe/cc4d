@@ -21,7 +21,7 @@ public class UpdateDeviceArchiveStatusService implements UpdateDeviceArchiveStat
 	}
 
 	@Override
-	public void modDevArchStatus(DeviceArchiveStatus command) throws BusinessException {
+	public void updateDeviceArchiveStatus(DeviceArchiveStatus command) throws BusinessException {
 		TinyDevice.TinyDeviceBuilder toUpdate = findDevicePort.find(command.deviceId())
 			.map(device -> device.toBuilder())
 			.orElseThrow(() -> new BusinessException("deviceNotFound", ErrorType.NOT_FOUND));

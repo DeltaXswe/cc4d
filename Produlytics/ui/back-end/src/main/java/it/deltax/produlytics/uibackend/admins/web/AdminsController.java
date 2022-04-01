@@ -1,15 +1,12 @@
 package it.deltax.produlytics.uibackend.admins.web;
 
+import it.deltax.produlytics.uibackend.admins.business.domain.DeviceDeactivateStatus;
 import it.deltax.produlytics.uibackend.admins.business.domain.UpdateAdminAccout;
 import it.deltax.produlytics.uibackend.admins.business.domain.DeviceArchiveStatus;
 import it.deltax.produlytics.uibackend.admins.business.domain.InsertAccount;
-import it.deltax.produlytics.uibackend.admins.business.ports.in.UpdateAccountByAdminUseCase;
-import it.deltax.produlytics.uibackend.admins.business.ports.in.InsertAccountUseCase;
-import it.deltax.produlytics.uibackend.admins.business.ports.in.UpdateDeviceArchiveStatusUseCase;
-import it.deltax.produlytics.uibackend.admins.business.ports.in.UpdateDeviceNameUseCase;
+import it.deltax.produlytics.uibackend.admins.business.ports.in.*;
 import it.deltax.produlytics.uibackend.devices.business.domain.Device;
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
-import it.deltax.produlytics.uibackend.admins.business.ports.in.GetDevicesUseCase;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import static org.springframework.http.HttpStatus.*;
 import org.springframework.http.ResponseEntity;
@@ -24,18 +21,22 @@ public class AdminsController {
 	private final InsertAccountUseCase insertAccountUseCase;
 	private final UpdateDeviceNameUseCase updateDeviceNameUseCase;
 	private final UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase;
+	private final UpdateDeviceDeactivateStatusUseCase updateDeviceDeativateStatusUseCase;
 	private final GetDevicesUseCase getDevicesUseCase;
 
 	public AdminsController(
 		UpdateAccountByAdminUseCase updateAccountByAdminUseCase,
 		InsertAccountUseCase insertAccountUseCase,
 		UpdateDeviceNameUseCase updateDeviceNameUseCase,
-		UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase, GetDevicesUseCase getDevicesUseCase
+		UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase,
+		UpdateDeviceDeactivateStatusUseCase updateDeviceDeativateStatusUseCase,
+		GetDevicesUseCase getDevicesUseCase
 	){
 		this.updateAccountByAdminUseCase = updateAccountByAdminUseCase;
 		this.insertAccountUseCase = insertAccountUseCase;
 		this.updateDeviceNameUseCase = updateDeviceNameUseCase;
 		this.updateDeviceArchiveStatusUseCase = updateDeviceArchiveStatusUseCase;
+		this.updateDeviceDeativateStatusUseCase = updateDeviceDeativateStatusUseCase;
 		this.getDevicesUseCase = getDevicesUseCase;
 	}
 
@@ -63,19 +64,27 @@ public class AdminsController {
 		return getDevicesUseCase.getDevices();
 	}
 
-	@PutMapping("/devices/{deviceId}/name")
+	@PutMapping("/devices/{id}/name")
 	public ResponseEntity<String> updateDeviceName(
-		@PathVariable("deviceId") int deviceId,
+		@PathVariable("id") int id,
 		@RequestParam("name") String name) throws BusinessException {
-		updateDeviceNameUseCase.updateDeviceName(new TinyDevice(deviceId, name));
+		updateDeviceNameUseCase.updateDeviceName(new TinyDevice(id, name));
 		return new ResponseEntity<>(NO_CONTENT);
 	}
 
-	@PutMapping("devices/{deviceId}/archived")
+	@PutMapping("devices/{id}/archived")
 	public ResponseEntity<String> updateDeviceArchiveStatus(
-		@PathVariable("deviceId") int deviceId,
+		@PathVariable("id") int id,
 		@RequestParam("archived") boolean archived) throws BusinessException {
-		updateDeviceArchiveStatusUseCase.modDevArchStatus(new DeviceArchiveStatus(deviceId, archived));
+		updateDeviceArchiveStatusUseCase.updateDeviceArchiveStatus(new DeviceArchiveStatus(id, archived));
+		return new ResponseEntity<>(NO_CONTENT);
+	}
+
+	@PutMapping("/devices/{id}/deactivated")
+	public ResponseEntity<String> updateDeviceDeactivateStatus(
+		@PathVariable("id") int id,
+		@RequestParam("deactivated") boolean deactivated) throws BusinessException {
+		updateDeviceDeativateStatusUseCase.updateDeviceDeactivateStatus(new DeviceDeactivateStatus(id, deactivated));
 		return new ResponseEntity<>(NO_CONTENT);
 	}
 

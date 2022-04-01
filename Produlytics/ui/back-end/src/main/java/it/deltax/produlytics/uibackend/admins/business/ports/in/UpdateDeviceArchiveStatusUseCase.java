@@ -4,5 +4,5 @@ import it.deltax.produlytics.uibackend.admins.business.domain.DeviceArchiveStatu
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 
 public interface UpdateDeviceArchiveStatusUseCase {
-	void modDevArchStatus(DeviceArchiveStatus device) throws BusinessException;
+	void updateDeviceArchiveStatus(DeviceArchiveStatus device) throws BusinessException;
 }
