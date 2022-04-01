@@ -11,12 +11,5 @@ public record Account(
 	@Builder(toBuilder = true, builderMethodName = "", setterPrefix = "with")
 	public Account{}
 
-	/*
-	public static AccountBuilder builder(String username, String hashedPassword){
-		return new Account(username, hashedPassword, false, false).toBuilder();
-	}
-	*/
-
-
 }
 

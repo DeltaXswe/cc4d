@@ -5,13 +5,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PwdEncrypterAdapter implements PasswordEncoderPort {
+public class PasswordEncoderAdapter implements PasswordEncoderPort {
 	BCryptPasswordEncoder encoder;
 
-	PwdEncrypterAdapter(BCryptPasswordEncoder encoder){this.encoder = encoder; }
+	PasswordEncoderAdapter(BCryptPasswordEncoder encoder){this.encoder = encoder; }
 
 	@Override
-	public String encode(String plainPassword){
-		return encoder.encode(plainPassword);
+	public String encode(String rawPassword){
+		return encoder.encode(rawPassword);
 	}
 }
