@@ -4,6 +4,8 @@ import java.util.List;
 
 // Rappresenta l'implementazione di una carta di controllo.
 public interface ControlChart {
+	// Ritorna il numero di rilevazioni che devono essere presenti nella lista passata come argomento
+	// a `analyzeDetections`. Tale numero deve essere sempre lo stesso per una data istanza di `ControlChart`.
 	int requiredDetectionCount();
 
 	// `lastDetections` sono le ultime requiredDetectionCount() rilevazioni
