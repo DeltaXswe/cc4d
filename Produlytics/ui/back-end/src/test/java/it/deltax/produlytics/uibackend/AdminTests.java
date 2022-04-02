@@ -12,6 +12,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+//isOk() 200
+//isNoContent() 204 NO_CONTENT
+//isBadRequest() 400 GENERIC
+//isUnauthorized() 401 AUTHENTICATION
+//isNotFound() 404 NOT_FOUND
 
 public class AdminTests extends UiBackendApplicationTests {
 	@Autowired
@@ -45,7 +50,25 @@ public class AdminTests extends UiBackendApplicationTests {
 	}
 
 	@Test
-	public void testModifyAccountOk() throws Exception {
+	public void testGetAccounts() throws Exception {
+		accountRepository.save(new AccountEntity(
+			"utente1",
+			"password1",
+			true,
+			false));
+		accountRepository.save(new AccountEntity(
+			"utente2",
+			"password2",
+			true,
+			false));
+
+		mockMvc.perform(get("/admin/accounts")
+			).andDo(print())
+			.andExpect(status().isOk());
+	}
+
+	@Test
+	public void testUpdateAccountOk() throws Exception {
 		accountRepository.save(new AccountEntity(
 			"nomeprova",
 			"passworddd",
@@ -62,7 +85,7 @@ public class AdminTests extends UiBackendApplicationTests {
 	}
 
 	@Test
-	public void testModifyAccountInvalidNewPassword() throws Exception {
+	public void testUpdateAccountInvalidNewPassword() throws Exception {
 		accountRepository.save(new AccountEntity(
 			"nomeprova",
 			"passworddd",
@@ -79,7 +102,7 @@ public class AdminTests extends UiBackendApplicationTests {
 	}
 
 	@Test
-	public void testModifyAccountNotFound() throws Exception {
+	public void testUpdateAccountNotFound() throws Exception {
 		accountRepository.save(new AccountEntity(
 			"nomeprova",
 			"passworddd",
@@ -93,6 +116,29 @@ public class AdminTests extends UiBackendApplicationTests {
 			).andDo(print())
 			.andExpect(status().isNotFound());
 	}
+
+	@Test
+	public void testUpdateArchiveStatusAccountOk() throws Exception {
+		accountRepository.save(new AccountEntity(
+			"utente1",
+			"passworddd",
+			true,
+			false));
+
+		mockMvc.perform(put("/admin/accounts/utente1/archived")
+				.param("archived", String.valueOf(true))
+			).andDo(print())
+			.andExpect(status().isNoContent());
+	}
+
+	@Test
+	public void testUpdateArchiveStatusAccountNotFound() throws Exception {
+		mockMvc.perform(put("/admin/accounts/utente200/archived")
+				.param("archived", String.valueOf(true))
+			).andDo(print())
+			.andExpect(status().isNotFound());
+	}
+
 
 	@Test
 	public void testGetDevices() throws Exception{
@@ -143,4 +189,21 @@ public class AdminTests extends UiBackendApplicationTests {
 			).andDo(print())
 			.andExpect(status().isNoContent());
 	}
+
+	@Test
+	public void testGetDeviceDetailsOk() throws Exception{
+		deviceRepository.save(new DeviceEntity("Macchina1", false, false, "1"));
+
+		mockMvc.perform(get("/admin/devices/1")
+			).andDo(print())
+			.andExpect(status().isOk());
+	}
+
+	@Test
+	public void testGetDeviceDetailsNotFound() throws Exception{
+		mockMvc.perform(get("/admin/devices/111")
+			).andDo(print())
+			.andExpect(status().isNotFound());
+	}
+
 }
