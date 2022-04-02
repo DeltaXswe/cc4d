@@ -1,11 +1,11 @@
 package it.deltax.produlytics.uibackend.accounts.business;
 
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
-import it.deltax.produlytics.uibackend.accounts.business.domain.UpdateAccountPassword;
+import it.deltax.produlytics.uibackend.accounts.business.domain.AccountUpdatePassword;
 import it.deltax.produlytics.uibackend.accounts.business.ports.in.UpdateAccountPasswordUseCase;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.EncoderPort;
-import it.deltax.produlytics.uibackend.accounts.business.ports.out.UpdateAccountPort;
+import it.deltax.produlytics.uibackend.accounts.business.ports.out.UpdateAccountPasswordPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,34 +13,32 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCase {
-    private final UpdateAccountPort updateAccountPort;
+    private final UpdateAccountPasswordPort updateAccountPasswordPort;
     private final FindAccountPort findAccountPort;
     private final EncoderPort encoderPort;
 
     public UpdateAccountPasswordService(
-            UpdateAccountPort updateUserPort,
+            UpdateAccountPasswordPort updateAccountPasswordPort,
             @Qualifier("accountAdapter") FindAccountPort findAccountPort,
             EncoderPort encoderPort){
-        this.updateAccountPort = updateUserPort;
+        this.updateAccountPasswordPort = updateAccountPasswordPort;
         this.findAccountPort = findAccountPort;
         this.encoderPort = encoderPort;
     }
 
     @Override
-    public void updatePasswordByUsername(UpdateAccountPassword command) throws BusinessException {
+    public void updatePasswordByUsername(AccountUpdatePassword command) throws BusinessException {
         if(command.newPassword().length() < 6)
             throw new BusinessException("invalidNewPassword", ErrorType.GENERIC);
 
-        Account toUpdate = findAccountPort.findByUsername(command.username())
-            .map(account -> new Account(account.username(),
-                            account.hashedPassword(),
-                            account.administrator(),
-                            account.archived()))
+        Account.AccountBuilder toUpdate = findAccountPort.findByUsername(command.username())
+            .map(account -> account.toBuilder())
             .orElseThrow(() -> new BusinessException(("accountNotFound"), ErrorType.NOT_FOUND));
 
-        if (encoderPort.matches(command.currentPassword(),toUpdate.hashedPassword())) {
+        if (encoderPort.matches(command.currentPassword(),toUpdate.build().hashedPassword())) {
             String hashedNewPassword = encoderPort.encode(command.newPassword());
-            updateAccountPort.updateAccount(command.username(), hashedNewPassword);
+            toUpdate.withHashedPassword(hashedNewPassword);
+            updateAccountPasswordPort.updateAccountPassword(toUpdate.build());
         } else {
             throw new BusinessException("wrongCurrentPassword", ErrorType.AUTHENTICATION);
         }

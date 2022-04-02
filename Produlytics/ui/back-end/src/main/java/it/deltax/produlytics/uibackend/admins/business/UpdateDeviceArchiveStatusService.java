@@ -2,7 +2,7 @@ package it.deltax.produlytics.uibackend.admins.business;
 
 import it.deltax.produlytics.uibackend.admins.business.domain.DeviceArchiveStatus;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.UpdateDeviceArchiveStatusUseCase;
-import it.deltax.produlytics.uibackend.admins.business.ports.out.UpdateDeviceArchiveStatusPort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.UpdateDeviceArchiveStatusPort;
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindTinyDevicePort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
