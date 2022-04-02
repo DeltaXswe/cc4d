@@ -1,14 +1,10 @@
 package it.deltax.produlytics.uibackend.devices.adapters;
 
-import it.deltax.produlytics.uibackend.devices.business.ports.out.UpdateDeviceArchiveStatusPort;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.UpdateDeviceDeactivateStatusPort;
+import it.deltax.produlytics.persistence.DeviceEntity;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.*;
 import it.deltax.produlytics.uibackend.devices.business.domain.Device;
-import it.deltax.produlytics.uibackend.devices.business.domain.DeviceDetails;
+import it.deltax.produlytics.uibackend.devices.business.domain.DetailedDevice;
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.FindTinyDevicePort;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.GetAllUnarchivedDevicesPort;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.GetDeviceDetailsPort;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.GetDevicesPort;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
 import org.springframework.stereotype.Component;
 
@@ -21,9 +17,11 @@ import java.util.stream.StreamSupport;
 public class DeviceAdapter implements GetDevicesPort,
     GetAllUnarchivedDevicesPort,
     FindTinyDevicePort,
+    FindDetailedDevicePort,
     UpdateDeviceArchiveStatusPort,
     UpdateDeviceDeactivateStatusPort,
-    GetDeviceDetailsPort
+    GetDeviceDetailsPort,
+    UpdateDeviceNamePort
 {
 
     private final DeviceRepository repo;
@@ -35,8 +33,12 @@ public class DeviceAdapter implements GetDevicesPort,
     @Override
     public List<Device> getDevices() {
         return StreamSupport.stream(repo.findAll().spliterator(), false)
-            .map(macchina ->
-                new Device(macchina.getId(), macchina.getName(), macchina.getArchived(), macchina.getDeactivated())
+            .map(device ->
+                new Device(
+                    device.getId(),
+                    device.getName(),
+                    device.getArchived(),
+                    device.getDeactivated())
             )
             .collect(Collectors.toList());
     }
@@ -44,39 +46,73 @@ public class DeviceAdapter implements GetDevicesPort,
     @Override
     public List<TinyDevice> getUnarchivedDevices() { //TODO siamo sicuri ritorni solo le non archiviate?
         return StreamSupport.stream(repo.findAll().spliterator(), false)
-            .map(macchina ->
-                new TinyDevice(macchina.getId(), macchina.getName())
+            .map(device ->
+                new TinyDevice(
+                    device.getId(),
+                    device.getName())
             )
             .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<TinyDevice> find(int deviceId) {
+    public Optional<TinyDevice> findTinyDevice(int deviceId) {
         return repo.findById(deviceId)
-            .map(macchina ->
-                new TinyDevice(macchina.getId(), macchina.getName())
+            .map(device ->
+                new TinyDevice(
+                    device.getId(),
+                    device.getName())
             );
     }
 
     @Override
-    public void updateDeviceArchiveStatus(int deviceId, boolean archived) {
-        repo.updateDeviceArchivedStatus(deviceId, archived);
-    }
-
-    @Override
-    public void updateDeviceDeactivateStatus(int deviceId, boolean deactivated) {
-        repo.updateDeviceDeactivatedStatus(deviceId, deactivated);
-        repo.save(new)
-    }
-
-    @Override
-    public Optional<DeviceDetails> getDeviceDetails(int deviceId) {
+    public Optional<DetailedDevice> findDetailedDevice(int deviceId) {
         return repo.findById(deviceId)
-            .map(macchina -> new DeviceDetails(macchina.getId(),
-            macchina.getName(),
-            macchina.getArchived(),
-            macchina.getDeactivated(),
-            macchina.getApikey()
+            .map(device ->
+                new DetailedDevice(
+                    device.getId(),
+                    device.getName(),
+                    device.getArchived(),
+                    device.getDeactivated(),
+                    device.getApikey())
+            );
+    }
+
+    @Override
+    public void updateDeviceArchiveStatus(DetailedDevice device) {
+        repo.save(new DeviceEntity(
+            device.name(),
+            device.archived(),
+            device.deactivated(),
+            device.apiKey()));
+    }
+
+    @Override
+    public void updateDeviceDeactivateStatus(DetailedDevice device) {
+        repo.save(new DeviceEntity(
+            device.name(),
+            device.archived(),
+            device.deactivated(),
+            device.apiKey()));
+    }
+
+    @Override
+    public Optional<DetailedDevice> getDeviceDetails(int deviceId) {
+        return repo.findById(deviceId)
+            .map(device -> new DetailedDevice(
+                device.getId(),
+                device.getName(),
+                device.getArchived(),
+                device.getDeactivated(),
+                device.getApikey()
         ));
+    }
+
+    @Override
+    public void updateDeviceNamePort(DetailedDevice device) {
+        repo.save(new DeviceEntity(
+            device.name(),
+            device.archived(),
+            device.deactivated(),
+            device.apiKey()));
     }
 }

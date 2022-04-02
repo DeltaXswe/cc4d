@@ -2,6 +2,8 @@ package it.deltax.produlytics.uibackend.admins.business;
 
 import it.deltax.produlytics.uibackend.admins.business.domain.DeviceArchiveStatus;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.UpdateDeviceArchiveStatusUseCase;
+import it.deltax.produlytics.uibackend.devices.business.domain.DetailedDevice;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.FindDetailedDevicePort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.UpdateDeviceArchiveStatusPort;
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindTinyDevicePort;
@@ -11,22 +13,24 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UpdateDeviceArchiveStatusService implements UpdateDeviceArchiveStatusUseCase {
-	private final FindTinyDevicePort findDevicePort;
+	private final FindDetailedDevicePort findDetailedDevicePort;
 	private final UpdateDeviceArchiveStatusPort updateDeviceArchiveStatus;
 
 	public UpdateDeviceArchiveStatusService(
-		FindTinyDevicePort findDevicePort, UpdateDeviceArchiveStatusPort updateDeviceArchiveStatus) {
-		this.findDevicePort = findDevicePort;
+		FindDetailedDevicePort findDetailedDevicePort,
+		UpdateDeviceArchiveStatusPort updateDeviceArchiveStatus) {
+		this.findDetailedDevicePort = findDetailedDevicePort;
 		this.updateDeviceArchiveStatus = updateDeviceArchiveStatus;
 	}
 
 	@Override
 	public void updateDeviceArchiveStatus(DeviceArchiveStatus command) throws BusinessException {
-		TinyDevice.TinyDeviceBuilder toUpdate = findDevicePort.find(command.deviceId())
+		DetailedDevice.DetailedDeviceBuilder toUpdate = findDetailedDevicePort.findDetailedDevice(command.deviceId())
 			.map(device -> device.toBuilder())
 			.orElseThrow(() -> new BusinessException("deviceNotFound", ErrorType.NOT_FOUND));
 
-		updateDeviceArchiveStatus.updateDeviceArchiveStatus(command.deviceId(), command.archived());
+		toUpdate.withArchived(command.archived());
+		updateDeviceArchiveStatus.updateDeviceArchiveStatus(toUpdate.build());
 	}
 }
 

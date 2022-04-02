@@ -9,21 +9,4 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface DeviceRepository extends CrudRepository<DeviceEntity, Integer> {
-
-	@Transactional
-	@Modifying
-	@Query(value = "update device d set d.name = :name where d.id = :id", nativeQuery = true)
-	void updateDeviceName(@Param("id") int id, @Param("name") String name);
-
-	@Transactional
-	@Modifying
-	@Query(value = "update device d set d.archived = :archived where d.id = :id", nativeQuery = true)
-	void updateDeviceArchivedStatus(@Param("id") int id, @Param("archived") boolean archived);
-
-	@Transactional
-	@Modifying
-	@Query(value = "update device d set d.deactivated = :deactivated where d.id = :id", nativeQuery = true)
-	void updateDeviceDeactivatedStatus(@Param("id") int id, @Param("deactivated") boolean deactivated);
-
-}
+public interface DeviceRepository extends CrudRepository<DeviceEntity, Integer> {}

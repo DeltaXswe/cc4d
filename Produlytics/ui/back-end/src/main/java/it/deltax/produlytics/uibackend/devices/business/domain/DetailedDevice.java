@@ -2,7 +2,7 @@ package it.deltax.produlytics.uibackend.devices.business.domain;
 
 import lombok.Builder;
 
-public record DeviceDetails(
+public record DetailedDevice(
 	int id,
 	String name,
 	boolean deactivated,
@@ -10,5 +10,5 @@ public record DeviceDetails(
 	String apiKey
 ) {
 	@Builder(toBuilder = true, builderMethodName = "", setterPrefix = "with")
-	public DeviceDetails{}
+	public DetailedDevice {}
 }
