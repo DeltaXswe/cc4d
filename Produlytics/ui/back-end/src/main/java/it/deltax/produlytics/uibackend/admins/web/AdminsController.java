@@ -57,19 +57,19 @@ public class AdminsController {
 	}
 
 	@PostMapping("/accounts")
-	public Map<String, String> insertAccount(
+	public ResponseEntity<Map<String, String>> insertAccount(
 		@RequestParam("username") String username,
 		@RequestParam("password") String password,
 		@RequestParam("administrator") boolean administrator) throws BusinessException {
 		insertAccountUseCase.insertAccount(new InsertAccount(username, password, administrator));
 		Map<String, String> map = new HashMap<>();
 		map.put("username", username);
-		return map;
+		return ResponseEntity.ok(map);
 	}
 
 	@GetMapping("/accounts")
-	public List<AccountTiny> getAccounts() throws BusinessException {
-		return getAccountsUseCase.getAccounts();
+	public ResponseEntity<List<AccountTiny>> getAccounts() throws BusinessException {
+		return ResponseEntity.ok(getAccountsUseCase.getAccounts());
 	}
 
 	@PutMapping("/{username}")
@@ -90,8 +90,8 @@ public class AdminsController {
 	}
 
 	@GetMapping("/devices")
-	public Iterable<Device> getDevices() throws BusinessException {
-		return getDevicesUseCase.getDevices();
+	public ResponseEntity<Iterable<Device>> getDevices() throws BusinessException {
+		return ResponseEntity.ok(getDevicesUseCase.getDevices());
 	}
 
 	@PutMapping("/devices/{id}/name")
@@ -119,9 +119,9 @@ public class AdminsController {
 	}
 
 	@GetMapping("/devices/{deviceId}")
-	public Optional<DetailedDevice>  getDeviceDetails(
+	public ResponseEntity<Optional<DetailedDevice>>  getDeviceDetails(
 		@PathVariable("deviceId") int id) throws BusinessException {
-		return getDeviceDetailsUseCase.getDeviceDetails(id);
+		return ResponseEntity.ok(getDeviceDetailsUseCase.getDeviceDetails(id));
 	}
 
 
