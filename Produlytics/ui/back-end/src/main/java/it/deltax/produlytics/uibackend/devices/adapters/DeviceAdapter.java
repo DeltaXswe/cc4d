@@ -1,11 +1,13 @@
 package it.deltax.produlytics.uibackend.devices.adapters;
 
 import it.deltax.produlytics.persistence.DeviceEntity;
+import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.*;
 import it.deltax.produlytics.uibackend.devices.business.domain.Device;
 import it.deltax.produlytics.uibackend.devices.business.domain.DetailedDevice;
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -44,15 +46,16 @@ public class DeviceAdapter implements GetDevicesPort,
     }
 
     @Override
-    public List<TinyDevice> getUnarchivedDevices() { //TODO siamo sicuri ritorni solo le non archiviate?
-        return StreamSupport.stream(repo.findAll().spliterator(), false)
+    public List<TinyDevice> getUnarchivedDevices() {
+        return StreamSupport.stream(repo.findByArchived(false).spliterator(), false)
             .map(device ->
                 new TinyDevice(
-                    device.getId(),
-                    device.getName())
+                    device.id(),
+                    device.name())
             )
             .collect(Collectors.toList());
     }
+
 
     @Override
     public Optional<TinyDevice> findTinyDevice(int deviceId) {

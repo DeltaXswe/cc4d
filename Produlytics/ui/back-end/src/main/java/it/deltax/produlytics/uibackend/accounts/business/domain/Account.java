@@ -10,6 +10,5 @@ public record Account(
 ) {
 	@Builder(toBuilder = true, builderMethodName = "", setterPrefix = "with")
 	public Account{}
-
 }
 
