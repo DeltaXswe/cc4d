@@ -1,4 +1,4 @@
-package it.deltax.produlytics.uibackend.devices.business;
+package it.deltax.produlytics.uibackend.admins.business;
 
 import it.deltax.produlytics.uibackend.admins.business.ports.in.GetDevicesUseCase;
 import it.deltax.produlytics.uibackend.devices.business.domain.Device;
