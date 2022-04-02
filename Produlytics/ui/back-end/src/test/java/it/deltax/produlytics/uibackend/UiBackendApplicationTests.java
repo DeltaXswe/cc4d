@@ -38,8 +38,19 @@ class UiBackendApplicationTests {
 	}
 
 	@Test
-	public void listAllDevices() throws Exception {
+	public void getAllUnarchivedDevices() throws Exception {
 		deviceRepository.save(new DeviceEntity("One", false, false, ""));
+		deviceRepository.save(new DeviceEntity("Two", true, false, ""));
+
+		mockMvc.perform(get("/devices"))
+			.andDo(print())
+			.andExpect(status().isOk());
+	}
+
+	@Test
+	public void getAllUnarchivedDevicesWhereThereIsNone() throws Exception {
+		deviceRepository.save(new DeviceEntity("One", true, false, ""));
+		deviceRepository.save(new DeviceEntity("Two", true, false, ""));
 
 		mockMvc.perform(get("/devices"))
 			.andDo(print())
