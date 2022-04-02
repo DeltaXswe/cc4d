@@ -7,6 +7,7 @@ import {SaveAccountAbstractService} from "../../../model/admin-account/save-acco
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AccountSaveCommand} from "../../../model/admin-account/account-save-command";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
+import {LoginAbstractService} from "../../../model/login/login-abstract.service";
 
 @Component({
   selector: 'app-account-form-dialog',
@@ -16,38 +17,40 @@ import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 })
 export class AccountFormDialogComponent implements OnInit {
 
-  formGroup: FormGroup;
+  readonly formGroup: FormGroup;
   private readonly passwordValidators = [Validators.minLength(6), Validators.required];
+  readonly editMode: boolean;
 
   constructor(
     private matDialogRef: MatDialogRef<AccountFormDialogComponent>,
     private saveAccountService: SaveAccountAbstractService,
     private matSnackBar: MatSnackBar,
+    loginService: LoginAbstractService,
     formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data?: {
-      account: Account
-    }
+    @Inject(MAT_DIALOG_DATA) public data?: { account: Account }
   ) {
+    this.editMode = Boolean(data?.account);
     const passwordState = {
       value: null,
-      disabled: !!this.data?.account
+      disabled: this.editMode
     };
     this.formGroup = formBuilder.group({
       username: new FormControl(data?.account.username || '', Validators.required),
       administrator: new FormControl(data?.account.administrator || false),
-      password: new FormControl(passwordState, data?.account
+      password: new FormControl(passwordState, this.editMode
         ? Validators.nullValidator
         : this.passwordValidators
       )
     });
+    if (this.editMode && loginService.getUsername() === data?.account.username) {
+      this.formGroup.get('administrator')!.disable();
+    }
   }
 
   ngOnInit(): void {
-
     const usernameField = this.formGroup.get('username')!;
-    if (this.data?.account) {
+    if (this.editMode) {
       usernameField.disable();
-
     }
     usernameField.valueChanges.subscribe(() => {
       if (usernameField && usernameField.hasError('duplicateUsername')) {
@@ -68,7 +71,7 @@ export class AccountFormDialogComponent implements OnInit {
       password: rawValue.password,
       administrator: rawValue.administrator
     };
-    if (this.data?.account) {
+    if (this.editMode) {
       this.updateAccount(command);
     } else {
       this.insertAccount(command);

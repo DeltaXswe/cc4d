@@ -1,6 +1,6 @@
 <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
   <h2>
-    {{data?.account ? 'Modifica utente' : 'Inserisci un nuovo utente'}}
+    {{editMode ? 'Modifica utente' : 'Inserisci un nuovo utente'}}
   </h2>
   <button mat-icon-button (click)="cancel()">
     <mat-icon>
@@ -37,7 +37,7 @@
           La password non rispetta i criteri minimi di sicurezza.
         </mat-error>
       </mat-form-field>
-      <mat-slide-toggle *ngIf="data?.account" (change)="changePassword($event)">
+      <mat-slide-toggle *ngIf="editMode" (change)="changePassword($event)">
         Cambia password
       </mat-slide-toggle>
     </div>

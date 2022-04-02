@@ -7,6 +7,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {ConfirmDialogComponent} from "../../components/confirm-dialog/confirm-dialog.component";
 import {AccountFormDialogComponent} from "./account-form-dialog/account-form-dialog.component";
 import {AccountsDatasource} from "./accounts.datasource";
+import {LoginAbstractService} from "../../model/login/login-abstract.service";
 
 @Component({
   selector: 'app-accounts',
@@ -20,7 +21,8 @@ export class AccountsComponent implements OnInit {
   constructor(
     private accountService: AccountAbstractService,
     private matDialog: MatDialog,
-    private matSnackBar: MatSnackBar
+    private matSnackBar: MatSnackBar,
+    private loginService: LoginAbstractService
   ) { }
 
   ngOnInit(): void {
@@ -91,7 +93,11 @@ export class AccountsComponent implements OnInit {
               )
             });
         }
-      })
+      });
     }
+  }
+
+  isLoggedUser(account: Account) {
+    return account.username === this.loginService.getUsername();
   }
 }
