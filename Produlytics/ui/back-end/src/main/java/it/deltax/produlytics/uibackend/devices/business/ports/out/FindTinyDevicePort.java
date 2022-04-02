@@ -5,5 +5,5 @@ import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import java.util.Optional;
 
 public interface FindTinyDevicePort {
-    Optional<TinyDevice> find(int deviceId);
+    Optional<TinyDevice> findTinyDevice(int deviceId);
 }

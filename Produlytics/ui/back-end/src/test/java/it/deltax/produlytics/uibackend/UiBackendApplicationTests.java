@@ -38,7 +38,7 @@ class UiBackendApplicationTests {
 	}
 
 	@Test
-	public void listAllMacchine() throws Exception {
+	public void listAllDevices() throws Exception {
 		deviceRepository.save(new DeviceEntity("One", false, false, ""));
 
 		mockMvc.perform(get("/devices"))

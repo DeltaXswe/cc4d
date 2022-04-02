@@ -1,10 +1,10 @@
 package it.deltax.produlytics.uibackend.devices.business.ports.out;
 
-import it.deltax.produlytics.uibackend.devices.business.domain.DeviceDetails;
+import it.deltax.produlytics.uibackend.devices.business.domain.DetailedDevice;
 
 import java.util.Optional;
 
 public interface GetDeviceDetailsPort {
-	Optional<DeviceDetails> getDeviceDetails(int deviceId);
+	Optional<DetailedDevice> getDeviceDetails(int deviceId);
 
 }
