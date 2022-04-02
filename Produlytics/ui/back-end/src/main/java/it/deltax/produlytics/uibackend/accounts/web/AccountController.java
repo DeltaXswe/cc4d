@@ -1,6 +1,6 @@
 package it.deltax.produlytics.uibackend.accounts.web;
 
-import it.deltax.produlytics.uibackend.accounts.business.domain.UpdateAccountPassword;
+import it.deltax.produlytics.uibackend.accounts.business.domain.AccountUpdatePassword;
 import it.deltax.produlytics.uibackend.accounts.business.ports.in.UpdateAccountPasswordUseCase;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import static org.springframework.http.HttpStatus.*;
@@ -22,7 +22,7 @@ public class AccountController {
         @RequestParam("currentPassword") String currentPassword,
         @RequestParam("newPassword") String newPassword) throws BusinessException {
         updateAccountPasswordUseCase.updatePasswordByUsername(
-            new UpdateAccountPassword(username, currentPassword, newPassword));
+            new AccountUpdatePassword(username, currentPassword, newPassword));
         return new ResponseEntity<>(NO_CONTENT);
     }
 }

@@ -1,12 +1,13 @@
 package it.deltax.produlytics.uibackend.devices.adapters;
 
-import it.deltax.produlytics.uibackend.admins.business.ports.out.UpdateDeviceArchiveStatusPort;
-import it.deltax.produlytics.uibackend.admins.business.ports.out.UpdateDeviceDeactivateStatusPort;
-import it.deltax.produlytics.uibackend.admins.business.ports.out.UpdateDeviceNamePort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.UpdateDeviceArchiveStatusPort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.UpdateDeviceDeactivateStatusPort;
 import it.deltax.produlytics.uibackend.devices.business.domain.Device;
+import it.deltax.produlytics.uibackend.devices.business.domain.DeviceDetails;
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindTinyDevicePort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.GetAllUnarchivedDevicesPort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.GetDeviceDetailsPort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.GetDevicesPort;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
 import org.springframework.stereotype.Component;
@@ -20,9 +21,9 @@ import java.util.stream.StreamSupport;
 public class DeviceAdapter implements GetDevicesPort,
     GetAllUnarchivedDevicesPort,
     FindTinyDevicePort,
-    UpdateDeviceNamePort,
     UpdateDeviceArchiveStatusPort,
-    UpdateDeviceDeactivateStatusPort
+    UpdateDeviceDeactivateStatusPort,
+    GetDeviceDetailsPort
 {
 
     private final DeviceRepository repo;
@@ -58,11 +59,6 @@ public class DeviceAdapter implements GetDevicesPort,
     }
 
     @Override
-    public void updateDeviceNamePort(int deviceId, String name){
-        repo.updateDeviceName(deviceId, name);
-    }
-
-    @Override
     public void updateDeviceArchiveStatus(int deviceId, boolean archived) {
         repo.updateDeviceArchivedStatus(deviceId, archived);
     }
@@ -70,6 +66,17 @@ public class DeviceAdapter implements GetDevicesPort,
     @Override
     public void updateDeviceDeactivateStatus(int deviceId, boolean deactivated) {
         repo.updateDeviceDeactivatedStatus(deviceId, deactivated);
+        repo.save(new)
     }
 
+    @Override
+    public Optional<DeviceDetails> getDeviceDetails(int deviceId) {
+        return repo.findById(deviceId)
+            .map(macchina -> new DeviceDetails(macchina.getId(),
+            macchina.getName(),
+            macchina.getArchived(),
+            macchina.getDeactivated(),
+            macchina.getApikey()
+        ));
+    }
 }

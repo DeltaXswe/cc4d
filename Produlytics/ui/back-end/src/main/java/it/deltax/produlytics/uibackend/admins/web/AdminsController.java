@@ -1,43 +1,56 @@
 package it.deltax.produlytics.uibackend.admins.web;
 
+import it.deltax.produlytics.uibackend.accounts.business.domain.AccountArchiveStatus;
+import it.deltax.produlytics.uibackend.accounts.business.domain.AccountTiny;
 import it.deltax.produlytics.uibackend.admins.business.domain.DeviceDeactivateStatus;
 import it.deltax.produlytics.uibackend.admins.business.domain.UpdateAdminAccout;
 import it.deltax.produlytics.uibackend.admins.business.domain.DeviceArchiveStatus;
 import it.deltax.produlytics.uibackend.admins.business.domain.InsertAccount;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.*;
 import it.deltax.produlytics.uibackend.devices.business.domain.Device;
+import it.deltax.produlytics.uibackend.devices.business.domain.DeviceDetails;
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import static org.springframework.http.HttpStatus.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/admin")
 public class AdminsController {
 	private final UpdateAccountByAdminUseCase updateAccountByAdminUseCase;
+	private final UpdateAccountArchiveStatusUseCase updateAccountArchiveStatusUseCase;
 	private final InsertAccountUseCase insertAccountUseCase;
 	private final UpdateDeviceNameUseCase updateDeviceNameUseCase;
 	private final UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase;
 	private final UpdateDeviceDeactivateStatusUseCase updateDeviceDeativateStatusUseCase;
 	private final GetDevicesUseCase getDevicesUseCase;
+	private final GetDeviceDetailsUseCase getDeviceDetailsUseCase;
+	private final GetAccountsUseCase getAccountsUseCase;
 
 	public AdminsController(
 		UpdateAccountByAdminUseCase updateAccountByAdminUseCase,
+		UpdateAccountArchiveStatusUseCase updateAccountArchiveStatusUseCase,
 		InsertAccountUseCase insertAccountUseCase,
 		UpdateDeviceNameUseCase updateDeviceNameUseCase,
 		UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase,
 		UpdateDeviceDeactivateStatusUseCase updateDeviceDeativateStatusUseCase,
-		GetDevicesUseCase getDevicesUseCase
+		GetDevicesUseCase getDevicesUseCase,
+		GetDeviceDetailsUseCase getDeviceDetailsUseCase,
+		GetAccountsUseCase getAccountsUseCase
 	){
 		this.updateAccountByAdminUseCase = updateAccountByAdminUseCase;
+		this.updateAccountArchiveStatusUseCase = updateAccountArchiveStatusUseCase;
 		this.insertAccountUseCase = insertAccountUseCase;
 		this.updateDeviceNameUseCase = updateDeviceNameUseCase;
 		this.updateDeviceArchiveStatusUseCase = updateDeviceArchiveStatusUseCase;
 		this.updateDeviceDeativateStatusUseCase = updateDeviceDeativateStatusUseCase;
 		this.getDevicesUseCase = getDevicesUseCase;
+		this.getDeviceDetailsUseCase = getDeviceDetailsUseCase;
+		this.getAccountsUseCase = getAccountsUseCase;
 	}
 
 	@PostMapping("/accounts")
@@ -49,13 +62,25 @@ public class AdminsController {
 		return new ResponseEntity<>(OK); //TODO restituire l'username nel body
 	}
 
+	@GetMapping("/accounts")
+	public List<AccountTiny> getAccounts() throws BusinessException {
+		return getAccountsUseCase.getAccounts();
+	}
 
 	@PutMapping("/{username}")
-	public ResponseEntity<String> modifyAccount(
+	public ResponseEntity<String> updateAccount(
 		@PathVariable("username") String username,
 		@RequestParam("newPassword") Optional<String> newPassword,
 		@RequestParam("administrator") boolean administrator) throws BusinessException {
 		updateAccountByAdminUseCase.updateByUsername(new UpdateAdminAccout(username, newPassword, administrator));
+		return new ResponseEntity<>(NO_CONTENT);
+	}
+
+	@PutMapping("accounts/{username}/archived")
+	public ResponseEntity<String> updateAccountArchiveStatus(
+		@PathVariable("username") String username,
+		@RequestParam("archived") boolean archived) throws BusinessException {
+		updateAccountArchiveStatusUseCase.updateAccountArchiveStatus(new AccountArchiveStatus(username, archived));
 		return new ResponseEntity<>(NO_CONTENT);
 	}
 
@@ -87,5 +112,12 @@ public class AdminsController {
 		updateDeviceDeativateStatusUseCase.updateDeviceDeactivateStatus(new DeviceDeactivateStatus(id, deactivated));
 		return new ResponseEntity<>(NO_CONTENT);
 	}
+
+	@GetMapping("/devices/{deviceId}")
+	public Optional<DeviceDetails>  getDeviceDetails(
+		@PathVariable("deviceId") int id) throws BusinessException {
+		return getDeviceDetailsUseCase.getDeviceDetails(id);
+	}
+
 
 }
