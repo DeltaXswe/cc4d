@@ -8,7 +8,7 @@ import it.deltax.produlytics.uibackend.admins.business.domain.DeviceArchiveStatu
 import it.deltax.produlytics.uibackend.admins.business.domain.InsertAccount;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.*;
 import it.deltax.produlytics.uibackend.devices.business.domain.Device;
-import it.deltax.produlytics.uibackend.devices.business.domain.DeviceDetails;
+import it.deltax.produlytics.uibackend.devices.business.domain.DetailedDevice;
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import static org.springframework.http.HttpStatus.*;
@@ -114,7 +114,7 @@ public class AdminsController {
 	}
 
 	@GetMapping("/devices/{deviceId}")
-	public Optional<DeviceDetails>  getDeviceDetails(
+	public Optional<DetailedDevice>  getDeviceDetails(
 		@PathVariable("deviceId") int id) throws BusinessException {
 		return getDeviceDetailsUseCase.getDeviceDetails(id);
 	}

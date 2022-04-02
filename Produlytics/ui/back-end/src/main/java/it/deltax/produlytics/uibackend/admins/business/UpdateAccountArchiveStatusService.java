@@ -7,7 +7,9 @@ import it.deltax.produlytics.uibackend.accounts.business.ports.out.UpdateAccount
 import it.deltax.produlytics.uibackend.admins.business.ports.in.UpdateAccountArchiveStatusUseCase;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UpdateAccountArchiveStatusService implements UpdateAccountArchiveStatusUseCase {
 	private final UpdateAccountArchiveStatusPort updateAccountArchiveStatusPort;
 	private final FindAccountPort findAccountPort;
