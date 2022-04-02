@@ -15,8 +15,11 @@ import static org.springframework.http.HttpStatus.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/admin")
@@ -54,12 +57,14 @@ public class AdminsController {
 	}
 
 	@PostMapping("/accounts")
-	public ResponseEntity<String> insertAccount(
+	public Map<String, String> insertAccount(
 		@RequestParam("username") String username,
 		@RequestParam("password") String password,
 		@RequestParam("administrator") boolean administrator) throws BusinessException {
 		insertAccountUseCase.insertAccount(new InsertAccount(username, password, administrator));
-		return new ResponseEntity<>(OK); //TODO restituire l'username nel body
+		Map<String, String> map = new HashMap<>();
+		map.put("username", username);
+		return map;
 	}
 
 	@GetMapping("/accounts")
