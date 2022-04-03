@@ -1,6 +1,7 @@
 package it.deltax.produlytics.api.detections.adapters;
 
-import it.deltax.produlytics.api.detections.business.domain.*;
+import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
+import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.domain.serie.LimitsInfo;
 import it.deltax.produlytics.api.detections.business.domain.serie.MeanStddev;
 import it.deltax.produlytics.api.detections.business.domain.serie.TechnicalLimits;
@@ -46,17 +47,24 @@ public class DetectionsAdapter implements FindDeviceInfoByApiKeyPort,
 	}
 
 	@Override
-	public Optional<CharacteristicInfo> findCharacteristic(int deviceId, int characteristicId) {
-		return this.characteristicRepository.findById(new CharacteristicEntityId(deviceId, characteristicId))
+	public Optional<CharacteristicInfo> findCharacteristic(CharacteristicId characteristicId) {
+		return this.characteristicRepository.findById(new CharacteristicEntityId(characteristicId.deviceId(),
+				characteristicId.characteristicId()
+			))
 			.map(characteristicEntity -> new CharacteristicInfo(characteristicEntity.getArchived()));
 	}
 
 	@Override
-	public List<Detection> findLastDetections(int deviceId, int characteristicId, int count) {
-		return this.detectionRepository.findLastDetectionsById(deviceId, characteristicId, count)
+	public List<Detection> findLastDetections(CharacteristicId characteristicId, int count) {
+		return this.detectionRepository.findLastDetectionsById(characteristicId.deviceId(),
+				characteristicId.characteristicId(),
+				count
+			)
 			.stream()
-			.map(detectionEntity -> new Detection(detectionEntity.getId().getDeviceId(),
-				detectionEntity.getId().getCharacteristicId(),
+			.map(detectionEntity -> new Detection(
+				new CharacteristicId(detectionEntity.getId().getDeviceId(),
+					detectionEntity.getId().getCharacteristicId()
+				),
 				detectionEntity.getId().getCreationTime(),
 				detectionEntity.getValue()
 			))
@@ -66,16 +74,18 @@ public class DetectionsAdapter implements FindDeviceInfoByApiKeyPort,
 	@Override
 	public void insertDetection(Detection detection) {
 		DetectionEntityId detectionEntityId = new DetectionEntityId(detection.creationTime(),
-			detection.characteristicId(),
-			detection.deviceId()
+			detection.characteristicId().characteristicId(),
+			detection.characteristicId().deviceId()
 		);
 		DetectionEntity detectionEntity = new DetectionEntity(detectionEntityId, detection.value(), false);
 		this.detectionRepository.save(detectionEntity);
 	}
 
 	@Override
-	public LimitsInfo findLimits(int deviceId, int characteristicId) {
-		LimitsEntity limitsEntity = this.characteristicRepository.findLimits(deviceId, characteristicId);
+	public LimitsInfo findLimits(CharacteristicId characteristicId) {
+		LimitsEntity limitsEntity = this.characteristicRepository.findLimits(characteristicId.deviceId(),
+			characteristicId.characteristicId()
+		);
 
 		Optional<TechnicalLimits> technicalLimits = Optional.empty();
 		if(limitsEntity.getTechnicalLowerLimit().isPresent() && limitsEntity.getTechnicalUpperLimit().isPresent()) {
@@ -96,8 +106,8 @@ public class DetectionsAdapter implements FindDeviceInfoByApiKeyPort,
 
 	@Override
 	public void markOutlier(Detection detection) {
-		this.detectionRepository.markOutlier(detection.deviceId(),
-			detection.characteristicId(),
+		this.detectionRepository.markOutlier(detection.characteristicId().deviceId(),
+			detection.characteristicId().characteristicId(),
 			detection.creationTime()
 		);
 	}

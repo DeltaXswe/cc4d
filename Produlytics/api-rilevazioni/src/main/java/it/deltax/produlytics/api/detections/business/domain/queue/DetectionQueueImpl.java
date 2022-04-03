@@ -5,6 +5,7 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.processors.PublishProcessor;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerie;
 import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerieFactory;
@@ -25,7 +26,7 @@ public class DetectionQueueImpl implements DetectionQueue {
 		// - processare ogni gruppo in modo sequenziale con `this.handleDetectionGroup`
 		// TODO: Fix warning subscribe ignored
 		this.detectionProcessor.observeOn(Schedulers.computation())
-			.groupBy(detection -> new CharacteristicKey(detection.deviceId(), detection.characteristicId()))
+			.groupBy(Detection::characteristicId)
 			.subscribe(group -> this.handleDetectionGroup(group.getKey(), group));
 	}
 
@@ -46,7 +47,7 @@ public class DetectionQueueImpl implements DetectionQueue {
 	// Note importanti:
 	// - il parametro `Flowable.empty()` di `timeout` evita di lanciare errori in caso di timeout;
 	// - `concatMapCompletable` permette di finire di gestire una rilevazione prima della prossima.
-	private void handleDetectionGroup(CharacteristicKey key, Flowable<Detection> group) {
+	private void handleDetectionGroup(CharacteristicId key, Flowable<Detection> group) {
 		Single<DetectionSerie> serieSingle = this.createSerieForKey(key);
 		// TODO: Fix warning subscribe ignored
 		group.observeOn(Schedulers.computation())
@@ -59,8 +60,8 @@ public class DetectionQueueImpl implements DetectionQueue {
 	// Ritorna un `Single` perchè la sua creazione può richiedere una chiamata al database,
 	// e questa non dovrebbe bloccare il subscribe del `group` in `handleDetectionGroup`.
 	// `.cache()` è importante per non ricreare la `DetectionSerie` per ogni rilevazione.
-	private Single<DetectionSerie> createSerieForKey(CharacteristicKey key) {
-		return Single.fromCallable(() -> this.serieFactory.createSerie(key.deviceId(), key.characteristicId()))
+	private Single<DetectionSerie> createSerieForKey(CharacteristicId key) {
+		return Single.fromCallable(() -> this.serieFactory.createSerie(key))
 			.cache()
 			.subscribeOn(Schedulers.io());
 	}

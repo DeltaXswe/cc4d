@@ -1,5 +1,6 @@
 package it.deltax.produlytics.api.detections.business.domain.serie;
 
+import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlChart;
 import it.deltax.produlytics.api.detections.business.ports.out.FindLastDetectionsPort;
 import it.deltax.produlytics.api.detections.business.ports.out.FindLimitsPort;
@@ -31,14 +32,13 @@ public class DetectionSerieImplFactory implements DetectionSerieFactory {
 		this.controlCharts = controlCharts;
 	}
 	@Override
-	public DetectionSerie createSerie(int deviceId, int characteristicId) {
+	public DetectionSerie createSerie(CharacteristicId characteristicId) {
 		return new DetectionSerieImpl(
 			this.insertDetectionPort,
 			this.findLimitsPort,
 			this.findLastDetectionsPort,
 			this.markOutlierPort,
 			this.controlCharts,
-			deviceId,
 			characteristicId
 		);
 	}

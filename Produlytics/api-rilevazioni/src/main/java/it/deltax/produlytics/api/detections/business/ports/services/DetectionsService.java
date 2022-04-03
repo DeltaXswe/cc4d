@@ -1,10 +1,10 @@
 package it.deltax.produlytics.api.detections.business.ports.services;
 
+import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.domain.IncomingDetection;
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueue;
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidator;
-import it.deltax.produlytics.api.detections.business.domain.validate.ValidationInfo;
 import it.deltax.produlytics.api.detections.business.ports.in.ProcessIncomingDetectionUseCase;
 import it.deltax.produlytics.api.exceptions.BusinessException;
 
@@ -22,14 +22,10 @@ public class DetectionsService implements ProcessIncomingDetectionUseCase {
 
 	@Override
 	public void processIncomingDetection(IncomingDetection incomingDetection) throws BusinessException {
-		ValidationInfo validationInfo = detectionValidator.validateAndFindDeviceId(incomingDetection.apiKey(),
+		CharacteristicId characteristicId = detectionValidator.validateAndFindDeviceId(incomingDetection.apiKey(),
 			incomingDetection.characteristicId()
 		);
-		Detection detection = new Detection(validationInfo.deviceId(),
-			incomingDetection.characteristicId(),
-			Instant.now(),
-			incomingDetection.value()
-		);
+		Detection detection = new Detection(characteristicId, Instant.now(), incomingDetection.value());
 		detectionQueue.enqueueDetection(detection);
 	}
 }

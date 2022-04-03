@@ -1,5 +1,6 @@
 package it.deltax.produlytics.api.detections.business.domain.serie;
 
+import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlChart;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlLimits;
@@ -20,8 +21,7 @@ public class DetectionSerieImpl implements DetectionSerie {
 
 	private final List<? extends ControlChart> controlCharts;
 
-	private final int deviceId;
-	private final int characteristicId;
+	private final CharacteristicId characteristicId;
 
 	DetectionSerieImpl(
 		InsertDetectionPort insertDetectionPort,
@@ -29,15 +29,13 @@ public class DetectionSerieImpl implements DetectionSerie {
 		FindLastDetectionsPort findLastDetectionsPort,
 		MarkOutlierPort markOutlierPort,
 		List<? extends ControlChart> controlCharts,
-		int deviceId,
-		int characteristicId
+		CharacteristicId characteristicId
 	) {
 		this.insertDetectionPort = insertDetectionPort;
 		this.findLimitsPort = findLimitsPort;
 		this.findLastDetectionsPort = findLastDetectionsPort;
 		this.markOutlierPort = markOutlierPort;
 		this.controlCharts = controlCharts;
-		this.deviceId = deviceId;
 		this.characteristicId = characteristicId;
 	}
 
@@ -51,7 +49,9 @@ public class DetectionSerieImpl implements DetectionSerie {
 	}
 
 	// Interroga le liste di controllo, fornendo i limiti e le rilevazioni presi in input.
-	private void interrogateControlCharts(ControlLimits controlLimits, List<? extends MarkableDetection> lastDetections) {
+	private void interrogateControlCharts(
+		ControlLimits controlLimits, List<? extends MarkableDetection> lastDetections
+	) {
 		for(ControlChart controlChart : this.controlCharts) {
 			// Evita d'interrogare la carta di controllo se non ci sono abbastanza rilevazioni.
 			int count = controlChart.requiredDetectionCount();
@@ -67,7 +67,7 @@ public class DetectionSerieImpl implements DetectionSerie {
 		// Limita il numero di rilevazioni al numero massimo accettato dalle carte di controllo,
 		// o 0 se non ci sono carte di controllo.
 		int maxCount = this.controlCharts.stream().mapToInt(ControlChart::requiredDetectionCount).max().orElse(0);
-		return this.findLastDetectionsPort.findLastDetections(this.deviceId, this.characteristicId, maxCount)
+		return this.findLastDetectionsPort.findLastDetections(this.characteristicId, maxCount)
 			.stream()
 			.map(detection -> new MarkableDetectionAdapter(this.markOutlierPort, detection))
 			.toList();
@@ -75,7 +75,7 @@ public class DetectionSerieImpl implements DetectionSerie {
 
 	// Calcola i limiti di controllo utilizzando i limiti tecnici e di
 	private ControlLimits computeControlLimits() {
-		LimitsInfo limitsInfo = this.findLimitsPort.findLimits(this.deviceId, this.characteristicId);
+		LimitsInfo limitsInfo = this.findLimitsPort.findLimits(this.characteristicId);
 		// Prima controlla i limiti di processo.
 		if(limitsInfo.meanStddev().isPresent()) {
 			MeanStddev meanStddev = limitsInfo.meanStddev().get();
@@ -86,16 +86,16 @@ public class DetectionSerieImpl implements DetectionSerie {
 			TechnicalLimits technicalLimits = limitsInfo.technicalLimits().get();
 			return new ControlLimits(technicalLimits.lowerLimit(), technicalLimits.upperLimit());
 		} else {
-			throw new IllegalStateException(String.format(
-				"Non sono impostati nè i limiti tecnici nè l'auto-adjust per la caratteristica (%d, %d)",
-				this.deviceId,
-				this.characteristicId
-			));
+			throw new IllegalStateException(
+				"Non sono impostati nè i limiti tecnici nè l'auto-adjust per la caratteristica"
+					+ this.characteristicId);
 		}
 	}
 
 	// Ritorna una lista contenente solo le ultime `count` rilevazioni di `lastDetections`
-	private List<? extends MarkableDetection> cutLastDetections(List<? extends MarkableDetection> lastDetections, int count) {
+	private List<? extends MarkableDetection> cutLastDetections(
+		List<? extends MarkableDetection> lastDetections, int count
+	) {
 		return lastDetections.subList(lastDetections.size() - count, lastDetections.size());
 	}
 }

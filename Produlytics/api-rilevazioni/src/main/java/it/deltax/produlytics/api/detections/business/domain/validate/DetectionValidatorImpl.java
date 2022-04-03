@@ -1,5 +1,6 @@
 package it.deltax.produlytics.api.detections.business.domain.validate;
 
+import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.ports.out.FindCharacteristicInfoPort;
 import it.deltax.produlytics.api.detections.business.ports.out.FindDeviceInfoByApiKeyPort;
 import it.deltax.produlytics.api.exceptions.BusinessException;
@@ -18,7 +19,7 @@ public class DetectionValidatorImpl implements DetectionValidator {
 	}
 
 	@Override
-	public ValidationInfo validateAndFindDeviceId(String apiKey, int characteristicId) throws BusinessException {
+	public CharacteristicId validateAndFindDeviceId(String apiKey, int characteristicId) throws BusinessException {
 
 		DeviceInfo deviceInfo = this.findDeviceInfoByApiKeyPort.findDeviceByApiKey(apiKey)
 			.orElseThrow(() -> new BusinessException("notAuthenticated", ErrorType.AUTHENTICATION));
@@ -27,15 +28,15 @@ public class DetectionValidatorImpl implements DetectionValidator {
 			throw new BusinessException("archived", ErrorType.ARCHIVED);
 		}
 
-		CharacteristicInfo characteristicInfo = this.findCharacteristicInfoPort.findCharacteristic(deviceInfo.deviceId(),
-				characteristicId
-			)
+		CharacteristicId characteristicIdComp = new CharacteristicId(deviceInfo.deviceId(), characteristicId);
+
+		CharacteristicInfo characteristicInfo = this.findCharacteristicInfoPort.findCharacteristic(characteristicIdComp)
 			.orElseThrow(() -> new BusinessException("characteristicNotFound", ErrorType.NOT_FOUND));
 
 		if(characteristicInfo.archived()) {
 			throw new BusinessException("archived", ErrorType.ARCHIVED);
 		}
 
-		return new ValidationInfo(deviceInfo.deviceId());
+		return characteristicIdComp;
 	}
 }
