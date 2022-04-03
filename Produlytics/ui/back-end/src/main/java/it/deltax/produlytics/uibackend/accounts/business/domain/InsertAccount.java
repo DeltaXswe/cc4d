@@ -1,4 +1,4 @@
-package it.deltax.produlytics.uibackend.admins.business.domain;
+package it.deltax.produlytics.uibackend.accounts.business.domain;
 
 public record InsertAccount(
 	String username,

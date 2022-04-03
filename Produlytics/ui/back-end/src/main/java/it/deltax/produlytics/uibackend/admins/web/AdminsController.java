@@ -2,14 +2,10 @@ package it.deltax.produlytics.uibackend.admins.web;
 
 import it.deltax.produlytics.uibackend.accounts.business.domain.AccountArchiveStatus;
 import it.deltax.produlytics.uibackend.accounts.business.domain.AccountTiny;
-import it.deltax.produlytics.uibackend.admins.business.domain.DeviceDeactivateStatus;
-import it.deltax.produlytics.uibackend.admins.business.domain.UpdateAdminAccout;
-import it.deltax.produlytics.uibackend.admins.business.domain.DeviceArchiveStatus;
-import it.deltax.produlytics.uibackend.admins.business.domain.InsertAccount;
+import it.deltax.produlytics.uibackend.accounts.business.domain.InsertAccount;
+import it.deltax.produlytics.uibackend.admins.business.domain.*;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.*;
-import it.deltax.produlytics.uibackend.devices.business.domain.Device;
-import it.deltax.produlytics.uibackend.devices.business.domain.DetailedDevice;
-import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
+import it.deltax.produlytics.uibackend.devices.business.domain.*;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import static org.springframework.http.HttpStatus.*;
 import org.springframework.http.ResponseEntity;
@@ -119,7 +115,7 @@ public class AdminsController {
 	}
 
 	@GetMapping("/devices/{deviceId}")
-	public ResponseEntity<Optional<DetailedDevice>>  getDeviceDetails(
+	public ResponseEntity<Optional<DetailedDevice>> getDeviceDetails(
 		@PathVariable("deviceId") int id) throws BusinessException {
 		return ResponseEntity.ok(getDeviceDetailsUseCase.getDeviceDetails(id));
 	}
