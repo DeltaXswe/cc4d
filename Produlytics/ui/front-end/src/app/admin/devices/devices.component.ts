@@ -31,7 +31,7 @@ export class DevicesComponent implements OnInit {
     }
   }
 
-  devices = new DeviceDataSource();
+  readonly devices = new DeviceDataSource();
   readonly displayedColumns = ['name', 'edit', 'activation', 'status'];
 
   constructor(

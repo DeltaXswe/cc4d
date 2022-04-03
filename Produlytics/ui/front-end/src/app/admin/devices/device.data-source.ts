@@ -32,5 +32,4 @@ export class DeviceDataSource implements DataSource<Device> {
     });
     this.setData(sorted);
   }
-
 }

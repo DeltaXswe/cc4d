@@ -15,8 +15,8 @@ import {DeviceCreationCommand} from "../../../model/admin-device/new/device-crea
   styleUrls: ['./new-device.component.css']
 })
 export class NewDeviceComponent implements OnInit {
-  formGroup: FormGroup;
-  characteristics: CharacteristicCreationCommand[] = [];
+  readonly formGroup: FormGroup;
+  readonly characteristics: CharacteristicCreationCommand[] = [];
 
   constructor(
     private matDialog: MatDialog,
