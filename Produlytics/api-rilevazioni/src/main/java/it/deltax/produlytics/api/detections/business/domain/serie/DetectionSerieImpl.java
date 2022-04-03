@@ -2,7 +2,7 @@ package it.deltax.produlytics.api.detections.business.domain.serie;
 
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
-import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlChart;
+import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlCharts;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlLimits;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.MarkableDetection;
 import it.deltax.produlytics.api.detections.business.domain.serie.facade.SeriePortFacade;
@@ -12,13 +12,11 @@ import java.util.List;
 // Implementazione canonica di `DetectionSerie`.
 public class DetectionSerieImpl implements DetectionSerie {
 	private final SeriePortFacade seriePortFacade;
-
-	private final List<? extends ControlChart> controlCharts;
-
+	private final ControlCharts controlCharts;
 	private final CharacteristicId characteristicId;
 
 	DetectionSerieImpl(
-		SeriePortFacade seriePortFacade, List<? extends ControlChart> controlCharts, CharacteristicId characteristicId
+		SeriePortFacade seriePortFacade, ControlCharts controlCharts, CharacteristicId characteristicId
 	) {
 		this.seriePortFacade = seriePortFacade;
 		this.controlCharts = controlCharts;
@@ -31,29 +29,15 @@ public class DetectionSerieImpl implements DetectionSerie {
 
 		ControlLimits controlLimits = this.computeControlLimits();
 		List<? extends MarkableDetection> lastDetections = this.detectionsForControlCharts();
-		this.interrogateControlCharts(controlLimits, lastDetections);
-	}
-
-	// Interroga le liste di controllo, fornendo i limiti e le rilevazioni presi in input.
-	private void interrogateControlCharts(
-		ControlLimits controlLimits, List<? extends MarkableDetection> lastDetections
-	) {
-		for(ControlChart controlChart : this.controlCharts) {
-			// Evita d'interrogare la carta di controllo se non ci sono abbastanza rilevazioni.
-			int count = controlChart.requiredDetectionCount();
-			if(lastDetections.size() >= count) {
-				// Passa solo le ultime rilevazioni richieste dalla carta di controllo.
-				controlChart.analyzeDetections(this.cutLastDetections(lastDetections, count), controlLimits);
-			}
-		}
+		this.controlCharts.analyzeDetections(lastDetections, controlLimits);
 	}
 
 	// Ritorna una lista di rilevazioni marcabili per le carte di controllo.
 	private List<? extends MarkableDetection> detectionsForControlCharts() {
 		// Limita il numero di rilevazioni al numero massimo accettato dalle carte di controllo,
 		// o 0 se non ci sono carte di controllo.
-		int maxCount = this.controlCharts.stream().mapToInt(ControlChart::requiredDetectionCount).max().orElse(0);
-		return this.seriePortFacade.findLastDetections(this.characteristicId, maxCount)
+		int count = this.controlCharts.requiredDetectionCount();
+		return this.seriePortFacade.findLastDetections(this.characteristicId, count)
 			.stream()
 			.map(detection -> new MarkableDetectionAdapter(this.seriePortFacade, detection))
 			.toList();
@@ -76,12 +60,5 @@ public class DetectionSerieImpl implements DetectionSerie {
 				"Non sono impostati nè i limiti tecnici nè l'auto-adjust per la caratteristica"
 					+ this.characteristicId);
 		}
-	}
-
-	// Ritorna una lista contenente solo le ultime `count` rilevazioni di `lastDetections`
-	private List<? extends MarkableDetection> cutLastDetections(
-		List<? extends MarkableDetection> lastDetections, int count
-	) {
-		return lastDetections.subList(lastDetections.size() - count, lastDetections.size());
 	}
 }

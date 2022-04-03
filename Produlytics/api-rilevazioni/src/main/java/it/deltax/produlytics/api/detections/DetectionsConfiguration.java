@@ -34,7 +34,7 @@ public class DetectionsConfiguration {
 			findCharacteristicInfoPort
 		);
 
-		List<ControlChart> controlCharts = List.of(new ControlChartBeyondLimits(),
+		List<ControlChart> controlChartList = List.of(new ControlChartBeyondLimits(),
 			new ControlChartZoneA(),
 			new ControlChartZoneB(),
 			new ControlChartZoneC(),
@@ -43,6 +43,8 @@ public class DetectionsConfiguration {
 			new ControlChartStratification(),
 			new ControlChartOverControl()
 		);
+
+		ControlCharts controlCharts = new ControlChartsImpl(controlChartList);
 
 		SeriePortFacade seriePortFacade = new SeriePortFacadeImpl(insertDetectionPort,
 			findLimitsPort,
