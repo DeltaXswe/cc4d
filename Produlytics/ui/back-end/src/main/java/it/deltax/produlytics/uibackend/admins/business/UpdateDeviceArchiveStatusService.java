@@ -1,12 +1,10 @@
 package it.deltax.produlytics.uibackend.admins.business;
 
-import it.deltax.produlytics.uibackend.admins.business.domain.DeviceArchiveStatus;
+import it.deltax.produlytics.uibackend.devices.business.domain.DeviceArchiveStatus;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.UpdateDeviceArchiveStatusUseCase;
 import it.deltax.produlytics.uibackend.devices.business.domain.DetailedDevice;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.FindDetailedDevicePort;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.UpdateDeviceArchiveStatusPort;
-import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.FindTinyDevicePort;
+import it.deltax.produlytics.uibackend.devices.business.domain.out.FindDetailedDevicePort;
+import it.deltax.produlytics.uibackend.devices.business.domain.out.UpdateDeviceArchiveStatusPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
