@@ -5,6 +5,8 @@ import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueue
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueueImpl;
 import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerieFactory;
 import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerieImplFactory;
+import it.deltax.produlytics.api.detections.business.domain.serie.facade.SeriePortFacade;
+import it.deltax.produlytics.api.detections.business.domain.serie.facade.SeriePortFacadeImpl;
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidator;
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidatorImpl;
 import it.deltax.produlytics.api.detections.business.ports.in.ProcessIncomingDetectionUseCase;
@@ -42,12 +44,13 @@ public class DetectionsConfiguration {
 			new ControlChartOverControl()
 		);
 
-		DetectionSerieFactory detectionSerieFactory = new DetectionSerieImplFactory(insertDetectionPort,
+		SeriePortFacade seriePortFacade = new SeriePortFacadeImpl(insertDetectionPort,
 			findLimitsPort,
 			findLastDetectionsPort,
-			markOutlierPort,
-			controlCharts
+			markOutlierPort
 		);
+
+		DetectionSerieFactory detectionSerieFactory = new DetectionSerieImplFactory(seriePortFacade, controlCharts);
 
 		DetectionQueue detectionQueue = new DetectionQueueImpl(detectionSerieFactory);
 

@@ -5,43 +5,29 @@ import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlChart;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlLimits;
 import it.deltax.produlytics.api.detections.business.domain.control_chart.MarkableDetection;
-import it.deltax.produlytics.api.detections.business.ports.out.FindLastDetectionsPort;
-import it.deltax.produlytics.api.detections.business.ports.out.FindLimitsPort;
-import it.deltax.produlytics.api.detections.business.ports.out.InsertDetectionPort;
-import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
+import it.deltax.produlytics.api.detections.business.domain.serie.facade.SeriePortFacade;
 
 import java.util.List;
 
 // Implementazione canonica di `DetectionSerie`.
 public class DetectionSerieImpl implements DetectionSerie {
-	private final InsertDetectionPort insertDetectionPort;
-	private final FindLimitsPort findLimitsPort;
-	private final FindLastDetectionsPort findLastDetectionsPort;
-	private final MarkOutlierPort markOutlierPort;
+	private final SeriePortFacade seriePortFacade;
 
 	private final List<? extends ControlChart> controlCharts;
 
 	private final CharacteristicId characteristicId;
 
 	DetectionSerieImpl(
-		InsertDetectionPort insertDetectionPort,
-		FindLimitsPort findLimitsPort,
-		FindLastDetectionsPort findLastDetectionsPort,
-		MarkOutlierPort markOutlierPort,
-		List<? extends ControlChart> controlCharts,
-		CharacteristicId characteristicId
+		SeriePortFacade seriePortFacade, List<? extends ControlChart> controlCharts, CharacteristicId characteristicId
 	) {
-		this.insertDetectionPort = insertDetectionPort;
-		this.findLimitsPort = findLimitsPort;
-		this.findLastDetectionsPort = findLastDetectionsPort;
-		this.markOutlierPort = markOutlierPort;
+		this.seriePortFacade = seriePortFacade;
 		this.controlCharts = controlCharts;
 		this.characteristicId = characteristicId;
 	}
 
 	@Override
 	public void insertDetection(Detection detection) {
-		this.insertDetectionPort.insertDetection(detection);
+		this.seriePortFacade.insertDetection(detection);
 
 		ControlLimits controlLimits = this.computeControlLimits();
 		List<? extends MarkableDetection> lastDetections = this.detectionsForControlCharts();
@@ -67,15 +53,15 @@ public class DetectionSerieImpl implements DetectionSerie {
 		// Limita il numero di rilevazioni al numero massimo accettato dalle carte di controllo,
 		// o 0 se non ci sono carte di controllo.
 		int maxCount = this.controlCharts.stream().mapToInt(ControlChart::requiredDetectionCount).max().orElse(0);
-		return this.findLastDetectionsPort.findLastDetections(this.characteristicId, maxCount)
+		return this.seriePortFacade.findLastDetections(this.characteristicId, maxCount)
 			.stream()
-			.map(detection -> new MarkableDetectionAdapter(this.markOutlierPort, detection))
+			.map(detection -> new MarkableDetectionAdapter(this.seriePortFacade, detection))
 			.toList();
 	}
 
 	// Calcola i limiti di controllo utilizzando i limiti tecnici e di
 	private ControlLimits computeControlLimits() {
-		LimitsInfo limitsInfo = this.findLimitsPort.findLimits(this.characteristicId);
+		LimitsInfo limitsInfo = this.seriePortFacade.findLimits(this.characteristicId);
 		// Prima controlla i limiti di processo.
 		if(limitsInfo.meanStddev().isPresent()) {
 			MeanStddev meanStddev = limitsInfo.meanStddev().get();
