@@ -11,21 +11,19 @@ import java.util.List;
 
 // Implementazione canonica di `DetectionSerie`.
 public class DetectionSerieImpl implements DetectionSerie {
-	private final SeriePortFacade seriePortFacade;
+	private final SeriePortFacade ports;
 	private final ControlCharts controlCharts;
 	private final CharacteristicId characteristicId;
 
-	DetectionSerieImpl(
-		SeriePortFacade seriePortFacade, ControlCharts controlCharts, CharacteristicId characteristicId
-	) {
-		this.seriePortFacade = seriePortFacade;
+	DetectionSerieImpl(SeriePortFacade ports, ControlCharts controlCharts, CharacteristicId characteristicId) {
+		this.ports = ports;
 		this.controlCharts = controlCharts;
 		this.characteristicId = characteristicId;
 	}
 
 	@Override
 	public void insertDetection(Detection detection) {
-		this.seriePortFacade.insertDetection(detection);
+		this.ports.insertDetection(detection);
 
 		ControlLimits controlLimits = this.computeControlLimits();
 		List<? extends MarkableDetection> lastDetections = this.detectionsForControlCharts();
@@ -37,15 +35,15 @@ public class DetectionSerieImpl implements DetectionSerie {
 		// Limita il numero di rilevazioni al numero massimo accettato dalle carte di controllo,
 		// o 0 se non ci sono carte di controllo.
 		int count = this.controlCharts.requiredDetectionCount();
-		return this.seriePortFacade.findLastDetections(this.characteristicId, count)
+		return this.ports.findLastDetections(this.characteristicId, count)
 			.stream()
-			.map(detection -> new MarkableDetectionAdapter(this.seriePortFacade, detection))
+			.map(detection -> new MarkableDetectionAdapter(this.ports, detection))
 			.toList();
 	}
 
 	// Calcola i limiti di controllo utilizzando i limiti tecnici e di
 	private ControlLimits computeControlLimits() {
-		LimitsInfo limitsInfo = this.seriePortFacade.findLimits(this.characteristicId);
+		LimitsInfo limitsInfo = this.ports.findLimits(this.characteristicId);
 		// Prima controlla i limiti di processo.
 		if(limitsInfo.meanStddev().isPresent()) {
 			MeanStddev meanStddev = limitsInfo.meanStddev().get();
