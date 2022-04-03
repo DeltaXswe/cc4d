@@ -2,7 +2,7 @@ package it.deltax.produlytics.uibackend.devices.business;
 
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicLimits;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetLimitsUseCase;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicLimitsPort;
+import it.deltax.produlytics.uibackend.devices.business.domain.out.FindCharacteristicLimitsPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.stereotype.Service;

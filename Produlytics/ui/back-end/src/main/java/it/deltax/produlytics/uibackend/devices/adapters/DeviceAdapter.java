@@ -1,13 +1,11 @@
 package it.deltax.produlytics.uibackend.devices.adapters;
 
 import it.deltax.produlytics.persistence.DeviceEntity;
-import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.*;
+import it.deltax.produlytics.uibackend.devices.business.domain.out.*;
 import it.deltax.produlytics.uibackend.devices.business.domain.Device;
 import it.deltax.produlytics.uibackend.devices.business.domain.DetailedDevice;
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
