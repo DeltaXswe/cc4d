@@ -13,9 +13,8 @@ import java.util.Map;
 @SuppressWarnings("unused")
 public class BusinessExceptionHandler {
 	@ExceptionHandler(BusinessException.class)
-	ResponseEntity<Map<String, String>> handleStatusException(BusinessException e) {
-		Map<String, String> error = new HashMap<>();
-		error.put("errorCode", e.getCode());
+	public ResponseEntity<Map<String, String>> handleStatusException(BusinessException e) {
+		Map<String, String> body = Map.of("errorCode", e.getCode());
 
 		HttpStatus httpStatus = switch(e.getType()) {
 			case AUTHENTICATION -> HttpStatus.UNAUTHORIZED; // 401
@@ -23,6 +22,6 @@ public class BusinessExceptionHandler {
 			case ARCHIVED -> HttpStatus.GONE; // 410
 		};
 
-		return new ResponseEntity<>(error, httpStatus);
+		return new ResponseEntity<>(body, httpStatus);
 	}
 }
