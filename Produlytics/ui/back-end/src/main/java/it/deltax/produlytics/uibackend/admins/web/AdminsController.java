@@ -23,6 +23,7 @@ public class AdminsController {
 	private final UpdateAccountByAdminUseCase updateAccountByAdminUseCase;
 	private final UpdateAccountArchiveStatusUseCase updateAccountArchiveStatusUseCase;
 	private final InsertAccountUseCase insertAccountUseCase;
+	private final InsertDeviceUseCase insertDeviceUseCase;
 	private final UpdateDeviceNameUseCase updateDeviceNameUseCase;
 	private final UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase;
 	private final UpdateDeviceDeactivateStatusUseCase updateDeviceDeativateStatusUseCase;
@@ -34,6 +35,7 @@ public class AdminsController {
 		UpdateAccountByAdminUseCase updateAccountByAdminUseCase,
 		UpdateAccountArchiveStatusUseCase updateAccountArchiveStatusUseCase,
 		InsertAccountUseCase insertAccountUseCase,
+		InsertDeviceUseCase insertDeviceUseCase,
 		UpdateDeviceNameUseCase updateDeviceNameUseCase,
 		UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase,
 		UpdateDeviceDeactivateStatusUseCase updateDeviceDeativateStatusUseCase,
@@ -44,6 +46,7 @@ public class AdminsController {
 		this.updateAccountByAdminUseCase = updateAccountByAdminUseCase;
 		this.updateAccountArchiveStatusUseCase = updateAccountArchiveStatusUseCase;
 		this.insertAccountUseCase = insertAccountUseCase;
+		this.insertDeviceUseCase = insertDeviceUseCase;
 		this.updateDeviceNameUseCase = updateDeviceNameUseCase;
 		this.updateDeviceArchiveStatusUseCase = updateDeviceArchiveStatusUseCase;
 		this.updateDeviceDeativateStatusUseCase = updateDeviceDeativateStatusUseCase;
@@ -60,6 +63,16 @@ public class AdminsController {
 		insertAccountUseCase.insertAccount(new AccountToInsert(username, password, administrator));
 		Map<String, String> map = new HashMap<>();
 		map.put("username", username);
+		return ResponseEntity.ok(map);
+	}
+
+	@PostMapping("/devices")
+	public ResponseEntity<Map<String, String>> insertDevice(
+		@RequestParam("name") String name,
+		@RequestParam("characteristics") List<DetailedCharacteristic> characteristics) throws BusinessException {
+		int id = insertDeviceUseCase.insertDevice(new DeviceToInsert(name, characteristics));
+		Map<String, String> map = new HashMap<>();
+		map.put("id", String.valueOf(id));
 		return ResponseEntity.ok(map);
 	}
 
