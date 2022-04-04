@@ -1,7 +1,6 @@
 package it.deltax.produlytics.uibackend.devices.adapters;
 
 import it.deltax.produlytics.persistence.DeviceEntity;
-import it.deltax.produlytics.uibackend.devices.business.domain.out.*;
 import it.deltax.produlytics.uibackend.devices.business.domain.Device;
 import it.deltax.produlytics.uibackend.devices.business.domain.DetailedDevice;
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
@@ -15,8 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Component
-public class DeviceAdapter implements GetDevicesPort,
-    GetAllUnarchivedDevicesPort,
+public class DeviceAdapter implements GetDevicesPort, GetUnarchivedDevicesPort,
     FindTinyDevicePort, FindDetailedDevicePort, UpdateDeviceArchiveStatusPort,
     UpdateDeviceDeactivateStatusPort,
     GetDeviceDetailsPort,
