@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MarkableDetectionHelper implements MarkableDetection {
-	static List<MarkableDetectionHelper> listFromValues(double... values) {
+	public static List<MarkableDetectionHelper> listFromValues(double... values) {
 		return Arrays.stream(values).mapToObj(value -> new MarkableDetectionHelper(value, false)).toList();
 	}
 
