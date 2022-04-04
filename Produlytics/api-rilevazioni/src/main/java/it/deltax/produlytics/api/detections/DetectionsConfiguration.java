@@ -13,28 +13,26 @@ import it.deltax.produlytics.api.detections.business.ports.in.ProcessIncomingDet
 import it.deltax.produlytics.api.detections.business.ports.out.*;
 import it.deltax.produlytics.api.detections.business.ports.services.DetectionsService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 // Dependency Injection manuale visto che le classi di business non dovrebbero dipendere da quella di Spring.
 @Component
-@SuppressWarnings("unused")
+@SuppressWarnings("unused") // Viene utilizzata da Spring a runtime, ma l'analisi statica non lo può sapere
 public class DetectionsConfiguration {
 	@Bean
-	ProcessIncomingDetectionUseCase createProcessDetectionUseCase(
-		FindDeviceInfoByApiKeyPort findDeviceInfoByApiKeyPort,
-		FindCharacteristicInfoPort findCharacteristicInfoPort,
-		InsertDetectionPort insertDetectionPort,
-		FindLimitsPort findLimitsPort,
-		FindLastDetectionsPort findLastDetectionsPort,
-		MarkOutlierPort markOutlierPort
+	DetectionValidator createDetectionValidator(
+		FindDeviceInfoByApiKeyPort findDeviceInfoByApiKeyPort, FindCharacteristicInfoPort findCharacteristicInfoPort
 	) {
-		DetectionValidator detectionValidation = new DetectionValidatorImpl(findDeviceInfoByApiKeyPort,
-			findCharacteristicInfoPort
-		);
+		return new DetectionValidatorImpl(findDeviceInfoByApiKeyPort, findCharacteristicInfoPort);
+	}
 
-		List<ControlChart> controlChartList = List.of(new ControlChartBeyondLimits(),
+	@Bean
+	ControlCharts createControlCharts() {
+		List<ControlChart> controlChartList = List.of(
+			new ControlChartBeyondLimits(),
 			new ControlChartZoneA(),
 			new ControlChartZoneB(),
 			new ControlChartZoneC(),
@@ -44,18 +42,34 @@ public class DetectionsConfiguration {
 			new ControlChartOverControl()
 		);
 
-		ControlCharts controlCharts = new ControlChartsImpl(controlChartList);
+		return new ControlChartsImpl(controlChartList);
+	}
 
-		SeriePortFacade seriePortFacade = new SeriePortFacadeImpl(insertDetectionPort,
-			findLimitsPort,
-			findLastDetectionsPort,
-			markOutlierPort
-		);
+	@Bean
+	SeriePortFacade createSerieFacadePort(
+		InsertDetectionPort insertDetectionPort,
+		FindLimitsPort findLimitsPort,
+		FindLastDetectionsPort findLastDetectionsPort,
+		MarkOutlierPort markOutlierPort
+	) {
+		return new SeriePortFacadeImpl(insertDetectionPort, findLimitsPort, findLastDetectionsPort, markOutlierPort);
+	}
 
-		DetectionSerieFactory detectionSerieFactory = new DetectionSerieImplFactory(seriePortFacade, controlCharts);
+	@Bean
+	DetectionSerieFactory createDetectionSerieFactory(ControlCharts controlCharts, SeriePortFacade seriePortFacade) {
+		return new DetectionSerieImplFactory(seriePortFacade, controlCharts);
+	}
 
-		DetectionQueue detectionQueue = new DetectionQueueImpl(detectionSerieFactory);
+	@Bean
+	@Scope("singleton")
+	DetectionQueue createDetectionQueue(DetectionSerieFactory detectionSerieFactory) {
+		return new DetectionQueueImpl(detectionSerieFactory);
+	}
 
+	@Bean
+	ProcessIncomingDetectionUseCase createProcessDetectionUseCase(
+		DetectionValidator detectionValidation, DetectionQueue detectionQueue
+	) {
 		return new DetectionsService(detectionValidation, detectionQueue);
 	}
 }
