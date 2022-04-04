@@ -34,8 +34,11 @@ public class DetectionQueueImpl implements DetectionQueue {
 	// `onNext` non è thread-safe, e `enqueueDetection` potrebbe essere chiamato da più thread,
 	// quindi questo metodo deve essere marcato synchronized.
 	@Override
-	public synchronized void enqueueDetection(Detection detection) {
-		this.detectionProcessor.onNext(detection);
+	public void enqueueDetection(Detection detection) {
+		synchronized(this.detectionProcessor) {
+			// TODO: Gestisci back-pressure
+			this.detectionProcessor.onNext(detection);
+		}
 	}
 
 	// Gestisce ogni gruppo/caratteristica:
@@ -61,9 +64,7 @@ public class DetectionQueueImpl implements DetectionQueue {
 	// e questa non dovrebbe bloccare il subscribe del `group` in `handleDetectionGroup`.
 	// `.cache()` è importante per non ricreare la `DetectionSerie` per ogni rilevazione.
 	private Single<DetectionSerie> createSerieForKey(CharacteristicId key) {
-		return Single.fromCallable(() -> this.serieFactory.createSerie(key))
-			.cache()
-			.subscribeOn(Schedulers.io());
+		return Single.fromCallable(() -> this.serieFactory.createSerie(key)).cache().subscribeOn(Schedulers.io());
 	}
 
 	// Gestisce una singola rilevazione, semplicemente chiamando `DetectionSerie::insertDetection`.
@@ -76,5 +77,14 @@ public class DetectionQueueImpl implements DetectionQueue {
 	private Completable handleDetection(Single<DetectionSerie> serieSingle, Detection detection) {
 		return serieSingle.flatMapCompletable(serie -> Completable.fromAction(() -> serie.insertDetection(detection)))
 			.subscribeOn(Schedulers.io());
+	}
+
+	// Aspetta che tutte le rilevazioni siano processate.
+	// Spring vede questo metodo e lo chiama automaticamente quando il programma sta per uscire.
+	public void close() {
+		synchronized(this.detectionProcessor) {
+			// TODO: Questo assicura che tutte le rilevazioni siano completate?
+			this.detectionProcessor.onComplete();
+		}
 	}
 }
