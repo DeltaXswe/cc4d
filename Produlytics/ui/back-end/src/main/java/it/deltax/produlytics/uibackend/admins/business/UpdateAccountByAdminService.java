@@ -35,7 +35,7 @@ public class UpdateAccountByAdminService implements UpdateAccountByAdminUseCase 
 			.map(account -> account.toBuilder())
 				.orElseThrow(() -> new BusinessException("accountNotFound", ErrorType.NOT_FOUND));
 
-		if (command.newPassword().isPresent()) {
+		if(command.newPassword().isPresent()) {
 			String hashedPassword = passwordEncoderPort.encode(command.newPassword().get());
 			toUpdate.withHashedPassword(hashedPassword);
 		}
