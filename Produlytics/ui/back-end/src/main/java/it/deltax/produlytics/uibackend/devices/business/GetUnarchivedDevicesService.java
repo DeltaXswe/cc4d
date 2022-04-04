@@ -2,7 +2,7 @@ package it.deltax.produlytics.uibackend.devices.business;
 
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetUnarchivedDevicesUseCase;
-import it.deltax.produlytics.uibackend.devices.business.domain.out.GetAllUnarchivedDevicesPort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.GetAllUnarchivedDevicesPort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -2,8 +2,8 @@ package it.deltax.produlytics.uibackend.admins.web;
 
 import it.deltax.produlytics.uibackend.accounts.business.domain.AccountArchiveStatus;
 import it.deltax.produlytics.uibackend.accounts.business.domain.AccountTiny;
-import it.deltax.produlytics.uibackend.accounts.business.domain.InsertAccount;
-import it.deltax.produlytics.uibackend.admins.business.domain.*;
+import it.deltax.produlytics.uibackend.accounts.business.domain.AccountToInsert;
+import it.deltax.produlytics.uibackend.accounts.business.domain.AccountUpdatedByAdmin;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.*;
 import it.deltax.produlytics.uibackend.devices.business.domain.*;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
@@ -57,7 +57,7 @@ public class AdminsController {
 		@RequestParam("username") String username,
 		@RequestParam("password") String password,
 		@RequestParam("administrator") boolean administrator) throws BusinessException {
-		insertAccountUseCase.insertAccount(new InsertAccount(username, password, administrator));
+		insertAccountUseCase.insertAccount(new AccountToInsert(username, password, administrator));
 		Map<String, String> map = new HashMap<>();
 		map.put("username", username);
 		return ResponseEntity.ok(map);
@@ -73,7 +73,7 @@ public class AdminsController {
 		@PathVariable("username") String username,
 		@RequestParam("newPassword") Optional<String> newPassword,
 		@RequestParam("administrator") boolean administrator) throws BusinessException {
-		updateAccountByAdminUseCase.updateByUsername(new UpdateAdminAccout(username, newPassword, administrator));
+		updateAccountByAdminUseCase.updateByUsername(new AccountUpdatedByAdmin(username, newPassword, administrator));
 		return new ResponseEntity<>(NO_CONTENT);
 	}
 
