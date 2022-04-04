@@ -2,7 +2,7 @@ package it.deltax.produlytics.uibackend.devices.business;
 
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTitle;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetUnarchivedCharacteristicsUseCase;
-import it.deltax.produlytics.uibackend.devices.business.domain.out.FindAllUnarchivedCharacteristicsPort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchivedCharacteristicsPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
