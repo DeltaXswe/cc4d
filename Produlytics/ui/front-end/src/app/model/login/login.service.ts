@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Observable, tap, BehaviorSubject } from 'rxjs';
-import {HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Observable, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { LoginAbstractService } from './login-abstract.service';
+import { LoginCommand } from './login-command';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService implements LoginAbstractService{
-  
+
+  //TODO: da modificare a seconda se decidiamo di usare localStorage
   endpoint: string = 'url';
 
   constructor(private http: HttpClient, public router: Router) { }
 
-  login(username: string, password: string): Observable<any>{
-    return this.http.post<any>(this.endpoint, {username, password}).pipe(
+  login(command: LoginCommand): Observable<any>{
+    return this.http.post<any>(this.endpoint, command).pipe(
       tap((res: any) => {
         localStorage.setItem('accessToken', res);
         this.router.navigate(['/']);

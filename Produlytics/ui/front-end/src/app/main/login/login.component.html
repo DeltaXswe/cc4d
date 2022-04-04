@@ -4,18 +4,18 @@
          <mat-card-title>Login</mat-card-title>
       </mat-toolbar>
       <form fxLayoutAlign="stretch" fxLayout="column" class="login-form" [formGroup]="loginForm" (ngSubmit) = "onSubmit()">
-         <mat-form-field appearance="fill">
+         <mat-form-field appearance="outline">
             <mat-label>Nome utente</mat-label>
-            <input matInput formControlName="un">
-            <mat-error><mat-icon>error</mat-icon>Campo obbligatorio</mat-error>
+            <input matInput formControlName="username">
+            <mat-error>Campo obbligatorio</mat-error>
          </mat-form-field>
-         <mat-form-field appearance="fill">
+         <mat-form-field appearance="outline">
             <mat-label>Password</mat-label>
-            <input matInput type="password" formControlName="pw">
-            <mat-error *ngIf="loginForm.controls['pw'].errors?.['required']"><mat-icon>error</mat-icon>Campo obbligatorio</mat-error>
-            <mat-error *ngIf="loginForm.controls['pw'].errors?.['minlength']"><mat-icon>error</mat-icon>Minimo 6 caratteri</mat-error>
+            <input matInput type="password" formControlName="password">
+            <mat-error *ngIf="loginForm.controls['password'].errors?.['required']">Campo obbligatorio</mat-error>
+            <mat-error *ngIf="loginForm.controls['password'].errors?.['minlength']">Minimo 6 caratteri</mat-error>
          </mat-form-field>
-         <mat-checkbox formControlName="remember">Ricordami</mat-checkbox>
+         <mat-checkbox formControlName="rememberMe">Ricordami</mat-checkbox>
          <button mat-button type="submit" value="submit">Login</button>
       </form>
    </mat-card>

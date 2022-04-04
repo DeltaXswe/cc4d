@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs';
+import { LoginCommand } from './login-command';
 
 @Injectable()
 export abstract class LoginAbstractService {
-  public abstract login(user: string, pw: string, rememberMe: boolean): Observable<any>;
+  public abstract login(command: LoginCommand): Observable<any>;
 
   public abstract isLogged(): boolean;
 

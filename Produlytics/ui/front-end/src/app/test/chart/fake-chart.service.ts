@@ -92,7 +92,15 @@ export class FakeChartService implements ChartAbstractService {
   }
 
   getNextPoints(macchina: number, caratteristica: string, ultimo_utc: number): Observable<ChartPoint[]> {
-    return of([]);
-    //return this.fakePoints;
+    let createdAtUtc: number = ultimo_utc+10;
+    let value: number = Math.floor(Math.random() * (500));
+    value *= Math.round(Math.random()) ? 1 : -1;
+    let anomalous: boolean = Math.random() < 0.5;
+    const point: ChartPoint = {
+      createdAtUtc: createdAtUtc,
+      value: value,
+      anomalous: anomalous
+    }
+    return of([point]);
   }
 }

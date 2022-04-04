@@ -20,8 +20,9 @@ export class ChartComponent implements OnInit, OnDestroy, DoCheck {
   @Input()
   selectedNodes: CharacteristicNode[] = [];
 
+  colspan: number = 2;
+  rowspan: number = 2;
   iterableDiffer: any;
-  numeroTiles: number[] = [1,2,4,5];
   info!: CharacteristicInfo;
   private points: ChartPoint[] = [];
   private updateSubscription?: Subscription;
@@ -40,6 +41,17 @@ export class ChartComponent implements OnInit, OnDestroy, DoCheck {
   ngDoCheck(){
     let changes = this.iterableDiffer.diff(this.selectedNodes);
     if (changes) {
+      console.log(this.selectedNodes.length);
+      if (this.selectedNodes.length < 2){
+        this.colspan = 2;
+        this.rowspan = 2;
+      }else if (this.selectedNodes.length == 2){
+        this.colspan = 2;
+        this.rowspan = 1;
+      }else if (this.selectedNodes.length > 2){
+        this.colspan = 1;
+        this.rowspan = 1;
+      }
       this.clearCharts();
       this.createChart();
     }
@@ -65,6 +77,7 @@ export class ChartComponent implements OnInit, OnDestroy, DoCheck {
   private yScale!: d3.ScaleLinear<number, number, never>;
 
   createChart() {
+    console.log('sono in createchart');
     for (let i = 0; i<this.selectedNodes.length; i++){
       this.svg = d3
         .select(`#d3svg${i}`)
@@ -106,15 +119,13 @@ export class ChartComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   setupInitialPoints(deviceId: number, characteristicId: number) {
-    /* const machine = 1;
-    const characteristic = 1; */
     this.chartService
       .getInitialPoints(deviceId, characteristicId)
       .subscribe(([info, points]) => {
         this.info = info;
         this.points = points;
         this.drawChart();
-        this.subscribeToUpdates();
+        //this.subscribeToUpdates();
       });
   }
 

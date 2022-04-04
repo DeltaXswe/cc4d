@@ -3,8 +3,9 @@ import { LoginAbstractService } from 'src/app/model/login/login-abstract.service
 import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {users} from './users';
+import { users } from './users';
 import { CookieService } from 'ngx-cookie-service';
+import { LoginCommand } from 'src/app/model/login/login-command';
 
 @Injectable({
   providedIn: 'root'
@@ -12,15 +13,17 @@ import { CookieService } from 'ngx-cookie-service';
 
 export class FakeLoginService implements LoginAbstractService {
 
-  constructor(public router: Router, private matSnackBar: MatSnackBar, private cookieService: CookieService) { }
+  constructor(public router: Router,
+    private matSnackBar: MatSnackBar,
+    private cookieService: CookieService) { }
 
-    public login(username: string, password: string, rememberMe: boolean): Observable<any> {
-      if(users.find(account => account.username === username &&
-        users.find(account => account.password === password))){
+    public login(command: LoginCommand): Observable<any> {
+      if(users.find(account => account.username === command.username &&
+        users.find(account => account.password === command.password))){
         localStorage.setItem('accessToken', JSON.stringify(
-          users.find(wow => wow.username === username))
+          users.find(wow => wow.username === command.username))
         );
-        if (rememberMe)
+        if (command.rememberMe)
           this.cookieService.set('PRODULYTICS_RM', 'valore');
         this.router.navigate(['/']);
         return of({});

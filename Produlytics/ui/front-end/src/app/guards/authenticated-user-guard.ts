@@ -12,6 +12,5 @@ export class AuthenticatedUserGuard implements CanActivate{
       } else {
          return true;
       }
-
    }
 }

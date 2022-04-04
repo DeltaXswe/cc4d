@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import {MatDialogRef} from "@angular/material/dialog";
-import {ViewEncapsulation} from '@angular/core';
+import { MatDialogRef } from "@angular/material/dialog";
+import { ViewEncapsulation } from '@angular/core';
 import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
 import { ModifyPwAbstractService } from 'src/app/model/modify-pw/modify-pw-abstract.service';
+import { ModifyPwCommand } from 'src/app/model/modify-pw/modify-pw-command';
 
 @Component({
   selector: 'app-modify-pw',
@@ -18,11 +19,11 @@ export class ModifyPwComponent implements OnInit {
     private formBuilder: FormBuilder,
     private modifyPwService: ModifyPwAbstractService,
     private loginService: LoginAbstractService) {
-    this.modifyPw = this.formBuilder.group({
-      oldPw: ['', Validators.required],
-      newPw: ['', [Validators.required, Validators.minLength(6)]],
-      newPwRe: ['', Validators.required],
-  }, { validator: this.checkPasswords('newPw', 'newPwRe')/* as AbstractControlOptions */})}; 
+      this.modifyPw = this.formBuilder.group({
+        oldPassword: ['', Validators.required],
+        newPassword: ['', [Validators.required, Validators.minLength(6)]],
+        newPasswordRe: ['', Validators.required]
+      }, { validator: this.checkPasswords('oldPassword', 'newPassword', 'newPasswordRe') })}; 
 
   
   ngOnInit(): void {
@@ -32,12 +33,15 @@ export class ModifyPwComponent implements OnInit {
     this.matDialogRef.close();
   }
   
-  checkPasswords(newPw: string, newPwRe: string){
+  checkPasswords(oldPassword: string, newPassword: string, newPasswordRe: string){
     return (group: FormGroup) => {
-      let passwordInput = group.controls[newPw],
-          passwordConfirmationInput = group.controls[newPwRe];
+      let oldPasswordInput = group.controls[oldPassword], 
+          passwordInput = group.controls[newPassword],
+          passwordConfirmationInput = group.controls[newPasswordRe];
       if (passwordInput.value !== passwordConfirmationInput.value) {
         return passwordConfirmationInput.setErrors({mismatch: true})
+      } else if(oldPasswordInput.value == passwordInput.value) {
+        return passwordInput.setErrors({mustBeDifferent: true})
       }
       else {
           return passwordConfirmationInput.setErrors(null);
@@ -46,11 +50,15 @@ export class ModifyPwComponent implements OnInit {
   }
 
   modify(){
+    const rawValue = this.modifyPw.getRawValue();
+    const command: ModifyPwCommand = {
+      oldPassword: rawValue.oldPassword,
+      newPassword: rawValue.newPassword,
+    }  
     if (this.modifyPw.invalid) {
       return;
     }
-    this.modifyPwService.modify(this.loginService.getUsername(),
-      this.modifyPw.controls['oldPw'].value,
-      this.modifyPw.controls['newPw'].value);
+    this.modifyPwService.modify(this.loginService.getUsername(), command);
+    this.matDialogRef.close();
   }
 }
