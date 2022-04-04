@@ -1,24 +1,24 @@
-package it.deltax.produlytics.api.detections.business.domain.control_chart;
+package it.deltax.produlytics.api.detections.business.domain.charts;
 
 import java.util.List;
 
-// Implementazione della carta di controllo corrispondente al requisito ROF24.3.
-// Identifica se 4 punti su 5 consecutivi sono all'interno di una delle due zone B o oltre.
-public class ControlChartZoneB implements ControlChart {
+// Implementazione della carta di controllo corrispondente al requisito ROF24.2.
+// Identifica se 2 punti su 3 consecutivi sono all'interno di una delle due zone A o oltre.
+public class ControlChartZoneA implements ControlChart {
 	@Override
 	public int requiredDetectionCount() {
-		return 5;
+		return 3;
 	}
 
 	@Override
 	public void analyzeDetections(List<? extends MarkableDetection> detections, ControlLimits limits) {
-		double lowerZone = limits.lowerBCLimit();
+		double lowerZone = limits.lowerABLimit();
 		long inLowerZone = detections.stream().filter(detection -> detection.value() < lowerZone).count();
 
-		double upperZone = limits.upperBCLimit();
+		double upperZone = limits.upperABLimit();
 		long inUpperZone = detections.stream().filter(detection -> detection.value() > upperZone).count();
 
-		if(inLowerZone >= 4 || inUpperZone >= 4) {
+		if(inLowerZone >= 2 || inUpperZone >= 2) {
 			detections.forEach(MarkableDetection::markOutlier);
 		}
 	}

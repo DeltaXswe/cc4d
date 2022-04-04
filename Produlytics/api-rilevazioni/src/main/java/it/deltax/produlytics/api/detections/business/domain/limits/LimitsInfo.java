@@ -1,4 +1,4 @@
-package it.deltax.produlytics.api.detections.business.domain.serie;
+package it.deltax.produlytics.api.detections.business.domain.limits;
 
 import java.util.Optional;
 

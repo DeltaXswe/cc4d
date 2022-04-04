@@ -2,9 +2,9 @@ package it.deltax.produlytics.api.detections.adapters;
 
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
-import it.deltax.produlytics.api.detections.business.domain.serie.LimitsInfo;
-import it.deltax.produlytics.api.detections.business.domain.serie.MeanStddev;
-import it.deltax.produlytics.api.detections.business.domain.serie.TechnicalLimits;
+import it.deltax.produlytics.api.detections.business.domain.limits.LimitsInfo;
+import it.deltax.produlytics.api.detections.business.domain.limits.MeanStddev;
+import it.deltax.produlytics.api.detections.business.domain.limits.TechnicalLimits;
 import it.deltax.produlytics.api.detections.business.domain.validate.CharacteristicInfo;
 import it.deltax.produlytics.api.detections.business.domain.validate.DeviceInfo;
 import it.deltax.produlytics.api.detections.business.ports.out.*;

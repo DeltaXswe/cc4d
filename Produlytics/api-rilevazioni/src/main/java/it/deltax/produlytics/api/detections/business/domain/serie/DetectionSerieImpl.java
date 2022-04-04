@@ -2,9 +2,10 @@ package it.deltax.produlytics.api.detections.business.domain.serie;
 
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
-import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlCharts;
-import it.deltax.produlytics.api.detections.business.domain.control_chart.ControlLimits;
-import it.deltax.produlytics.api.detections.business.domain.control_chart.MarkableDetection;
+import it.deltax.produlytics.api.detections.business.domain.charts.ControlLimits;
+import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetection;
+import it.deltax.produlytics.api.detections.business.domain.charts.group.ControlCharts;
+import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimitsCalculator;
 import it.deltax.produlytics.api.detections.business.domain.serie.facade.SeriePortFacade;
 
 import java.util.List;
@@ -12,11 +13,18 @@ import java.util.List;
 // Implementazione canonica di `DetectionSerie`.
 public class DetectionSerieImpl implements DetectionSerie {
 	private final SeriePortFacade ports;
+	private final ControlLimitsCalculator controlLimitsCalculator;
 	private final ControlCharts controlCharts;
 	private final CharacteristicId characteristicId;
 
-	DetectionSerieImpl(SeriePortFacade ports, ControlCharts controlCharts, CharacteristicId characteristicId) {
+	DetectionSerieImpl(
+		SeriePortFacade ports,
+		ControlLimitsCalculator controlLimitsCalculator,
+		ControlCharts controlCharts,
+		CharacteristicId characteristicId
+	) {
 		this.ports = ports;
+		this.controlLimitsCalculator = controlLimitsCalculator;
 		this.controlCharts = controlCharts;
 		this.characteristicId = characteristicId;
 	}
@@ -25,7 +33,7 @@ public class DetectionSerieImpl implements DetectionSerie {
 	public void insertDetection(Detection detection) {
 		this.ports.insertDetection(detection);
 
-		ControlLimits controlLimits = this.computeControlLimits();
+		ControlLimits controlLimits = this.controlLimitsCalculator.calculateControlLimits(this.characteristicId);
 		List<? extends MarkableDetection> lastDetections = this.detectionsForControlCharts();
 		this.controlCharts.analyzeDetections(lastDetections, controlLimits);
 	}
@@ -39,24 +47,5 @@ public class DetectionSerieImpl implements DetectionSerie {
 			.stream()
 			.map(detection -> new MarkableDetectionAdapter(this.ports, detection))
 			.toList();
-	}
-
-	// Calcola i limiti di controllo utilizzando i limiti tecnici e di
-	private ControlLimits computeControlLimits() {
-		LimitsInfo limitsInfo = this.ports.findLimits(this.characteristicId);
-		// Prima controlla i limiti di processo.
-		if(limitsInfo.meanStddev().isPresent()) {
-			MeanStddev meanStddev = limitsInfo.meanStddev().get();
-			double lowerLimit = meanStddev.mean() - 3 * meanStddev.stddev();
-			double upperLimit = meanStddev.mean() + 3 * meanStddev.stddev();
-			return new ControlLimits(lowerLimit, upperLimit);
-		} else if(limitsInfo.technicalLimits().isPresent()) { // Se no controlla i limiti tecnici
-			TechnicalLimits technicalLimits = limitsInfo.technicalLimits().get();
-			return new ControlLimits(technicalLimits.lowerLimit(), technicalLimits.upperLimit());
-		} else {
-			throw new IllegalStateException(
-				"Non sono impostati nè i limiti tecnici nè l'auto-adjust per la caratteristica"
-					+ this.characteristicId);
-		}
 	}
 }

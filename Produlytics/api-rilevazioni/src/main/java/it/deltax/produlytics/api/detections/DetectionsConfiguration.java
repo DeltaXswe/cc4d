@@ -1,6 +1,10 @@
 package it.deltax.produlytics.api.detections;
 
-import it.deltax.produlytics.api.detections.business.domain.control_chart.*;
+import it.deltax.produlytics.api.detections.business.domain.charts.*;
+import it.deltax.produlytics.api.detections.business.domain.charts.group.ControlCharts;
+import it.deltax.produlytics.api.detections.business.domain.charts.group.ControlChartsImpl;
+import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimitsCalculator;
+import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimitsCalculatorImpl;
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueue;
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueueImpl;
 import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerieFactory;
@@ -48,16 +52,22 @@ public class DetectionsConfiguration {
 	@Bean
 	SeriePortFacade createSerieFacadePort(
 		InsertDetectionPort insertDetectionPort,
-		FindLimitsPort findLimitsPort,
 		FindLastDetectionsPort findLastDetectionsPort,
 		MarkOutlierPort markOutlierPort
 	) {
-		return new SeriePortFacadeImpl(insertDetectionPort, findLimitsPort, findLastDetectionsPort, markOutlierPort);
+		return new SeriePortFacadeImpl(insertDetectionPort, findLastDetectionsPort, markOutlierPort);
 	}
 
 	@Bean
-	DetectionSerieFactory createDetectionSerieFactory(ControlCharts controlCharts, SeriePortFacade seriePortFacade) {
-		return new DetectionSerieImplFactory(seriePortFacade, controlCharts);
+	ControlLimitsCalculator controlLimitsCalculator(FindLimitsPort findLimitsPort) {
+		return new ControlLimitsCalculatorImpl(findLimitsPort);
+	}
+
+	@Bean
+	DetectionSerieFactory createDetectionSerieFactory(
+		SeriePortFacade seriePortFacade, ControlLimitsCalculator controlLimitsCalculator, ControlCharts controlCharts
+	) {
+		return new DetectionSerieImplFactory(seriePortFacade, controlLimitsCalculator, controlCharts);
 	}
 
 	@Bean

@@ -1,4 +1,4 @@
-package it.deltax.produlytics.api.detections.business.domain.control_chart;
+package it.deltax.produlytics.api.detections.business.domain.charts;
 
 import java.util.List;
 

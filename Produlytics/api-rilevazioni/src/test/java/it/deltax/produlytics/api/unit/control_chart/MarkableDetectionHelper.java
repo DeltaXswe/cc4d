@@ -1,6 +1,6 @@
 package it.deltax.produlytics.api.unit.control_chart;
 
-import it.deltax.produlytics.api.detections.business.domain.control_chart.MarkableDetection;
+import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetection;
 
 import java.util.Arrays;
 import java.util.List;
