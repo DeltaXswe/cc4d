@@ -22,7 +22,7 @@ public class DetectionsService implements ProcessIncomingDetectionUseCase {
 
 	@Override
 	public void processIncomingDetection(IncomingDetection incomingDetection) throws BusinessException {
-		CharacteristicId characteristicId = detectionValidator.validateAndFindDeviceId(incomingDetection.apiKey(),
+		CharacteristicId characteristicId = detectionValidator.validateAndFindId(incomingDetection.apiKey(),
 			incomingDetection.characteristicId()
 		);
 		Detection detection = new Detection(characteristicId, Instant.now(), incomingDetection.value());

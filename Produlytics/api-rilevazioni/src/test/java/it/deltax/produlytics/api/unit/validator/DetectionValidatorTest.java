@@ -5,8 +5,8 @@ import it.deltax.produlytics.api.detections.business.domain.validate.Characteris
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidator;
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidatorImpl;
 import it.deltax.produlytics.api.detections.business.domain.validate.DeviceInfo;
-import it.deltax.produlytics.api.detections.business.ports.out.FindCharacteristicInfoPort;
-import it.deltax.produlytics.api.detections.business.ports.out.FindDeviceInfoByApiKeyPort;
+import it.deltax.produlytics.api.detections.business.ports.out.FindCharacteristicPort;
+import it.deltax.produlytics.api.detections.business.ports.out.FindDeviceByApiKeyPort;
 import it.deltax.produlytics.api.exceptions.BusinessException;
 import it.deltax.produlytics.api.exceptions.ErrorType;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -15,11 +15,11 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 public class DetectionValidatorTest {
-	private static class FindDeviceInfoByApiKeyPortMock implements FindDeviceInfoByApiKeyPort {
+	private static class FindDeviceByApiKeyPortMock implements FindDeviceByApiKeyPort {
 		private final String apiKey;
 		private final DeviceInfo deviceInfo;
 
-		public FindDeviceInfoByApiKeyPortMock(String apiKey, DeviceInfo deviceInfo) {
+		public FindDeviceByApiKeyPortMock(String apiKey, DeviceInfo deviceInfo) {
 			this.apiKey = apiKey;
 			this.deviceInfo = deviceInfo;
 		}
@@ -34,11 +34,11 @@ public class DetectionValidatorTest {
 		}
 	}
 
-	private static class FindCharacteristicInfoPortMock implements FindCharacteristicInfoPort {
+	private static class FindCharacteristicPortMock implements FindCharacteristicPort {
 		private final CharacteristicId id;
 		private final CharacteristicInfo characteristicInfo;
 
-		public FindCharacteristicInfoPortMock(CharacteristicId id, CharacteristicInfo characteristicInfo) {
+		public FindCharacteristicPortMock(CharacteristicId id, CharacteristicInfo characteristicInfo) {
 			this.id = id;
 			this.characteristicInfo = characteristicInfo;
 		}
@@ -58,20 +58,20 @@ public class DetectionValidatorTest {
 		String apiKey = "foo";
 		DeviceInfo deviceInfo = new DeviceInfo(42, false, false);
 
-		FindDeviceInfoByApiKeyPort findDeviceInfoByApiKeyPort = new FindDeviceInfoByApiKeyPortMock(apiKey, deviceInfo);
+		FindDeviceByApiKeyPort findDeviceByApiKeyPort = new FindDeviceByApiKeyPortMock(apiKey, deviceInfo);
 
 		CharacteristicId characteristicId = new CharacteristicId(42, 69);
 		CharacteristicInfo characteristicInfo = new CharacteristicInfo(false);
 
-		FindCharacteristicInfoPort findCharacteristicInfoPort = new FindCharacteristicInfoPortMock(characteristicId,
+		FindCharacteristicPort findCharacteristicPort = new FindCharacteristicPortMock(characteristicId,
 			characteristicInfo
 		);
 
-		DetectionValidator detectionValidator = new DetectionValidatorImpl(findDeviceInfoByApiKeyPort,
-			findCharacteristicInfoPort
+		DetectionValidator detectionValidator = new DetectionValidatorImpl(
+			findDeviceByApiKeyPort, findCharacteristicPort
 		);
 
-		assert detectionValidator.validateAndFindDeviceId(apiKey, 69).equals(characteristicId);
+		assert detectionValidator.validateAndFindId(apiKey, 69).equals(characteristicId);
 	}
 
 	@Test
@@ -80,22 +80,22 @@ public class DetectionValidatorTest {
 			String apiKey = "foo";
 			DeviceInfo deviceInfo = new DeviceInfo(42, false, false);
 
-			FindDeviceInfoByApiKeyPort findDeviceInfoByApiKeyPort = new FindDeviceInfoByApiKeyPortMock(apiKey,
+			FindDeviceByApiKeyPort findDeviceByApiKeyPort = new FindDeviceByApiKeyPortMock(apiKey,
 				deviceInfo
 			);
 
 			CharacteristicId characteristicId = new CharacteristicId(42, 69);
 			CharacteristicInfo characteristicInfo = new CharacteristicInfo(false);
 
-			FindCharacteristicInfoPort findCharacteristicInfoPort = new FindCharacteristicInfoPortMock(characteristicId,
+			FindCharacteristicPort findCharacteristicPort = new FindCharacteristicPortMock(characteristicId,
 				characteristicInfo
 			);
 
-			DetectionValidator detectionValidator = new DetectionValidatorImpl(findDeviceInfoByApiKeyPort,
-				findCharacteristicInfoPort
+			DetectionValidator detectionValidator = new DetectionValidatorImpl(
+				findDeviceByApiKeyPort, findCharacteristicPort
 			);
 
-			detectionValidator.validateAndFindDeviceId("invalidFoo", 69);
+			detectionValidator.validateAndFindId("invalidFoo", 69);
 		});
 
 		assert exception.getCode().equals("notAuthenticated");
@@ -108,22 +108,22 @@ public class DetectionValidatorTest {
 			String apiKey = "foo";
 			DeviceInfo deviceInfo = new DeviceInfo(42, true, false);
 
-			FindDeviceInfoByApiKeyPort findDeviceInfoByApiKeyPort = new FindDeviceInfoByApiKeyPortMock(apiKey,
+			FindDeviceByApiKeyPort findDeviceByApiKeyPort = new FindDeviceByApiKeyPortMock(apiKey,
 				deviceInfo
 			);
 
 			CharacteristicId characteristicId = new CharacteristicId(42, 69);
 			CharacteristicInfo characteristicInfo = new CharacteristicInfo(false);
 
-			FindCharacteristicInfoPort findCharacteristicInfoPort = new FindCharacteristicInfoPortMock(characteristicId,
+			FindCharacteristicPort findCharacteristicPort = new FindCharacteristicPortMock(characteristicId,
 				characteristicInfo
 			);
 
-			DetectionValidator detectionValidator = new DetectionValidatorImpl(findDeviceInfoByApiKeyPort,
-				findCharacteristicInfoPort
+			DetectionValidator detectionValidator = new DetectionValidatorImpl(
+				findDeviceByApiKeyPort, findCharacteristicPort
 			);
 
-			detectionValidator.validateAndFindDeviceId(apiKey, 69);
+			detectionValidator.validateAndFindId(apiKey, 69);
 		});
 
 		assert exception.getCode().equals("archived");
@@ -136,22 +136,22 @@ public class DetectionValidatorTest {
 			String apiKey = "foo";
 			DeviceInfo deviceInfo = new DeviceInfo(42, false, false);
 
-			FindDeviceInfoByApiKeyPort findDeviceInfoByApiKeyPort = new FindDeviceInfoByApiKeyPortMock(apiKey,
+			FindDeviceByApiKeyPort findDeviceByApiKeyPort = new FindDeviceByApiKeyPortMock(apiKey,
 				deviceInfo
 			);
 
 			CharacteristicId characteristicId = new CharacteristicId(42, 69);
 			CharacteristicInfo characteristicInfo = new CharacteristicInfo(false);
 
-			FindCharacteristicInfoPort findCharacteristicInfoPort = new FindCharacteristicInfoPortMock(characteristicId,
+			FindCharacteristicPort findCharacteristicPort = new FindCharacteristicPortMock(characteristicId,
 				characteristicInfo
 			);
 
-			DetectionValidator detectionValidator = new DetectionValidatorImpl(findDeviceInfoByApiKeyPort,
-				findCharacteristicInfoPort
+			DetectionValidator detectionValidator = new DetectionValidatorImpl(
+				findDeviceByApiKeyPort, findCharacteristicPort
 			);
 
-			detectionValidator.validateAndFindDeviceId(apiKey, 70);
+			detectionValidator.validateAndFindId(apiKey, 70);
 		});
 
 		assert exception.getCode().equals("characteristicNotFound");
@@ -164,22 +164,22 @@ public class DetectionValidatorTest {
 			String apiKey = "foo";
 			DeviceInfo deviceInfo = new DeviceInfo(42, false, true);
 
-			FindDeviceInfoByApiKeyPort findDeviceInfoByApiKeyPort = new FindDeviceInfoByApiKeyPortMock(apiKey,
+			FindDeviceByApiKeyPort findDeviceByApiKeyPort = new FindDeviceByApiKeyPortMock(apiKey,
 				deviceInfo
 			);
 
 			CharacteristicId characteristicId = new CharacteristicId(42, 69);
 			CharacteristicInfo characteristicInfo = new CharacteristicInfo(false);
 
-			FindCharacteristicInfoPort findCharacteristicInfoPort = new FindCharacteristicInfoPortMock(characteristicId,
+			FindCharacteristicPort findCharacteristicPort = new FindCharacteristicPortMock(characteristicId,
 				characteristicInfo
 			);
 
-			DetectionValidator detectionValidator = new DetectionValidatorImpl(findDeviceInfoByApiKeyPort,
-				findCharacteristicInfoPort
+			DetectionValidator detectionValidator = new DetectionValidatorImpl(
+				findDeviceByApiKeyPort, findCharacteristicPort
 			);
 
-			detectionValidator.validateAndFindDeviceId(apiKey, 69);
+			detectionValidator.validateAndFindId(apiKey, 69);
 		});
 
 		assert exception.getCode().equals("archived");
@@ -192,22 +192,22 @@ public class DetectionValidatorTest {
 			String apiKey = "foo";
 			DeviceInfo deviceInfo = new DeviceInfo(42, false, false);
 
-			FindDeviceInfoByApiKeyPort findDeviceInfoByApiKeyPort = new FindDeviceInfoByApiKeyPortMock(apiKey,
+			FindDeviceByApiKeyPort findDeviceByApiKeyPort = new FindDeviceByApiKeyPortMock(apiKey,
 				deviceInfo
 			);
 
 			CharacteristicId characteristicId = new CharacteristicId(42, 69);
 			CharacteristicInfo characteristicInfo = new CharacteristicInfo(true);
 
-			FindCharacteristicInfoPort findCharacteristicInfoPort = new FindCharacteristicInfoPortMock(characteristicId,
+			FindCharacteristicPort findCharacteristicPort = new FindCharacteristicPortMock(characteristicId,
 				characteristicInfo
 			);
 
-			DetectionValidator detectionValidator = new DetectionValidatorImpl(findDeviceInfoByApiKeyPort,
-				findCharacteristicInfoPort
+			DetectionValidator detectionValidator = new DetectionValidatorImpl(
+				findDeviceByApiKeyPort, findCharacteristicPort
 			);
 
-			detectionValidator.validateAndFindDeviceId(apiKey, 69);
+			detectionValidator.validateAndFindId(apiKey, 69);
 		});
 
 		assert exception.getCode().equals("archived");
