@@ -1,7 +1,7 @@
 package it.deltax.produlytics.uibackend.accounts.business;
 
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
-import it.deltax.produlytics.uibackend.accounts.business.domain.AccountUpdatePassword;
+import it.deltax.produlytics.uibackend.accounts.business.domain.AccountPasswordToUpdate;
 import it.deltax.produlytics.uibackend.accounts.business.ports.in.UpdateAccountPasswordUseCase;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.EncoderPort;
@@ -27,7 +27,7 @@ public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCas
     }
 
     @Override
-    public void updatePasswordByUsername(AccountUpdatePassword command) throws BusinessException {
+    public void updatePasswordByUsername(AccountPasswordToUpdate command) throws BusinessException {
         if(command.newPassword().length() < 6)
             throw new BusinessException("invalidNewPassword", ErrorType.GENERIC);
 
