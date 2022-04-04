@@ -73,7 +73,7 @@ public class DetectionsConfiguration {
 	@Bean
 	@Scope("singleton")
 	DetectionQueue createDetectionQueue(DetectionSerieFactory detectionSerieFactory) {
-		return new DetectionQueueImpl(detectionSerieFactory);
+		return new DetectionQueueImpl(30, detectionSerieFactory);
 	}
 
 	@Bean

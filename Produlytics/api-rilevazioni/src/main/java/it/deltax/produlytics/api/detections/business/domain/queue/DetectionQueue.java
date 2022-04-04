@@ -6,4 +6,5 @@ import it.deltax.produlytics.api.detections.business.domain.Detection;
 // L'operazione non è bloccante.
 public interface DetectionQueue {
 	void enqueueDetection(Detection detection);
+	void close();
 }

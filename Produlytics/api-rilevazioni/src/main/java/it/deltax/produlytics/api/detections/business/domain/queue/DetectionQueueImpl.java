@@ -3,6 +3,7 @@ package it.deltax.produlytics.api.detections.business.domain.queue;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.processors.FlowableProcessor;
 import io.reactivex.rxjava3.processors.PublishProcessor;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
@@ -10,22 +11,27 @@ import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerie;
 import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerieFactory;
 
+import java.util.concurrent.Phaser;
 import java.util.concurrent.TimeUnit;
 
 // Implementazione di riferimento di `DetectionQueue`.
 public class DetectionQueueImpl implements DetectionQueue {
+	private final int secondsTimeout;
 	private final DetectionSerieFactory serieFactory;
-	private final PublishProcessor<Detection> detectionProcessor;
+	private final FlowableProcessor<Detection> detectionProcessor;
+	private final Phaser groupPhaser;
 
-	public DetectionQueueImpl(DetectionSerieFactory serieFactory) {
+	public DetectionQueueImpl(int secondsTimeout, DetectionSerieFactory serieFactory) {
+		this.secondsTimeout = secondsTimeout;
 		this.serieFactory = serieFactory;
-		this.detectionProcessor = PublishProcessor.create();
+		this.detectionProcessor = PublishProcessor.<Detection>create().toSerialized();
+		this.groupPhaser = new Phaser(1);
 
 		// Imposta il publish processor per:
 		// - dividere le rilevazioni in gruppi in base alla loro caratteristica (1 gruppo per caratteristica)
 		// - processare ogni gruppo in modo sequenziale con `this.handleDetectionGroup`
 		// TODO: Fix warning subscribe ignored
-		this.detectionProcessor.observeOn(Schedulers.computation())
+		this.detectionProcessor
 			.groupBy(Detection::characteristicId)
 			.subscribe(group -> this.handleDetectionGroup(group.getKey(), group));
 	}
@@ -35,10 +41,8 @@ public class DetectionQueueImpl implements DetectionQueue {
 	// quindi questo metodo deve essere marcato synchronized.
 	@Override
 	public void enqueueDetection(Detection detection) {
-		synchronized(this.detectionProcessor) {
-			// TODO: Gestisci back-pressure
-			this.detectionProcessor.onNext(detection);
-		}
+		// TODO: Gestisci back-pressure
+		this.detectionProcessor.onNext(detection);
 	}
 
 	// Gestisce ogni gruppo/caratteristica:
@@ -51,11 +55,15 @@ public class DetectionQueueImpl implements DetectionQueue {
 	// - il parametro `Flowable.empty()` di `timeout` evita di lanciare errori in caso di timeout;
 	// - `concatMapCompletable` permette di finire di gestire una rilevazione prima della prossima.
 	private void handleDetectionGroup(CharacteristicId key, Flowable<Detection> group) {
+		// Registra il gruppo nel Phaser.
+		this.groupPhaser.register();
+
 		Single<DetectionSerie> serieSingle = this.createSerieForKey(key);
 		// TODO: Fix warning subscribe ignored
 		group.observeOn(Schedulers.computation())
-			.timeout(30, TimeUnit.SECONDS, Flowable.empty())
+			.timeout(this.secondsTimeout, TimeUnit.SECONDS, Flowable.empty())
 			.concatMapCompletable(detection -> this.handleDetection(serieSingle, detection))
+			.doOnTerminate(this.groupPhaser::arriveAndDeregister)
 			.subscribe();
 	}
 
@@ -81,10 +89,11 @@ public class DetectionQueueImpl implements DetectionQueue {
 
 	// Aspetta che tutte le rilevazioni siano processate.
 	// Spring vede questo metodo e lo chiama automaticamente quando il programma sta per uscire.
+	@Override
 	public void close() {
-		synchronized(this.detectionProcessor) {
-			// TODO: Questo assicura che tutte le rilevazioni siano completate?
-			this.detectionProcessor.onComplete();
-		}
+		// Completa il FlowableProcessor e impedisci nuovi inserimenti.
+		this.detectionProcessor.onComplete();
+		// Poi aspetta che tutti i gruppi finiscano.
+		this.groupPhaser.arriveAndAwaitAdvance();
 	}
 }
