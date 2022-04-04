@@ -3,8 +3,8 @@ package it.deltax.produlytics.uibackend.devices.adapters;
 import it.deltax.produlytics.persistence.CharacteristicEntityId;
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicLimits;
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTitle;
-import it.deltax.produlytics.uibackend.devices.business.domain.out.FindAllUnarchivedCharacteristicsPort;
-import it.deltax.produlytics.uibackend.devices.business.domain.out.FindCharacteristicLimitsPort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchivedCharacteristicsPort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicLimitsPort;
 import it.deltax.produlytics.uibackend.repositories.UnarchivedCharacteristicRepository;
 import org.springframework.stereotype.Component;
 

@@ -5,6 +5,7 @@ import it.deltax.produlytics.uibackend.devices.business.domain.out.*;
 import it.deltax.produlytics.uibackend.devices.business.domain.Device;
 import it.deltax.produlytics.uibackend.devices.business.domain.DetailedDevice;
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.*;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
 import org.springframework.stereotype.Component;
 
@@ -16,9 +17,7 @@ import java.util.stream.StreamSupport;
 @Component
 public class DeviceAdapter implements GetDevicesPort,
     GetAllUnarchivedDevicesPort,
-    FindTinyDevicePort,
-    FindDetailedDevicePort,
-    UpdateDeviceArchiveStatusPort,
+    FindTinyDevicePort, FindDetailedDevicePort, UpdateDeviceArchiveStatusPort,
     UpdateDeviceDeactivateStatusPort,
     GetDeviceDetailsPort,
     UpdateDeviceNamePort

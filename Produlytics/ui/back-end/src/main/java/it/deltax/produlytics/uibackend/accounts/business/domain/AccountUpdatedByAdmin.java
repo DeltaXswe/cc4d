@@ -1,8 +1,10 @@
 package it.deltax.produlytics.uibackend.accounts.business.domain;
 
-public record InsertAccount(
+import java.util.Optional;
+
+public record AccountUpdatedByAdmin(
 	String username,
-	String password,
+	Optional<String> newPassword,
 	boolean administrator
 ) {
 }

@@ -3,7 +3,7 @@ package it.deltax.produlytics.uibackend.admins.business;
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordEncoderPort;
-import it.deltax.produlytics.uibackend.accounts.business.domain.InsertAccount;
+import it.deltax.produlytics.uibackend.accounts.business.domain.AccountToInsert;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.InsertAccountUseCase;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.InsertAccountPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
@@ -30,7 +30,7 @@ public class InsertAccountService implements InsertAccountUseCase {
 	}
 
 	@Override
-	public void insertAccount(InsertAccount command) throws BusinessException {
+	public void insertAccount(AccountToInsert command) throws BusinessException {
 		if(command.password().length() < 6)
 			throw new BusinessException("invalidPassword", ErrorType.GENERIC);
 

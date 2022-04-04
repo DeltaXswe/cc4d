@@ -2,7 +2,7 @@ package it.deltax.produlytics.uibackend.admins.business;
 
 import it.deltax.produlytics.uibackend.admins.business.ports.in.GetDevicesUseCase;
 import it.deltax.produlytics.uibackend.devices.business.domain.Device;
-import it.deltax.produlytics.uibackend.devices.business.domain.out.GetDevicesPort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.GetDevicesPort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

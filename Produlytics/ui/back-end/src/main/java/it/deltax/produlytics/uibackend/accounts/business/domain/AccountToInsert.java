@@ -1,8 +1,8 @@
 package it.deltax.produlytics.uibackend.accounts.business.domain;
 
-public record AccountUpdatePassword(
+public record AccountToInsert(
 	String username,
-	String currentPassword,
-	String newPassword
+	String password,
+	boolean administrator
 ) {
 }

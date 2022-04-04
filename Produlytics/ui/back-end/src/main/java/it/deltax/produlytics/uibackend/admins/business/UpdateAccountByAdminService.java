@@ -3,7 +3,7 @@ package it.deltax.produlytics.uibackend.admins.business;
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordEncoderPort;
-import it.deltax.produlytics.uibackend.admins.business.domain.UpdateAdminAccout;
+import it.deltax.produlytics.uibackend.accounts.business.domain.AccountUpdatedByAdmin;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.UpdateAccountByAdminPort;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.UpdateAccountByAdminUseCase;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
@@ -27,7 +27,7 @@ public class UpdateAccountByAdminService implements UpdateAccountByAdminUseCase 
 	}
 
 	@Override
-	public void updateByUsername(UpdateAdminAccout command) throws BusinessException {
+	public void updateByUsername(AccountUpdatedByAdmin command) throws BusinessException {
 		if(command.newPassword().isPresent() && command.newPassword().get().length() < 6)
 			throw new BusinessException("invalidNewPassword", ErrorType.GENERIC);
 
