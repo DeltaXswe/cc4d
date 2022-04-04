@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/devices/{deviceId}/characteristics")
+@RequestMapping("/devices/{id}/characteristics")
 public class CharacteristicsController {
 	private final GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristics;
 	private final GetLimitsUseCase getLimitsUseCase;
@@ -25,17 +25,24 @@ public class CharacteristicsController {
 		this.getLimitsUseCase = getLimitsUseCase;
 	}
 
-	@GetMapping("")
-	ResponseEntity<Iterable<CharacteristicTitle>> getUnarchivedCharacteristics(
-		@PathVariable("deviceId") int deviceId
-	) throws BusinessException {
-		return new ResponseEntity<>(getUnarchivedCharacteristics.getByDevice(deviceId), HttpStatus.OK);
-	}
+    @GetMapping("")
+    ResponseEntity<List<CharacteristicTitle>> getUnarchivedCharacteristics(
+        @PathVariable("id") int deviceId
+    ) throws BusinessException {
+        return new ResponseEntity<>(
+            getUnarchivedCharacteristics.getByDevice(deviceId),
+            HttpStatus.OK
+        );
+    }
 
 	@GetMapping("{characteristicId}/limits")
 	ResponseEntity<CharacteristicLimits> getCharacteristicLimits(
-		@PathVariable("deviceId") int deviceId, @PathVariable("characteristicId") int characteristicId
-	) throws BusinessException {
-		return new ResponseEntity<>(getLimitsUseCase.getByCharacteristic(deviceId, characteristicId), HttpStatus.OK);
-	}
+        @PathVariable("id") int deviceId,
+        @PathVariable("characteristicId") int characteristicId
+    ) throws BusinessException {
+        return new ResponseEntity<>(
+            getLimitsUseCase.getByCharacteristic(deviceId, characteristicId),
+            HttpStatus.OK
+        );
+    }
 }

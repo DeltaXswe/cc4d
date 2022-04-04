@@ -1,7 +1,7 @@
 package it.deltax.produlytics.uibackend.devices.business.domain;
 
 public record DeviceDeactivateStatus(
-	int deviceId,
+	int id,
 	boolean deactivated
 ) {
 }
