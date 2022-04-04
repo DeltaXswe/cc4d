@@ -1,4 +1,4 @@
-package it.deltax.produlytics.api.detections.business.domain.charts;
+package it.deltax.produlytics.api.detections.business.domain.limits;
 
 /*
 	------------------- <- upperLimit()

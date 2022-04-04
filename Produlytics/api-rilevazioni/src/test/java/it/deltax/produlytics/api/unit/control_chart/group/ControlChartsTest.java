@@ -1,7 +1,7 @@
 package it.deltax.produlytics.api.unit.control_chart.group;
 
 import it.deltax.produlytics.api.detections.business.domain.charts.ControlChart;
-import it.deltax.produlytics.api.detections.business.domain.charts.ControlLimits;
+import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
 import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetection;
 import it.deltax.produlytics.api.detections.business.domain.charts.group.ControlCharts;
 import it.deltax.produlytics.api.detections.business.domain.charts.group.ControlChartsImpl;

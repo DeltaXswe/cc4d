@@ -1,5 +1,7 @@
 package it.deltax.produlytics.api.detections.business.domain.charts;
 
+import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
+
 import java.util.List;
 
 // Implementazione della carta di controllo corrispondente al requisito ROF24.6.

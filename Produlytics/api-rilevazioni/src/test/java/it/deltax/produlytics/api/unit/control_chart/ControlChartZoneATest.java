@@ -2,7 +2,7 @@ package it.deltax.produlytics.api.unit.control_chart;
 
 import it.deltax.produlytics.api.detections.business.domain.charts.ControlChart;
 import it.deltax.produlytics.api.detections.business.domain.charts.ControlChartZoneA;
-import it.deltax.produlytics.api.detections.business.domain.charts.ControlLimits;
+import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

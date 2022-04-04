@@ -2,7 +2,7 @@ package it.deltax.produlytics.api.detections.business.domain.serie;
 
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
-import it.deltax.produlytics.api.detections.business.domain.charts.ControlLimits;
+import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
 import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetection;
 import it.deltax.produlytics.api.detections.business.domain.charts.group.ControlCharts;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimitsCalculator;
