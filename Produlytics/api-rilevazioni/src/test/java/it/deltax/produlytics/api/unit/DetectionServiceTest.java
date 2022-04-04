@@ -29,9 +29,6 @@ public class DetectionServiceTest {
 			assert !detection.creationTime().isBefore(this.expectedDetection.creationTime());
 			assert detection.value() == this.expectedDetection.value();
 		}
-
-		@Override
-		public void close() {}
 	}
 
 	@Test

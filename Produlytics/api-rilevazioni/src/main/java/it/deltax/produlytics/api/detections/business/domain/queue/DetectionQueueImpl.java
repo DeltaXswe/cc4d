@@ -89,7 +89,6 @@ public class DetectionQueueImpl implements DetectionQueue {
 
 	// Aspetta che tutte le rilevazioni siano processate.
 	// Spring vede questo metodo e lo chiama automaticamente quando il programma sta per uscire.
-	@Override
 	public void close() {
 		// Completa il FlowableProcessor e impedisci nuovi inserimenti.
 		this.detectionProcessor.onComplete();
