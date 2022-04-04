@@ -31,8 +31,8 @@
             </mat-icon>
           </button>
         </mat-form-field>
-        <mat-chip-list fxLayoutAlign="start center" disableRipple>
-          <mat-chip *ngIf="device.deactivated">
+        <mat-chip-list fxLayoutAlign="start center">
+          <mat-chip *ngIf="device.deactivated" disableRipple>
             Disattivata
           </mat-chip>
           <mat-chip *ngIf="!device.deactivated" class="bg-green" disableRipple>

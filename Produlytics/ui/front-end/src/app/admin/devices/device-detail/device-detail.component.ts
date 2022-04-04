@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Device} from "../../../model/admin-device/device";
-import {CharacteristicsDatasource} from "./characteristics.datasource";
+import {CharacteristicsDataSource} from "./characteristics.data-source";
 import {
   CharacteristicAbstractService
 } from "../../../model/admin-device/characteristic/characteristic-abstract.service";
@@ -24,10 +24,10 @@ import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm
 })
 export class DeviceDetailComponent implements OnInit {
 
-  public device: Device;
-  public characteristics = new CharacteristicsDatasource();
-  public deviceNameForm: FormGroup;
-  displayedColumns = ['name', 'edit', 'status'];
+  readonly device: Device;
+  readonly characteristics = new CharacteristicsDataSource();
+  readonly deviceNameForm: FormGroup;
+  readonly displayedColumns = ['name', 'edit', 'status'];
 
   constructor(
     private characteristicService: CharacteristicAbstractService,
@@ -47,14 +47,7 @@ export class DeviceDetailComponent implements OnInit {
     this.initTable();
   }
 
-  private initTable() {
-    this.characteristicService.getCharacteristicsByDevice(this.device.id)
-      .subscribe(result => {
-        this.characteristics.setData(result);
-      })
-  }
-
-  updateDeviceName() {
+  updateDeviceName(): void {
     const newName = this.deviceNameForm.getRawValue().name;
     this.updateDeviceService.updateDeviceName(this.device.id, newName)
       .subscribe({
@@ -100,14 +93,14 @@ export class DeviceDetailComponent implements OnInit {
     });
   }
 
-  notifyCopy() {
+  notifyCopy(): void {
     this.matSnackBar.open(
       'Chiave copiata negli appunti',
       'Ok'
     )
   }
 
-  toggleCharacteristicStatus(characteristic: Characteristic) {
+  toggleCharacteristicStatus(characteristic: Characteristic): void {
     if (characteristic.archived) {
       this.characteristicService.recoverCharacteristic(this.device.id, characteristic.id);
     } else {
@@ -122,5 +115,12 @@ export class DeviceDetailComponent implements OnInit {
         }
       })
     }
+  }
+
+  private initTable() {
+    this.characteristicService.getCharacteristicsByDevice(this.device.id)
+      .subscribe(result => {
+        this.characteristics.setData(result);
+      })
   }
 }

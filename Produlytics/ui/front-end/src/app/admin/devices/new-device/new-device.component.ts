@@ -31,17 +31,10 @@ export class NewDeviceComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const nameField = this.formGroup.get('name');
-    if (nameField) {
-      nameField.valueChanges.subscribe(() => {
-        if (nameField.hasError('duplicateDeviceName')) {
-          nameField.setErrors({ duplicateDeviceName: null });
-        }
-      });
-    }
+    this.initForm();
   }
 
-  openNewCharacteristicDialog() {
+  openNewCharacteristicDialog(): void {
     const dialogRef = this.matDialog.open(NewCharacteristicDialogComponent, {
       data: {
         characteristics: this.characteristics
@@ -82,5 +75,16 @@ export class NewDeviceComponent implements OnInit {
         }
       }
     })
+  }
+
+  private initForm(): void {
+    const nameField = this.formGroup.get('name');
+    if (nameField) {
+      nameField.valueChanges.subscribe(() => {
+        if (nameField.hasError('duplicateDeviceName')) {
+          nameField.setErrors({ duplicateDeviceName: null });
+        }
+      });
+    }
   }
 }

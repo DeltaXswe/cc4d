@@ -2,7 +2,7 @@ import {CollectionViewer, DataSource} from "@angular/cdk/collections";
 import {BehaviorSubject, Observable} from "rxjs";
 import {Characteristic} from "../../../model/admin-device/characteristic/characteristic";
 
-export class CharacteristicsDatasource implements DataSource<Characteristic> {
+export class CharacteristicsDataSource implements DataSource<Characteristic> {
 
   private dataStream = new BehaviorSubject<Characteristic[]>([]);
   get currentData(): Characteristic[] {
