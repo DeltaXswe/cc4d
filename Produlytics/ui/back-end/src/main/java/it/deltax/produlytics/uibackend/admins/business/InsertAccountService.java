@@ -31,11 +31,11 @@ public class InsertAccountService implements InsertAccountUseCase {
 
 	@Override
 	public void insertAccount(AccountToInsert command) throws BusinessException {
-		if(command.password().length() < 6)
+		if (command.password().length() < 6)
 			throw new BusinessException("invalidPassword", ErrorType.GENERIC);
 
 		Optional<Account> result = findAccountPort.findByUsername(command.username());
-		if(result.isPresent())
+		if (result.isPresent())
 			throw new BusinessException("duplicateUsername", ErrorType.GENERIC);
 
 		String hashedPassword = passwordEncoderPort.encode(command.password());
