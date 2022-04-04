@@ -14,18 +14,17 @@ import java.util.List;
 @Repository
 public interface DetectionRepository extends CrudRepository<DetectionEntity, DetectionEntityId> {
 
-    @Query("""
+    @Query(value = """
         select d
         from DetectionEntity d
-        where d.id.deviceId = :deviceId
+        where d.id.id = :deviceId
         and d.id.characteristicId = :characteristicId
         and (:creation is null or d.id.creationTime > :creation)
-        """
-    )
+        """, nativeQuery = true)
     List<DetectionEntity> findByIdDeviceIdAndIdCharacteristicIdAndCreationTimeGreaterThan(
         @Param("deviceId") int deviceId,
         @Param("characteristicId") int characteristicId,
-        @Param("creation") Instant creation,
-        Sort sort
+        @Param("creation") Instant creation
+       //Sort sort così non va, va messo dentro la query semmai
     );
 }

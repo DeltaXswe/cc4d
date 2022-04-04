@@ -1,7 +1,7 @@
 package it.deltax.produlytics.uibackend.devices.business.domain;
 
 public record DeviceArchiveStatus(
-	int deviceId,
+	int id,
 	boolean archived
 ) {
 }

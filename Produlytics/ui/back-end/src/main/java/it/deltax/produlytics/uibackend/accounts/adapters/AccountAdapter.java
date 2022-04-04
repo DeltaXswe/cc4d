@@ -50,10 +50,10 @@ public class AccountAdapter implements UpdateAccountPasswordPort,
         return repo.findByUsername(username)
             .map(utente ->
                         new Account(
-                                utente.getUsername(),
-                                utente.getHashedPassword(),
-                                utente.getAdministrator(),
-                                utente.getArchived())
+                                utente.username(),
+                                utente.hashedPassword(),
+                                utente.administrator(),
+                                utente.archived())
                         );
     }
     @Override

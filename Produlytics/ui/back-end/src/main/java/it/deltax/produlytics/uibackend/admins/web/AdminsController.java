@@ -114,11 +114,12 @@ public class AdminsController {
 		return new ResponseEntity<>(NO_CONTENT);
 	}
 
-	@GetMapping("/devices/{deviceId}")
+	@GetMapping("/devices/{id}")
 	public ResponseEntity<Optional<DetailedDevice>> getDeviceDetails(
-		@PathVariable("deviceId") int id) throws BusinessException {
+		@PathVariable("id") int id) throws BusinessException {
 		return ResponseEntity.ok(getDeviceDetailsUseCase.getDeviceDetails(id));
 	}
+
 
 
 }

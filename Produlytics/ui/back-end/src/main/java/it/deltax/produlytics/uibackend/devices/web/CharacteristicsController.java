@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/devices/{deviceId}/characteristics")
+@RequestMapping("/devices/{id}/characteristics")
 public class CharacteristicsController {
     private final GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristics;
     private final GetLimitsUseCase getLimitsUseCase;
@@ -30,7 +30,7 @@ public class CharacteristicsController {
 
     @GetMapping("")
     ResponseEntity<List<CharacteristicTitle>> getUnarchivedCharacteristics(
-        @PathVariable("deviceId") int deviceId
+        @PathVariable("id") int deviceId
     ) throws BusinessException {
         return new ResponseEntity<>(
             getUnarchivedCharacteristics.getByDevice(deviceId),
@@ -40,7 +40,7 @@ public class CharacteristicsController {
 
     @GetMapping("{characteristicId}/limits")
 	ResponseEntity<CharacteristicLimits> getCharacteristicLimits(
-        @PathVariable("deviceId") int deviceId,
+        @PathVariable("id") int deviceId,
         @PathVariable("characteristicId") int characteristicId
     ) throws BusinessException {
         return new ResponseEntity<>(
