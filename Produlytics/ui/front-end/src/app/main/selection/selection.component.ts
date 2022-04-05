@@ -12,7 +12,8 @@ import { ChartComponent } from '../chart/chart.component';
   encapsulation: ViewEncapsulation.None
 })
 export class SelectionComponent implements OnInit {
-
+  colspan: number = 2;
+  rowspan: number = 2;
   machine: UnarchivedDeviceInfo | undefined;
   characteristics: CharacteristicNode[] = [];
   constructor() { }
@@ -21,6 +22,20 @@ export class SelectionComponent implements OnInit {
   }
 
   onSubmit(characteristics: CharacteristicNode[]){
+    switch (true) {
+      case characteristics.length < 2:
+        this.colspan = 2;
+        this.rowspan = 2;
+        break;
+      case characteristics.length == 2:
+        this.colspan = 2;
+        this.rowspan = 1;
+        break;
+      case characteristics.length > 2:
+        this.colspan = 1;
+        this.rowspan = 1;
+        break;
+    }
     this.characteristics = characteristics;
   }
 }

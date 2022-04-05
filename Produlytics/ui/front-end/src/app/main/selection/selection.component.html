@@ -4,7 +4,12 @@
   </mat-sidenav>
   <!-- lo tengo per fare delle prove per ora -->
   <mat-sidenav-content class="deltax-content">
-    <app-chart [selectedNodes] = characteristics></app-chart>
+    <mat-grid-list cols="2" rowHeight="300px">
+      <mat-grid-tile *ngFor="let tile of characteristics; let i = index" [colspan]="this.colspan" [rowspan]="this.rowspan">
+        <app-chart [currentNode] = tile [index] = i></app-chart>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-sidenav-content>
     <!-- <mat-card>
       <mat-toolbar mat-card-title color="primary">
         <span>Pagina di selezione macchine e caratteristiche</span>
@@ -19,6 +24,5 @@
       </mat-tab-group>
     </mat-card>
  -->
-  </mat-sidenav-content>
 </mat-sidenav-container>
 

@@ -41,8 +41,8 @@ export class DeviceSelectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.devicesChanged.emit(this.checkedNodes);
-  }
+/*     this.devicesChanged.emit(this.checkedNodes);
+ */   }
 
   public hasChildren(_index: number, node: SelectionNode): boolean {
     return node.expandable;
@@ -52,7 +52,7 @@ export class DeviceSelectionComponent implements OnInit {
     return this.checkedNodes.indexOf(node) >= 0;
   }
 
-  /* onSubmit() {
+  onSubmit() {
     this.devicesChanged.emit(this.checkedNodes);
-  } */
+  }
 }

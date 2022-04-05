@@ -1,4 +1,4 @@
-import { Component, DoCheck, Input, IterableDiffers, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, DoCheck, Input, IterableDiffers, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import * as d3 from 'd3';
@@ -16,13 +16,16 @@ import { CharacteristicNode } from '../device-selection/selection-data-source/se
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css'],
 })
-export class ChartComponent implements OnInit, OnDestroy, DoCheck {
+export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
+
   @Input()
-  selectedNodes: CharacteristicNode[] = [];
+  currentNode!: CharacteristicNode;
+
+  @Input()
+  index: number = 0;
 
   colspan: number = 2;
   rowspan: number = 2;
-  iterableDiffer: any;
   info!: CharacteristicInfo;
   private points: ChartPoint[] = [];
   private updateSubscription?: Subscription;
@@ -32,30 +35,14 @@ export class ChartComponent implements OnInit, OnDestroy, DoCheck {
     private chartService: ChartAbstractService,
     private location: Location,
     private iterableDiffers: IterableDiffers
-  ) {
-    this.iterableDiffer = iterableDiffers.find([]).create();
-  }
+  ) { }
 
   ngOnInit(): void {}
 
-  ngDoCheck(){
-    let changes = this.iterableDiffer.diff(this.selectedNodes);
-    if (changes) {
-      console.log(this.selectedNodes.length);
-      if (this.selectedNodes.length < 2){
-        this.colspan = 2;
-        this.rowspan = 2;
-      }else if (this.selectedNodes.length == 2){
-        this.colspan = 2;
-        this.rowspan = 1;
-      }else if (this.selectedNodes.length > 2){
-        this.colspan = 1;
-        this.rowspan = 1;
-      }
-      this.clearCharts();
-      this.createChart();
-    }
+  ngAfterViewInit(): void {
+    this.createChart();
   }
+
   ngOnDestroy(): void {
     this.updateSubscription?.unsubscribe();
   }
@@ -77,10 +64,8 @@ export class ChartComponent implements OnInit, OnDestroy, DoCheck {
   private yScale!: d3.ScaleLinear<number, number, never>;
 
   createChart() {
-    console.log('sono in createchart');
-    for (let i = 0; i<this.selectedNodes.length; i++){
       this.svg = d3
-        .select(`#d3svg${i}`)
+        .select(`#d3svg${this.index}`)
         .append('svg')
         .append('g')
         .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
@@ -112,10 +97,8 @@ export class ChartComponent implements OnInit, OnDestroy, DoCheck {
       .attr("class", "title")
       .attr("x", this.chartWidth / 2)
       .attr("y", this.margin.top) 
-      .text(`${this.selectedNodes[i].deviceId} - ` + `${this.selectedNodes[i].characteristicId}`);
-      //sarebbe da sostituire coi nomi delle macchine/caratteristiche
-      this.setupInitialPoints(this.selectedNodes[i].deviceId, this.selectedNodes[i].characteristicId);
-    }
+      .text(`${this.currentNode?.device.name} - ` + `${this.currentNode?.name}`);
+      this.setupInitialPoints(this.currentNode?.device.id, this.currentNode?.id);
   }
 
   setupInitialPoints(deviceId: number, characteristicId: number) {
@@ -125,7 +108,7 @@ export class ChartComponent implements OnInit, OnDestroy, DoCheck {
         this.info = info;
         this.points = points;
         this.drawChart();
-        //this.subscribeToUpdates();
+        this.subscribeToUpdates();
       });
   }
 
