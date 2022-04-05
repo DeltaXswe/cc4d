@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, DoCheck, Input, IterableDiffers, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, Input, IterableDiffers, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import * as d3 from 'd3';
@@ -24,8 +24,6 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input()
   index: number = 0;
 
-  colspan: number = 2;
-  rowspan: number = 2;
   info!: CharacteristicInfo;
   private points: ChartPoint[] = [];
   private updateSubscription?: Subscription;

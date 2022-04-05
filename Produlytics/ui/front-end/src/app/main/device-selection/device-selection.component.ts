@@ -41,8 +41,8 @@ export class DeviceSelectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-/*     this.devicesChanged.emit(this.checkedNodes);
- */   }
+    //this.devicesChanged.emit(this.checkedNodes);
+   }
 
   public hasChildren(_index: number, node: SelectionNode): boolean {
     return node.expandable;
