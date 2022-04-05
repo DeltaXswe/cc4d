@@ -6,25 +6,23 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-// smth wrong here
-@RequestMapping("/detections")
+@RequestMapping("/devices/{deviceId}/characteristics/{characteristicId}/detections")
 public class DetectionsController {
+	private final ListDetectionsByCharacteristicUseCase listDetectionsByCharacteristic;
 
-    private final ListDetectionsByCharacteristicUseCase listDetectionsByCharacteristic;
+	public DetectionsController(
+		@Qualifier("getListDetectionsByCharacteristicUseCase")
+			ListDetectionsByCharacteristicUseCase listDetectionsByCharacteristic
+	) {
+		this.listDetectionsByCharacteristic = listDetectionsByCharacteristic;
+	}
 
-    public DetectionsController(@Qualifier("getListDetectionsByCharacteristicUseCase") ListDetectionsByCharacteristicUseCase listDetectionsByCharacteristic) {
-        this.listDetectionsByCharacteristic = listDetectionsByCharacteristic;
-    }
-
-    @GetMapping("/{device}/characteristics/{characteristic}")
-    public List<DetectionLight> getCharacteristicDetections(
-        @PathVariable int device,
-        @PathVariable int characteristic,
-        @RequestParam("createdAfter") Long createdAfter
-    ) {
-        return listDetectionsByCharacteristic.listByCharacteristic(device, characteristic, createdAfter);
-    }
+	@GetMapping("")
+	public List<DetectionLight> getCharacteristicDetections(
+		@PathVariable int deviceId, @PathVariable int characteristicId, @RequestParam("createdAfter") Long createdAfter
+	) {
+		return listDetectionsByCharacteristic.listByCharacteristic(deviceId, characteristicId, createdAfter);
+	}
 }
