@@ -1,8 +1,9 @@
 package it.deltax.produlytics.api.detections;
 
 import it.deltax.produlytics.api.detections.business.domain.charts.*;
-import it.deltax.produlytics.api.detections.business.domain.charts.group.ControlCharts;
-import it.deltax.produlytics.api.detections.business.domain.charts.group.ControlChartsImpl;
+import it.deltax.produlytics.api.detections.business.domain.charts.ControlCharts;
+import it.deltax.produlytics.api.detections.business.domain.charts.ControlChartsImpl;
+import it.deltax.produlytics.api.detections.business.domain.charts.impls.*;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimitsCalculator;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimitsCalculatorImpl;
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueue;

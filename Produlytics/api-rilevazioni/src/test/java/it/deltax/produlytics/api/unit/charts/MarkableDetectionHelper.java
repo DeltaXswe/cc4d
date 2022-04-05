@@ -1,4 +1,4 @@
-package it.deltax.produlytics.api.unit.control_chart;
+package it.deltax.produlytics.api.unit.charts;
 
 import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetection;
 

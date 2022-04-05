@@ -1,8 +1,6 @@
-package it.deltax.produlytics.api.detections.business.domain.charts.group;
+package it.deltax.produlytics.api.detections.business.domain.charts;
 
-import it.deltax.produlytics.api.detections.business.domain.charts.ControlChart;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
-import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetection;
 
 import java.util.List;
 

@@ -1,5 +1,8 @@
-package it.deltax.produlytics.api.detections.business.domain.charts;
+package it.deltax.produlytics.api.detections.business.domain.charts.impls;
 
+import it.deltax.produlytics.api.detections.business.domain.charts.ControlChart;
+import it.deltax.produlytics.api.detections.business.domain.charts.ControlChartUtils;
+import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetection;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
 
 import java.util.List;
@@ -17,7 +20,7 @@ public class ControlChartTrend implements ControlChart {
 		// Per ogni tripletta di punti consecutivi w0, w1 e w2 controlla se sono tutti nello stesso ordine.
 		// Poichè le triplette si sovrappongono il trend deve continuare allo stesso modo in tutta la sequenza
 		// per poter risultare true alla fine.
-		boolean sameTrend = Utils.windows(detections,3).allMatch(window -> {
+		boolean sameTrend = ControlChartUtils.windows(detections,3).allMatch(window -> {
 			double w0 = window.get(0).value();
 			double w1 = window.get(1).value();
 			double w2 = window.get(2).value();

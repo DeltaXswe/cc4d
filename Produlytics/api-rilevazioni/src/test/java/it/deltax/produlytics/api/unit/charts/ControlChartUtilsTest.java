@@ -1,15 +1,15 @@
-package it.deltax.produlytics.api.unit.control_chart;
+package it.deltax.produlytics.api.unit.charts;
 
-import it.deltax.produlytics.api.detections.business.domain.charts.Utils;
+import it.deltax.produlytics.api.detections.business.domain.charts.ControlChartUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class UtilsTest {
+public class ControlChartUtilsTest {
 	@Test
 	void testWindows() {
 		List<Integer> list = List.of(1, 2, 3, 4, 5, 6, 7);
-		List<List<Integer>> windows = Utils.windows(list, 3).toList();
+		List<List<Integer>> windows = ControlChartUtils.windows(list, 3).toList();
 		List<List<Integer>> expected = List.of(List.of(1, 2, 3),
 			List.of(2, 3, 4),
 			List.of(3, 4, 5),

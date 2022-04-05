@@ -1,4 +1,4 @@
-package it.deltax.produlytics.api.detections.business.domain.charts.group;
+package it.deltax.produlytics.api.detections.business.domain.charts;
 
 import it.deltax.produlytics.api.detections.business.domain.charts.ControlChart;
 
