@@ -1,17 +1,14 @@
 package it.deltax.produlytics.uibackend.detections.adapters;
 
-import it.deltax.produlytics.persistence.DetectionEntity;
 import it.deltax.produlytics.uibackend.detections.business.domain.Detection;
 import it.deltax.produlytics.uibackend.detections.business.domain.DetectionFilters;
 import it.deltax.produlytics.uibackend.detections.business.ports.out.FindAllDetectionsPort;
 import it.deltax.produlytics.uibackend.repositories.DetectionRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
 import java.util.List;
-import java.util.OptionalLong;
-import java.util.stream.Collectors;
 
 @Component
 public class DetectionAdapter implements FindAllDetectionsPort {
@@ -25,16 +22,17 @@ public class DetectionAdapter implements FindAllDetectionsPort {
 	public List<Detection> findAllByCharacteristic(
 		int deviceId, int characteristicId, DetectionFilters filters
 	) {
-		List<DetectionEntity> detections;
-		OptionalLong olderThan = filters.olderThan();
-
-		detections = repo.findByCharacteristicAndCreationTimeGreaterThanAndLessThanQuery(deviceId,
-			characteristicId,
-			olderThan.isPresent() ? Instant.ofEpochMilli(olderThan.getAsLong()) : null,
-			Sort.by(Sort.Direction.DESC)
-		); return detections.stream()
-			.map(
+		return repo.findByCharacteristicAndCreationTimeGreaterThanQuery(deviceId,
+				characteristicId,
+				filters.olderThan().orElse(null),
+				PageRequest.ofSize(filters.limit().orElse(Integer.MAX_VALUE))
+					.withSort(Sort.Direction.ASC)
+			)
+			.stream()
+			.map(detection -> new Detection(detection.getId().getCreationTime(),
+				detection.getValue(),
+				detection.getOutlier()
 			))
-			.collect(Collectors.toList());
+			.toList();
 	}
 }
