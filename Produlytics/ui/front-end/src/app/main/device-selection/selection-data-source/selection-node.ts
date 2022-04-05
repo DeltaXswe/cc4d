@@ -6,18 +6,18 @@ export interface SelectionNode {
   readonly level: number,
   readonly expandable: boolean,
   readonly deviceId: number,
-  readonly description: string
+  readonly name: string
 }
 
 export class DeviceNode implements SelectionNode {
   public readonly level = 0;
   public readonly expandable = true;
   public readonly deviceId: number;
-  public readonly description: string;
+  public readonly name: string;
 
   constructor(device: UnarchivedDevice) {
     this.deviceId = device.id;
-    this.description = device.name;
+    this.name = device.name;
   }
 }
 
@@ -25,7 +25,8 @@ export class CharacteristicNode implements SelectionNode {
   public readonly level = 1;
   public readonly expandable = false;
   public readonly deviceId: number;
-  public readonly description: string;
+  public readonly name: string;
+  public readonly deviceName: string;
 
   public readonly characteristicId: number;
 
@@ -34,8 +35,9 @@ export class CharacteristicNode implements SelectionNode {
     characteristic: UnarchivedCharacteristic
   ) {
     this.deviceId = parent.deviceId;
-    this.description = characteristic.name;
+    this.name = characteristic.name;
     this.characteristicId = characteristic.id;
+    this.deviceName = parent.name;
   }
 }
 
