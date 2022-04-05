@@ -19,15 +19,18 @@ public class DetectionQueueImpl implements DetectionQueue {
 	private final int secondsTimeout;
 	private final DetectionSerieFactory serieFactory;
 	private final FlowableProcessor<Detection> detectionProcessor;
+	// Questo phaser è usato per coordinare il termine dei vari gruppi di `detectionProcessor`.
 	private final Phaser groupPhaser;
 
 	public DetectionQueueImpl(int secondsTimeout, DetectionSerieFactory serieFactory) {
 		this.secondsTimeout = secondsTimeout;
 		this.serieFactory = serieFactory;
+		// `.toSerialized()` è necessario perchè `this.detectionProcessor.onNext` potrebbe essere chiamato da più
+		// thread, e `PublishProcessor` non è thread-safe.
 		this.detectionProcessor = PublishProcessor.<Detection>create().toSerialized();
-		this.groupPhaser = new Phaser(1);
+		this.groupPhaser = new Phaser();
 
-		// Imposta il publish processor per:
+		// Imposta `detectionProcessor` per:
 		// - dividere le rilevazioni in gruppi in base alla loro caratteristica (1 gruppo per caratteristica)
 		// - processare ogni gruppo in modo sequenziale con `this.handleDetectionGroup`
 		// TODO: Fix warning subscribe ignored
@@ -55,7 +58,7 @@ public class DetectionQueueImpl implements DetectionQueue {
 	// - il parametro `Flowable.empty()` di `timeout` evita di lanciare errori in caso di timeout;
 	// - `concatMapCompletable` permette di finire di gestire una rilevazione prima della prossima.
 	private void handleDetectionGroup(CharacteristicId key, Flowable<Detection> group) {
-		// Registra il gruppo nel Phaser.
+		// Registra il gruppo nel Phaser, segnalandone quindi la sua esistenza.
 		this.groupPhaser.register();
 
 		Single<DetectionSerie> serieSingle = this.createSerieForKey(key);
@@ -63,6 +66,7 @@ public class DetectionQueueImpl implements DetectionQueue {
 		group.observeOn(Schedulers.computation())
 			.timeout(this.secondsTimeout, TimeUnit.SECONDS, Flowable.empty())
 			.concatMapCompletable(detection -> this.handleDetection(serieSingle, detection))
+			// Segnala il completamento di questo gruppo al Phaser, senza aspettare gli altri.
 			.doOnTerminate(this.groupPhaser::arriveAndDeregister)
 			.subscribe();
 	}
@@ -92,7 +96,9 @@ public class DetectionQueueImpl implements DetectionQueue {
 	public void close() {
 		// Completa il FlowableProcessor e impedisci nuovi inserimenti.
 		this.detectionProcessor.onComplete();
-		// Poi aspetta che tutti i gruppi finiscano.
+		// Registra questo thread nel Phaser per segnalare la sua presenza.
+		this.groupPhaser.register();
+		// Poi aspetta che tutti gli altri membri del Phaser siano completi.
 		this.groupPhaser.arriveAndAwaitAdvance();
 	}
 }
