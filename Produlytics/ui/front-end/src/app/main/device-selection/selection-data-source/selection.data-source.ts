@@ -96,7 +96,7 @@ export class SelectionDataSource implements DataSource<SelectionNode> {
     if (this.cache.has(node)) {
       observable = of(this.cache.get(node)!);
     } else {
-      observable = this.unarchivedCharacteristicService.getCharacteristicsByDevice(node.deviceId)
+      observable = this.unarchivedCharacteristicService.getCharacteristicsByDevice(node.id)
         .pipe(
           map(values => values.map(char => new CharacteristicNode(node, char))),
           tap(values => {
@@ -106,6 +106,7 @@ export class SelectionDataSource implements DataSource<SelectionNode> {
     }
     return observable.pipe(
       tap(() => {
+        // rimuove il mat spinner
         this.loadingNodes.delete(node);
       })
     );

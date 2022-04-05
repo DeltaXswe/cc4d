@@ -1,43 +1,40 @@
 import {UnarchivedDevice} from "../../../model/device/unarchived-device";
 import {UnarchivedCharacteristic} from "../../../model/characteristic/unarchived-characteristic";
 
-
+// l'interfaccia con i dati che servono in visualizzazione e selezione
 export interface SelectionNode {
   readonly level: number,
   readonly expandable: boolean,
-  readonly deviceId: number,
+  readonly id: number,
   readonly name: string
 }
 
 export class DeviceNode implements SelectionNode {
   public readonly level = 0;
   public readonly expandable = true;
-  public readonly deviceId: number;
   public readonly name: string;
+  public readonly id: number;
 
-  constructor(device: UnarchivedDevice) {
-    this.deviceId = device.id;
+  constructor(
+    device: UnarchivedDevice
+  ) {
     this.name = device.name;
+    this.id = device.id;
   }
 }
 
 export class CharacteristicNode implements SelectionNode {
   public readonly level = 1;
   public readonly expandable = false;
-  public readonly deviceId: number;
   public readonly name: string;
-  public readonly deviceName: string;
-
-  public readonly characteristicId: number;
+  public readonly id: number;
 
   constructor(
-    public readonly parent: SelectionNode,
+    public readonly device: SelectionNode,
     characteristic: UnarchivedCharacteristic
   ) {
-    this.deviceId = parent.deviceId;
     this.name = characteristic.name;
-    this.characteristicId = characteristic.id;
-    this.deviceName = parent.name;
+    this.id = characteristic.id;
   }
 }
 
