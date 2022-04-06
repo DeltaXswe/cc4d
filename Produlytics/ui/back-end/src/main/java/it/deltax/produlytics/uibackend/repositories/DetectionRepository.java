@@ -13,13 +13,13 @@ import java.util.List;
 
 @Repository
 public interface DetectionRepository extends CrudRepository<DetectionEntity, DetectionEntityId> {
-	@Query("""
+	@Query(value="""
 		select d
 		from DetectionEntity d
 		where d.id.deviceId = :deviceId
 		and d.id.characteristicId = :characteristicId
 		and (:olderThan is null or d.id.creationTime < :olderThan)
-		""")
+		""", nativeQuery = true)
 	List<DetectionEntity> findByCharacteristicAndCreationTimeGreaterThanQuery(
 		@Param("deviceId") int deviceId,
 		@Param("characteristicId") int characteristicId,

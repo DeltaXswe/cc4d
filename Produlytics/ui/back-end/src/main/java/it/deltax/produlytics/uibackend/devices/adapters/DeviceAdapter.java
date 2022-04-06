@@ -121,7 +121,7 @@ public class DeviceAdapter implements InsertDevicePort,
 
     @Override
     public int insertDevice(NewDevice device) {
-        DeviceEntity entity = repo.save(new DeviceEntity(device.name(),
+        DeviceEntity entity = repo.saveAndFlush(new DeviceEntity(device.name(),
             device.archived(),
             device.deactivated(),
             device.apiKey()

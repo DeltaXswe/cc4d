@@ -3,11 +3,10 @@ package it.deltax.produlytics.uibackend.accounts.business;
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
 import it.deltax.produlytics.uibackend.accounts.business.domain.AccountPasswordToUpdate;
 import it.deltax.produlytics.uibackend.accounts.business.ports.in.UpdateAccountPasswordUseCase;
-import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
-import it.deltax.produlytics.uibackend.accounts.business.ports.out.EncoderPort;
-import it.deltax.produlytics.uibackend.accounts.business.ports.out.UpdateAccountPasswordPort;
+import it.deltax.produlytics.uibackend.accounts.business.ports.out.*;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -15,15 +14,19 @@ import org.springframework.stereotype.Service;
 public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCase {
     private final UpdateAccountPasswordPort updateAccountPasswordPort;
     private final FindAccountPort findAccountPort;
-    private final EncoderPort encoderPort;
+    private final PasswordMatcherPort passwordMatcherPort;
+    private final PasswordEncoderPort passwordEncoderPort;
 
     public UpdateAccountPasswordService(
             UpdateAccountPasswordPort updateAccountPasswordPort,
             @Qualifier("accountAdapter") FindAccountPort findAccountPort,
-            EncoderPort encoderPort){
+            PasswordMatcherPort passwordMatcherPort,
+            PasswordEncoderPort passwordEncoderPort
+        ){
         this.updateAccountPasswordPort = updateAccountPasswordPort;
         this.findAccountPort = findAccountPort;
-        this.encoderPort = encoderPort;
+        this.passwordMatcherPort = passwordMatcherPort;
+        this.passwordEncoderPort = passwordEncoderPort;
     }
 
     @Override
@@ -35,8 +38,8 @@ public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCas
             .map(account -> account.toBuilder())
             .orElseThrow(() -> new BusinessException(("accountNotFound"), ErrorType.NOT_FOUND));
 
-        if (encoderPort.matches(command.currentPassword(),toUpdate.build().hashedPassword())) {
-            String hashedNewPassword = encoderPort.encode(command.newPassword());
+        if (passwordMatcherPort.matches(command.currentPassword(),toUpdate.build().hashedPassword())) {
+            String hashedNewPassword = passwordEncoderPort.encode(command.newPassword());
             toUpdate.withHashedPassword(hashedNewPassword);
             updateAccountPasswordPort.updateAccountPassword(toUpdate.build());
         } else {
