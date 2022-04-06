@@ -5,8 +5,11 @@ import {Characteristic} from "../../../model/admin-device/characteristic/charact
 export class CharacteristicsDataSource implements DataSource<Characteristic> {
 
   private dataStream = new BehaviorSubject<Characteristic[]>([]);
-  get currentData(): Characteristic[] {
+  get data(): Characteristic[] {
     return this.dataStream.value;
+  }
+  set data(data: Characteristic[]) {
+    this.dataStream.next(data);
   }
 
   connect(collectionViewer: CollectionViewer): Observable<Characteristic[]> {
@@ -16,9 +19,4 @@ export class CharacteristicsDataSource implements DataSource<Characteristic> {
   disconnect(collectionViewer: CollectionViewer): void {
     this.dataStream.complete();
   }
-
-  setData(data: Characteristic[]): void {
-    this.dataStream.next(data);
-  }
-
 }

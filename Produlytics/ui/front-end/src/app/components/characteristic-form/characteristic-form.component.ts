@@ -13,10 +13,8 @@ import {CharacteristicCreationCommand} from "../../model/admin-device/new/charac
 export class CharacteristicFormComponent implements OnInit {
   @Input()
   startingData: Characteristic | null = null;
-
-  formGroup: FormGroup;
-
-  public readonly duplicateNameBehavior = new BehaviorSubject<true | null>(null);
+  readonly formGroup: FormGroup;
+  readonly duplicateNameBehavior = new BehaviorSubject<true | null>(null);
 
   constructor(
     formBuilder: FormBuilder
@@ -63,7 +61,7 @@ export class CharacteristicFormComponent implements OnInit {
     });
   }
 
-  public requireData(): CharacteristicCreationCommand {
+  requireData(): CharacteristicCreationCommand {
     const rawValue = this.formGroup.getRawValue();
     if (rawValue.autoAdjust) {
       rawValue.upperLimit = null;

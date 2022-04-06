@@ -1,8 +1,6 @@
 import {Component, Inject, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Characteristic} from "../../../model/admin-device/characteristic/characteristic";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {startWith} from "rxjs";
 import {
   UpdateCharacteristicAbstractService
 } from "../../../model/admin-device/characteristic/update-characteristic-abstract.service";
@@ -23,8 +21,7 @@ export class UpdateCharacteristicDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: {
       readonly deviceId: number,
       readonly characteristic: Characteristic,
-    },
-    formBuilder: FormBuilder
+    }
   ) {
   }
 

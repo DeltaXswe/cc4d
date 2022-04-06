@@ -66,7 +66,7 @@ export class DeviceDetailComponent implements OnInit {
   openNewCharacteristicDialog(): void {
     const dialogRef = this.matDialog.open(NewCharacteristicDialogComponent, {
       data: {
-        characteristics: this.characteristics.currentData
+        characteristics: this.characteristics.data
       }
     });
     dialogRef.afterClosed().subscribe((command: CharacteristicCreationCommand) => {
@@ -120,7 +120,7 @@ export class DeviceDetailComponent implements OnInit {
   private initTable() {
     this.characteristicService.getCharacteristicsByDevice(this.device.id)
       .subscribe(result => {
-        this.characteristics.setData(result);
+        this.characteristics.data = result;
       })
   }
 }
