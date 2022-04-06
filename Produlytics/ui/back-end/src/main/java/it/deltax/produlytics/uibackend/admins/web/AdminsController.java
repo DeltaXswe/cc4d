@@ -5,17 +5,15 @@ import it.deltax.produlytics.uibackend.accounts.business.domain.AccountTiny;
 import it.deltax.produlytics.uibackend.accounts.business.domain.AccountToInsert;
 import it.deltax.produlytics.uibackend.accounts.business.domain.AccountUpdatedByAdmin;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.*;
+import it.deltax.produlytics.uibackend.admins.devices.business.domain.NewCharacteristic;
+import it.deltax.produlytics.uibackend.admins.devices.business.ports.in.InsertCharacteristicUseCase;
 import it.deltax.produlytics.uibackend.devices.business.domain.*;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import static org.springframework.http.HttpStatus.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
+import java.util.*;
 
 @RestController
 @RequestMapping("/admin")
@@ -31,6 +29,7 @@ public class AdminsController {
 	private final UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase;
 	private final UpdateDeviceDeactivateStatusUseCase updateDeviceDeactivateStatusUseCase;
 
+	private final InsertCharacteristicUseCase insertCharacteristic;
 
 	public AdminsController(
 		InsertAccountUseCase insertAccountUseCase,
@@ -42,7 +41,8 @@ public class AdminsController {
 		GetDeviceDetailsUseCase getDeviceDetailsUseCase,
 		UpdateDeviceNameUseCase updateDeviceNameUseCase,
 		UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase,
-		UpdateDeviceDeactivateStatusUseCase updateDeviceDeativateStatusUseCase
+		UpdateDeviceDeactivateStatusUseCase updateDeviceDeativateStatusUseCase,
+		InsertCharacteristicUseCase insertCharacteristic
 	){
 		this.insertAccountUseCase = insertAccountUseCase;
 		this.getAccountsUseCase = getAccountsUseCase;
@@ -54,6 +54,8 @@ public class AdminsController {
 		this.updateDeviceNameUseCase = updateDeviceNameUseCase;
 		this.updateDeviceArchiveStatusUseCase = updateDeviceArchiveStatusUseCase;
 		this.updateDeviceDeactivateStatusUseCase = updateDeviceDeativateStatusUseCase;
+
+		this.insertCharacteristic = insertCharacteristic;
 	}
 
 	@PostMapping("/accounts")
@@ -134,4 +136,26 @@ public class AdminsController {
 		return new ResponseEntity<>(NO_CONTENT);
 	}
 
+	@PostMapping("/devices/{deviceId}/characteristics")
+	public ResponseEntity<Integer> insertCharacteristic(
+		@PathVariable("deviceId") int deviceId,
+		@RequestParam(value = "name") String name,
+		@RequestParam(value = "lowerLimit", required = false) Double lowerLimit,
+		@RequestParam(value = "upperLimit", required = false) Double upperLimit,
+		@RequestParam(value = "autoAdjust") boolean autoAdjust,
+		@RequestParam(value = "sampleSize", required = false) Integer sampleSize
+	) throws BusinessException {
+		var builder = NewCharacteristic.toBuilder()
+			.withName(name)
+			.withAutoAdjust(autoAdjust);
+
+		if (lowerLimit != null)
+			builder = builder.withLowerLimit(OptionalDouble.of(lowerLimit));
+		if (upperLimit != null)
+			builder = builder.withUpperLimit(OptionalDouble.of(upperLimit));
+		if (sampleSize != null)
+			builder = builder.withSampleSize(OptionalInt.of(sampleSize));
+
+		return ResponseEntity.ok(insertCharacteristic.insertByDevice(deviceId, builder.build()));
+	}
 }
