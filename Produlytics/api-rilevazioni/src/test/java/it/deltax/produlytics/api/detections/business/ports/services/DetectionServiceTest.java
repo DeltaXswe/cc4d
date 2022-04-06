@@ -1,4 +1,4 @@
-package it.deltax.produlytics.api.unit;
+package it.deltax.produlytics.api.detections.business.ports.services;
 
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;

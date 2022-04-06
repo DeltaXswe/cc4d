@@ -1,10 +1,6 @@
-package it.deltax.produlytics.api.unit.charts;
+package it.deltax.produlytics.api.detections.business.domain.charts;
 
-import it.deltax.produlytics.api.detections.business.domain.charts.ControlChart;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
-import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetection;
-import it.deltax.produlytics.api.detections.business.domain.charts.ControlCharts;
-import it.deltax.produlytics.api.detections.business.domain.charts.ControlChartsImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

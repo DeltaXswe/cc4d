@@ -1,4 +1,4 @@
-package it.deltax.produlytics.api.unit.exception;
+package it.deltax.produlytics.api.exceptions;
 
 import it.deltax.produlytics.api.exceptions.BusinessException;
 import it.deltax.produlytics.api.exceptions.BusinessExceptionHandler;

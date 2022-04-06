@@ -1,4 +1,4 @@
-package it.deltax.produlytics.api.unit.queue;
+package it.deltax.produlytics.api.detections.business.domain.queue;
 
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;

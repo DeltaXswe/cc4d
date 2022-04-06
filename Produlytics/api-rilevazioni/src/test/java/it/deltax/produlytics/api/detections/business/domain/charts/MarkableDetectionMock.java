@@ -1,6 +1,4 @@
-package it.deltax.produlytics.api.unit.charts;
-
-import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetection;
+package it.deltax.produlytics.api.detections.business.domain.charts;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package it.deltax.produlytics.api.unit.validate;
+package it.deltax.produlytics.api.detections.business.domain.validate;
 
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.validate.CharacteristicInfo;

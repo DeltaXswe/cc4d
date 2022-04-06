@@ -1,56 +1,62 @@
-package it.deltax.produlytics.api.unit.charts.impls;
+package it.deltax.produlytics.api.detections.business.domain.charts.impls;
 
 import it.deltax.produlytics.api.detections.business.domain.charts.ControlChart;
-import it.deltax.produlytics.api.detections.business.domain.charts.impls.ControlChartTrend;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
-import it.deltax.produlytics.api.unit.charts.MarkableDetectionMock;
+import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetectionMock;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class ControlChartTrendTest {
+public class ControlChartMixtureTest {
 	@Test
 	void testRequiredDetections() {
-		ControlChart controlChart = new ControlChartTrend();
-		assert controlChart.requiredDetectionCount() == 7;
+		ControlChart controlChart = new ControlChartMixture();
+		assert controlChart.requiredDetectionCount() == 8;
 	}
 
 	@Test
-	void testAllIncreasing() {
-		double[] values = { 1, 2, 3, 4, 5, 6, 7 };
+	void testAllUnderLowerCLimit() {
+		double[] values = { 11, 12, 13, 14, 15, 16, 17, 18 };
 		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
 		ControlLimits limits = new ControlLimits(0, 60);
-		ControlChart controlChart = new ControlChartTrend();
+		assert 18 < limits.lowerBCLimit();
+		ControlChart controlChart = new ControlChartMixture();
 		controlChart.analyzeDetections(detections, limits);
 		assert detections.stream().allMatch(MarkableDetectionMock::isOutlier);
 	}
 
 	@Test
-	void testAllDecreasing() {
-		double[] values = { 7, 6, 5, 4, 3, 2, 1 };
+	void testAllOverUpperCLimit() {
+		double[] values = { 41, 42, 43, 44, 45, 46, 47, 48 };
 		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
 		ControlLimits limits = new ControlLimits(0, 60);
-		ControlChart controlChart = new ControlChartTrend();
+		assert 41 > limits.upperBCLimit();
+		ControlChart controlChart = new ControlChartMixture();
 		controlChart.analyzeDetections(detections, limits);
 		assert detections.stream().allMatch(MarkableDetectionMock::isOutlier);
 	}
 
 	@Test
-	void testSomeIncreasingSomeDecreasing() {
-		double[] values = { 1, 2, 3, 4, 3, 2, 1 };
+	void testSomeOverSomeUnderCLimit() {
+		double[] values = { 11, 42, 13, 44, 15, 46, 17, 48 };
 		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
 		ControlLimits limits = new ControlLimits(0, 60);
-		ControlChart controlChart = new ControlChartTrend();
+		assert 17 < limits.lowerBCLimit();
+		assert 42 > limits.upperBCLimit();
+		ControlChart controlChart = new ControlChartMixture();
 		controlChart.analyzeDetections(detections, limits);
-		assert detections.stream().noneMatch(MarkableDetectionMock::isOutlier);
+		assert detections.stream().allMatch(MarkableDetectionMock::isOutlier);
 	}
 
 	@Test
-	void test2Increasing2Decreasing() {
-		double[] values = { 1, 2, 3, 2, 1, 2, 3 };
+	void testOneInside() {
+		double[] values = { 11, 12, 13, 30, 15, 16, 17, 18 };
 		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
 		ControlLimits limits = new ControlLimits(0, 60);
-		ControlChart controlChart = new ControlChartTrend();
+		assert 30 > limits.lowerBCLimit();
+		assert 30 < limits.upperBCLimit();
+		assert 18 < limits.lowerBCLimit();
+		ControlChart controlChart = new ControlChartMixture();
 		controlChart.analyzeDetections(detections, limits);
 		assert detections.stream().noneMatch(MarkableDetectionMock::isOutlier);
 	}

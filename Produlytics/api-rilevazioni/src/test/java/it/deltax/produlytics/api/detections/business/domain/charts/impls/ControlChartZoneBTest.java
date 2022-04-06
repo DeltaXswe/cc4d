@@ -1,106 +1,101 @@
-package it.deltax.produlytics.api.unit.charts.impls;
+package it.deltax.produlytics.api.detections.business.domain.charts.impls;
 
 import it.deltax.produlytics.api.detections.business.domain.charts.ControlChart;
-import it.deltax.produlytics.api.detections.business.domain.charts.impls.ControlChartZoneA;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
-import it.deltax.produlytics.api.unit.charts.MarkableDetectionMock;
+import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetectionMock;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class ControlChartZoneATest {
+public class ControlChartZoneBTest {
 	@Test
 	void testRequiredDetections() {
-		ControlChart controlChart = new ControlChartZoneA();
-		assert controlChart.requiredDetectionCount() == 3;
+		ControlChart controlChart = new ControlChartZoneB();
+		assert controlChart.requiredDetectionCount() == 5;
 	}
 
 	@Test
-	void testAllLowerA() {
-		double[] values = { 5, 5, 5 };
+	void testAllLowerB() {
+		double[] values = { 15, 15, 15, 15, 15 };
 		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
 		ControlLimits limits = new ControlLimits(0, 60);
-		assert 5 < limits.lowerABLimit();
-		ControlChart controlChart = new ControlChartZoneA();
+		assert 15 < limits.lowerBCLimit();
+		assert 15 > limits.lowerABLimit();
+		ControlChart controlChart = new ControlChartZoneB();
 		controlChart.analyzeDetections(detections, limits);
 		assert detections.stream().allMatch(MarkableDetectionMock::isOutlier);
 	}
 
 	@Test
-	void testAllUpperA() {
-		double[] values = { 55, 55, 55 };
+	void testAllUpperB() {
+		double[] values = { 45, 45, 45, 45, 45 };
 		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
 		ControlLimits limits = new ControlLimits(0, 60);
-		assert 55 > limits.upperABLimit();
-		ControlChart controlChart = new ControlChartZoneA();
+		assert 45 > limits.upperBCLimit();
+		assert 45 < limits.upperABLimit();
+		ControlChart controlChart = new ControlChartZoneB();
 		controlChart.analyzeDetections(detections, limits);
 		assert detections.stream().allMatch(MarkableDetectionMock::isOutlier);
 	}
 
 	@Test
-	void testSomeLowerA() {
-		double[] values = { 5, 5, 30 };
+	void testSomeLowerB() {
+		double[] values = { 15, 15, 15, 15, 25 };
 		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
 		ControlLimits limits = new ControlLimits(0, 60);
-		assert 5 < limits.lowerABLimit();
-		ControlChart controlChart = new ControlChartZoneA();
+		assert 25 > limits.lowerBCLimit();
+		ControlChart controlChart = new ControlChartZoneB();
 		controlChart.analyzeDetections(detections, limits);
 		assert detections.stream().allMatch(MarkableDetectionMock::isOutlier);
 	}
 
 	@Test
-	void testSomeUpperA() {
-		double[] values = { 55, 55, 30 };
+	void testSomeUpperB() {
+		double[] values = { 45, 45, 45, 45, 35 };
 		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
 		ControlLimits limits = new ControlLimits(0, 60);
-		assert 55 > limits.upperABLimit();
-		ControlChart controlChart = new ControlChartZoneA();
+		assert 35 < limits.upperBCLimit();
+		ControlChart controlChart = new ControlChartZoneB();
 		controlChart.analyzeDetections(detections, limits);
 		assert detections.stream().allMatch(MarkableDetectionMock::isOutlier);
 	}
 
 	@Test
-	void testAllLowerAOrUnder() {
-		double[] values = { 5, -5, -5 };
+	void testAllLowerBOrUnder() {
+		double[] values = { 15, 5, 5, -5, -5 };
 		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
 		ControlLimits limits = new ControlLimits(0, 60);
-		assert -5 < limits.lowerLimit();
-		ControlChart controlChart = new ControlChartZoneA();
+		ControlChart controlChart = new ControlChartZoneB();
 		controlChart.analyzeDetections(detections, limits);
 		assert detections.stream().allMatch(MarkableDetectionMock::isOutlier);
 	}
 
 	@Test
-	void testAllUpperAOrOver() {
-		double[] values = { 55, 65, 65 };
+	void testAllUpperBOrOver() {
+		double[] values = { 45, 55, 55, 65, 65 };
 		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
 		ControlLimits limits = new ControlLimits(0, 60);
-		assert 65 > limits.upperLimit();
-		ControlChart controlChart = new ControlChartZoneA();
+		ControlChart controlChart = new ControlChartZoneB();
 		controlChart.analyzeDetections(detections, limits);
 		assert detections.stream().allMatch(MarkableDetectionMock::isOutlier);
 	}
 
 	@Test
-	void testSomeUpperSomeLowerA() {
-		double[] values = { 55, 5, 30 };
+	void testSomeUnderSomeOverB() {
+		double[] values = { 45, 45, 45, 15, 15 };
 		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
 		ControlLimits limits = new ControlLimits(0, 60);
-		assert 5 < limits.lowerABLimit();
-		assert 55 > limits.upperABLimit();
-		ControlChart controlChart = new ControlChartZoneA();
+		ControlChart controlChart = new ControlChartZoneB();
 		controlChart.analyzeDetections(detections, limits);
 		assert detections.stream().noneMatch(MarkableDetectionMock::isOutlier);
 	}
 
 	@Test
-	void testSomeBC() {
-		double[] values = { 55, 15, 45 };
+	void testSomeC() {
+		double[] values = { 45, 45, 15, 25, 35 };
 		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
 		ControlLimits limits = new ControlLimits(0, 60);
-		assert 15 > limits.lowerABLimit();
-		assert 15 < limits.upperABLimit();
-		ControlChart controlChart = new ControlChartZoneA();
+		ControlChart controlChart = new ControlChartZoneB();
 		controlChart.analyzeDetections(detections, limits);
 		assert detections.stream().noneMatch(MarkableDetectionMock::isOutlier);
 	}
