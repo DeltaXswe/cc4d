@@ -1,8 +1,11 @@
 package it.deltax.produlytics.uibackend.admins.adapters;
 
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordMatcherPort;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PasswordMatcherAdapter implements PasswordMatcherPort {
 	BCryptPasswordEncoder encoder;
 

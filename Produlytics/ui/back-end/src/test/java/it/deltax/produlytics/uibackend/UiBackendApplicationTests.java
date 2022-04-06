@@ -48,7 +48,7 @@ class UiBackendApplicationTests {
 	}
 
 	@Test
-	public void getAllUnarchivedDevicesWhereThereIsNone() throws Exception {
+	public void getAllUnarchivedDevicesWhenThereAreNone() throws Exception {
 		deviceRepository.save(new DeviceEntity("One", true, false, ""));
 		deviceRepository.save(new DeviceEntity("Two", true, false, ""));
 
