@@ -3,7 +3,7 @@ package it.deltax.produlytics.api.unit.charts.impls;
 import it.deltax.produlytics.api.detections.business.domain.charts.ControlChart;
 import it.deltax.produlytics.api.detections.business.domain.charts.impls.ControlChartStratification;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
-import it.deltax.produlytics.api.unit.charts.MarkableDetectionHelper;
+import it.deltax.produlytics.api.unit.charts.MarkableDetectionMock;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -18,31 +18,31 @@ public class ControlChartStratificationTest {
 	@Test
 	void testAllInlowerC() {
 		double[] values = { 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25 };
-		List<MarkableDetectionHelper> detections = MarkableDetectionHelper.listFromValues(values);
+		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
 		ControlLimits limits = new ControlLimits(0, 60);
 		assert 25 < limits.mean();
 		assert 25 > limits.lowerBCLimit();
 		ControlChart controlChart = new ControlChartStratification();
 		controlChart.analyzeDetections(detections, limits);
-		assert detections.stream().allMatch(MarkableDetectionHelper::isOutlier);
+		assert detections.stream().allMatch(MarkableDetectionMock::isOutlier);
 	}
 
 	@Test
 	void testAllInUpperC() {
 		double[] values = { 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35 };
-		List<MarkableDetectionHelper> detections = MarkableDetectionHelper.listFromValues(values);
+		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
 		ControlLimits limits = new ControlLimits(0, 60);
 		assert 35 > limits.mean();
 		assert 35 < limits.upperBCLimit();
 		ControlChart controlChart = new ControlChartStratification();
 		controlChart.analyzeDetections(detections, limits);
-		assert detections.stream().allMatch(MarkableDetectionHelper::isOutlier);
+		assert detections.stream().allMatch(MarkableDetectionMock::isOutlier);
 	}
 
 	@Test
 	void testSomeLowerSomeUpperC() {
 		double[] values = { 25, 35, 25, 35, 25, 35, 25, 35, 25, 35, 25, 35, 25, 35, 25 };
-		List<MarkableDetectionHelper> detections = MarkableDetectionHelper.listFromValues(values);
+		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
 		ControlLimits limits = new ControlLimits(0, 60);
 		assert 25 < limits.mean();
 		assert 25 > limits.lowerBCLimit();
@@ -50,28 +50,28 @@ public class ControlChartStratificationTest {
 		assert 35 < limits.upperBCLimit();
 		ControlChart controlChart = new ControlChartStratification();
 		controlChart.analyzeDetections(detections, limits);
-		assert detections.stream().allMatch(MarkableDetectionHelper::isOutlier);
+		assert detections.stream().allMatch(MarkableDetectionMock::isOutlier);
 	}
 
 	@Test
 	void testSomeUnderLowerC() {
 		double[] values = { 25, 25, 25, 25, 10, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25 };
-		List<MarkableDetectionHelper> detections = MarkableDetectionHelper.listFromValues(values);
+		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
 		ControlLimits limits = new ControlLimits(0, 60);
 		assert 10 <  limits.lowerBCLimit();
 		ControlChart controlChart = new ControlChartStratification();
 		controlChart.analyzeDetections(detections, limits);
-		assert detections.stream().noneMatch(MarkableDetectionHelper::isOutlier);
+		assert detections.stream().noneMatch(MarkableDetectionMock::isOutlier);
 	}
 
 	@Test
 	void testSomeOverUpperC() {
 		double[] values = { 35, 35, 35, 35, 50, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35 };
-		List<MarkableDetectionHelper> detections = MarkableDetectionHelper.listFromValues(values);
+		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
 		ControlLimits limits = new ControlLimits(0, 60);
 		assert 50 >  limits.upperBCLimit();
 		ControlChart controlChart = new ControlChartStratification();
 		controlChart.analyzeDetections(detections, limits);
-		assert detections.stream().noneMatch(MarkableDetectionHelper::isOutlier);
+		assert detections.stream().noneMatch(MarkableDetectionMock::isOutlier);
 	}
 }

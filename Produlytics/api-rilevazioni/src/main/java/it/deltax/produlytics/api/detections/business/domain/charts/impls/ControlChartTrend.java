@@ -30,7 +30,7 @@ public class ControlChartTrend implements ControlChart {
 		});
 
 		if(sameTrend) {
-			detections.forEach(MarkableDetection::markOutlier);
+			ControlChartUtils.markAll(detections);
 		}
 	}
 }

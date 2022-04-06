@@ -5,15 +5,15 @@ import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetec
 import java.util.Arrays;
 import java.util.List;
 
-public class MarkableDetectionHelper implements MarkableDetection {
-	public static List<MarkableDetectionHelper> listFromValues(double... values) {
-		return Arrays.stream(values).mapToObj(value -> new MarkableDetectionHelper(value, false)).toList();
+public class MarkableDetectionMock implements MarkableDetection {
+	public static List<MarkableDetectionMock> listFromValues(double... values) {
+		return Arrays.stream(values).mapToObj(value -> new MarkableDetectionMock(value, false)).toList();
 	}
 
 	private final double value;
 	private boolean outlier;
 
-	public MarkableDetectionHelper(double value, boolean outlier) {
+	public MarkableDetectionMock(double value, boolean outlier) {
 		this.value = value;
 		this.outlier = outlier;
 	}

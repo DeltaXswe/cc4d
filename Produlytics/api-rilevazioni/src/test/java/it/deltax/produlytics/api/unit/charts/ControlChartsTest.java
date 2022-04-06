@@ -5,7 +5,6 @@ import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits
 import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetection;
 import it.deltax.produlytics.api.detections.business.domain.charts.ControlCharts;
 import it.deltax.produlytics.api.detections.business.domain.charts.ControlChartsImpl;
-import it.deltax.produlytics.api.unit.charts.MarkableDetectionHelper;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -52,7 +51,7 @@ public class ControlChartsTest {
 			new FakeControlChart(2)
 		);
 		ControlCharts controlCharts = new ControlChartsImpl(fakeControlCharts);
-		List<MarkableDetectionHelper> detections = MarkableDetectionHelper.listFromValues(7, 9, 5, 2, 1);
+		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(7, 9, 5, 2, 1);
 		ControlLimits controlLimits = new ControlLimits(0, 100);
 		controlCharts.analyzeDetections(detections, controlLimits);
 		assert fakeControlCharts.stream().allMatch(FakeControlChart::wasCalled);
@@ -65,7 +64,7 @@ public class ControlChartsTest {
 			new FakeControlChart(2)
 		);
 		ControlCharts controlCharts = new ControlChartsImpl(fakeControlCharts);
-		List<MarkableDetectionHelper> detections = MarkableDetectionHelper.listFromValues(7, 9, 5, 2, 1);
+		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(7, 9, 5, 2, 1);
 		ControlLimits controlLimits = new ControlLimits(0, 100);
 		controlCharts.analyzeDetections(detections, controlLimits);
 		assert fakeControlCharts.get(0).wasCalled();

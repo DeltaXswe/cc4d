@@ -3,7 +3,7 @@ package it.deltax.produlytics.api.unit.charts.impls;
 import it.deltax.produlytics.api.detections.business.domain.charts.ControlChart;
 import it.deltax.produlytics.api.detections.business.domain.charts.impls.ControlChartBeyondLimits;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
-import it.deltax.produlytics.api.unit.charts.MarkableDetectionHelper;
+import it.deltax.produlytics.api.unit.charts.MarkableDetectionMock;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class ControlChartBeyondLimitsTest {
 
 	@Test
 	void testUnderLowerLimit() {
-		List<MarkableDetectionHelper> detections = MarkableDetectionHelper.listFromValues(-500);
+		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(-500);
 		ControlLimits limits = new ControlLimits(0, 100);
 		assert -500 < limits.lowerLimit();
 		ControlChart controlChart = new ControlChartBeyondLimits();
@@ -27,7 +27,7 @@ public class ControlChartBeyondLimitsTest {
 	
 	@Test
 	void testOverUpperLimit() {
-		List<MarkableDetectionHelper> detections = MarkableDetectionHelper.listFromValues(500);
+		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(500);
 		ControlLimits limits = new ControlLimits(0, 100);
 		assert 500 > limits.upperLimit();
 		ControlChart controlChart = new ControlChartBeyondLimits();
@@ -37,7 +37,7 @@ public class ControlChartBeyondLimitsTest {
 
 	@Test
 	void testInControlLimitsUnderMean() {
-		List<MarkableDetectionHelper> detections = MarkableDetectionHelper.listFromValues(1);
+		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(1);
 		ControlLimits limits = new ControlLimits(0, 100);
 		assert 1 > limits.lowerLimit();
 		assert 1 < limits.upperLimit();
@@ -48,7 +48,7 @@ public class ControlChartBeyondLimitsTest {
 
 	@Test
 	void testInControlLimitsOverMean() {
-		List<MarkableDetectionHelper> detections = MarkableDetectionHelper.listFromValues(99);
+		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(99);
 		ControlLimits limits = new ControlLimits(0, 100);
 		assert 99 > limits.lowerLimit();
 		assert 99 < limits.upperLimit();

@@ -17,6 +17,18 @@ public class ControlLimitsTest {
 	}
 
 	@Test
+	void testControlLimitsNegative() {
+		ControlLimits limits = new ControlLimits(-60, 60);
+		assert limits.lowerLimit() == -60;
+		assert limits.lowerABLimit() == -40;
+		assert limits.lowerBCLimit() == -20;
+		assert limits.mean() == 0;
+		assert limits.upperBCLimit() == 20;
+		assert limits.upperABLimit() == 40;
+		assert limits.upperLimit() == 60;
+	}
+
+	@Test
 	void testControlLimits2() {
 		ControlLimits controlLimits = new ControlLimits(100, 700);
 		assert controlLimits.lowerLimit() == 100;

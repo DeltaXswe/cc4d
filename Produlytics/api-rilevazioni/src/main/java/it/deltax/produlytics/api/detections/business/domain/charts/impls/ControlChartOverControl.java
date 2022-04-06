@@ -29,7 +29,7 @@ public class ControlChartOverControl implements ControlChart {
 			return incDec || decInc;
 		});
 		if(isOverControl) {
-			detections.forEach(MarkableDetection::markOutlier);
+			ControlChartUtils.markAll(detections);
 		}
 	}
 }

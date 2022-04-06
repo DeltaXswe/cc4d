@@ -18,4 +18,11 @@ public class ControlChartUtilsTest {
 		);
 		assert windows.equals(expected);
 	}
+
+	@Test
+	void testMarkAll() {
+		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(1, 2, 3);
+		ControlChartUtils.markAll(detections);
+		assert detections.stream().allMatch(MarkableDetectionMock::isOutlier);
+	}
 }

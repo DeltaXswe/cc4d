@@ -19,4 +19,8 @@ public class ControlChartUtils {
 	public static <T> Stream<List<T>> windows(List<T> list, int size) {
 		return IntStream.range(0, list.size() - size + 1).mapToObj(i -> list.subList(i, i + size));
 	}
+
+	public static void markAll(List<? extends MarkableDetection> detections) {
+		detections.forEach(MarkableDetection::markOutlier);
+	}
 }

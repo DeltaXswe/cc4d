@@ -1,6 +1,7 @@
 package it.deltax.produlytics.api.detections.business.domain.charts.impls;
 
 import it.deltax.produlytics.api.detections.business.domain.charts.ControlChart;
+import it.deltax.produlytics.api.detections.business.domain.charts.ControlChartUtils;
 import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetection;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
 
@@ -21,7 +22,7 @@ public class ControlChartZoneC implements ControlChart {
 		long inUpperZone = detections.stream().filter(detection -> detection.value() > mean).count();
 
 		if(inLowerZone >= 7 || inUpperZone >= 7) {
-			detections.forEach(MarkableDetection::markOutlier);
+			ControlChartUtils.markAll(detections);
 		}
 	}
 }
