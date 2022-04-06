@@ -28,7 +28,7 @@ public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCas
 
     @Override
     public void updatePasswordByUsername(AccountPasswordToUpdate command) throws BusinessException {
-        if(command.newPassword().length() < 6)
+        if (command.newPassword().length() < 6)
             throw new BusinessException("invalidNewPassword", ErrorType.GENERIC);
 
         Account.AccountBuilder toUpdate = findAccountPort.findByUsername(command.username())
