@@ -4,7 +4,6 @@ import it.deltax.produlytics.uibackend.detections.business.domain.DetectionFilte
 import it.deltax.produlytics.uibackend.detections.business.domain.Detections;
 import it.deltax.produlytics.uibackend.detections.business.ports.in.GetDetectionsUseCase;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
@@ -16,9 +15,7 @@ import java.util.OptionalInt;
 public class DetectionsController {
 	private final GetDetectionsUseCase listDetectionsByCharacteristic;
 
-	public DetectionsController(
-		@Qualifier("getListDetectionsByCharacteristicUseCase") GetDetectionsUseCase listDetectionsByCharacteristic
-	) {
+	public DetectionsController(GetDetectionsUseCase listDetectionsByCharacteristic) {
 		this.listDetectionsByCharacteristic = listDetectionsByCharacteristic;
 	}
 
