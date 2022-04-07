@@ -4,9 +4,11 @@ import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
 import it.deltax.produlytics.uibackend.accounts.business.domain.AccountPasswordToUpdate;
 import it.deltax.produlytics.uibackend.accounts.business.ports.in.UpdateAccountPasswordUseCase;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.*;
+import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
+import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordEncoderPort;
+import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordMatcherPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 

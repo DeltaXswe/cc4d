@@ -5,7 +5,7 @@ import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPo
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordEncoderPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountToInsert;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.InsertAccountUseCase;
-import it.deltax.produlytics.uibackend.accounts.business.ports.out.InsertAccountPort;
+import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.InsertAccountPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.beans.factory.annotation.Qualifier;
