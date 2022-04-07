@@ -31,7 +31,6 @@ public class AdminsDevicesController {
 		UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase,
 		UpdateDeviceDeactivateStatusUseCase updateDeviceDeativateStatusUseCase
 	){
-
 		this.insertDeviceUseCase = insertDeviceUseCase;
 		this.getDevicesUseCase = getDevicesUseCase;
 		this.getDeviceDetailsUseCase = getDeviceDetailsUseCase;

@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AdminTests extends UiBackendApplicationTests {
 	@Autowired
 	private AdminsAccountsController adminsAccountsController;
+
 	@Autowired
 	private AdminsDevicesController adminsDevicesController;
 

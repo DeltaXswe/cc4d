@@ -7,18 +7,22 @@ import it.deltax.produlytics.uibackend.admins.devices.business.domain.DetailedDe
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.Device;
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public class AdminDeviceAdapter implements InsertDevicePort,
+@Component
+public class AdminDeviceAdapter implements
+	InsertDevicePort,
 	GetDevicesPort,
 	FindTinyDevicePort,
 	FindDetailedDevicePort,
 	UpdateDeviceArchiveStatusPort,
-	UpdateDeviceDeactivateStatusPort, GetDeviceDetailsPort,
+	UpdateDeviceDeactivateStatusPort,
+	GetDeviceDetailsPort,
 	UpdateDeviceNamePort
 {
 	private final DeviceRepository repo;
