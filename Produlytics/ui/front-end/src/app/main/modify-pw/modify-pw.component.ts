@@ -61,10 +61,12 @@ export class ModifyPwComponent implements OnInit {
       return;
     }
     this.modifyPwService.modifyPw(this.loginService.getUsername(), command)
-      .subscribe(next => this.matSnackBar.open('La password è stata cambiata', 'Undo', {
+      .subscribe({next: () => this.matSnackBar.open('La password è stata cambiata', 'Undo', {
         duration: 3000
-      }), error => this.matSnackBar.open('La password corrente è errata', 'Undo', {
-        duration: 3000}));
+      }), 
+      error: () => this.matSnackBar.open('La password corrente è errata', 'Undo', {
+        duration: 3000
+      })});
     this.matDialogRef.close();
   }
 }

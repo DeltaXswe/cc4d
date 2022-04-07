@@ -5,6 +5,7 @@ import { ViewEncapsulation } from '@angular/core';
 import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
 import { CookieService } from 'ngx-cookie-service';
 import { LoginCommand } from 'src/app/model/login/login-command';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit {
   constructor (private formBuilder: FormBuilder, 
     private router: Router, 
     private loginService: LoginAbstractService,
-    private cookieService: CookieService){ 
+    private cookieService: CookieService,
+    private matSnackBar: MatSnackBar){ 
       this.loginForm = this.formBuilder.group({
         username: ['', Validators.required],
         password: ['', [Validators.required, Validators.minLength(6)]],
@@ -43,5 +45,10 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.loginService.login(command)
+      .subscribe({
+        next: () => this.router.navigate(['/']),
+        error: () => this.matSnackBar.open('Credenziali non valide', 'Undo', {
+          duration: 3000
+        })});
   }
 }

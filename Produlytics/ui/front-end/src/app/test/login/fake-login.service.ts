@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { users } from './users';
 import { CookieService } from 'ngx-cookie-service';
 import { LoginCommand } from 'src/app/model/login/login-command';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -27,11 +28,10 @@ export class FakeLoginService implements LoginAbstractService {
           this.cookieService.set('PRODULYTICS_RM', 'valore');
         this.router.navigate(['/']);
         return of({});
-      } else
-      this.matSnackBar.open('Credenziali non valide', 'Undo', {
-        duration: 3000
-      });
-      return throwError('Credenziali non valide');
+      } else {
+      const error = new HttpErrorResponse({ status: 401 });
+      return of(error);
+      }
     }
 
   public isLogged(): boolean {
