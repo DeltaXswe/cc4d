@@ -1,4 +1,4 @@
-package it.deltax.produlytics.uibackend.detections.business.ports;
+package it.deltax.produlytics.uibackend.detections.business;
 
 import it.deltax.produlytics.uibackend.detections.business.domain.Detection;
 import it.deltax.produlytics.uibackend.detections.business.domain.DetectionFilters;
@@ -14,7 +14,7 @@ import java.util.*;
 
 @Service
 public class GetDetectionsService implements GetDetectionsUseCase {
-	FindAllDetectionsPort port;
+	private final FindAllDetectionsPort port;
 
 	public GetDetectionsService(FindAllDetectionsPort port) {
 		this.port = port;
