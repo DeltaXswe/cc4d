@@ -39,15 +39,20 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 		false
 	);
 
+	private void prepareContext() {
+		repository.save(characteristic);
+	}
+
 	@Override
 	@Test
 	void contextLoads() {
+		assertThat(repository).isNotNull();
 		assertThat(controller).isNotNull();
 	}
 
 	@Test
 	void getUnarchivedCharacteristics() throws Exception {
-		repository.save(characteristic);
+		prepareContext();
 		repository.save(characteristic2);
 
 		mockMvc.perform(get("/devices/1/characteristics"))
@@ -60,8 +65,7 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 
 	@Test
 	void deviceNotFoundError() throws Exception {
-		repository.save(characteristic);
-
+		prepareContext();
 		mockMvc.perform(get("/devices/2/characteristics"))
 			.andDo(print())
 			.andExpect(status().isNotFound())
@@ -70,8 +74,7 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 
 	@Test
 	void getCharacteristicLimits() throws Exception {
-		repository.save(characteristic);
-
+		prepareContext();
 		mockMvc.perform(get("/devices/1/characteristics/1/limits"))
 			.andDo(print())
 			.andExpect(status().isOk())
@@ -80,8 +83,7 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 
 	@Test
 	void characteristicNotFoundError1() throws Exception {
-		repository.save(characteristic);
-
+		prepareContext();
 		mockMvc.perform(get("/devices/1/characteristics/2/limits"))
 			.andDo(print())
 			.andExpect(status().isNotFound())
@@ -90,8 +92,7 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 
 	@Test
 	void characteristicNotFoundError2() throws Exception {
-		repository.save(characteristic);
-
+		prepareContext();
 		mockMvc.perform(get("/devices/2/characteristics/2/limits"))
 			.andDo(print())
 			.andExpect(status().isNotFound())
