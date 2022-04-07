@@ -13,11 +13,13 @@ import java.util.Optional;
 
 @Service
 public class GetDeviceDetailsService implements GetDeviceDetailsUseCase {
-	FindTinyDevicePort findTinyDevicePort;
-	GetDeviceDetailsPort getDeviceDetailsPort;
+	private final FindTinyDevicePort findTinyDevicePort;
+	private final GetDeviceDetailsPort getDeviceDetailsPort;
 
 	public GetDeviceDetailsService(
-		FindTinyDevicePort findTinyDevicePort, GetDeviceDetailsPort getDeviceDetailsPort) {
+		FindTinyDevicePort findTinyDevicePort,
+		GetDeviceDetailsPort getDeviceDetailsPort
+	) {
 		this.findTinyDevicePort = findTinyDevicePort;
 		this.getDeviceDetailsPort = getDeviceDetailsPort;
 	}
