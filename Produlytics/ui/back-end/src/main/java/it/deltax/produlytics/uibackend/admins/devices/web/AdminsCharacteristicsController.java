@@ -20,7 +20,7 @@ public class AdminsCharacteristicsController {
 	@PostMapping("")
 	public ResponseEntity<Map<String, Integer>> insertCharacteristic(
 		@PathVariable("deviceId") int deviceId,
-		@RequestBody NewCharacteristic characteristic
+		@RequestBody(required = false) NewCharacteristic characteristic
 	) throws BusinessException {
 		return ResponseEntity.ok(Map.of(
 			"id",
