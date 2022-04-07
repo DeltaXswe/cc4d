@@ -9,11 +9,7 @@ import static org.springframework.http.HttpStatus.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
+import java.util.*;
 
 @RestController
 @RequestMapping("/admin")
@@ -28,7 +24,6 @@ public class AdminsController {
 	private final UpdateDeviceNameUseCase updateDeviceNameUseCase;
 	private final UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase;
 	private final UpdateDeviceDeactivateStatusUseCase updateDeviceDeactivateStatusUseCase;
-
 
 	public AdminsController(
 		InsertAccountUseCase insertAccountUseCase,
@@ -131,5 +126,4 @@ public class AdminsController {
 		updateDeviceDeactivateStatusUseCase.updateDeviceDeactivateStatus(new DeviceDeactivateStatus(id, deactivated));
 		return new ResponseEntity<>(NO_CONTENT);
 	}
-
 }

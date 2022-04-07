@@ -5,7 +5,6 @@ import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTit
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetLimitsUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetUnarchivedCharacteristicsUseCase;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,23 +17,20 @@ import java.util.List;
 @RequestMapping("/devices/{id}/characteristics")
 public class CharacteristicsController {
 	private final GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristics;
-	private final GetLimitsUseCase getLimitsUseCase;
+	private final GetLimitsUseCase getLimits;
 
 	public CharacteristicsController(
-		GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristics, GetLimitsUseCase getLimitsUseCase
+		GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristics, GetLimitsUseCase getLimits
 	) {
 		this.getUnarchivedCharacteristics = getUnarchivedCharacteristics;
-		this.getLimitsUseCase = getLimitsUseCase;
+		this.getLimits = getLimits;
 	}
 
     @GetMapping("")
     ResponseEntity<List<CharacteristicTitle>> getUnarchivedCharacteristics(
         @PathVariable("id") int deviceId
     ) throws BusinessException {
-        return new ResponseEntity<>(
-            getUnarchivedCharacteristics.getByDevice(deviceId),
-            HttpStatus.OK
-        );
+        return ResponseEntity.ok(getUnarchivedCharacteristics.getByDevice(deviceId));
     }
 
 	@GetMapping("{characteristicId}/limits")
@@ -42,9 +38,6 @@ public class CharacteristicsController {
         @PathVariable("id") int deviceId,
         @PathVariable("characteristicId") int characteristicId
     ) throws BusinessException {
-        return new ResponseEntity<>(
-            getLimitsUseCase.getByCharacteristic(deviceId, characteristicId),
-            HttpStatus.OK
-        );
+        return ResponseEntity.ok(getLimits.getByCharacteristic(deviceId, characteristicId));
     }
 }
