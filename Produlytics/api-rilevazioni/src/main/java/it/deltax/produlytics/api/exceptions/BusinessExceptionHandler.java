@@ -12,10 +12,10 @@ import java.util.Map;
 @SuppressWarnings("unused")
 public class BusinessExceptionHandler {
 	@ExceptionHandler(BusinessException.class)
-	public ResponseEntity<Map<String, String>> handleStatusException(BusinessException e) {
-		Map<String, String> body = Map.of("errorCode", e.getCode());
+	public ResponseEntity<Map<String, String>> handleStatusException(BusinessException businessException) {
+		Map<String, String> body = Map.of("errorCode", businessException.getCode());
 
-		HttpStatus httpStatus = switch(e.getType()) {
+		HttpStatus httpStatus = switch(businessException.getType()) {
 			case AUTHENTICATION -> HttpStatus.UNAUTHORIZED; // 401
 			case NOT_FOUND -> HttpStatus.NOT_FOUND; // 404
 			case ARCHIVED -> HttpStatus.GONE; // 410
