@@ -34,8 +34,7 @@ public class DetectionQueueImpl implements DetectionQueue {
 		// - dividere le rilevazioni in gruppi in base alla loro caratteristica (1 gruppo per caratteristica)
 		// - processare ogni gruppo in modo sequenziale con `this.handleDetectionGroup`
 		// TODO: Fix warning subscribe ignored
-		this.detectionProcessor
-			.groupBy(Detection::characteristicId)
+		this.detectionProcessor.groupBy(Detection::characteristicId)
 			.subscribe(group -> this.handleDetectionGroup(group.getKey(), group));
 	}
 

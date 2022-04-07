@@ -23,7 +23,8 @@ import java.util.Optional;
 
 @Component
 @SuppressWarnings("unused")
-public class DetectionsAdapter implements FindDeviceByApiKeyPort, FindCharacteristicPort,
+public class DetectionsAdapter implements FindDeviceByApiKeyPort,
+	FindCharacteristicPort,
 	FindLastDetectionsPort,
 	InsertDetectionPort,
 	FindLimitsPort,
