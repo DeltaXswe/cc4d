@@ -6,11 +6,13 @@ import it.deltax.produlytics.uibackend.admins.devices.business.domain.NewCharact
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindCharacteristicPort;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertCharacteristicPort;
 import it.deltax.produlytics.uibackend.admins.repositories.CharacteristicRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class CharacteristicAdapter implements FindCharacteristicPort, InsertCharacteristicPort {
-	CharacteristicRepository repository;
+	private final CharacteristicRepository repository;
 
 	public CharacteristicAdapter(CharacteristicRepository repository) {
 		this.repository = repository;
