@@ -34,6 +34,8 @@ public class AccountTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testUpdatePasswordOk() throws Exception {
+		//dice che l'hashed è diversa; per crearla ho usato un tool online, quindi magari è colpa sua
+		// perché il codice mi sembra giusto ed è il metodo matches di Bycrypt che ritorna false
 		accountRepository.save(new AccountEntity(
 			"utente1",
 			"$2a$10$P0nUXvpIu3ISpCCadt9r6e1gYiBkWCM3noJDSljh.he7gVSjJbbxS", //passwordvecchia
@@ -49,7 +51,7 @@ public class AccountTests extends UiBackendApplicationTests {
 			.content(json.toString())
 			.characterEncoding("utf-8"))
 			.andDo(print()).andExpect(status().isNoContent());
-	}
+	} //fallisce
 
 	@Test
 	public void testUpdatePasswordInvalidNewPassword() throws Exception {

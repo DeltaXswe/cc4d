@@ -3,7 +3,7 @@ package it.deltax.produlytics.uibackend.devices.adapters;
 import it.deltax.produlytics.persistence.DeviceEntity;
 import it.deltax.produlytics.uibackend.devices.business.domain.Device;
 import it.deltax.produlytics.uibackend.devices.business.domain.DetailedDevice;
-import it.deltax.produlytics.uibackend.devices.business.domain.NewDevice;
+import it.deltax.produlytics.uibackend.admins.devices.business.domain.NewDevice;
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.*;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;

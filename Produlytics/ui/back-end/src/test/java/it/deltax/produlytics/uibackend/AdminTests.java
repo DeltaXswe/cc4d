@@ -2,7 +2,8 @@ package it.deltax.produlytics.uibackend;
 
 import it.deltax.produlytics.persistence.AccountEntity;
 import it.deltax.produlytics.persistence.DeviceEntity;
-import it.deltax.produlytics.uibackend.admins.web.AdminsController;
+import it.deltax.produlytics.uibackend.admins.accounts.web.AdminsAccountsController;
+import it.deltax.produlytics.uibackend.admins.devices.web.AdminsDevicesController;
 import it.deltax.produlytics.uibackend.repositories.AccountRepository;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
 import net.minidev.json.JSONObject;
@@ -22,7 +23,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class AdminTests extends UiBackendApplicationTests {
 	@Autowired
-	private AdminsController adminsController;
+	private AdminsAccountsController adminsAccountsController;
+	@Autowired
+	private AdminsDevicesController adminsDevicesController;
 
 	@Autowired
 	private AccountRepository accountRepository;
@@ -33,7 +36,8 @@ public class AdminTests extends UiBackendApplicationTests {
 	@Override
 	@Test
 	void contextLoads() {
-		assertThat(adminsController).isNotNull();
+		assertThat(adminsAccountsController).isNotNull();
+		assertThat(adminsDevicesController).isNotNull();
 		assertThat(accountRepository).isNotNull();
 		assertThat(deviceRepository).isNotNull();
 	}
