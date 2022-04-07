@@ -7,11 +7,13 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertC
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindDetailedDevicePort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class InsertCharacteristicService implements InsertCharacteristicUseCase {
-	InsertCharacteristicPort insertPort;
-	FindDetailedDevicePort findDevicePort;
-	FindCharacteristicPort findCharacteristicPort;
+	private final InsertCharacteristicPort insertPort;
+	private final FindDetailedDevicePort findDevicePort;
+	private final FindCharacteristicPort findCharacteristicPort;
 
 	InsertCharacteristicService(
 		InsertCharacteristicPort insertPort,
