@@ -1,10 +1,10 @@
 package it.deltax.produlytics.uibackend.admins.devices.business;
 
-import it.deltax.produlytics.uibackend.admins.characteristics.business.domain.NewCharacteristic;
-import it.deltax.produlytics.uibackend.admins.characteristics.business.ports.out.InsertCharacteristicPort;
+import it.deltax.produlytics.uibackend.admins.devices.business.domain.NewCharacteristic;
+import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertCharacteristicPort;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.in.InsertDeviceUseCase;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.DeviceToInsert;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.InsertDevicePort;
+import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertDevicePort;
 import org.springframework.stereotype.Service;
 
 @Service

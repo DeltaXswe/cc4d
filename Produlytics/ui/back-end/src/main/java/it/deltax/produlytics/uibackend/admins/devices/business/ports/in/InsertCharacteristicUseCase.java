@@ -1,6 +1,6 @@
-package it.deltax.produlytics.uibackend.admins.characteristics.business.ports.in;
+package it.deltax.produlytics.uibackend.admins.devices.business.ports.in;
 
-import it.deltax.produlytics.uibackend.admins.characteristics.business.domain.NewCharacteristic;
+import it.deltax.produlytics.uibackend.admins.devices.business.domain.NewCharacteristic;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 
 public interface InsertCharacteristicUseCase {

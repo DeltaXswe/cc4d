@@ -5,7 +5,7 @@ import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicLim
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTitle;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchivedCharacteristicsPort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicLimitsPort;
-import it.deltax.produlytics.uibackend.repositories.UnarchivedCharacteristicRepository;
+import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 @Component
 public class UnarchivedCharacteristicAdapter
     implements FindAllUnarchivedCharacteristicsPort, FindCharacteristicLimitsPort {
-    private final UnarchivedCharacteristicRepository repo;
+    private final CharacteristicRepository repo;
 
-    public UnarchivedCharacteristicAdapter(UnarchivedCharacteristicRepository repo) {
+    public UnarchivedCharacteristicAdapter(CharacteristicRepository repo) {
         this.repo = repo;
     }
 

@@ -1,20 +1,20 @@
-package it.deltax.produlytics.uibackend.admins.characteristics.adapters;
+package it.deltax.produlytics.uibackend.admins.devices.adapters;
 
 import it.deltax.produlytics.persistence.CharacteristicEntity;
 import it.deltax.produlytics.persistence.CharacteristicEntityId;
-import it.deltax.produlytics.uibackend.admins.characteristics.business.domain.NewCharacteristic;
-import it.deltax.produlytics.uibackend.admins.characteristics.business.ports.out.FindCharacteristicPort;
-import it.deltax.produlytics.uibackend.admins.characteristics.business.ports.out.InsertCharacteristicPort;
-import it.deltax.produlytics.uibackend.admins.repositories.CharacteristicRepository;
+import it.deltax.produlytics.uibackend.admins.devices.business.domain.NewCharacteristic;
+import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindCharacteristicPort;
+import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertCharacteristicPort;
+import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class CharacteristicAdapter implements FindCharacteristicPort, InsertCharacteristicPort {
+public class AdminCharacteristicAdapter implements FindCharacteristicPort, InsertCharacteristicPort {
 	private final CharacteristicRepository repository;
 
-	public CharacteristicAdapter(CharacteristicRepository repository) {
+	public AdminCharacteristicAdapter(CharacteristicRepository repository) {
 		this.repository = repository;
 	}
 
