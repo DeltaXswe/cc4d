@@ -1,9 +1,7 @@
 package it.deltax.produlytics.uibackend.admins.devices.web;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import it.deltax.produlytics.uibackend.admins.devices.business.domain.DeviceArchiveStatus;
-import it.deltax.produlytics.uibackend.admins.devices.business.domain.DeviceDeactivateStatus;
-import it.deltax.produlytics.uibackend.admins.devices.business.domain.DeviceToInsert;
+import it.deltax.produlytics.uibackend.admins.devices.business.domain.*;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.in.*;
 import it.deltax.produlytics.uibackend.devices.business.domain.*;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;

@@ -1,7 +1,7 @@
 package it.deltax.produlytics.uibackend.admins.devices.business;
 
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.in.GetDeviceDetailsUseCase;
-import it.deltax.produlytics.uibackend.devices.business.domain.DetailedDevice;
+import it.deltax.produlytics.uibackend.admins.devices.business.domain.DetailedDevice;
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindTinyDevicePort;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.GetDeviceDetailsPort;
