@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, AbstractControlOptions, ValidationErrors } from '@angular/forms';
 import { MatDialogRef } from "@angular/material/dialog";
 import { ViewEncapsulation } from '@angular/core';
 import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
 import { ModifyPwAbstractService } from 'src/app/model/modify-pw/modify-pw-abstract.service';
 import { ModifyPwCommand } from 'src/app/model/modify-pw/modify-pw-command';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-modify-pw',
@@ -18,12 +19,13 @@ export class ModifyPwComponent implements OnInit {
   constructor(private matDialogRef: MatDialogRef<ModifyPwComponent>,
     private formBuilder: FormBuilder,
     private modifyPwService: ModifyPwAbstractService,
-    private loginService: LoginAbstractService) {
+    private loginService: LoginAbstractService,
+    private matSnackBar: MatSnackBar) {
       this.modifyPw = this.formBuilder.group({
         oldPassword: ['', Validators.required],
         newPassword: ['', [Validators.required, Validators.minLength(6)]],
         newPasswordRe: ['', Validators.required]
-      }, { validator: this.checkPasswords('oldPassword', 'newPassword', 'newPasswordRe') })}; 
+      }, { validator: this.checkPasswords('oldPassword', 'newPassword', 'newPasswordRe')})}; 
 
   
   ngOnInit(): void {
@@ -33,7 +35,7 @@ export class ModifyPwComponent implements OnInit {
     this.matDialogRef.close();
   }
   
-  checkPasswords(oldPassword: string, newPassword: string, newPasswordRe: string){
+  checkPasswords(oldPassword: string, newPassword: string, newPasswordRe: string): ValidationErrors | null{
     return (group: FormGroup) => {
       let oldPasswordInput = group.controls[oldPassword], 
           passwordInput = group.controls[newPassword],
@@ -49,7 +51,7 @@ export class ModifyPwComponent implements OnInit {
     }
   }
 
-  modify(){
+  confirm(): void{
     const rawValue = this.modifyPw.getRawValue();
     const command: ModifyPwCommand = {
       oldPassword: rawValue.oldPassword,
@@ -58,7 +60,11 @@ export class ModifyPwComponent implements OnInit {
     if (this.modifyPw.invalid) {
       return;
     }
-    this.modifyPwService.modify(this.loginService.getUsername(), command);
+    this.modifyPwService.modifyPw(this.loginService.getUsername(), command)
+      .subscribe(next => this.matSnackBar.open('La password è stata cambiata', 'Undo', {
+        duration: 3000
+      }), error => this.matSnackBar.open('La password corrente è errata', 'Undo', {
+        duration: 3000}));
     this.matDialogRef.close();
   }
 }

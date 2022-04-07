@@ -11,7 +11,7 @@ import { LoginCommand } from './login-command';
 export class LoginService implements LoginAbstractService{
 
   //TODO: da modificare a seconda se decidiamo di usare localStorage
-  endpoint: string = 'url';
+  private endpoint: string = 'url';
 
   constructor(private http: HttpClient, public router: Router) { }
 
@@ -23,7 +23,7 @@ export class LoginService implements LoginAbstractService{
       }));
   }
 
-  isLogged(): boolean{
+  isLogged(): boolean{  //da rifare a seconda di come funziona coi cookie
     if (localStorage.getItem('accessToken'))
       return true;
     else
@@ -38,12 +38,11 @@ export class LoginService implements LoginAbstractService{
       return false;
   }
 
-   logout(){
-    localStorage.removeItem('accessToken');
-    this.router.navigate(['/login']);
+   logout(): void{ //da vedere coi cookie
+    this.http.post<any>('/logout', null);
     }
 
-  getUsername(){
+  getUsername(): string{
     let user = localStorage.getItem('accessToken');
     if (user)
       return JSON.parse(user).username;

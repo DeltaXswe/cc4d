@@ -19,9 +19,6 @@ export class ToolbarComponent implements OnInit {
     ngOnInit() {
     }
 
-    logout(): void{
-      this.loginService.logout();
-    }
     openPwDialog(): void{
       const dialogRef = this.dialog.open(ModifyPwComponent);
     }
@@ -30,17 +27,15 @@ export class ToolbarComponent implements OnInit {
       return this.loginService.isLogged();
     }
 
-    getUsername(){
-      if(localStorage.getItem('accessToken'))
-        return this.loginService.getUsername();
-      else
-        return 'username';
+    isAdmin(): boolean{  
+      return this.loginService.isAdmin();
+    } 
+
+    getUsername(): string{
+      return this.loginService.getUsername();
     }
 
-    isAdmin(){
-      if(localStorage.getItem('accessToken'))
-        return this.loginService.isAdmin();
-      else
-        return false;
+    logout(): void{
+      this.loginService.logout();
     }
 }

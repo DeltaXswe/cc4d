@@ -4,6 +4,7 @@ import { users } from '../login/users';
 import { of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModifyPwCommand } from 'src/app/model/modify-pw/modify-pw-command';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -12,19 +13,14 @@ export class FakeModifyPwService implements ModifyPwAbstractService{
 
   constructor(private matSnackBar: MatSnackBar) { }
 
-  modify(username: string, command: ModifyPwCommand){
+  modifyPw(username: string, command: ModifyPwCommand){
     if(users.find(account => account.username === username) && 
       users.find(account => account.password === command.oldPassword)){
         users.find(account => account.username === username)!.password = command.newPassword;
-        this.matSnackBar.open('Password cambiata con successo', 'Undo', {
-          duration: 3000
-        });
         return of({});
     } else{
-      this.matSnackBar.open('La password corrente è errata', 'Undo', {
-        duration: 3000
-      });
-      return of({});
+      const error = new HttpErrorResponse({ status: 401 });
+      return of(error);
     }
   }
 }

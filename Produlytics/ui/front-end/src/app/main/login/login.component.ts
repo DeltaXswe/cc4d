@@ -14,11 +14,6 @@ import { LoginCommand } from 'src/app/model/login/login-command';
 })
 export class LoginComponent implements OnInit {
 
-  /* loginForm = new FormGroup({
-    un : new FormControl('', Validators.required),
-    pw : new FormControl('', [Validators.required, Validators.minLength(6)]),
-    remember: new FormControl('')
-  }); */
   loginForm: FormGroup;
 
   constructor (private formBuilder: FormBuilder, 

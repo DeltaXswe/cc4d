@@ -5,6 +5,6 @@ import { ModifyPwCommand } from './modify-pw-command';
 @Injectable()
 export abstract class ModifyPwAbstractService {
   
-  public abstract modify(username: string, command: ModifyPwCommand): Observable<Object>;
+  public abstract modifyPw(username: string, command: ModifyPwCommand): Observable<any>;
 
 }

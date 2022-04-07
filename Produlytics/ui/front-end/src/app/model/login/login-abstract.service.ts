@@ -10,7 +10,7 @@ export abstract class LoginAbstractService {
 
   public abstract isAdmin(): boolean;
 
-  public abstract logout(): void;
-
   public abstract getUsername(): string;
+
+  public abstract logout(): void;
 }

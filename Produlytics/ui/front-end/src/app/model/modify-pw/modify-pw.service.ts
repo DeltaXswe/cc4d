@@ -10,7 +10,7 @@ export class ModifyPwService implements ModifyPwAbstractService{
 
   constructor(private http: HttpClient) { }
 
-  modify(username: string, command: ModifyPwCommand){
+  modifyPw(username: string, command: ModifyPwCommand){
     return this.http.put(`/accounts/${username}/password`, command);
   }
 }
