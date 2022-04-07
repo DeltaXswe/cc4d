@@ -1,7 +1,7 @@
-package it.deltax.produlytics.uibackend.admins.characteristics.web;
+package it.deltax.produlytics.uibackend.admins.devices.web;
 
-import it.deltax.produlytics.uibackend.admins.characteristics.business.domain.NewCharacteristic;
-import it.deltax.produlytics.uibackend.admins.characteristics.business.ports.in.InsertCharacteristicUseCase;
+import it.deltax.produlytics.uibackend.admins.devices.business.domain.NewCharacteristic;
+import it.deltax.produlytics.uibackend.admins.devices.business.ports.in.InsertCharacteristicUseCase;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

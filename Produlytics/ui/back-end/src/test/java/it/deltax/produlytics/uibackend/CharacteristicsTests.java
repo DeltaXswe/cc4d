@@ -3,7 +3,7 @@ package it.deltax.produlytics.uibackend;
 import it.deltax.produlytics.persistence.CharacteristicEntity;
 import it.deltax.produlytics.persistence.CharacteristicEntityId;
 import it.deltax.produlytics.uibackend.devices.web.CharacteristicsController;
-import it.deltax.produlytics.uibackend.repositories.UnarchivedCharacteristicRepository;
+import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class CharacteristicsTests extends UiBackendApplicationTests {
 	@Autowired
-	private UnarchivedCharacteristicRepository repository;
+	private CharacteristicRepository repository;
 
 	@Autowired
 	private CharacteristicsController controller;

@@ -1,10 +1,10 @@
-package it.deltax.produlytics.uibackend.admins.characteristics.business;
+package it.deltax.produlytics.uibackend.admins.devices.business;
 
-import it.deltax.produlytics.uibackend.admins.characteristics.business.domain.NewCharacteristic;
-import it.deltax.produlytics.uibackend.admins.characteristics.business.ports.in.InsertCharacteristicUseCase;
-import it.deltax.produlytics.uibackend.admins.characteristics.business.ports.out.FindCharacteristicPort;
-import it.deltax.produlytics.uibackend.admins.characteristics.business.ports.out.InsertCharacteristicPort;
-import it.deltax.produlytics.uibackend.devices.business.ports.out.FindDetailedDevicePort;
+import it.deltax.produlytics.uibackend.admins.devices.business.domain.NewCharacteristic;
+import it.deltax.produlytics.uibackend.admins.devices.business.ports.in.InsertCharacteristicUseCase;
+import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindCharacteristicPort;
+import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertCharacteristicPort;
+import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindDetailedDevicePort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
