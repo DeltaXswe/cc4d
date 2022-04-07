@@ -1,9 +1,7 @@
 package it.deltax.produlytics.uibackend.admins.web;
 
-import it.deltax.produlytics.uibackend.accounts.business.domain.AccountArchiveStatus;
-import it.deltax.produlytics.uibackend.accounts.business.domain.AccountTiny;
-import it.deltax.produlytics.uibackend.accounts.business.domain.AccountToInsert;
-import it.deltax.produlytics.uibackend.accounts.business.domain.AccountUpdatedByAdmin;
+import com.fasterxml.jackson.databind.JsonNode;
+import it.deltax.produlytics.uibackend.accounts.business.domain.*;
 import it.deltax.produlytics.uibackend.admins.business.ports.in.*;
 import it.deltax.produlytics.uibackend.devices.business.domain.*;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
@@ -58,12 +56,10 @@ public class AdminsController {
 
 	@PostMapping("/accounts")
 	public ResponseEntity<Map<String, String>> insertAccount(
-		@RequestParam("username") String username,
-		@RequestParam("password") String password,
-		@RequestParam("administrator") boolean administrator) throws BusinessException {
-		insertAccountUseCase.insertAccount(new AccountToInsert(username, password, administrator));
+		@RequestBody AccountToInsert account) throws BusinessException {
+		insertAccountUseCase.insertAccount(account);
 		Map<String, String> map = new HashMap<>();
-		map.put("username", username);
+		map.put("username", account.username());
 		return ResponseEntity.ok(map);
 	}
 
@@ -75,25 +71,24 @@ public class AdminsController {
 	@PutMapping("/{username}")
 	public ResponseEntity<String> updateAccount(
 		@PathVariable("username") String username,
-		@RequestParam("newPassword") Optional<String> newPassword,
-		@RequestParam("administrator") boolean administrator) throws BusinessException {
-		updateAccountByAdminUseCase.updateByUsername(new AccountUpdatedByAdmin(username, newPassword, administrator));
+		@RequestBody(required=false) DataToUpdate body) throws BusinessException {
+		updateAccountByAdminUseCase.updateByUsername(new AccountUpdatedByAdmin(username, body.newPassword(), body.administrator()));
 		return new ResponseEntity<>(NO_CONTENT);
 	}
 
 	@PutMapping("accounts/{username}/archived")
 	public ResponseEntity<String> updateAccountArchiveStatus(
 		@PathVariable("username") String username,
-		@RequestParam("archived") boolean archived) throws BusinessException {
+		@RequestBody JsonNode body) throws BusinessException {
+		boolean archived = body.get("archived").asBoolean();
 		updateAccountArchiveStatusUseCase.updateAccountArchiveStatus(new AccountArchiveStatus(username, archived));
 		return new ResponseEntity<>(NO_CONTENT);
 	}
 
 	@PostMapping("/devices")
 	public ResponseEntity<Map<String, String>> insertDevice(
-		@RequestParam("name") String name,
-		@RequestParam("characteristics") List<DetailedCharacteristic> characteristics) throws BusinessException {
-		int id = insertDeviceUseCase.insertDevice(new DeviceToInsert(name, characteristics));
+		@RequestBody DeviceToInsert device) throws BusinessException {
+		int id = insertDeviceUseCase.insertDevice(device);
 		Map<String, String> map = new HashMap<>();
 		map.put("id", String.valueOf(id));
 		return ResponseEntity.ok(map);
@@ -113,7 +108,8 @@ public class AdminsController {
 	@PutMapping("/devices/{id}/name")
 	public ResponseEntity<String> updateDeviceName(
 		@PathVariable("id") int id,
-		@RequestParam("name") String name) throws BusinessException {
+		@RequestBody JsonNode body) throws BusinessException {
+		String name = body.get("name").toString();
 		updateDeviceNameUseCase.updateDeviceName(new TinyDevice(id, name));
 		return new ResponseEntity<>(NO_CONTENT);
 	}
@@ -121,7 +117,8 @@ public class AdminsController {
 	@PutMapping("devices/{id}/archived")
 	public ResponseEntity<String> updateDeviceArchiveStatus(
 		@PathVariable("id") int id,
-		@RequestParam("archived") boolean archived) throws BusinessException {
+		@RequestBody JsonNode body) throws BusinessException {
+		boolean archived = body.get("archived").asBoolean();
 		updateDeviceArchiveStatusUseCase.updateDeviceArchiveStatus(new DeviceArchiveStatus(id, archived));
 		return new ResponseEntity<>(NO_CONTENT);
 	}
@@ -129,7 +126,8 @@ public class AdminsController {
 	@PutMapping("/devices/{id}/deactivated")
 	public ResponseEntity<String> updateDeviceDeactivateStatus(
 		@PathVariable("id") int id,
-		@RequestParam("deactivated") boolean deactivated) throws BusinessException {
+		@RequestBody JsonNode body) throws BusinessException {
+		boolean deactivated = body.get("deactivated").asBoolean();
 		updateDeviceDeactivateStatusUseCase.updateDeviceDeactivateStatus(new DeviceDeactivateStatus(id, deactivated));
 		return new ResponseEntity<>(NO_CONTENT);
 	}
