@@ -1,8 +1,7 @@
-package it.deltax.produlytics.uibackend.admins.accounts.adapters;
+package it.deltax.produlytics.uibackend.accounts.adapters;
 
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordEncoderPort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
