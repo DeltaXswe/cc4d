@@ -5,9 +5,11 @@ import it.deltax.produlytics.persistence.DeviceEntity;
 import it.deltax.produlytics.uibackend.admins.web.AdminsController;
 import it.deltax.produlytics.uibackend.repositories.AccountRepository;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
+import net.minidev.json.JSONObject;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,13 +40,15 @@ public class AdminTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testInsertAccount() throws Exception {
-		String username = "utente";
-		String password = "passwordcomplessa";
-		boolean administrator = true;
+		JSONObject json = new JSONObject();
+		json.put("username", "john");
+		json.put("password", "passwordcomplessa");
+		json.put("administrator", "false");
+
 		mockMvc.perform(post("/admin/accounts")
-				.param("username", username)
-				.param("password", password)
-				.param("administrator", String.valueOf(administrator))
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json.toString())
+				.characterEncoding("utf-8")
 			).andDo(print())
 			.andExpect(status().isOk());
 	}
@@ -71,15 +75,18 @@ public class AdminTests extends UiBackendApplicationTests {
 	public void testUpdateAccountOk() throws Exception {
 		accountRepository.save(new AccountEntity(
 			"nomeprova",
-			"passworddd",
+			"passwordVecchia",
 			true,
 			false));
 
-		String password = "passwordCambiata";
-		boolean administrator = false;
+		JSONObject json = new JSONObject();
+		json.put("newPassword", "passwordNuova");
+		json.put("administrator", "false");
+
 		mockMvc.perform(put("/admin/nomeprova")
-				.param("newPassword", password)
-				.param("administrator", String.valueOf(administrator))
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json.toString())
+				.characterEncoding("utf-8")
 			).andDo(print())
 			.andExpect(status().isNoContent());
 	}
@@ -92,11 +99,14 @@ public class AdminTests extends UiBackendApplicationTests {
 			true,
 			false));
 
-		String newPassword = "p";
-		boolean administrator = false;
+		JSONObject json = new JSONObject();
+		json.put("newPassword", "p");
+		json.put("administrator", "false");
+
 		mockMvc.perform(put("/admin/nomeprova")
-				.param("newPassword", newPassword)
-				.param("administrator", String.valueOf(administrator))
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json.toString())
+				.characterEncoding("utf-8")
 			).andDo(print())
 			.andExpect(status().isBadRequest());
 	}
@@ -105,16 +115,39 @@ public class AdminTests extends UiBackendApplicationTests {
 	public void testUpdateAccountNotFound() throws Exception {
 		accountRepository.save(new AccountEntity(
 			"nomeprova",
-			"passworddd",
+			"passwordVecchia",
 			true,
 			false));
 
-		String newPassword = "passwordnuova";
+		JSONObject json = new JSONObject();
+		json.put("newPassword", "passwordNuova");
+		json.put("administrator", "false");
+
 		mockMvc.perform(put("/admin/nomeCheNonEsiste")
-				.param("newPassword", newPassword)
-				.param("administrator", String.valueOf(false))
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json.toString())
+				.characterEncoding("utf-8")
 			).andDo(print())
 			.andExpect(status().isNotFound());
+	}
+
+	@Test
+	public void testUpdateAccountNotPassword() throws Exception {
+		accountRepository.save(new AccountEntity(
+			"nomeprova",
+			"passwordVecchia",
+			true,
+			false));
+
+		JSONObject json = new JSONObject();
+		json.put("administrator", "false");
+
+		mockMvc.perform(put("/admin/nomeprova")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json.toString())
+				.characterEncoding("utf-8")
+			).andDo(print())
+			.andExpect(status().isNoContent());
 	}
 
 	@Test
@@ -125,16 +158,26 @@ public class AdminTests extends UiBackendApplicationTests {
 			true,
 			false));
 
+		JSONObject json = new JSONObject();
+		json.put("archived", "true");
+
 		mockMvc.perform(put("/admin/accounts/utente1/archived")
-				.param("archived", String.valueOf(true))
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json.toString())
+				.characterEncoding("utf-8")
 			).andDo(print())
 			.andExpect(status().isNoContent());
 	}
 
 	@Test
 	public void testUpdateArchiveStatusAccountNotFound() throws Exception {
+		JSONObject json = new JSONObject();
+		json.put("archived", "true");
+
 		mockMvc.perform(put("/admin/accounts/utente200/archived")
-				.param("archived", String.valueOf(true))
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json.toString())
+				.characterEncoding("utf-8")
 			).andDo(print())
 			.andExpect(status().isNotFound());
 	}
@@ -144,9 +187,15 @@ public class AdminTests extends UiBackendApplicationTests {
 	public void testGetDevices() throws Exception{
 		deviceRepository.save(new DeviceEntity("Macchina1", false, false, ""));
 		deviceRepository.save(new DeviceEntity("Macchina2", true, false, ""));
+
+		JSONObject json = new JSONObject();
+		json.put("administrator", "true");
+
 		mockMvc.perform(get("/admin/devices")
-				.param("administrator", String.valueOf(true)))
-			.andDo(print())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json.toString())
+				.characterEncoding("utf-8")
+			).andDo(print())
 			.andExpect(status().isOk());
 	}
 
@@ -154,8 +203,13 @@ public class AdminTests extends UiBackendApplicationTests {
 	public void testModifyDevice() throws Exception {
 		deviceRepository.save(new DeviceEntity("Macchina1", false, false, ""));
 
+		JSONObject json = new JSONObject();
+		json.put("name", "Macchina2");
+
 		mockMvc.perform(put("/admin/devices/1/name")
-				.param("name", "Macchina2")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json.toString())
+				.characterEncoding("utf-8")
 			).andDo(print())
 			.andExpect(status().isNoContent());
 	}
@@ -164,8 +218,13 @@ public class AdminTests extends UiBackendApplicationTests {
 	public void testModifyDeviceNotFound() throws Exception {
 		deviceRepository.save(new DeviceEntity("Macchina1", false, false, ""));
 
+		JSONObject json = new JSONObject();
+		json.put("name", "Macchina2");
+
 		mockMvc.perform(put("/admin/devices/100/name")
-				.param("name", "Macchina2")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json.toString())
+				.characterEncoding("utf-8")
 			).andDo(print())
 			.andExpect(status().isNotFound());
 	}
@@ -174,8 +233,13 @@ public class AdminTests extends UiBackendApplicationTests {
 	public void testModifyDeviceArchiveStatus() throws Exception {
 		deviceRepository.save(new DeviceEntity("Macchina1", false, false, ""));
 
+		JSONObject json = new JSONObject();
+		json.put("archived", "true");
+
 		mockMvc.perform(put("/admin/devices/1/archived")
-				.param("archived", "true")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json.toString())
+				.characterEncoding("utf-8")
 			).andDo(print())
 			.andExpect(status().isNoContent());
 	}
@@ -184,8 +248,13 @@ public class AdminTests extends UiBackendApplicationTests {
 	public void testModifyDeviceDeactivateStatus() throws Exception {
 		deviceRepository.save(new DeviceEntity("Macchina1", false, false, ""));
 
+		JSONObject json = new JSONObject();
+		json.put("deactivated", "true");
+
 		mockMvc.perform(put("/admin/devices/1/deactivated")
-				.param("deactivated", "true")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json.toString())
+				.characterEncoding("utf-8")
 			).andDo(print())
 			.andExpect(status().isNoContent());
 	}
