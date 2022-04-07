@@ -1,4 +1,4 @@
-package it.deltax.produlytics.uibackend.devices.business.domain;
+package it.deltax.produlytics.uibackend.admins.devices.business.domain;
 
 import lombok.Builder;
 
