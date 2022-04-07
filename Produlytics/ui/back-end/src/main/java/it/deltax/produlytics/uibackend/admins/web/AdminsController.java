@@ -137,7 +137,7 @@ public class AdminsController {
 	}
 
 	@PostMapping("/devices/{deviceId}/characteristics")
-	public ResponseEntity<Integer> insertCharacteristic(
+	public ResponseEntity<Map<String, Integer>> insertCharacteristic(
 		@PathVariable("deviceId") int deviceId,
 		@RequestParam(value = "name") String name,
 		@RequestParam(value = "lowerLimit", required = false) Double lowerLimit,
@@ -156,6 +156,9 @@ public class AdminsController {
 		if (sampleSize != null)
 			builder = builder.withSampleSize(OptionalInt.of(sampleSize));
 
-		return ResponseEntity.ok(insertCharacteristic.insertByDevice(deviceId, builder.build()));
+		return ResponseEntity.ok(Map.of(
+			"id",
+			insertCharacteristic.insertByDevice(deviceId, builder.build())
+		));
 	}
 }
