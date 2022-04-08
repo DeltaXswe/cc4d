@@ -5,6 +5,7 @@ import it.deltax.produlytics.persistence.CharacteristicEntityId;
 import it.deltax.produlytics.uibackend.devices.web.CharacteristicsController;
 import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -39,6 +40,7 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 		false
 	);
 
+	@BeforeEach
 	private void prepareContext() {
 		repository.save(characteristic);
 	}
@@ -52,7 +54,6 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 
 	@Test
 	void getUnarchivedCharacteristics() throws Exception {
-		prepareContext();
 		repository.save(characteristic2);
 
 		mockMvc.perform(get("/devices/1/characteristics"))
@@ -65,7 +66,6 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 
 	@Test
 	void deviceNotFoundError() throws Exception {
-		prepareContext();
 		mockMvc.perform(get("/devices/2/characteristics"))
 			.andDo(print())
 			.andExpect(status().isNotFound())
@@ -74,7 +74,6 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 
 	@Test
 	void getCharacteristicLimits() throws Exception {
-		prepareContext();
 		mockMvc.perform(get("/devices/1/characteristics/1/limits"))
 			.andDo(print())
 			.andExpect(status().isOk())

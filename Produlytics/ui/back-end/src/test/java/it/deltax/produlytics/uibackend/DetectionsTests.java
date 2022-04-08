@@ -6,6 +6,7 @@ import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import it.deltax.produlytics.uibackend.repositories.DetectionRepository;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -39,6 +40,7 @@ public class DetectionsTests extends UiBackendApplicationTests {
 		false
 	);
 
+	@BeforeEach
 	private void prepareContext() {
 		deviceRepository.saveAndFlush(device);
 		characteristicRepository.saveAndFlush(characteristic);
@@ -60,7 +62,6 @@ public class DetectionsTests extends UiBackendApplicationTests {
 
 	@Test
 	void getWithNoFilter() throws Exception {
-		prepareContext();
 		mockMvc.perform(get("/devices/1/characteristics/1/detections"))
 			.andDo(print())
 			.andExpect(status().isOk())
@@ -69,7 +70,6 @@ public class DetectionsTests extends UiBackendApplicationTests {
 
 	@Test
 	void getWithLimit() throws Exception {
-		prepareContext();
 		mockMvc.perform(get("/devices/1/characteristics/1/detections?limit=2"))
 			.andDo(print())
 			.andExpect(status().isOk())
@@ -78,7 +78,6 @@ public class DetectionsTests extends UiBackendApplicationTests {
 
 	@Test
 	void getWithOlderAndNewer() throws Exception {
-		prepareContext();
 		mockMvc.perform(get("/devices/1/characteristics/1/detections?newerThan=1&olderThan=4"))
 			.andDo(print())
 			.andExpect(status().isOk())
@@ -87,7 +86,6 @@ public class DetectionsTests extends UiBackendApplicationTests {
 
 	@Test
 	void characteristicNotFoundError() throws Exception {
-		prepareContext();
 		mockMvc.perform(get("/devices/1/characteristics/5/detections)"))
 			.andDo(print())
 			.andExpect(status().isNotFound())
