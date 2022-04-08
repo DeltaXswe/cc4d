@@ -6,13 +6,15 @@ import it.deltax.produlytics.uibackend.admins.accounts.web.AdminsAccountsControl
 import it.deltax.produlytics.uibackend.admins.devices.web.AdminsDevicesController;
 import it.deltax.produlytics.uibackend.repositories.AccountRepository;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
-import net.minidev.json.JSONObject;
+import org.json.JSONObject;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //isOk() 200
@@ -113,7 +115,8 @@ public class AdminTests extends UiBackendApplicationTests {
 				.content(json.toString())
 				.characterEncoding("utf-8")
 			).andDo(print())
-			.andExpect(status().isBadRequest());
+			.andExpect(status().isBadRequest())
+			.andExpect(content().string("{\"errorCode\":\"invalidNewPassword\"}"));
 	}
 
 	@Test
@@ -133,7 +136,8 @@ public class AdminTests extends UiBackendApplicationTests {
 				.content(json.toString())
 				.characterEncoding("utf-8")
 			).andDo(print())
-			.andExpect(status().isNotFound());
+			.andExpect(status().isNotFound())
+			.andExpect(content().string("{\"errorCode\":\"accountNotFound\"}"));
 	}
 
 	@Test
@@ -184,15 +188,13 @@ public class AdminTests extends UiBackendApplicationTests {
 				.content(json.toString())
 				.characterEncoding("utf-8")
 			).andDo(print())
-			.andExpect(status().isNotFound());
+			.andExpect(status().isNotFound())
+			.andExpect(content().string("{\"errorCode\":\"accountNotFound\"}"));
 	}
 
 
 	@Test
 	public void testGetDevices() throws Exception{
-		deviceRepository.save(new DeviceEntity("Macchina1", false, false, ""));
-		deviceRepository.save(new DeviceEntity("Macchina2", true, false, ""));
-
 		JSONObject json = new JSONObject();
 		json.put("administrator", "true");
 
@@ -231,7 +233,8 @@ public class AdminTests extends UiBackendApplicationTests {
 				.content(json.toString())
 				.characterEncoding("utf-8")
 			).andDo(print())
-			.andExpect(status().isNotFound());
+			.andExpect(status().isNotFound())
+			.andExpect(content().string("{\"errorCode\":\"deviceNotFound\"}"));
 	}
 
 	@Test
@@ -266,18 +269,19 @@ public class AdminTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testGetDeviceDetailsOk() throws Exception{
-		deviceRepository.save(new DeviceEntity("Macchina1", false, false, "1"));
-
 		mockMvc.perform(get("/admin/devices/1")
 			).andDo(print())
-			.andExpect(status().isOk());
+			.andExpect(status().isOk())
+			.andExpect(content().string(
+				"{\"id\":1,\"name\":\"One\",\"deactivated\":false,\"archived\":false,\"apiKey\":\"\"}"));
 	}
 
 	@Test
 	public void testGetDeviceDetailsNotFound() throws Exception{
 		mockMvc.perform(get("/admin/devices/111")
 			).andDo(print())
-			.andExpect(status().isNotFound());
+			.andExpect(status().isNotFound())
+			.andExpect(content().string("{\"errorCode\":\"deviceNotFound\"}"));;
 	}
 
 }
