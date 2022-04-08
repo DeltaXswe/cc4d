@@ -12,7 +12,7 @@ import { LoginAbstractService } from 'src/app/model/login/login-abstract.service
 export class ToolbarComponent implements OnInit {
 
   constructor(
-    public dialog: MatDialog,
+    private dialog: MatDialog,
     private loginService: LoginAbstractService
     ) { }
 

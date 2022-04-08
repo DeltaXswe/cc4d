@@ -15,17 +15,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class LoginComponent implements OnInit {
 
-  loginForm: FormGroup;
+  readonly loginForm: FormGroup;
 
-  constructor (private formBuilder: FormBuilder, 
+  constructor (formBuilder: FormBuilder, 
     private router: Router, 
     private loginService: LoginAbstractService,
     private cookieService: CookieService,
     private matSnackBar: MatSnackBar){ 
-      this.loginForm = this.formBuilder.group({
-        username: ['', Validators.required],
-        password: ['', [Validators.required, Validators.minLength(6)]],
-        rememberMe: ['']
+      this.loginForm = formBuilder.group({
+        username: new FormControl('', Validators.required),
+        password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+        rememberMe: new FormControl ('')
       });
     }
 
@@ -34,13 +34,14 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/']);
   }
 
-  onSubmit(){
+  onSubmit(): void{
     const rawValue = this.loginForm.getRawValue();
     const command: LoginCommand = {
       username: rawValue.username,
       password: rawValue.password,
       rememberMe: rawValue.rememberMe
     }  
+    console.log(command.password);
     if (this.loginForm.invalid) {
       return;
     }

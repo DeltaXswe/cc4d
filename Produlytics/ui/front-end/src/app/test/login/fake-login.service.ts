@@ -30,7 +30,7 @@ export class FakeLoginService implements LoginAbstractService {
         return of({});
       } else {
       const error = new HttpErrorResponse({ status: 401 });
-      return of(error);
+      return throwError(() => (error));
       }
     }
 

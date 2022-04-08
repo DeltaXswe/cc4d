@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder, AbstractControlOptions, ValidationErrors } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, AbstractControlOptions, ValidationErrors, FormControl } from '@angular/forms';
 import { MatDialogRef } from "@angular/material/dialog";
 import { ViewEncapsulation } from '@angular/core';
 import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
@@ -22,9 +22,9 @@ export class ModifyPwComponent implements OnInit {
     private loginService: LoginAbstractService,
     private matSnackBar: MatSnackBar) {
       this.modifyPw = this.formBuilder.group({
-        oldPassword: ['', Validators.required],
-        newPassword: ['', [Validators.required, Validators.minLength(6)]],
-        newPasswordRe: ['', Validators.required]
+        oldPassword: new FormControl('', Validators.required),
+        newPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
+        newPasswordRe: new FormControl('', Validators.required)
       }, { validator: this.checkPasswords('oldPassword', 'newPassword', 'newPasswordRe')})}; 
 
   
@@ -40,12 +40,12 @@ export class ModifyPwComponent implements OnInit {
       let oldPasswordInput = group.controls[oldPassword], 
           passwordInput = group.controls[newPassword],
           passwordConfirmationInput = group.controls[newPasswordRe];
+
       if (passwordInput.value !== passwordConfirmationInput.value) {
         return passwordConfirmationInput.setErrors({mismatch: true})
       } else if(oldPasswordInput.value == passwordInput.value) {
         return passwordInput.setErrors({mustBeDifferent: true})
-      }
-      else {
+      } else {
           return passwordConfirmationInput.setErrors(null);
       }
     }
