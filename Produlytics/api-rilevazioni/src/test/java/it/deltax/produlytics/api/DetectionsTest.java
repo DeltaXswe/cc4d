@@ -51,12 +51,6 @@ public class DetectionsTest {
 		assert Objects.nonNull(this.detectionRepository);
 	}
 
-	void clearRepositories() {
-		this.detectionRepository.deleteAll();
-		this.characteristicRepository.deleteAll();
-		this.deviceRepository.deleteAll();
-	}
-
 	int insertDummyCharacteristic(
 		String name, boolean deviceArchived, boolean deviceDeactivated, boolean characteristicArchived
 	) {
