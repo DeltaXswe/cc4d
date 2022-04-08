@@ -23,7 +23,6 @@ public class InsertDeviceService implements InsertDeviceUseCase {
 		int id = insertDevicePort.insertDevice(createDevice.createDevice(device.name()));
 		for(NewCharacteristic characteristic : device.characteristics())
 			insertCharacteristicPort.insertByDevice(id, characteristic);
-
 		return id;
 	}
 }

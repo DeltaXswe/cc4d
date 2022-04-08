@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //isOk() 200
@@ -50,7 +51,8 @@ public class AccountTests extends UiBackendApplicationTests {
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(json.toString())
 			.characterEncoding("utf-8"))
-			.andDo(print()).andExpect(status().isNoContent());
+			.andDo(print())
+			.andExpect(status().isNoContent());
 	} //fallisce
 
 	@Test
@@ -69,7 +71,8 @@ public class AccountTests extends UiBackendApplicationTests {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json.toString())
 				.characterEncoding("utf-8"))
-				.andDo(print()).andExpect(status().isBadRequest());
+				.andDo(print()).andExpect(status().isBadRequest())
+				.andExpect(content().string("{\"errorCode\":\"invalidNewPassword\"}"));
 	}
 
 	@Test
@@ -88,6 +91,7 @@ public class AccountTests extends UiBackendApplicationTests {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json.toString())
 				.characterEncoding("utf-8"))
-				.andDo(print()).andExpect(status().isUnauthorized());
+				.andDo(print()).andExpect(status().isUnauthorized())
+				.andExpect(content().string("{\"errorCode\":\"wrongCurrentPassword\"}"));;
 	}
 }
