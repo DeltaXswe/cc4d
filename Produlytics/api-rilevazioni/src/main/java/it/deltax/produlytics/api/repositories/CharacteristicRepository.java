@@ -14,6 +14,7 @@ public interface CharacteristicRepository extends CrudRepository<CharacteristicE
 	// Trova i limiti tecnici e di processo di una caratteristica.
 	@Query(value = """
 		SELECT
+			ch.auto_adjust as autoAdjust,
 			ch.lower_limit as technicalLowerLimit,
 			ch.upper_limit as technicalUpperLimit,
 			mean_stddev.mean as computedMean,

@@ -2,20 +2,17 @@ package it.deltax.produlytics.api.detections.business.domain.queue;
 
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
-import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueue;
-import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueueImpl;
 import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerie;
 import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerieFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 
 import java.time.Instant;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class DetectionQueueTest {
 	@Test
-	@Timeout(value = 3, unit = TimeUnit.SECONDS)
+	@Timeout(value = 3)
 	void testNormal() {
 		CharacteristicId characteristicId1 = new CharacteristicId(1, 1);
 		CharacteristicId characteristicId2 = new CharacteristicId(1, 2);

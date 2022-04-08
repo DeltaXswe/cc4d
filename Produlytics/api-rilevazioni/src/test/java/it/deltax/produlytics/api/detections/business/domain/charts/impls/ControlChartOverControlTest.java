@@ -43,4 +43,14 @@ public class ControlChartOverControlTest {
 		controlChart.analyzeDetections(detections, limits);
 		assert detections.stream().noneMatch(MarkableDetectionMock::isOutlier);
 	}
+
+	@Test
+	void testOneSameOrder2() {
+		double[] values = { 2, 1, 1, 0, 2, 0, 2, 2, 0, 2, 0, 2, 0, 2 };
+		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
+		ControlLimits limits = new ControlLimits(0, 10);
+		ControlChart controlChart = new ControlChartOverControl();
+		controlChart.analyzeDetections(detections, limits);
+		assert detections.stream().noneMatch(MarkableDetectionMock::isOutlier);
+	}
 }

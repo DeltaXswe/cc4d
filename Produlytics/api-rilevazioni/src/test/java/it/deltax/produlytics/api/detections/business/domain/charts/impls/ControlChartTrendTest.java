@@ -53,4 +53,14 @@ public class ControlChartTrendTest {
 		controlChart.analyzeDetections(detections, limits);
 		assert detections.stream().noneMatch(MarkableDetectionMock::isOutlier);
 	}
+
+	@Test
+	void test2Decreasing2Increasing() {
+		double[] values = { 3, 2, 1, 2, 3, 2, 1 };
+		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
+		ControlLimits limits = new ControlLimits(0, 60);
+		ControlChart controlChart = new ControlChartTrend();
+		controlChart.analyzeDetections(detections, limits);
+		assert detections.stream().noneMatch(MarkableDetectionMock::isOutlier);
+	}
 }

@@ -5,7 +5,6 @@ import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.domain.IncomingDetection;
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueue;
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidator;
-import it.deltax.produlytics.api.detections.business.ports.services.DetectionsService;
 import it.deltax.produlytics.api.exceptions.BusinessException;
 import it.deltax.produlytics.api.exceptions.ErrorType;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -29,6 +28,9 @@ public class DetectionServiceTest {
 			assert !detection.creationTime().isBefore(this.expectedDetection.creationTime());
 			assert detection.value() == this.expectedDetection.value();
 		}
+
+		@Override
+		public void close() {}
 	}
 
 	@Test

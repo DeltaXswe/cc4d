@@ -9,6 +9,6 @@ import java.util.Optional;
 // Repository per interagire con la tabella `device`.
 @Repository
 @SuppressWarnings("unused")
-public interface DeviceRepository extends CrudRepository<DeviceEntity, Long> {
+public interface DeviceRepository extends CrudRepository<DeviceEntity, Integer> {
 	Optional<DeviceEntity> findByApiKey(String apiKey);
 }

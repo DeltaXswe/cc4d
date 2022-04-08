@@ -95,9 +95,9 @@ public class DetectionsAdapter implements FindDeviceByApiKeyPort,
 		}
 
 		Optional<MeanStddev> meanStddev = Optional.empty();
-		if(limitsEntity.getComputedMean().isPresent() && limitsEntity.getComputedStddev().isPresent()) {
-			double mean = limitsEntity.getComputedMean().get();
-			double stddev = limitsEntity.getComputedStddev().get();
+		if(limitsEntity.getAutoAdjust()) {
+			double mean = limitsEntity.getComputedMean();
+			double stddev = limitsEntity.getComputedStddev();
 			meanStddev = Optional.of(new MeanStddev(mean, stddev));
 		}
 

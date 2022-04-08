@@ -21,7 +21,7 @@ public class ControlChartBeyondLimits implements ControlChart {
 		double lowerControlLimit = limits.lowerLimit();
 		double upperControlLimit = limits.upperLimit();
 
-		if(detection.value() > upperControlLimit || detection.value() < lowerControlLimit) {
+		if(detection.value() < lowerControlLimit || detection.value() > upperControlLimit) {
 			detection.markOutlier();
 		}
 	}
