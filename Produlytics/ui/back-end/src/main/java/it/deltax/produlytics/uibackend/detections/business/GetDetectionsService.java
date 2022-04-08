@@ -10,6 +10,7 @@ import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -49,6 +50,9 @@ public class GetDetectionsService implements GetDetectionsUseCase {
 				.filter(detection -> detection.creationTime() > filters.newerThan().getAsLong())
 				.toList();
 		}
+
+		if (detections.isEmpty())
+			return new Detections(Collections.emptyList(), OptionalLong.empty(), Instant.now().toEpochMilli());
 
 		final long nextNew = detections.get(0).creationTime();
 		final OptionalLong nextOld = detections.size() < initialSize
