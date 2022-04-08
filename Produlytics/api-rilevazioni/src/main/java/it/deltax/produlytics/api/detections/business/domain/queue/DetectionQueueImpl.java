@@ -16,14 +16,12 @@ import java.util.concurrent.TimeUnit;
 
 // Implementazione di riferimento di `DetectionQueue`.
 public class DetectionQueueImpl implements DetectionQueue {
-	private final int secondsTimeout;
 	private final DetectionSerieFactory serieFactory;
 	private final FlowableProcessor<Detection> detectionProcessor;
 	// Questo phaser è usato per coordinare il termine dei vari gruppi di `detectionProcessor`.
 	private final Phaser groupPhaser;
 
-	public DetectionQueueImpl(int secondsTimeout, DetectionSerieFactory serieFactory) {
-		this.secondsTimeout = secondsTimeout;
+	public DetectionQueueImpl(DetectionSerieFactory serieFactory) {
 		this.serieFactory = serieFactory;
 		// `.toSerialized()` è necessario perchè `this.detectionProcessor.onNext` potrebbe essere chiamato da più
 		// thread, e `PublishProcessor` non è thread-safe.
@@ -63,7 +61,7 @@ public class DetectionQueueImpl implements DetectionQueue {
 		Single<DetectionSerie> serieSingle = this.createSerieForKey(key);
 		// TODO: Fix warning subscribe ignored
 		group.observeOn(Schedulers.computation())
-			.timeout(this.secondsTimeout, TimeUnit.SECONDS, Flowable.empty())
+			.timeout(300, TimeUnit.SECONDS, Flowable.empty())
 			.concatMapCompletable(detection -> this.handleDetection(serieSingle, detection))
 			// Segnala il completamento di questo gruppo al Phaser, senza aspettare gli altri.
 			.doFinally(this.groupPhaser::arriveAndDeregister)

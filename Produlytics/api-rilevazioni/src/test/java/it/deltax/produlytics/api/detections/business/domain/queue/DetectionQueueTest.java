@@ -76,7 +76,7 @@ public class DetectionQueueTest {
 			};
 		};
 
-		DetectionQueueImpl queue = new DetectionQueueImpl(4, factory);
+		DetectionQueueImpl queue = new DetectionQueueImpl(factory);
 
 		queue.enqueueDetection(detection1a);
 		queue.enqueueDetection(detection2a);
