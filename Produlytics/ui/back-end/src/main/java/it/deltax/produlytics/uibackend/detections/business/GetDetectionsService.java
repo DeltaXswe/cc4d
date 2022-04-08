@@ -5,67 +5,59 @@ import it.deltax.produlytics.uibackend.detections.business.domain.DetectionFilte
 import it.deltax.produlytics.uibackend.detections.business.domain.Detections;
 import it.deltax.produlytics.uibackend.detections.business.ports.in.GetDetectionsUseCase;
 import it.deltax.produlytics.uibackend.detections.business.ports.out.FindAllDetectionsPort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicLimitsPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.OptionalLong;
 
 @Service
 public class GetDetectionsService implements GetDetectionsUseCase {
 	private final FindAllDetectionsPort port;
+	private final FindCharacteristicLimitsPort findCharacteristicPort;
 
-	public GetDetectionsService(FindAllDetectionsPort port) {
+	public GetDetectionsService(
+		FindAllDetectionsPort port,
+		FindCharacteristicLimitsPort findCharacteristicPort
+	) {
 		this.port = port;
+		this.findCharacteristicPort = findCharacteristicPort;
 	}
 
 	@Override
 	public Detections listByCharacteristic(int deviceId, int characteristicId, DetectionFilters filters)
 	throws BusinessException {
-		List<Detection> detections = port.findAllByCharacteristic(deviceId, characteristicId, new DetectionFilters(
-			filters.olderThan(),
-			filters.newerThan(),
-			// Prendo una rilevazione in più per sapere se ce ne sono altre
-			filters.limit().isPresent() ? OptionalInt.of(filters.limit().getAsInt() + 1) : OptionalInt.empty()
-		));
-
-		if (detections.isEmpty())    // Attenzione: se non ci sono rilevazioni?
+		if (findCharacteristicPort.findByCharacteristic(deviceId, characteristicId).isEmpty()) {
 			throw new BusinessException("characteristicNotFound", ErrorType.NOT_FOUND);
+		}
 
-		Optional<Instant> nextOld;
-		Instant nextNew = detections.get(detections.size() - 1).creationTime();
+		List<Detection> detections = port.findAllByCharacteristic(deviceId, characteristicId, filters.olderThan());
+		final int initialSize = detections.size();
 
-		// :)
-		if (filters.newerThan().isPresent()) {
-			List<Detection> filteredDetections = detections.stream()
-				.filter(detection -> detection.creationTime().toEpochMilli() > filters.newerThan().get().toEpochMilli())
+		if (filters.limit().isPresent()) {
+			detections = detections.stream()
+				.limit(filters.limit().getAsInt())
 				.toList();
-
-			if (filters.limit().isEmpty())
-				nextOld = filteredDetections.size() < detections.size() ?
-						  Optional.of(filteredDetections.get(0).creationTime()) :
-						  Optional.empty();
-			else {
-				if (filteredDetections.size() > filters.limit().getAsInt()) {
-					filteredDetections.remove(0);
-					nextOld = Optional.of(filteredDetections.get(0).creationTime());
-				}
-				else
-					nextOld = Optional.empty();
-			}
-
-			detections = filteredDetections;
-		}
-		else {
-			if (filters.limit().isPresent() && detections.size() > filters.limit().getAsInt()) {
-				detections.remove(0);
-				nextOld = Optional.of(detections.get(0).creationTime());
-			}
-			else
-				nextOld = Optional.empty();
 		}
 
-		return new Detections(detections, nextOld, nextNew);
+		if (filters.newerThan().isPresent()) {
+			detections = detections.stream()
+				.filter(detection -> detection.creationTime() > filters.newerThan().getAsLong())
+				.toList();
+		}
+
+		final long nextNew = detections.get(0).creationTime();
+		final OptionalLong nextOld = detections.size() < initialSize
+				  ? OptionalLong.of(detections.get(detections.size() - 1).creationTime())
+				  : OptionalLong.empty();
+
+		List<Detection> reversedDetections = new ArrayList<>(detections);
+		Collections.reverse(reversedDetections);
+
+		return new Detections(reversedDetections, nextOld, nextNew);
 	}
 }

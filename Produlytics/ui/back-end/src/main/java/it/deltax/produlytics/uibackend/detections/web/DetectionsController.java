@@ -6,9 +6,8 @@ import it.deltax.produlytics.uibackend.detections.business.ports.in.GetDetection
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
-import java.util.Optional;
 import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 @RestController
 @RequestMapping("/devices/{deviceId}/characteristics/{characteristicId}/detections")
@@ -23,14 +22,14 @@ public class DetectionsController {
 	public Detections getCharacteristicDetections(
 		@PathVariable int deviceId,
 		@PathVariable int characteristicId,
-		@RequestParam("olderThan") long olderThan,
-		@RequestParam("newerThan") long newerThan,
-		@RequestParam("maxNumDetections") int limit
+		@RequestParam(value = "olderThan", required = false) Long olderThan,
+		@RequestParam(value = "newerThan", required = false) Long newerThan,
+		@RequestParam(value = "limit", required = false) Integer limit
 	) throws BusinessException {
 		return listDetectionsByCharacteristic.listByCharacteristic(deviceId, characteristicId, new DetectionFilters(
-			Optional.of(Instant.ofEpochMilli(olderThan)),
-			Optional.of(Instant.ofEpochMilli(newerThan)),
-			OptionalInt.of(limit)
+			olderThan != null ? OptionalLong.of(olderThan) : OptionalLong.empty(),
+			newerThan != null ? OptionalLong.of(newerThan) : OptionalLong.empty(),
+			limit != null ? OptionalInt.of(limit) : OptionalInt.empty()
 		));
 	}
 }
