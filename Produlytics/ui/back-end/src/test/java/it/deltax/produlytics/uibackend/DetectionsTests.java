@@ -77,11 +77,20 @@ public class DetectionsTests extends UiBackendApplicationTests {
 	}
 
 	@Test
-	void GetWithOlderAndNewer() throws Exception {
+	void getWithOlderAndNewer() throws Exception {
 		prepareContext();
 		mockMvc.perform(get("/devices/1/characteristics/1/detections?newerThan=1&olderThan=4"))
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(content().string("{\"detections\":[{\"creationTime\":2,\"value\":200.0,\"outlier\":false},{\"creationTime\":3,\"value\":300.0,\"outlier\":false}],\"nextOld\":2,\"nextNew\":3}"));
+	}
+
+	@Test
+	void characteristicNotFoundError() throws Exception {
+		prepareContext();
+		mockMvc.perform(get("/devices/1/characteristics/5/detections)"))
+			.andDo(print())
+			.andExpect(status().isNotFound())
+			.andExpect(content().string("{\"errorCode\":\"characteristicNotFound\"}"));
 	}
 }

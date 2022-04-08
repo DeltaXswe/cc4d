@@ -10,7 +10,7 @@ import java.util.HashMap;
 @ControllerAdvice
 public class BusinessExceptionHandler {
 	@org.springframework.web.bind.annotation.ExceptionHandler(BusinessException.class)
-	ResponseEntity<?> handleStatusException(BusinessException e) {
+	ResponseEntity<HashMap<String, String>> handleStatusException(BusinessException e) {
 		var error = new HashMap<String, String>();
 		error.put("errorCode", e.getMessage());
 

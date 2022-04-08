@@ -5,28 +5,38 @@ import it.deltax.produlytics.uibackend.detections.business.domain.DetectionFilte
 import it.deltax.produlytics.uibackend.detections.business.domain.Detections;
 import it.deltax.produlytics.uibackend.detections.business.ports.in.GetDetectionsUseCase;
 import it.deltax.produlytics.uibackend.detections.business.ports.out.FindAllDetectionsPort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicLimitsPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.OptionalLong;
 
 @Service
 public class GetDetectionsService implements GetDetectionsUseCase {
 	private final FindAllDetectionsPort port;
+	private final FindCharacteristicLimitsPort findCharacteristicPort;
 
-	public GetDetectionsService(FindAllDetectionsPort port) {
+	public GetDetectionsService(
+		FindAllDetectionsPort port,
+		FindCharacteristicLimitsPort findCharacteristicPort
+	) {
 		this.port = port;
+		this.findCharacteristicPort = findCharacteristicPort;
 	}
 
 	@Override
 	public Detections listByCharacteristic(int deviceId, int characteristicId, DetectionFilters filters)
 	throws BusinessException {
+		if (findCharacteristicPort.findByCharacteristic(deviceId, characteristicId).isEmpty()) {
+			throw new BusinessException("characteristicNotFound", ErrorType.NOT_FOUND);
+		}
+
 		List<Detection> detections = port.findAllByCharacteristic(deviceId, characteristicId, filters.olderThan());
 		final int initialSize = detections.size();
-
-		if (detections.isEmpty())    // Attenzione: se non ci sono rilevazioni?
-			throw new BusinessException("characteristicNotFound", ErrorType.NOT_FOUND);
 
 		if (filters.limit().isPresent()) {
 			detections = detections.stream()
