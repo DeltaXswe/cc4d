@@ -26,6 +26,6 @@ public class UpdateDeviceNameService implements UpdateDeviceNameUseCase {
 			.orElseThrow(() -> new BusinessException("deviceNotFound", ErrorType.NOT_FOUND));
 
 		toUpdate.withName(command.name());
-		updateDeviceNamePort.updateDeviceNamePort(toUpdate.build());
+		updateDeviceNamePort.updateDeviceName(toUpdate.build());
 	}
 }

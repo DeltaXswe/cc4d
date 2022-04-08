@@ -2,9 +2,9 @@ package it.deltax.produlytics.uibackend.accounts.adapters;
 
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordMatcherPort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class PasswordMatcherAdapter implements PasswordMatcherPort {
 	BCryptPasswordEncoder encoder;
 

@@ -6,5 +6,5 @@ import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import java.util.Optional;
 
 public interface GetDeviceDetailsUseCase {
-	Optional<DetailedDevice> getDeviceDetails(int id) throws BusinessException;
+	DetailedDevice getDeviceDetails(int id) throws BusinessException;
 }
