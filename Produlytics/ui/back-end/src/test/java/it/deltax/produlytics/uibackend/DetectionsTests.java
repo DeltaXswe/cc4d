@@ -29,7 +29,12 @@ public class DetectionsTests extends UiBackendApplicationTests {
 	@Autowired
 	private CharacteristicRepository characteristicRepository;
 
-	private final DeviceEntity device = new DeviceEntity("macchina", false, false, "x");
+	private final DeviceEntity device = new DeviceEntity(
+		"macchina",
+		false,
+		false,
+		"x"
+	);
 	private final CharacteristicEntity characteristic = new CharacteristicEntity(
 		new CharacteristicEntityId(1, 1),
 		"temperatura",
@@ -85,8 +90,15 @@ public class DetectionsTests extends UiBackendApplicationTests {
 	}
 
 	@Test
+	void getEmpty() throws Exception {
+		mockMvc.perform(get("/devices/1/characteristics/1/detections?newerThan=7&olderThan=4"))
+			.andDo(print())
+			.andExpect(status().isOk());
+	}
+
+	@Test
 	void characteristicNotFoundError() throws Exception {
-		mockMvc.perform(get("/devices/1/characteristics/5/detections)"))
+		mockMvc.perform(get("/devices/1/characteristics/2/detections"))
 			.andDo(print())
 			.andExpect(status().isNotFound())
 			.andExpect(content().string("{\"errorCode\":\"characteristicNotFound\"}"));
