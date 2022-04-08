@@ -22,7 +22,6 @@ public class AdminDeviceAdapter implements
 	FindDetailedDevicePort,
 	UpdateDeviceArchiveStatusPort,
 	UpdateDeviceDeactivateStatusPort,
-	GetDeviceDetailsPort,
 	UpdateDeviceNamePort
 {
 	private final DeviceRepository repo;
@@ -86,19 +85,7 @@ public class AdminDeviceAdapter implements
 	}
 
 	@Override
-	public Optional<DetailedDevice> getDeviceDetails(int deviceId) {
-		return repo.findById(deviceId)
-			.map(device -> new DetailedDevice(
-				device.getId(),
-				device.getName(),
-				device.getArchived(),
-				device.getDeactivated(),
-				device.getApikey()
-			));
-	}
-
-	@Override
-	public void updateDeviceNamePort(DetailedDevice device) {
+	public void updateDeviceName(DetailedDevice device) {
 		repo.save(new DeviceEntity(
 			device.name(),
 			device.archived(),

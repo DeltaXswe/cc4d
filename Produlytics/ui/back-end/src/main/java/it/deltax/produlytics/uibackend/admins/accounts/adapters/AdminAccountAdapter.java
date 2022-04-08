@@ -39,13 +39,13 @@ public class AdminAccountAdapter implements UpdateAccountArchiveStatusPort,
 
 	@Override
 	public Optional<Account> findByUsername(String username) {
-		return repo.findByUsername(username)
+		return repo.findById(username)
 			.map(utente ->
 				new Account(
-					utente.username(),
-					utente.hashedPassword(),
-					utente.administrator(),
-					utente.archived())
+					utente.getUsername(),
+					utente.getHashedPassword(),
+					utente.getAdministrator(),
+					utente.getArchived())
 			);
 	}
 	@Override

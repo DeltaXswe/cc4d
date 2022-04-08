@@ -31,16 +31,16 @@ public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCas
     }
 
     @Override
-    public void updatePasswordByUsername(AccountPasswordToUpdate command) throws BusinessException {
-        if (command.newPassword().length() < 6)
+    public void updatePasswordByUsername(AccountPasswordToUpdate accountToUpdate) throws BusinessException {
+        if (accountToUpdate.newPassword().length() < 6)
             throw new BusinessException("invalidNewPassword", ErrorType.GENERIC);
 
-        Account.AccountBuilder toUpdate = findAccountPort.findByUsername(command.username())
+        Account.AccountBuilder toUpdate = findAccountPort.findByUsername(accountToUpdate.username())
             .map(account -> account.toBuilder())
             .orElseThrow(() -> new BusinessException(("accountNotFound"), ErrorType.NOT_FOUND));
 
-        if (passwordMatcherPort.matches(command.currentPassword(),toUpdate.build().hashedPassword())) {
-            String hashedNewPassword = passwordEncoderPort.encode(command.newPassword());
+        if (passwordMatcherPort.matches(accountToUpdate.currentPassword(),toUpdate.build().hashedPassword())) {
+            String hashedNewPassword = passwordEncoderPort.encode(accountToUpdate.newPassword());
             toUpdate.withHashedPassword(hashedNewPassword);
             updateAccountPasswordPort.updateAccountPassword(toUpdate.build());
         } else {

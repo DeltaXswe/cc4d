@@ -55,7 +55,7 @@ public class AdminsDevicesController {
 	}
 
 	@GetMapping("/devices/{id}")
-	public ResponseEntity<Optional<DetailedDevice>> getDeviceDetails(
+	public ResponseEntity<DetailedDevice> getDeviceDetails(
 		@PathVariable("id") int id) throws BusinessException {
 		return ResponseEntity.ok(getDeviceDetailsUseCase.getDeviceDetails(id));
 	}

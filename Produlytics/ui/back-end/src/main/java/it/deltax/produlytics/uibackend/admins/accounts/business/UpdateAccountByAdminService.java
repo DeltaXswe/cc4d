@@ -27,20 +27,20 @@ public class UpdateAccountByAdminService implements UpdateAccountByAdminUseCase 
 	}
 
 	@Override
-	public void updateByUsername(AccountUpdatedByAdmin command) throws BusinessException {
-		if (command.newPassword().isPresent() && command.newPassword().get().length() < 6)
+	public void updateByUsername(AccountUpdatedByAdmin updatedAccount) throws BusinessException {
+		if (updatedAccount.newPassword().isPresent() && updatedAccount.newPassword().get().length() < 6)
 			throw new BusinessException("invalidNewPassword", ErrorType.GENERIC);
 
-		Account.AccountBuilder toUpdate = findAccountPort.findByUsername(command.username())
+		Account.AccountBuilder toUpdate = findAccountPort.findByUsername(updatedAccount.username())
 			.map(account -> account.toBuilder())
 				.orElseThrow(() -> new BusinessException("accountNotFound", ErrorType.NOT_FOUND));
 
-		if (command.newPassword().isPresent()) {
-			String hashedPassword = passwordEncoderPort.encode(command.newPassword().get());
+		if (updatedAccount.newPassword().isPresent()) {
+			String hashedPassword = passwordEncoderPort.encode(updatedAccount.newPassword().get());
 			toUpdate.withHashedPassword(hashedPassword);
 		}
 
-		toUpdate.withAdministrator(command.administrator());
+		toUpdate.withAdministrator(updatedAccount.administrator());
 		updateAccountByAdminPort.updateAccount(toUpdate.build());
 	}
 }

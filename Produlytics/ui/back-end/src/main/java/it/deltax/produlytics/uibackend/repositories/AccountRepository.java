@@ -9,6 +9,4 @@ import java.util.Optional;
 
 @Repository
 public interface AccountRepository extends CrudRepository<AccountEntity, String> {
-    Optional<Account> findByUsername(String username);
-
 }
