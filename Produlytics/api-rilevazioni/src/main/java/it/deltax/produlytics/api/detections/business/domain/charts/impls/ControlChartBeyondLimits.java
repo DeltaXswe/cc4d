@@ -15,8 +15,8 @@ public class ControlChartBeyondLimits implements ControlChart {
 	}
 
 	@Override
-	public void analyzeDetections(List<? extends MarkableDetection> lastDetections, ControlLimits limits) {
-		MarkableDetection detection = lastDetections.get(0);
+	public void analyzeDetections(List<? extends MarkableDetection> detections, ControlLimits limits) {
+		MarkableDetection detection = detections.get(0);
 
 		double lowerControlLimit = limits.lowerLimit();
 		double upperControlLimit = limits.upperLimit();

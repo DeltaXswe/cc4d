@@ -10,7 +10,7 @@ public interface ControlChart {
 	// a `analyzeDetections`. Tale numero deve essere sempre lo stesso per una data istanza di `ControlChart`.
 	int requiredDetectionCount();
 
-	// `lastDetections` sono le ultime requiredDetectionCount() rilevazioni
+	// `detections` sono le ultime requiredDetectionCount() rilevazioni
 	// `limits` sono i valori limite, calcolati o forniti dall'amministratore, della caratteristica in considerazione.
-	void analyzeDetections(List<? extends MarkableDetection> lastDetections, ControlLimits limits);
+	void analyzeDetections(List<? extends MarkableDetection> detections, ControlLimits limits);
 }

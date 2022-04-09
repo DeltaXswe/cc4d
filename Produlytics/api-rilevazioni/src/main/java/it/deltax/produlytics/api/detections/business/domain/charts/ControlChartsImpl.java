@@ -17,13 +17,13 @@ public class ControlChartsImpl implements ControlCharts {
 	}
 
 	@Override
-	public void analyzeDetections(List<? extends MarkableDetection> lastDetections, ControlLimits limits) {
+	public void analyzeDetections(List<? extends MarkableDetection> detections, ControlLimits limits) {
 		for(ControlChart controlChart : this.controlCharts) {
 			// Evita d'interrogare la carta di controllo se non ci sono abbastanza rilevazioni.
 			int count = controlChart.requiredDetectionCount();
-			if(lastDetections.size() >= count) {
+			if(detections.size() >= count) {
 				// Passa solo le ultime rilevazioni richieste dalla carta di controllo.
-				controlChart.analyzeDetections(this.cutLastDetections(lastDetections, count), limits);
+				controlChart.analyzeDetections(this.cutLastDetections(detections, count), limits);
 			}
 		}
 	}

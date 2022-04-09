@@ -18,7 +18,7 @@ public class DetectionSerieTest {
 		CharacteristicId characteristicId = new CharacteristicId(69, 42);
 		ControlLimits controlLimits = new ControlLimits(10, 70);
 		Detection detection = new Detection(characteristicId, Instant.now(), 15);
-		List<Detection> lastDetection = List.of(
+		List<Detection> mockDetections = List.of(
 			new Detection(characteristicId, Instant.now(), 100),
 			new Detection(characteristicId, Instant.now(), 90),
 			new Detection(characteristicId, Instant.now(), 77)
@@ -35,12 +35,12 @@ public class DetectionSerieTest {
 			public List<Detection> findLastDetections(CharacteristicId characteristicIdParam, int count) {
 				assert characteristicIdParam == characteristicId;
 				assert count == 7;
-				return lastDetection;
+				return mockDetections;
 			}
 
 			@Override
 			public void markOutlier(Detection detection) {
-				assert detection == lastDetection.get(1);
+				assert detection == mockDetections.get(1);
 				detection1Marked[0] = true;
 			}
 		};
@@ -57,12 +57,12 @@ public class DetectionSerieTest {
 			}
 
 			@Override
-			public void analyzeDetections(List<? extends MarkableDetection> markableDetections, ControlLimits limits) {
-				assert markableDetections.get(0).value() == lastDetection.get(0).value();
-				assert markableDetections.get(1).value() == lastDetection.get(1).value();
-				assert markableDetections.get(2).value() == lastDetection.get(2).value();
+			public void analyzeDetections(List<? extends MarkableDetection> detections, ControlLimits limits) {
+				assert detections.get(0).value() == mockDetections.get(0).value();
+				assert detections.get(1).value() == mockDetections.get(1).value();
+				assert detections.get(2).value() == mockDetections.get(2).value();
 				assert limits == controlLimits;
-				markableDetections.get(1).markOutlier();
+				detections.get(1).markOutlier();
 			}
 		};
 

@@ -57,7 +57,7 @@ public class ControlChartsTest {
 		}
 
 		@Override
-		public void analyzeDetections(List<? extends MarkableDetection> lastDetections, ControlLimits limits) {
+		public void analyzeDetections(List<? extends MarkableDetection> detections, ControlLimits limits) {
 			this.called = true;
 		}
 
