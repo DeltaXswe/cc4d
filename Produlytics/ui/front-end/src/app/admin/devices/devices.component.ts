@@ -15,7 +15,7 @@ import {DeviceDataSource} from "./device.data-source";
   styleUrls: ['./devices.component.css']
 })
 export class DevicesComponent implements OnInit {
-  private readonly reloader: Observer<void> = {
+  private reloader: Observer<void> = {
     next: () => {
       this.initTable();
     },
@@ -31,7 +31,8 @@ export class DevicesComponent implements OnInit {
     }
   }
 
-  readonly devices = new DeviceDataSource();
+  devices = new DeviceDataSource();
+
   readonly displayedColumns = ['name', 'edit', 'activation', 'status'];
 
   constructor(

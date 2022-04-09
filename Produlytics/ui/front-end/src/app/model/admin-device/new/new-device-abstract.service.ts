@@ -5,5 +5,5 @@ import {DeviceCreationCommand} from "./device-creation-command";
 @Injectable()
 export abstract class NewDeviceAbstractService {
 
-  public abstract insertDevice(machine: DeviceCreationCommand): Observable<{id: number}>;
+  public abstract insertDevice(device: DeviceCreationCommand): Observable<{id: number}>;
 }

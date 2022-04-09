@@ -24,9 +24,10 @@ import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm
 })
 export class DeviceDetailComponent implements OnInit {
 
-  readonly device: Device;
-  readonly characteristics = new CharacteristicsDataSource();
-  readonly deviceNameForm: FormGroup;
+  characteristics = new CharacteristicsDataSource();
+  deviceNameForm: FormGroup;
+  device: Device;
+
   readonly displayedColumns = ['name', 'edit', 'status'];
 
   constructor(
