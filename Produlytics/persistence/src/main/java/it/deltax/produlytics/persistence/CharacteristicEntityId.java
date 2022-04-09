@@ -1,19 +1,11 @@
 package it.deltax.produlytics.persistence;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Embeddable
 public class CharacteristicEntityId implements Serializable {
-	@GeneratedValue(strategy = GenerationType.TABLE)
-	@Column(name = "id", nullable = false)
 	private Integer id;
 
-	@Column(name = "device_id", nullable = false)
 	private Integer deviceId;
 
 	protected CharacteristicEntityId() {}
