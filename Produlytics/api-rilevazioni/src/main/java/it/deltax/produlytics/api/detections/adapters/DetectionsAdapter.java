@@ -14,7 +14,6 @@ import it.deltax.produlytics.api.repositories.DeviceRepository;
 import it.deltax.produlytics.api.repositories.LimitsEntity;
 import it.deltax.produlytics.persistence.CharacteristicEntityId;
 import it.deltax.produlytics.persistence.DetectionEntity;
-import it.deltax.produlytics.persistence.DetectionEntityId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -62,10 +61,8 @@ public class DetectionsAdapter implements FindDeviceByApiKeyPort,
 			)
 			.stream()
 			.map(detectionEntity -> new Detection(
-				new CharacteristicId(detectionEntity.getId().getDeviceId(),
-					detectionEntity.getId().getCharacteristicId()
-				),
-				detectionEntity.getId().getCreationTime(),
+				new CharacteristicId(detectionEntity.getDeviceId(), detectionEntity.getCharacteristicId()),
+				detectionEntity.getCreationTime(),
 				detectionEntity.getValue()
 			))
 			.toList();
@@ -73,11 +70,12 @@ public class DetectionsAdapter implements FindDeviceByApiKeyPort,
 
 	@Override
 	public void insertDetection(Detection detection) {
-		DetectionEntityId detectionEntityId = new DetectionEntityId(detection.creationTime(),
+		DetectionEntity detectionEntity = new DetectionEntity(detection.creationTime(),
 			detection.characteristicId().characteristicId(),
-			detection.characteristicId().deviceId()
+			detection.characteristicId().deviceId(),
+			detection.value(),
+			false
 		);
-		DetectionEntity detectionEntity = new DetectionEntity(detectionEntityId, detection.value(), false);
 		this.detectionRepository.save(detectionEntity);
 	}
 

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 public interface CharacteristicRepository extends CrudRepository<CharacteristicEntity, CharacteristicEntityId> {
 	// Trova i limiti tecnici e di processo di una caratteristica.
+	// COALESCE(STDDEV_SAMP(helper.value), 1) è necessario perchè STDDEV_SAMP ritorna `null` se viene
+	// passato un solo valore. Il valore 1 è arbitrario, basta che sia != 0.
 	@Query(value = """
 		SELECT
 			ch.auto_adjust as autoAdjust,
@@ -20,9 +22,9 @@ public interface CharacteristicRepository extends CrudRepository<CharacteristicE
 			mean_stddev.mean as computedMean,
 			mean_stddev.stddev as computedStddev
 		FROM characteristic ch JOIN (
-			SELECT AVG(value) as mean, STDDEV_SAMP(value) as stddev
+			SELECT AVG(helper.value) as mean, COALESCE(STDDEV_SAMP(helper.value), 1) as stddev
 			FROM (
-				SELECT dt.value
+				SELECT dt.value as value
 				FROM detection dt
 				WHERE dt.device_id = :deviceId AND dt.characteristic_id = :characteristicId
 				ORDER BY dt.creation_time DESC

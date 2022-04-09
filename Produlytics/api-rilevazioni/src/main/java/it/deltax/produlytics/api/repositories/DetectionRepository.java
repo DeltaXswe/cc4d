@@ -17,6 +17,8 @@ import java.util.List;
 @SuppressWarnings("unused")
 public interface DetectionRepository extends CrudRepository<DetectionEntity, DetectionEntityId> {
 	// Trova le ultime `count` rilevazioni di una caratteristica, ordinate per data di creazione.
+	@Transactional
+	@Modifying
 	@Query(value = """
 			SELECT *
 			FROM (
