@@ -9,6 +9,7 @@ import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordMatch
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.UpdateAccountPasswordPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -39,6 +40,11 @@ public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCas
             .map(account -> account.toBuilder())
             .orElseThrow(() -> new BusinessException(("accountNotFound"), ErrorType.NOT_FOUND));
 
+        System.out.println(accountToUpdate.currentPassword());
+        System.out.println(toUpdate.build().hashedPassword());
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        System.out.println(passwordEncoder.encode("passwordvecchia"));
         if (passwordMatcherPort.matches(accountToUpdate.currentPassword(),toUpdate.build().hashedPassword())) {
             String hashedNewPassword = passwordEncoderPort.encode(accountToUpdate.newPassword());
             toUpdate.withHashedPassword(hashedNewPassword);
