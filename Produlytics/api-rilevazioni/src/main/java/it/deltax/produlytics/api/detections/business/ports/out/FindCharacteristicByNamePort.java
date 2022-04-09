@@ -7,6 +7,6 @@ import java.util.Optional;
 // Ottiene le informazioni di una caratteristica dato l'id della macchina
 // a cui appartiene e il suo id all'interno di essa.
 // Ritorna Optional.empty() se la caratteristica cercata non esiste.
-public interface FindCharacteristicPort {
-	Optional<CharacteristicInfo> findCharacteristicByName(int deviceId, String characteristicName);
+public interface FindCharacteristicByNamePort {
+	Optional<CharacteristicInfo> findCharacteristicByName(int deviceId, String name);
 }

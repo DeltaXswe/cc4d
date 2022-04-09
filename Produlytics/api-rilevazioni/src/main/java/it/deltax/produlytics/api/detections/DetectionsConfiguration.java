@@ -29,9 +29,9 @@ import java.util.List;
 public class DetectionsConfiguration {
 	@Bean
 	DetectionValidator createDetectionValidator(
-		FindDeviceByApiKeyPort findDeviceByApiKeyPort, FindCharacteristicPort findCharacteristicPort
+		FindDeviceByApiKeyPort findDeviceByApiKeyPort, FindCharacteristicByNamePort findCharacteristicByNamePort
 	) {
-		return new DetectionValidatorImpl(findDeviceByApiKeyPort, findCharacteristicPort);
+		return new DetectionValidatorImpl(findDeviceByApiKeyPort, findCharacteristicByNamePort);
 	}
 
 	@Bean

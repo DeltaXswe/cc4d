@@ -1,7 +1,7 @@
 package it.deltax.produlytics.api.detections.business.domain.validate;
 
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
-import it.deltax.produlytics.api.detections.business.ports.out.FindCharacteristicPort;
+import it.deltax.produlytics.api.detections.business.ports.out.FindCharacteristicByNamePort;
 import it.deltax.produlytics.api.detections.business.ports.out.FindDeviceByApiKeyPort;
 import it.deltax.produlytics.api.exceptions.BusinessException;
 import it.deltax.produlytics.api.exceptions.ErrorType;
@@ -9,13 +9,13 @@ import it.deltax.produlytics.api.exceptions.ErrorType;
 // Implementazione di riferimento di `DetectionValidator`.
 public class DetectionValidatorImpl implements DetectionValidator {
 	private final FindDeviceByApiKeyPort findDeviceByApiKeyPort;
-	private final FindCharacteristicPort findCharacteristicPort;
+	private final FindCharacteristicByNamePort findCharacteristicByNamePort;
 
 	public DetectionValidatorImpl(
-		FindDeviceByApiKeyPort findDeviceByApiKeyPort, FindCharacteristicPort findCharacteristicPort
+		FindDeviceByApiKeyPort findDeviceByApiKeyPort, FindCharacteristicByNamePort findCharacteristicByNamePort
 	) {
 		this.findDeviceByApiKeyPort = findDeviceByApiKeyPort;
-		this.findCharacteristicPort = findCharacteristicPort;
+		this.findCharacteristicByNamePort = findCharacteristicByNamePort;
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class DetectionValidatorImpl implements DetectionValidator {
 			throw new BusinessException("archived" , ErrorType.ARCHIVED);
 		}
 
-		CharacteristicInfo characteristicInfo = this.findCharacteristicPort.findCharacteristicByName(deviceInfo.deviceId(),
+		CharacteristicInfo characteristicInfo = this.findCharacteristicByNamePort.findCharacteristicByName(deviceInfo.deviceId(),
 				characteristicName
 			)
 			.orElseThrow(() -> new BusinessException("characteristicNotFound" , ErrorType.NOT_FOUND));

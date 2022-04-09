@@ -22,7 +22,7 @@ import java.util.Optional;
 @Component
 @SuppressWarnings("unused")
 public class DetectionsAdapter implements FindDeviceByApiKeyPort,
-	FindCharacteristicPort,
+	FindCharacteristicByNamePort,
 	FindLastDetectionsPort,
 	InsertDetectionPort,
 	FindLimitsPort,
@@ -45,8 +45,8 @@ public class DetectionsAdapter implements FindDeviceByApiKeyPort,
 	}
 
 	@Override
-	public Optional<CharacteristicInfo> findCharacteristicByName(int deviceId, String characteristicName) {
-		return this.characteristicRepository.findByName(deviceId, characteristicName)
+	public Optional<CharacteristicInfo> findCharacteristicByName(int deviceId, String name) {
+		return this.characteristicRepository.findByName(deviceId, name)
 			.map(characteristicEntity -> new CharacteristicInfo(characteristicEntity.getId(),
 				characteristicEntity.getArchived()
 			));

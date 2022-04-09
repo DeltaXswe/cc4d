@@ -1,7 +1,7 @@
 package it.deltax.produlytics.api.detections.business.domain.validate;
 
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
-import it.deltax.produlytics.api.detections.business.ports.out.FindCharacteristicPort;
+import it.deltax.produlytics.api.detections.business.ports.out.FindCharacteristicByNamePort;
 import it.deltax.produlytics.api.detections.business.ports.out.FindDeviceByApiKeyPort;
 import it.deltax.produlytics.api.exceptions.BusinessException;
 import it.deltax.produlytics.api.exceptions.ErrorType;
@@ -21,10 +21,13 @@ public class DetectionValidatorTest {
 		CharacteristicId characteristicId = new CharacteristicId(42, 69);
 		CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
 
-		FindCharacteristicPort findCharacteristicPort = new FindCharacteristicPortMock(42, "bar" , characteristicInfo);
+		FindCharacteristicByNamePort findCharacteristicByNamePort = new FindCharacteristicByNamePortMock(42,
+			"bar" ,
+			characteristicInfo
+		);
 
 		DetectionValidator detectionValidator = new DetectionValidatorImpl(findDeviceByApiKeyPort,
-			findCharacteristicPort
+			findCharacteristicByNamePort
 		);
 
 		assert detectionValidator.validateAndFindId(apiKey, "bar").equals(characteristicId);
@@ -40,13 +43,13 @@ public class DetectionValidatorTest {
 			CharacteristicId characteristicId = new CharacteristicId(42, 69);
 			CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
 
-			FindCharacteristicPort findCharacteristicPort = new FindCharacteristicPortMock(42,
+			FindCharacteristicByNamePort findCharacteristicByNamePort = new FindCharacteristicByNamePortMock(42,
 				"bar" ,
 				characteristicInfo
 			);
 
 			DetectionValidator detectionValidator = new DetectionValidatorImpl(findDeviceByApiKeyPort,
-				findCharacteristicPort
+				findCharacteristicByNamePort
 			);
 
 			detectionValidator.validateAndFindId("invalidFoo" , "bar");
@@ -66,13 +69,13 @@ public class DetectionValidatorTest {
 			CharacteristicId characteristicId = new CharacteristicId(42, 69);
 			CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
 
-			FindCharacteristicPort findCharacteristicPort = new FindCharacteristicPortMock(42,
+			FindCharacteristicByNamePort findCharacteristicByNamePort = new FindCharacteristicByNamePortMock(42,
 				"bar" ,
 				characteristicInfo
 			);
 
 			DetectionValidator detectionValidator = new DetectionValidatorImpl(findDeviceByApiKeyPort,
-				findCharacteristicPort
+				findCharacteristicByNamePort
 			);
 
 			detectionValidator.validateAndFindId(apiKey, "bar");
@@ -92,13 +95,13 @@ public class DetectionValidatorTest {
 			CharacteristicId characteristicId = new CharacteristicId(42, 69);
 			CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
 
-			FindCharacteristicPort findCharacteristicPort = new FindCharacteristicPortMock(42,
+			FindCharacteristicByNamePort findCharacteristicByNamePort = new FindCharacteristicByNamePortMock(42,
 				"bar" ,
 				characteristicInfo
 			);
 
 			DetectionValidator detectionValidator = new DetectionValidatorImpl(findDeviceByApiKeyPort,
-				findCharacteristicPort
+				findCharacteristicByNamePort
 			);
 
 			detectionValidator.validateAndFindId(apiKey, "baz");
@@ -118,13 +121,13 @@ public class DetectionValidatorTest {
 			CharacteristicId characteristicId = new CharacteristicId(42, 69);
 			CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
 
-			FindCharacteristicPort findCharacteristicPort = new FindCharacteristicPortMock(42,
+			FindCharacteristicByNamePort findCharacteristicByNamePort = new FindCharacteristicByNamePortMock(42,
 				"bar" ,
 				characteristicInfo
 			);
 
 			DetectionValidator detectionValidator = new DetectionValidatorImpl(findDeviceByApiKeyPort,
-				findCharacteristicPort
+				findCharacteristicByNamePort
 			);
 
 			detectionValidator.validateAndFindId(apiKey, "bar");
@@ -144,13 +147,13 @@ public class DetectionValidatorTest {
 			CharacteristicId characteristicId = new CharacteristicId(42, 69);
 			CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, true);
 
-			FindCharacteristicPort findCharacteristicPort = new FindCharacteristicPortMock(42,
+			FindCharacteristicByNamePort findCharacteristicByNamePort = new FindCharacteristicByNamePortMock(42,
 				"bar" ,
 				characteristicInfo
 			);
 
 			DetectionValidator detectionValidator = new DetectionValidatorImpl(findDeviceByApiKeyPort,
-				findCharacteristicPort
+				findCharacteristicByNamePort
 			);
 
 			detectionValidator.validateAndFindId(apiKey, "bar");
@@ -179,12 +182,12 @@ public class DetectionValidatorTest {
 		}
 	}
 
-	private static class FindCharacteristicPortMock implements FindCharacteristicPort {
+	private static class FindCharacteristicByNamePortMock implements FindCharacteristicByNamePort {
 		private final int deviceId;
 		private final String name;
 		private final CharacteristicInfo characteristicInfo;
 
-		public FindCharacteristicPortMock(int deviceId, String name, CharacteristicInfo characteristicInfo) {
+		public FindCharacteristicByNamePortMock(int deviceId, String name, CharacteristicInfo characteristicInfo) {
 			this.deviceId = deviceId;
 			this.name = name;
 			this.characteristicInfo = characteristicInfo;
