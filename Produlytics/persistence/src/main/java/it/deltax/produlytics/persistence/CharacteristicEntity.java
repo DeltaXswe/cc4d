@@ -20,9 +20,6 @@ public class CharacteristicEntity {
 	@Column(name = "lower_limit", nullable = true)
 	private Double lowerLimit;
 
-	@Column(name = "average", nullable = true)
-	private Double average;
-
 	@Column(name = "auto_adjust", nullable = false)
 	private Boolean autoAdjust;
 
@@ -66,10 +63,6 @@ public class CharacteristicEntity {
 
 	public Double getLowerLimit() {
 		return this.lowerLimit;
-	}
-
-	public Double getAverage() {
-		return this.average;
 	}
 
 	public Boolean getAutoAdjust() {
