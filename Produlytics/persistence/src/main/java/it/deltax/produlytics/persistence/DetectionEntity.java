@@ -1,15 +1,23 @@
 package it.deltax.produlytics.persistence;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.Instant;
 
 @Entity
 @Table(name = "detection")
+@IdClass(DetectionEntityId.class)
 public class DetectionEntity {
-	@EmbeddedId
-	private DetectionEntityId id;
+	@Column(name = "creation_time", nullable = false)
+	@Id
+	private Instant creationTime;
+
+	@Column(name = "characteristic_id", nullable = false)
+	@Id
+	private Integer characteristicId;
+
+	@Column(name = "device_id", nullable = false)
+	@Id
+	private Integer deviceId;
 
 	@Column(name = "value", nullable = false)
 	private Double value;
@@ -20,15 +28,25 @@ public class DetectionEntity {
 	protected DetectionEntity() {}
 
 	public DetectionEntity(
-		DetectionEntityId id, Double value, Boolean outlier
+		Instant creationTime, Integer characteristicId, Integer deviceId, Double value, Boolean outlier
 	) {
-		this.id = id;
+		this.creationTime = creationTime;
+		this.characteristicId = characteristicId;
+		this.deviceId = deviceId;
 		this.value = value;
 		this.outlier = outlier;
 	}
 
-	public DetectionEntityId getId() {
-		return this.id;
+	public Instant getCreationTime() {
+		return creationTime;
+	}
+
+	public Integer getCharacteristicId() {
+		return characteristicId;
+	}
+
+	public Integer getDeviceId() {
+		return deviceId;
 	}
 
 	public Double getValue() {

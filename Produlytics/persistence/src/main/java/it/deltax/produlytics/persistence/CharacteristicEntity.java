@@ -1,15 +1,19 @@
 package it.deltax.produlytics.persistence;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "characteristic")
+@IdClass(CharacteristicEntityId.class)
 public class CharacteristicEntity {
-	@EmbeddedId
-	private CharacteristicEntityId id;
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	@Column(name = "id", nullable = false)
+	@Id
+	private Integer id;
+
+	@Column(name = "device_id", nullable = false)
+	@Id
+	private Integer deviceId;
 
 	@Column(name = "name", nullable = false)
 	private String name;
@@ -19,9 +23,6 @@ public class CharacteristicEntity {
 
 	@Column(name = "lower_limit", nullable = true)
 	private Double lowerLimit;
-
-	@Column(name = "average", nullable = true)
-	private Double average;
 
 	@Column(name = "auto_adjust", nullable = false)
 	private Boolean autoAdjust;
@@ -35,7 +36,7 @@ public class CharacteristicEntity {
 	protected CharacteristicEntity() {}
 
 	public CharacteristicEntity(
-		CharacteristicEntityId id,
+		Integer deviceId,
 		String name,
 		Double upperLimit,
 		Double lowerLimit,
@@ -43,7 +44,7 @@ public class CharacteristicEntity {
 		Integer sampleSize,
 		Boolean archived
 	) {
-		this.id = id;
+		this.deviceId = deviceId;
 		this.name = name;
 		this.upperLimit = upperLimit;
 		this.lowerLimit = lowerLimit;
@@ -52,8 +53,12 @@ public class CharacteristicEntity {
 		this.archived = archived;
 	}
 
-	public CharacteristicEntityId getId() {
+	public Integer getId() {
 		return this.id;
+	}
+
+	public Integer getDeviceId() {
+		return this.deviceId;
 	}
 
 	public String getName() {
@@ -66,10 +71,6 @@ public class CharacteristicEntity {
 
 	public Double getLowerLimit() {
 		return this.lowerLimit;
-	}
-
-	public Double getAverage() {
-		return this.average;
 	}
 
 	public Boolean getAutoAdjust() {
