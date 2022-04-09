@@ -1,15 +1,13 @@
 import { AfterViewInit, Component, Input, IterableDiffers, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 import * as d3 from 'd3';
 import { Subscription, interval } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
-import { CharacteristicInfo } from '../../model/chart/characteristic-info';
 
 import { ChartPoint } from '../../model/chart/chart-point';
-import { Location } from "@angular/common";
-import {ChartAbstractService} from "../../model/chart/chart-abstract.service";
+import { ChartAbstractService } from "../../model/chart/chart-abstract.service";
 import { CharacteristicNode } from '../device-selection/selection-data-source/selection-node';
+import { Limits } from '../../model/chart/limits';
 
 @Component({
   selector: 'app-chart',
@@ -24,15 +22,12 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input()
   index: number = 0;
 
-  info!: CharacteristicInfo;
+  limits!: Limits;
   private points: ChartPoint[] = [];
   private updateSubscription?: Subscription;
 
   constructor(
-    private route: ActivatedRoute,
     private chartService: ChartAbstractService,
-    private location: Location,
-    private iterableDiffers: IterableDiffers
   ) { }
 
   ngOnInit(): void {}
@@ -102,8 +97,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   setupInitialPoints(deviceId: number, characteristicId: number) {
     this.chartService
       .getInitialPoints(deviceId, characteristicId)
-      .subscribe(([info, points]) => {
-        this.info = info;
+      .subscribe((points) => {
         this.points = points;
         this.drawChart();
         this.subscribeToUpdates();
@@ -113,8 +107,13 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   drawChart() {
     if (this.points.length == 0) return;
     const points = this.points;
-    const { lowerLimit, upperLimit, average } = this.info.characteristic;
-    const delta = Math.floor((upperLimit - lowerLimit) / 6);
+    var limits: Limits;
+    this.chartService.getLimits(this.currentNode.device.id, this.currentNode.id)
+      .subscribe({
+        next: limit => this.limits = limit,
+        error: () => console.log('ciao')  //TODO: da rivedere qui
+      });
+    const delta = Math.floor((this.limits.upperLimit - this.limits.lowerLimit) / 6);
 
     // TODO: includi i punti in ymin e ymax
     const [ymin, ymax] = d3.extent(points, (p) => p.value);
@@ -122,8 +121,8 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       d3.extent(points, (p) => p.createdAtUtc * 1000) as [number, number]
     );
     this.yScale.domain([
-      Math.min(lowerLimit - delta, ...(ymin ? [ymin] : [])),
-      Math.max(upperLimit + delta, ...(ymax ? [ymax] : [])),
+      Math.min(this.limits.lowerLimit - delta, ...(ymin ? [ymin] : [])),
+      Math.max(this.limits.upperLimit + delta, ...(ymax ? [ymax] : [])),
     ]);
 
     this.svg.select<SVGGElement>('.axis-x').call(d3.axisBottom(this.xScale));
@@ -132,9 +131,9 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     const setGuideLine = (cls: string, y: number) => {
       this.svg.select(cls).attr('y1', y).attr('y2', y);
     };
-    setGuideLine('.line-media', this.yScale(average));
-    setGuideLine('.line-limite-min', this.yScale(lowerLimit));
-    setGuideLine('.line-limite-max', this.yScale(upperLimit));
+    setGuideLine('.line-media', this.yScale(this.limits.mean));
+    setGuideLine('.line-limite-min', this.yScale(this.limits.lowerLimit));
+    setGuideLine('.line-limite-max', this.yScale(this.limits.upperLimit));
 
     let xp = (p: ChartPoint) => this.xScale(p.createdAtUtc * 1000);
     let yp = (p: ChartPoint) => this.yScale(p.value);
@@ -167,8 +166,8 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(
         concatMap(() =>
           this.chartService.getNextPoints(
-            this.info.machine.id,
-            this.info.characteristic.code,
+            this.currentNode.device.id,
+            this.currentNode.id,
             this.points[this.points.length - 1].createdAtUtc
           )
         )
@@ -178,10 +177,5 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
         this.points = this.points.slice(new_points.length);
         this.drawChart();
       });
-  }
-
-  clearCharts(){
-    let svg = d3.selectAll('.d3svg');
-    svg.selectAll("*").remove();
   }
 }

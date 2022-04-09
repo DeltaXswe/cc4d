@@ -1,18 +1,20 @@
 import {Observable} from "rxjs";
-import {CharacteristicInfo} from "./characteristic-info";
 import {ChartPoint} from "./chart-point";
 import {Injectable} from "@angular/core";
+import { Limits } from "./limits";
 
 @Injectable()
 export abstract class ChartAbstractService {
   abstract getInitialPoints(
     macchina: number,
     caratteristica: number
-  ): Observable<[CharacteristicInfo, ChartPoint[]]>;
+  ): Observable<ChartPoint[]>;
 
   abstract getNextPoints(
     macchina: number,
-    caratteristica: string,
+    caratteristica: number,
     ultimo_utc: number
   ): Observable<ChartPoint[]>;
+
+  abstract getLimits(deviceId: number, characteristicId: number): Observable<Limits>;
 }

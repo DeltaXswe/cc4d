@@ -9,7 +9,6 @@ import {CharacteristicNode, DeviceNode, SelectionNode} from "./selection-data-so
 import {SelectionDataSource} from "./selection-data-source/selection.data-source";
 import {map, tap} from "rxjs";
 import { EventEmitter } from '@angular/core';
-import { Characteristic } from 'src/app/model/admin-device/characteristic/characteristic';
 
 @Component({
   selector: 'app-device-selection',
@@ -40,9 +39,7 @@ export class DeviceSelectionComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-    //this.devicesChanged.emit(this.checkedNodes);
-   }
+  ngOnInit(): void { }
 
   public hasChildren(_index: number, node: SelectionNode): boolean {
     return node.expandable;

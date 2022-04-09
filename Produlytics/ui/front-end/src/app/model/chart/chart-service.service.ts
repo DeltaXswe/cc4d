@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, zip } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { ChartPoint } from './chart-point';
-import { CharacteristicInfo } from './characteristic-info';
 import {ChartAbstractService} from "./chart-abstract.service";
 import {HttpClient} from "@angular/common/http";
+import { Limits } from './limits';
 
 @Injectable({
   providedIn: 'root'
@@ -14,21 +14,17 @@ export class ChartService implements ChartAbstractService{
 
   constructor(private httpClient: HttpClient) {}
 
-  getInitialPoints(
-    macchina: number,
-    caratteristica: number
-  ): Observable<[CharacteristicInfo, ChartPoint[]]> {
-    const info = this.httpClient.get<CharacteristicInfo>(`/characteristics/${macchina}/${caratteristica}`);
-    const points = this.httpClient.get<ChartPoint[]>(`/detections/${macchina}/${caratteristica}`);
-
-    return zip(info, points);
+  getInitialPoints(deviceId: number, characteristicId: number): Observable<ChartPoint[]> {
+    return this.httpClient.get<ChartPoint[]>(`/devices/${deviceId}/characteristics/${characteristicId}
+    /detections?olderThan={olderThan}&newerThan=${(new Date).getTime()}&limit=${100}`);//TODO: da rivedere qui
   }
 
-  getNextPoints(
-    macchina: number,
-    caratteristica: string,
-    ultimo_utc: number
-  ): Observable<ChartPoint[]> {
-    return this.httpClient.get<ChartPoint[]>(`/detections/${macchina}/${caratteristica}?createdAfter=${ultimo_utc}`);
+  getNextPoints(deviceId: number, characteristicId: number, olderThan: number): Observable<ChartPoint[]> {
+    return this.httpClient.get<ChartPoint[]>(`/devices/${deviceId}/characteristics/${characteristicId}
+    /detections?olderThan=${olderThan}&newerThan={newerThan}&limit={maxNumDetections}`);//TODO: da rivedere qui
+  }
+
+  getLimits(deviceId: number, characteristicId: number){
+    return this.httpClient.get<Limits>(`/devices/${deviceId}/characteristics/${characteristicId}/limits`)
   }
 }

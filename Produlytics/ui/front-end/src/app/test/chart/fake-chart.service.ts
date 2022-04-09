@@ -1,28 +1,29 @@
 import { Injectable } from '@angular/core';
-import {ChartAbstractService} from "../../model/chart/chart-abstract.service";
-import {BehaviorSubject, Observable, of} from "rxjs";
-import {CharacteristicInfo} from "../../model/chart/characteristic-info";
-import {ChartPoint} from "../../model/chart/chart-point";
+import { ChartAbstractService } from "../../model/chart/chart-abstract.service";
+import { BehaviorSubject, Observable, of } from "rxjs";
+import { CharacteristicInfo } from "../../model/chart/characteristic-info";
+import { ChartPoint } from "../../model/chart/chart-point";
+import { Limits } from '../../model/chart/limits';
 
 @Injectable({
   providedIn: "root"
 })
 export class FakeChartService implements ChartAbstractService {
 
-  fakeInitialPoints2 = new BehaviorSubject<[CharacteristicInfo, ChartPoint[]]> ([{
-    machine: {
-      id: 2,
-      name: 'miao'
-    },
-    characteristic: {
-      code: '1',
-      machine: 2,
-      name: 'bau',
-      average: 100,
-      lowerLimit: -100,
-      upperLimit: 300
-    }
-  }, [{
+  fakeLimits2 = new BehaviorSubject<Limits>({
+    lowerLimit: -100,
+    upperLimit: 300,
+    mean: -100
+  });
+
+  fakeLimits3 = new BehaviorSubject<Limits>({
+    lowerLimit: -200,
+    upperLimit: 400,
+    mean: 100
+  });
+
+  fakeInitialPoints2 = new BehaviorSubject<ChartPoint[]> ([
+  {
     createdAtUtc: 100,
     value: 300,
     anomalous: false
@@ -41,22 +42,9 @@ export class FakeChartService implements ChartAbstractService {
     createdAtUtc: 130,
     value: 230,
     anomalous: false
-  } ]]);
+  } ]);
   
-  fakeInitialPoints3 = new BehaviorSubject<[CharacteristicInfo, ChartPoint[]]> ([{
-    machine: {
-      id: 3,
-      name: 'mooo'
-    },
-    characteristic: {
-      code: '3',
-      machine: 3,
-      name: 'cowboy',
-      average: 100,
-      lowerLimit: -100,
-      upperLimit: 300
-    }
-  }, [{
+  fakeInitialPoints3 = new BehaviorSubject<ChartPoint[]> ([{
     createdAtUtc: 100,
     value: 400,
     anomalous: false
@@ -75,23 +63,24 @@ export class FakeChartService implements ChartAbstractService {
     createdAtUtc: 130,
     value: 330,
     anomalous: false
-  } ]]);
+  } ]);
 
   fakePoints= new BehaviorSubject<ChartPoint[]> ([{
     createdAtUtc: 140,
     value: 320,
     anomalous: true
   }])
+
   constructor() { }
 
-  getInitialPoints(deviceId: number, characteristicId: number): Observable<[CharacteristicInfo, ChartPoint[]]> {
+  getInitialPoints(deviceId: number, characteristicId: number): Observable<ChartPoint[]> {
     if(deviceId == 2)
       return this.fakeInitialPoints2;
     else(deviceId == 3)
       return this.fakeInitialPoints3;
   }
 
-  getNextPoints(macchina: number, caratteristica: string, ultimo_utc: number): Observable<ChartPoint[]> {
+  getNextPoints(macchina: number, caratteristica: number, ultimo_utc: number): Observable<ChartPoint[]> {
     let createdAtUtc: number = ultimo_utc+10;
     let value: number = Math.floor(Math.random() * (500));
     value *= Math.round(Math.random()) ? 1 : -1;
@@ -103,4 +92,12 @@ export class FakeChartService implements ChartAbstractService {
     }
     return of([point]);
   }
+
+  getLimits(deviceId: number, characteristicId: number){
+    if(deviceId == 2)
+      return this.fakeLimits2;
+    else(deviceId == 3)
+      return this.fakeLimits3;
+  }
+
 }

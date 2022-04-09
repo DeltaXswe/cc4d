@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ViewEncapsulation } from '@angular/core';
-import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
+import { LoginAbstractService } from '../../model/login/login-abstract.service';
 import { CookieService } from 'ngx-cookie-service';
-import { LoginCommand } from 'src/app/model/login/login-command';
+import { LoginCommand } from '../../model/login/login-command';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
