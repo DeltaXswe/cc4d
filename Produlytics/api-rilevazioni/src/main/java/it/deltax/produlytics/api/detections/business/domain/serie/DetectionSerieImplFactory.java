@@ -18,6 +18,7 @@ public class DetectionSerieImplFactory implements DetectionSerieFactory {
 		this.controlLimitsCalculator = controlLimitsCalculator;
 		this.controlCharts = controlCharts;
 	}
+
 	@Override
 	public DetectionSerie createSerie(CharacteristicId characteristicId) {
 		return new DetectionSerieImpl(this.ports, this.controlLimitsCalculator, this.controlCharts, characteristicId);

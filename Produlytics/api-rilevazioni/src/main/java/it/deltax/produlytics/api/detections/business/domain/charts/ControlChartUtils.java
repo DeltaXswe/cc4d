@@ -5,9 +5,6 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class ControlChartUtils {
-	// ControlChartUtils non è instanziabile, è solo una collezione di metodi statici di supporto
-	private ControlChartUtils() {}
-
 	// Ritorna uno stream di "finestre" di larghezza `size` data una lista `list`. Ad esempio, dato:
 	//   list = [1, 2, 3, 4, 5, 6, 7], size = 3
 	// vengono restituiti:
@@ -23,4 +20,7 @@ public class ControlChartUtils {
 	public static void markAll(List<? extends MarkableDetection> detections) {
 		detections.forEach(MarkableDetection::markOutlier);
 	}
+
+	// ControlChartUtils non è instanziabile, è solo una collezione di metodi statici di supporto
+	private ControlChartUtils() {}
 }

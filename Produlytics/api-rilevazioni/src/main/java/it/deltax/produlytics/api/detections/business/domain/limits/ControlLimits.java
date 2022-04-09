@@ -20,10 +20,6 @@ public record ControlLimits(double lowerLimit, double upperLimit) {
 		return (this.lowerLimit() + this.upperLimit()) / 2;
 	}
 
-	private double stddev() {
-		return (this.upperLimit() - this.lowerLimit()) / 6;
-	}
-
 	public double lowerBCLimit() {
 		return this.mean() - this.stddev();
 	}
@@ -38,5 +34,9 @@ public record ControlLimits(double lowerLimit, double upperLimit) {
 
 	public double upperABLimit() {
 		return this.mean() + 2 * this.stddev();
+	}
+
+	private double stddev() {
+		return (this.upperLimit() - this.lowerLimit()) / 6;
 	}
 }

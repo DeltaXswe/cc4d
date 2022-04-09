@@ -45,6 +45,18 @@ public class DetectionQueueImpl implements DetectionQueue {
 		this.detectionProcessor.onNext(detection);
 	}
 
+	// Aspetta che tutte le rilevazioni siano processate.
+	// Spring vede questo metodo e lo chiama automaticamente quando il programma sta per uscire.
+	@Override
+	public void close() {
+		// Completa il FlowableProcessor e impedisci nuovi inserimenti.
+		this.detectionProcessor.onComplete();
+		// Registra questo thread nel Phaser per segnalare la sua presenza.
+		this.groupPhaser.register();
+		// Poi aspetta che tutti gli altri membri del Phaser siano completi.
+		this.groupPhaser.arriveAndAwaitAdvance();
+	}
+
 	// Gestisce ogni gruppo/caratteristica:
 	// - crea una `DetectionSerie` per quel gruppo/caratteristica, ma non aspetta il suo completamento;
 	// - imposta un timeout, che viene attivato dopo 30 secondi che non vengono ricevute rilevazioni
@@ -86,17 +98,5 @@ public class DetectionQueueImpl implements DetectionQueue {
 	private Completable handleDetection(Single<DetectionSerie> serieSingle, Detection detection) {
 		return serieSingle.flatMapCompletable(serie -> Completable.fromAction(() -> serie.insertDetection(detection)))
 			.subscribeOn(Schedulers.io());
-	}
-
-	// Aspetta che tutte le rilevazioni siano processate.
-	// Spring vede questo metodo e lo chiama automaticamente quando il programma sta per uscire.
-	@Override
-	public void close() {
-		// Completa il FlowableProcessor e impedisci nuovi inserimenti.
-		this.detectionProcessor.onComplete();
-		// Registra questo thread nel Phaser per segnalare la sua presenza.
-		this.groupPhaser.register();
-		// Poi aspetta che tutti gli altri membri del Phaser siano completi.
-		this.groupPhaser.arriveAndAwaitAdvance();
 	}
 }
