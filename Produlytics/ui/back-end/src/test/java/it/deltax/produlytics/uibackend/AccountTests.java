@@ -1,6 +1,7 @@
 package it.deltax.produlytics.uibackend;
 
 import it.deltax.produlytics.persistence.AccountEntity;
+import it.deltax.produlytics.uibackend.accounts.adapters.EncoderConfig;
 import it.deltax.produlytics.uibackend.accounts.web.AccountController;
 import it.deltax.produlytics.uibackend.repositories.AccountRepository;
 import net.minidev.json.JSONObject;
@@ -8,6 +9,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -35,14 +38,13 @@ public class AccountTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testUpdatePasswordOk() throws Exception {
-		//dice che l'hashed è diversa; per crearla ho usato un tool online, quindi magari è colpa sua
-		// perché il codice mi sembra giusto ed è il metodo matches di Bycrypt che ritorna false
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		accountRepository.save(new AccountEntity(
 			"utente1",
-			"$2a$10$P0nUXvpIu3ISpCCadt9r6e1gYiBkWCM3noJDSljh.he7gVSjJbbxS", //passwordvecchia
+			encoder.encode("passwordvecchia"),
 			true,
 			false));
-
+		accountRepository.findById("utente1").get().getHashedPassword();
 		JSONObject json = new JSONObject();
 		json.put("currentPassword", "passwordvecchia");
 		json.put("newPassword", "passwordnuova");
