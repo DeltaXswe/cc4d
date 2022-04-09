@@ -56,23 +56,23 @@ public class DetectionsTest {
 		assert Objects.nonNull(this.detectionRepository);
 	}
 
-	int insertDummyCharacteristic(
-		String name, boolean deviceArchived, boolean deviceDeactivated, boolean characteristicArchived
+	void insertDummyCharacteristic(
+		String ident, boolean deviceArchived, boolean deviceDeactivated, boolean characteristicArchived
 	) {
-		DeviceEntity device = this.deviceRepository.save(new DeviceEntity(name,
+		DeviceEntity device = this.deviceRepository.save(new DeviceEntity("device" + ident,
 			deviceArchived,
 			deviceDeactivated,
-			name
+			"apiKey" + ident
 		));
-		CharacteristicEntity characteristic = this.characteristicRepository.save(new CharacteristicEntity(device.getId(),
-			name,
+
+		this.characteristicRepository.save(new CharacteristicEntity(device.getId(),
+			"characteristic" + ident,
 			null,
 			null,
 			true,
 			5,
 			characteristicArchived
 		));
-		return characteristic.getId();
 	}
 	void capturingRxJavaExceptions(ThrowableRunnable runnable) {
 		LinkedBlockingDeque<Throwable> errors = new LinkedBlockingDeque<>();
@@ -96,13 +96,13 @@ public class DetectionsTest {
 	@Test
 	void testApiKeyInvalid() throws Exception {
 		String ident = "1";
-		int characteristicId = this.insertDummyCharacteristic(ident, false, false, false);
+		this.insertDummyCharacteristic(ident, false, false, false);
 
-		String requestBody = new JSONObject().put("apiKey", "invalidApiKey")
-			.put("characteristic", characteristicId)
-			.put("value", 0)
+		String requestBody = new JSONObject().put("apiKey" , "invalidApiKey")
+			.put("characteristic" , "characteristic" + ident)
+			.put("value" , 0)
 			.toString();
-		String requestResponse = new JSONObject().put("errorCode", "notAuthenticated").toString();
+		String requestResponse = new JSONObject().put("errorCode" , "notAuthenticated").toString();
 
 		mockMvc.perform(post("/detections").content(requestBody).contentType("application/json"))
 			.andExpect(status().is(401))
@@ -111,13 +111,13 @@ public class DetectionsTest {
 	@Test
 	void testDeviceArchived() throws Exception {
 		String ident = "2";
-		int characteristicId = this.insertDummyCharacteristic(ident, true, false, false);
+		this.insertDummyCharacteristic(ident, true, false, false);
 
-		String requestBody = new JSONObject().put("apiKey", ident)
-			.put("characteristic", characteristicId)
-			.put("value", 0)
+		String requestBody = new JSONObject().put("apiKey" , "apiKey" + ident)
+			.put("characteristic" , "characteristic" + ident)
+			.put("value" , 0)
 			.toString();
-		String requestResponse = new JSONObject().put("errorCode", "archived").toString();
+		String requestResponse = new JSONObject().put("errorCode" , "archived").toString();
 
 		mockMvc.perform(post("/detections").content(requestBody).contentType("application/json"))
 			.andExpect(status().is(410))
@@ -126,13 +126,13 @@ public class DetectionsTest {
 	@Test
 	void testDeviceDeactivated() throws Exception {
 		String ident = "3";
-		int characteristicId = this.insertDummyCharacteristic(ident, false, true, false);
+		this.insertDummyCharacteristic(ident, false, true, false);
 
-		String requestBody = new JSONObject().put("apiKey", ident)
-			.put("characteristic", characteristicId)
-			.put("value", 0)
+		String requestBody = new JSONObject().put("apiKey" , "apiKey" + ident)
+			.put("characteristic" , "characteristic" + ident)
+			.put("value" , 0)
 			.toString();
-		String requestResponse = new JSONObject().put("errorCode", "archived").toString();
+		String requestResponse = new JSONObject().put("errorCode" , "archived").toString();
 
 		mockMvc.perform(post("/detections").content(requestBody).contentType("application/json"))
 			.andExpect(status().is(410))
@@ -141,13 +141,13 @@ public class DetectionsTest {
 	@Test
 	void testCharacteristicInvalid() throws Exception {
 		String ident = "4";
-		int characteristicId = this.insertDummyCharacteristic(ident, false, false, false);
+		this.insertDummyCharacteristic(ident, false, false, false);
 
-		String requestBody = new JSONObject().put("apiKey", ident)
-			.put("characteristic", characteristicId + 1)
-			.put("value", 0)
+		String requestBody = new JSONObject().put("apiKey" , "apiKey" + ident)
+			.put("characteristic" , "characteristicInvalid" + ident)
+			.put("value" , 0)
 			.toString();
-		String requestResponse = new JSONObject().put("errorCode", "characteristicNotFound").toString();
+		String requestResponse = new JSONObject().put("errorCode" , "characteristicNotFound").toString();
 
 		mockMvc.perform(post("/detections").content(requestBody).contentType("application/json"))
 			.andExpect(status().is(404))
@@ -156,28 +156,31 @@ public class DetectionsTest {
 	@Test
 	void testCharacteristicArchived() throws Exception {
 		String ident = "5";
-		int characteristicId = this.insertDummyCharacteristic(ident, false, false, true);
+		this.insertDummyCharacteristic(ident, false, false, true);
 
-		String requestBody = new JSONObject().put("apiKey", ident)
-			.put("characteristicId", characteristicId)
-			.put("value", 0)
+		String requestBody = new JSONObject().put("apiKey" , "apiKey" + ident)
+			.put("characteristic" , "characteristic" + ident)
+			.put("value" , 0)
 			.toString();
-		String requestResponse = new JSONObject().put("errorCode", "archived").toString();
+		String requestResponse = new JSONObject().put("errorCode" , "archived").toString();
 
 		mockMvc.perform(post("/detections").content(requestBody).contentType("application/json"))
 			.andExpect(status().is(410))
 			.andExpect(content().json(requestResponse));
 	}
 	@Test
-	void testProcessLimitsNoDetectionsExisting() throws Exception {
+	void testProcessLimitsNoDetectionsExisting() {
 		capturingRxJavaExceptions(() -> {
 			String ident = "6";
-			int characteristicId = this.insertDummyCharacteristic(ident, false, false, false);
-			int deviceId = this.deviceRepository.findByApiKey(ident).get().getId();
+			this.insertDummyCharacteristic(ident, false, false, false);
+			int deviceId = this.deviceRepository.findByApiKey("apiKey" + ident).get().getId();
+			int characteristicId = this.characteristicRepository.findByName(deviceId, "characteristic" + ident)
+				.get()
+				.getId();
 
-			String requestBody = new JSONObject().put("apiKey", ident)
-				.put("characteristicId", characteristicId)
-				.put("value", 43)
+			String requestBody = new JSONObject().put("apiKey" , "apiKey" + ident)
+				.put("characteristic" , "characteristic" + ident)
+				.put("value" , 43)
 				.toString();
 
 			mockMvc.perform(post("/detections").content(requestBody).contentType("application/json"))
@@ -196,12 +199,16 @@ public class DetectionsTest {
 		});
 	}
 	@Test
-	void testMarkOutlier() throws Exception {
+	void testMarkOutlier() {
 		capturingRxJavaExceptions(() -> {
 			String ident = "7";
-			DeviceEntity device = this.deviceRepository.save(new DeviceEntity(ident, false, false, "7"));
+			DeviceEntity device = this.deviceRepository.save(new DeviceEntity("device" + ident,
+				false,
+				false,
+				"apiKey" + ident
+			));
 			CharacteristicEntity characteristic = this.characteristicRepository.save(new CharacteristicEntity(device.getId(),
-				ident,
+				"characteristic" + ident,
 				60d,
 				0d,
 				false,
@@ -216,9 +223,9 @@ public class DetectionsTest {
 				false
 			));
 
-			String requestBody = new JSONObject().put("apiKey", "7")
-				.put("characteristicId", characteristic.getId())
-				.put("value", 70d)
+			String requestBody = new JSONObject().put("apiKey" , "apiKey" + ident)
+				.put("characteristic" , "characteristic" + ident)
+				.put("value" , 70d)
 				.toString();
 
 			mockMvc.perform(post("/detections").content(requestBody).contentType("application/json"))

@@ -15,12 +15,12 @@ import java.time.Instant;
 public class DetectionServiceTest {
 	@Test
 	void testValid() throws BusinessException {
-		IncomingDetection incomingDetection = new IncomingDetection("foo", 69, 15);
+		IncomingDetection incomingDetection = new IncomingDetection("foo" , "bar" , 15);
 		CharacteristicId realCharacteristicId = new CharacteristicId(42, 69);
 		Detection expectedDetection = new Detection(realCharacteristicId, Instant.now(), 15);
-		DetectionValidator validator = (apiKey, characteristicId) -> {
+		DetectionValidator validator = (apiKey, characteristicName) -> {
 			assert apiKey.equals("foo");
-			assert characteristicId == 69;
+			assert characteristicName.equals("bar");
 			return realCharacteristicId;
 		};
 		DetectionQueue queue = new DetectionQueueMock(expectedDetection);
@@ -29,13 +29,13 @@ public class DetectionServiceTest {
 	}
 	@Test
 	void testInvalid() throws BusinessException {
-		IncomingDetection incomingDetection = new IncomingDetection("fooo", 69, 15);
+		IncomingDetection incomingDetection = new IncomingDetection("fooo" , "bar" , 15);
 		CharacteristicId realCharacteristicId = new CharacteristicId(42, 69);
 		Detection expectedDetection = new Detection(realCharacteristicId, Instant.now(), 15);
 		DetectionValidator validator = (apiKey, characteristicId) -> {
 			assert apiKey.equals("fooo");
-			assert characteristicId == 69;
-			throw new BusinessException("bubu", ErrorType.AUTHENTICATION);
+			assert characteristicId.equals("bar");
+			throw new BusinessException("bubu" , ErrorType.AUTHENTICATION);
 		};
 		DetectionQueue queue = new DetectionQueueMock(expectedDetection);
 		DetectionsService detectionsService = new DetectionsService(validator, queue);

@@ -8,5 +8,5 @@ import it.deltax.produlytics.api.exceptions.BusinessException;
 // In caso di successo ritorna delle informazioni sulla rilevazione.
 // In caso di errore lancia una relativa eccezione.
 public interface DetectionValidator {
-	CharacteristicId validateAndFindId(String apiKey, int characteristicId) throws BusinessException;
+	CharacteristicId validateAndFindId(String apiKey, String characteristicName) throws BusinessException;
 }

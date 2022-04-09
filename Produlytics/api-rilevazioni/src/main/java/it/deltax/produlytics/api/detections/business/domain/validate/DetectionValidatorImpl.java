@@ -19,24 +19,24 @@ public class DetectionValidatorImpl implements DetectionValidator {
 	}
 
 	@Override
-	public CharacteristicId validateAndFindId(String apiKey, int characteristicId) throws BusinessException {
+	public CharacteristicId validateAndFindId(String apiKey, String characteristicName) throws BusinessException {
 
 		DeviceInfo deviceInfo = this.findDeviceByApiKeyPort.findDeviceByApiKey(apiKey)
-			.orElseThrow(() -> new BusinessException("notAuthenticated", ErrorType.AUTHENTICATION));
+			.orElseThrow(() -> new BusinessException("notAuthenticated" , ErrorType.AUTHENTICATION));
 
 		if(deviceInfo.archived() || deviceInfo.deactivated()) {
-			throw new BusinessException("archived", ErrorType.ARCHIVED);
+			throw new BusinessException("archived" , ErrorType.ARCHIVED);
 		}
 
-		CharacteristicId characteristicIdComp = new CharacteristicId(deviceInfo.deviceId(), characteristicId);
-
-		CharacteristicInfo characteristicInfo = this.findCharacteristicPort.findCharacteristic(characteristicIdComp)
-			.orElseThrow(() -> new BusinessException("characteristicNotFound", ErrorType.NOT_FOUND));
+		CharacteristicInfo characteristicInfo = this.findCharacteristicPort.findCharacteristicByName(deviceInfo.deviceId(),
+				characteristicName
+			)
+			.orElseThrow(() -> new BusinessException("characteristicNotFound" , ErrorType.NOT_FOUND));
 
 		if(characteristicInfo.archived()) {
-			throw new BusinessException("archived", ErrorType.ARCHIVED);
+			throw new BusinessException("archived" , ErrorType.ARCHIVED);
 		}
 
-		return characteristicIdComp;
+		return new CharacteristicId(deviceInfo.deviceId(), characteristicInfo.characteristicId());
 	}
 }

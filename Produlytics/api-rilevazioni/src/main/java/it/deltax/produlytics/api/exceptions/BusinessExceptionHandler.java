@@ -13,7 +13,7 @@ import java.util.Map;
 public class BusinessExceptionHandler {
 	@ExceptionHandler(BusinessException.class)
 	public ResponseEntity<Map<String, String>> handleStatusException(BusinessException businessException) {
-		Map<String, String> body = Map.of("errorCode", businessException.getCode());
+		Map<String, String> body = Map.of("errorCode" , businessException.getCode());
 
 		HttpStatus httpStatus = switch(businessException.getType()) {
 			case AUTHENTICATION -> HttpStatus.UNAUTHORIZED; // 401

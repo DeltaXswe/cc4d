@@ -1,6 +1,5 @@
 package it.deltax.produlytics.api.detections.business.ports.out;
 
-import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.validate.CharacteristicInfo;
 
 import java.util.Optional;
@@ -9,5 +8,5 @@ import java.util.Optional;
 // a cui appartiene e il suo id all'interno di essa.
 // Ritorna Optional.empty() se la caratteristica cercata non esiste.
 public interface FindCharacteristicPort {
-	Optional<CharacteristicInfo> findCharacteristic(CharacteristicId characteristicId);
+	Optional<CharacteristicInfo> findCharacteristicByName(int deviceId, String characteristicName);
 }

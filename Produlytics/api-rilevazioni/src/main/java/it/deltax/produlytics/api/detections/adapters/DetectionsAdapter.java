@@ -12,7 +12,6 @@ import it.deltax.produlytics.api.repositories.CharacteristicRepository;
 import it.deltax.produlytics.api.repositories.DetectionRepository;
 import it.deltax.produlytics.api.repositories.DeviceRepository;
 import it.deltax.produlytics.api.repositories.LimitsEntity;
-import it.deltax.produlytics.persistence.CharacteristicEntityId;
 import it.deltax.produlytics.persistence.DetectionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -46,11 +45,11 @@ public class DetectionsAdapter implements FindDeviceByApiKeyPort,
 	}
 
 	@Override
-	public Optional<CharacteristicInfo> findCharacteristic(CharacteristicId characteristicId) {
-		return this.characteristicRepository.findById(new CharacteristicEntityId(characteristicId.deviceId(),
-				characteristicId.characteristicId()
-			))
-			.map(characteristicEntity -> new CharacteristicInfo(characteristicEntity.getArchived()));
+	public Optional<CharacteristicInfo> findCharacteristicByName(int deviceId, String characteristicName) {
+		return this.characteristicRepository.findByName(deviceId, characteristicName)
+			.map(characteristicEntity -> new CharacteristicInfo(characteristicEntity.getId(),
+				characteristicEntity.getArchived()
+			));
 	}
 
 	@Override

@@ -7,10 +7,15 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 // Repository per interagire con la tabella `characteristic`.
 @Repository
 @SuppressWarnings("unused")
 public interface CharacteristicRepository extends CrudRepository<CharacteristicEntity, CharacteristicEntityId> {
+	@Query(value = "SELECT * FROM characteristic WHERE device_id = :deviceId AND name = :name" , nativeQuery = true)
+	Optional<CharacteristicEntity> findByName(@Param("deviceId") int deviceId, @Param("name") String name);
+
 	// Trova i limiti tecnici e di processo di una caratteristica.
 	// COALESCE(STDDEV_SAMP(helper.value), 1) è necessario perchè STDDEV_SAMP ritorna `null` se viene
 	// passato un solo valore. Il valore 1 è arbitrario, basta che sia != 0.
