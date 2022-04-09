@@ -74,11 +74,6 @@ public class DetectionsTest {
 		));
 		return characteristic.getId();
 	}
-
-	interface ThrowableRunnable {
-		void run() throws Exception;
-	}
-
 	void capturingRxJavaExceptions(ThrowableRunnable runnable) {
 		LinkedBlockingDeque<Throwable> errors = new LinkedBlockingDeque<>();
 		RxJavaPlugins.setErrorHandler(errors::add);
@@ -98,7 +93,6 @@ public class DetectionsTest {
 				+ Arrays.toString(errors.toArray()));
 		}
 	}
-
 	@Test
 	void testApiKeyInvalid() throws Exception {
 		String ident = "1";
@@ -114,7 +108,6 @@ public class DetectionsTest {
 			.andExpect(status().is(401))
 			.andExpect(content().json(requestResponse));
 	}
-
 	@Test
 	void testDeviceArchived() throws Exception {
 		String ident = "2";
@@ -130,7 +123,6 @@ public class DetectionsTest {
 			.andExpect(status().is(410))
 			.andExpect(content().json(requestResponse));
 	}
-
 	@Test
 	void testDeviceDeactivated() throws Exception {
 		String ident = "3";
@@ -146,7 +138,6 @@ public class DetectionsTest {
 			.andExpect(status().is(410))
 			.andExpect(content().json(requestResponse));
 	}
-
 	@Test
 	void testCharacteristicInvalid() throws Exception {
 		String ident = "4";
@@ -162,7 +153,6 @@ public class DetectionsTest {
 			.andExpect(status().is(404))
 			.andExpect(content().json(requestResponse));
 	}
-
 	@Test
 	void testCharacteristicArchived() throws Exception {
 		String ident = "5";
@@ -178,7 +168,6 @@ public class DetectionsTest {
 			.andExpect(status().is(410))
 			.andExpect(content().json(requestResponse));
 	}
-
 	@Test
 	void testProcessLimitsNoDetectionsExisting() throws Exception {
 		capturingRxJavaExceptions(() -> {
@@ -206,7 +195,6 @@ public class DetectionsTest {
 			assert !lastDetections.get(0).getOutlier();
 		});
 	}
-
 	@Test
 	void testMarkOutlier() throws Exception {
 		capturingRxJavaExceptions(() -> {
@@ -249,5 +237,9 @@ public class DetectionsTest {
 			assert lastDetections.get(1).getValue() == 70d;
 			assert lastDetections.get(1).getOutlier();
 		});
+	}
+
+	interface ThrowableRunnable {
+		void run() throws Exception;
 	}
 }

@@ -2,13 +2,10 @@ package it.deltax.produlytics.api.detections.business.domain.serie;
 
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
-import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetection;
 import it.deltax.produlytics.api.detections.business.domain.charts.ControlCharts;
+import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetection;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimitsCalculator;
-import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerie;
-import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerieFactory;
-import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerieImplFactory;
 import it.deltax.produlytics.api.detections.business.domain.serie.facade.SeriePortFacade;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,5 @@
 package it.deltax.produlytics.api.detections.business.domain.limits;
 
-import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
 import org.junit.jupiter.api.Test;
 
 public class ControlLimitsTest {

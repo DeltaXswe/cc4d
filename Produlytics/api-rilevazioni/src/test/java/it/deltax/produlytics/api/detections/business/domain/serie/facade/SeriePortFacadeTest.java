@@ -2,8 +2,6 @@ package it.deltax.produlytics.api.detections.business.domain.serie.facade;
 
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
-import it.deltax.produlytics.api.detections.business.domain.serie.facade.SeriePortFacade;
-import it.deltax.produlytics.api.detections.business.domain.serie.facade.SeriePortFacadeImpl;
 import it.deltax.produlytics.api.detections.business.ports.out.FindLastDetectionsPort;
 import it.deltax.produlytics.api.detections.business.ports.out.InsertDetectionPort;
 import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;

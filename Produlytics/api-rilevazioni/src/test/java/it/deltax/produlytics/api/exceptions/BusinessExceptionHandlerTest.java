@@ -1,8 +1,5 @@
 package it.deltax.produlytics.api.exceptions;
 
-import it.deltax.produlytics.api.exceptions.BusinessException;
-import it.deltax.produlytics.api.exceptions.BusinessExceptionHandler;
-import it.deltax.produlytics.api.exceptions.ErrorType;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

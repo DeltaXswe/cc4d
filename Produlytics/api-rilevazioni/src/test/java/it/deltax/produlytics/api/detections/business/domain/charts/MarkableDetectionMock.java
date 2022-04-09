@@ -4,18 +4,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MarkableDetectionMock implements MarkableDetection {
-	public static List<MarkableDetectionMock> listFromValues(double... values) {
-		return Arrays.stream(values).mapToObj(value -> new MarkableDetectionMock(value, false)).toList();
-	}
-
 	private final double value;
 	private boolean outlier;
-
 	public MarkableDetectionMock(double value, boolean outlier) {
 		this.value = value;
 		this.outlier = outlier;
 	}
-
+	public static List<MarkableDetectionMock> listFromValues(double... values) {
+		return Arrays.stream(values).mapToObj(value -> new MarkableDetectionMock(value, false)).toList();
+	}
 	@Override
 	public void markOutlier() {
 		this.outlier = true;

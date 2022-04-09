@@ -68,7 +68,8 @@ public class DetectionQueueTest {
 				// Simula il processo della rilevazione
 				try {
 					Thread.sleep(100);
-				} catch(InterruptedException e) {
+				}
+				catch(InterruptedException e) {
 					throw new RuntimeException(e);
 				}
 
