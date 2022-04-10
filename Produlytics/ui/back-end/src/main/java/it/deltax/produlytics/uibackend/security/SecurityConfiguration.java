@@ -44,10 +44,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.and()
 			.httpBasic()
 			.and()
-			.formLogin()
-			.loginProcessingUrl("/login")
-			.and()
-			.rememberMe().key(encoder.encode("produlytics")).rememberMeParameter("rememberMe")
+			.rememberMe().key(encoder.encode("produlytics"))
+			.userDetailsService(userDetailsService)
 		;
 	}
 }
