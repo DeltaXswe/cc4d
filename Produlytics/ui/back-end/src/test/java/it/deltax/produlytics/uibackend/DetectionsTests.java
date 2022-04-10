@@ -8,6 +8,7 @@ import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import it.deltax.produlytics.uibackend.repositories.DetectionRepository;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,20 +39,35 @@ public class DetectionsTests {
 	@Autowired
 	private DetectionsController controller;
 
+	@Autowired
+	private DeviceRepository deviceRepository;
+
+	@Autowired
+	private CharacteristicRepository characteristicRepository;
+
+	@Autowired
+	private DetectionRepository detectionRepository;
+
+	private static int deviceId;
+	private static int characteristicId;
+
 	@BeforeAll
 	private static void prepareContext(
 		@Autowired DeviceRepository deviceRepository,
 		@Autowired CharacteristicRepository characteristicRepository,
 		@Autowired DetectionRepository detectionRepository
 	) {
-		deviceRepository.saveAndFlush(new DeviceEntity(
+		DeviceEntity device = deviceRepository.save(new DeviceEntity(
 			"macchina",
 			false,
 			false,
 			"x"
 		));
-		characteristicRepository.saveAndFlush(new CharacteristicEntity(
-			1,
+
+		deviceId = device.getId();
+
+		CharacteristicEntity characteristic = characteristicRepository.save(new CharacteristicEntity(
+			deviceId,
 			"temperatura",
 			98d,
 			-13d,
@@ -59,25 +75,44 @@ public class DetectionsTests {
 			0,
 			false
 		));
+
+		characteristicId = characteristic.getId();
+
 		for (int i = 1; i < 5; ++i) {
 			detectionRepository.save(new DetectionEntity(
 				Instant.ofEpochMilli(i),
-				1,
-				1,
+				characteristicId,
+				deviceId,
 				100d * i,
 				false
 			));
 		}
 	}
 
+	@AfterAll
+	private static void deleteAll(
+		@Autowired DeviceRepository deviceRepository,
+		@Autowired CharacteristicRepository characteristicRepository,
+		@Autowired DetectionRepository detectionRepository
+	) {
+		detectionRepository.deleteAll();
+		characteristicRepository.deleteAll();
+		deviceRepository.deleteAll();
+	}
+
 	@Test
 	void contextLoads() {
 		assertThat(this.controller).isNotNull();
+		assertThat(this.deviceRepository).isNotNull();
+		assertThat(this.characteristicRepository).isNotNull();
+		assertThat(this.detectionRepository).isNotNull();
 	}
 
 	@Test
 	void getWithNoFilter() throws Exception {
-		this.mockMvc.perform(get("/devices/1/characteristics/1/detections"))
+		this.mockMvc.perform(get(
+			"/devices/" + deviceId + "/characteristics/" + characteristicId + "/detections"
+			))
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(content().string(
@@ -89,7 +124,9 @@ public class DetectionsTests {
 
 	@Test
 	void getWithLimit() throws Exception {
-		this.mockMvc.perform(get("/devices/1/characteristics/1/detections?limit=2"))
+		this.mockMvc.perform(get(
+			"/devices/" + deviceId + "/characteristics/" + characteristicId + "/detections?limit=2"
+			))
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(content().string(
@@ -100,7 +137,13 @@ public class DetectionsTests {
 	/*
 	@Test
 	void getWithOlderAndNewer() throws Exception {
-		this.mockMvc.perform(get("/devices/1/characteristics/1/detections?newerThan=1&olderThan=4"))
+		this.mockMvc.perform(get(
+			"/devices/"
+				+ deviceId
+				+ "/characteristics/"
+				+ characteristicId
+				+ "/detections?newerThan=1&olderThan=4"
+			))
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(content().string(
@@ -110,16 +153,27 @@ public class DetectionsTests {
 */
 	@Test
 	void getEmpty() throws Exception {
-		this.mockMvc.perform(get("/devices/1/characteristics/1/detections?newerThan=7&olderThan=4"))
+		this.mockMvc.perform(get(
+			"/devices/"
+				+ deviceId
+				+ "/characteristics/"
+				+ characteristicId
+				+ "/detections?newerThan=7&olderThan=4"
+			))
 			.andDo(print())
 			.andExpect(status().isOk());
 	}
 
 	@Test
 	void characteristicNotFoundError() throws Exception {
-		this.mockMvc.perform(get("/devices/1/characteristics/600/detections"))
+		deleteAll(deviceRepository, characteristicRepository, detectionRepository);
+
+		this.mockMvc.perform(get(
+			"/devices/" + deviceId + "/characteristics/1/detections"))
 			.andDo(print())
 			.andExpect(status().isNotFound())
 			.andExpect(content().string("{\"errorCode\":\"characteristicNotFound\"}"));
+
+		prepareContext(deviceRepository, characteristicRepository, detectionRepository);
 	}
 }
