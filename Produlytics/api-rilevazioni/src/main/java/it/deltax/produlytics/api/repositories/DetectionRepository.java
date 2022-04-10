@@ -36,10 +36,10 @@ public interface DetectionRepository extends CrudRepository<DetectionEntity, Det
 	@Transactional
 	@Modifying
 	@Query(value = """
-			UPDATE detection
-			SET outlier = true
-			WHERE device_id = :deviceId AND characteristic_id = :characteristicId AND creation_time = :creationTime
-		""", nativeQuery = true)
+ 			UPDATE DetectionEntity
+ 			SET outlier = true
+ 			WHERE deviceId = :deviceId AND characteristicId = :characteristicId AND creationTime = :creationTime
+ 		""")
 	void markOutlier(
 		@Param("deviceId") int deviceId,
 		@Param("characteristicId") int characteristicId,
