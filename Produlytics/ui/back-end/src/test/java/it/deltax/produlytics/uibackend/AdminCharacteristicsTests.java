@@ -1,54 +1,42 @@
 package it.deltax.produlytics.uibackend;
 
-import it.deltax.produlytics.persistence.CharacteristicEntity;
 import it.deltax.produlytics.persistence.DeviceEntity;
 import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
 import net.minidev.json.JSONObject;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Test d'integrazione per le operazioni svolte dagli amministratori relative alle caratteristiche
  * @author Alberto Lazati
  */
-public class AdminCharacteristicsTests extends UiBackendApplicationTests {
+@SpringBootTest(
+	webEnvironment = SpringBootTest.WebEnvironment.MOCK
+)
+@ActiveProfiles("test")
+@AutoConfigureMockMvc(addFilters = false)
+public class AdminCharacteristicsTests {
 	@Autowired
-	private DeviceRepository deviceRepository;
+	private MockMvc mockMvc;
 
 	@Autowired
 	private CharacteristicRepository characteristicRepository;
 
-	private final CharacteristicEntity characteristic = new CharacteristicEntity(
-		1,
-		"temperatura",
-		98d,
-		-13d,
-		true,
-		0,
-		false
-	);
-
-	private final CharacteristicEntity characteristic2 = new CharacteristicEntity(
-		1,
-		"pressione",
-		100d,
-		10d,
-		true,
-		0,
-		false
-	);
-
-	@BeforeEach
-	private void prepareContext() {
-		this.deviceRepository.saveAndFlush(new DeviceEntity(
+	@BeforeAll
+	private static void prepareContext(@Autowired DeviceRepository deviceRepository) {
+		deviceRepository.saveAndFlush(new DeviceEntity(
 			"macchina",
 			false,
 			false,
@@ -56,10 +44,13 @@ public class AdminCharacteristicsTests extends UiBackendApplicationTests {
 		));
 	}
 
-	@Override
+	@BeforeEach
+	private void cleanCharacteristics() {
+		characteristicRepository.deleteAll();
+	}
+
 	@Test
 	void contextLoads() {
-		assertThat(this.deviceRepository).isNotNull();
 		assertThat(this.characteristicRepository).isNotNull();
 	}
 
@@ -70,16 +61,12 @@ public class AdminCharacteristicsTests extends UiBackendApplicationTests {
 		body.put("autoAdjust", "true");
 		body.put("archived", "false");
 
-		JSONObject response = new JSONObject();
-		response.put("id", 1);
-
 		this.mockMvc.perform(post("/admins/devices/1/characteristics")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(body.toString())
 				.characterEncoding("utf-8")
 			)
 			.andDo(print())
-			.andExpect(status().isOk())
-			.andExpect(content().string(response.toString()));
+			.andExpect(status().isOk());
 	}
 }
