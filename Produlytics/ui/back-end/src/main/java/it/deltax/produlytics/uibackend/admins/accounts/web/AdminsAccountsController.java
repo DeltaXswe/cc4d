@@ -19,6 +19,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Il controller per le richieste effettuate dagli amministratori relative agli utenti
+ * @author Leila Dardouri
+ */
 @RestController
 @RequestMapping("/admin")
 public class AdminsAccountsController {

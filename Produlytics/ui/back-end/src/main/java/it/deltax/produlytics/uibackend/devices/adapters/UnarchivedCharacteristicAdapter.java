@@ -12,15 +12,30 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * L'adapter dello strato di persistenza per le operazioni riguardanti le caratteristiche
+ * @author Alberto Lazari
+ */
 @Component
-public class UnarchivedCharacteristicAdapter
-    implements FindAllUnarchivedCharacteristicsPort, FindCharacteristicLimitsPort {
+public class UnarchivedCharacteristicAdapter implements FindAllUnarchivedCharacteristicsPort,
+    FindCharacteristicLimitsPort {
     private final CharacteristicRepository repo;
 
+
+    /**
+     * Il costruttore
+     * @param repo lo strato di persistenza con i dati sulle caratteristiche
+     */
     public UnarchivedCharacteristicAdapter(CharacteristicRepository repo) {
         this.repo = repo;
     }
 
+
+    /**
+     *
+     * @param deviceId
+     * @return
+     */
     @Override
     public List<CharacteristicTitle> findAllByDeviceId(int deviceId) {
         return this.repo.findByArchivedFalseAndId_DeviceId(deviceId)

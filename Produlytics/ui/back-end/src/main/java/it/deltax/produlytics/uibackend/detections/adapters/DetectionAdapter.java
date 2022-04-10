@@ -10,13 +10,23 @@ import java.time.Instant;
 import java.util.List;
 import java.util.OptionalLong;
 
+/**
+ * L'adapter dello strato di persistenza per le operazioni riguardanti le rilevazioni
+ * @author Alberto Lazari
+ */
 @Component
 public class DetectionAdapter implements FindAllDetectionsPort {
 	private final DetectionRepository repo;
 
+
+	/**
+	 * Il costruttore
+	 * @param repo lo strato di persistenza con i dati sulle rilevazioni
+	 */
 	public DetectionAdapter(DetectionRepository repo) {
 		this.repo = repo;
 	}
+
 
 	@Override
 	public List<Detection> findAllByCharacteristic(

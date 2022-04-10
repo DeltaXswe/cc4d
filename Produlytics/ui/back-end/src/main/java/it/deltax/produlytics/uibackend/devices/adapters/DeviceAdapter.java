@@ -9,9 +9,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+/**
+ * L'adapter dello strato di persistenza per le operazioni riguardanti le macchine
+ * @author Leila Dardouri
+ */
 @Component
 public class DeviceAdapter implements GetUnarchivedDevicesPort {
-
     private final DeviceRepository repo;
 
 

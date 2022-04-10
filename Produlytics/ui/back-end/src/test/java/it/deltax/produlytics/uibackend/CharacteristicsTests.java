@@ -13,6 +13,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * Test d'integrazione per le operazioni relative alle caratteristiche
+ * @author Alberto Lazari
+ */
 public class CharacteristicsTests extends UiBackendApplicationTests {
 	@Autowired
 	private CharacteristicRepository repository;

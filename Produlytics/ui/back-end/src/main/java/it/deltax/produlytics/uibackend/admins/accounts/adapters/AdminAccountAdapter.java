@@ -16,20 +16,25 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+/**
+ * L'adapter dello strato di persistenza per le operazioni svolte dagli amministratori sugli utenti
+ * @author Leila Dardouri
+ */
 @Component
 public class AdminAccountAdapter implements UpdateAccountArchiveStatusPort,
 	UpdateAccountByAdminPort,
 	FindAccountPort,
 	InsertAccountPort,
-	GetAccountsPort
-{
+	GetAccountsPort {
 	private final AccountRepository repo;
+
 
 	/**
 	 * Il costruttore
 	 * @param repo lo strato di persistenza con i dati sugli utenti
 	 */
 	public AdminAccountAdapter(AccountRepository repo) {this.repo = repo; }
+
 
 	/**
 	 * Aggiorna lo stato di archiviazione dell'utente dato nello strato di persistenza

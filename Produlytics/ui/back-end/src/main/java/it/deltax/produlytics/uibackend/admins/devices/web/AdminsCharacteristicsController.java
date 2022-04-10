@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+/**
+ * Il controller per le richieste effettuate dagli amministratori relative alle caratteristiche
+ * @author Alberto Lazari
+ */
 @RestController
 @RequestMapping("/admins/devices/{deviceId}/characteristics")
 public class AdminsCharacteristicsController {

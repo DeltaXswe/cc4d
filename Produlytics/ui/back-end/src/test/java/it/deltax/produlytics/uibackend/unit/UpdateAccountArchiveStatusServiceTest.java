@@ -12,8 +12,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
+/**
+ * Test di unità della classe UpdateAccountArchiveStatusService
+ * @author Leila Dardouri
+ */
 public class UpdateAccountArchiveStatusServiceTest {
-
 	/**
 	 * Testa il caso in cui l'utente non sia stato trovato
 	 * @throws BusinessException l'utente non è stato trovato

@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Test di unità della classe GetUnarchivedDevicesService
+ * @author Leila Dardouri
+ */
 public class GetUnarchivedDevicesServiceTest {
 
 	/**

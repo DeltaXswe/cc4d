@@ -10,6 +10,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * L'adapter dello strato di persistenza per le operazioni svolte dagli amministratori sulle caratteristiche
+ * @author Alberto Lazari
+ */
 @Component
 public class AdminCharacteristicAdapter implements FindCharacteristicPort, InsertCharacteristicPort {
 	private final CharacteristicRepository repo;

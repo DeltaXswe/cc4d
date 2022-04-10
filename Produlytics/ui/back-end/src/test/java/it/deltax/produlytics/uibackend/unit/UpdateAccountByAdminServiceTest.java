@@ -13,8 +13,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
+/**
+ * Test di unità della classe UpdateAccountByAdminService
+ * @author Leila Dardouri
+ */
 public class UpdateAccountByAdminServiceTest {
-
 	/**
 	 * Testa il caso in cui la password non è valida
 	 * @throws BusinessException la password non è valida o l'utente non è stato trovato

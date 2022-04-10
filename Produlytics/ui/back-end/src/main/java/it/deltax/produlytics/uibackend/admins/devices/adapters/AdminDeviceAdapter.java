@@ -14,6 +14,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+/**
+ * L'adapter dello strato di persistenza per le operazioni svolte dagli amministratori sulle macchine
+ * @author Leila Dardouri
+ */
 @Component
 public class AdminDeviceAdapter implements
 	InsertDevicePort,
@@ -22,9 +26,9 @@ public class AdminDeviceAdapter implements
 	FindDetailedDevicePort,
 	UpdateDeviceArchiveStatusPort,
 	UpdateDeviceDeactivateStatusPort,
-	UpdateDeviceNamePort
-{
+	UpdateDeviceNamePort {
 	private final DeviceRepository repo;
+
 
 	/**
 	 * Il costruttore
@@ -33,6 +37,7 @@ public class AdminDeviceAdapter implements
 	public AdminDeviceAdapter(DeviceRepository repo) {
 		this.repo = repo;
 	}
+
 
 	/**
 	 * Restituisce la lista delle macchine memorizzate nello strato di persistenza

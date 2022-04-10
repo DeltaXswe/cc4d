@@ -9,6 +9,10 @@ import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
+/**
+ * Il service per l'aggiornamento dello stato di archiviazione di una macchina
+ * @author Leila Dardouri
+ */
 @Service
 public class UpdateDeviceArchiveStatusService implements UpdateDeviceArchiveStatusUseCase {
 	private final FindDetailedDevicePort findDetailedDevicePort;

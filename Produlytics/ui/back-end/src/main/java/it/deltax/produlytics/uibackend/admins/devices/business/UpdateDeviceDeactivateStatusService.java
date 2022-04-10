@@ -9,6 +9,10 @@ import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
+/**
+ * Il service per l'aggiornamento dello stato di attivazione di una macchina
+ * @author Leila Dardouri
+ */
 @Service
 public class UpdateDeviceDeactivateStatusService implements UpdateDeviceDeactivateStatusUseCase {
 	private final FindDetailedDevicePort findDetailedDevicePort;

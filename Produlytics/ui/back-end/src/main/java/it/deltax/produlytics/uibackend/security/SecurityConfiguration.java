@@ -1,4 +1,4 @@
-package it.deltax.produlytics.uibackend.generic;
+package it.deltax.produlytics.uibackend.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
+	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 	@Bean
 	AuthenticationProvider authenticationProvider(){
@@ -32,13 +33,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-			.antMatchers("/css/**")
+			.antMatchers("/")
 			.permitAll()
-			.anyRequest().authenticated()
+			.antMatchers("/admin/**")
+			.hasAuthority(ProdulyticsGrantedAuthority.ADMIN.getAuthority())
+			.antMatchers("/**")
+			.hasAuthority(ProdulyticsGrantedAuthority.ACCOUNT.getAuthority())
+			.anyRequest()
+			.authenticated()
+			.and()
+			.httpBasic()
 			.and()
 			.formLogin()
-			.loginPage("/login").permitAll()
+			.loginProcessingUrl("/login")
 			.and()
-			.logout().permitAll();
+			.rememberMe().key(encoder.encode("produlytics")).rememberMeParameter("rememberMe")
+		;
 	}
 }
