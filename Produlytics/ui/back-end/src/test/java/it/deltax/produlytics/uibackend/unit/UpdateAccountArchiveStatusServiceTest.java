@@ -14,6 +14,10 @@ import java.util.Optional;
 
 public class UpdateAccountArchiveStatusServiceTest {
 
+	/**
+	 * Testa il caso in cui l'utente non sia stato trovato
+	 * @throws BusinessException l'utente non è stato trovato
+	 */
 	@Test
 	void testAccountNotFound() throws BusinessException {
 		AccountArchiveStatus account = new AccountArchiveStatus("user", false);
@@ -26,6 +30,10 @@ public class UpdateAccountArchiveStatusServiceTest {
 		assert exception.getType() == ErrorType.NOT_FOUND;
 	}
 
+	/**
+	 * Testa il caso in cui lo stato di archiviazione viene aggiornato correttamente
+	 * @throws BusinessException l'utente non è stato trovato
+	 */
 	@Test
 	void testOk() throws BusinessException {
 		AccountArchiveStatus account = new AccountArchiveStatus("user", false);
@@ -35,6 +43,7 @@ public class UpdateAccountArchiveStatusServiceTest {
 		service.updateAccountArchiveStatus(account);
 	}
 
+	// CLASSI MOCK
 	static class FindAccountPortMock implements FindAccountPort {
 		@Override
 		public Optional<Account> findByUsername(String username) {

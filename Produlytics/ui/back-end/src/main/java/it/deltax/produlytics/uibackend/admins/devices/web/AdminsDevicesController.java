@@ -23,22 +23,39 @@ public class AdminsDevicesController {
 	private final UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase;
 	private final UpdateDeviceDeactivateStatusUseCase updateDeviceDeactivateStatusUseCase;
 
+	/**
+	 * Il costruttore
+	 * @param insertDeviceUseCase l'interfaccia per il caso d'uso d'inserimento di una macchina
+	 * @param getDevicesUseCase l'interfaccia per il caso d'uso di ottenimento delle macchine
+	 * @param getDeviceDetailsUseCase l'interfaccia per il caso d'uso di ottenimento delle macchine dettagliate
+	 * @param updateDeviceNameUseCase l'interfaccia per il caso d'uso di aggiornamento del nome di una macchina
+	 * @param updateDeviceArchiveStatusUseCase l'interfaccia per il caso d'uso di aggiornamento dello stato di
+	 *                                         archiviazione di una macchina
+	 * @param updateDeviceDeactivateStatusUseCase l'interfaccia per il caso d'uso di aggiornamento dello stato di
+	 *                                           attivazione di una macchina
+	 */
 	public AdminsDevicesController(
 		InsertDeviceUseCase insertDeviceUseCase,
 		GetDevicesUseCase getDevicesUseCase,
 		GetDeviceDetailsUseCase getDeviceDetailsUseCase,
 		UpdateDeviceNameUseCase updateDeviceNameUseCase,
 		UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase,
-		UpdateDeviceDeactivateStatusUseCase updateDeviceDeativateStatusUseCase
+		UpdateDeviceDeactivateStatusUseCase updateDeviceDeactivateStatusUseCase
 	) {
 		this.insertDeviceUseCase = insertDeviceUseCase;
 		this.getDevicesUseCase = getDevicesUseCase;
 		this.getDeviceDetailsUseCase = getDeviceDetailsUseCase;
 		this.updateDeviceNameUseCase = updateDeviceNameUseCase;
 		this.updateDeviceArchiveStatusUseCase = updateDeviceArchiveStatusUseCase;
-		this.updateDeviceDeactivateStatusUseCase = updateDeviceDeativateStatusUseCase;
+		this.updateDeviceDeactivateStatusUseCase = updateDeviceDeactivateStatusUseCase;
 	}
 
+	/**
+	 * Riceve le chiamate all'endpoint REST per l'inserimento di una macchina
+	 * @param device la macchina da inserire con le sue caratteristiche
+	 * @return lo stato HTTP
+	 * @throws BusinessException se una caratteristica non è valida o è un duplicato
+	 */
 	@PostMapping("/devices")
 	public ResponseEntity<Map<String, String>> insertDevice(
 		@RequestBody DeviceToInsert device) throws BusinessException {
@@ -48,17 +65,34 @@ public class AdminsDevicesController {
 		return ResponseEntity.ok(map);
 	}
 
+	/**
+	 * Riceve le chiamate all'endpoint REST per l'ottenimento delle macchine
+	 * @return lo stato HTTP e la lista delle macchine
+	 */
 	@GetMapping("/devices")
-	public ResponseEntity<Iterable<Device>> getDevices() throws BusinessException {
+	public ResponseEntity<Iterable<Device>> getDevices() {
 		return ResponseEntity.ok(this.getDevicesUseCase.getDevices());
 	}
 
+	/**
+	 * Riceve le chiamate all'endpoint REST per l'ottenimento dei dettagli di una macchina
+	 * @param id l'id della macchina da ottenere
+	 * @return la macchina dettagliata
+	 * @throws BusinessException se la macchina non è stata trovata
+	 */
 	@GetMapping("/devices/{id}")
 	public ResponseEntity<DetailedDevice> getDeviceDetails(
 		@PathVariable("id") int id) throws BusinessException {
 		return ResponseEntity.ok(this.getDeviceDetailsUseCase.getDeviceDetails(id));
 	}
 
+	/**
+	 * Riceve le chiamate all'endpoint REST per l'aggiornamento del nome di una macchina
+	 * @param id l'id della macchina da aggiornare
+	 * @param body il corpo della richiesta HTTP
+	 * @return lo stato HTTP
+	 * @throws BusinessException se la macchina non è stata trovata
+	 */
 	@PutMapping("/devices/{id}/name")
 	public ResponseEntity<String> updateDeviceName(
 		@PathVariable("id") int id,
@@ -68,6 +102,13 @@ public class AdminsDevicesController {
 		return new ResponseEntity<>(NO_CONTENT);
 	}
 
+	/**
+	 * Riceve le chiamate all'endpoint REST per l'aggiornamento dello stato di archiviazione di una macchina
+	 * @param id l'id della macchina da aggiornare
+	 * @param body il corpo della richiesta HTTP
+	 * @return lo stato HTTP
+	 * @throws BusinessException se la macchina non è stata trovata
+	 */
 	@PutMapping("devices/{id}/archived")
 	public ResponseEntity<String> updateDeviceArchiveStatus(
 		@PathVariable("id") int id,
@@ -77,6 +118,13 @@ public class AdminsDevicesController {
 		return new ResponseEntity<>(NO_CONTENT);
 	}
 
+	/**
+	 * Riceve le chiamate all'endpoint REST per l'aggiornamento dello stato di attivazione di una macchina
+	 * @param id l'id della macchina da aggiornare
+	 * @param body il corpo della richiesta HTTP
+	 * @return lo stato HTTP
+	 * @throws BusinessException se la macchina non è stata trovata
+	 */
 	@PutMapping("/devices/{id}/deactivated")
 	public ResponseEntity<String> updateDeviceDeactivateStatus(
 		@PathVariable("id") int id,

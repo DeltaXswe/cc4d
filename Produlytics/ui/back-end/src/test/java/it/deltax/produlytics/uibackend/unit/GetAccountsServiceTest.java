@@ -13,18 +13,26 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GetAccountsServiceTest {
+
+	/**
+	 * Testa il caso in cui ci sono degli utenti
+	 */
 	@Test
 	void testGetAccounts()  {
 		GetAccountsService service = new GetAccountsService(new GetNoAccountsPortMock());
 		service.getAccounts();
 	}
 
+	/**
+	 * Testa il caso in cui non ci sono degli utenti
+	 */
 	@Test
 	void testGetNoAccounts()  {
 		GetAccountsService service = new GetAccountsService(new GetNoAccountsPortMock());
 		service.getAccounts();
 	}
 
+	// CLASSI MOCK
 	static class GetAccountsPortMock implements GetAccountsPort {
 		@Override
 		public List<AccountTiny> getAccounts() {
@@ -40,7 +48,4 @@ public class GetAccountsServiceTest {
 			return null;
 		}
 	}
-
-
-
 }

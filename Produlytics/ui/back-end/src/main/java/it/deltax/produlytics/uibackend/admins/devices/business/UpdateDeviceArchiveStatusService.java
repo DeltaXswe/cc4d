@@ -14,6 +14,11 @@ public class UpdateDeviceArchiveStatusService implements UpdateDeviceArchiveStat
 	private final FindDetailedDevicePort findDetailedDevicePort;
 	private final UpdateDeviceArchiveStatusPort updateDeviceArchiveStatus;
 
+	/**
+	 * Il costruttore
+	 * @param findDetailedDevicePort la porta per trovare una macchina completa di tutte le sue informazioni
+	 * @param updateDeviceArchiveStatus la porta per aggiornare lo stato di archiviazione di una macchina
+	 */
 	public UpdateDeviceArchiveStatusService(
 		FindDetailedDevicePort findDetailedDevicePort,
 		UpdateDeviceArchiveStatusPort updateDeviceArchiveStatus) {
@@ -21,13 +26,19 @@ public class UpdateDeviceArchiveStatusService implements UpdateDeviceArchiveStat
 		this.updateDeviceArchiveStatus = updateDeviceArchiveStatus;
 	}
 
+	/**
+	 * Aggiorna lo stato di archiviazione di una macchina
+	 * @param deviceArchiveStatus la macchina con lo stato di archiviazione aggiornato
+	 * @throws BusinessException se la macchina non è stata trovata
+	 */
 	@Override
-	public void updateDeviceArchiveStatus(DeviceArchiveStatus command) throws BusinessException {
-		DetailedDevice.DetailedDeviceBuilder toUpdate = this.findDetailedDevicePort.findDetailedDevice(command.id())
+	public void updateDeviceArchiveStatus(DeviceArchiveStatus deviceArchiveStatus) throws BusinessException {
+		DetailedDevice.DetailedDeviceBuilder toUpdate =
+			this.findDetailedDevicePort.findDetailedDevice(deviceArchiveStatus.id())
 			.map(device -> device.toBuilder())
 			.orElseThrow(() -> new BusinessException("deviceNotFound", ErrorType.NOT_FOUND));
 
-		toUpdate.withArchived(command.archived());
+		toUpdate.withArchived(deviceArchiveStatus.archived());
 		this.updateDeviceArchiveStatus.updateDeviceArchiveStatus(toUpdate.build());
 	}
 }

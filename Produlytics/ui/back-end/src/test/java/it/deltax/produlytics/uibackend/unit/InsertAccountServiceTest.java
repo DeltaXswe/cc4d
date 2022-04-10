@@ -15,6 +15,10 @@ import java.util.Optional;
 
 public class InsertAccountServiceTest {
 
+	/**
+	 * Testa il caso in cui la password non è valida
+	 * @throws BusinessException la password non è valida o l'username esiste già
+	 */
 	@Test
 	void testInvalidPassword() throws BusinessException {
 		AccountToInsert account = new AccountToInsert("user", "p", false);
@@ -27,6 +31,10 @@ public class InsertAccountServiceTest {
 		assert exception.getType() == ErrorType.GENERIC;
 	}
 
+	/**
+	 * Testa il caso in cui l'username esiste già
+	 * @throws BusinessException la password non è valida o l'username esiste già
+	 */
 	@Test
 	void testDuplicateUsername() throws BusinessException {
 		AccountToInsert account = new AccountToInsert("user", "password", false);
@@ -39,6 +47,10 @@ public class InsertAccountServiceTest {
 		assert exception.getType() == ErrorType.GENERIC;
 	}
 
+	/**
+	 * Testa il caso in cui è inserito correttamente
+	 * @throws BusinessException la password non è valida o l'username esiste già
+	 */
 	@Test
 	void testOk() throws BusinessException {
 		AccountToInsert account = new AccountToInsert("user1", "password", false);
@@ -47,6 +59,7 @@ public class InsertAccountServiceTest {
 		);
 	}
 
+	// CLASSI MOCK
 	static class FindAccountPortMock implements FindAccountPort {
 		@Override
 		public Optional<Account> findByUsername(String username) {
@@ -68,7 +81,6 @@ public class InsertAccountServiceTest {
 			return null;
 		}
 	}
-
 
 	static class InsertAccountPortMock implements InsertAccountPort{
 

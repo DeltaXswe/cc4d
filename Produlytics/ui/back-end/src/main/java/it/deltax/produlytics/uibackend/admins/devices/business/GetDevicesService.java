@@ -11,10 +11,18 @@ import java.util.List;
 public class GetDevicesService implements GetDevicesUseCase {
 	GetDevicesPort getDevicesPort;
 
+	/**
+	 * Il costruttore
+	 * @param getDevicesPort la porta per ottenere le macchine
+	 */
 	public GetDevicesService(GetDevicesPort getDevicesPort){
 		this.getDevicesPort=getDevicesPort;
 	}
 
+	/**
+	 * Restituisce le macchine
+	 * @return la lista delle macchine
+	 */
 	@Override
 	public List<Device> getDevices() {
 		return this.getDevicesPort.getDevices();

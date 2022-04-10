@@ -14,23 +14,35 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCase {
-    private final UpdateAccountPasswordPort updateAccountPasswordPort;
     private final FindAccountPort findAccountPort;
     private final PasswordMatcherPort passwordMatcherPort;
     private final PasswordEncoderPort passwordEncoderPort;
+    private final UpdateAccountPasswordPort updateAccountPasswordPort;
 
+    /**
+     * Il costruttore
+     * @param findAccountPort la porta per cercare un utente
+     * @param passwordMatcherPort la porta per confrontare una password in chiaro con una cifrata
+     * @param passwordEncoderPort la porta per cifrare una password
+     * @param updateAccountPasswordPort la porta per aggiornare la password di un utente
+     */
     public UpdateAccountPasswordService(
-            UpdateAccountPasswordPort updateAccountPasswordPort,
             FindAccountPort findAccountPort,
             PasswordMatcherPort passwordMatcherPort,
-            PasswordEncoderPort passwordEncoderPort
+            PasswordEncoderPort passwordEncoderPort,
+            UpdateAccountPasswordPort updateAccountPasswordPort
         ){
-        this.updateAccountPasswordPort = updateAccountPasswordPort;
         this.findAccountPort = findAccountPort;
         this.passwordMatcherPort = passwordMatcherPort;
         this.passwordEncoderPort = passwordEncoderPort;
+        this.updateAccountPasswordPort = updateAccountPasswordPort;
     }
 
+    /**
+     * Aggiorna la password dell'utente dato
+     * @param accountToUpdate l'utente con username, password nuova e corrente
+     * @throws BusinessException se la password non è valida o l'utente da aggiornare non è stato trovato
+     */
     @Override
     public void updatePasswordByUsername(AccountPasswordToUpdate accountToUpdate) throws BusinessException {
         if (accountToUpdate.newPassword().length() < 6)

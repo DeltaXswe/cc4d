@@ -10,14 +10,24 @@ import java.util.List;
 @Service
 public class GetUnarchivedDevicesService implements GetUnarchivedDevicesUseCase {
 
-    private final GetUnarchivedDevicesPort port;
+    private final GetUnarchivedDevicesPort getUnarchivedDevicesPort;
 
-    public GetUnarchivedDevicesService(GetUnarchivedDevicesPort port) {
-        this.port = port;
+
+    /**
+     * Il costruttore
+     * @param getUnarchivedDevicesPort la porta per ottenere le macchine non archiviate
+     */
+    public GetUnarchivedDevicesService(GetUnarchivedDevicesPort getUnarchivedDevicesPort) {
+        this.getUnarchivedDevicesPort = getUnarchivedDevicesPort;
     }
 
+
+    /**
+     * Restituisce le macchine non archiviate
+     * @return la lista delle macchine non archiviate, ognuna con id e nome
+     */
     @Override
     public List<TinyDevice> getUnarchivedDevices() {
-        return this.port.getUnarchivedDevices();
+        return this.getUnarchivedDevicesPort.getUnarchivedDevices();
     }
 }

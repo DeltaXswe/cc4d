@@ -15,6 +15,10 @@ import java.util.Optional;
 
 public class UpdateAccountByAdminServiceTest {
 
+	/**
+	 * Testa il caso in cui la password non è valida
+	 * @throws BusinessException la password non è valida o l'utente non è stato trovato
+	 */
 	@Test
 	void testInvalidNewPassword() throws BusinessException{
 		AccountUpdatedByAdmin account = new AccountUpdatedByAdmin(
@@ -30,6 +34,10 @@ public class UpdateAccountByAdminServiceTest {
 		assert exception.getType() == ErrorType.GENERIC;
 	}
 
+	/**
+	 * Testa il caso in cui l'utente non sia stato trovato
+	 * @throws BusinessException la password non è valida o l'utente non è stato trovato
+	 */
 	@Test
 	void testAccountNotFound() throws BusinessException{
 		AccountUpdatedByAdmin account = new AccountUpdatedByAdmin(
@@ -45,6 +53,10 @@ public class UpdateAccountByAdminServiceTest {
 		assert exception.getType() == ErrorType.NOT_FOUND;
 	}
 
+	/**
+	 * Testa il caso in cui vengono aggiornati password e permessi
+	 * @throws BusinessException la password non è valida o l'utente non è stato trovato
+	 */
 	@Test
 	void testUpdatePasswordAndPermissions() throws BusinessException{
 		AccountUpdatedByAdmin account = new AccountUpdatedByAdmin(
@@ -57,6 +69,10 @@ public class UpdateAccountByAdminServiceTest {
 		service.updateByUsername(account);
 	}
 
+	/**
+	 * Testa il caso in cui vengono aggiornati solo i permessi
+	 * @throws BusinessException la password non è valida o l'utente non è stato trovato
+	 */
 	@Test
 	void testUpdatePermissions() throws BusinessException{
 		AccountUpdatedByAdmin account = new AccountUpdatedByAdmin(
@@ -69,6 +85,7 @@ public class UpdateAccountByAdminServiceTest {
 		service.updateByUsername(account);
 	}
 
+	// CLASSI MOCK
 	static class FindAccountPortMock implements FindAccountPort {
 		@Override
 		public Optional<Account> findByUsername(String username) {
@@ -92,7 +109,6 @@ public class UpdateAccountByAdminServiceTest {
 	}
 
 	static class UpdateAccountByAdminPortMock implements UpdateAccountByAdminPort {
-
 		@Override
 		public void updateAccount(Account account) {
 

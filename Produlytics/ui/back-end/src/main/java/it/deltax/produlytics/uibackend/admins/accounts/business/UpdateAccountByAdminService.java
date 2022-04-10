@@ -17,15 +17,26 @@ public class UpdateAccountByAdminService implements UpdateAccountByAdminUseCase 
 	private final PasswordEncoderPort passwordEncoderPort;
 	private final UpdateAccountByAdminPort updateAccountByAdminPort;
 
+	/**
+	 * Il costruttore
+	 * @param findAccountPort la porta per trovare un utente
+	 * @param passwordEncoderPort la porta per cifrare una password
+	 * @param updateAccountByAdminPort la porta usata da un amministratore per aggiornare un utente
+	 */
 	public UpdateAccountByAdminService(
-		FindAccountPort findUserPort,
+		FindAccountPort findAccountPort,
 		@Qualifier("passwordEncoderAdapter") PasswordEncoderPort passwordEncoderPort,
 		UpdateAccountByAdminPort updateAccountByAdminPort){
-		this.findAccountPort = findUserPort;
+		this.findAccountPort = findAccountPort;
 		this.passwordEncoderPort = passwordEncoderPort;
 		this.updateAccountByAdminPort = updateAccountByAdminPort;
 	}
 
+	/**
+	 * Aggiorna l'utente dato, per conto di un amministratore
+	 * @param updatedAccount l'utente con permessi e, opzionalmente, password aggiornati
+	 * @throws BusinessException se la password non è valida o l'utente non è stato trovato
+	 */
 	@Override
 	public void updateByUsername(AccountUpdatedByAdmin updatedAccount) throws BusinessException {
 		if (updatedAccount.newPassword().isPresent() && updatedAccount.newPassword().get().length() < 6)

@@ -37,6 +37,10 @@ public class AccountTests extends UiBackendApplicationTests {
 		assertThat(this.accountRepository).isNotNull();
 	}
 
+	/**
+	 * Testa il caso in cui l'aggiornamento della password vada a buon fine
+	 * @throws Exception la nuova password non è valida o la corrente è sbagliata
+	 */
 	@Test
 	public void testUpdatePasswordOk() throws Exception {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -58,6 +62,10 @@ public class AccountTests extends UiBackendApplicationTests {
 			.andExpect(status().isNoContent());
 	} //fallisce
 
+	/**
+	 * Testa il caso in cui la nuova password non è valida
+	 * @throws Exception la nuova password non è valida o la corrente è sbagliata
+	 */
 	@Test
 	public void testUpdatePasswordInvalidNewPassword() throws Exception {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -79,6 +87,10 @@ public class AccountTests extends UiBackendApplicationTests {
 				.andExpect(content().string("{\"errorCode\":\"invalidNewPassword\"}"));
 	}
 
+	/**
+	 * Testa il caso in cui la password corrente è sbagliata
+	 * @throws Exception la nuova password non è valida o la corrente è sbagliata
+	 */
 	@Test
 	public void testUpdatePasswordWrongOldPassword() throws Exception {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();

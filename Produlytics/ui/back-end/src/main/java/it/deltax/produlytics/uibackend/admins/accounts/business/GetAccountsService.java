@@ -11,10 +11,18 @@ import java.util.List;
 public class GetAccountsService implements GetAccountsUseCase {
 	private final GetAccountsPort getAccountsPort;
 
+	/**
+	 * Il costruttore
+	 * @param getAccountsPort la porta per ottenere gli utenti
+	 */
 	public GetAccountsService(GetAccountsPort getAccountsPort){
 		this.getAccountsPort = getAccountsPort;
 	}
 
+	/**
+	 * Restituisce gli utenti
+	 * @return la lista degli utenti
+	 */
 	@Override
 	public List<AccountTiny> getAccounts() {
 		return this.getAccountsPort.getAccounts();

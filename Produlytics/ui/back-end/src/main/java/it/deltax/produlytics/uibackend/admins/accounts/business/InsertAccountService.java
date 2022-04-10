@@ -19,6 +19,12 @@ public class InsertAccountService implements InsertAccountUseCase {
 	private final PasswordEncoderPort passwordEncoderPort;
 	private final InsertAccountPort insertAccountPort;
 
+	/**
+	 * Il costruttore
+	 * @param findAccountPort la porta per trovare un utente
+	 * @param passwordEncoderPort la porta per cifrare una password
+	 * @param insertAccountPort la porta per memorizzare un utente
+	 */
 	public InsertAccountService(
 		FindAccountPort findAccountPort,
 		@Qualifier("passwordEncoderAdapter") PasswordEncoderPort passwordEncoderPort,
@@ -29,6 +35,11 @@ public class InsertAccountService implements InsertAccountUseCase {
 		this.insertAccountPort = insertAccountPort;
 	}
 
+	/**
+	 * Memorizza l'utente dato
+	 * @param account l'utente da memorizzare
+	 * @throws BusinessException se la password dell'utente non è valida oppure esiste già l'username
+	 */
 	@Override
 	public void insertAccount(AccountToInsert account) throws BusinessException {
 		if (account.password().length() < 6)
@@ -42,7 +53,4 @@ public class InsertAccountService implements InsertAccountUseCase {
 		this.insertAccountPort.insertAccount(new Account(
 			account.username(),hashedPassword,account.administrator(),false));
 	}
-
-
-
 }

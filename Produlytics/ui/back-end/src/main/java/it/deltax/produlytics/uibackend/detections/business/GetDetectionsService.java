@@ -18,25 +18,32 @@ import java.util.OptionalLong;
 
 @Service
 public class GetDetectionsService implements GetDetectionsUseCase {
-	private final FindAllDetectionsPort port;
-	private final FindCharacteristicLimitsPort findCharacteristicPort;
+	private final FindAllDetectionsPort findAllDetectionsPort;
+	private final FindCharacteristicLimitsPort findCharacteristicLimitsPort;
 
+
+	/**
+	 * Il costruttore
+	 * @param findCharacteristicPort la porta per ottenere i limiti di una caratteristica
+	 * @param findAllDetectionsPort la porta per ottenere le rilevazioni
+	 */
 	public GetDetectionsService(
-		FindAllDetectionsPort port,
-		FindCharacteristicLimitsPort findCharacteristicPort
+		FindCharacteristicLimitsPort findCharacteristicPort,
+		FindAllDetectionsPort findAllDetectionsPort
 	) {
-		this.port = port;
-		this.findCharacteristicPort = findCharacteristicPort;
+		this.findCharacteristicLimitsPort = findCharacteristicPort;
+		this.findAllDetectionsPort = findAllDetectionsPort;
 	}
+
 
 	@Override
 	public Detections listByCharacteristic(int deviceId, int characteristicId, DetectionFilters filters)
 	throws BusinessException {
-		if (this.findCharacteristicPort.findByCharacteristic(deviceId, characteristicId).isEmpty()) {
+		if (this.findCharacteristicLimitsPort.findByCharacteristic(deviceId, characteristicId).isEmpty()) {
 			throw new BusinessException("characteristicNotFound", ErrorType.NOT_FOUND);
 		}
 
-		List<Detection> detections = this.port.findAllByCharacteristic(deviceId, characteristicId, filters.olderThan());
+		List<Detection> detections = this.findAllDetectionsPort.findAllByCharacteristic(deviceId, characteristicId, filters.olderThan());
 		final int initialSize = detections.size();
 
 		if (filters.limit().isPresent()) {

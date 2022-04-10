@@ -12,20 +12,24 @@ import java.util.List;
 
 @Component
 public class AdminCharacteristicAdapter implements FindCharacteristicPort, InsertCharacteristicPort {
-	private final CharacteristicRepository repository;
+	private final CharacteristicRepository repo;
 
-	public AdminCharacteristicAdapter(CharacteristicRepository repository) {
-		this.repository = repository;
+	/**
+	 * Il costruttore
+	 * @param repo lo strato di persistenza con i dati sulle caratteristiche
+	 */
+	public AdminCharacteristicAdapter(CharacteristicRepository repo) {
+		this.repo = repo;
 	}
 
 	@Override
 	public List<CharacteristicEntity> findByName(String name) {
-		return this.repository.findByName(name);
+		return this.repo.findByName(name);
 	}
 
 	@Override
 	public int insertByDevice(int deviceId, NewCharacteristic characteristic) {
-		CharacteristicEntity entity = this.repository.saveAndFlush(new CharacteristicEntity(
+		CharacteristicEntity entity = this.repo.saveAndFlush(new CharacteristicEntity(
 			new CharacteristicEntityId(deviceId),
 			characteristic.name(),
 			characteristic.upperLimit().isPresent() ? characteristic.upperLimit().getAsDouble() : null,
