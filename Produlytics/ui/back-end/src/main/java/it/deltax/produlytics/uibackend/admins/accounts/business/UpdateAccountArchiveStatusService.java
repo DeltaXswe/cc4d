@@ -14,6 +14,11 @@ public class UpdateAccountArchiveStatusService implements UpdateAccountArchiveSt
 	private final FindAccountPort findAccountPort;
 	private final UpdateAccountArchiveStatusPort updateAccountArchiveStatusPort;
 
+	/**
+	 * Il costruttore
+	 * @param findAccountPort la porta per cercare un utente
+	 * @param updateAccountArchiveStatusPort la porta per aggiornare lo stato di archiviazione di un utente
+	 */
 	public UpdateAccountArchiveStatusService(
 		FindAccountPort findAccountPort,
 		UpdateAccountArchiveStatusPort updateAccountArchiveStatusPort) {
@@ -21,9 +26,15 @@ public class UpdateAccountArchiveStatusService implements UpdateAccountArchiveSt
 		this.updateAccountArchiveStatusPort = updateAccountArchiveStatusPort;
 	}
 
+	/**
+	 * Aggiorna lo stato di archiviazione dell'utente dato
+	 * @param accountArchiveStatus l'utente con lo stato di archiviazione aggiornato
+	 * @throws BusinessException se l'utente non è stato trovato
+	 */
 	@Override
 	public void updateAccountArchiveStatus(AccountArchiveStatus accountArchiveStatus) throws BusinessException {
-		Account.AccountBuilder toUpdate = this.findAccountPort.findByUsername(accountArchiveStatus.username())
+		Account.AccountBuilder toUpdate = this.findAccountPort.findByUsername(
+			accountArchiveStatus.username())
 			.map(account -> account.toBuilder())
 			.orElseThrow(() -> new BusinessException("accountNotFound", ErrorType.NOT_FOUND));
 

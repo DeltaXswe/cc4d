@@ -11,6 +11,9 @@ import java.util.List;
 
 public class GetUnarchivedDevicesServiceTest {
 
+	/**
+	 * Testa il caso in cui ci sono dei dispositivi non archiviati
+	 */
 	@Test
 	void testGetUnarchivedDevices(){
 		GetUnarchivedDevicesService service = new GetUnarchivedDevicesService(
@@ -19,6 +22,9 @@ public class GetUnarchivedDevicesServiceTest {
 		service.getUnarchivedDevices();
 	}
 
+	/**
+	 * Testa il caso in cui non ci sono dei dispositivi non archiviati
+	 */
 	@Test
 	void testGetNoUnarchivedDevices(){
 		GetUnarchivedDevicesService service = new GetUnarchivedDevicesService(
@@ -27,6 +33,8 @@ public class GetUnarchivedDevicesServiceTest {
 		service.getUnarchivedDevices();
 	}
 
+
+	// CLASSI MOCK
 	static class GetUnarchivedDevicesPortMock implements GetUnarchivedDevicesPort{
 		@Override
 		public List<TinyDevice> getUnarchivedDevices() {

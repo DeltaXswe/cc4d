@@ -14,6 +14,12 @@ public class UpdateDeviceNameService implements UpdateDeviceNameUseCase {
 	private final FindDetailedDevicePort findDetailedDevicePort;
 	private final UpdateDeviceNamePort updateDeviceNamePort;
 
+
+	/**
+	 * Il costruttore
+	 * @param findDetailedDevicePort la porta per trovare una macchina completa di tutte le sue informazioni
+	 * @param updateDeviceNamePort la porta per aggiornare il nome di una macchina
+	 */
 	public UpdateDeviceNameService(
 		FindDetailedDevicePort findDetailedDevicePort,
 		UpdateDeviceNamePort updateDeviceNamePort) {
@@ -21,13 +27,19 @@ public class UpdateDeviceNameService implements UpdateDeviceNameUseCase {
 		this.updateDeviceNamePort = updateDeviceNamePort;
 	}
 
+	/**
+	 * Aggiorna il nome di una macchina
+	 * @param tinyDevice la macchina con il nome aggiornato
+	 * @throws BusinessException se la macchina non è stata trovata
+	 */
 	@Override
-	public void updateDeviceName(TinyDevice command) throws BusinessException {
-		DetailedDevice.DetailedDeviceBuilder toUpdate = this.findDetailedDevicePort.findDetailedDevice(command.id())
+	public void updateDeviceName(TinyDevice tinyDevice) throws BusinessException {
+		DetailedDevice.DetailedDeviceBuilder toUpdate =
+			this.findDetailedDevicePort.findDetailedDevice(tinyDevice.id())
 			.map(device -> device.toBuilder())
 			.orElseThrow(() -> new BusinessException("deviceNotFound", ErrorType.NOT_FOUND));
 
-		toUpdate.withName(command.name());
+		toUpdate.withName(tinyDevice.name());
 		this.updateDeviceNamePort.updateDeviceName(toUpdate.build());
 	}
 }

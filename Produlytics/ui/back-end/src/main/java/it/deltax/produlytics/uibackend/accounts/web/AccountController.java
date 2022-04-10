@@ -13,10 +13,21 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
     private final UpdateAccountPasswordUseCase updateAccountPasswordUseCase;
 
+    /**
+     * Il costruttore
+     * @param updateAccountPasswordUseCase l'interfaccia per il caso d'uso di aggiornamento password
+     */
     public AccountController(UpdateAccountPasswordUseCase updateAccountPasswordUseCase){
         this.updateAccountPasswordUseCase = updateAccountPasswordUseCase;
     }
 
+    /**
+     * Riceve le chiamate all'endpoint REST per l'aggiornamento della password di un utente
+     * @param username l'username dell'utente che vuole aggiornare la password
+     * @param body il corpo della richiesta HTTP
+     * @return lo stato HTTP
+     * @throws BusinessException se l'utente non esiste o la nuova password non è valida
+     */
     @PutMapping("/{username}/password")
     public ResponseEntity<String> updateAccountPassword(
         @PathVariable("username") String username,

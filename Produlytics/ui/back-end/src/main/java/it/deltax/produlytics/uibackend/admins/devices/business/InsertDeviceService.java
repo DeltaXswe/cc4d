@@ -13,6 +13,13 @@ public class InsertDeviceService implements InsertDeviceUseCase {
 	private final CreateDevice createDevice;
 	private final InsertCharacteristicPort insertCharacteristicPort;
 
+
+	/**
+	 * Il costruttore
+	 * @param insertDevicePort la porta per inserire una macchina
+	 * @param createDevice crea una nuova macchina
+	 * @param insertCharacteristicPort la porta per inserire una caratteristica
+	 */
 	public InsertDeviceService(
 		InsertDevicePort insertDevicePort,
 		CreateDevice createDevice,
@@ -22,6 +29,12 @@ public class InsertDeviceService implements InsertDeviceUseCase {
 		this.insertCharacteristicPort = insertCharacteristicPort;
 	}
 
+
+	/**
+	 * Inserisce una nuova macchina
+	 * @param device la macchina da inserire
+	 * @return l'id della macchina inserita
+	 */
 	@Override
 	public int insertDevice(DeviceToInsert device) {
 		int id = this.insertDevicePort.insertDevice(this.createDevice.createDevice(device.name()));

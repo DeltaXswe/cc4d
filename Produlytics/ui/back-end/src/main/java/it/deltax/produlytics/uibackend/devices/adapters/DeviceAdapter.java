@@ -14,10 +14,20 @@ public class DeviceAdapter implements GetUnarchivedDevicesPort {
 
     private final DeviceRepository repo;
 
+
+    /**
+     * Il costruttore
+     * @param repo lo strato di persistenza con i dati delle macchine
+     */
     public DeviceAdapter(DeviceRepository repo) {
         this.repo = repo;
     }
 
+
+    /**
+     * Restituisce le macchine non archiviate
+     * @return la lista delle macchine non archiviate
+     */
     @Override
     public List<TinyDevice> getUnarchivedDevices() {
         return StreamSupport.stream(this.repo.findByArchived(false).spliterator(), false)

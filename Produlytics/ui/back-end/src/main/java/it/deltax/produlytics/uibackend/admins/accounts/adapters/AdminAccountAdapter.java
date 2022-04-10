@@ -25,8 +25,16 @@ public class AdminAccountAdapter implements UpdateAccountArchiveStatusPort,
 {
 	private final AccountRepository repo;
 
+	/**
+	 * Il costruttore
+	 * @param repo lo strato di persistenza con i dati sugli utenti
+	 */
 	public AdminAccountAdapter(AccountRepository repo) {this.repo = repo; }
 
+	/**
+	 * Aggiorna lo stato di archiviazione dell'utente dato nello strato di persistenza
+	 * @param account l'utente con lo stato di archiviazione aggiornato da memorizzare
+	 */
 	@Override
 	public void updateAccountArchiveStatus(Account account){
 		this.repo.save(new AccountEntity(
@@ -37,6 +45,11 @@ public class AdminAccountAdapter implements UpdateAccountArchiveStatusPort,
 		);
 	}
 
+	/**
+	 * Trova nello strato di persistenza un utente, dato il suo username
+	 * @param username l'username dell'utente da trovare
+	 * @return l'utente, se trovato; Optional vuoto, altrimenti
+	 */
 	@Override
 	public Optional<Account> findByUsername(String username) {
 		return this.repo.findById(username)
@@ -48,6 +61,11 @@ public class AdminAccountAdapter implements UpdateAccountArchiveStatusPort,
 					utente.getArchived())
 			);
 	}
+
+	/**
+	 * Aggiorna un utente nello strato di persistenza
+	 * @param account l'utente da aggiornare
+	 */
 	@Override
 	public void updateAccount(Account account){
 		this.repo.save(new AccountEntity(
@@ -58,6 +76,10 @@ public class AdminAccountAdapter implements UpdateAccountArchiveStatusPort,
 		);
 	}
 
+	/**
+	 * Inserisce un utente nello strato di persistenza
+	 * @param account l'utente da inserire
+	 */
 	@Override
 	public void insertAccount(Account account){
 		this.repo.save(new AccountEntity(
@@ -69,6 +91,10 @@ public class AdminAccountAdapter implements UpdateAccountArchiveStatusPort,
 		);
 	}
 
+	/**
+	 * Restituisce la lista di tutti gli utenti presenti nello strato di persistenza
+	 * @return la lista degli utenti, ciascuno con username, permessi e stato di archiviazione
+	 */
 	@Override
 	public List<AccountTiny> getAccounts() {
 		return StreamSupport.stream(this.repo.findAll().spliterator(), false)

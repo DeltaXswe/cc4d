@@ -11,11 +11,17 @@ import java.util.Map;
 @RestController
 @RequestMapping("/admins/devices/{deviceId}/characteristics")
 public class AdminsCharacteristicsController {
-	private final InsertCharacteristicUseCase insertCharacteristic;
+	private final InsertCharacteristicUseCase insertCharacteristicUseCase;
 
+
+	/**
+	 * Il costruttore
+	 * @param insertCharacteristic l'interfaccia per il caso d'uso d'inserimento di una caratteristica
+	 */
 	AdminsCharacteristicsController(InsertCharacteristicUseCase insertCharacteristic) {
-		this.insertCharacteristic = insertCharacteristic;
+		this.insertCharacteristicUseCase = insertCharacteristic;
 	}
+
 
 	@PostMapping("")
 	public ResponseEntity<Map<String, Integer>> insertCharacteristic(
@@ -24,7 +30,7 @@ public class AdminsCharacteristicsController {
 	) throws BusinessException {
 		return ResponseEntity.ok(Map.of(
 			"id",
-			this.insertCharacteristic.insertByDevice(deviceId, characteristic)
+			this.insertCharacteristicUseCase.insertByDevice(deviceId, characteristic)
 		));
 	}
 }

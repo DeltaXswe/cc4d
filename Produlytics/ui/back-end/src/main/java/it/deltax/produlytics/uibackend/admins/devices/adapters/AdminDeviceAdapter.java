@@ -26,10 +26,18 @@ public class AdminDeviceAdapter implements
 {
 	private final DeviceRepository repo;
 
+	/**
+	 * Il costruttore
+	 * @param repo lo strato di persistenza con i dati sulle macchine
+	 */
 	public AdminDeviceAdapter(DeviceRepository repo) {
 		this.repo = repo;
 	}
 
+	/**
+	 * Restituisce la lista delle macchine memorizzate nello strato di persistenza
+	 * @return la lista delle macchine
+	 */
 	@Override
 	public List<Device> getDevices() {
 		return StreamSupport.stream(this.repo.findAll().spliterator(), false)
@@ -43,6 +51,11 @@ public class AdminDeviceAdapter implements
 			.collect(Collectors.toList());
 	}
 
+	/**
+	 * Trova nello strato di persistenza una macchina, dato il suo id
+	 * @param deviceId l'id della macchina da trovare
+	 * @return la macchina, se trovata, con id e nome; Optional vuoto, altrimenti
+	 */
 	@Override
 	public Optional<TinyDevice> findTinyDevice(int deviceId) {
 		return this.repo.findById(deviceId)
@@ -53,6 +66,12 @@ public class AdminDeviceAdapter implements
 			);
 	}
 
+	/**
+	 * Trova nello strato di persistenza una macchina, dato il suo id
+	 * @param deviceId l'id della macchina da trovare
+	 * @return la macchina, se trovata, con id, nome, stato di archiviazione, stato di attivazione e chiave dell'API;
+	 * 			Optional vuoto, altrimenti
+	 */
 	@Override
 	public Optional<DetailedDevice> findDetailedDevice(int deviceId) {
 		return this.repo.findById(deviceId)
@@ -66,6 +85,10 @@ public class AdminDeviceAdapter implements
 			);
 	}
 
+	/**
+	 * Aggiorna lo stato di archiviazione della macchina data nello strato di persistenza
+	 * @param device la macchina con lo stato di archiviazione aggiornato da memorizzare
+	 */
 	@Override
 	public void updateDeviceArchiveStatus(DetailedDevice device) {
 		this.repo.save(new DeviceEntity(
@@ -75,6 +98,10 @@ public class AdminDeviceAdapter implements
 			device.apiKey()));
 	}
 
+	/**
+	 * Aggiorna lo stato di attivazione della macchina data nello strato di persistenza
+	 * @param device la macchina con lo stato di attivazione aggiornato da memorizzare
+	 */
 	@Override
 	public void updateDeviceDeactivateStatus(DetailedDevice device) {
 		this.repo.save(new DeviceEntity(
@@ -84,6 +111,10 @@ public class AdminDeviceAdapter implements
 			device.apiKey()));
 	}
 
+	/**
+	 * Aggiorna il nome della macchina data nello strato di persistenza
+	 * @param device la macchina con il nome aggiornato da memorizzare
+	 */
 	@Override
 	public void updateDeviceName(DetailedDevice device) {
 		this.repo.save(new DeviceEntity(
@@ -93,6 +124,10 @@ public class AdminDeviceAdapter implements
 			device.apiKey()));
 	}
 
+	/**
+	 * Inserisce una macchina nello strato di persistenza
+	 * @param device la macchina da memorizzare
+	 */
 	@Override
 	public int insertDevice(NewDevice device) {
 		DeviceEntity entity = this.repo.saveAndFlush(new DeviceEntity(device.name(),

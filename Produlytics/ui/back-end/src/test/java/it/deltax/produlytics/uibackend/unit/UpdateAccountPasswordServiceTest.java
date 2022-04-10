@@ -21,10 +21,10 @@ public class UpdateAccountPasswordServiceTest {
 		AccountPasswordToUpdate account = new AccountPasswordToUpdate(
 			"user", "passwordvecchia", "p");
 		UpdateAccountPasswordService service = new UpdateAccountPasswordService(
-			new UpdateAccountPasswordPortMock(),
 			new FindAccountPortMock(),
 			new PasswordMatcherPortMock(),
-			new PasswordEncoderPortMock()
+			new PasswordEncoderPortMock(),
+			new UpdateAccountPasswordPortMock()
 		);
 		BusinessException exception = assertThrows(BusinessException.class,
 			() -> service.updatePasswordByUsername(account));
@@ -37,10 +37,10 @@ public class UpdateAccountPasswordServiceTest {
 		AccountPasswordToUpdate account = new AccountPasswordToUpdate(
 			"user", "passwordvecchia", "passwordnuova");
 		UpdateAccountPasswordService service = new UpdateAccountPasswordService(
-			new UpdateAccountPasswordPortMock(),
 			new FindAccountPortMock(),
 			new PasswordMatcherPortMock(),
-			new PasswordEncoderPortMock()
+			new PasswordEncoderPortMock(),
+			new UpdateAccountPasswordPortMock()
 		);
 		BusinessException exception = assertThrows(BusinessException.class,
 			() -> service.updatePasswordByUsername(account));
@@ -53,10 +53,10 @@ public class UpdateAccountPasswordServiceTest {
 		AccountPasswordToUpdate account = new AccountPasswordToUpdate(
 			"user", "passwordvecchia", "passwordnuova");
 		UpdateAccountPasswordService service = new UpdateAccountPasswordService(
-			new UpdateAccountPasswordPortMock(),
 			new FindAccountNotFoundPortMock(),
 			new PasswordMatcherPortMock(),
-			new PasswordEncoderPortMock()
+			new PasswordEncoderPortMock(),
+			new UpdateAccountPasswordPortMock()
 		);
 
 		BusinessException exception = assertThrows(BusinessException.class,
@@ -70,10 +70,10 @@ public class UpdateAccountPasswordServiceTest {
 		AccountPasswordToUpdate account = new AccountPasswordToUpdate(
 			"user", "passwordvecchia", "passwordnuova");
 		UpdateAccountPasswordService service = new UpdateAccountPasswordService(
-			new UpdateAccountPasswordPortMock(),
 			new FindAccountPortMock(),
 			new PasswordMatcherPortTrueMock(),
-			new PasswordEncoderPortMock()
+			new PasswordEncoderPortMock(),
+			new UpdateAccountPasswordPortMock()
 		);
 	}
 

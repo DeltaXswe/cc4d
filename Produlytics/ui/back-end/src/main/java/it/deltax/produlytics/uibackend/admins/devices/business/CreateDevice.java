@@ -8,6 +8,10 @@ import java.util.Random;
 @Service
 public class CreateDevice {
 
+	/**
+	 * Genere una chiave randomica lunga 32 caratteri alfanumerici per l'API
+	 * @return la chiave alfanumerica
+	 */
 	public String generateApiKey() {
 		int leftLimit = 48; // from '0'
 		int rightLimit = 122; // to 'z'
@@ -23,6 +27,11 @@ public class CreateDevice {
 		return apiKey;
 	}
 
+	/**
+	 * Crea una nuova macchina con il nome dato
+	 * @param name il nome della nuova macchina
+	 * @return una nuova macchina con nome dato, attivata, non archiviata e con chiave dell'API randomica
+	 */
 	public NewDevice createDevice(String name) {
 		return new NewDevice(name, false, false, this.generateApiKey());
 	}
