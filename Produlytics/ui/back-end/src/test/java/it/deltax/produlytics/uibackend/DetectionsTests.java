@@ -40,7 +40,7 @@ public class DetectionsTests extends UiBackendApplicationTests {
 		"x"
 	);
 	private final CharacteristicEntity characteristic = new CharacteristicEntity(
-		new CharacteristicEntityId(1, 1),
+		1,
 		"temperatura",
 		98d,
 		-13d,
@@ -55,7 +55,9 @@ public class DetectionsTests extends UiBackendApplicationTests {
 		this.characteristicRepository.saveAndFlush(this.characteristic);
 		for (int i = 1; i < 5; ++i) {
 			this.repository.save(new DetectionEntity(
-				new DetectionEntityId(Instant.ofEpochMilli(i), 1, 1),
+				Instant.ofEpochMilli(i),
+				1,
+				1,
 				100d * i,
 				false
 			));

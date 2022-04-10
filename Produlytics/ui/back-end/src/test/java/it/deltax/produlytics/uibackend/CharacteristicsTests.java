@@ -1,7 +1,6 @@
 package it.deltax.produlytics.uibackend;
 
 import it.deltax.produlytics.persistence.CharacteristicEntity;
-import it.deltax.produlytics.persistence.CharacteristicEntityId;
 import it.deltax.produlytics.uibackend.devices.web.CharacteristicsController;
 import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,7 +24,7 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 	private CharacteristicsController controller;
 
 	private final CharacteristicEntity characteristic = new CharacteristicEntity(
-		new CharacteristicEntityId(1, 1),
+		1,
 		"temperatura",
 		98d,
 		-13d,
@@ -35,7 +34,7 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 	);
 
 	private final CharacteristicEntity characteristic2 = new CharacteristicEntity(
-		new CharacteristicEntityId(1, 2),
+		1,
 		"pressione",
 		100d,
 		10d,

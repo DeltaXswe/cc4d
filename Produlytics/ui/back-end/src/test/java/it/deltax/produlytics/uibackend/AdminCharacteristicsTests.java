@@ -1,7 +1,6 @@
 package it.deltax.produlytics.uibackend;
 
 import it.deltax.produlytics.persistence.CharacteristicEntity;
-import it.deltax.produlytics.persistence.CharacteristicEntityId;
 import it.deltax.produlytics.persistence.DeviceEntity;
 import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
@@ -28,7 +27,7 @@ public class AdminCharacteristicsTests extends UiBackendApplicationTests {
 	private CharacteristicRepository characteristicRepository;
 
 	private final CharacteristicEntity characteristic = new CharacteristicEntity(
-		new CharacteristicEntityId(1, 1),
+		1,
 		"temperatura",
 		98d,
 		-13d,
@@ -38,7 +37,7 @@ public class AdminCharacteristicsTests extends UiBackendApplicationTests {
 	);
 
 	private final CharacteristicEntity characteristic2 = new CharacteristicEntity(
-		new CharacteristicEntityId(1, 2),
+		1,
 		"pressione",
 		100d,
 		10d,
@@ -71,6 +70,9 @@ public class AdminCharacteristicsTests extends UiBackendApplicationTests {
 		body.put("autoAdjust", "true");
 		body.put("archived", "false");
 
+		JSONObject response = new JSONObject();
+		response.put("id", 1);
+
 		this.mockMvc.perform(post("/admins/devices/1/characteristics")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(body.toString())
@@ -78,6 +80,6 @@ public class AdminCharacteristicsTests extends UiBackendApplicationTests {
 			)
 			.andDo(print())
 			.andExpect(status().isOk())
-			.andExpect(content().string("1"));
+			.andExpect(content().string(response.toString()));
 	}
 }

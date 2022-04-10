@@ -40,7 +40,7 @@ public class DetectionAdapter implements FindAllDetectionsPort {
 		)
 		.stream()
 		.map(detection -> new Detection(
-			detection.getId().getCreationTime().toEpochMilli(),
+			detection.getCreationTime().toEpochMilli(),
 			detection.getValue(),
 			detection.getOutlier()
 		))
