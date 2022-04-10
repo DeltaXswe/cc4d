@@ -23,7 +23,7 @@ public class AccountController {
         @RequestBody JsonNode body) throws BusinessException {
         String currentPassword = body.get("currentPassword").toString();
         String newPassword = body.get("newPassword").toString();
-        updateAccountPasswordUseCase.updatePasswordByUsername(new AccountPasswordToUpdate(
+        this.updateAccountPasswordUseCase.updatePasswordByUsername(new AccountPasswordToUpdate(
             username,
             currentPassword,
             newPassword));

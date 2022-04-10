@@ -19,7 +19,7 @@ public class GetDeviceDetailsService implements GetDeviceDetailsUseCase {
 
 	@Override
 	public DetailedDevice getDeviceDetails(int id) throws BusinessException {
-		DetailedDevice.DetailedDeviceBuilder result = findDetailedDevicePort.findDetailedDevice(id)
+		DetailedDevice.DetailedDeviceBuilder result = this.findDetailedDevicePort.findDetailedDevice(id)
 			.map(device -> device.toBuilder())
 			.orElseThrow(() -> new BusinessException("deviceNotFound", ErrorType.NOT_FOUND));
 

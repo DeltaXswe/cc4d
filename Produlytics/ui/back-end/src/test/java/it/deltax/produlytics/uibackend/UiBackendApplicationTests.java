@@ -33,26 +33,26 @@ class UiBackendApplicationTests {
 
 	@Test
 	void contextLoads() {
-		assertThat(devicesController).isNotNull();
-		assertThat(deviceRepository).isNotNull();
+		assertThat(this.devicesController).isNotNull();
+		assertThat(this.deviceRepository).isNotNull();
 	}
 
 	@Test
 	public void getAllUnarchivedDevices() throws Exception {
-		deviceRepository.save(new DeviceEntity("One", false, false, ""));
-		deviceRepository.save(new DeviceEntity("Two", true, false, ""));
+		this.deviceRepository.save(new DeviceEntity("One", false, false, ""));
+		this.deviceRepository.save(new DeviceEntity("Two", true, false, ""));
 
-		mockMvc.perform(get("/devices"))
+		this.mockMvc.perform(get("/devices"))
 			.andDo(print())
 			.andExpect(status().isOk());
 	}
 
 	@Test
 	public void getAllUnarchivedDevicesWhenThereAreNone() throws Exception {
-		deviceRepository.save(new DeviceEntity("One", true, false, ""));
-		deviceRepository.save(new DeviceEntity("Two", true, false, ""));
+		this.deviceRepository.save(new DeviceEntity("One", true, false, ""));
+		this.deviceRepository.save(new DeviceEntity("Two", true, false, ""));
 
-		mockMvc.perform(get("/devices"))
+		this.mockMvc.perform(get("/devices"))
 			.andDo(print())
 			.andExpect(status().isOk());
 

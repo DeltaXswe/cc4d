@@ -19,7 +19,7 @@ public class DevicesController {
 
     @GetMapping("")
     public ResponseEntity<Iterable<TinyDevice>> getUnarchivedDevices() {
-        return ResponseEntity.ok(getUnarchivedDevicesUseCase.getUnarchivedDevices());
+        return ResponseEntity.ok(this.getUnarchivedDevicesUseCase.getUnarchivedDevices());
     }
 
 

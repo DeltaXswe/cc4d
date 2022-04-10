@@ -20,7 +20,7 @@ public class DeviceAdapter implements GetUnarchivedDevicesPort {
 
     @Override
     public List<TinyDevice> getUnarchivedDevices() {
-        return StreamSupport.stream(repo.findByArchived(false).spliterator(), false)
+        return StreamSupport.stream(this.repo.findByArchived(false).spliterator(), false)
             .map(device ->
                 new TinyDevice(
                     device.id(),

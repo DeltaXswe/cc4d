@@ -23,12 +23,12 @@ public class UpdateDeviceArchiveStatusService implements UpdateDeviceArchiveStat
 
 	@Override
 	public void updateDeviceArchiveStatus(DeviceArchiveStatus command) throws BusinessException {
-		DetailedDevice.DetailedDeviceBuilder toUpdate = findDetailedDevicePort.findDetailedDevice(command.id())
+		DetailedDevice.DetailedDeviceBuilder toUpdate = this.findDetailedDevicePort.findDetailedDevice(command.id())
 			.map(device -> device.toBuilder())
 			.orElseThrow(() -> new BusinessException("deviceNotFound", ErrorType.NOT_FOUND));
 
 		toUpdate.withArchived(command.archived());
-		updateDeviceArchiveStatus.updateDeviceArchiveStatus(toUpdate.build());
+		this.updateDeviceArchiveStatus.updateDeviceArchiveStatus(toUpdate.build());
 	}
 }
 

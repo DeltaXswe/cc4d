@@ -11,6 +11,6 @@ public class PasswordMatcherAdapter implements PasswordMatcherPort {
 
 	@Override
 	public boolean matches(String rawPassword, String hashedPassword) {
-		return encoderConfig.getEncoder().matches(rawPassword, hashedPassword);
+		return this.encoderConfig.getEncoder().matches(rawPassword, hashedPassword);
 	}
 }

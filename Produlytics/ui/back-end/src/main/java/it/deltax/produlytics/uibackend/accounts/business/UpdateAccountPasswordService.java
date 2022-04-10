@@ -36,7 +36,7 @@ public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCas
         if (accountToUpdate.newPassword().length() < 6)
             throw new BusinessException("invalidNewPassword", ErrorType.GENERIC);
 
-        Account.AccountBuilder toUpdate = findAccountPort.findByUsername(accountToUpdate.username())
+        Account.AccountBuilder toUpdate = this.findAccountPort.findByUsername(accountToUpdate.username())
             .map(account -> account.toBuilder())
             .orElseThrow(() -> new BusinessException(("accountNotFound"), ErrorType.NOT_FOUND));
 
@@ -45,10 +45,10 @@ public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCas
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         System.out.println(passwordEncoder.encode("passwordvecchia"));
-        if (passwordMatcherPort.matches(accountToUpdate.currentPassword(),toUpdate.build().hashedPassword())) {
-            String hashedNewPassword = passwordEncoderPort.encode(accountToUpdate.newPassword());
+        if (this.passwordMatcherPort.matches(accountToUpdate.currentPassword(),toUpdate.build().hashedPassword())) {
+            String hashedNewPassword = this.passwordEncoderPort.encode(accountToUpdate.newPassword());
             toUpdate.withHashedPassword(hashedNewPassword);
-            updateAccountPasswordPort.updateAccountPassword(toUpdate.build());
+            this.updateAccountPasswordPort.updateAccountPassword(toUpdate.build());
         } else {
             throw new BusinessException("wrongCurrentPassword", ErrorType.AUTHENTICATION);
         }

@@ -31,16 +31,16 @@ public class UpdateAccountByAdminService implements UpdateAccountByAdminUseCase 
 		if (updatedAccount.newPassword().isPresent() && updatedAccount.newPassword().get().length() < 6)
 			throw new BusinessException("invalidNewPassword", ErrorType.GENERIC);
 
-		Account.AccountBuilder toUpdate = findAccountPort.findByUsername(updatedAccount.username())
+		Account.AccountBuilder toUpdate = this.findAccountPort.findByUsername(updatedAccount.username())
 			.map(account -> account.toBuilder())
 				.orElseThrow(() -> new BusinessException("accountNotFound", ErrorType.NOT_FOUND));
 
 		if (updatedAccount.newPassword().isPresent()) {
-			String hashedPassword = passwordEncoderPort.encode(updatedAccount.newPassword().get());
+			String hashedPassword = this.passwordEncoderPort.encode(updatedAccount.newPassword().get());
 			toUpdate.withHashedPassword(hashedPassword);
 		}
 
 		toUpdate.withAdministrator(updatedAccount.administrator());
-		updateAccountByAdminPort.updateAccount(toUpdate.build());
+		this.updateAccountByAdminPort.updateAccount(toUpdate.build());
 	}
 }

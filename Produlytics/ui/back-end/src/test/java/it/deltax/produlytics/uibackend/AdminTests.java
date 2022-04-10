@@ -39,10 +39,10 @@ public class AdminTests extends UiBackendApplicationTests {
 	@Override
 	@Test
 	void contextLoads() {
-		assertThat(adminsAccountsController).isNotNull();
-		assertThat(adminsDevicesController).isNotNull();
-		assertThat(accountRepository).isNotNull();
-		assertThat(deviceRepository).isNotNull();
+		assertThat(this.adminsAccountsController).isNotNull();
+		assertThat(this.adminsDevicesController).isNotNull();
+		assertThat(this.accountRepository).isNotNull();
+		assertThat(this.deviceRepository).isNotNull();
 	}
 
 	@Test
@@ -52,7 +52,7 @@ public class AdminTests extends UiBackendApplicationTests {
 		json.put("password", "passwordcomplessa");
 		json.put("administrator", "false");
 
-		mockMvc.perform(post("/admin/accounts")
+		this.mockMvc.perform(post("/admin/accounts")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json.toString())
 				.characterEncoding("utf-8")
@@ -62,25 +62,25 @@ public class AdminTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testGetAccounts() throws Exception {
-		accountRepository.save(new AccountEntity(
+		this.accountRepository.save(new AccountEntity(
 			"utente1",
 			"password1",
 			true,
 			false));
-		accountRepository.save(new AccountEntity(
+		this.accountRepository.save(new AccountEntity(
 			"utente2",
 			"password2",
 			true,
 			false));
 
-		mockMvc.perform(get("/admin/accounts")
+		this.mockMvc.perform(get("/admin/accounts")
 			).andDo(print())
 			.andExpect(status().isOk());
 	}
 
 	@Test
 	public void testUpdateAccountOk() throws Exception {
-		accountRepository.save(new AccountEntity(
+		this.accountRepository.save(new AccountEntity(
 			"nomeprova",
 			"passwordVecchia",
 			true,
@@ -90,7 +90,7 @@ public class AdminTests extends UiBackendApplicationTests {
 		json.put("newPassword", "passwordNuova");
 		json.put("administrator", "false");
 
-		mockMvc.perform(put("/admin/nomeprova")
+		this.mockMvc.perform(put("/admin/nomeprova")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json.toString())
 				.characterEncoding("utf-8")
@@ -100,7 +100,7 @@ public class AdminTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testUpdateAccountInvalidNewPassword() throws Exception {
-		accountRepository.save(new AccountEntity(
+		this.accountRepository.save(new AccountEntity(
 			"nomeprova",
 			"passworddd",
 			true,
@@ -110,7 +110,7 @@ public class AdminTests extends UiBackendApplicationTests {
 		json.put("newPassword", "p");
 		json.put("administrator", "false");
 
-		mockMvc.perform(put("/admin/nomeprova")
+		this.mockMvc.perform(put("/admin/nomeprova")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json.toString())
 				.characterEncoding("utf-8")
@@ -121,7 +121,7 @@ public class AdminTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testUpdateAccountNotFound() throws Exception {
-		accountRepository.save(new AccountEntity(
+		this.accountRepository.save(new AccountEntity(
 			"nomeprova",
 			"passwordVecchia",
 			true,
@@ -131,7 +131,7 @@ public class AdminTests extends UiBackendApplicationTests {
 		json.put("newPassword", "passwordNuova");
 		json.put("administrator", "false");
 
-		mockMvc.perform(put("/admin/nomeCheNonEsiste")
+		this.mockMvc.perform(put("/admin/nomeCheNonEsiste")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json.toString())
 				.characterEncoding("utf-8")
@@ -142,7 +142,7 @@ public class AdminTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testUpdateAccountNotPassword() throws Exception {
-		accountRepository.save(new AccountEntity(
+		this.accountRepository.save(new AccountEntity(
 			"nomeprova",
 			"passwordVecchia",
 			true,
@@ -151,7 +151,7 @@ public class AdminTests extends UiBackendApplicationTests {
 		JSONObject json = new JSONObject();
 		json.put("administrator", "false");
 
-		mockMvc.perform(put("/admin/nomeprova")
+		this.mockMvc.perform(put("/admin/nomeprova")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json.toString())
 				.characterEncoding("utf-8")
@@ -161,7 +161,7 @@ public class AdminTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testUpdateArchiveStatusAccountOk() throws Exception {
-		accountRepository.save(new AccountEntity(
+		this.accountRepository.save(new AccountEntity(
 			"utente1",
 			"passworddd",
 			true,
@@ -170,7 +170,7 @@ public class AdminTests extends UiBackendApplicationTests {
 		JSONObject json = new JSONObject();
 		json.put("archived", "true");
 
-		mockMvc.perform(put("/admin/accounts/utente1/archived")
+		this.mockMvc.perform(put("/admin/accounts/utente1/archived")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json.toString())
 				.characterEncoding("utf-8")
@@ -183,7 +183,7 @@ public class AdminTests extends UiBackendApplicationTests {
 		JSONObject json = new JSONObject();
 		json.put("archived", "true");
 
-		mockMvc.perform(put("/admin/accounts/utente200/archived")
+		this.mockMvc.perform(put("/admin/accounts/utente200/archived")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json.toString())
 				.characterEncoding("utf-8")
@@ -198,7 +198,7 @@ public class AdminTests extends UiBackendApplicationTests {
 		JSONObject json = new JSONObject();
 		json.put("administrator", "true");
 
-		mockMvc.perform(get("/admin/devices")
+		this.mockMvc.perform(get("/admin/devices")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json.toString())
 				.characterEncoding("utf-8")
@@ -208,12 +208,12 @@ public class AdminTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testModifyDevice() throws Exception {
-		deviceRepository.save(new DeviceEntity("Macchina1", false, false, ""));
+		this.deviceRepository.save(new DeviceEntity("Macchina1", false, false, ""));
 
 		JSONObject json = new JSONObject();
 		json.put("name", "Macchina2");
 
-		mockMvc.perform(put("/admin/devices/1/name")
+		this.mockMvc.perform(put("/admin/devices/1/name")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json.toString())
 				.characterEncoding("utf-8")
@@ -223,12 +223,12 @@ public class AdminTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testModifyDeviceNotFound() throws Exception {
-		deviceRepository.save(new DeviceEntity("Macchina1", false, false, ""));
+		this.deviceRepository.save(new DeviceEntity("Macchina1", false, false, ""));
 
 		JSONObject json = new JSONObject();
 		json.put("name", "Macchina2");
 
-		mockMvc.perform(put("/admin/devices/100/name")
+		this.mockMvc.perform(put("/admin/devices/100/name")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json.toString())
 				.characterEncoding("utf-8")
@@ -239,12 +239,12 @@ public class AdminTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testModifyDeviceArchiveStatus() throws Exception {
-		deviceRepository.save(new DeviceEntity("Macchina1", false, false, ""));
+		this.deviceRepository.save(new DeviceEntity("Macchina1", false, false, ""));
 
 		JSONObject json = new JSONObject();
 		json.put("archived", "true");
 
-		mockMvc.perform(put("/admin/devices/1/archived")
+		this.mockMvc.perform(put("/admin/devices/1/archived")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json.toString())
 				.characterEncoding("utf-8")
@@ -254,12 +254,12 @@ public class AdminTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testModifyDeviceDeactivateStatus() throws Exception {
-		deviceRepository.save(new DeviceEntity("Macchina1", false, false, ""));
+		this.deviceRepository.save(new DeviceEntity("Macchina1", false, false, ""));
 
 		JSONObject json = new JSONObject();
 		json.put("deactivated", "true");
 
-		mockMvc.perform(put("/admin/devices/1/deactivated")
+		this.mockMvc.perform(put("/admin/devices/1/deactivated")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json.toString())
 				.characterEncoding("utf-8")
@@ -269,7 +269,7 @@ public class AdminTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testGetDeviceDetailsOk() throws Exception{
-		mockMvc.perform(get("/admin/devices/1")
+		this.mockMvc.perform(get("/admin/devices/1")
 			).andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(content().string(
@@ -278,7 +278,7 @@ public class AdminTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testGetDeviceDetailsNotFound() throws Exception{
-		mockMvc.perform(get("/admin/devices/111")
+		this.mockMvc.perform(get("/admin/devices/111")
 			).andDo(print())
 			.andExpect(status().isNotFound())
 			.andExpect(content().string("{\"errorCode\":\"deviceNotFound\"}"));;

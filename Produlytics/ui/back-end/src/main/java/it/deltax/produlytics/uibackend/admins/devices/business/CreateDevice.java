@@ -8,7 +8,7 @@ import java.util.Random;
 @Service
 public class CreateDevice {
 
-	public String generateApiKey(){
+	public String generateApiKey() {
 		int leftLimit = 48; // from '0'
 		int rightLimit = 122; // to 'z'
 		int targetStringLength = 32;
@@ -23,8 +23,8 @@ public class CreateDevice {
 		return apiKey;
 	}
 
-	public NewDevice createDevice(String name){
-		return new NewDevice(name, false, false, generateApiKey());
+	public NewDevice createDevice(String name) {
+		return new NewDevice(name, false, false, this.generateApiKey());
 	}
 
 

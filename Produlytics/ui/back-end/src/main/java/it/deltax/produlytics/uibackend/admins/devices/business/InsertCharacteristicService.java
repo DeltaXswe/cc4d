@@ -26,10 +26,10 @@ public class InsertCharacteristicService implements InsertCharacteristicUseCase 
 	}
 
 	public int insertByDevice(int deviceId, NewCharacteristic characteristic) throws BusinessException {
-		if (findDevicePort.findDetailedDevice(deviceId).isEmpty())
+		if (this.findDevicePort.findDetailedDevice(deviceId).isEmpty())
 			throw new BusinessException("deviceNotFound", ErrorType.NOT_FOUND);
 
-		if (!findCharacteristicPort.findByName(characteristic.name()).isEmpty())
+		if (!this.findCharacteristicPort.findByName(characteristic.name()).isEmpty())
 			throw new BusinessException("duplicateCharacteristicName", ErrorType.GENERIC);
 
 		if (characteristic.autoAdjust() == false && (
@@ -37,6 +37,6 @@ public class InsertCharacteristicService implements InsertCharacteristicUseCase 
 		))
 			throw new BusinessException("invalidValues", ErrorType.GENERIC);
 
-		return insertPort.insertByDevice(deviceId, characteristic);
+		return this.insertPort.insertByDevice(deviceId, characteristic);
 	}
 }

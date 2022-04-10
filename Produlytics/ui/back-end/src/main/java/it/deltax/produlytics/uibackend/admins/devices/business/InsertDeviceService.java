@@ -9,20 +9,24 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class InsertDeviceService implements InsertDeviceUseCase {
-	private InsertDevicePort insertDevicePort;
-	private CreateDevice createDevice;
-	private InsertCharacteristicPort insertCharacteristicPort;
+	private final InsertDevicePort insertDevicePort;
+	private final CreateDevice createDevice;
+	private final InsertCharacteristicPort insertCharacteristicPort;
 
-	public InsertDeviceService(InsertDevicePort insertDevicePort, CreateDevice createDevice){
+	public InsertDeviceService(
+		InsertDevicePort insertDevicePort,
+		CreateDevice createDevice,
+		InsertCharacteristicPort insertCharacteristicPort){
 		this.insertDevicePort = insertDevicePort;
 		this.createDevice = createDevice;
+		this.insertCharacteristicPort = insertCharacteristicPort;
 	}
 
 	@Override
 	public int insertDevice(DeviceToInsert device) {
-		int id = insertDevicePort.insertDevice(createDevice.createDevice(device.name()));
+		int id = this.insertDevicePort.insertDevice(this.createDevice.createDevice(device.name()));
 		for(NewCharacteristic characteristic : device.characteristics())
-			insertCharacteristicPort.insertByDevice(id, characteristic);
+			this.insertCharacteristicPort.insertByDevice(id, characteristic);
 		return id;
 	}
 }

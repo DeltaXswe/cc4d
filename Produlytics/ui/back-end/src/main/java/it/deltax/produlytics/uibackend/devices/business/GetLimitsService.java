@@ -17,7 +17,7 @@ public class GetLimitsService implements GetLimitsUseCase {
 
     @Override
     public CharacteristicLimits getByCharacteristic(int deviceId, int characteristicId) throws BusinessException {
-        return findCharacteristicLimitsPort.findByCharacteristic(deviceId, characteristicId)
+        return this.findCharacteristicLimitsPort.findByCharacteristic(deviceId, characteristicId)
             .orElseThrow(() -> new BusinessException("characteristicNotFound", ErrorType.NOT_FOUND));
     }
 }

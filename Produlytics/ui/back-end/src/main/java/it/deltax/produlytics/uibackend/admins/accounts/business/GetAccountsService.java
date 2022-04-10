@@ -17,6 +17,6 @@ public class GetAccountsService implements GetAccountsUseCase {
 
 	@Override
 	public List<AccountTiny> getAccounts() {
-		return getAccountsPort.getAccounts();
+		return this.getAccountsPort.getAccounts();
 	}
 }

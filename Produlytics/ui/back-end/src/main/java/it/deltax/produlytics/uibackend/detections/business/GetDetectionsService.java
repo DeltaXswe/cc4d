@@ -32,11 +32,11 @@ public class GetDetectionsService implements GetDetectionsUseCase {
 	@Override
 	public Detections listByCharacteristic(int deviceId, int characteristicId, DetectionFilters filters)
 	throws BusinessException {
-		if (findCharacteristicPort.findByCharacteristic(deviceId, characteristicId).isEmpty()) {
+		if (this.findCharacteristicPort.findByCharacteristic(deviceId, characteristicId).isEmpty()) {
 			throw new BusinessException("characteristicNotFound", ErrorType.NOT_FOUND);
 		}
 
-		List<Detection> detections = port.findAllByCharacteristic(deviceId, characteristicId, filters.olderThan());
+		List<Detection> detections = this.port.findAllByCharacteristic(deviceId, characteristicId, filters.olderThan());
 		final int initialSize = detections.size();
 
 		if (filters.limit().isPresent()) {

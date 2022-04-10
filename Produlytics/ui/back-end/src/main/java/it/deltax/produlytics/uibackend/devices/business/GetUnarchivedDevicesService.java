@@ -18,6 +18,6 @@ public class GetUnarchivedDevicesService implements GetUnarchivedDevicesUseCase 
 
     @Override
     public List<TinyDevice> getUnarchivedDevices() {
-        return port.getUnarchivedDevices();
+        return this.port.getUnarchivedDevices();
     }
 }

@@ -14,7 +14,7 @@ public class AccountAdapter implements UpdateAccountPasswordPort {
 
     @Override
     public void updateAccountPassword(Account account){
-        repo.save(new AccountEntity(
+        this.repo.save(new AccountEntity(
             account.username(),
             account.hashedPassword(),
             account.administrator(),

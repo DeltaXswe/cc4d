@@ -41,7 +41,7 @@ public class AdminsAccountsController {
 	@PostMapping("/accounts")
 	public ResponseEntity<Map<String, String>> insertAccount(
 		@RequestBody AccountToInsert account) throws BusinessException {
-		insertAccountUseCase.insertAccount(account);
+		this.insertAccountUseCase.insertAccount(account);
 		Map<String, String> map = new HashMap<>();
 		map.put("username", account.username());
 		return ResponseEntity.ok(map);
@@ -49,14 +49,15 @@ public class AdminsAccountsController {
 
 	@GetMapping("/accounts")
 	public ResponseEntity<List<AccountTiny>> getAccounts() throws BusinessException {
-		return ResponseEntity.ok(getAccountsUseCase.getAccounts());
+		return ResponseEntity.ok(this.getAccountsUseCase.getAccounts());
 	}
 
 	@PutMapping("/{username}")
 	public ResponseEntity<String> updateAccount(
 		@PathVariable("username") String username,
 		@RequestBody(required=false) AccountDataToUpdate body) throws BusinessException {
-		updateAccountByAdminUseCase.updateByUsername(new AccountUpdatedByAdmin(username, body.newPassword(), body.administrator()));
+		this.updateAccountByAdminUseCase.updateByUsername(
+			new AccountUpdatedByAdmin(username, body.newPassword(), body.administrator()));
 		return new ResponseEntity<>(NO_CONTENT);
 	}
 
@@ -65,7 +66,8 @@ public class AdminsAccountsController {
 		@PathVariable("username") String username,
 		@RequestBody JsonNode body) throws BusinessException {
 		boolean archived = body.get("archived").asBoolean();
-		updateAccountArchiveStatusUseCase.updateAccountArchiveStatus(new AccountArchiveStatus(username, archived));
+		this.updateAccountArchiveStatusUseCase.updateAccountArchiveStatus(
+			new AccountArchiveStatus(username, archived));
 		return new ResponseEntity<>(NO_CONTENT);
 	}
 }

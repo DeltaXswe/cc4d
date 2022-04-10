@@ -13,6 +13,6 @@ public class PasswordEncoderAdapter implements PasswordEncoderPort {
 
 	@Override
 	public String encode(String rawPassword){
-		return encoderConfig.getEncoder().encode(rawPassword);
+		return this.encoderConfig.getEncoder().encode(rawPassword);
 	}
 }
