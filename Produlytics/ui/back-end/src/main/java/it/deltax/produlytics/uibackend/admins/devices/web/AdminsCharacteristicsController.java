@@ -24,7 +24,7 @@ public class AdminsCharacteristicsController {
 	) throws BusinessException {
 		return ResponseEntity.ok(Map.of(
 			"id",
-			insertCharacteristic.insertByDevice(deviceId, characteristic)
+			this.insertCharacteristic.insertByDevice(deviceId, characteristic)
 		));
 	}
 }

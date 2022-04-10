@@ -20,12 +20,12 @@ public class AdminCharacteristicAdapter implements FindCharacteristicPort, Inser
 
 	@Override
 	public List<CharacteristicEntity> findByName(String name) {
-		return repository.findByName(name);
+		return this.repository.findByName(name);
 	}
 
 	@Override
 	public int insertByDevice(int deviceId, NewCharacteristic characteristic) {
-		CharacteristicEntity entity = repository.saveAndFlush(new CharacteristicEntity(
+		CharacteristicEntity entity = this.repository.saveAndFlush(new CharacteristicEntity(
 			new CharacteristicEntityId(deviceId),
 			characteristic.name(),
 			characteristic.upperLimit().isPresent() ? characteristic.upperLimit().getAsDouble() : null,
@@ -34,7 +34,6 @@ public class AdminCharacteristicAdapter implements FindCharacteristicPort, Inser
 			characteristic.sampleSize().isPresent() ? characteristic.sampleSize().getAsInt() : null,
 			characteristic.archived()
 		));
-
 		return entity.getId().getId();
 	}
 }

@@ -23,7 +23,7 @@ public class UnarchivedCharacteristicAdapter
 
     @Override
     public List<CharacteristicTitle> findAllByDeviceId(int deviceId) {
-        return repo.findByArchivedFalseAndId_DeviceId(deviceId)
+        return this.repo.findByArchivedFalseAndId_DeviceId(deviceId)
                 .stream()
                 .map(characteristicEntity -> new CharacteristicTitle(
                     characteristicEntity.getId().getId(),
@@ -34,7 +34,7 @@ public class UnarchivedCharacteristicAdapter
 
     @Override
     public Optional<CharacteristicLimits> findByCharacteristic(int deviceId, int characteristicId) {
-        return repo.findById(new CharacteristicEntityId(deviceId, characteristicId))
+        return this.repo.findById(new CharacteristicEntityId(deviceId, characteristicId))
             .map(characteristic -> CharacteristicLimits.newCharacteristicLimits(
                 characteristic.getLowerLimit(),
                 characteristic.getUpperLimit()

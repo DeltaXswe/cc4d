@@ -30,7 +30,7 @@ public class AdminsDevicesController {
 		UpdateDeviceNameUseCase updateDeviceNameUseCase,
 		UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase,
 		UpdateDeviceDeactivateStatusUseCase updateDeviceDeativateStatusUseCase
-	){
+	) {
 		this.insertDeviceUseCase = insertDeviceUseCase;
 		this.getDevicesUseCase = getDevicesUseCase;
 		this.getDeviceDetailsUseCase = getDeviceDetailsUseCase;
@@ -39,11 +39,10 @@ public class AdminsDevicesController {
 		this.updateDeviceDeactivateStatusUseCase = updateDeviceDeativateStatusUseCase;
 	}
 
-
 	@PostMapping("/devices")
 	public ResponseEntity<Map<String, String>> insertDevice(
 		@RequestBody DeviceToInsert device) throws BusinessException {
-		int id = insertDeviceUseCase.insertDevice(device);
+		int id = this.insertDeviceUseCase.insertDevice(device);
 		Map<String, String> map = new HashMap<>();
 		map.put("id", String.valueOf(id));
 		return ResponseEntity.ok(map);
@@ -51,13 +50,13 @@ public class AdminsDevicesController {
 
 	@GetMapping("/devices")
 	public ResponseEntity<Iterable<Device>> getDevices() throws BusinessException {
-		return ResponseEntity.ok(getDevicesUseCase.getDevices());
+		return ResponseEntity.ok(this.getDevicesUseCase.getDevices());
 	}
 
 	@GetMapping("/devices/{id}")
 	public ResponseEntity<DetailedDevice> getDeviceDetails(
 		@PathVariable("id") int id) throws BusinessException {
-		return ResponseEntity.ok(getDeviceDetailsUseCase.getDeviceDetails(id));
+		return ResponseEntity.ok(this.getDeviceDetailsUseCase.getDeviceDetails(id));
 	}
 
 	@PutMapping("/devices/{id}/name")
@@ -65,7 +64,7 @@ public class AdminsDevicesController {
 		@PathVariable("id") int id,
 		@RequestBody JsonNode body) throws BusinessException {
 		String name = body.get("name").toString();
-		updateDeviceNameUseCase.updateDeviceName(new TinyDevice(id, name));
+		this.updateDeviceNameUseCase.updateDeviceName(new TinyDevice(id, name));
 		return new ResponseEntity<>(NO_CONTENT);
 	}
 
@@ -74,7 +73,7 @@ public class AdminsDevicesController {
 		@PathVariable("id") int id,
 		@RequestBody JsonNode body) throws BusinessException {
 		boolean archived = body.get("archived").asBoolean();
-		updateDeviceArchiveStatusUseCase.updateDeviceArchiveStatus(new DeviceArchiveStatus(id, archived));
+		this.updateDeviceArchiveStatusUseCase.updateDeviceArchiveStatus(new DeviceArchiveStatus(id, archived));
 		return new ResponseEntity<>(NO_CONTENT);
 	}
 
@@ -83,9 +82,8 @@ public class AdminsDevicesController {
 		@PathVariable("id") int id,
 		@RequestBody JsonNode body) throws BusinessException {
 		boolean deactivated = body.get("deactivated").asBoolean();
-		updateDeviceDeactivateStatusUseCase.updateDeviceDeactivateStatus(new DeviceDeactivateStatus(id, deactivated));
+		this.updateDeviceDeactivateStatusUseCase.updateDeviceDeactivateStatus(
+			new DeviceDeactivateStatus(id, deactivated));
 		return new ResponseEntity<>(NO_CONTENT);
 	}
-
-
 }

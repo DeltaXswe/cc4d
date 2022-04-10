@@ -30,7 +30,7 @@ public class CharacteristicsController {
     ResponseEntity<List<CharacteristicTitle>> getUnarchivedCharacteristics(
         @PathVariable("id") int deviceId
     ) throws BusinessException {
-        return ResponseEntity.ok(getUnarchivedCharacteristics.getByDevice(deviceId));
+        return ResponseEntity.ok(this.getUnarchivedCharacteristics.getByDevice(deviceId));
     }
 
 	@GetMapping("{characteristicId}/limits")
@@ -38,6 +38,6 @@ public class CharacteristicsController {
         @PathVariable("id") int deviceId,
         @PathVariable("characteristicId") int characteristicId
     ) throws BusinessException {
-        return ResponseEntity.ok(getLimits.getByCharacteristic(deviceId, characteristicId));
+        return ResponseEntity.ok(this.getLimits.getByCharacteristic(deviceId, characteristicId));
     }
 }

@@ -47,10 +47,10 @@ public class DetectionsTests extends UiBackendApplicationTests {
 
 	@BeforeEach
 	private void prepareContext() {
-		deviceRepository.saveAndFlush(device);
-		characteristicRepository.saveAndFlush(characteristic);
+		this.deviceRepository.saveAndFlush(this.device);
+		this.characteristicRepository.saveAndFlush(this.characteristic);
 		for (int i = 1; i < 5; ++i) {
-			repository.save(new DetectionEntity(
+			this.repository.save(new DetectionEntity(
 				new DetectionEntityId(Instant.ofEpochMilli(i), 1, 1),
 				100d * i,
 				false
@@ -61,44 +61,52 @@ public class DetectionsTests extends UiBackendApplicationTests {
 	@Override
 	@Test
 	void contextLoads() {
-		assertThat(repository).isNotNull();
-		assertThat(controller).isNotNull();
+		assertThat(this.repository).isNotNull();
+		assertThat(this.controller).isNotNull();
 	}
 
 	@Test
 	void getWithNoFilter() throws Exception {
-		mockMvc.perform(get("/devices/1/characteristics/1/detections"))
+		this.mockMvc.perform(get("/devices/1/characteristics/1/detections"))
 			.andDo(print())
 			.andExpect(status().isOk())
-			.andExpect(content().string("{\"detections\":[{\"creationTime\":1,\"value\":100.0,\"outlier\":false},{\"creationTime\":2,\"value\":200.0,\"outlier\":false},{\"creationTime\":3,\"value\":300.0,\"outlier\":false},{\"creationTime\":4,\"value\":400.0,\"outlier\":false}],\"nextOld\":null,\"nextNew\":4}"));
+			.andExpect(content().string(
+				"{\"detections\":[{\"creationTime\":1,\"value\":100.0,\"outlier\":false},"
+					+ "{\"creationTime\":2,\"value\":200.0,\"outlier\":false},"
+					+ "{\"creationTime\":3,\"value\":300.0,\"outlier\":false},"
+					+ "{\"creationTime\":4,\"value\":400.0,\"outlier\":false}],\"nextOld\":null,\"nextNew\":4}"));
 	}
 
 	@Test
 	void getWithLimit() throws Exception {
-		mockMvc.perform(get("/devices/1/characteristics/1/detections?limit=2"))
+		this.mockMvc.perform(get("/devices/1/characteristics/1/detections?limit=2"))
 			.andDo(print())
 			.andExpect(status().isOk())
-			.andExpect(content().string("{\"detections\":[{\"creationTime\":3,\"value\":300.0,\"outlier\":false},{\"creationTime\":4,\"value\":400.0,\"outlier\":false}],\"nextOld\":3,\"nextNew\":4}"));
+			.andExpect(content().string(
+				"{\"detections\":[{\"creationTime\":3,\"value\":300.0,\"outlier\":false},"
+					+ "{\"creationTime\":4,\"value\":400.0,\"outlier\":false}],\"nextOld\":3,\"nextNew\":4}"));
 	}
 
 	@Test
 	void getWithOlderAndNewer() throws Exception {
-		mockMvc.perform(get("/devices/1/characteristics/1/detections?newerThan=1&olderThan=4"))
+		this.mockMvc.perform(get("/devices/1/characteristics/1/detections?newerThan=1&olderThan=4"))
 			.andDo(print())
 			.andExpect(status().isOk())
-			.andExpect(content().string("{\"detections\":[{\"creationTime\":2,\"value\":200.0,\"outlier\":false},{\"creationTime\":3,\"value\":300.0,\"outlier\":false}],\"nextOld\":2,\"nextNew\":3}"));
+			.andExpect(content().string(
+				"{\"detections\":[{\"creationTime\":2,\"value\":200.0,\"outlier\":false}0"
+					+ ",{\"creationTime\":3,\"value\":300.0,\"outlier\":false}],\"nextOld\":2,\"nextNew\":3}"));
 	}
 
 	@Test
 	void getEmpty() throws Exception {
-		mockMvc.perform(get("/devices/1/characteristics/1/detections?newerThan=7&olderThan=4"))
+		this.mockMvc.perform(get("/devices/1/characteristics/1/detections?newerThan=7&olderThan=4"))
 			.andDo(print())
 			.andExpect(status().isOk());
 	}
 
 	@Test
 	void characteristicNotFoundError() throws Exception {
-		mockMvc.perform(get("/devices/1/characteristics/600/detections"))
+		this.mockMvc.perform(get("/devices/1/characteristics/600/detections"))
 			.andDo(print())
 			.andExpect(status().isNotFound())
 			.andExpect(content().string("{\"errorCode\":\"characteristicNotFound\"}"));

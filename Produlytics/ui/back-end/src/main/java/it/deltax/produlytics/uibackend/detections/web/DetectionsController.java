@@ -26,7 +26,8 @@ public class DetectionsController {
 		@RequestParam(value = "newerThan", required = false) Long newerThan,
 		@RequestParam(value = "limit", required = false) Integer limit
 	) throws BusinessException {
-		return listDetectionsByCharacteristic.listByCharacteristic(deviceId, characteristicId, new DetectionFilters(
+		return this.listDetectionsByCharacteristic.listByCharacteristic(
+			deviceId, characteristicId, new DetectionFilters(
 			olderThan != null ? OptionalLong.of(olderThan) : OptionalLong.empty(),
 			newerThan != null ? OptionalLong.of(newerThan) : OptionalLong.empty(),
 			limit != null ? OptionalInt.of(limit) : OptionalInt.empty()

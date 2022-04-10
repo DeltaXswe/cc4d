@@ -32,7 +32,7 @@ public class AdminDeviceAdapter implements
 
 	@Override
 	public List<Device> getDevices() {
-		return StreamSupport.stream(repo.findAll().spliterator(), false)
+		return StreamSupport.stream(this.repo.findAll().spliterator(), false)
 			.map(device ->
 				new Device(
 					device.getId(),
@@ -45,7 +45,7 @@ public class AdminDeviceAdapter implements
 
 	@Override
 	public Optional<TinyDevice> findTinyDevice(int deviceId) {
-		return repo.findById(deviceId)
+		return this.repo.findById(deviceId)
 			.map(device ->
 				new TinyDevice(
 					device.getId(),
@@ -55,7 +55,7 @@ public class AdminDeviceAdapter implements
 
 	@Override
 	public Optional<DetailedDevice> findDetailedDevice(int deviceId) {
-		return repo.findById(deviceId)
+		return this.repo.findById(deviceId)
 			.map(device ->
 				new DetailedDevice(
 					device.getId(),
@@ -68,7 +68,7 @@ public class AdminDeviceAdapter implements
 
 	@Override
 	public void updateDeviceArchiveStatus(DetailedDevice device) {
-		repo.save(new DeviceEntity(
+		this.repo.save(new DeviceEntity(
 			device.name(),
 			device.archived(),
 			device.deactivated(),
@@ -77,7 +77,7 @@ public class AdminDeviceAdapter implements
 
 	@Override
 	public void updateDeviceDeactivateStatus(DetailedDevice device) {
-		repo.save(new DeviceEntity(
+		this.repo.save(new DeviceEntity(
 			device.name(),
 			device.archived(),
 			device.deactivated(),
@@ -86,7 +86,7 @@ public class AdminDeviceAdapter implements
 
 	@Override
 	public void updateDeviceName(DetailedDevice device) {
-		repo.save(new DeviceEntity(
+		this.repo.save(new DeviceEntity(
 			device.name(),
 			device.archived(),
 			device.deactivated(),
@@ -95,7 +95,7 @@ public class AdminDeviceAdapter implements
 
 	@Override
 	public int insertDevice(NewDevice device) {
-		DeviceEntity entity = repo.saveAndFlush(new DeviceEntity(device.name(),
+		DeviceEntity entity = this.repo.saveAndFlush(new DeviceEntity(device.name(),
 			device.archived(),
 			device.deactivated(),
 			device.apiKey()

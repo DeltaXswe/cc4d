@@ -17,6 +17,6 @@ public class GetDevicesService implements GetDevicesUseCase {
 
 	@Override
 	public List<Device> getDevices() {
-		return getDevicesPort.getDevices();
+		return this.getDevicesPort.getDevices();
 	}
 }

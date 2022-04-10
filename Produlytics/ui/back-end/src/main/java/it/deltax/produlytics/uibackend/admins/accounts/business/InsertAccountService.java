@@ -34,12 +34,12 @@ public class InsertAccountService implements InsertAccountUseCase {
 		if (account.password().length() < 6)
 			throw new BusinessException("invalidPassword", ErrorType.GENERIC);
 
-		Optional<Account> result = findAccountPort.findByUsername(account.username());
+		Optional<Account> result = this.findAccountPort.findByUsername(account.username());
 		if (result.isPresent())
 			throw new BusinessException("duplicateUsername", ErrorType.GENERIC);
 
-		String hashedPassword = passwordEncoderPort.encode(account.password());
-		insertAccountPort.insertAccount(new Account(
+		String hashedPassword = this.passwordEncoderPort.encode(account.password());
+		this.insertAccountPort.insertAccount(new Account(
 			account.username(),hashedPassword,account.administrator(),false));
 	}
 

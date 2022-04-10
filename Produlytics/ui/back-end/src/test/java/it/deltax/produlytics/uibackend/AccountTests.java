@@ -6,6 +6,7 @@ import it.deltax.produlytics.uibackend.accounts.web.AccountController;
 import it.deltax.produlytics.uibackend.repositories.AccountRepository;
 import net.minidev.json.JSONObject;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -32,24 +33,24 @@ public class AccountTests extends UiBackendApplicationTests {
 	@Override
 	@Test
 	void contextLoads() {
-		assertThat(accountController).isNotNull();
-		assertThat(accountRepository).isNotNull();
+		assertThat(this.accountController).isNotNull();
+		assertThat(this.accountRepository).isNotNull();
 	}
 
 	@Test
 	public void testUpdatePasswordOk() throws Exception {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		accountRepository.save(new AccountEntity(
+		this.accountRepository.save(new AccountEntity(
 			"utente1",
 			encoder.encode("passwordvecchia"),
 			true,
 			false));
-		accountRepository.findById("utente1").get().getHashedPassword();
+		this.accountRepository.findById("utente1").get().getHashedPassword();
 		JSONObject json = new JSONObject();
 		json.put("currentPassword", "passwordvecchia");
 		json.put("newPassword", "passwordnuova");
 
-		mockMvc.perform(put("/accounts/utente1/password")
+		this.mockMvc.perform(put("/accounts/utente1/password")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(json.toString())
 			.characterEncoding("utf-8"))
@@ -59,9 +60,10 @@ public class AccountTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testUpdatePasswordInvalidNewPassword() throws Exception {
-		accountRepository.save(new AccountEntity(
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		this.accountRepository.save(new AccountEntity(
 			"utente1",
-			"$2a$10$agOHp6bPzNdLi1F.yOf.QuP3jbeD1RPmrD0krDNwYabwNBg9viIre", //passwordciao
+			encoder.encode("passwordciao"),
 			true,
 			false));
 
@@ -69,7 +71,7 @@ public class AccountTests extends UiBackendApplicationTests {
 		json.put("currentPassword", "passwordciao");
 		json.put("newPassword", "p");
 
-		mockMvc.perform(put("/accounts/utente1/password")
+		this.mockMvc.perform(put("/accounts/utente1/password")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json.toString())
 				.characterEncoding("utf-8"))
@@ -79,9 +81,10 @@ public class AccountTests extends UiBackendApplicationTests {
 
 	@Test
 	public void testUpdatePasswordWrongOldPassword() throws Exception {
-		accountRepository.save(new AccountEntity(
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		this.accountRepository.save(new AccountEntity(
 			"utente1",
-			"$2a$10$agOHp6bPzNdLi1F.yOf.QuP3jbeD1RPmrD0krDNwYabwNBg9viIre", //passwordciao
+			encoder.encode("passwordciao"),
 			true,
 			false));
 
@@ -89,7 +92,7 @@ public class AccountTests extends UiBackendApplicationTests {
 		json.put("currentPassword", "passwordsbagliata");
 		json.put("newPassword", "passwordnuova");
 
-		mockMvc.perform(put("/accounts/utente1/password")
+		this.mockMvc.perform(put("/accounts/utente1/password")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json.toString())
 				.characterEncoding("utf-8"))

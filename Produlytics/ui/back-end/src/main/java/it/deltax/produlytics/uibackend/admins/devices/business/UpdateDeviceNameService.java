@@ -14,18 +14,20 @@ public class UpdateDeviceNameService implements UpdateDeviceNameUseCase {
 	private final FindDetailedDevicePort findDetailedDevicePort;
 	private final UpdateDeviceNamePort updateDeviceNamePort;
 
-	public UpdateDeviceNameService(FindDetailedDevicePort findDetailedDevicePort, UpdateDeviceNamePort updateDeviceNamePort) {
+	public UpdateDeviceNameService(
+		FindDetailedDevicePort findDetailedDevicePort,
+		UpdateDeviceNamePort updateDeviceNamePort) {
 		this.findDetailedDevicePort = findDetailedDevicePort;
 		this.updateDeviceNamePort = updateDeviceNamePort;
 	}
 
 	@Override
 	public void updateDeviceName(TinyDevice command) throws BusinessException {
-		DetailedDevice.DetailedDeviceBuilder toUpdate = findDetailedDevicePort.findDetailedDevice(command.id())
+		DetailedDevice.DetailedDeviceBuilder toUpdate = this.findDetailedDevicePort.findDetailedDevice(command.id())
 			.map(device -> device.toBuilder())
 			.orElseThrow(() -> new BusinessException("deviceNotFound", ErrorType.NOT_FOUND));
 
 		toUpdate.withName(command.name());
-		updateDeviceNamePort.updateDeviceName(toUpdate.build());
+		this.updateDeviceNamePort.updateDeviceName(toUpdate.build());
 	}
 }

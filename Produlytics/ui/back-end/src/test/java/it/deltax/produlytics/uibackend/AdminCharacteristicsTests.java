@@ -45,7 +45,7 @@ public class AdminCharacteristicsTests extends UiBackendApplicationTests {
 
 	@BeforeEach
 	private void prepareContext() {
-		deviceRepository.saveAndFlush(new DeviceEntity(
+		this.deviceRepository.saveAndFlush(new DeviceEntity(
 			"macchina",
 			false,
 			false,
@@ -56,8 +56,8 @@ public class AdminCharacteristicsTests extends UiBackendApplicationTests {
 	@Override
 	@Test
 	void contextLoads() {
-		assertThat(deviceRepository).isNotNull();
-		assertThat(characteristicRepository).isNotNull();
+		assertThat(this.deviceRepository).isNotNull();
+		assertThat(this.characteristicRepository).isNotNull();
 	}
 
 	@Test
@@ -67,7 +67,7 @@ public class AdminCharacteristicsTests extends UiBackendApplicationTests {
 		body.put("autoAdjust", "true");
 		body.put("archived", "false");
 
-		mockMvc.perform(post("/admins/devices/1/characteristics")
+		this.mockMvc.perform(post("/admins/devices/1/characteristics")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(body.toString())
 				.characterEncoding("utf-8")

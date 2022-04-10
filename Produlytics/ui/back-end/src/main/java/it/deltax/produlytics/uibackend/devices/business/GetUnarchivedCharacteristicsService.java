@@ -24,7 +24,7 @@ public class GetUnarchivedCharacteristicsService implements GetUnarchivedCharact
 
     @Override
     public List<CharacteristicTitle> getByDevice(int deviceId) throws BusinessException {
-        var characteristics = port.findAllByDeviceId(deviceId);
+        var characteristics = this.port.findAllByDeviceId(deviceId);
 
         if (characteristics.isEmpty())
             throw new BusinessException("deviceNotFound", ErrorType.NOT_FOUND);

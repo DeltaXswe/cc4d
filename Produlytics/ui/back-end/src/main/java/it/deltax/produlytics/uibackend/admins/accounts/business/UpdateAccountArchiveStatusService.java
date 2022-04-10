@@ -23,11 +23,11 @@ public class UpdateAccountArchiveStatusService implements UpdateAccountArchiveSt
 
 	@Override
 	public void updateAccountArchiveStatus(AccountArchiveStatus accountArchiveStatus) throws BusinessException {
-		Account.AccountBuilder toUpdate = findAccountPort.findByUsername(accountArchiveStatus.username())
+		Account.AccountBuilder toUpdate = this.findAccountPort.findByUsername(accountArchiveStatus.username())
 			.map(account -> account.toBuilder())
 			.orElseThrow(() -> new BusinessException("accountNotFound", ErrorType.NOT_FOUND));
 
 		toUpdate.withArchived(accountArchiveStatus.archived());
-		updateAccountArchiveStatusPort.updateAccountArchiveStatus(toUpdate.build());
+		this.updateAccountArchiveStatusPort.updateAccountArchiveStatus(toUpdate.build());
 	}
 }

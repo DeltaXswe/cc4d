@@ -23,11 +23,11 @@ public class UpdateDeviceDeactivateStatusService implements UpdateDeviceDeactiva
 
 	@Override
 	public void updateDeviceDeactivateStatus(DeviceDeactivateStatus command) throws BusinessException {
-		DetailedDevice.DetailedDeviceBuilder toUpdate = findDetailedDevicePort.findDetailedDevice(command.id())
+		DetailedDevice.DetailedDeviceBuilder toUpdate = this.findDetailedDevicePort.findDetailedDevice(command.id())
 			.map(device -> device.toBuilder())
 			.orElseThrow(() -> new BusinessException("deviceNotFound", ErrorType.NOT_FOUND));
 
 		toUpdate.withDeactivated(command.deactivated());
-		updateDeviceDeactivateStatusPort.updateDeviceDeactivateStatus(toUpdate.build());
+		this.updateDeviceDeactivateStatusPort.updateDeviceDeactivateStatus(toUpdate.build());
 	}
 }

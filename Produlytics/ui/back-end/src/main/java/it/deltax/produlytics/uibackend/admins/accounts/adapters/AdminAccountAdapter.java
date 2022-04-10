@@ -29,7 +29,7 @@ public class AdminAccountAdapter implements UpdateAccountArchiveStatusPort,
 
 	@Override
 	public void updateAccountArchiveStatus(Account account){
-		repo.save(new AccountEntity(
+		this.repo.save(new AccountEntity(
 			account.username(),
 			account.hashedPassword(),
 			account.administrator(),
@@ -39,7 +39,7 @@ public class AdminAccountAdapter implements UpdateAccountArchiveStatusPort,
 
 	@Override
 	public Optional<Account> findByUsername(String username) {
-		return repo.findById(username)
+		return this.repo.findById(username)
 			.map(utente ->
 				new Account(
 					utente.getUsername(),
@@ -50,7 +50,7 @@ public class AdminAccountAdapter implements UpdateAccountArchiveStatusPort,
 	}
 	@Override
 	public void updateAccount(Account account){
-		repo.save(new AccountEntity(
+		this.repo.save(new AccountEntity(
 			account.username(),
 			account.hashedPassword(),
 			account.administrator(),
@@ -60,7 +60,7 @@ public class AdminAccountAdapter implements UpdateAccountArchiveStatusPort,
 
 	@Override
 	public void insertAccount(Account account){
-		repo.save(new AccountEntity(
+		this.repo.save(new AccountEntity(
 				account.username(),
 				account.hashedPassword(),
 				account.administrator(),
@@ -71,7 +71,7 @@ public class AdminAccountAdapter implements UpdateAccountArchiveStatusPort,
 
 	@Override
 	public List<AccountTiny> getAccounts() {
-		return StreamSupport.stream(repo.findAll().spliterator(), false)
+		return StreamSupport.stream(this.repo.findAll().spliterator(), false)
 			.map(account ->
 				new AccountTiny(account.getUsername(), account.getAdministrator(), account.getArchived())
 			)
