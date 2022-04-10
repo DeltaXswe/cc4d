@@ -5,6 +5,7 @@ import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
 import net.minidev.json.JSONObject;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,6 +53,15 @@ public class AdminCharacteristicsTests {
 		));
 
 		url = "/admins/devices/" + device.getId() + "/characteristics";
+	}
+
+	@AfterAll
+	private static void deleteAll(
+		@Autowired DeviceRepository deviceRepository,
+		@Autowired CharacteristicRepository characteristicRepository
+	) {
+		characteristicRepository.deleteAll();
+		deviceRepository.deleteAll();
 	}
 
 	@BeforeEach
