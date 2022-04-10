@@ -11,6 +11,6 @@ import java.util.List;
  * @author Alberto Lazari
  */
 public interface CharacteristicRepository extends JpaRepository<CharacteristicEntity, CharacteristicEntityId> {
-    List<CharacteristicEntity> findByArchivedFalseAndId_DeviceId(int deviceId);
+    List<CharacteristicEntity> findByArchivedFalseAndDeviceId(int deviceId);
     List<CharacteristicEntity> findByName(String name);
 }

@@ -1,7 +1,6 @@
 package it.deltax.produlytics.uibackend.admins.devices.adapters;
 
 import it.deltax.produlytics.persistence.CharacteristicEntity;
-import it.deltax.produlytics.persistence.CharacteristicEntityId;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.NewCharacteristic;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindCharacteristicPort;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertCharacteristicPort;
@@ -34,7 +33,7 @@ public class AdminCharacteristicAdapter implements FindCharacteristicPort, Inser
 	@Override
 	public int insertByDevice(int deviceId, NewCharacteristic characteristic) {
 		CharacteristicEntity entity = this.repo.saveAndFlush(new CharacteristicEntity(
-			new CharacteristicEntityId(deviceId),
+			deviceId,
 			characteristic.name(),
 			characteristic.upperLimit().isPresent() ? characteristic.upperLimit().getAsDouble() : null,
 			characteristic.lowerLimit().isPresent() ? characteristic.lowerLimit().getAsDouble() : null,
@@ -42,6 +41,6 @@ public class AdminCharacteristicAdapter implements FindCharacteristicPort, Inser
 			characteristic.sampleSize().isPresent() ? characteristic.sampleSize().getAsInt() : null,
 			characteristic.archived()
 		));
-		return entity.getId().getId();
+		return entity.getId();
 	}
 }
