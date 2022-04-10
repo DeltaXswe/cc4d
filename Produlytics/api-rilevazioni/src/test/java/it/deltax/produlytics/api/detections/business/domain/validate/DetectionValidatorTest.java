@@ -22,7 +22,7 @@ public class DetectionValidatorTest {
 		CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
 
 		FindCharacteristicByNamePort findCharacteristicByNamePort = new FindCharacteristicByNamePortMock(42,
-			"bar" ,
+			"bar",
 			characteristicInfo
 		);
 
@@ -44,7 +44,7 @@ public class DetectionValidatorTest {
 			CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
 
 			FindCharacteristicByNamePort findCharacteristicByNamePort = new FindCharacteristicByNamePortMock(42,
-				"bar" ,
+				"bar",
 				characteristicInfo
 			);
 
@@ -52,7 +52,7 @@ public class DetectionValidatorTest {
 				findCharacteristicByNamePort
 			);
 
-			detectionValidator.validateAndFindId("invalidFoo" , "bar");
+			detectionValidator.validateAndFindId("invalidFoo", "bar");
 		});
 
 		assert exception.getCode().equals("notAuthenticated");
@@ -70,7 +70,7 @@ public class DetectionValidatorTest {
 			CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
 
 			FindCharacteristicByNamePort findCharacteristicByNamePort = new FindCharacteristicByNamePortMock(42,
-				"bar" ,
+				"bar",
 				characteristicInfo
 			);
 
@@ -96,7 +96,7 @@ public class DetectionValidatorTest {
 			CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
 
 			FindCharacteristicByNamePort findCharacteristicByNamePort = new FindCharacteristicByNamePortMock(42,
-				"bar" ,
+				"bar",
 				characteristicInfo
 			);
 
@@ -122,7 +122,7 @@ public class DetectionValidatorTest {
 			CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
 
 			FindCharacteristicByNamePort findCharacteristicByNamePort = new FindCharacteristicByNamePortMock(42,
-				"bar" ,
+				"bar",
 				characteristicInfo
 			);
 
@@ -148,7 +148,7 @@ public class DetectionValidatorTest {
 			CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, true);
 
 			FindCharacteristicByNamePort findCharacteristicByNamePort = new FindCharacteristicByNamePortMock(42,
-				"bar" ,
+				"bar",
 				characteristicInfo
 			);
 

@@ -46,7 +46,7 @@ public class DetectionsAdapter implements FindDeviceByApiKeyPort,
 
 	@Override
 	public Optional<CharacteristicInfo> findCharacteristicByName(int deviceId, String name) {
-		return this.characteristicRepository.findByName(deviceId, name)
+		return this.characteristicRepository.findByDeviceIdAndName(deviceId, name)
 			.map(characteristicEntity -> new CharacteristicInfo(characteristicEntity.getId(),
 				characteristicEntity.getArchived()
 			));

@@ -98,11 +98,11 @@ public class DetectionsTest {
 		String ident = "1";
 		this.insertDummyCharacteristic(ident, false, false, false);
 
-		String requestBody = new JSONObject().put("apiKey" , "invalidApiKey")
-			.put("characteristic" , "characteristic" + ident)
-			.put("value" , 0)
+		String requestBody = new JSONObject().put("apiKey", "invalidApiKey")
+			.put("characteristic", "characteristic" + ident)
+			.put("value", 0)
 			.toString();
-		String requestResponse = new JSONObject().put("errorCode" , "notAuthenticated").toString();
+		String requestResponse = new JSONObject().put("errorCode", "notAuthenticated").toString();
 
 		mockMvc.perform(post("/detections").content(requestBody).contentType("application/json"))
 			.andExpect(status().is(401))
@@ -113,11 +113,11 @@ public class DetectionsTest {
 		String ident = "2";
 		this.insertDummyCharacteristic(ident, true, false, false);
 
-		String requestBody = new JSONObject().put("apiKey" , "apiKey" + ident)
-			.put("characteristic" , "characteristic" + ident)
-			.put("value" , 0)
+		String requestBody = new JSONObject().put("apiKey", "apiKey" + ident)
+			.put("characteristic", "characteristic" + ident)
+			.put("value", 0)
 			.toString();
-		String requestResponse = new JSONObject().put("errorCode" , "archived").toString();
+		String requestResponse = new JSONObject().put("errorCode", "archived").toString();
 
 		mockMvc.perform(post("/detections").content(requestBody).contentType("application/json"))
 			.andExpect(status().is(410))
@@ -128,11 +128,11 @@ public class DetectionsTest {
 		String ident = "3";
 		this.insertDummyCharacteristic(ident, false, true, false);
 
-		String requestBody = new JSONObject().put("apiKey" , "apiKey" + ident)
-			.put("characteristic" , "characteristic" + ident)
-			.put("value" , 0)
+		String requestBody = new JSONObject().put("apiKey", "apiKey" + ident)
+			.put("characteristic", "characteristic" + ident)
+			.put("value", 0)
 			.toString();
-		String requestResponse = new JSONObject().put("errorCode" , "archived").toString();
+		String requestResponse = new JSONObject().put("errorCode", "archived").toString();
 
 		mockMvc.perform(post("/detections").content(requestBody).contentType("application/json"))
 			.andExpect(status().is(410))
@@ -143,11 +143,11 @@ public class DetectionsTest {
 		String ident = "4";
 		this.insertDummyCharacteristic(ident, false, false, false);
 
-		String requestBody = new JSONObject().put("apiKey" , "apiKey" + ident)
-			.put("characteristic" , "characteristicInvalid" + ident)
-			.put("value" , 0)
+		String requestBody = new JSONObject().put("apiKey", "apiKey" + ident)
+			.put("characteristic", "characteristicInvalid" + ident)
+			.put("value", 0)
 			.toString();
-		String requestResponse = new JSONObject().put("errorCode" , "characteristicNotFound").toString();
+		String requestResponse = new JSONObject().put("errorCode", "characteristicNotFound").toString();
 
 		mockMvc.perform(post("/detections").content(requestBody).contentType("application/json"))
 			.andExpect(status().is(404))
@@ -158,11 +158,11 @@ public class DetectionsTest {
 		String ident = "5";
 		this.insertDummyCharacteristic(ident, false, false, true);
 
-		String requestBody = new JSONObject().put("apiKey" , "apiKey" + ident)
-			.put("characteristic" , "characteristic" + ident)
-			.put("value" , 0)
+		String requestBody = new JSONObject().put("apiKey", "apiKey" + ident)
+			.put("characteristic", "characteristic" + ident)
+			.put("value", 0)
 			.toString();
-		String requestResponse = new JSONObject().put("errorCode" , "archived").toString();
+		String requestResponse = new JSONObject().put("errorCode", "archived").toString();
 
 		mockMvc.perform(post("/detections").content(requestBody).contentType("application/json"))
 			.andExpect(status().is(410))
@@ -174,13 +174,13 @@ public class DetectionsTest {
 			String ident = "6";
 			this.insertDummyCharacteristic(ident, false, false, false);
 			int deviceId = this.deviceRepository.findByApiKey("apiKey" + ident).get().getId();
-			int characteristicId = this.characteristicRepository.findByName(deviceId, "characteristic" + ident)
-				.get()
-				.getId();
+			int characteristicId = this.characteristicRepository.findByDeviceIdAndName(deviceId,
+				"characteristic" + ident
+			).get().getId();
 
-			String requestBody = new JSONObject().put("apiKey" , "apiKey" + ident)
-				.put("characteristic" , "characteristic" + ident)
-				.put("value" , 43)
+			String requestBody = new JSONObject().put("apiKey", "apiKey" + ident)
+				.put("characteristic", "characteristic" + ident)
+				.put("value", 43)
 				.toString();
 
 			mockMvc.perform(post("/detections").content(requestBody).contentType("application/json"))
@@ -223,9 +223,9 @@ public class DetectionsTest {
 				false
 			));
 
-			String requestBody = new JSONObject().put("apiKey" , "apiKey" + ident)
-				.put("characteristic" , "characteristic" + ident)
-				.put("value" , 70d)
+			String requestBody = new JSONObject().put("apiKey", "apiKey" + ident)
+				.put("characteristic", "characteristic" + ident)
+				.put("value", 70d)
 				.toString();
 
 			mockMvc.perform(post("/detections").content(requestBody).contentType("application/json"))
