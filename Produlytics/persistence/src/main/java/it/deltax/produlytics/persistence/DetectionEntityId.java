@@ -1,20 +1,14 @@
 package it.deltax.produlytics.persistence;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-@Embeddable
 public class DetectionEntityId implements Serializable {
-	@Column(name = "creation_time", nullable = false)
 	private Instant creationTime;
 
-	@Column(name = "characteristic_id", nullable = false)
 	private Integer characteristicId;
 
-	@Column(name = "device_id", nullable = false)
 	private Integer deviceId;
 
 	protected DetectionEntityId() {}
