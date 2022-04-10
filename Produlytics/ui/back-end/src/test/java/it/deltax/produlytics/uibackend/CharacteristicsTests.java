@@ -86,7 +86,7 @@ public class CharacteristicsTests extends UiBackendApplicationTests {
 	@Test
 	void characteristicNotFoundError1() throws Exception {
 		prepareContext();
-		this.mockMvc.perform(get("/devices/1/characteristics/2/limits"))
+		this.mockMvc.perform(get("/devices/1/characteristics/3/limits"))
 			.andDo(print())
 			.andExpect(status().isNotFound())
 			.andExpect(content().string("{\"errorCode\":\"characteristicNotFound\"}"));
