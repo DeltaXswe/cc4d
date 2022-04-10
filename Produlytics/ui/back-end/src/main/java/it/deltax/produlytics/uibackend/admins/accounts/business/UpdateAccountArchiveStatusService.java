@@ -11,22 +11,23 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UpdateAccountArchiveStatusService implements UpdateAccountArchiveStatusUseCase {
-	private final UpdateAccountArchiveStatusPort updateAccountArchiveStatusPort;
 	private final FindAccountPort findAccountPort;
+	private final UpdateAccountArchiveStatusPort updateAccountArchiveStatusPort;
 
 	public UpdateAccountArchiveStatusService(
-		UpdateAccountArchiveStatusPort updateAccountArchiveStatusPort, FindAccountPort findAccountPort) {
-		this.updateAccountArchiveStatusPort = updateAccountArchiveStatusPort;
+		FindAccountPort findAccountPort,
+		UpdateAccountArchiveStatusPort updateAccountArchiveStatusPort) {
 		this.findAccountPort = findAccountPort;
+		this.updateAccountArchiveStatusPort = updateAccountArchiveStatusPort;
 	}
 
 	@Override
-	public void updateAccountArchiveStatus(AccountArchiveStatus command) throws BusinessException {
-		Account.AccountBuilder toUpdate = findAccountPort.findByUsername(command.username())
+	public void updateAccountArchiveStatus(AccountArchiveStatus accountArchiveStatus) throws BusinessException {
+		Account.AccountBuilder toUpdate = findAccountPort.findByUsername(accountArchiveStatus.username())
 			.map(account -> account.toBuilder())
 			.orElseThrow(() -> new BusinessException("accountNotFound", ErrorType.NOT_FOUND));
 
-		toUpdate.withArchived(command.archived());
+		toUpdate.withArchived(accountArchiveStatus.archived());
 		updateAccountArchiveStatusPort.updateAccountArchiveStatus(toUpdate.build());
 	}
 }

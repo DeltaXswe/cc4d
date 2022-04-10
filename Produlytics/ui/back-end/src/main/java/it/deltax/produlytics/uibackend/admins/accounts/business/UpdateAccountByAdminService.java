@@ -13,17 +13,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UpdateAccountByAdminService implements UpdateAccountByAdminUseCase {
-	private final UpdateAccountByAdminPort updateAccountByAdminPort;
 	private final FindAccountPort findAccountPort;
 	private final PasswordEncoderPort passwordEncoderPort;
+	private final UpdateAccountByAdminPort updateAccountByAdminPort;
 
 	public UpdateAccountByAdminService(
-		UpdateAccountByAdminPort updateAccountByAdminPort,
 		FindAccountPort findUserPort,
-		@Qualifier("passwordEncoderAdapter") PasswordEncoderPort passwordEncoderPort){
-		this.updateAccountByAdminPort = updateAccountByAdminPort;
+		@Qualifier("passwordEncoderAdapter") PasswordEncoderPort passwordEncoderPort,
+		UpdateAccountByAdminPort updateAccountByAdminPort){
 		this.findAccountPort = findUserPort;
 		this.passwordEncoderPort = passwordEncoderPort;
+		this.updateAccountByAdminPort = updateAccountByAdminPort;
 	}
 
 	@Override

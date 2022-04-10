@@ -15,31 +15,32 @@ import java.util.Optional;
 
 @Service
 public class InsertAccountService implements InsertAccountUseCase {
-	private final InsertAccountPort insertAccountPort;
 	private final FindAccountPort findAccountPort;
 	private final PasswordEncoderPort passwordEncoderPort;
+	private final InsertAccountPort insertAccountPort;
 
 	public InsertAccountService(
-		InsertAccountPort insertAccountPort,
 		FindAccountPort findAccountPort,
-		@Qualifier("passwordEncoderAdapter") PasswordEncoderPort passwordEncoderPort
+		@Qualifier("passwordEncoderAdapter") PasswordEncoderPort passwordEncoderPort,
+		InsertAccountPort insertAccountPort
 	){
-		this.insertAccountPort = insertAccountPort;
 		this.findAccountPort = findAccountPort;
 		this.passwordEncoderPort = passwordEncoderPort;
+		this.insertAccountPort = insertAccountPort;
 	}
 
 	@Override
-	public void insertAccount(AccountToInsert command) throws BusinessException {
-		if (command.password().length() < 6)
+	public void insertAccount(AccountToInsert account) throws BusinessException {
+		if (account.password().length() < 6)
 			throw new BusinessException("invalidPassword", ErrorType.GENERIC);
 
-		Optional<Account> result = findAccountPort.findByUsername(command.username());
+		Optional<Account> result = findAccountPort.findByUsername(account.username());
 		if (result.isPresent())
 			throw new BusinessException("duplicateUsername", ErrorType.GENERIC);
 
-		String hashedPassword = passwordEncoderPort.encode(command.password());
-		insertAccountPort.insertAccount(new Account(command.username(),hashedPassword,command.administrator(),false));
+		String hashedPassword = passwordEncoderPort.encode(account.password());
+		insertAccountPort.insertAccount(new Account(
+			account.username(),hashedPassword,account.administrator(),false));
 	}
 
 
