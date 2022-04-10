@@ -16,6 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -32,41 +33,88 @@ public class AdminCharacteristicsTests {
 	private MockMvc mockMvc;
 
 	@Autowired
+	private DeviceRepository deviceRepository;
+
+	@Autowired
 	private CharacteristicRepository characteristicRepository;
+
+	private static String url;
+
+	private final JSONObject body = new JSONObject();
 
 	@BeforeAll
 	private static void prepareContext(@Autowired DeviceRepository deviceRepository) {
-		deviceRepository.saveAndFlush(new DeviceEntity(
+		DeviceEntity device = deviceRepository.save(new DeviceEntity(
 			"macchina",
 			false,
 			false,
 			"a"
 		));
+
+		url = "/admins/devices/" + device.getId() + "/characteristics";
 	}
 
 	@BeforeEach
 	private void cleanCharacteristics() {
-		characteristicRepository.deleteAll();
+		this.characteristicRepository.deleteAll();
+
+		this.body.put("name", "pressione");
+		this.body.put("autoAdjust", "true");
+		this.body.put("archived", "false");
 	}
 
 	@Test
 	void contextLoads() {
+		assertThat(this.deviceRepository).isNotNull();
 		assertThat(this.characteristicRepository).isNotNull();
 	}
 
 	@Test
 	void insertCharacteristic() throws Exception {
-		JSONObject body = new JSONObject();
-		body.put("name", "pressione");
-		body.put("autoAdjust", "true");
-		body.put("archived", "false");
-
-		this.mockMvc.perform(post("/admins/devices/1/characteristics")
+		this.mockMvc.perform(post(url)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(body.toString())
+				.content(this.body.toString())
 				.characterEncoding("utf-8")
 			)
 			.andDo(print())
 			.andExpect(status().isOk());
+	}
+
+	@Test
+	void duplicateError() throws Exception {
+		JSONObject response = new JSONObject();
+		response.put("errorCode", "duplicateCharacteristicName");
+
+		this.mockMvc.perform(post(url)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(this.body.toString())
+				.characterEncoding("utf-8")
+			);
+		this.mockMvc.perform(post(url)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(this.body.toString())
+				.characterEncoding("utf-8")
+			)
+			.andDo(print())
+			.andExpect(status().isBadRequest())
+			.andExpect(content().json(response.toJSONString()));
+	}
+
+	@Test
+	void deviceNotFoundError() throws Exception {
+		this.deviceRepository.deleteAll();
+
+		JSONObject response = new JSONObject();
+		response.put("errorCode", "deviceNotFound");
+
+		this.mockMvc.perform(post(url)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(this.body.toString())
+				.characterEncoding("utf-8")
+			)
+			.andExpect(status().isNotFound())
+			.andExpect(content().json(response.toJSONString()));
+
+		prepareContext(deviceRepository);
 	}
 }
