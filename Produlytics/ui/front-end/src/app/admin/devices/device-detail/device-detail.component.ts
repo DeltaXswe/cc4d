@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Device} from "../../../model/admin-device/device";
 import {CharacteristicsDataSource} from "./characteristics.data-source";

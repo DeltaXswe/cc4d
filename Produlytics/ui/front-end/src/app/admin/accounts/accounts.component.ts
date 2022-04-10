@@ -6,7 +6,7 @@ import {ErrorDialogComponent} from "../../components/error-dialog/error-dialog.c
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ConfirmDialogComponent} from "../../components/confirm-dialog/confirm-dialog.component";
 import {AccountFormDialogComponent} from "./account-form-dialog/account-form-dialog.component";
-import {AccountsDatasource} from "./accounts.datasource";
+import {AccountsDataSource} from "./accounts.data-source";
 import {LoginAbstractService} from "../../model/login/login-abstract.service";
 
 @Component({
@@ -15,8 +15,10 @@ import {LoginAbstractService} from "../../model/login/login-abstract.service";
   styleUrls: ['./accounts.component.css']
 })
 export class AccountsComponent implements OnInit {
+
   readonly displayedColumns = ['username', 'admin', 'edit', 'status'];
-  accounts = new AccountsDatasource();
+
+  accounts = new AccountsDataSource();
 
   constructor(
     private accountService: AccountAbstractService,
@@ -29,26 +31,11 @@ export class AccountsComponent implements OnInit {
     this.initTable();
   }
 
-  openNewUserDialog(): void {
+  openNewAccountDialog(): void {
     const dialogRef = this.matDialog.open(AccountFormDialogComponent);
     dialogRef.afterClosed().subscribe(reload => {
       if (reload) {
         this.initTable();
-      }
-    })
-  }
-
-  private initTable() {
-    this.accountService.getAccounts().subscribe({
-      next: value => {
-        this.accounts.setData(value);
-      },
-      error: err => {
-        this.matDialog.open(ErrorDialogComponent, {
-          data: {
-            message: err
-          }
-        });
       }
     })
   }
@@ -66,7 +53,7 @@ export class AccountsComponent implements OnInit {
     });
   }
 
-  toggleStatus(account: Account) {
+  toggleStatus(account: Account): void {
     if (account.archived) {
       this.accountService.recoverAccount(account)
         .subscribe(() => {
@@ -97,7 +84,22 @@ export class AccountsComponent implements OnInit {
     }
   }
 
-  isLoggedUser(account: Account) {
+  loggedUser(account: Account): boolean {
     return account.username === this.loginService.getUsername();
+  }
+
+  private initTable(): void {
+    this.accountService.getAccounts().subscribe({
+      next: value => {
+        this.accounts.setData(value);
+      },
+      error: err => {
+        this.matDialog.open(ErrorDialogComponent, {
+          data: {
+            message: err
+          }
+        });
+      }
+    })
   }
 }

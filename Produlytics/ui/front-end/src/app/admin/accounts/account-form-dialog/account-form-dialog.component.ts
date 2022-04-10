@@ -17,9 +17,11 @@ import {LoginAbstractService} from "../../../model/login/login-abstract.service"
 })
 export class AccountFormDialogComponent implements OnInit {
 
-  readonly formGroup: FormGroup;
-  private readonly passwordValidators = [Validators.minLength(6), Validators.required];
+  formGroup: FormGroup;
+
   readonly editMode: boolean;
+
+  private passwordValidators = [Validators.minLength(6), Validators.required];
 
   constructor(
     private matDialogRef: MatDialogRef<AccountFormDialogComponent>,
@@ -60,11 +62,11 @@ export class AccountFormDialogComponent implements OnInit {
     });
   }
 
-  cancel() {
+  cancel(): void {
     this.matDialogRef.close();
   }
 
-  confirm() {
+  confirm(): void {
     const rawValue = this.formGroup.getRawValue();
     const command: AccountSaveCommand = {
       username: rawValue.username,
@@ -78,7 +80,21 @@ export class AccountFormDialogComponent implements OnInit {
     }
   }
 
-  private insertAccount(command: AccountSaveCommand) {
+  toggleChangePassword(toggleChange: MatSlideToggleChange): void {
+    const field = this.formGroup.get('password')!;
+    if (toggleChange.checked) {
+      field.enable();
+      field.setValidators(this.passwordValidators);
+      field.updateValueAndValidity();
+    } else {
+      field.setValue(null);
+      field.disable();
+      field.removeValidators(this.passwordValidators);
+      field.updateValueAndValidity();
+    }
+  }
+
+  private insertAccount(command: AccountSaveCommand): void {
     this.saveAccountService.insertAccount(command)
       .subscribe({
         next: () => {
@@ -99,7 +115,7 @@ export class AccountFormDialogComponent implements OnInit {
       });
   }
 
-  private updateAccount(command: AccountSaveCommand) {
+  private updateAccount(command: AccountSaveCommand): void {
     this.saveAccountService.updateAccount(command).subscribe({
       next: () => {
         this.matSnackBar.open(
@@ -116,17 +132,4 @@ export class AccountFormDialogComponent implements OnInit {
     });
   }
 
-  changePassword(toggleChange: MatSlideToggleChange) {
-    const field = this.formGroup.get('password')!;
-    if (toggleChange.checked) {
-      field.enable();
-      field.setValidators(this.passwordValidators);
-      field.updateValueAndValidity();
-    } else {
-      field.setValue(null);
-      field.disable();
-      field.removeValidators(this.passwordValidators);
-      field.updateValueAndValidity();
-    }
-  }
 }

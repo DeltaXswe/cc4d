@@ -11,10 +11,12 @@ import {CharacteristicCreationCommand} from "../../model/admin-device/new/charac
   encapsulation: ViewEncapsulation.None
 })
 export class CharacteristicFormComponent implements OnInit {
-  @Input()
-  startingData: Characteristic | null = null;
-  readonly formGroup: FormGroup;
-  readonly duplicateNameBehavior = new BehaviorSubject<true | null>(null);
+
+  @Input() startingData: Characteristic | null = null;
+
+  formGroup: FormGroup;
+
+  duplicateNameBehavior = new BehaviorSubject<true | null>(null);
 
   constructor(
     formBuilder: FormBuilder

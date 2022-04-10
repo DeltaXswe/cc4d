@@ -4,7 +4,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {Sort} from "@angular/material/sort";
 import {compare} from '../../../lib/utils';
 
-export class AccountsDatasource extends DataSource<Account> {
+export class AccountsDataSource extends DataSource<Account> {
   private dataStream = new BehaviorSubject<Account[]>([]);
 
   connect(collectionViewer: CollectionViewer): Observable<Account[]> {
@@ -19,7 +19,7 @@ export class AccountsDatasource extends DataSource<Account> {
     this.dataStream.next(data);
   }
 
-  sortData(sort: Sort) {
+  sortData(sort: Sort): void {
     const sorted = this.dataStream.value.sort((a: Account, b: Account) => {
       const asc = sort.direction === 'asc';
       switch (sort.active) {

@@ -13,7 +13,7 @@
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
       <mat-form-field *ngIf="formGroup.get('username') as field" appearance="outline" floatLabel="always">
         <mat-label>
-          Username
+          Nome utente
         </mat-label>
         <input matInput formControlName="username" name="username" autocomplete="new-username" />
         <mat-error *ngIf="field.hasError('required')">
@@ -37,7 +37,7 @@
           La password non rispetta i criteri minimi di sicurezza.
         </mat-error>
       </mat-form-field>
-      <mat-slide-toggle *ngIf="editMode" (change)="changePassword($event)">
+      <mat-slide-toggle *ngIf="editMode" (change)="toggleChangePassword($event)">
         Cambia password
       </mat-slide-toggle>
     </div>
