@@ -23,6 +23,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //isUnauthorized() 401 AUTHENTICATION
 //isNotFound() 404 NOT_FOUND
 
+/**
+ * Test d'integrazione per le operazioni svolte dagli utenti
+ * @author Leila Dardouri
+ */
 public class AccountTests extends UiBackendApplicationTests {
 	@Autowired
 	private AccountController accountController;

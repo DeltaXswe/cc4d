@@ -9,10 +9,15 @@ import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
+/**
+ * Il service per l'aggiornamento dello stato di archiviazione di un utente
+ * @author Leila Dardouri
+ */
 @Service
 public class UpdateAccountArchiveStatusService implements UpdateAccountArchiveStatusUseCase {
 	private final FindAccountPort findAccountPort;
 	private final UpdateAccountArchiveStatusPort updateAccountArchiveStatusPort;
+
 
 	/**
 	 * Il costruttore
@@ -25,6 +30,7 @@ public class UpdateAccountArchiveStatusService implements UpdateAccountArchiveSt
 		this.findAccountPort = findAccountPort;
 		this.updateAccountArchiveStatusPort = updateAccountArchiveStatusPort;
 	}
+
 
 	/**
 	 * Aggiorna lo stato di archiviazione dell'utente dato

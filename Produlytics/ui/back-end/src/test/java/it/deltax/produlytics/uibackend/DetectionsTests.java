@@ -16,6 +16,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.Instant;
 
+/**
+ * Test d'integrazione per le operazioni relative alle rilevazioni
+ * @author Alberto Lazari
+ */
 public class DetectionsTests extends UiBackendApplicationTests {
 	@Autowired
 	private DetectionRepository repository;

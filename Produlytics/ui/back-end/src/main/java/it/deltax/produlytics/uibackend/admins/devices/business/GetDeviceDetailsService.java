@@ -7,6 +7,10 @@ import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
+/**
+ * Il service per l'ottenimento dei dettagli di una macchina
+ * @author Leila Dardouri
+ */
 @Service
 public class GetDeviceDetailsService implements GetDeviceDetailsUseCase {
 	private final FindDetailedDevicePort findDetailedDevicePort;

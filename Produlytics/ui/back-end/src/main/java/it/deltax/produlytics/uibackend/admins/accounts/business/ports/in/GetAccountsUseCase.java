@@ -4,6 +4,10 @@ import it.deltax.produlytics.uibackend.accounts.business.domain.AccountTiny;
 
 import java.util.List;
 
+/**
+ * L'interfaccia che rappresenta il caso d'uso di ottenimento degli utenti
+ * @author Leila Dardouri
+ */
 public interface GetAccountsUseCase {
 	List<AccountTiny> getAccounts();
 }

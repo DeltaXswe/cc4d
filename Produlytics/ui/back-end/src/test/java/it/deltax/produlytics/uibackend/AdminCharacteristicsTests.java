@@ -16,6 +16,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * Test d'integrazione per le operazioni svolte dagli amministratori relative alle caratteristiche
+ * @author Alberto Lazati
+ */
 public class AdminCharacteristicsTests extends UiBackendApplicationTests {
 	@Autowired
 	private DeviceRepository deviceRepository;

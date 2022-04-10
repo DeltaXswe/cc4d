@@ -13,6 +13,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Il controller per le richieste effettuate dagli amministratori riguradanti le macchine
+ * @author Leila Dardouri
+ */
 @RestController
 @RequestMapping("/admin")
 public class AdminsDevicesController {
@@ -22,6 +26,7 @@ public class AdminsDevicesController {
 	private final UpdateDeviceNameUseCase updateDeviceNameUseCase;
 	private final UpdateDeviceArchiveStatusUseCase updateDeviceArchiveStatusUseCase;
 	private final UpdateDeviceDeactivateStatusUseCase updateDeviceDeactivateStatusUseCase;
+
 
 	/**
 	 * Il costruttore
@@ -49,6 +54,7 @@ public class AdminsDevicesController {
 		this.updateDeviceArchiveStatusUseCase = updateDeviceArchiveStatusUseCase;
 		this.updateDeviceDeactivateStatusUseCase = updateDeviceDeactivateStatusUseCase;
 	}
+
 
 	/**
 	 * Riceve le chiamate all'endpoint REST per l'inserimento di una macchina

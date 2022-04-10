@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Il service per l'ottenimento delle macchine
+ * @author Leila Dardouri
+ */
 @Service
 public class GetDevicesService implements GetDevicesUseCase {
 	GetDevicesPort getDevicesPort;

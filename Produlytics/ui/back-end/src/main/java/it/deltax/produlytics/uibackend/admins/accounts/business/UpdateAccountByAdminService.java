@@ -11,11 +11,16 @@ import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+/**
+ * Il service per l'aggiornamento di un utente per mano di un amministratore
+ * @author Leila Dardouri
+ */
 @Service
 public class UpdateAccountByAdminService implements UpdateAccountByAdminUseCase {
 	private final FindAccountPort findAccountPort;
 	private final PasswordEncoderPort passwordEncoderPort;
 	private final UpdateAccountByAdminPort updateAccountByAdminPort;
+
 
 	/**
 	 * Il costruttore
@@ -31,6 +36,7 @@ public class UpdateAccountByAdminService implements UpdateAccountByAdminUseCase 
 		this.passwordEncoderPort = passwordEncoderPort;
 		this.updateAccountByAdminPort = updateAccountByAdminPort;
 	}
+
 
 	/**
 	 * Aggiorna l'utente dato, per conto di un amministratore

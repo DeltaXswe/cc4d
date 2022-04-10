@@ -6,6 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+/**
+ * Rappresenta il repository delle caratteristiche
+ * @author Alberto Lazari
+ */
 public interface CharacteristicRepository extends JpaRepository<CharacteristicEntity, CharacteristicEntityId> {
     List<CharacteristicEntity> findByArchivedFalseAndId_DeviceId(int deviceId);
     List<CharacteristicEntity> findByName(String name);

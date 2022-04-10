@@ -8,10 +8,15 @@ import static org.springframework.http.HttpStatus.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Il controller per le richieste effettuate dagli utenti
+ * @author Leila Dardouri
+ */
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
     private final UpdateAccountPasswordUseCase updateAccountPasswordUseCase;
+
 
     /**
      * Il costruttore
@@ -20,6 +25,7 @@ public class AccountController {
     public AccountController(UpdateAccountPasswordUseCase updateAccountPasswordUseCase){
         this.updateAccountPasswordUseCase = updateAccountPasswordUseCase;
     }
+
 
     /**
      * Riceve le chiamate all'endpoint REST per l'aggiornamento della password di un utente

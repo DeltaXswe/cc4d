@@ -1,4 +1,4 @@
-package it.deltax.produlytics.uibackend.generic;
+package it.deltax.produlytics.uibackend.security;
 
 import it.deltax.produlytics.uibackend.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		//repo.findById("username").map().orElseThrow(new UsernameNotFoundException(("errore")));
-		return null;
+		return repo.findById(username).map(CustomUserDetails::new)
+			.orElseThrow(() -> new UsernameNotFoundException(("errore")));
 	}
 }

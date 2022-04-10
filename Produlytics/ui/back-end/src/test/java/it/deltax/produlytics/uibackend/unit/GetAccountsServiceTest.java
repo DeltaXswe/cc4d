@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Test di unità della classe GetAccountsService
+ * @author Leila Dardouri
+ */
 public class GetAccountsServiceTest {
 
 	/**

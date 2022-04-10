@@ -7,6 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * Rappresenta il repository degli utenti
+ * @author Leila Dardouri
+ */
 @Repository
 public interface AccountRepository extends CrudRepository<AccountEntity, String> {
 }

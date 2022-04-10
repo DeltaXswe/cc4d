@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Il controller per le richieste effettuate relative alle macchine
+ * @author Leila Dardouri
+ */
 @RestController
 @RequestMapping("/devices")
 public class DevicesController {
@@ -30,6 +34,4 @@ public class DevicesController {
     public ResponseEntity<Iterable<TinyDevice>> getUnarchivedDevices() {
         return ResponseEntity.ok(this.getUnarchivedDevicesUseCase.getUnarchivedDevices());
     }
-
-
 }

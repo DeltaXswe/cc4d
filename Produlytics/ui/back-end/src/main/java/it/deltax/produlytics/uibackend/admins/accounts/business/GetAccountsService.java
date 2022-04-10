@@ -7,9 +7,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Il service per l'ottenimento degli utenti
+ * @author Leila Dardouri
+ */
 @Service
 public class GetAccountsService implements GetAccountsUseCase {
 	private final GetAccountsPort getAccountsPort;
+
 
 	/**
 	 * Il costruttore
@@ -18,6 +23,7 @@ public class GetAccountsService implements GetAccountsUseCase {
 	public GetAccountsService(GetAccountsPort getAccountsPort){
 		this.getAccountsPort = getAccountsPort;
 	}
+
 
 	/**
 	 * Restituisce gli utenti

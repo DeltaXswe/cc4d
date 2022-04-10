@@ -9,6 +9,10 @@ import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
+/**
+ * Il service per l'aggiornamento del nome di una macchina
+ * @author Leila Dardouri
+ */
 @Service
 public class UpdateDeviceNameService implements UpdateDeviceNameUseCase {
 	private final FindDetailedDevicePort findDetailedDevicePort;
@@ -26,6 +30,7 @@ public class UpdateDeviceNameService implements UpdateDeviceNameUseCase {
 		this.findDetailedDevicePort = findDetailedDevicePort;
 		this.updateDeviceNamePort = updateDeviceNamePort;
 	}
+
 
 	/**
 	 * Aggiorna il nome di una macchina

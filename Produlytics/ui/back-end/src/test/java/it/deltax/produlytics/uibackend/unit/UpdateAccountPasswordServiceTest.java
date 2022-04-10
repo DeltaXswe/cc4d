@@ -15,6 +15,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
+/**
+ * Test di unità della classe UpdateAccountPasswordService
+ * @author Leila Dardouri
+ */
 public class UpdateAccountPasswordServiceTest {
 	@Test
 	void testNewPasswordNotValid() throws BusinessException {
