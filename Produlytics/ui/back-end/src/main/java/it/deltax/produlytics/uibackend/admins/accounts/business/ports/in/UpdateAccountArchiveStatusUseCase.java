@@ -4,5 +4,5 @@ import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountAr
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 
 public interface UpdateAccountArchiveStatusUseCase {
-	void updateAccountArchiveStatus(AccountArchiveStatus command) throws BusinessException;
+	void updateAccountArchiveStatus(AccountArchiveStatus accountArchiveStatus) throws BusinessException;
 }

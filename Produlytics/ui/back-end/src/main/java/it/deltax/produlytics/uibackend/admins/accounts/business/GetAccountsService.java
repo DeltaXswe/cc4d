@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public class GetAccountsService implements GetAccountsUseCase {
-	GetAccountsPort getAccountsPort;
+	private final GetAccountsPort getAccountsPort;
 
 	public GetAccountsService(GetAccountsPort getAccountsPort){
 		this.getAccountsPort = getAccountsPort;
