@@ -27,7 +27,7 @@ public class PasswordMatcherAdapter implements PasswordMatcherPort {
 	 * Stabilisce se due password, una in chiaro e una cifrata, sono uguali
 	 * @param rawPassword la password in chiaro
 	 * @param hashedPassword la password cifrata
-	 * @return true se sono uguale; false, altrimenti
+	 * @return true se sono uguali; false, altrimenti
 	 */
 	@Override
 	public boolean matches(String rawPassword, String hashedPassword) {

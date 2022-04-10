@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,6 +35,9 @@ public class AccountTests extends UiBackendApplicationTests {
 	@Autowired
 	private AccountRepository accountRepository;
 
+	@Autowired
+	 private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 	@Override
 	@Test
 	void contextLoads() {
@@ -47,10 +51,9 @@ public class AccountTests extends UiBackendApplicationTests {
 	 */
 	@Test
 	public void testUpdatePasswordOk() throws Exception {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		this.accountRepository.save(new AccountEntity(
 			"utente1",
-			encoder.encode("passwordvecchia"),
+			bCryptPasswordEncoder.encode("passwordvecchia"),
 			true,
 			false));
 		this.accountRepository.findById("utente1").get().getHashedPassword();

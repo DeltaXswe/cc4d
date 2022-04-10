@@ -38,8 +38,8 @@ public class AccountController {
     public ResponseEntity<String> updateAccountPassword(
         @PathVariable("username") String username,
         @RequestBody JsonNode body) throws BusinessException {
-        String currentPassword = body.get("currentPassword").toString();
-        String newPassword = body.get("newPassword").toString();
+        String currentPassword = body.get("currentPassword").asText();
+        String newPassword = body.get("newPassword").asText();
         this.updateAccountPasswordUseCase.updatePasswordByUsername(new AccountPasswordToUpdate(
             username,
             currentPassword,
