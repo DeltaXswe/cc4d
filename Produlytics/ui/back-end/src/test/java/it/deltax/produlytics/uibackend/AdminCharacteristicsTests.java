@@ -1,15 +1,20 @@
 package it.deltax.produlytics.uibackend;
 
-import it.deltax.produlytics.persistence.CharacteristicEntity;
 import it.deltax.produlytics.persistence.DeviceEntity;
 import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
 import net.minidev.json.JSONObject;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -19,44 +24,55 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Test d'integrazione per le operazioni svolte dagli amministratori relative alle caratteristiche
  * @author Alberto Lazati
  */
-public class AdminCharacteristicsTests extends UiBackendApplicationTests {
+@SpringBootTest(
+	webEnvironment = SpringBootTest.WebEnvironment.MOCK
+)
+@ActiveProfiles("test")
+@AutoConfigureMockMvc(addFilters = false)
+public class AdminCharacteristicsTests {
+	@Autowired
+	private MockMvc mockMvc;
+
 	@Autowired
 	private DeviceRepository deviceRepository;
 
 	@Autowired
 	private CharacteristicRepository characteristicRepository;
 
-	private final CharacteristicEntity characteristic = new CharacteristicEntity(
-		1,
-		"temperatura",
-		98d,
-		-13d,
-		true,
-		0,
-		false
-	);
+	private static String url;
 
-	private final CharacteristicEntity characteristic2 = new CharacteristicEntity(
-		1,
-		"pressione",
-		100d,
-		10d,
-		true,
-		0,
-		false
-	);
+	private final JSONObject body = new JSONObject();
 
-	@BeforeEach
-	private void prepareContext() {
-		this.deviceRepository.saveAndFlush(new DeviceEntity(
+	@BeforeAll
+	private static void prepareContext(@Autowired DeviceRepository deviceRepository) {
+		DeviceEntity device = deviceRepository.save(new DeviceEntity(
 			"macchina",
 			false,
 			false,
 			"a"
 		));
+
+		url = "/admins/devices/" + device.getId() + "/characteristics";
 	}
 
-	@Override
+	@AfterAll
+	private static void deleteAll(
+		@Autowired DeviceRepository deviceRepository,
+		@Autowired CharacteristicRepository characteristicRepository
+	) {
+		characteristicRepository.deleteAll();
+		deviceRepository.deleteAll();
+	}
+
+	@BeforeEach
+	private void cleanCharacteristics() {
+		this.characteristicRepository.deleteAll();
+
+		this.body.put("name", "pressione");
+		this.body.put("autoAdjust", "true");
+		this.body.put("archived", "false");
+	}
+
 	@Test
 	void contextLoads() {
 		assertThat(this.deviceRepository).isNotNull();
@@ -65,22 +81,51 @@ public class AdminCharacteristicsTests extends UiBackendApplicationTests {
 /*
 	@Test
 	void insertCharacteristic() throws Exception {
-		JSONObject body = new JSONObject();
-		body.put("name", "pressione");
-		body.put("autoAdjust", "true");
-		body.put("archived", "false");
-
-		JSONObject response = new JSONObject();
-		response.put("id", 1);
-
-		this.mockMvc.perform(post("/admins/devices/1/characteristics")
+		this.mockMvc.perform(post(url)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(body.toString())
+				.content(this.body.toString())
 				.characterEncoding("utf-8")
 			)
 			.andDo(print())
-			.andExpect(status().isOk())
-			.andExpect(content().json(response.toString())); //.json non .string!
+			.andExpect(status().isOk());
+	}
+
+	@Test
+	void duplicateError() throws Exception {
+		JSONObject response = new JSONObject();
+		response.put("errorCode", "duplicateCharacteristicName");
+
+		this.mockMvc.perform(post(url)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(this.body.toString())
+				.characterEncoding("utf-8")
+			);
+		this.mockMvc.perform(post(url)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(this.body.toString())
+				.characterEncoding("utf-8")
+			)
+			.andDo(print())
+			.andExpect(status().isBadRequest())
+			.andExpect(content().json(response.toJSONString()));
+	}
+
+	@Test
+	void deviceNotFoundError() throws Exception {
+		this.deviceRepository.deleteAll();
+
+		JSONObject response = new JSONObject();
+		response.put("errorCode", "deviceNotFound");
+
+		this.mockMvc.perform(post(url)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(this.body.toString())
+				.characterEncoding("utf-8")
+			)
+			.andExpect(status().isNotFound())
+			.andExpect(content().json(response.toJSONString()));
+
+		prepareContext(deviceRepository);
 	}
 
  */
