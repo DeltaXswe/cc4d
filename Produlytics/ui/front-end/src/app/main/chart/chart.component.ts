@@ -8,6 +8,7 @@ import { ChartPoint } from '../../model/chart/chart-point';
 import { ChartAbstractService } from "../../model/chart/chart-abstract.service";
 import { CharacteristicNode } from '../device-selection/selection-data-source/selection-node';
 import { Limits } from '../../model/chart/limits';
+import { zoom } from 'd3';
 
 @Component({
   selector: 'app-chart',
@@ -25,7 +26,10 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   limits!: Limits;
   private points: ChartPoint[] = [];
   private updateSubscription?: Subscription;
-
+  brush!: d3.BrushBehavior<unknown>;
+  line!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
+  //idleTimeout: NodeJS.Timeout;
+  ciao: string = 'fjdskjasljlkds'
   constructor(
     private chartService: ChartAbstractService,
   ) { }
@@ -58,7 +62,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
 
   createChart() {
       this.svg = d3
-        .select(`#d3svg${this.index}`)
+        .selectAll(`#d3svg${this.index}`)
         .append('svg')
         .append('g')
         .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
@@ -107,7 +111,6 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   drawChart() {
     if (this.points.length == 0) return;
     const points = this.points;
-    var limits: Limits;
     this.chartService.getLimits(this.currentNode.device.id, this.currentNode.id)
       .subscribe({
         next: limit => this.limits = limit,
@@ -117,9 +120,11 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // TODO: includi i punti in ymin e ymax
     const [ymin, ymax] = d3.extent(points, (p) => p.value);
+
     this.xScale.domain(
       d3.extent(points, (p) => p.createdAtUtc * 1000) as [number, number]
     );
+
     this.yScale.domain([
       Math.min(this.limits.lowerLimit - delta, ...(ymin ? [ymin] : [])),
       Math.max(this.limits.upperLimit + delta, ...(ymax ? [ymax] : [])),
@@ -138,7 +143,6 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     let xp = (p: ChartPoint) => this.xScale(p.createdAtUtc * 1000);
     let yp = (p: ChartPoint) => this.yScale(p.value);
     this.svg.select('.chart-path').datum(points).attr('d', d3.line(xp, yp));
-
     // TODO: Evidenzia i punti anomali
     this.svg
       .select('.chart-points')
@@ -159,6 +163,14 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       )
       .attr('cx', xp)
       .attr('cy', yp);
+  }
+
+  function(d: ChartPoint){
+    var x = new Date(d.createdAtUtc)
+    return { 
+      date: d3.timeParse("%Y-%m-%d")(x.toDateString()),
+      value : d.value
+    }
   }
 
   subscribeToUpdates() {

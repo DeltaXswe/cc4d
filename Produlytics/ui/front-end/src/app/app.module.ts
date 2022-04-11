@@ -56,6 +56,7 @@ import {
 import {UnarchivedDeviceAbstractService} from "./model/device/unarchived-device-abstract.service";
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -102,7 +103,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatTreeModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
-    MatGridListModule
+    MatGridListModule,
+    NgbModule
   ],
   providers: [
     {

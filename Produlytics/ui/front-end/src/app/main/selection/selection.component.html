@@ -10,4 +10,10 @@
     </mat-grid-list>
   </mat-sidenav-content>
 </mat-sidenav-container>
-
+<ngb-carousel *ngIf="!showCarousel">
+  <ng-template *ngFor="let tile of characteristics; let i = index" ngbSlide>
+    <div>
+      <svg class="d3svg" id="d3svg{{i}}"></svg>
+    </div>
+  </ng-template>
+</ngb-carousel>

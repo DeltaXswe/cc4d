@@ -11,6 +11,7 @@ import {CharacteristicNode} from "../device-selection/selection-data-source/sele
 export class SelectionComponent implements OnInit {
   colspan?: number;
   rowspan?: number;
+  showCarousel: boolean = true;
   machine: UnarchivedDeviceInfo | undefined;
   characteristics: CharacteristicNode[] = [];
   constructor() { }

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
+import { LoginAbstractService } from '../../model/login/login-abstract.service';
 import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { users } from './users';
 import { CookieService } from 'ngx-cookie-service';
-import { LoginCommand } from 'src/app/model/login/login-command';
+import { LoginCommand } from '../../model/login/login-command';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
