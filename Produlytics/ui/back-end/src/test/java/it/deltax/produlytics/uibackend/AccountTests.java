@@ -1,17 +1,13 @@
 package it.deltax.produlytics.uibackend;
 
 import it.deltax.produlytics.persistence.AccountEntity;
-import it.deltax.produlytics.uibackend.accounts.adapters.EncoderConfig;
 import it.deltax.produlytics.uibackend.accounts.web.AccountController;
 import it.deltax.produlytics.uibackend.repositories.AccountRepository;
 import net.minidev.json.JSONObject;
 import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -28,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Test d'integrazione per le operazioni svolte dagli utenti
  * @author Leila Dardouri
  */
-public class AccountTests extends UiBackendApplicationTests {
+public class AccountTests extends DevicesTests {
 	@Autowired
 	private AccountController accountController;
 
@@ -67,7 +63,7 @@ public class AccountTests extends UiBackendApplicationTests {
 			.characterEncoding("utf-8"))
 			.andDo(print())
 			.andExpect(status().isNoContent());
-	} //fallisce
+	}
 
 	/**
 	 * Testa il caso in cui la nuova password non è valida

@@ -102,6 +102,7 @@ public class CharacteristicsTests {
 		assertThat(this.deviceRepository).isNotNull();
 	}
 
+
 	@Test
 	void getUnarchivedCharacteristics() throws Exception {
 		var characteristic1 = new JSONObject();
