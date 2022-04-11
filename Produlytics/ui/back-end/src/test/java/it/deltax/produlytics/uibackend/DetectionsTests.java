@@ -51,6 +51,12 @@ public class DetectionsTests {
 	private static int deviceId;
 	private static int characteristicId;
 
+	/**
+	 * Prepara il contesto di partenza, comune a tutti i test
+	 * @param deviceRepository lo strato di persistenza relativo alle macchine
+	 * @param characteristicRepository lo strato di persistenza relativo alle caratteristiche
+	 * @param detectionRepository lo strato di persistenza relativo alle rilevazioni
+	 */
 	@BeforeAll
 	private static void prepareContext(
 		@Autowired DeviceRepository deviceRepository,
@@ -89,6 +95,12 @@ public class DetectionsTests {
 		}
 	}
 
+	/**
+	 * Pulisce i repository dai dati utilizzati dai test
+	 * @param deviceRepository lo strato di persistenza relativo alle macchine
+	 * @param characteristicRepository lo strato di persistenza relativo alle caratteristiche
+	 * @param detectionRepository lo strato di persistenza relativo alle rilevazioni
+	 */
 	@AfterAll
 	private static void deleteAll(
 		@Autowired DeviceRepository deviceRepository,
@@ -108,10 +120,14 @@ public class DetectionsTests {
 		assertThat(this.detectionRepository).isNotNull();
 	}
 
+	/**
+	 * Testa l'ottenimento delle rilevazioni di una caratteristica senza applicare filtri di ricerca
+	 * @throws Exception si ottiene un risultato diverso da quello atteso
+	 */
 	@Test
 	void getWithNoFilter() throws Exception {
 		this.mockMvc.perform(get(
-			"/devices/" + deviceId + "/characteristics/" + characteristicId + "/detections"
+				"/devices/" + deviceId + "/characteristics/" + characteristicId + "/detections"
 			))
 			.andDo(print())
 			.andExpect(status().isOk())
@@ -125,7 +141,7 @@ public class DetectionsTests {
 	@Test
 	void getWithLimit() throws Exception {
 		this.mockMvc.perform(get(
-			"/devices/" + deviceId + "/characteristics/" + characteristicId + "/detections?limit=2"
+				"/devices/" + deviceId + "/characteristics/" + characteristicId + "/detections?limit=2"
 			))
 			.andDo(print())
 			.andExpect(status().isOk())
@@ -137,11 +153,11 @@ public class DetectionsTests {
 	@Test
 	void getWithOlderAndNewer() throws Exception {
 		this.mockMvc.perform(get(
-			"/devices/"
-				+ deviceId
-				+ "/characteristics/"
-				+ characteristicId
-				+ "/detections?newerThan=1&olderThan=4"
+				"/devices/"
+					+ deviceId
+					+ "/characteristics/"
+					+ characteristicId
+					+ "/detections?newerThan=1&olderThan=4"
 			))
 			.andDo(print())
 			.andExpect(status().isOk())
@@ -153,11 +169,11 @@ public class DetectionsTests {
 	@Test
 	void getEmpty() throws Exception {
 		this.mockMvc.perform(get(
-			"/devices/"
-				+ deviceId
-				+ "/characteristics/"
-				+ characteristicId
-				+ "/detections?newerThan=7&olderThan=4"
+				"/devices/"
+					+ deviceId
+					+ "/characteristics/"
+					+ characteristicId
+					+ "/detections?newerThan=7&olderThan=4"
 			))
 			.andDo(print())
 			.andExpect(status().isOk());
@@ -168,7 +184,7 @@ public class DetectionsTests {
 		deleteAll(deviceRepository, characteristicRepository, detectionRepository);
 
 		this.mockMvc.perform(get(
-			"/devices/" + deviceId + "/characteristics/1/detections"))
+				"/devices/" + deviceId + "/characteristics/1/detections"))
 			.andDo(print())
 			.andExpect(status().isNotFound())
 			.andExpect(content().string("{\"errorCode\":\"characteristicNotFound\"}"));
