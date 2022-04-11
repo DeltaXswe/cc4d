@@ -102,7 +102,6 @@ public class CharacteristicsTests {
 		assertThat(this.deviceRepository).isNotNull();
 	}
 
-	/*
 	@Test
 	void getUnarchivedCharacteristics() throws Exception {
 		var characteristic1 = new JSONObject();
@@ -122,7 +121,7 @@ public class CharacteristicsTests {
 			.andExpect(status().isOk())
 			.andExpect(content().json(response.toJSONString()));
 	}
-*/
+
 	@Test
 	void deviceNotFoundError() throws Exception {
 		deleteAll(characteristicRepository, deviceRepository);
@@ -142,7 +141,7 @@ public class CharacteristicsTests {
 			.andExpect(status().isOk())
 			.andExpect(content().string("{\"lowerLimit\":-13.0,\"upperLimit\":98.0,\"mean\":42.5}"));
 	}
-/*
+
 	@Test
 	void characteristicNotFoundError() throws Exception {
 		characteristicRepository.deleteAll();
