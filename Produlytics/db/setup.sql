@@ -14,7 +14,6 @@ CREATE TABLE characteristic
     archived BOOLEAN NOT NULL,
     lower_limit DOUBLE PRECISION,
     upper_limit DOUBLE PRECISION,
-    average DOUBLE PRECISION,
     auto_adjust BOOLEAN NOT NULL,
     sample_size INTEGER,
     device_id INTEGER NOT NULL REFERENCES device(id),
