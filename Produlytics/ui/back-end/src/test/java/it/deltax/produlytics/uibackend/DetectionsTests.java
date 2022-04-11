@@ -51,12 +51,6 @@ public class DetectionsTests {
 	private static int deviceId;
 	private static int characteristicId;
 
-	/**
-	 * Prepara il contesto di partenza, comune a tutti i test
-	 * @param deviceRepository lo strato di persistenza relativo alle macchine
-	 * @param characteristicRepository lo strato di persistenza relativo alle caratteristiche
-	 * @param detectionRepository lo strato di persistenza relativo alle rilevazioni
-	 */
 	@BeforeAll
 	private static void prepareContext(
 		@Autowired DeviceRepository deviceRepository,
@@ -95,12 +89,6 @@ public class DetectionsTests {
 		}
 	}
 
-	/**
-	 * Pulisce i repository dai dati utilizzati dai test
-	 * @param deviceRepository lo strato di persistenza relativo alle macchine
-	 * @param characteristicRepository lo strato di persistenza relativo alle caratteristiche
-	 * @param detectionRepository lo strato di persistenza relativo alle rilevazioni
-	 */
 	@AfterAll
 	private static void deleteAll(
 		@Autowired DeviceRepository deviceRepository,
@@ -120,10 +108,6 @@ public class DetectionsTests {
 		assertThat(this.detectionRepository).isNotNull();
 	}
 
-	/**
-	 * Testa l'ottenimento delle rilevazioni di una caratteristica senza applicare filtri di ricerca
-	 * @throws Exception si ottiene un risultato diverso da quello atteso
-	 */
 	@Test
 	void getWithNoFilter() throws Exception {
 		this.mockMvc.perform(get(
