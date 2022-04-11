@@ -43,6 +43,10 @@ public class AdminCharacteristicsTests {
 
 	private final JSONObject body = new JSONObject();
 
+	/**
+	 * Prepara il contesto di partenza, comune a tutti i test
+	 * @param deviceRepository lo strato di persistenza relativo alle macchine
+	 */
 	@BeforeAll
 	private static void prepareContext(@Autowired DeviceRepository deviceRepository) {
 		DeviceEntity device = deviceRepository.save(new DeviceEntity(
@@ -55,6 +59,11 @@ public class AdminCharacteristicsTests {
 		url = "/admins/devices/" + device.getId() + "/characteristics";
 	}
 
+	/**
+	 * Pulisce i repository dai dati utilizzati dai test
+	 * @param deviceRepository lo strato di persistenza relativo alle macchine
+	 * @param characteristicRepository lo strato di persistenza relativo alle caratteristiche
+	 */
 	@AfterAll
 	private static void deleteAll(
 		@Autowired DeviceRepository deviceRepository,
@@ -64,6 +73,9 @@ public class AdminCharacteristicsTests {
 		deviceRepository.deleteAll();
 	}
 
+	/**
+	 * Pulisce le caratteristiche inserite durante i test
+	 */
 	@BeforeEach
 	private void cleanCharacteristics() {
 		this.characteristicRepository.deleteAll();
@@ -79,6 +91,10 @@ public class AdminCharacteristicsTests {
 		assertThat(this.characteristicRepository).isNotNull();
 	}
 
+	/**
+	 * Testa il corretto inserimento di una nuova caratteristica
+	 * @throws Exception l'inserimento non va a buon fine
+	 */
 	@Test
 	void insertCharacteristic() throws Exception {
 		this.mockMvc.perform(post(url)
@@ -90,6 +106,10 @@ public class AdminCharacteristicsTests {
 			.andExpect(status().isOk());
 	}
 
+	/**
+	 * Testa l'inserimento di una caratteristica già esistente
+	 * @throws Exception non viene rilevato l'errore
+	 */
 	@Test
 	void duplicateError() throws Exception {
 		JSONObject response = new JSONObject();
@@ -110,6 +130,10 @@ public class AdminCharacteristicsTests {
 			.andExpect(content().json(response.toJSONString()));
 	}
 
+	/**
+	 * Testa l'inserimento di una caratteristica in una macchina inesistente
+	 * @throws Exception non viene rilevato l'errore
+	 */
 	@Test
 	void deviceNotFoundError() throws Exception {
 		this.deviceRepository.deleteAll();

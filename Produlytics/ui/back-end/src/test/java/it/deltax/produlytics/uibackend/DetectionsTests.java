@@ -134,7 +134,6 @@ public class DetectionsTests {
 					+ "{\"creationTime\":4,\"value\":400.0,\"outlier\":false}],\"nextOld\":3,\"nextNew\":4}"));
 	}
 
-	/*
 	@Test
 	void getWithOlderAndNewer() throws Exception {
 		this.mockMvc.perform(get(
@@ -150,7 +149,7 @@ public class DetectionsTests {
 				"{\"detections\":[{\"creationTime\":2,\"value\":200.0,\"outlier\":false}"
 					+ ",{\"creationTime\":3,\"value\":300.0,\"outlier\":false}],\"nextOld\":2,\"nextNew\":3}"));
 	}
-*/
+
 	@Test
 	void getEmpty() throws Exception {
 		this.mockMvc.perform(get(
