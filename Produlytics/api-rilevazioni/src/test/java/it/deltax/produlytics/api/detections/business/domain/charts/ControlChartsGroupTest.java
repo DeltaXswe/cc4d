@@ -5,15 +5,15 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class ControlChartsTest {
+public class ControlChartsGroupTest {
 	@Test
 	void testCorrectRequiredDetectionCount() {
-		ControlCharts controlCharts = new ControlChartsImpl(List.of(new FakeControlChart(3),
+		ControlChartsGroup controlChartsGroup = new ControlChartsGroupImpl(List.of(new FakeControlChart(3),
 			new FakeControlChart(5),
 			new FakeControlChart(2)
 		));
 
-		assert controlCharts.requiredDetectionCount() == 5;
+		assert controlChartsGroup.requiredDetectionCount() == 5;
 	}
 	@Test
 	void testForwardAll() {
@@ -21,10 +21,10 @@ public class ControlChartsTest {
 			new FakeControlChart(5),
 			new FakeControlChart(2)
 		);
-		ControlCharts controlCharts = new ControlChartsImpl(fakeControlCharts);
+		ControlChartsGroup controlChartsGroup = new ControlChartsGroupImpl(fakeControlCharts);
 		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(7, 9, 5, 2, 1);
 		ControlLimits controlLimits = new ControlLimits(0, 100);
-		controlCharts.analyzeDetections(detections, controlLimits);
+		controlChartsGroup.analyzeDetections(detections, controlLimits);
 		assert fakeControlCharts.stream().allMatch(FakeControlChart::wasCalled);
 	}
 	@Test
@@ -33,10 +33,10 @@ public class ControlChartsTest {
 			new FakeControlChart(9),
 			new FakeControlChart(2)
 		);
-		ControlCharts controlCharts = new ControlChartsImpl(fakeControlCharts);
+		ControlChartsGroup controlChartsGroup = new ControlChartsGroupImpl(fakeControlCharts);
 		List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(7, 9, 5, 2, 1);
 		ControlLimits controlLimits = new ControlLimits(0, 100);
-		controlCharts.analyzeDetections(detections, controlLimits);
+		controlChartsGroup.analyzeDetections(detections, controlLimits);
 		assert fakeControlCharts.get(0).wasCalled();
 		assert !fakeControlCharts.get(1).wasCalled();
 		assert fakeControlCharts.get(2).wasCalled();

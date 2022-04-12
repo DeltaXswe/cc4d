@@ -4,10 +4,10 @@ import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits
 
 import java.util.List;
 
-public class ControlChartsImpl implements ControlCharts {
+public class ControlChartsGroupImpl implements ControlChartsGroup {
 	private final List<? extends ControlChart> controlCharts;
 
-	public ControlChartsImpl(List<? extends ControlChart> controlCharts) {
+	public ControlChartsGroupImpl(List<? extends ControlChart> controlCharts) {
 		this.controlCharts = controlCharts;
 	}
 

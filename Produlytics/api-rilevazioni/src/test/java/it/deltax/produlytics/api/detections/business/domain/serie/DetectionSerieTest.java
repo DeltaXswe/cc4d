@@ -2,7 +2,7 @@ package it.deltax.produlytics.api.detections.business.domain.serie;
 
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
-import it.deltax.produlytics.api.detections.business.domain.charts.ControlCharts;
+import it.deltax.produlytics.api.detections.business.domain.charts.ControlChartsGroup;
 import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetection;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimitsCalculator;
@@ -50,7 +50,7 @@ public class DetectionSerieTest {
 			return controlLimits;
 		};
 
-		ControlCharts controlCharts = new ControlCharts() {
+		ControlChartsGroup controlChartsGroup = new ControlChartsGroup() {
 			@Override
 			public int requiredDetectionCount() {
 				return 7;
@@ -66,7 +66,7 @@ public class DetectionSerieTest {
 			}
 		};
 
-		DetectionSerieFactory factory = new DetectionSerieImplFactory(ports, calculator, controlCharts);
+		DetectionSerieFactory factory = new DetectionSerieImplFactory(ports, calculator, controlChartsGroup);
 		DetectionSerie serie = factory.createSerie(characteristicId);
 		serie.insertDetection(detection);
 

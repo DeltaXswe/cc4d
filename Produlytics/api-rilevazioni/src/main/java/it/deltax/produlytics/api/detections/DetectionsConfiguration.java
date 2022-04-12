@@ -1,8 +1,8 @@
 package it.deltax.produlytics.api.detections;
 
 import it.deltax.produlytics.api.detections.business.domain.charts.ControlChart;
-import it.deltax.produlytics.api.detections.business.domain.charts.ControlCharts;
-import it.deltax.produlytics.api.detections.business.domain.charts.ControlChartsImpl;
+import it.deltax.produlytics.api.detections.business.domain.charts.ControlChartsGroup;
+import it.deltax.produlytics.api.detections.business.domain.charts.ControlChartsGroupImpl;
 import it.deltax.produlytics.api.detections.business.domain.charts.impls.*;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimitsCalculator;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimitsCalculatorImpl;
@@ -35,7 +35,7 @@ public class DetectionsConfiguration {
 	}
 
 	@Bean
-	ControlCharts createControlCharts() {
+	ControlChartsGroup createControlCharts() {
 		List<ControlChart> controlChartList = List.of(
 			new ControlChartBeyondLimits(),
 			new ControlChartZoneA(),
@@ -47,7 +47,7 @@ public class DetectionsConfiguration {
 			new ControlChartOverControl()
 		);
 
-		return new ControlChartsImpl(controlChartList);
+		return new ControlChartsGroupImpl(controlChartList);
 	}
 
 	@Bean
@@ -66,9 +66,9 @@ public class DetectionsConfiguration {
 
 	@Bean
 	DetectionSerieFactory createDetectionSerieFactory(
-		SeriePortFacade seriePortFacade, ControlLimitsCalculator controlLimitsCalculator, ControlCharts controlCharts
+		SeriePortFacade seriePortFacade, ControlLimitsCalculator controlLimitsCalculator, ControlChartsGroup controlChartsGroup
 	) {
-		return new DetectionSerieImplFactory(seriePortFacade, controlLimitsCalculator, controlCharts);
+		return new DetectionSerieImplFactory(seriePortFacade, controlLimitsCalculator, controlChartsGroup);
 	}
 
 	@Bean
