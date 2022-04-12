@@ -6,10 +6,9 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
 /**
- * <p>Record che rappresenta i dati necessari per la creazione di una nuova caratteristica.
- * <p>Contiene tutti i campi di una caratteristica, meno il suo id e quello della macchina.
- * <p>Mette a disposizione un builder.
- * @author Alberto Lazari
+ * <p>Record che rappresenta i dati necessari per la creazione di una nuova caratteristica
+ * <p>Contiene tutti i campi di una caratteristica, meno il suo id e quello della macchina
+ * <p>Mette a disposizione un builder
  */
 public record NewCharacteristic(
 	String name,
@@ -19,7 +18,7 @@ public record NewCharacteristic(
 	OptionalInt sampleSize,
 	boolean archived
 ) {
-	@Builder(builderMethodName = "", setterPrefix = "with")
+	@Builder(toBuilder = true, builderMethodName = "", setterPrefix = "with")
 	public NewCharacteristic {}
 
 	/**
@@ -31,7 +30,7 @@ public record NewCharacteristic(
 	 * 	<li>lowerLimit: empty
 	 * 	<li>sampleSize: empty
 	 */
-	public static NewCharacteristicBuilder toBuilder() {
+	public static NewCharacteristicBuilder builder() {
 		return new NewCharacteristicBuilder()
 			.withArchived(false)
 			.withUpperLimit(OptionalDouble.empty())

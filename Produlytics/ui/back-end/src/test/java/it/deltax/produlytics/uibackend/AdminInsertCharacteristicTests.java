@@ -24,7 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Test d'integrazione per le operazioni svolte dagli amministratori relative all'inserimento di una nuova
  * caratteristica
- * @author Alberto Lazati
  */
 @SpringBootTest(
 	webEnvironment = SpringBootTest.WebEnvironment.MOCK

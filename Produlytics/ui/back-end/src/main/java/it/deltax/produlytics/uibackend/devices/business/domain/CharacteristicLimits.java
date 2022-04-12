@@ -5,7 +5,6 @@ import java.util.stream.DoubleStream;
 /**
  * <p>Record che rappresenta i limiti tecnici di una caratteristica e la loro media.
  * <p>Mette a disposizione una static factory.
- * @author Alberto Lazari
  */
 public record CharacteristicLimits(
 	double lowerLimit,

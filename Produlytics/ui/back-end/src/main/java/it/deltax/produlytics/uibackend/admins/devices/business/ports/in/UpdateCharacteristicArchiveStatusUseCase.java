@@ -4,5 +4,5 @@ import it.deltax.produlytics.uibackend.admins.devices.business.domain.Characteri
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 
 public interface UpdateCharacteristicArchiveStatusUseCase {
-	void updateCharacteristicArchiveStatus(CharacteristicArchiveStatus characteristic) throws BusinessException;
+	void updateCharacteristicArchiveStatus(CharacteristicArchiveStatus toUpdate) throws BusinessException;
 }
