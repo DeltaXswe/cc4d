@@ -143,4 +143,18 @@ public class AdminGetCharacteristicsTests {
 			.andExpect(status().isOk())
 			.andExpect(content().json(response.toJSONString()));
 	}
+
+	@Test
+	void deviceNotFoundError() throws Exception {
+		deleteAll(deviceRepository, characteristicRepository);
+
+		JSONObject response = new JSONObject();
+		response.put("errorCode", "deviceNotFound");
+
+		performGetCharacteristics()
+			.andExpect(status().isNotFound())
+			.andExpect(content().json(response.toJSONString()));
+
+		prepareContext(deviceRepository, characteristicRepository);
+	}
 }

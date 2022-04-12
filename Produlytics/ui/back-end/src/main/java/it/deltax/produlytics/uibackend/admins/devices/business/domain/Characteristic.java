@@ -13,14 +13,14 @@ public record Characteristic(
 	String name,
 	boolean archived
 ) {
-	@Builder(builderMethodName = "", setterPrefix = "with")
+	@Builder(toBuilder = true, builderMethodName = "", setterPrefix = "with")
 	public Characteristic {}
 
 	/**
 	 * Fornisce il builder del record
 	 * @return un nuovo builder con <code>archived</code> inizializzato a <code>false</code> di default
 	 */
-	public static Characteristic.CharacteristicBuilder toBuilder() {
+	public static Characteristic.CharacteristicBuilder builder() {
 		return new CharacteristicBuilder()
 			.withArchived(false);
 	}
