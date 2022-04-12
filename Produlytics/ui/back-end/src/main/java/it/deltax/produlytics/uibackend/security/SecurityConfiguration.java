@@ -8,21 +8,20 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
-	private UserDetailsService userDetailsService;
+	private CustomUserDetailsService customUserDetailsService;
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 	@Bean
 	AuthenticationProvider authenticationProvider(){
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 
-		provider.setUserDetailsService(this.userDetailsService);
+		provider.setUserDetailsService(this.customUserDetailsService);
 		provider.setPasswordEncoder(new BCryptPasswordEncoder());
 
 		return provider;
@@ -45,6 +44,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.httpBasic()
 			.and()
 			.rememberMe().key(encoder.encode("produlytics"))
-			.userDetailsService(userDetailsService);
+			.userDetailsService(customUserDetailsService);
 	}
 }

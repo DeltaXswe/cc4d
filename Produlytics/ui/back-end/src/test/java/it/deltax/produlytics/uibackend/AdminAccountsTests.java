@@ -6,9 +6,7 @@ import it.deltax.produlytics.uibackend.repositories.AccountRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -33,8 +31,8 @@ public class AdminAccountsTests extends DevicesTests {
 	@Autowired
 	private AccountRepository accountRepository;
 
-	@BeforeAll
-	private static void prepareContext(@Autowired AccountRepository accountRepository) {
+	@BeforeEach
+	private void prepareContext(@Autowired AccountRepository accountRepository) {
 		accountRepository.save(new AccountEntity(
 			"utente1",
 			"password1",
@@ -48,8 +46,8 @@ public class AdminAccountsTests extends DevicesTests {
 			false));
 	}
 
-	@AfterAll
-	private static void deleteAll(@Autowired AccountRepository accountRepository) {
+	@AfterEach
+	private void deleteAll(@Autowired AccountRepository accountRepository) {
 		accountRepository.deleteAll();
 	}
 
@@ -67,7 +65,7 @@ public class AdminAccountsTests extends DevicesTests {
 	@Test
 	public void testInsertAccount() throws Exception {
 		JSONObject json = new JSONObject();
-		json.put("username", "utente1");
+		json.put("username", "utente3");
 		json.put("password", "passwordcomplessa");
 		json.put("administrator", "false");
 
@@ -77,9 +75,27 @@ public class AdminAccountsTests extends DevicesTests {
 				.characterEncoding("utf-8")
 			).andDo(print())
 			.andExpect(status().isOk())
-			.andExpect(content().string("{\"username\":\"utente1\"}"));
+			.andExpect(content().string("{\"username\":\"utente3\"}"));
+	}
 
-		deleteAll(accountRepository);
+	/**
+	 * Testa il caso in cui l'utente inserito abbia lo stesso username di uno già esistente
+	 * @throws Exception username duplicato
+	 */
+	@Test
+	public void testInsertAccountDuplicateUsername() throws Exception {
+		JSONObject json = new JSONObject();
+		json.put("username", "utente1");
+		json.put("password", "passwordcomplessa");
+		json.put("administrator", "false");
+
+		this.mockMvc.perform(post("/admin/accounts")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json.toString())
+				.characterEncoding("utf-8")
+			).andDo(print())
+			.andExpect(status().isBadRequest())
+			.andExpect(content().string("{\"errorCode\":\"duplicateUsername\"}"));
 	}
 
 	/**
@@ -108,8 +124,6 @@ public class AdminAccountsTests extends DevicesTests {
 	 */
 	@Test
 	public void testGetAccounts() throws Exception {
-		prepareContext(accountRepository);
-
 		JSONObject u1 = new JSONObject().put("username", "utente1")
 			.put("administrator", false)
 			.put("archived", false);
@@ -122,8 +136,6 @@ public class AdminAccountsTests extends DevicesTests {
 			).andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(content().json(requestResponse));
-
-		deleteAll(accountRepository);
 	}
 
 	/**
@@ -132,8 +144,6 @@ public class AdminAccountsTests extends DevicesTests {
 	 */
 	@Test
 	public void testUpdateAccountOk() throws Exception {
-		prepareContext(accountRepository);
-
 		JSONObject json = new JSONObject();
 		json.put("newPassword", "passwordNuova");
 		json.put("administrator", "false");
@@ -207,7 +217,6 @@ public class AdminAccountsTests extends DevicesTests {
 	 */
 	@Test
 	public void testUpdateArchiveStatusAccountOk() throws Exception {
-		prepareContext(accountRepository);
 		JSONObject json = new JSONObject();
 		json.put("archived", "true");
 

@@ -9,5 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/login")
 public class LoginController {
 	@GetMapping
-	public void login(){}
+	public void login(){
+		System.out.println("login");
+	}
 }

@@ -80,15 +80,12 @@ public class AdminDevicesTests {
 	 */
 	@Test
 	public void testInsertDevice() throws Exception {
-		deleteAll(this.deviceRepository);
-
 		JSONArray characteristics = new JSONArray();
 		JSONObject characteristic1 = new JSONObject()
 			.put("name", "pressione")
 			.put("autoAdjust", "true")
 			.put("archived", "false");
 		characteristics.put(characteristic1);
-
 		JSONObject device = new JSONObject()
 			.put("name", "macchina1")
 			.put("characteristics", characteristics);
@@ -98,7 +95,7 @@ public class AdminDevicesTests {
 				.content(device.toString())
 				.characterEncoding("utf-8")
 			).andDo(print())
-			.andExpect(status().isOk()); //TODO expected id???
+			.andExpect(status().isOk());
 	}
 
 	/**
@@ -107,8 +104,8 @@ public class AdminDevicesTests {
 	 */
 	@Test
 	public void testGetDevices() throws Exception{
-		deleteAll(this.deviceRepository);
-		prepareContext(this.deviceRepository);
+		deviceRepository.deleteAll();
+		prepareContext(deviceRepository);
 
 		JSONObject d1 = new JSONObject().put("id", deviceId1)
 			.put("name", "macchina1")
@@ -118,6 +115,7 @@ public class AdminDevicesTests {
 			.put("name", "macchina2")
 			.put("archived", false)
 			.put("deactivated", false);
+
 		String requestResponse = new JSONArray().put(d1).put(d2).toString();
 
 		this.mockMvc.perform(get("/admin/devices")
@@ -204,7 +202,6 @@ public class AdminDevicesTests {
 	 */
 	@Test
 	public void testModifyDeviceDeactivateStatus() throws Exception {
-		prepareContext(deviceRepository);
 		JSONObject json = new JSONObject();
 		json.put("deactivated", "true");
 
@@ -240,9 +237,6 @@ public class AdminDevicesTests {
 	 */
 	@Test
 	public void testGetDeviceDetailsOk() throws Exception{
-		deleteAll(deviceRepository);
-		prepareContext(deviceRepository);
-
 		String d1 = new JSONObject().put("id", deviceId1)
 			.put("name", "macchina1")
 			.put("archived", false)
@@ -265,5 +259,4 @@ public class AdminDevicesTests {
 			.andExpect(status().isNotFound())
 			.andExpect(content().string("{\"errorCode\":\"deviceNotFound\"}"));;
 	}
-
 }
