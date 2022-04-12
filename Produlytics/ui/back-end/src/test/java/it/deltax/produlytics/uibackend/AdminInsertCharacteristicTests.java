@@ -87,14 +87,15 @@ public class AdminInsertCharacteristicTests {
 	}
 
 	/**
-	 * Esegue l'inserimento di una nuova caratteristica senza eseguire controlli
+	 * Esegue l'inserimento di una nuova caratteristica priva di limiti tecnici, senza eseguire controlli
 	 * @return il risultato dell'esecuzione su cui poter eseguire i controlli
 	 * @throws Exception se l'inserimento fallisce
 	 */
-	private ResultActions performInsertCharacteristic() throws Exception {
+	private ResultActions performInsertSmallCharacteristic() throws Exception {
 		JSONObject body = new JSONObject();
 		body.put("name", "pressione");
 		body.put("autoAdjust", "true");
+		body.put("sampleSize", 5);
 		body.put("archived", "false");
 
 		return this.mockMvc.perform(post("/admins/devices/" + deviceId + "/characteristics")
@@ -105,14 +106,99 @@ public class AdminInsertCharacteristicTests {
 	}
 
 	/**
-	 * Testa il corretto inserimento di una nuova caratteristica
-	 * @throws Exception l'inserimento non va a buon fine
+	 * Testa il corretto inserimento di una nuova caratteristica con autoAdjust e senza limiti tecnici
+	 * @throws Exception se l'inserimento non va a buon fine
 	 */
 	@Test
-	void insertCharacteristic() throws Exception {
-		performInsertCharacteristic()
+	void insertCharacteristicWithAutoAdjustAndNoLimits() throws Exception {
+		performInsertSmallCharacteristic()
 			.andDo(print())
 			.andExpect(status().isOk());
+	}
+
+	/**
+	 * Testa il corretto inserimento di una nuova caratteristica con autoAdjust e con limiti tecnici
+	 * @throws Exception se l'inserimento non va a buon fine
+	 */
+	@Test
+	void insertCharacteristicWithAutoAdjustAndLimits() throws Exception {
+		JSONObject body = new JSONObject();
+		body.put("name", "pressione");
+		body.put("upperLimit", 98d);
+		body.put("lowerLimit", -13d);
+		body.put("autoAdjust", "true");
+		body.put("sampleSize", 0);
+		body.put("archived", "false");
+
+		this.mockMvc.perform(post("/admins/devices/" + deviceId + "/characteristics")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(body.toString())
+				.characterEncoding("utf-8")
+			)
+			.andDo(print())
+			.andExpect(status().isOk());
+	}
+
+	/**
+	 * Testa il corretto inserimento di una nuova caratteristica senza autoAdjust
+	 * @throws Exception se l'inserimento non va a buon fine
+	 */
+	@Test
+	void insertCharacteristicWithNoAutoAdjustAndLimits() throws Exception {
+		JSONObject body = new JSONObject();
+		body.put("name", "pressione");
+		body.put("upperLimit", 98d);
+		body.put("lowerLimit", -13d);
+		body.put("autoAdjust", "false");
+		body.put("archived", "false");
+
+		this.mockMvc.perform(post("/admins/devices/" + deviceId + "/characteristics")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(body.toString())
+			.characterEncoding("utf-8")
+		)
+			.andDo(print())
+			.andExpect(status().isOk());
+	}
+
+	/**
+	 * Testa l'inserimento di una nuova caratteristica senza autoAdjust e senza limiti tecnici
+	 * @throws Exception non viene rilevato l'errore
+	 */
+	@Test
+	void insertCharacteristicWithNoAutoAdjustAndNoLimitsError() throws Exception {
+		JSONObject body = new JSONObject();
+		body.put("name", "pressione");
+		body.put("autoAdjust", "false");
+		body.put("archived", "false");
+
+		this.mockMvc.perform(post("/admins/devices/" + deviceId + "/characteristics")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(body.toString())
+				.characterEncoding("utf-8")
+			)
+			.andDo(print())
+			.andExpect(status().isBadRequest());
+	}
+
+	/**
+	 * Testa il corretto inserimento di una nuova caratteristica con autoAdjust, ma senza sampleSize
+	 * @throws Exception se l'inserimento non va a buon fine
+	 */
+	@Test
+	void insertCharacteristicWithAutoAdjustAndNoSampleSize() throws Exception {
+		JSONObject body = new JSONObject();
+		body.put("name", "pressione");
+		body.put("autoAdjust", "true");
+		body.put("archived", "false");
+
+		this.mockMvc.perform(post("/admins/devices/" + deviceId + "/characteristics")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(body.toString())
+				.characterEncoding("utf-8")
+			)
+			.andDo(print())
+			.andExpect(status().isBadRequest());
 	}
 
 	/**
@@ -124,9 +210,9 @@ public class AdminInsertCharacteristicTests {
 		JSONObject response = new JSONObject();
 		response.put("errorCode", "duplicateCharacteristicName");
 
-		performInsertCharacteristic();
+		performInsertSmallCharacteristic();
 
-		performInsertCharacteristic()
+		performInsertSmallCharacteristic()
 			.andDo(print())
 			.andExpect(status().isBadRequest())
 			.andExpect(content().json(response.toJSONString()));
@@ -143,7 +229,7 @@ public class AdminInsertCharacteristicTests {
 		JSONObject response = new JSONObject();
 		response.put("errorCode", "deviceNotFound");
 
-		performInsertCharacteristic()
+		performInsertSmallCharacteristic()
 			.andExpect(status().isNotFound())
 			.andExpect(content().json(response.toJSONString()));
 

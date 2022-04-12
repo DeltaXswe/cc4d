@@ -29,13 +29,17 @@ public class InsertCharacteristicService implements InsertCharacteristicUseCase 
 		this.findDevicePort.findDetailedDevice(deviceId)
 			.orElseThrow(() -> new BusinessException("deviceNotFound", ErrorType.NOT_FOUND));
 
-		if (!this.findCharacteristicPort.findByDeviceAndName(deviceId, characteristic.name()).isEmpty())
+		if (!this.findCharacteristicPort.findByDeviceAndName(deviceId, characteristic.name()).isEmpty()) {
 			throw new BusinessException("duplicateCharacteristicName", ErrorType.GENERIC);
+		}
 
-		if (characteristic.autoAdjust() == false && (
-			characteristic.upperLimit().isEmpty() || characteristic.lowerLimit().isEmpty()
-		))
+		final boolean limitsOk = characteristic.autoAdjust() ||
+			(characteristic.upperLimit().isPresent() && characteristic.lowerLimit().isPresent());
+		final boolean sampleSizeOk = !characteristic.autoAdjust() || characteristic.sampleSize().isPresent();
+
+		if (!limitsOk || !sampleSizeOk) {
 			throw new BusinessException("invalidValues", ErrorType.GENERIC);
+		}
 
 		return this.insertPort.insertByDevice(deviceId, characteristic);
 	}

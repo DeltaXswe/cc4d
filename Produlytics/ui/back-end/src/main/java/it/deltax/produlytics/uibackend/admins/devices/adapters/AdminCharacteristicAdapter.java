@@ -24,11 +24,15 @@ import java.util.OptionalInt;
 public class AdminCharacteristicAdapter implements FindDetailedCharacteristicPort,
 	InsertCharacteristicPort,
 	FindAllCharacteristicsPort,
-	UpdateCharacteristicPort
-{
+	UpdateCharacteristicPort {
 	private final CharacteristicRepository repo;
 
-	private static DetailedCharacteristic toDetailed(CharacteristicEntity characteristic) {
+	/**
+	 * Converte un oggetto <code>CharacteristicEntity</code> in uno <code>DetailedCharacteristic</code>
+	 * @param characteristic la <code>CharacteristicEntity</code> da convertire
+	 * @return la <code>DetailedCharacteristic</code> equivalente
+	 */
+	public static DetailedCharacteristic toDetailed(CharacteristicEntity characteristic) {
 		return DetailedCharacteristic.builder()
 			.withId(characteristic.getId())
 			.withDeviceId(characteristic.getDeviceId())
@@ -53,7 +57,12 @@ public class AdminCharacteristicAdapter implements FindDetailedCharacteristicPor
 			.build();
 	}
 
-	private static CharacteristicEntity toEntity(DetailedCharacteristic characteristic) {
+	/**
+	 * Converte un oggetto <code>DetailedCharacteristic</code> in uno <code>CharacteristicEntity</code>
+	 * @param characteristic la <code>DetailedCharacteristic</code> da convertire
+	 * @return la <code>CharacteristicEntity</code> equivalente
+	 */
+	public static CharacteristicEntity toEntity(DetailedCharacteristic characteristic) {
 		return new CharacteristicEntity(
 			characteristic.id(),
 			characteristic.deviceId(),
@@ -99,9 +108,8 @@ public class AdminCharacteristicAdapter implements FindDetailedCharacteristicPor
 	 */
 	@Override
 	public Optional<DetailedCharacteristic> findByCharacteristic(int deviceId, int characteristicId) {
-		return this.repo.findById(new CharacteristicEntityId(characteristicId, deviceId)).map(
-			characteristic -> toDetailed(characteristic)
-		);
+		return this.repo.findById(new CharacteristicEntityId(characteristicId, deviceId))
+			.map(AdminCharacteristicAdapter::toDetailed);
 	}
 
 	/**
@@ -113,8 +121,7 @@ public class AdminCharacteristicAdapter implements FindDetailedCharacteristicPor
 	@Override
 	public List<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
 		return this.repo.findByDeviceIdAndName(deviceId, name).stream()
-			.map(characteristic -> toDetailed(characteristic)
-			)
+			.map(AdminCharacteristicAdapter::toDetailed)
 			.toList();
 	}
 
