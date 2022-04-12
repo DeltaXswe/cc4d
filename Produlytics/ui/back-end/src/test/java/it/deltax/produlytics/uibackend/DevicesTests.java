@@ -6,9 +6,7 @@ import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,8 +36,8 @@ class DevicesTests {
 	private static int deviceId1;
 	private static int deviceId2;
 
-	@BeforeAll
-	private static void prepareContext(
+	@BeforeEach
+	private void prepareContext(
 		@Autowired DeviceRepository deviceRepository) {
 		DeviceEntity device1 = deviceRepository.save(new DeviceEntity(
 			"macchina1",
@@ -58,8 +56,8 @@ class DevicesTests {
 		deviceId2=device2.getId();
 	}
 
-	@AfterAll
-	private static void deleteAll(
+	@AfterEach
+	private void deleteAll(
 		@Autowired DeviceRepository deviceRepository) {
 		deviceRepository.deleteAll();
 	}
@@ -82,14 +80,14 @@ class DevicesTests {
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(content().json(requestResponse));
-
-		deleteAll(deviceRepository);
 	}
 
 	@Test
 	public void getAllUnarchivedDevicesWhenThereAreNone() throws Exception {
+		deleteAll(deviceRepository);
 		this.mockMvc.perform(get("/devices"))
 			.andDo(print())
-			.andExpect(status().isOk());
+			.andExpect(status().isOk())
+			.andExpect(content().json("[]"));
 	}
 }
