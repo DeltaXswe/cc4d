@@ -36,6 +36,26 @@ public class CharacteristicEntity {
 	protected CharacteristicEntity() {}
 
 	public CharacteristicEntity(
+		Integer id,
+		Integer deviceId,
+		String name,
+		Double upperLimit,
+		Double lowerLimit,
+		Boolean autoAdjust,
+		Integer sampleSize,
+		Boolean archived
+	) {
+		this.id = id;
+		this.deviceId = deviceId;
+		this.name = name;
+		this.upperLimit = upperLimit;
+		this.lowerLimit = lowerLimit;
+		this.autoAdjust = autoAdjust;
+		this.sampleSize = sampleSize;
+		this.archived = archived;
+	}
+
+	public CharacteristicEntity(
 		Integer deviceId,
 		String name,
 		Double upperLimit,
