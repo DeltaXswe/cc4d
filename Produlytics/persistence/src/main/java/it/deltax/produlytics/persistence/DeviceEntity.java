@@ -24,6 +24,14 @@ public class DeviceEntity {
 
 	protected DeviceEntity() {}
 
+	public DeviceEntity(Integer id, String name, Boolean archived, Boolean deactivated, String apiKey) {
+		this.id = id;
+		this.name = name;
+		this.archived = archived;
+		this.deactivated = deactivated;
+		this.apiKey = apiKey;
+	}
+
 	public DeviceEntity(String name, Boolean archived, Boolean deactivated, String apiKey) {
 		this.name = name;
 		this.archived = archived;
