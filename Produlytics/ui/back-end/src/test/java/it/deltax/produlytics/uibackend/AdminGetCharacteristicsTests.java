@@ -48,6 +48,7 @@ public class AdminGetCharacteristicsTests {
 	/**
 	 * Prepara il contesto di partenza, comune a tutti i test
 	 * @param deviceRepository lo strato di persistenza relativo alle macchine
+	 * @param characteristicRepository lo strato di persistenza relativo alle caratteristiche
 	 */
 	@BeforeAll
 	private static void prepareContext(
