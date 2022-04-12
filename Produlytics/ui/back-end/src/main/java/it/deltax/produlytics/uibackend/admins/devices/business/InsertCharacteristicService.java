@@ -29,7 +29,7 @@ public class InsertCharacteristicService implements InsertCharacteristicUseCase 
 		if (this.findDevicePort.findDetailedDevice(deviceId).isEmpty())
 			throw new BusinessException("deviceNotFound", ErrorType.NOT_FOUND);
 
-		if (!this.findCharacteristicPort.findByName(characteristic.name()).isEmpty())
+		if (!this.findCharacteristicPort.findByDeviceAndName(deviceId, characteristic.name()).isEmpty())
 			throw new BusinessException("duplicateCharacteristicName", ErrorType.GENERIC);
 
 		if (characteristic.autoAdjust() == false && (

@@ -6,5 +6,5 @@ import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import java.util.List;
 
 public interface GetCharacteristicsUseCase {
-	public List<Characteristic> getByDevice(int deviceId) throws BusinessException;
+	List<Characteristic> getByDevice(int deviceId) throws BusinessException;
 }

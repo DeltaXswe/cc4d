@@ -31,11 +31,40 @@ public class AdminCharacteristicAdapter implements
 		this.repo = repo;
 	}
 
+	/**
+	 * Restituisce tutte le caratteristiche di una macchina
+	 * @param deviceId l'id della macchina
+	 * @return la lista delle caratteristiche della macchina
+	 */
 	@Override
-	public List<CharacteristicEntity> findByName(String name) {
-		return this.repo.findByName(name);
+	public List<Characteristic> findAllByDeviceId(int deviceId) {
+		return repo.findByDeviceId(deviceId).stream()
+			.map(characteristic -> Characteristic.toBuilder()
+				.withId(characteristic.getId())
+				.withName(characteristic.getName())
+				.withArchived(characteristic.getArchived())
+				.build()
+			)
+			.toList();
 	}
 
+	/**
+	 * Restituisce le caratteristiche di una macchina con un dato nome
+	 * @param deviceId l'id della macchina
+	 * @param name il nome delle caratteristiche
+	 * @return lista delle caratteristiche trovate
+	 */
+	@Override
+	public List<CharacteristicEntity> findByDeviceAndName(int deviceId, String name) {
+		return this.repo.findByDeviceIdAndName(deviceId, name);
+	}
+
+	/**
+	 * Inserisce una nuova caratteristica in una macchina
+	 * @param deviceId l'id della macchina
+	 * @param characteristic la caratteristica da inserire
+	 * @return l'id della nuova caratteristica
+	 */
 	@Override
 	public int insertByDevice(int deviceId, NewCharacteristic characteristic) {
 		CharacteristicEntity entity = this.repo.saveAndFlush(new CharacteristicEntity(
@@ -48,11 +77,5 @@ public class AdminCharacteristicAdapter implements
 			characteristic.archived()
 		));
 		return entity.getId();
-	}
-
-	@Override
-	// TODO
-	public List<Characteristic> findAllByDeviceId(int deviceId) {
-
 	}
 }
