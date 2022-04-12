@@ -5,6 +5,7 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.in.GetChara
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindAllCharacteristicsPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
  * Il service per l'ottenimento delle caratteristiche di una macchina
  * @author Alberto Lazari
  */
+@Service
 public class GetCharacteristicsService implements GetCharacteristicsUseCase {
 	private final FindAllCharacteristicsPort port;
 
