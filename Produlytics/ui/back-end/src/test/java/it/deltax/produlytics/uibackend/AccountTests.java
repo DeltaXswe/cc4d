@@ -7,8 +7,12 @@ import net.minidev.json.JSONObject;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -21,10 +25,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //isNotFound() 404 NOT_FOUND
 
 /**
- * Test d'integrazione per le operazioni svolte dagli utenti
+ * Test d'integrazione per le operazioni svolte dagli utenti e svolte sull'endpoint /accounts
  * @author Leila Dardouri
  */
-public class AccountTests extends DevicesTests {
+@SpringBootTest(
+	webEnvironment = SpringBootTest.WebEnvironment.MOCK
+)
+@ActiveProfiles("test")
+@AutoConfigureMockMvc(addFilters = false)
+public class AccountTests {
+	@Autowired
+	protected MockMvc mockMvc;
+
 	@Autowired
 	private AccountController accountController;
 
@@ -34,7 +46,6 @@ public class AccountTests extends DevicesTests {
 	@Autowired
 	 private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	@Override
 	@Test
 	void contextLoads() {
 		assertThat(this.accountController).isNotNull();

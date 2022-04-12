@@ -4,12 +4,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
+/**
+ * Il controller per le richieste di autenticazione
+ * @author Leila Dardouri
+ */
 @RestController
 @RequestMapping("/login")
 public class LoginController {
+	/**
+	 * Riceve le chiamate all'endpoint REST per l'autenticazione
+	 */
 	@GetMapping
-	public void login(){
-		System.out.println("login");
-	}
+	public void login(){}
 }

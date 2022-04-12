@@ -10,6 +10,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+/**
+ * Configurazione di Spring Security
+ * @author Leila Dardouri
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -27,7 +31,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return provider;
 	}
 
-
+	/**
+	 * Configura Spring Security
+	 * @param http la configurazione per richieste http
+	 * @throws Exception
+	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http

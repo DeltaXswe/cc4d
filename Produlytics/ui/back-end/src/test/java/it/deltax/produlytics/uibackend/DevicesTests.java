@@ -17,6 +17,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * Test d'integrazione per le operazioni relative alle macchine
+ */
 @SpringBootTest(
 	webEnvironment = SpringBootTest.WebEnvironment.MOCK
 )
@@ -36,6 +39,10 @@ class DevicesTests {
 	private static int deviceId1;
 	private static int deviceId2;
 
+	/**
+	 * Inserisce nel repository due macchine
+	 * @param deviceRepository il repository in cui inserire le due macchine
+	 */
 	@BeforeEach
 	private void prepareContext(
 		@Autowired DeviceRepository deviceRepository) {
@@ -56,6 +63,10 @@ class DevicesTests {
 		deviceId2=device2.getId();
 	}
 
+	/**
+	 * Svuota il repository
+	 * @param deviceRepository il repository da svuotare
+	 */
 	@AfterEach
 	private void deleteAll(
 		@Autowired DeviceRepository deviceRepository) {
@@ -68,6 +79,10 @@ class DevicesTests {
 		assertThat(this.deviceRepository).isNotNull();
 	}
 
+	/**
+	 * Testa l'ottenimento di tutte le macchine non archiviate
+	 * @throws Exception
+	 */
 	@Test
 	public void getAllUnarchivedDevices() throws Exception {
 		JSONObject d1 = new JSONObject().put("id", deviceId1)
@@ -82,6 +97,10 @@ class DevicesTests {
 			.andExpect(content().json(requestResponse));
 	}
 
+	/**
+	 * Testa l'ottenimento di tutte le macchine non archiviate, quando non ce ne sono
+	 * @throws Exception
+	 */
 	@Test
 	public void getAllUnarchivedDevicesWhenThereAreNone() throws Exception {
 		deleteAll(deviceRepository);
