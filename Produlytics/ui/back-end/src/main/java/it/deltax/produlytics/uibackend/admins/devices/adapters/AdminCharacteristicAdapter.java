@@ -1,7 +1,9 @@
 package it.deltax.produlytics.uibackend.admins.devices.adapters;
 
 import it.deltax.produlytics.persistence.CharacteristicEntity;
+import it.deltax.produlytics.uibackend.admins.devices.business.domain.Characteristic;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.NewCharacteristic;
+import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindAllCharacteristicsPort;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindCharacteristicPort;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertCharacteristicPort;
 import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
@@ -14,7 +16,11 @@ import java.util.List;
  * @author Alberto Lazari
  */
 @Component
-public class AdminCharacteristicAdapter implements FindCharacteristicPort, InsertCharacteristicPort {
+public class AdminCharacteristicAdapter implements
+	FindCharacteristicPort,
+	InsertCharacteristicPort,
+	FindAllCharacteristicsPort
+{
 	private final CharacteristicRepository repo;
 
 	/**
@@ -42,5 +48,11 @@ public class AdminCharacteristicAdapter implements FindCharacteristicPort, Inser
 			characteristic.archived()
 		));
 		return entity.getId();
+	}
+
+	@Override
+	// TODO
+	public List<Characteristic> findAllByDeviceId(int deviceId) {
+
 	}
 }
