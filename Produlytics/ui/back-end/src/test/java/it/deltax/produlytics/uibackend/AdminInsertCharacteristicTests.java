@@ -15,13 +15,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Test d'integrazione per le operazioni svolte dagli amministratori relative alle caratteristiche
+ * Test d'integrazione per le operazioni svolte dagli amministratori relative all'inserimento di una nuova
+ * caratteristica
  * @author Alberto Lazati
  */
 @SpringBootTest(
@@ -29,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 )
 @ActiveProfiles("test")
 @AutoConfigureMockMvc(addFilters = false)
-public class AdminCharacteristicsTests {
+public class AdminInsertCharacteristicTests {
 	@Autowired
 	private MockMvc mockMvc;
 
@@ -39,9 +41,7 @@ public class AdminCharacteristicsTests {
 	@Autowired
 	private CharacteristicRepository characteristicRepository;
 
-	private static String url;
-
-	private final JSONObject body = new JSONObject();
+	private static int deviceId;
 
 	/**
 	 * Prepara il contesto di partenza, comune a tutti i test
@@ -56,7 +56,7 @@ public class AdminCharacteristicsTests {
 			"a"
 		));
 
-		url = "/admins/devices/" + device.getId() + "/characteristics";
+		deviceId = device.getId();
 	}
 
 	/**
@@ -79,10 +79,6 @@ public class AdminCharacteristicsTests {
 	@BeforeEach
 	private void cleanCharacteristics() {
 		this.characteristicRepository.deleteAll();
-
-		this.body.put("name", "pressione");
-		this.body.put("autoAdjust", "true");
-		this.body.put("archived", "false");
 	}
 
 	@Test
@@ -92,16 +88,30 @@ public class AdminCharacteristicsTests {
 	}
 
 	/**
+	 * Esegue l'inserimento di una nuova caratteristica senza eseguire controlli
+	 * @return il risultato dell'esecuzione su cui poter eseguire i controlli
+	 * @throws Exception se l'inserimento fallisce
+	 */
+	private ResultActions performInsertCharacteristic() throws Exception {
+		JSONObject body = new JSONObject();
+		body.put("name", "pressione");
+		body.put("autoAdjust", "true");
+		body.put("archived", "false");
+
+		return this.mockMvc.perform(post("/admins/devices/" + deviceId + "/characteristics")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(body.toString())
+			.characterEncoding("utf-8")
+		);
+	}
+
+	/**
 	 * Testa il corretto inserimento di una nuova caratteristica
 	 * @throws Exception l'inserimento non va a buon fine
 	 */
 	@Test
 	void insertCharacteristic() throws Exception {
-		this.mockMvc.perform(post(url)
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(this.body.toString())
-				.characterEncoding("utf-8")
-			)
+		performInsertCharacteristic()
 			.andDo(print())
 			.andExpect(status().isOk());
 	}
@@ -115,16 +125,9 @@ public class AdminCharacteristicsTests {
 		JSONObject response = new JSONObject();
 		response.put("errorCode", "duplicateCharacteristicName");
 
-		this.mockMvc.perform(post(url)
-			.contentType(MediaType.APPLICATION_JSON)
-			.content(this.body.toString())
-			.characterEncoding("utf-8")
-		);
-		this.mockMvc.perform(post(url)
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(this.body.toString())
-				.characterEncoding("utf-8")
-			)
+		performInsertCharacteristic();
+
+		performInsertCharacteristic()
 			.andDo(print())
 			.andExpect(status().isBadRequest())
 			.andExpect(content().json(response.toJSONString()));
@@ -141,11 +144,7 @@ public class AdminCharacteristicsTests {
 		JSONObject response = new JSONObject();
 		response.put("errorCode", "deviceNotFound");
 
-		this.mockMvc.perform(post(url)
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(this.body.toString())
-				.characterEncoding("utf-8")
-			)
+		performInsertCharacteristic()
 			.andExpect(status().isNotFound())
 			.andExpect(content().json(response.toJSONString()));
 
