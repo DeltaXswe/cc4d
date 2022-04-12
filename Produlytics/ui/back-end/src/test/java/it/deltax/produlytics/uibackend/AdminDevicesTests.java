@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import static org.springframework.http.RequestEntity.post;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -71,6 +72,33 @@ public class AdminDevicesTests {
 	void contextLoads() {
 		assertThat(this.adminsDevicesController).isNotNull();
 		assertThat(this.deviceRepository).isNotNull();
+	}
+
+	/**
+	 * Testa l'inserimento di una nuova macchina
+	 * @throws Exception
+	 */
+	@Test
+	public void testInsertDevice() throws Exception {
+		deleteAll(this.deviceRepository);
+
+		JSONArray characteristics = new JSONArray();
+		JSONObject characteristic1 = new JSONObject()
+			.put("name", "pressione")
+			.put("autoAdjust", "true")
+			.put("archived", "false");
+		characteristics.put(characteristic1);
+
+		JSONObject device = new JSONObject()
+			.put("name", "macchina1")
+			.put("characteristics", characteristics);
+
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/admin/devices")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(device.toString())
+				.characterEncoding("utf-8")
+			).andDo(print())
+			.andExpect(status().isOk()); //TODO expected id???
 	}
 
 	/**
@@ -176,6 +204,7 @@ public class AdminDevicesTests {
 	 */
 	@Test
 	public void testModifyDeviceDeactivateStatus() throws Exception {
+		prepareContext(deviceRepository);
 		JSONObject json = new JSONObject();
 		json.put("deactivated", "true");
 

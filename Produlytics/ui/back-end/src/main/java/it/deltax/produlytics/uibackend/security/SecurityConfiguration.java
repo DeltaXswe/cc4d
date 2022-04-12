@@ -45,7 +45,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.httpBasic()
 			.and()
 			.rememberMe().key(encoder.encode("produlytics"))
-			.userDetailsService(userDetailsService)
-		;
+			.userDetailsService(userDetailsService);
 	}
 }

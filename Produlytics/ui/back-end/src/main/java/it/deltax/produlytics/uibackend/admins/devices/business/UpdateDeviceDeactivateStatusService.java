@@ -18,7 +18,6 @@ public class UpdateDeviceDeactivateStatusService implements UpdateDeviceDeactiva
 	private final FindDetailedDevicePort findDetailedDevicePort;
 	private final UpdateDeviceDeactivateStatusPort updateDeviceDeactivateStatusPort;
 
-
 	/**
 	 * Il costruttore
 	 * @param findDetailedDevicePort la porta per trovare una macchina completa di tutte le sue informazioni

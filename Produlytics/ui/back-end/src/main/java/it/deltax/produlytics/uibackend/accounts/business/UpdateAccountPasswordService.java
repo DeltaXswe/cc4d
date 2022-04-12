@@ -52,11 +52,6 @@ public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCas
             .map(account -> account.toBuilder())
             .orElseThrow(() -> new BusinessException(("accountNotFound"), ErrorType.NOT_FOUND));
 
-        System.out.println(accountToUpdate.currentPassword());
-        System.out.println(toUpdate.build().hashedPassword());
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-        System.out.println(passwordEncoder.encode("passwordvecchia"));
         if (this.passwordMatcherPort.matches(accountToUpdate.currentPassword(),toUpdate.build().hashedPassword())) {
             String hashedNewPassword = this.passwordEncoderPort.encode(accountToUpdate.newPassword());
             toUpdate.withHashedPassword(hashedNewPassword);

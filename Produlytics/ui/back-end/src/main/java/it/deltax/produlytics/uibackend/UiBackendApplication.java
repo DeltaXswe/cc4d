@@ -14,9 +14,4 @@ public class UiBackendApplication {
 		SpringApplication.run(UiBackendApplication.class, args);
 	}
 
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
 }
