@@ -18,10 +18,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.util.Base64Utils;
 
@@ -31,7 +33,7 @@ import java.nio.charset.StandardCharsets;
 	webEnvironment = SpringBootTest.WebEnvironment.MOCK
 )
 @ActiveProfiles("test")
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc()
 public class SecurityTests {
 	@Autowired
 	private LoginController loginController;
@@ -47,9 +49,10 @@ public class SecurityTests {
 
 	@BeforeAll
 	private static void prepareContext(@Autowired AccountRepository accountRepository) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		accountRepository.save(new AccountEntity(
 			"utente1",
-			"password1",
+			encoder.encode("password1"),
 			false,
 			false));
 	}
@@ -62,16 +65,44 @@ public class SecurityTests {
 	}
 
 	@Test
-	public void testLogin() throws Exception {
+	public void testLoginOk() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/login")
-				.contentType(MediaType.APPLICATION_JSON)
 				.header(HttpHeaders.AUTHORIZATION, "Basic "
 					+ Base64Utils.encodeToString("utente1:password1".getBytes()))
-				.queryParam("remember-me", "true")
-				.characterEncoding("utf-8")
-			).andDo(print())
-			.andExpect(status().isOk());
+				).andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(cookie().doesNotExist("remember-me"));
 	}
+
+	@Test
+	public void testLoginOkRememberMe() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/login")
+				.header(HttpHeaders.AUTHORIZATION, "Basic "
+					+ Base64Utils.encodeToString("utente1:password1".getBytes()))
+				.param("remember-me", "true")
+			).andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(cookie().exists("remember-me"));
+	}
+
+	@Test
+	public void testLoginWrongUsername() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/login")
+				.header(HttpHeaders.AUTHORIZATION, "Basic "
+					+ Base64Utils.encodeToString("utente100:password1".getBytes()))
+			).andDo(print())
+			.andExpect(status().isUnauthorized());
+	}
+
+	@Test
+	public void testLoginWrongPassword() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/login")
+				.header(HttpHeaders.AUTHORIZATION, "Basic "
+					+ Base64Utils.encodeToString("utente1:password100".getBytes()))
+			).andDo(print())
+			.andExpect(status().isUnauthorized());
+	}
+
 
 }
 
