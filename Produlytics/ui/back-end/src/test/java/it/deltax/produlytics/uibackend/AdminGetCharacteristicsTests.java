@@ -4,9 +4,9 @@ import it.deltax.produlytics.persistence.CharacteristicEntity;
 import it.deltax.produlytics.persistence.DeviceEntity;
 import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -124,23 +124,23 @@ public class AdminGetCharacteristicsTests {
 	 */
 	@Test
 	void getCharacteristics() throws Exception {
-		JSONObject characteristic1 = new JSONObject();
-		characteristic1.put("id", characteristic1Id);
-		characteristic1.put("name", "temperatura");
-		characteristic1.put("archived", true);
+		JSONObject characteristic1 = new JSONObject()
+			.put("id", characteristic1Id)
+			.put("name", "temperatura")
+			.put("archived", true);
 
-		JSONObject characteristic2 = new JSONObject();
-		characteristic1.put("id", characteristic2Id);
-		characteristic1.put("name", "pressione");
-		characteristic1.put("archived", false);
+		JSONObject characteristic2 = new JSONObject()
+			.put("id", characteristic2Id)
+			.put("name", "pressione")
+			.put("archived", false);
 
-		JSONArray response = new JSONArray();
-		response.add(characteristic1);
-		response.add(characteristic2);
+		JSONArray response = new JSONArray()
+			.put(characteristic1)
+			.put(characteristic2);
 
 		performGetCharacteristics()
 			.andExpect(status().isOk())
-			.andExpect(content().json(response.toJSONString()));
+			.andExpect(content().json(response.toString()));
 	}
 
 	@Test
@@ -152,7 +152,7 @@ public class AdminGetCharacteristicsTests {
 
 		performGetCharacteristics()
 			.andExpect(status().isNotFound())
-			.andExpect(content().json(response.toJSONString()));
+			.andExpect(content().json(response.toString()));
 
 		prepareContext(deviceRepository, characteristicRepository);
 	}

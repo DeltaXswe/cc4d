@@ -136,7 +136,9 @@ public class CharacteristicsTests {
 
 	@Test
 	void getCharacteristicLimits() throws Exception {
-		this.mockMvc.perform(get("/devices/" + deviceId + "/characteristics/" + characteristic1Id + "/limits"))
+		this.mockMvc.perform(get(
+			"/devices/" + deviceId + "/characteristics/" + characteristic1Id + "/limits"
+			))
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(content().string("{\"lowerLimit\":-13.0,\"upperLimit\":98.0,\"mean\":42.5}"));

@@ -3,8 +3,8 @@ package it.deltax.produlytics.uibackend;
 import it.deltax.produlytics.persistence.DeviceEntity;
 import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
-import net.minidev.json.JSONObject;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 )
 @ActiveProfiles("test")
 @AutoConfigureMockMvc(addFilters = false)
-public class AdminInsertCharacteristicTests {
+public class InsertCharacteristicTests {
 	@Autowired
 	private MockMvc mockMvc;
 
@@ -92,11 +92,11 @@ public class AdminInsertCharacteristicTests {
 	 * @throws Exception se l'inserimento fallisce
 	 */
 	private ResultActions performInsertSmallCharacteristic() throws Exception {
-		JSONObject body = new JSONObject();
-		body.put("name", "pressione");
-		body.put("autoAdjust", "true");
-		body.put("sampleSize", 5);
-		body.put("archived", "false");
+		JSONObject body = new JSONObject()
+			.put("name", "pressione")
+			.put("autoAdjust", "true")
+			.put("sampleSize", 5)
+			.put("archived", "false");
 
 		return this.mockMvc.perform(post("/admins/devices/" + deviceId + "/characteristics")
 			.contentType(MediaType.APPLICATION_JSON)
@@ -122,13 +122,13 @@ public class AdminInsertCharacteristicTests {
 	 */
 	@Test
 	void insertCharacteristicWithAutoAdjustAndLimits() throws Exception {
-		JSONObject body = new JSONObject();
-		body.put("name", "pressione");
-		body.put("upperLimit", 98d);
-		body.put("lowerLimit", -13d);
-		body.put("autoAdjust", "true");
-		body.put("sampleSize", 0);
-		body.put("archived", "false");
+		JSONObject body = new JSONObject()
+			.put("name", "pressione")
+			.put("upperLimit", 98d)
+			.put("lowerLimit", -13d)
+			.put("autoAdjust", "true")
+			.put("sampleSize", 0)
+			.put("archived", "false");
 
 		this.mockMvc.perform(post("/admins/devices/" + deviceId + "/characteristics")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -145,12 +145,12 @@ public class AdminInsertCharacteristicTests {
 	 */
 	@Test
 	void insertCharacteristicWithNoAutoAdjustAndLimits() throws Exception {
-		JSONObject body = new JSONObject();
-		body.put("name", "pressione");
-		body.put("upperLimit", 98d);
-		body.put("lowerLimit", -13d);
-		body.put("autoAdjust", "false");
-		body.put("archived", "false");
+		JSONObject body = new JSONObject()
+			.put("name", "pressione")
+			.put("upperLimit", 98d)
+			.put("lowerLimit", -13d)
+			.put("autoAdjust", "false")
+			.put("archived", "false");
 
 		this.mockMvc.perform(post("/admins/devices/" + deviceId + "/characteristics")
 			.contentType(MediaType.APPLICATION_JSON)
@@ -167,10 +167,10 @@ public class AdminInsertCharacteristicTests {
 	 */
 	@Test
 	void insertCharacteristicWithNoAutoAdjustAndNoLimitsError() throws Exception {
-		JSONObject body = new JSONObject();
-		body.put("name", "pressione");
-		body.put("autoAdjust", "false");
-		body.put("archived", "false");
+		JSONObject body = new JSONObject()
+			.put("name", "pressione")
+			.put("autoAdjust", "false")
+			.put("archived", "false");
 
 		this.mockMvc.perform(post("/admins/devices/" + deviceId + "/characteristics")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -187,10 +187,10 @@ public class AdminInsertCharacteristicTests {
 	 */
 	@Test
 	void insertCharacteristicWithAutoAdjustAndNoSampleSize() throws Exception {
-		JSONObject body = new JSONObject();
-		body.put("name", "pressione");
-		body.put("autoAdjust", "true");
-		body.put("archived", "false");
+		JSONObject body = new JSONObject()
+			.put("name", "pressione")
+			.put("autoAdjust", "true")
+			.put("archived", "false");
 
 		this.mockMvc.perform(post("/admins/devices/" + deviceId + "/characteristics")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -215,7 +215,7 @@ public class AdminInsertCharacteristicTests {
 		performInsertSmallCharacteristic()
 			.andDo(print())
 			.andExpect(status().isBadRequest())
-			.andExpect(content().json(response.toJSONString()));
+			.andExpect(content().json(response.toString()));
 	}
 
 	/**
@@ -231,7 +231,7 @@ public class AdminInsertCharacteristicTests {
 
 		performInsertSmallCharacteristic()
 			.andExpect(status().isNotFound())
-			.andExpect(content().json(response.toJSONString()));
+			.andExpect(content().json(response.toString()));
 
 		prepareContext(deviceRepository);
 	}
