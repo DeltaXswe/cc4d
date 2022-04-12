@@ -6,11 +6,16 @@ import {UnarchivedDeviceAbstractService} from "../../../model/device/unarchived-
 import {
   UnarchivedCharacteristicAbstractService
 } from "../../../model/characteristic/unarchived-characteristic-abstract.service";
-import {CharacteristicNode, DeviceNode, SelectionNode} from "./selection-node";
+import {SelectionNode} from "./selection-node";
+import {CharacteristicNode} from "./characteristic-node";
+import {DeviceNode} from "./device-node";
 
 export class SelectionDataSource implements DataSource<SelectionNode> {
+
   private dataStream = new BehaviorSubject<SelectionNode[]>([]);
+
   private cache = new Map<SelectionNode, CharacteristicNode[]>();
+
   private loadingNodes = new Set<SelectionNode>();
 
   private _loading = true;
@@ -52,11 +57,11 @@ export class SelectionDataSource implements DataSource<SelectionNode> {
 
   disconnect(collectionViewer: CollectionViewer): void { }
 
-  isNodeLoading(node: SelectionNode) {
+  isNodeLoading(node: SelectionNode): boolean {
     return this.loadingNodes.has(node);
   }
 
-  private handleChange(change: SelectionChange<SelectionNode>) {
+  private handleChange(change: SelectionChange<SelectionNode>): void {
     if (change.added) {
       change.added.forEach(node => this.addCharacteristics(node))
     }
@@ -68,7 +73,7 @@ export class SelectionDataSource implements DataSource<SelectionNode> {
     }
   }
 
-  private addCharacteristics(node: SelectionNode) {
+  private addCharacteristics(node: SelectionNode): void {
     const data = this.dataStream.value;
     const index = data.indexOf(node);
     if (index < 0) { return; }
@@ -79,7 +84,7 @@ export class SelectionDataSource implements DataSource<SelectionNode> {
       });
   }
 
-  private removeCharacteristics(node: SelectionNode) {
+  private removeCharacteristics(node: SelectionNode): void {
     const data = this.dataStream.value;
     const index = data.indexOf(node);
     if (index < 0) { return; }
@@ -90,7 +95,7 @@ export class SelectionDataSource implements DataSource<SelectionNode> {
     this.dataStream.next(data);
   }
 
-  private getChildrenForNode(node: SelectionNode) {
+  private getChildrenForNode(node: SelectionNode): Observable<SelectionNode[]> {
     let observable: Observable<CharacteristicNode[]>;
     this.loadingNodes.add(node);
     if (this.cache.has(node)) {

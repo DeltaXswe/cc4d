@@ -1,10 +1,10 @@
 <mat-progress-bar mode="indeterminate" *ngIf="dataSource.loading"></mat-progress-bar>
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-    <!--Here I am SURE that it's a CharacteristicNode -->
+    <!-- Qui sono CERTO che è un CharacteristicNode -->
     <button mat-icon-button disabled></button>
     <mat-checkbox [checked]="nodeIsChecked(node)"
-                  (change)="$event.checked ? checkedNodes.push(node) : checkedNodes.splice(checkedNodes.indexOf(node), 1)">
+                  (change)="toggleNodeCheck($event, node)">
       {{node.name}}
     </mat-checkbox>
   </mat-tree-node>
@@ -18,4 +18,4 @@
     {{node.name}}
   </mat-tree-node>
 </mat-tree>
-<button mat-button (click)="onSubmit()">Conferma</button>
+<button mat-button (click)="notifyChange()">Conferma</button>

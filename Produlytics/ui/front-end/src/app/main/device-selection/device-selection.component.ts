@@ -4,11 +4,13 @@ import {
   UnarchivedCharacteristicAbstractService
 } from "../../model/characteristic/unarchived-characteristic-abstract.service";
 import {UnarchivedDeviceAbstractService} from "../../model/device/unarchived-device-abstract.service";
-import {DataSource} from "@angular/cdk/collections";
-import {CharacteristicNode, DeviceNode, SelectionNode} from "./selection-data-source/selection-node";
+import {SelectionNode} from "./selection-data-source/selection-node";
 import {SelectionDataSource} from "./selection-data-source/selection.data-source";
-import {map, tap} from "rxjs";
 import { EventEmitter } from '@angular/core';
+import {MatCheckboxChange} from "@angular/material/checkbox/checkbox";
+import {CharacteristicNode} from "./selection-data-source/characteristic-node";
+
+// TODO STA CLASSE È TUTTA DA RINOMINARE AAAAAAA (device->characteristic)
 
 @Component({
   selector: 'app-device-selection',
@@ -16,17 +18,19 @@ import { EventEmitter } from '@angular/core';
   styleUrls: ['./device-selection.component.css']
 })
 export class DeviceSelectionComponent implements OnInit {
-  public readonly treeControl: FlatTreeControl<SelectionNode, SelectionNode>;
-  public readonly dataSource: SelectionDataSource;
+
+  treeControl: FlatTreeControl<SelectionNode>;
+
+  dataSource: SelectionDataSource;
 
   @Output()
-  public devicesChanged = new EventEmitter<CharacteristicNode[]>();
+  devicesChanged = new EventEmitter<CharacteristicNode[]>();
 
-  checkedNodes: CharacteristicNode[] = [];
+  private checkedNodes: CharacteristicNode[] = [];
 
   constructor(
-    private unarchivedDeviceService: UnarchivedDeviceAbstractService,
-    private unarchivedCharacteristicService: UnarchivedCharacteristicAbstractService
+    unarchivedDeviceService: UnarchivedDeviceAbstractService,
+    unarchivedCharacteristicService: UnarchivedCharacteristicAbstractService
   ) {
     this.treeControl = new FlatTreeControl<SelectionNode>(
       node => node.level,
@@ -41,15 +45,23 @@ export class DeviceSelectionComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  public hasChildren(_index: number, node: SelectionNode): boolean {
+  hasChildren(_index: number, node: SelectionNode): boolean {
     return node.expandable;
   }
 
-  nodeIsChecked(node: CharacteristicNode) {
+  nodeIsChecked(node: CharacteristicNode): boolean {
     return this.checkedNodes.indexOf(node) >= 0;
   }
 
-  onSubmit() {
+  toggleNodeCheck(event: MatCheckboxChange, node: CharacteristicNode): void {
+    if (event.checked) {
+      this.checkedNodes.push(node)
+    } else {
+      this.checkedNodes.splice(this.checkedNodes.indexOf(node), 1)
+    }
+  }
+
+  notifyChange(): void {
     this.devicesChanged.emit(this.checkedNodes);
   }
 }
