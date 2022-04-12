@@ -18,13 +18,13 @@ public class CustomUserDetails implements UserDetails {
 	}
 
 	@Override
-	public String getPassword() {
-		return this.account.getHashedPassword();
+	public String getUsername() {
+		return this.account.getUsername();
 	}
 
 	@Override
-	public String getUsername() {
-		return this.account.getUsername();
+	public String getPassword() {
+		return this.account.getHashedPassword();
 	}
 
 	@Override
