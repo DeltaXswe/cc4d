@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 /**
  * Rappresenta il repository delle macchine
- * @author Leila Dardouri
  */
 @Repository
 public interface DeviceRepository extends JpaRepository<DeviceEntity, Integer> {

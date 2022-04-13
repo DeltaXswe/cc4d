@@ -5,9 +5,9 @@ import it.deltax.produlytics.persistence.DeviceEntity;
 import it.deltax.produlytics.uibackend.devices.web.CharacteristicsController;
 import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Test d'integrazione per le operazioni relative alle caratteristiche
+ * Test d'integrazione per le operazioni relative alle caratteristiche non archiviate di una macchine
  */
 @SpringBootTest(
 	webEnvironment = SpringBootTest.WebEnvironment.MOCK
@@ -45,22 +45,26 @@ public class CharacteristicsTests {
 	private static int deviceId;
 	private static int characteristic1Id;
 	private static int characteristic2Id;
+	private static int characteristic3Id;
 
+	/**
+	 * Prepara il contesto di partenza, comune a tutti i test
+	 * @param deviceRepository lo strato di persistenza relativo alle macchine
+	 * @param characteristicRepository lo strato di persistenza relativo alle caratteristiche
+	 */
 	@BeforeAll
 	private static void prepareContext(
 		@Autowired CharacteristicRepository characteristicRepository,
 		@Autowired DeviceRepository deviceRepository
 	) {
-		DeviceEntity device = deviceRepository.save(new DeviceEntity(
+		deviceId = deviceRepository.save(new DeviceEntity(
 			"macchina",
 			false,
 			false,
 			"a"
-		));
+		)).getId();
 
-		deviceId = device.getId();
-
-		CharacteristicEntity characteristic = characteristicRepository.save(new CharacteristicEntity(
+		characteristic1Id = characteristicRepository.save(new CharacteristicEntity(
 			deviceId,
 			"temperatura",
 			98d,
@@ -68,11 +72,9 @@ public class CharacteristicsTests {
 			true,
 			0,
 			false
-		));
+		)).getId();
 
-		characteristic1Id = characteristic.getId();
-
-		characteristic = characteristicRepository.save(new CharacteristicEntity(
+		characteristic2Id = characteristicRepository.save(new CharacteristicEntity(
 			deviceId,
 			"pressione",
 			100d,
@@ -80,11 +82,24 @@ public class CharacteristicsTests {
 			true,
 			0,
 			false
-		));
+		)).getId();
 
-		characteristic2Id = characteristic.getId();
+		characteristic3Id = characteristicRepository.save(new CharacteristicEntity(
+			deviceId,
+			"frequenza",
+			100d,
+			10d,
+			true,
+			0,
+			true
+		)).getId();
 	}
 
+	/**
+	 * Pulisce i repository dai dati utilizzati dai test
+	 * @param deviceRepository lo strato di persistenza relativo alle macchine
+	 * @param characteristicRepository lo strato di persistenza relativo alle caratteristiche
+	 */
 	@AfterAll
 	private static void deleteAll(
 		@Autowired CharacteristicRepository characteristicRepository,
@@ -101,27 +116,34 @@ public class CharacteristicsTests {
 		assertThat(this.deviceRepository).isNotNull();
 	}
 
-
+	/**
+	 * Testa l'ottenimento delle caratteristiche non archiviate di una macchina
+	 * @throws Exception se la macchina non esiste o non vengono restituite le caratteristiche attese
+	 */
 	@Test
 	void getUnarchivedCharacteristics() throws Exception {
-		var characteristic1 = new JSONObject();
-		characteristic1.put("id", characteristic1Id);
-		characteristic1.put("name", "temperatura");
+		var characteristic1 = new JSONObject()
+			.put("id", characteristic1Id)
+			.put("name", "temperatura");
 
-		var characteristic2 = new JSONObject();
-		characteristic1.put("id", characteristic2Id);
-		characteristic1.put("name", "pressione");
+		var characteristic2 = new JSONObject()
+			.put("id", characteristic2Id)
+			.put("name", "pressione");
 
-		var response = new JSONArray();
-		response.add(characteristic1);
-		response.add(characteristic2);
+		var response = new JSONArray()
+			.put(characteristic1)
+			.put(characteristic2);
 
 		this.mockMvc.perform(get("/devices/" + deviceId + "/characteristics"))
 			.andDo(print())
 			.andExpect(status().isOk())
-			.andExpect(content().json(response.toJSONString()));
+			.andExpect(content().json(response.toString()));
 	}
 
+	/**
+	 * Testa l'ottenimento delle caratteristiche non archiviate di una macchina inesistente
+	 * @throws Exception se non viene rilevato l'errore
+	 */
 	@Test
 	void deviceNotFoundError() throws Exception {
 		deleteAll(characteristicRepository, deviceRepository);
@@ -134,6 +156,10 @@ public class CharacteristicsTests {
 		prepareContext(characteristicRepository, deviceRepository);
 	}
 
+	/**
+	 * Testa l'ottenimento dei limiti tecnici di una caratteristica non archiviata
+	 * @throws Exception se la caratteristica è inesistente, è archiviata o non vengono restituiti i limiti attesi
+	 */
 	@Test
 	void getCharacteristicLimits() throws Exception {
 		this.mockMvc.perform(get(
@@ -144,6 +170,10 @@ public class CharacteristicsTests {
 			.andExpect(content().string("{\"lowerLimit\":-13.0,\"upperLimit\":98.0,\"mean\":42.5}"));
 	}
 
+	/**
+	 * Testa l'ottenimento dei limiti tecnici di una caratteristica inesistente
+	 * @throws Exception se non viene rilevato l'errore
+	 */
 	@Test
 	void characteristicNotFoundError() throws Exception {
 		characteristicRepository.deleteAll();
@@ -155,5 +185,19 @@ public class CharacteristicsTests {
 
 		deleteAll(characteristicRepository, deviceRepository);
 		prepareContext(characteristicRepository, deviceRepository);
+	}
+
+	/**
+	 * Testa l'ottenimento dei limiti tecnici di una caratteristica archiviata
+	 * @throws Exception se la caratteristica non esiste, non è archiviata o non viene rilevato l'errore
+	 */
+	@Test
+	void characteristicArchivedError() throws Exception {
+		this.mockMvc.perform(get(
+			"/devices/" + deviceId + "/characteristics/" + characteristic3Id + "/limits"
+			))
+			.andDo(print())
+			.andExpect(status().isNotFound())
+			.andExpect(content().string("{\"errorCode\":\"characteristicNotFound\"}"));
 	}
 }

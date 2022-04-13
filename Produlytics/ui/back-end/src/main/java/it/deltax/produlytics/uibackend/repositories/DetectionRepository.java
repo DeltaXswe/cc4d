@@ -13,7 +13,6 @@ import java.util.List;
 
 /**
  * Rappresenta il repository delle rilevazioni
- * @author Alberto Lazari
  */
 @Repository
 public interface DetectionRepository extends CrudRepository<DetectionEntity, DetectionEntityId> {

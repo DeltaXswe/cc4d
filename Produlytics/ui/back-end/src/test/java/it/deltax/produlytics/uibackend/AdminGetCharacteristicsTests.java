@@ -143,6 +143,10 @@ public class AdminGetCharacteristicsTests {
 			.andExpect(content().json(response.toString()));
 	}
 
+	/**
+	 * Testa l'ottenimento di tutte le caratteristiche di una macchina inesistente
+	 * @throws Exception se non viene rilevato l'errore
+	 */
 	@Test
 	void deviceNotFoundError() throws Exception {
 		deleteAll(deviceRepository, characteristicRepository);

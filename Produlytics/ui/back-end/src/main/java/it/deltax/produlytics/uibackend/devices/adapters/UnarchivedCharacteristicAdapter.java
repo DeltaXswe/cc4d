@@ -1,6 +1,5 @@
 package it.deltax.produlytics.uibackend.devices.adapters;
 
-import it.deltax.produlytics.persistence.CharacteristicEntityId;
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicLimits;
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTitle;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchivedCharacteristicsPort;
@@ -14,13 +13,11 @@ import java.util.stream.Collectors;
 
 /**
  * L'adapter dello strato di persistenza per le operazioni riguardanti le caratteristiche
- * @author Alberto Lazari
  */
 @Component
 public class UnarchivedCharacteristicAdapter implements FindAllUnarchivedCharacteristicsPort,
     FindCharacteristicLimitsPort {
     private final CharacteristicRepository repo;
-
 
     /**
      * Il costruttore
@@ -30,11 +27,10 @@ public class UnarchivedCharacteristicAdapter implements FindAllUnarchivedCharact
         this.repo = repo;
     }
 
-
     /**
-     *
-     * @param deviceId
-     * @return
+     * Restituisce la lista di tutte le caratteristiche non archiviate di una macchina
+     * @param deviceId l'id della macchina
+     * @return la lista di tutte le caratteristiche non archiviate
      */
     @Override
     public List<CharacteristicTitle> findAllByDeviceId(int deviceId) {
@@ -47,9 +43,15 @@ public class UnarchivedCharacteristicAdapter implements FindAllUnarchivedCharact
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Restituisce la caratteristica non archiviata di una macchina con un dato id
+     * @param deviceId l'id della macchina
+     * @param characteristicId l'id della caratteristica
+     * @return la caratteristica, se esiste
+     */
     @Override
     public Optional<CharacteristicLimits> findByCharacteristic(int deviceId, int characteristicId) {
-        return this.repo.findById(new CharacteristicEntityId(deviceId, characteristicId))
+        return this.repo.findByArchivedFalseAndDeviceIdAndId(deviceId, characteristicId)
             .map(characteristic -> CharacteristicLimits.newCharacteristicLimits(
                 characteristic.getLowerLimit(),
                 characteristic.getUpperLimit()
