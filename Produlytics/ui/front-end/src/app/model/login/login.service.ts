@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LoginAbstractService } from './login-abstract.service';
 import { LoginCommand } from './login-command';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,9 @@ export class LoginService implements LoginAbstractService{
 
   //TODO: da modificare a seconda se decidiamo di usare localStorage
 
-  constructor(private http: HttpClient, public router: Router) { }
+  constructor(private http: HttpClient,
+    public router: Router,
+    private cookieService: CookieService) { }
 
   login(command: LoginCommand): Observable<any>{
     const header: object = new HttpHeaders()
@@ -41,7 +44,7 @@ export class LoginService implements LoginAbstractService{
   }
 
    logout(): void{ //da vedere coi cookie
-    this.http.post<any>('/logout', null);
+    this.cookieService.deleteAll;
     }
 
   getUsername(): string{

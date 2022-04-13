@@ -13,7 +13,7 @@ export class FakeChartService implements ChartAbstractService {
   fakeLimits2 = new BehaviorSubject<Limits>({
     lowerLimit: -100,
     upperLimit: 300,
-    mean: -100
+    mean: 100
   });
 
   fakeLimits3 = new BehaviorSubject<Limits>({

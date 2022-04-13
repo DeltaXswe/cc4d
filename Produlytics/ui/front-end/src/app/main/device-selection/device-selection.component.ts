@@ -1,14 +1,14 @@
 import { Component, OnInit, Output } from '@angular/core';
-import {FlatTreeControl} from "@angular/cdk/tree";
+import { FlatTreeControl } from "@angular/cdk/tree";
 import {
   UnarchivedCharacteristicAbstractService
 } from "../../model/characteristic/unarchived-characteristic-abstract.service";
-import {UnarchivedDeviceAbstractService} from "../../model/device/unarchived-device-abstract.service";
-import {SelectionNode} from "./selection-data-source/selection-node";
-import {SelectionDataSource} from "./selection-data-source/selection.data-source";
+import { UnarchivedDeviceAbstractService } from "../../model/device/unarchived-device-abstract.service";
+import { SelectionNode } from "./selection-data-source/selection-node";
+import { SelectionDataSource } from "./selection-data-source/selection.data-source";
 import { EventEmitter } from '@angular/core';
-import {MatCheckboxChange} from "@angular/material/checkbox/checkbox";
-import {CharacteristicNode} from "./selection-data-source/characteristic-node";
+import { MatCheckboxChange } from "@angular/material/checkbox/checkbox";
+import { CharacteristicNode } from './selection-data-source/characteristic-node';
 
 // TODO STA CLASSE È TUTTA DA RINOMINARE AAAAAAA (device->characteristic)
 

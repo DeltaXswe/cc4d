@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {UnarchivedDeviceInfo} from '../../model/public-device/unarchived_device_info';
-import {CharacteristicNode} from "../device-selection/selection-data-source/selection-node";
+import { CharacteristicNode } from '../device-selection/selection-data-source/characteristic-node';
 
 @Component({
   selector: 'app-selection',

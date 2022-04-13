@@ -6,9 +6,10 @@ import { concatMap } from 'rxjs/operators';
 
 import { ChartPoint } from '../../model/chart/chart-point';
 import { ChartAbstractService } from "../../model/chart/chart-abstract.service";
-import { CharacteristicNode } from '../device-selection/selection-data-source/selection-node';
+import { CharacteristicNode } from '../device-selection/selection-data-source/characteristic-node';
 import { Limits } from '../../model/chart/limits';
 import { zoom } from 'd3';
+import { on } from 'events';
 
 @Component({
   selector: 'app-chart',
@@ -26,9 +27,12 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   limits!: Limits;
   private points: ChartPoint[] = [];
   private updateSubscription?: Subscription;
-  brush!: d3.BrushBehavior<unknown>;
+  brushh!: d3.BrushBehavior<unknown>;
   line!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
-  //idleTimeout: NodeJS.Timeout;
+  xAxis: any;
+  yAxis: any;
+  xScale2: any;
+  zooom:any;
   ciao: string = 'fjdskjasljlkds'
   constructor(
     private chartService: ChartAbstractService,
@@ -70,11 +74,12 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       this.xScale = d3.scaleTime().range([0, this.chartWidth]);
       this.yScale = d3.scaleLinear().range([this.chartHeight, 0]);
 
-      this.svg
+      this.xAxis = this.svg
         .append('g')
         .attr('class', 'axis-x')
         .attr('transform', `translate(0, ${this.chartHeight})`);
-      this.svg.append('g').attr('class', 'axis-y');
+
+      this.yAxis = this.svg.append('g').attr('class', 'axis-y');
 
       const createGuideLine = (cls: string) => {
         this.svg
@@ -129,9 +134,8 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       Math.min(this.limits.lowerLimit - delta, ...(ymin ? [ymin] : [])),
       Math.max(this.limits.upperLimit + delta, ...(ymax ? [ymax] : [])),
     ]);
-
-    this.svg.select<SVGGElement>('.axis-x').call(d3.axisBottom(this.xScale));
-    this.svg.select<SVGGElement>('.axis-y').call(d3.axisLeft(this.yScale));
+    this.xAxis.call(d3.axisBottom(this.xScale));
+    this.yAxis.call(d3.axisLeft(this.yScale));
 
     const setGuideLine = (cls: string, y: number) => {
       this.svg.select(cls).attr('y1', y).attr('y2', y);
@@ -163,14 +167,6 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       )
       .attr('cx', xp)
       .attr('cy', yp);
-  }
-
-  function(d: ChartPoint){
-    var x = new Date(d.createdAtUtc)
-    return { 
-      date: d3.timeParse("%Y-%m-%d")(x.toDateString()),
-      value : d.value
-    }
   }
 
   subscribeToUpdates() {
