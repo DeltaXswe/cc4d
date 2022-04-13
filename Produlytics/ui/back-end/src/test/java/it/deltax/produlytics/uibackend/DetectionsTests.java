@@ -8,6 +8,9 @@ import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import it.deltax.produlytics.uibackend.repositories.DetectionRepository;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -25,7 +28,6 @@ import java.time.Instant;
 
 /**
  * Test d'integrazione per le operazioni relative alle rilevazioni
- * @author Alberto Lazari
  */
 @SpringBootTest(
 	webEnvironment = SpringBootTest.WebEnvironment.MOCK
@@ -50,6 +52,38 @@ public class DetectionsTests {
 
 	private static int deviceId;
 	private static int characteristicId;
+	private static int archivedCharacteristicId;
+
+	private final JSONObject detection1;
+	private final JSONObject detection2;
+	private final JSONObject detection3;
+	private final JSONObject detection4;
+
+	/**
+	 * Il costruttore
+	 * @throws JSONException se viene inserita una chiave duplicata nella rappresentazione JSON delle rilevazioni
+	 */
+	public DetectionsTests() throws JSONException {
+		detection1 = new JSONObject()
+			.put("creationTime", 1)
+			.put("value", 100d)
+			.put("outlier", false);
+
+		detection2 = new JSONObject()
+			.put("creationTime", 2)
+			.put("value", 200d)
+			.put("outlier", false);
+
+		detection3 = new JSONObject()
+			.put("creationTime", 3)
+			.put("value", 300d)
+			.put("outlier", false);
+
+		detection4 = new JSONObject()
+			.put("creationTime", 4)
+			.put("value", 400d)
+			.put("outlier", false);
+	}
 
 	/**
 	 * Prepara il contesto di partenza, comune a tutti i test
@@ -63,16 +97,14 @@ public class DetectionsTests {
 		@Autowired CharacteristicRepository characteristicRepository,
 		@Autowired DetectionRepository detectionRepository
 	) {
-		DeviceEntity device = deviceRepository.save(new DeviceEntity(
+		deviceId = deviceRepository.save(new DeviceEntity(
 			"macchina",
 			false,
 			false,
 			"x"
-		));
+		)).getId();
 
-		deviceId = device.getId();
-
-		CharacteristicEntity characteristic = characteristicRepository.save(new CharacteristicEntity(
+		characteristicId = characteristicRepository.save(new CharacteristicEntity(
 			deviceId,
 			"temperatura",
 			98d,
@@ -80,9 +112,17 @@ public class DetectionsTests {
 			true,
 			0,
 			false
-		));
+		)).getId();
 
-		characteristicId = characteristic.getId();
+		archivedCharacteristicId = characteristicRepository.save(new CharacteristicEntity(
+			deviceId,
+			"temperatura",
+			98d,
+			-13d,
+			true,
+			0,
+			true
+		)).getId();
 
 		for (int i = 1; i < 5; ++i) {
 			detectionRepository.save(new DetectionEntity(
@@ -122,36 +162,70 @@ public class DetectionsTests {
 
 	/**
 	 * Testa l'ottenimento delle rilevazioni di una caratteristica senza applicare filtri di ricerca
-	 * @throws Exception si ottiene un risultato diverso da quello atteso
+	 * @throws Exception se la caratteristica è inesistente, archiviata o si ottiene un risultato diverso da
+	 * quello atteso
 	 */
 	@Test
 	void getWithNoFilter() throws Exception {
+		JSONArray detections = new JSONArray()
+			.put(detection1)
+			.put(detection2)
+			.put(detection3)
+			.put(detection4);
+
+		JSONObject response = new JSONObject()
+			.put("detections", detections)
+			.put("nextOld", null)
+			.put("nextNew", 4);
+
 		this.mockMvc.perform(get(
 				"/devices/" + deviceId + "/characteristics/" + characteristicId + "/detections"
 			))
 			.andDo(print())
 			.andExpect(status().isOk())
-			.andExpect(content().string(
-				"{\"detections\":[{\"creationTime\":1,\"value\":100.0,\"outlier\":false},"
-					+ "{\"creationTime\":2,\"value\":200.0,\"outlier\":false},"
-					+ "{\"creationTime\":3,\"value\":300.0,\"outlier\":false},"
-					+ "{\"creationTime\":4,\"value\":400.0,\"outlier\":false}],\"nextOld\":null,\"nextNew\":4}"));
+			.andExpect(content().json(response.toString()));
 	}
 
+	/**
+	 * Testa l'ottenimento delle rilevazioni di una caratteristica con il limite
+	 * @throws Exception se la caratteristica è inesistente, archiviata o si ottiene un risultato diverso da
+	 * quello atteso
+	 */
 	@Test
 	void getWithLimit() throws Exception {
+		JSONArray detections = new JSONArray()
+			.put(detection3)
+			.put(detection4);
+
+		JSONObject response = new JSONObject()
+			.put("detections", detections)
+			.put("nextOld", 3)
+			.put("nextNew", 4);
+
 		this.mockMvc.perform(get(
 				"/devices/" + deviceId + "/characteristics/" + characteristicId + "/detections?limit=2"
 			))
 			.andDo(print())
 			.andExpect(status().isOk())
-			.andExpect(content().string(
-				"{\"detections\":[{\"creationTime\":3,\"value\":300.0,\"outlier\":false},"
-					+ "{\"creationTime\":4,\"value\":400.0,\"outlier\":false}],\"nextOld\":3,\"nextNew\":4}"));
+			.andExpect(content().json(response.toString()));
 	}
 
+	/**
+	 * Testa l'ottenimento delle rilevazioni di una caratteristica con olderThan e newerThan
+	 * @throws Exception se la caratteristica è inesistente, archiviata o si ottiene un risultato diverso da
+	 * quello atteso
+	 */
 	@Test
 	void getWithOlderAndNewer() throws Exception {
+		JSONArray detections = new JSONArray()
+			.put(detection2)
+			.put(detection3);
+
+		JSONObject response = new JSONObject()
+			.put("detections", detections)
+			.put("nextOld", 2)
+			.put("nextNew", 3);
+
 		this.mockMvc.perform(get(
 				"/devices/"
 					+ deviceId
@@ -161,11 +235,14 @@ public class DetectionsTests {
 			))
 			.andDo(print())
 			.andExpect(status().isOk())
-			.andExpect(content().string(
-				"{\"detections\":[{\"creationTime\":2,\"value\":200.0,\"outlier\":false}"
-					+ ",{\"creationTime\":3,\"value\":300.0,\"outlier\":false}],\"nextOld\":2,\"nextNew\":3}"));
+			.andExpect(content().json(response.toString()));
 	}
 
+	/**
+	 * Testa l'ottenimento delle rilevazioni di una caratteristica, facendo restituire una lista vuota
+	 * @throws Exception se la caratteristica è inesistente, archiviata o si ottiene un risultato diverso da
+	 * quello atteso
+	 */
 	@Test
 	void getEmpty() throws Exception {
 		this.mockMvc.perform(get(
@@ -179,16 +256,39 @@ public class DetectionsTests {
 			.andExpect(status().isOk());
 	}
 
+	/**
+	 * Testa l'ottenimento delle rilevazioni di una caratteristica inesistente
+	 * @throws Exception se non viene rilevato l'errore
+	 */
 	@Test
 	void characteristicNotFoundError() throws Exception {
 		deleteAll(deviceRepository, characteristicRepository, detectionRepository);
+
+		JSONObject response = new JSONObject()
+			.put("errorCode", "characteristicNotFound");
 
 		this.mockMvc.perform(get(
 				"/devices/" + deviceId + "/characteristics/1/detections"))
 			.andDo(print())
 			.andExpect(status().isNotFound())
-			.andExpect(content().string("{\"errorCode\":\"characteristicNotFound\"}"));
+			.andExpect(content().json(response.toString()));
 
 		prepareContext(deviceRepository, characteristicRepository, detectionRepository);
+	}
+
+	/**
+	 * Testa l'ottenimento delle rilevazioni di una caratteristica archiviata
+	 * @throws Exception se non viene rilevato l'errore
+	 */
+	@Test
+	void characteristicArchivedError() throws Exception {
+		JSONObject response = new JSONObject()
+			.put("errorCode", "characteristicNotFound");
+
+		this.mockMvc.perform(get(
+				"/devices/" + deviceId + "/characteristics/" + archivedCharacteristicId + "/detections"))
+			.andDo(print())
+			.andExpect(status().isNotFound())
+			.andExpect(content().json(response.toString()));
 	}
 }

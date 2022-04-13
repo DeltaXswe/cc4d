@@ -27,7 +27,8 @@ public class DetectionsController {
 	}
 
 	/**
-	 * Riceve le chiamate all'endpoint REST per l'ottenimento delle rilevazioni della caratteristica di una macchina
+	 * Riceve le chiamate all'endpoint REST per l'ottenimento delle rilevazioni della caratteristica non archiviata
+	 * di una macchina
 	 * @param deviceId l'id della macchina
 	 * @param characteristicId l'id della caratteristica
 	 * @param olderThan il filtro che specifica che devono essere restituite rilevazioni più vecchie di un determinato

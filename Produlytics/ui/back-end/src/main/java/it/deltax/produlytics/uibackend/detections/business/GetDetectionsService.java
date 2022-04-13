@@ -24,7 +24,6 @@ public class GetDetectionsService implements GetDetectionsUseCase {
 	private final FindAllDetectionsPort findAllDetectionsPort;
 	private final FindCharacteristicLimitsPort findCharacteristicLimitsPort;
 
-
 	/**
 	 * Il costruttore
 	 * @param findCharacteristicPort la porta per ottenere i limiti di una caratteristica
@@ -39,20 +38,19 @@ public class GetDetectionsService implements GetDetectionsUseCase {
 	}
 
 	/**
-	 * Restituisce la lista delle rilevazioni della caratteristica di una macchina,
+	 * Restituisce la lista delle rilevazioni della non archiviata caratteristica di una macchina,
 	 * trovate applicando i filtri richiesti
 	 * @param deviceId l'id della macchina
 	 * @param characteristicId l'id della caratteristica
 	 * @param filters i filtri richiesti
 	 * @return la lisa di rilevazioni, con i timestamp utili per altre richieste
-	 * @throws BusinessException se la caratteristica è inesistente
+	 * @throws BusinessException se la caratteristica è inesistente o è archiviata
 	 */
 	@Override
 	public Detections listByCharacteristic(int deviceId, int characteristicId, DetectionFilters filters)
 	throws BusinessException {
-		if (this.findCharacteristicLimitsPort.findByCharacteristic(deviceId, characteristicId).isEmpty()) {
-			throw new BusinessException("characteristicNotFound", ErrorType.NOT_FOUND);
-		}
+		this.findCharacteristicLimitsPort.findByCharacteristic(deviceId, characteristicId)
+			.orElseThrow(() -> new BusinessException("characteristicNotFound", ErrorType.NOT_FOUND));
 
 		List<Detection> detections = this.findAllDetectionsPort.findAllByCharacteristic(
 			deviceId,

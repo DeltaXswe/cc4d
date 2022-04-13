@@ -45,7 +45,7 @@ public class CharacteristicsTests {
 	private static int deviceId;
 	private static int characteristic1Id;
 	private static int characteristic2Id;
-	private static int characteristic3Id;
+	private static int archivedCharacteristicId;
 
 	/**
 	 * Prepara il contesto di partenza, comune a tutti i test
@@ -84,7 +84,7 @@ public class CharacteristicsTests {
 			false
 		)).getId();
 
-		characteristic3Id = characteristicRepository.save(new CharacteristicEntity(
+		archivedCharacteristicId = characteristicRepository.save(new CharacteristicEntity(
 			deviceId,
 			"frequenza",
 			100d,
@@ -194,7 +194,7 @@ public class CharacteristicsTests {
 	@Test
 	void characteristicArchivedError() throws Exception {
 		this.mockMvc.perform(get(
-			"/devices/" + deviceId + "/characteristics/" + characteristic3Id + "/limits"
+			"/devices/" + deviceId + "/characteristics/" + archivedCharacteristicId + "/limits"
 			))
 			.andDo(print())
 			.andExpect(status().isNotFound())
