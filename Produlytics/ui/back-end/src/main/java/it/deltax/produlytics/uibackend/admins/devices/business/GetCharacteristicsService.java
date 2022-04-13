@@ -11,7 +11,6 @@ import java.util.List;
 
 /**
  * Il service per l'ottenimento delle caratteristiche di una macchina
- * @author Alberto Lazari
  */
 @Service
 public class GetCharacteristicsService implements GetCharacteristicsUseCase {

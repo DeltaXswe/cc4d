@@ -4,7 +4,6 @@ import java.util.List;
 
 /**
  * Il record rappresenta una macchina da inserire, con le sue caratteristiche
- * @author Leila Dardouri
  */
 public record DeviceToInsert(
 	String name,

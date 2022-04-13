@@ -5,7 +5,7 @@ import lombok.Builder;
 /**
  * <p>Record che rappresenta l'intestazione di una caratteristica, con
  * 	l'id, il nome e il valore di <code>archived</code>
- * <p>Mette a disposizione un builder
+ * <p>Mette a disposizione un builder con valori di default
  */
 public record Characteristic(
 	int id,

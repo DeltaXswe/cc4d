@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * Il service per l'ottenimento dei dettagli di una macchina
- * @author Leila Dardouri
  */
 @Service
 public class GetDeviceDetailsService implements GetDeviceDetailsUseCase {

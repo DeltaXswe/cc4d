@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * Il service per l'aggiornamento dello stato di attivazione di una macchina
- * @author Leila Dardouri
  */
 @Service
 public class UpdateDeviceDeactivateStatusService implements UpdateDeviceDeactivateStatusUseCase {

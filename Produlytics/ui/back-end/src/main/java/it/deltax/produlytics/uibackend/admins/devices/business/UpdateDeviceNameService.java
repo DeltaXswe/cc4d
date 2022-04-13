@@ -11,13 +11,11 @@ import org.springframework.stereotype.Service;
 
 /**
  * Il service per l'aggiornamento del nome di una macchina
- * @author Leila Dardouri
  */
 @Service
 public class UpdateDeviceNameService implements UpdateDeviceNameUseCase {
 	private final FindDetailedDevicePort findDetailedDevicePort;
 	private final UpdateDeviceNamePort updateDeviceNamePort;
-
 
 	/**
 	 * Il costruttore
@@ -30,7 +28,6 @@ public class UpdateDeviceNameService implements UpdateDeviceNameUseCase {
 		this.findDetailedDevicePort = findDetailedDevicePort;
 		this.updateDeviceNamePort = updateDeviceNamePort;
 	}
-
 
 	/**
 	 * Aggiorna il nome di una macchina

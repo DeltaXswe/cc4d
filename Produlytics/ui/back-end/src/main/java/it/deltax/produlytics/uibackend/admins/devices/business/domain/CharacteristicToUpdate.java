@@ -26,9 +26,9 @@ public record CharacteristicToUpdate(
 	 * Fornisce il builder del record
 	 * @return un nuovo builder con i seguenti valori di default:
 	 * <ul>
-	 * 	<li>upperLimit: empty
-	 * 	<li>lowerLimit: empty
-	 * 	<li>sampleSize: empty
+	 *     <li>upperLimit: empty
+	 * 	   <li>lowerLimit: empty
+	 * 	   <li>sampleSize: empty
 	 */
 	public static CharacteristicToUpdateBuilder builder() {
 		return new CharacteristicToUpdateBuilder()

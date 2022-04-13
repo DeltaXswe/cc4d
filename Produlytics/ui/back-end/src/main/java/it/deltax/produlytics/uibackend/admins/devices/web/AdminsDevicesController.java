@@ -3,7 +3,7 @@ package it.deltax.produlytics.uibackend.admins.devices.web;
 import com.fasterxml.jackson.databind.JsonNode;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.*;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.in.*;
-import it.deltax.produlytics.uibackend.devices.business.domain.*;
+import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Il controller per le richieste effettuate dagli amministratori riguradanti le macchine
- * @author Leila Dardouri
  */
 @RestController
 @RequestMapping("/admin")

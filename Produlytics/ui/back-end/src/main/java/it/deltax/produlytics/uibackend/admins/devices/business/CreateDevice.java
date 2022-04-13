@@ -7,7 +7,6 @@ import java.util.Random;
 
 /**
  * Il service per la creazione di una macchina
- * @author Leila Dardouri
  */
 @Service
 public class CreateDevice {

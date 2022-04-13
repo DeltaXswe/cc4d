@@ -4,7 +4,6 @@ import lombok.Builder;
 
 /**
  * Il record rappresenta una macchina con tutti i suoi dati, meno la apiKey
- * @author Leila Dardouri
  */
 public record Device(
 	int id,
