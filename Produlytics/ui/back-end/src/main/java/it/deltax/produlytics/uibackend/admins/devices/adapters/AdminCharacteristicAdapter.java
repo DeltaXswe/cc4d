@@ -14,8 +14,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
 
 /**
  * L'adapter dello strato di persistenza per le operazioni svolte dagli amministratori sulle caratteristiche
@@ -26,54 +24,6 @@ public class AdminCharacteristicAdapter implements FindDetailedCharacteristicPor
 	FindAllCharacteristicsPort,
 	UpdateCharacteristicPort {
 	private final CharacteristicRepository repo;
-
-	/**
-	 * Converte un oggetto <code>CharacteristicEntity</code> in uno <code>DetailedCharacteristic</code>
-	 * @param characteristic la <code>CharacteristicEntity</code> da convertire
-	 * @return la <code>DetailedCharacteristic</code> equivalente
-	 */
-	public static DetailedCharacteristic toDetailed(CharacteristicEntity characteristic) {
-		return DetailedCharacteristic.builder()
-			.withId(characteristic.getId())
-			.withDeviceId(characteristic.getDeviceId())
-			.withName(characteristic.getName())
-			.withLowerLimit(
-				characteristic.getLowerLimit() != null
-				? OptionalDouble.of(characteristic.getLowerLimit())
-				: OptionalDouble.empty()
-			)
-			.withUpperLimit(
-				characteristic.getUpperLimit() != null
-				? OptionalDouble.of(characteristic.getSampleSize())
-				: OptionalDouble.empty()
-			)
-			.withAutoAdjust(characteristic.getAutoAdjust())
-			.withSampleSize(
-				characteristic.getSampleSize() != null
-				? OptionalInt.of(characteristic.getSampleSize())
-				: OptionalInt.empty()
-			)
-			.withArchived(characteristic.getArchived())
-			.build();
-	}
-
-	/**
-	 * Converte un oggetto <code>DetailedCharacteristic</code> in uno <code>CharacteristicEntity</code>
-	 * @param characteristic la <code>DetailedCharacteristic</code> da convertire
-	 * @return la <code>CharacteristicEntity</code> equivalente
-	 */
-	public static CharacteristicEntity toEntity(DetailedCharacteristic characteristic) {
-		return new CharacteristicEntity(
-			characteristic.id(),
-			characteristic.deviceId(),
-			characteristic.name(),
-			characteristic.upperLimit().isPresent() ? characteristic.upperLimit().getAsDouble() : null,
-			characteristic.lowerLimit().isPresent() ? characteristic.lowerLimit().getAsDouble() : null,
-			characteristic.autoAdjust(),
-			characteristic.sampleSize().isPresent() ? characteristic.sampleSize().getAsInt() : null,
-			characteristic.archived()
-		);
-	}
 
 	/**
 	 * Il costruttore
@@ -109,7 +59,7 @@ public class AdminCharacteristicAdapter implements FindDetailedCharacteristicPor
 	@Override
 	public Optional<DetailedCharacteristic> findByCharacteristic(int deviceId, int characteristicId) {
 		return this.repo.findById(new CharacteristicEntityId(characteristicId, deviceId))
-			.map(AdminCharacteristicAdapter::toDetailed);
+			.map(ConvertCharacteristic::toDetailed);
 	}
 
 	/**
@@ -121,7 +71,7 @@ public class AdminCharacteristicAdapter implements FindDetailedCharacteristicPor
 	@Override
 	public List<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
 		return this.repo.findByDeviceIdAndName(deviceId, name).stream()
-			.map(AdminCharacteristicAdapter::toDetailed)
+			.map(ConvertCharacteristic::toDetailed)
 			.toList();
 	}
 
@@ -151,6 +101,6 @@ public class AdminCharacteristicAdapter implements FindDetailedCharacteristicPor
 	 */
 	@Override
 	public void updateCharacteristic(DetailedCharacteristic characteristic) {
-		this.repo.save(toEntity(characteristic));
+		this.repo.save(ConvertCharacteristic.toEntity(characteristic));
 	}
 }
