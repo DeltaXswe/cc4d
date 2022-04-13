@@ -1,6 +1,7 @@
 package it.deltax.produlytics.uibackend;
 
 import it.deltax.produlytics.persistence.CharacteristicEntity;
+import it.deltax.produlytics.persistence.CharacteristicEntityId;
 import it.deltax.produlytics.persistence.DeviceEntity;
 import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
@@ -42,6 +43,9 @@ public class CharacteristicsTests {
 	private static int characteristic1Id;
 	private static int characteristic2Id;
 	private static int archivedCharacteristicId;
+
+	private static int archivedDeviceId;
+	private static int archivedDeviceCharacteristicId;
 
 	/**
 	 * Prepara il contesto di partenza, comune a tutti i test
@@ -89,6 +93,24 @@ public class CharacteristicsTests {
 			0,
 			true
 		)).getId();
+
+
+		archivedDeviceId = deviceRepository.save(new DeviceEntity(
+			"macchina",
+			true,
+			false,
+			"a"
+		)).getId();
+
+		archivedDeviceCharacteristicId = characteristicRepository.save(new CharacteristicEntity(
+			archivedDeviceId,
+			"temperatura",
+			98d,
+			-13d,
+			true,
+			0,
+			false
+		)).getId();
 	}
 
 	/**
@@ -113,7 +135,7 @@ public class CharacteristicsTests {
 
 	/**
 	 * Testa l'ottenimento delle caratteristiche non archiviate di una macchina
-	 * @throws Exception se la macchina non esiste o non vengono restituite le caratteristiche attese
+	 * @throws Exception se la macchina non esiste, è archiviata o non vengono restituite le caratteristiche attese
 	 */
 	@Test
 	void getUnarchivedCharacteristics() throws Exception {
@@ -136,6 +158,42 @@ public class CharacteristicsTests {
 	}
 
 	/**
+	 * Testa l'ottenimento delle caratteristiche non archiviate di una macchina che possiede solo caratteristiche
+	 * archiviate
+	 * @throws Exception se viene ottenuta qualche caratteristica, la macchina non esiste o è archiviata
+	 */
+	@Test
+	void getEmptyCharacteristics() throws Exception {
+		characteristicRepository.deleteById(new CharacteristicEntityId(deviceId, characteristic1Id));
+		characteristicRepository.deleteById(new CharacteristicEntityId(deviceId, characteristic2Id));
+
+		JSONArray response = new JSONArray();
+
+		this.mockMvc.perform(get("/devices/" + deviceId + "/characteristics"))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(content().json(response.toString()));
+
+		deleteAll(deviceRepository, characteristicRepository);
+		prepareContext(deviceRepository, characteristicRepository);
+	}
+
+	/**
+	 * Testa l'ottenimento delle caratteristiche di una macchina archiviata
+	 * @throws Exception se non viene rilevato l'errore
+	 */
+	@Test
+	void getFromArchivedDeviceError() throws Exception {
+		JSONObject response = new JSONObject()
+			.put("errorCode", "deviceNotFound");
+
+		this.mockMvc.perform(get("/devices/" + archivedDeviceId + "/characteristics"))
+			.andDo(print())
+			.andExpect(status().isNotFound())
+			.andExpect(content().json(response.toString()));
+	}
+
+	/**
 	 * Testa l'ottenimento delle caratteristiche non archiviate di una macchina inesistente
 	 * @throws Exception se non viene rilevato l'errore
 	 */
@@ -143,10 +201,13 @@ public class CharacteristicsTests {
 	void deviceNotFoundError() throws Exception {
 		deleteAll(deviceRepository, characteristicRepository);
 
+		JSONObject response = new JSONObject()
+			.put("errorCode", "deviceNotFound");
+
 		this.mockMvc.perform(get("/devices/1/characteristics"))
 			.andDo(print())
 			.andExpect(status().isNotFound())
-			.andExpect(content().string("{\"errorCode\":\"deviceNotFound\"}"));
+			.andExpect(content().json(response.toString()));
 
 		prepareContext(deviceRepository, characteristicRepository);
 	}
@@ -157,12 +218,17 @@ public class CharacteristicsTests {
 	 */
 	@Test
 	void getCharacteristicLimits() throws Exception {
+		JSONObject response = new JSONObject()
+			.put("lowerLimit", -13d)
+			.put("upperLimit", 98d)
+			.put("mean", 42.5);
+
 		this.mockMvc.perform(get(
 			"/devices/" + deviceId + "/characteristics/" + characteristic1Id + "/limits"
 			))
 			.andDo(print())
 			.andExpect(status().isOk())
-			.andExpect(content().string("{\"lowerLimit\":-13.0,\"upperLimit\":98.0,\"mean\":42.5}"));
+			.andExpect(content().json(response.toString()));
 	}
 
 	/**
@@ -173,10 +239,13 @@ public class CharacteristicsTests {
 	void characteristicNotFoundError() throws Exception {
 		characteristicRepository.deleteAll();
 
+		JSONObject response = new JSONObject()
+			.put("errorCode", "characteristicNotFound");
+
 		this.mockMvc.perform(get("/devices/" + deviceId + "/characteristics/1/limits"))
 			.andDo(print())
 			.andExpect(status().isNotFound())
-			.andExpect(content().string("{\"errorCode\":\"characteristicNotFound\"}"));
+			.andExpect(content().json(response.toString()));
 
 		deleteAll(deviceRepository, characteristicRepository);
 		prepareContext(deviceRepository, characteristicRepository);
@@ -188,11 +257,34 @@ public class CharacteristicsTests {
 	 */
 	@Test
 	void characteristicArchivedError() throws Exception {
+		JSONObject response = new JSONObject()
+			.put("errorCode", "characteristicNotFound");
+
 		this.mockMvc.perform(get(
 			"/devices/" + deviceId + "/characteristics/" + archivedCharacteristicId + "/limits"
 			))
 			.andDo(print())
 			.andExpect(status().isNotFound())
-			.andExpect(content().string("{\"errorCode\":\"characteristicNotFound\"}"));
+			.andExpect(content().json(response.toString()));
+	}
+
+	/**
+	 * Testa l'ottenimento dei limiti tecnici di una caratteristica non archiviata di una macchina archiviata
+	 * @throws Exception se non viene rilevato l'errore
+	 */
+	@Test
+	void deviceArchivedError() throws Exception {
+		JSONObject response = new JSONObject()
+			.put("errorCode", "characteristicNotFound");
+
+		this.mockMvc.perform(get("/devices/"
+				+ archivedDeviceId
+				+ "/characteristics/"
+				+ archivedDeviceCharacteristicId
+				+ "/limits"
+			))
+			.andDo(print())
+			.andExpect(status().isNotFound())
+			.andExpect(content().json(response.toString()));
 	}
 }

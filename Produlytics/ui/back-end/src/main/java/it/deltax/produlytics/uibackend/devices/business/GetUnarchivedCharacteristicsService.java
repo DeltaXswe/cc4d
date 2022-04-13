@@ -3,32 +3,50 @@ package it.deltax.produlytics.uibackend.devices.business;
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTitle;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetUnarchivedCharacteristicsUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchivedCharacteristicsPort;
+import it.deltax.produlytics.uibackend.devices.business.ports.out.GetUnarchivedDevicesPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Il service per l'ottenimento delle caratteristiche non archiviate di una macchina
+ */
 @Service
 public class GetUnarchivedCharacteristicsService implements GetUnarchivedCharacteristicsUseCase {
-<<<<<<< HEAD
-    private final FindAllUnarchivedCharacteristicPort port;
-=======
+    private final GetUnarchivedDevicesPort findDevicesPort;
+    private final FindAllUnarchivedCharacteristicsPort findCharacteristicsPort;
 
-    private final FindAllUnarchivedCharacteristicsPort port;
->>>>>>> 801ba9f (Limits)
-
-    public GetUnarchivedCharacteristicsService(FindAllUnarchivedCharacteristicsPort port) {
-        this.port = port;
+    /**
+     * Il costruttore
+     * @param findDevicesPort la porta per ottenere le macchine non archiviate
+     * @param findCharacteristicsPort la porta per ottenere tutte le caratteristiche non archiviate di una macchina
+     */
+    public GetUnarchivedCharacteristicsService(
+        GetUnarchivedDevicesPort findDevicesPort,
+        FindAllUnarchivedCharacteristicsPort findCharacteristicsPort
+    ) {
+        this.findDevicesPort = findDevicesPort;
+        this.findCharacteristicsPort = findCharacteristicsPort;
     }
 
+    /**
+     * Restituisce la lista delle caratteristiche non archiviate di una macchina
+     * @param deviceId l'id della macchina
+     * @return la lista delle caratteristiche non archiviate
+     * @throws BusinessException se la macchina è inesistente
+     */
     @Override
     public List<CharacteristicTitle> getByDevice(int deviceId) throws BusinessException {
-        var characteristics = this.port.findAllByDeviceId(deviceId);
-
-        if (characteristics.isEmpty())
+        if (
+            findDevicesPort.getUnarchivedDevices().stream()
+                .filter(device -> device.id() == deviceId)
+                .toList().isEmpty()
+        ) {
             throw new BusinessException("deviceNotFound", ErrorType.NOT_FOUND);
+        }
 
-        return characteristics;
+        return this.findCharacteristicsPort.findAllByDeviceId(deviceId);
     }
 }

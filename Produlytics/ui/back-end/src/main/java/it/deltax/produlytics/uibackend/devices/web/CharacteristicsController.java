@@ -13,12 +13,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Il controller per le richieste effettuate relative alle caratteristiche non archiviate di una macchina non archiviata
+ */
 @RestController
 @RequestMapping("/devices/{id}/characteristics")
 public class CharacteristicsController {
 	private final GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristics;
 	private final GetLimitsUseCase getLimits;
 
+	/**
+	 * Il costruttore
+	 * @param getUnarchivedCharacteristics l'interfaccia per il caso d'uso di ottenimento delle caratteristiche non
+	 *                                     archiviate
+	 * @param getLimits l'interfaccia per il caso d'uso di ottenimento dei limiti tecnici di una caratteristica
+	 */
 	public CharacteristicsController(
 		GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristics, GetLimitsUseCase getLimits
 	) {
@@ -26,6 +35,13 @@ public class CharacteristicsController {
 		this.getLimits = getLimits;
 	}
 
+	/**
+	 * Riceve le chiamate all'endpoint REST per l'ottenimento delle caratteristiche non archiviate di una macchina non
+	 * archiviata
+	 * @param deviceId l'id della macchina
+	 * @return la lista delle caratteristiche non archiviate trovate
+	 * @throws BusinessException se la macchina è inesistente o archiviata
+	 */
     @GetMapping("")
     ResponseEntity<List<CharacteristicTitle>> getUnarchivedCharacteristics(
         @PathVariable("id") int deviceId
@@ -33,6 +49,13 @@ public class CharacteristicsController {
         return ResponseEntity.ok(this.getUnarchivedCharacteristics.getByDevice(deviceId));
     }
 
+	/**
+	 * Riceve le chiamate all'endpoint REST per l'ottenimento dei limiti di una caratteristica non archiviata
+	 * @param deviceId l'id della macchina
+	 * @param characteristicId l'id della caratteristica
+	 * @return i limiti tecnici della caratteristica
+	 * @throws BusinessException se la caratteristica è inesistente o è archiviata
+	 */
 	@GetMapping("{characteristicId}/limits")
 	ResponseEntity<CharacteristicLimits> getCharacteristicLimits(
         @PathVariable("id") int deviceId,

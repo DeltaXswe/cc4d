@@ -38,8 +38,8 @@ public class GetDetectionsService implements GetDetectionsUseCase {
 	}
 
 	/**
-	 * Restituisce la lista delle rilevazioni della non archiviata caratteristica di una macchina,
-	 * trovate applicando i filtri richiesti
+	 * Restituisce la lista delle rilevazioni trovate della caratteristica non archiviata di una macchina,
+	 * applicando i filtri richiesti
 	 * @param deviceId l'id della macchina
 	 * @param characteristicId l'id della caratteristica
 	 * @param filters i filtri richiesti

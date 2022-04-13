@@ -2,10 +2,10 @@ package it.deltax.produlytics.uibackend;
 
 import it.deltax.produlytics.persistence.DeviceEntity;
 import it.deltax.produlytics.uibackend.admins.devices.web.AdminsDevicesController;
+import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import static org.springframework.http.RequestEntity.post;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -64,7 +63,10 @@ public class AdminDevicesTests {
 
 	@AfterAll
 	private static void deleteAll(
-		@Autowired DeviceRepository deviceRepository) {
+		@Autowired DeviceRepository deviceRepository,
+		@Autowired CharacteristicRepository characteristicRepository
+	) {
+		characteristicRepository.deleteAll();
 		deviceRepository.deleteAll();
 	}
 

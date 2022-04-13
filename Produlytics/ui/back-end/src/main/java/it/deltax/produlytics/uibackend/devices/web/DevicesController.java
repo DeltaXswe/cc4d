@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Il controller per le richieste effettuate relative alle macchine
- * @author Leila Dardouri
  */
 @RestController
 @RequestMapping("/devices")
