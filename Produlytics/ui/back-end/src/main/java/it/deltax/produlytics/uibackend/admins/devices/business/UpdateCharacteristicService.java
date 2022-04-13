@@ -58,6 +58,7 @@ public class UpdateCharacteristicService implements UpdateCharacteristicUseCase 
 		this.updateCharacteristicPort.updateCharacteristic(DetailedCharacteristic.builder()
 			.withId(toUpdate.id())
 			.withDeviceId(toUpdate.deviceId())
+			.withName(toUpdate.name())
 			.withLowerLimit(toUpdate.lowerLimit())
 			.withUpperLimit(toUpdate.upperLimit())
 			.withAutoAdjust(toUpdate.autoAdjust())

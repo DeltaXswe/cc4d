@@ -98,7 +98,7 @@ public class InsertCharacteristicTests {
 			.put("sampleSize", 5)
 			.put("archived", "false");
 
-		return this.mockMvc.perform(post("/admins/devices/" + deviceId + "/characteristics")
+		return this.mockMvc.perform(post("/admin/devices/" + deviceId + "/characteristics")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(body.toString())
 			.characterEncoding("utf-8")
@@ -130,7 +130,7 @@ public class InsertCharacteristicTests {
 			.put("sampleSize", 0)
 			.put("archived", "false");
 
-		this.mockMvc.perform(post("/admins/devices/" + deviceId + "/characteristics")
+		this.mockMvc.perform(post("/admin/devices/" + deviceId + "/characteristics")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(body.toString())
 				.characterEncoding("utf-8")
@@ -152,7 +152,7 @@ public class InsertCharacteristicTests {
 			.put("autoAdjust", "false")
 			.put("archived", "false");
 
-		this.mockMvc.perform(post("/admins/devices/" + deviceId + "/characteristics")
+		this.mockMvc.perform(post("/admin/devices/" + deviceId + "/characteristics")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(body.toString())
 			.characterEncoding("utf-8")
@@ -172,7 +172,7 @@ public class InsertCharacteristicTests {
 			.put("autoAdjust", "false")
 			.put("archived", "false");
 
-		this.mockMvc.perform(post("/admins/devices/" + deviceId + "/characteristics")
+		this.mockMvc.perform(post("/admin/devices/" + deviceId + "/characteristics")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(body.toString())
 				.characterEncoding("utf-8")
@@ -192,7 +192,7 @@ public class InsertCharacteristicTests {
 			.put("autoAdjust", "true")
 			.put("archived", "false");
 
-		this.mockMvc.perform(post("/admins/devices/" + deviceId + "/characteristics")
+		this.mockMvc.perform(post("/admin/devices/" + deviceId + "/characteristics")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(body.toString())
 				.characterEncoding("utf-8")

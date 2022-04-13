@@ -7,7 +7,10 @@ import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.json.JSONObject;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,15 +23,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Test d'integrazione per le operazioni svolte dagli amministratori relative alla modifica dello stato di
- * archiviazione di una caratteristica
+ * Test d'integrazione per le operazioni svolte dagli amministratori relative alla modifica di una caratteristica
  */
 @SpringBootTest(
 	webEnvironment = SpringBootTest.WebEnvironment.MOCK
 )
 @ActiveProfiles("test")
 @AutoConfigureMockMvc(addFilters = false)
-public class UpdateCharacteristicArchiveStatusTests {
+public class UpdateCharacteristicTests {
 	@Autowired
 	private MockMvc mockMvc;
 
@@ -40,25 +42,21 @@ public class UpdateCharacteristicArchiveStatusTests {
 
 	private static int deviceId;
 	private static int characteristicId;
+	private static int archivedCharacteristicId;
 
 	/**
 	 * Prepara il contesto di partenza, comune a tutti i test
-	 * @param deviceRepository lo strato di persistenza relativo alle macchine
-	 * @param characteristicRepository lo strato di persistenza relativo alle caratteristiche
 	 */
-	@BeforeAll
-	private static void prepareContext(
-		@Autowired DeviceRepository deviceRepository,
-		@Autowired CharacteristicRepository characteristicRepository
-	) {
-		deviceId = deviceRepository.save(new DeviceEntity(
+	@BeforeEach
+	private void prepareContext() {
+		deviceId = this.deviceRepository.save(new DeviceEntity(
 			"macchina",
 			false,
 			false,
 			"a"
 		)).getId();
 
-		characteristicId = characteristicRepository.save(new CharacteristicEntity(
+		characteristicId = this.characteristicRepository.save(new CharacteristicEntity(
 			deviceId,
 			"temperatura",
 			98d,
@@ -67,26 +65,61 @@ public class UpdateCharacteristicArchiveStatusTests {
 			0,
 			false
 		)).getId();
+
+		archivedCharacteristicId = this.characteristicRepository.save(new CharacteristicEntity(
+			deviceId,
+			"pressione",
+			50d,
+			-10d,
+			false,
+			0,
+			true
+		)).getId();
 	}
 
 	/**
 	 * Pulisce i repository dai dati utilizzati dai test
-	 * @param deviceRepository lo strato di persistenza relativo alle macchine
-	 * @param characteristicRepository lo strato di persistenza relativo alle caratteristiche
 	 */
-	@AfterAll
-	private static void deleteAll(
-		@Autowired DeviceRepository deviceRepository,
-		@Autowired CharacteristicRepository characteristicRepository
-	) {
-		characteristicRepository.deleteAll();
-		deviceRepository.deleteAll();
+	@AfterEach
+	private void deleteAll() {
+		this.characteristicRepository.deleteAll();
+		this.deviceRepository.deleteAll();
 	}
 
 	@Test
 	void contextLoads() {
 		assertThat(this.deviceRepository).isNotNull();
 		assertThat(this.characteristicRepository).isNotNull();
+	}
+
+	/**
+	 * Testa la modifica della caratteristica di una macchina
+	 * @throws Exception se la caratteristica non esiste, verrebbe duplicata dopo la modifica o vengono inseriti dei
+	 * valori non validi
+	 */
+	@Test
+	void updateCharacteristicWithNoAutoAdjust() throws Exception {
+		JSONObject body = new JSONObject()
+			.put("name", "frequenza")
+			.put("lowerLimit", 10d)
+			.put("upperLimit", 100d)
+			.put("autoAdjust", false);
+
+		this.mockMvc.perform(put("/admin/devices/" + deviceId + "/characteristics/" + characteristicId)
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(body.toString())
+					.characterEncoding("utf-8")
+			)
+			.andDo(print())
+			.andExpect(status().isNoContent());
+
+		CharacteristicEntity characteristic = this.characteristicRepository
+			.findById(new CharacteristicEntityId(deviceId, characteristicId)).get();
+
+		assertThat(characteristic.getName()).isEqualTo("frequenza");
+		assertThat(characteristic.getLowerLimit()).isEqualTo(10d);
+		assertThat(characteristic.getUpperLimit()).isEqualTo(100d);
+		assertThat(characteristic.getAutoAdjust()).isEqualTo(false);
 	}
 
 	/**
@@ -100,7 +133,7 @@ public class UpdateCharacteristicArchiveStatusTests {
 			.put("archived", true);
 
 		this.mockMvc.perform(put(
-			"/admins/devices/" + deviceId + "/characteristics/" + characteristicId + "/archived"
+			"/admin/devices/" + deviceId + "/characteristics/" + characteristicId + "/archived"
 			)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(body.toString())
@@ -109,7 +142,8 @@ public class UpdateCharacteristicArchiveStatusTests {
 			.andDo(print())
 			.andExpect(status().isNoContent());
 
-		assertThat(this.characteristicRepository.findById(new CharacteristicEntityId(deviceId, characteristicId))
+		assertThat(this.characteristicRepository
+			.findById(new CharacteristicEntityId(deviceId, characteristicId))
 			.get()
 			.getArchived()
 		).isEqualTo(true);
@@ -126,7 +160,7 @@ public class UpdateCharacteristicArchiveStatusTests {
 			.put("archived", false);
 
 		this.mockMvc.perform(put(
-					"/admins/devices/" + deviceId + "/characteristics/" + characteristicId + "/archived"
+					"/admin/devices/" + deviceId + "/characteristics/" + characteristicId + "/archived"
 				)
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(body.toString())
@@ -135,7 +169,8 @@ public class UpdateCharacteristicArchiveStatusTests {
 			.andDo(print())
 			.andExpect(status().isNoContent());
 
-		assertThat(this.characteristicRepository.findById(new CharacteristicEntityId(deviceId, characteristicId))
+		assertThat(this.characteristicRepository
+			.findById(new CharacteristicEntityId(deviceId, characteristicId))
 			.get()
 			.getArchived()
 		).isEqualTo(false);
@@ -147,7 +182,7 @@ public class UpdateCharacteristicArchiveStatusTests {
 	 */
 	@Test
 	void characteristicNotFoundError() throws Exception {
-		deleteAll(deviceRepository, characteristicRepository);
+		deleteAll();
 
 		JSONObject body = new JSONObject()
 			.put("archived", false);
@@ -156,7 +191,7 @@ public class UpdateCharacteristicArchiveStatusTests {
 			.put("errorCode", "characteristicNotFound");
 
 		this.mockMvc.perform(put(
-					"/admins/devices/" + deviceId + "/characteristics/" + characteristicId + "/archived"
+					"/admin/devices/" + deviceId + "/characteristics/" + characteristicId + "/archived"
 				)
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(body.toString())
@@ -165,7 +200,5 @@ public class UpdateCharacteristicArchiveStatusTests {
 			.andDo(print())
 			.andExpect(status().isNotFound())
 			.andExpect(content().json(response.toString()));
-
-		prepareContext(deviceRepository, characteristicRepository);
 	}
 }

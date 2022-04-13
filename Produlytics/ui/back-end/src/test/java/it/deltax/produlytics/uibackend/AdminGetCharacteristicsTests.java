@@ -114,7 +114,7 @@ public class AdminGetCharacteristicsTests {
 	 * @throws Exception se l'ottenimento non va a buon fine
 	 */
 	private ResultActions performGetCharacteristics() throws Exception {
-		return this.mockMvc.perform(get("/admins/devices/" + deviceId + "/characteristics"))
+		return this.mockMvc.perform(get("/admin/devices/" + deviceId + "/characteristics"))
 			.andDo(print());
 	}
 

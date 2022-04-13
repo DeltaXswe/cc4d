@@ -23,7 +23,7 @@ import java.util.OptionalInt;
  * Il controller per le richieste effettuate dagli amministratori, relative alle caratteristiche
  */
 @RestController
-@RequestMapping("/admins/devices/{deviceId}/characteristics")
+@RequestMapping("/admin/devices/{deviceId}/characteristics")
 public class AdminsCharacteristicsController {
 	private final InsertCharacteristicUseCase insertCharacteristic;
 	private final GetCharacteristicsUseCase getCharacteristics;
@@ -112,13 +112,15 @@ public class AdminsCharacteristicsController {
 	 * @return lo stato HTTP
 	 * @throws BusinessException se le informazioni non sono valide o la caratteristica è inesistente
 	 */
-	@PutMapping("/{characteristicId}/")
+	@PutMapping("/{characteristicId}")
 	public ResponseEntity<String> updateCharacteristic(
 		@PathVariable("deviceId") int deviceId,
 		@PathVariable("characteristicId") int characteristicId,
 		@RequestBody JsonNode body
 	) throws BusinessException {
 		CharacteristicToUpdate.CharacteristicToUpdateBuilder toUpdateBuilder = CharacteristicToUpdate.builder()
+			.withId(characteristicId)
+			.withDeviceId(deviceId)
 			.withName(body.get("name").asText())
 			.withAutoAdjust(body.get("autoAdjust").asBoolean());
 
