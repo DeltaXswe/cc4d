@@ -9,15 +9,36 @@ import org.springframework.web.bind.annotation.*;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 
+/**
+ * Il controller per le richieste relative alle rilevazioni
+ */
 @RestController
 @RequestMapping("/devices/{deviceId}/characteristics/{characteristicId}/detections")
 public class DetectionsController {
 	private final GetDetectionsUseCase listDetectionsByCharacteristic;
 
+	/**
+	 * Il costruttore
+	 * @param listDetectionsByCharacteristic l'interfaccia per il caso d'uso di ottenimento della lista delle
+	 *                                       rilevazioni di una caratteristica
+	 */
 	public DetectionsController(GetDetectionsUseCase listDetectionsByCharacteristic) {
 		this.listDetectionsByCharacteristic = listDetectionsByCharacteristic;
 	}
 
+	/**
+	 * Riceve le chiamate all'endpoint REST per l'ottenimento delle rilevazioni della caratteristica di una macchina
+	 * @param deviceId l'id della macchina
+	 * @param characteristicId l'id della caratteristica
+	 * @param olderThan il filtro che specifica che devono essere restituite rilevazioni più vecchie di un determinato
+	 *                     istante. Può non essere specificato
+	 * @param newerThan il filtro che specifica che devono essere restituite rilevazioni più recenti di un determinato
+	 *                     istante. Può non essere specificato
+	 * @param limit il filtro che specifica la lunghezza massima della lista di rilevazioni ricevuta. Può non essere
+	 *              specificato
+	 * @return la lista delle rilevazioni trovate, eventualmente applicando i filtri specificati
+	 * @throws BusinessException se la caratteristica è inesistente
+	 */
 	@GetMapping("")
 	public Detections getCharacteristicDetections(
 		@PathVariable int deviceId,

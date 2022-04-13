@@ -12,12 +12,10 @@ import java.util.OptionalLong;
 
 /**
  * L'adapter dello strato di persistenza per le operazioni riguardanti le rilevazioni
- * @author Alberto Lazari
  */
 @Component
 public class DetectionAdapter implements FindAllDetectionsPort {
 	private final DetectionRepository repo;
-
 
 	/**
 	 * Il costruttore
@@ -27,7 +25,15 @@ public class DetectionAdapter implements FindAllDetectionsPort {
 		this.repo = repo;
 	}
 
-
+	/**
+	 * Restituisce la lista di tutte le rilevazioni della caratteristica di una macchina, eventualmente più vecchie di
+	 * un istante specificato
+	 * @param deviceId l'id della macchina
+	 * @param characteristicId l'id della caratteristica
+	 * @param olderThan il filtro che specifica che devono essere restituite rilevazioni più vecchie di un determinato
+	 *                     istante. Può non essere specificato
+	 * @return la lista delle rilevazioni trovate
+	 */
 	@Override
 	public List<Detection> findAllByCharacteristic(
 		int deviceId, int characteristicId, OptionalLong olderThan

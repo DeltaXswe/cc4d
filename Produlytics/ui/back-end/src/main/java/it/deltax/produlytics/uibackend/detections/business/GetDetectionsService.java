@@ -16,6 +16,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.OptionalLong;
 
+/**
+ * Il service per l'ottenimento della lista di rilevazioni
+ */
 @Service
 public class GetDetectionsService implements GetDetectionsUseCase {
 	private final FindAllDetectionsPort findAllDetectionsPort;
@@ -35,7 +38,15 @@ public class GetDetectionsService implements GetDetectionsUseCase {
 		this.findAllDetectionsPort = findAllDetectionsPort;
 	}
 
-
+	/**
+	 * Restituisce la lista delle rilevazioni della caratteristica di una macchina,
+	 * trovate applicando i filtri richiesti
+	 * @param deviceId l'id della macchina
+	 * @param characteristicId l'id della caratteristica
+	 * @param filters i filtri richiesti
+	 * @return la lisa di rilevazioni, con i timestamp utili per altre richieste
+	 * @throws BusinessException se la caratteristica è inesistente
+	 */
 	@Override
 	public Detections listByCharacteristic(int deviceId, int characteristicId, DetectionFilters filters)
 	throws BusinessException {
@@ -43,7 +54,11 @@ public class GetDetectionsService implements GetDetectionsUseCase {
 			throw new BusinessException("characteristicNotFound", ErrorType.NOT_FOUND);
 		}
 
-		List<Detection> detections = this.findAllDetectionsPort.findAllByCharacteristic(deviceId, characteristicId, filters.olderThan());
+		List<Detection> detections = this.findAllDetectionsPort.findAllByCharacteristic(
+			deviceId,
+			characteristicId,
+			filters.olderThan()
+		);
 		final int initialSize = detections.size();
 
 		if (filters.limit().isPresent()) {

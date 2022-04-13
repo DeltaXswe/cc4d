@@ -20,7 +20,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
 /**
- * Il controller per le richieste effettuate dagli amministratori relative alle caratteristiche
+ * Il controller per le richieste effettuate dagli amministratori, relative alle caratteristiche
  */
 @RestController
 @RequestMapping("/admins/devices/{deviceId}/characteristics")
@@ -52,7 +52,7 @@ public class AdminsCharacteristicsController {
 	}
 
 	/**
-	 * Inserisce una nuova caratteristica nella macchina specificata
+	 * Riceve le chiamate all'endpoint REST per l'inserimento di una nuova caratteristica nella macchina specificata
 	 * @param deviceId id della macchina in cui inserire la caratteristica
 	 * @param characteristic informazioni della nuova caratteristica
 	 * @return l'id della caratteristica creata
