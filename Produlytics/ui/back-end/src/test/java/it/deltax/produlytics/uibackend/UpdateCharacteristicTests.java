@@ -9,7 +9,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -122,12 +121,37 @@ public class UpdateCharacteristicTests {
 		assertThat(characteristic.getAutoAdjust()).isEqualTo(false);
 	}
 
+	@Test
+	void updateCharacteristicWithAutoAdjust() throws Exception {
+		JSONObject body = new JSONObject()
+			.put("name", "frequenza")
+			.put("autoAdjust", true)
+			.put("sampleSize", 10);
+
+		this.mockMvc.perform(put(
+			"/admin/devices/" + deviceId + "/characteristics/" + archivedCharacteristicId
+				)
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(body.toString())
+					.characterEncoding("utf-8")
+			)
+			.andDo(print())
+			.andExpect(status().isNoContent());
+
+		CharacteristicEntity characteristic = this.characteristicRepository
+			.findById(new CharacteristicEntityId(deviceId, archivedCharacteristicId)).get();
+
+		assertThat(characteristic.getName()).isEqualTo("frequenza");
+		assertThat(characteristic.getAutoAdjust()).isEqualTo(true);
+		assertThat(characteristic.getSampleSize()).isEqualTo(10);
+		assertThat(characteristic.getArchived()).isEqualTo(true);
+	}
+
 	/**
 	 * Testa la modifica dello stato di archiviazione di una macchina, impostando true come valore
 	 * @throws Exception se l'operazione non va a buon fine
 	 */
 	@Test
-	@Disabled
 	void setArchived() throws Exception {
 		JSONObject body = new JSONObject()
 			.put("archived", true);
@@ -154,7 +178,6 @@ public class UpdateCharacteristicTests {
 	 * @throws Exception se l'operazione non va a buon fine
 	 */
 	@Test
-	@Disabled
 	void setUnarchived() throws Exception {
 		JSONObject body = new JSONObject()
 			.put("archived", false);

@@ -38,8 +38,10 @@ public class UpdateCharacteristicService implements UpdateCharacteristicUseCase 
 	 */
 	@Override
 	public void updateCharacteristic(CharacteristicToUpdate toUpdate) throws BusinessException {
-		this.findCharacteristicPort.findByCharacteristic(toUpdate.deviceId(), toUpdate.id())
-			.orElseThrow(() -> new BusinessException("characteristicNotFound", ErrorType.NOT_FOUND));
+		final boolean archived = this.findCharacteristicPort
+			.findByCharacteristic(toUpdate.deviceId(), toUpdate.id())
+			.orElseThrow(() -> new BusinessException("characteristicNotFound", ErrorType.NOT_FOUND))
+			.archived();
 
 		if (!this.findCharacteristicPort.findByDeviceAndName(toUpdate.deviceId(), toUpdate.name()).isEmpty()) {
 			throw new BusinessException("duplicateCharacteristicName", ErrorType.GENERIC);
@@ -63,6 +65,7 @@ public class UpdateCharacteristicService implements UpdateCharacteristicUseCase 
 			.withUpperLimit(toUpdate.upperLimit())
 			.withAutoAdjust(toUpdate.autoAdjust())
 			.withSampleSize(toUpdate.sampleSize())
+			.withArchived(archived)
 			.build()
 		);
 	}

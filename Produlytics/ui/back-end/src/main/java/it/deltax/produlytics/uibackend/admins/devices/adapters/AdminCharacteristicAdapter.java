@@ -58,7 +58,7 @@ public class AdminCharacteristicAdapter implements FindDetailedCharacteristicPor
 	 */
 	@Override
 	public Optional<DetailedCharacteristic> findByCharacteristic(int deviceId, int characteristicId) {
-		return this.repo.findById(new CharacteristicEntityId(characteristicId, deviceId))
+		return this.repo.findById(new CharacteristicEntityId(deviceId, characteristicId))
 			.map(ConvertCharacteristic::toDetailed);
 	}
 
