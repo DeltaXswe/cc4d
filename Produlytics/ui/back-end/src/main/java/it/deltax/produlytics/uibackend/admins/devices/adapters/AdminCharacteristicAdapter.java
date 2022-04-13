@@ -140,7 +140,7 @@ public class AdminCharacteristicAdapter implements FindDetailedCharacteristicPor
 			characteristic.lowerLimit().isPresent() ? characteristic.lowerLimit().getAsDouble() : null,
 			characteristic.autoAdjust(),
 			characteristic.sampleSize().isPresent() ? characteristic.sampleSize().getAsInt() : null,
-			characteristic.archived()
+			false
 		));
 		return entity.getId();
 	}

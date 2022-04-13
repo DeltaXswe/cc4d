@@ -6,36 +6,34 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
 /**
- * <p>Il record rappresenta una caratteristica con tutti i suoi dati
+ * <p>Record che rappresenta i dati necessari per la modifica di una caratteristica
+ * <p>Contiene tutti i campi di una caratteristica, meno lo stato di archiviazione
  * <p>Mette a disposizione un builder con valori di default
  */
-public record DetailedCharacteristic(
+public record CharacteristicToUpdate(
 	int id,
 	int deviceId,
 	String name,
-	OptionalDouble lowerLimit,
 	OptionalDouble upperLimit,
+	OptionalDouble lowerLimit,
 	boolean autoAdjust,
-	OptionalInt sampleSize,
-	boolean archived
+	OptionalInt sampleSize
 ) {
 	@Builder(toBuilder = true, builderMethodName = "", setterPrefix = "with")
-	public DetailedCharacteristic {}
+	public CharacteristicToUpdate {}
 
 	/**
 	 * Fornisce il builder del record
 	 * @return un nuovo builder con i seguenti valori di default:
 	 * <ul>
-	 * 	   <li>upperLimit: empty
-	 * 	   <li>lowerLimit: empty
-	 * 	   <li>sampleSize: empty
-	 *     <li>archived: false
+	 * 	<li>upperLimit: empty
+	 * 	<li>lowerLimit: empty
+	 * 	<li>sampleSize: empty
 	 */
-	public static DetailedCharacteristic.DetailedCharacteristicBuilder builder() {
-		return new DetailedCharacteristicBuilder()
+	public static CharacteristicToUpdateBuilder builder() {
+		return new CharacteristicToUpdateBuilder()
 			.withUpperLimit(OptionalDouble.empty())
 			.withLowerLimit(OptionalDouble.empty())
-			.withSampleSize(OptionalInt.empty())
-			.withArchived(false);
+			.withSampleSize(OptionalInt.empty());
 	}
 }

@@ -3,7 +3,7 @@ package it.deltax.produlytics.uibackend.admins.devices.business.domain;
 import java.util.List;
 
 /**
- * Il record rappresenta una macchina da inserire, con le suo caratteristiche
+ * Il record rappresenta una macchina da inserire, con le sue caratteristiche
  * @author Leila Dardouri
  */
 public record DeviceToInsert(
