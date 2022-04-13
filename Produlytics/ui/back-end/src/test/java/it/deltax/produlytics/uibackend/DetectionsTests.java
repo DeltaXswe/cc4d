@@ -3,7 +3,6 @@ package it.deltax.produlytics.uibackend;
 import it.deltax.produlytics.persistence.CharacteristicEntity;
 import it.deltax.produlytics.persistence.DetectionEntity;
 import it.deltax.produlytics.persistence.DeviceEntity;
-import it.deltax.produlytics.uibackend.detections.web.DetectionsController;
 import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import it.deltax.produlytics.uibackend.repositories.DetectionRepository;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
@@ -37,9 +36,6 @@ import java.time.Instant;
 public class DetectionsTests {
 	@Autowired
 	private MockMvc mockMvc;
-
-	@Autowired
-	private DetectionsController controller;
 
 	@Autowired
 	private DeviceRepository deviceRepository;
@@ -154,7 +150,6 @@ public class DetectionsTests {
 
 	@Test
 	void contextLoads() {
-		assertThat(this.controller).isNotNull();
 		assertThat(this.deviceRepository).isNotNull();
 		assertThat(this.characteristicRepository).isNotNull();
 		assertThat(this.detectionRepository).isNotNull();
@@ -239,7 +234,8 @@ public class DetectionsTests {
 	}
 
 	/**
-	 * Testa l'ottenimento delle rilevazioni di una caratteristica, facendo restituire una lista vuota
+	 * Testa l'ottenimento delle rilevazioni di una caratteristica, facendo restituire una lista vuota invertendo
+	 * l'ordine di olerThan e newerThan
 	 * @throws Exception se la caratteristica è inesistente, archiviata o si ottiene un risultato diverso da
 	 * quello atteso
 	 */

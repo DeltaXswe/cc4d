@@ -2,7 +2,6 @@ package it.deltax.produlytics.uibackend;
 
 import it.deltax.produlytics.persistence.CharacteristicEntity;
 import it.deltax.produlytics.persistence.DeviceEntity;
-import it.deltax.produlytics.uibackend.devices.web.CharacteristicsController;
 import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,9 +33,6 @@ public class CharacteristicsTests {
 	private MockMvc mockMvc;
 
 	@Autowired
-	private CharacteristicsController controller;
-
-	@Autowired
 	private CharacteristicRepository characteristicRepository;
 
 	@Autowired
@@ -54,9 +50,9 @@ public class CharacteristicsTests {
 	 */
 	@BeforeAll
 	private static void prepareContext(
-		@Autowired CharacteristicRepository characteristicRepository,
-		@Autowired DeviceRepository deviceRepository
-	) {
+		@Autowired DeviceRepository deviceRepository,
+		@Autowired CharacteristicRepository characteristicRepository
+		) {
 		deviceId = deviceRepository.save(new DeviceEntity(
 			"macchina",
 			false,
@@ -102,16 +98,15 @@ public class CharacteristicsTests {
 	 */
 	@AfterAll
 	private static void deleteAll(
-		@Autowired CharacteristicRepository characteristicRepository,
-		@Autowired DeviceRepository deviceRepository
-	) {
+		@Autowired DeviceRepository deviceRepository,
+		@Autowired CharacteristicRepository characteristicRepository
+		) {
 		characteristicRepository.deleteAll();
 		deviceRepository.deleteAll();
 	}
 
 	@Test
 	void contextLoads() {
-		assertThat(this.controller).isNotNull();
 		assertThat(this.characteristicRepository).isNotNull();
 		assertThat(this.deviceRepository).isNotNull();
 	}
@@ -146,14 +141,14 @@ public class CharacteristicsTests {
 	 */
 	@Test
 	void deviceNotFoundError() throws Exception {
-		deleteAll(characteristicRepository, deviceRepository);
+		deleteAll(deviceRepository, characteristicRepository);
 
 		this.mockMvc.perform(get("/devices/1/characteristics"))
 			.andDo(print())
 			.andExpect(status().isNotFound())
 			.andExpect(content().string("{\"errorCode\":\"deviceNotFound\"}"));
 
-		prepareContext(characteristicRepository, deviceRepository);
+		prepareContext(deviceRepository, characteristicRepository);
 	}
 
 	/**
@@ -183,8 +178,8 @@ public class CharacteristicsTests {
 			.andExpect(status().isNotFound())
 			.andExpect(content().string("{\"errorCode\":\"characteristicNotFound\"}"));
 
-		deleteAll(characteristicRepository, deviceRepository);
-		prepareContext(characteristicRepository, deviceRepository);
+		deleteAll(deviceRepository, characteristicRepository);
+		prepareContext(deviceRepository, characteristicRepository);
 	}
 
 	/**
