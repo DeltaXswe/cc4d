@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, IterableDiffers, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import * as d3 from 'd3';
 import { Subscription, interval } from 'rxjs';
@@ -8,8 +8,6 @@ import { ChartPoint } from '../../model/chart/chart-point';
 import { ChartAbstractService } from "../../model/chart/chart-abstract.service";
 import { CharacteristicNode } from '../device-selection/selection-data-source/characteristic-node';
 import { Limits } from '../../model/chart/limits';
-import { zoom } from 'd3';
-import { on } from 'events';
 
 @Component({
   selector: 'app-chart',
@@ -98,7 +96,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       .append("text")
       .attr("class", "title")
       .attr("x", this.chartWidth / 2)
-      .attr("y", this.margin.top) 
+      .attr("y", this.margin.top)
       .text(`${this.currentNode?.device.name} - ` + `${this.currentNode?.name}`);
       this.setupInitialPoints(this.currentNode?.device.id, this.currentNode?.id);
   }
