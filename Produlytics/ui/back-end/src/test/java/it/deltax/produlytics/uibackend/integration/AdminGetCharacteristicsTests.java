@@ -1,4 +1,4 @@
-package it.deltax.produlytics.uibackend;
+package it.deltax.produlytics.uibackend.integration;
 
 import it.deltax.produlytics.persistence.CharacteristicEntity;
 import it.deltax.produlytics.persistence.DeviceEntity;
