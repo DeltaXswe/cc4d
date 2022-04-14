@@ -7,7 +7,7 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindDet
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertCharacteristicPort;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindDetailedDevicePort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
-import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
+import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
 /**

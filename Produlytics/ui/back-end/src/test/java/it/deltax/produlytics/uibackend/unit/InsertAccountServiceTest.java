@@ -7,7 +7,7 @@ import it.deltax.produlytics.uibackend.admins.accounts.business.InsertAccountSer
 import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountToInsert;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.InsertAccountPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
-import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
+import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 

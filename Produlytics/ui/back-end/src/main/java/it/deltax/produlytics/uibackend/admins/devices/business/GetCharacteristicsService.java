@@ -4,7 +4,7 @@ import it.deltax.produlytics.uibackend.admins.devices.business.domain.Characteri
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.in.GetCharacteristicsUseCase;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindAllCharacteristicsPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
-import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
+import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

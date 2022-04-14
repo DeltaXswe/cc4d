@@ -10,7 +10,7 @@ import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.GetAcco
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.InsertAccountUseCase;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.UpdateAccountArchiveStatusUseCase;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.UpdateAccountByAdminUseCase;
-import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
+import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

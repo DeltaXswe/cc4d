@@ -1,7 +1,7 @@
 package it.deltax.produlytics.uibackend.admins.devices.business.ports.in;
 
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
-import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
+import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 
 public interface UpdateDeviceNameUseCase {
 	void updateDeviceName(TinyDevice device) throws BusinessException;

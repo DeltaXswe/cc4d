@@ -5,7 +5,7 @@ import it.deltax.produlytics.uibackend.devices.business.ports.in.GetLimitsUseCas
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicLimitsPort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.GetUnarchivedDevicesPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
-import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
+import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
 /**

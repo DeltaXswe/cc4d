@@ -1,7 +1,7 @@
 package it.deltax.produlytics.uibackend.devices.business.ports.in;
 
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTitle;
-import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
+import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 
 import java.util.List;
 

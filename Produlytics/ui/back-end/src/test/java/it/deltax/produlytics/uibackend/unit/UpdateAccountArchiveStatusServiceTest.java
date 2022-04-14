@@ -6,7 +6,7 @@ import it.deltax.produlytics.uibackend.admins.accounts.business.UpdateAccountArc
 import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountArchiveStatus;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.UpdateAccountArchiveStatusPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
-import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
+import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 

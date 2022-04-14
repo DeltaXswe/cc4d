@@ -8,8 +8,7 @@ import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordEncod
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordMatcherPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.UpdateAccountPasswordPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
-import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
 @Service

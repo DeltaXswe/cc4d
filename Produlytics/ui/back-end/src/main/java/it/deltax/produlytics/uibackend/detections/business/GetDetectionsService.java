@@ -7,7 +7,7 @@ import it.deltax.produlytics.uibackend.detections.business.ports.in.GetDetection
 import it.deltax.produlytics.uibackend.detections.business.ports.out.FindAllDetectionsPort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicLimitsPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
-import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
+import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;

@@ -3,7 +3,7 @@ package it.deltax.produlytics.uibackend.detections.web;
 import it.deltax.produlytics.uibackend.detections.business.domain.DetectionFilters;
 import it.deltax.produlytics.uibackend.detections.business.domain.Detections;
 import it.deltax.produlytics.uibackend.detections.business.ports.in.GetDetectionsUseCase;
-import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
+import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.OptionalInt;

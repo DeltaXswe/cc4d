@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.*;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.in.*;
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
-import it.deltax.produlytics.uibackend.exceptions.exceptions.BusinessException;
+import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
