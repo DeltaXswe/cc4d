@@ -21,7 +21,6 @@ import java.util.Map;
 
 /**
  * Il controller per le richieste effettuate dagli amministratori relative agli utenti
- * @author Leila Dardouri
  */
 @RestController
 @RequestMapping("/admin")

@@ -15,7 +15,6 @@ import java.util.Optional;
 
 /**
  * Test di unità della classe UpdateAccountByAdminService
- * @author Leila Dardouri
  */
 public class UpdateAccountByAdminServiceTest {
 	/**

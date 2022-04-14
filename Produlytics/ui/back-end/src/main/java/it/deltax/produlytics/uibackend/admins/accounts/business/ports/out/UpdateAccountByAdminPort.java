@@ -4,7 +4,6 @@ import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
 
 /**
  * La porta per l'aggiornamento di un utente per mano di un amministratore
- * @author Leila Dardouri
  */
 public interface UpdateAccountByAdminPort {
 	void updateAccount(Account account);

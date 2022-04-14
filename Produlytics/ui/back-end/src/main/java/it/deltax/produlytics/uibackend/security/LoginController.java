@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Il controller per le richieste di autenticazione
- * @author Leila Dardouri
  */
 @RestController
 @RequestMapping("/login")

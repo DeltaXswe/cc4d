@@ -11,10 +11,8 @@ import java.util.List;
 
 /**
  * Test di unità della classe GetUnarchivedDevicesService
- * @author Leila Dardouri
  */
 public class GetUnarchivedDevicesServiceTest {
-
 	/**
 	 * Testa il caso in cui ci sono dei dispositivi non archiviati
 	 */

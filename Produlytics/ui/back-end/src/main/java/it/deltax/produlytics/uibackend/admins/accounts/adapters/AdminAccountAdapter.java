@@ -18,7 +18,6 @@ import java.util.stream.StreamSupport;
 
 /**
  * L'adapter dello strato di persistenza per le operazioni svolte dagli amministratori sugli utenti
- * @author Leila Dardouri
  */
 @Component
 public class AdminAccountAdapter implements UpdateAccountArchiveStatusPort,

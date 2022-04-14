@@ -4,7 +4,6 @@ import java.util.Optional;
 
 /**
  * Il record rappresenta un utente che è stato aggiornato da un amministratore
- * @author Leila Dardouri
  */
 public record AccountUpdatedByAdmin(
 	String username,

@@ -16,7 +16,6 @@ import java.util.Optional;
 
 /**
  * Test di unità della classe UpdateAccountPasswordService
- * @author Leila Dardouri
  */
 public class UpdateAccountPasswordServiceTest {
 	@Test

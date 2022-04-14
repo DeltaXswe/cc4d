@@ -16,8 +16,8 @@ public class CreateDevice {
 	 * @return la chiave alfanumerica
 	 */
 	public String generateApiKey() {
-		int leftLimit = 48; // from '0'
-		int rightLimit = 122; // to 'z'
+		int leftLimit = 48; // da '0'
+		int rightLimit = 122; // a 'z'
 		int targetStringLength = 32;
 		Random random = new Random();
 

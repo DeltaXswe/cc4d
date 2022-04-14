@@ -6,7 +6,6 @@ import java.util.List;
 
 /**
  * La porta per l'ottenimento degli utenti
- * @author Leila Dardouri
  */
 public interface GetAccountsPort {
 	List<AccountTiny> getAccounts();

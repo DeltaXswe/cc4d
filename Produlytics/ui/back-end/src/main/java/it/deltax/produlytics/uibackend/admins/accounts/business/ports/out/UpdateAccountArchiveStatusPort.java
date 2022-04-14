@@ -4,7 +4,6 @@ import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
 
 /**
  * La porta per l'aggiornamento dello stato di archiviazione di un utente
- * @author Leila Dardouri
  */
 public interface UpdateAccountArchiveStatusPort {
 	void updateAccountArchiveStatus(Account account);

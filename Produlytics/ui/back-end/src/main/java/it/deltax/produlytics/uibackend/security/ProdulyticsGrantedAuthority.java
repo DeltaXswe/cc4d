@@ -4,7 +4,6 @@ import org.springframework.security.core.GrantedAuthority;
 
 /**
  * Enumerazione che rappresenta i vari gradi di autorizzazioni esistenti
- * @author Leila Dardouri
  */
 public enum ProdulyticsGrantedAuthority implements GrantedAuthority {
 	ADMIN,

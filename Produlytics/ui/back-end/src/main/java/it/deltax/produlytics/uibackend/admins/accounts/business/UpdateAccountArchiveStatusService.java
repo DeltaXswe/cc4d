@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * Il service per l'aggiornamento dello stato di archiviazione di un utente
- * @author Leila Dardouri
  */
 @Service
 public class UpdateAccountArchiveStatusService implements UpdateAccountArchiveStatusUseCase {

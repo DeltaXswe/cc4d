@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * Il service per l'aggiornamento di un utente per mano di un amministratore
- * @author Leila Dardouri
  */
 @Service
 public class UpdateAccountByAdminService implements UpdateAccountByAdminUseCase {

@@ -11,7 +11,6 @@ import java.util.stream.StreamSupport;
 
 /**
  * L'adapter dello strato di persistenza per le operazioni riguardanti le macchine
- * @author Leila Dardouri
  */
 @Component
 public class DeviceAdapter implements GetUnarchivedDevicesPort {

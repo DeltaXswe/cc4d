@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * L'adapter della classe BCryptPasswordEncoder per confrontare due password
- * @author Leila Dardouri
  */
 @Component
 public class PasswordMatcherAdapter implements PasswordMatcherPort {

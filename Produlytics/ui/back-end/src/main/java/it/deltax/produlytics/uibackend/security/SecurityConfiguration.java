@@ -12,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * Configurazione di Spring Security
- * @author Leila Dardouri
  */
 @Configuration
 @EnableWebSecurity

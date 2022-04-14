@@ -9,9 +9,7 @@ import java.util.List;
 
 @Service
 public class GetUnarchivedDevicesService implements GetUnarchivedDevicesUseCase {
-
     private final GetUnarchivedDevicesPort getUnarchivedDevicesPort;
-
 
     /**
      * Il costruttore
@@ -20,7 +18,6 @@ public class GetUnarchivedDevicesService implements GetUnarchivedDevicesUseCase 
     public GetUnarchivedDevicesService(GetUnarchivedDevicesPort getUnarchivedDevicesPort) {
         this.getUnarchivedDevicesPort = getUnarchivedDevicesPort;
     }
-
 
     /**
      * Restituisce le macchine non archiviate

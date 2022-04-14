@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * Il controller per le richieste effettuate dagli utenti
- * @author Leila Dardouri
  */
 @RestController
 @RequestMapping("/accounts")

@@ -12,7 +12,6 @@ import java.util.List;
 
 /**
  * Classe che rappresenta un utente in Spring Security
- * @author Leila Dardouri
  */
 public class CustomUserDetails implements UserDetails {
 	private AccountEntity account;

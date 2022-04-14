@@ -15,7 +15,6 @@ import java.util.Optional;
 
 /**
  * Il service per l'inserimento di un utente
- * @author Leila Dardouri
  */
 @Service
 public class InsertAccountService implements InsertAccountUseCase {

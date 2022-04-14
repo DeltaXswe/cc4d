@@ -14,7 +14,6 @@ import java.util.Optional;
 
 /**
  * Test di unità della classe UpdateAccountArchiveStatusService
- * @author Leila Dardouri
  */
 public class UpdateAccountArchiveStatusServiceTest {
 	/**

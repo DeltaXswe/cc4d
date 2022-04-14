@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * L'adapter della classe BCryptPasswordEncoder per cifrare una password
- * @author Leila Dardouri
  */
 @Component
 public class PasswordEncoderAdapter implements PasswordEncoderPort {

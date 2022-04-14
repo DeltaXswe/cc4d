@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * Il service per verificare se l'utente che sta eseguendo l'autentiazione esiste
- * @author Leila Dardouri
  */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

@@ -9,7 +9,6 @@ import java.util.List;
 
 /**
  * Il service per l'ottenimento degli utenti
- * @author Leila Dardouri
  */
 @Service
 public class GetAccountsService implements GetAccountsUseCase {

@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Service
 public class GetDevicesService implements GetDevicesUseCase {
-	GetDevicesPort getDevicesPort;
+	private final GetDevicesPort getDevicesPort;
 
 	/**
 	 * Il costruttore

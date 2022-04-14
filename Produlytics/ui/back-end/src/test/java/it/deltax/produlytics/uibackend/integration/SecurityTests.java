@@ -22,7 +22,6 @@ import org.springframework.util.Base64Utils;
 
 /**
  * Test d'integrazione per le operazioni di autenticazione
- * @author Leila Dardouri
  */
 @SpringBootTest(
 	webEnvironment = SpringBootTest.WebEnvironment.MOCK
