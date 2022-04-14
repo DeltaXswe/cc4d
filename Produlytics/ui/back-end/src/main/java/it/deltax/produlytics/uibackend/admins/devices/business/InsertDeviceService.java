@@ -1,7 +1,7 @@
 package it.deltax.produlytics.uibackend.admins.devices.business;
 
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.NewCharacteristic;
-import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertCharacteristicPort;
+import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertCharacteristicUseCase;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.in.InsertDeviceUseCase;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.DeviceToInsert;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertDevicePort;
@@ -14,22 +14,22 @@ import org.springframework.stereotype.Service;
 public class InsertDeviceService implements InsertDeviceUseCase {
 	private final InsertDevicePort insertDevicePort;
 	private final CreateDevice createDevice;
-	private final InsertCharacteristicPort insertCharacteristicPort;
+	private final InsertCharacteristicUseCase insertCharacteristicUseCase;
 
 
 	/**
 	 * Il costruttore
 	 * @param insertDevicePort la porta per inserire una macchina
 	 * @param createDevice crea una nuova macchina
-	 * @param insertCharacteristicPort la porta per inserire una caratteristica
+	 * @param insertCharacteristicUseCase la porta per inserire una caratteristica
 	 */
 	public InsertDeviceService(
 		InsertDevicePort insertDevicePort,
 		CreateDevice createDevice,
-		InsertCharacteristicPort insertCharacteristicPort){
+		InsertCharacteristicUseCase insertCharacteristicUseCase){
 		this.insertDevicePort = insertDevicePort;
 		this.createDevice = createDevice;
-		this.insertCharacteristicPort = insertCharacteristicPort;
+		this.insertCharacteristicUseCase = insertCharacteristicUseCase;
 	}
 
 
@@ -42,7 +42,7 @@ public class InsertDeviceService implements InsertDeviceUseCase {
 	public int insertDevice(DeviceToInsert device) {
 		int id = this.insertDevicePort.insertDevice(this.createDevice.createDevice(device.name()));
 		for(NewCharacteristic characteristic : device.characteristics())
-			this.insertCharacteristicPort.insertByDevice(id, characteristic);
+			this.insertCharacteristicUseCase.insertByDevice(id, characteristic);
 		return id;
 	}
 }
