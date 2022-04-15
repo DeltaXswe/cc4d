@@ -21,20 +21,20 @@ import java.util.OptionalLong;
  */
 @Service
 public class GetDetectionsService implements GetDetectionsUseCase {
-	private final FindAllDetectionsPort findAllDetectionsPort;
-	private final FindCharacteristicLimitsPort findCharacteristicLimitsPort;
+	private final FindAllDetectionsPort findDetectionsPort;
+	private final FindCharacteristicLimitsPort findCharacteristicPort;
 
 	/**
 	 * Il costruttore
+	 * @param findDetectionsPort la porta per ottenere le rilevazioni
 	 * @param findCharacteristicPort la porta per ottenere i limiti di una caratteristica
-	 * @param findAllDetectionsPort la porta per ottenere le rilevazioni
 	 */
 	public GetDetectionsService(
-		FindCharacteristicLimitsPort findCharacteristicPort,
-		FindAllDetectionsPort findAllDetectionsPort
-	) {
-		this.findCharacteristicLimitsPort = findCharacteristicPort;
-		this.findAllDetectionsPort = findAllDetectionsPort;
+		FindAllDetectionsPort findDetectionsPort,
+		FindCharacteristicLimitsPort findCharacteristicPort
+		) {
+		this.findDetectionsPort = findDetectionsPort;
+		this.findCharacteristicPort = findCharacteristicPort;
 	}
 
 	/**
@@ -49,10 +49,10 @@ public class GetDetectionsService implements GetDetectionsUseCase {
 	@Override
 	public Detections listByCharacteristic(int deviceId, int characteristicId, DetectionFilters filters)
 	throws BusinessException {
-		this.findCharacteristicLimitsPort.findByCharacteristic(deviceId, characteristicId)
+		this.findCharacteristicPort.findByCharacteristic(deviceId, characteristicId)
 			.orElseThrow(() -> new BusinessException("characteristicNotFound", ErrorType.NOT_FOUND));
 
-		List<Detection> detections = this.findAllDetectionsPort.findAllByCharacteristic(
+		List<Detection> detections = this.findDetectionsPort.findAllByCharacteristic(
 			deviceId,
 			characteristicId,
 			filters.olderThan()

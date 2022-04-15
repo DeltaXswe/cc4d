@@ -25,30 +25,30 @@ import java.util.OptionalInt;
 @RestController
 @RequestMapping("/admin/devices/{deviceId}/characteristics")
 public class AdminsCharacteristicsController {
-	private final InsertCharacteristicUseCase insertCharacteristic;
-	private final GetCharacteristicsUseCase getCharacteristics;
-	private final UpdateCharacteristicArchiveStatusUseCase updateCharacteristicArchiveStatus;
-	private final UpdateCharacteristicUseCase updateCharacteristic;
+	private final InsertCharacteristicUseCase insertCharacteristicUseCase;
+	private final GetCharacteristicsUseCase getCharacteristicsUseCase;
+	private final UpdateCharacteristicArchiveStatusUseCase updateCharacteristicArchiveStatusUseCase;
+	private final UpdateCharacteristicUseCase updateCharacteristicUseCase;
 
 	/**
 	 * Il costruttore
-	 * @param insertCharacteristic l'interfaccia per il caso d'uso d'inserimento di una caratteristica
-	 * @param getCharacteristics l'interfaccia per il caso d'uso di ottenimento della lista delle caratteristiche
+	 * @param insertCharacteristicUseCase l'interfaccia per il caso d'uso d'inserimento di una caratteristica
+	 * @param getCharacteristicsUseCase l'interfaccia per il caso d'uso di ottenimento della lista delle caratteristiche
 	 *                              di una macchina
-	 * @param updateCharacteristicArchiveStatus l'interfaccia per il caso d'uso di modifica dello stato di
+	 * @param updateCharacteristicArchiveStatusUseCase l'interfaccia per il caso d'uso di modifica dello stato di
 	 *                                             archiviazione di una caratteristica
-	 * @param updateCharacteristic l'interfaccia per il caso d'uso di modifica della caratteristica di una macchina
+	 * @param updateCharacteristicUseCase l'interfaccia per il caso d'uso di modifica della caratteristica di una macchina
 	 */
 	AdminsCharacteristicsController(
-		InsertCharacteristicUseCase insertCharacteristic,
-		GetCharacteristicsUseCase getCharacteristics,
-		UpdateCharacteristicArchiveStatusUseCase updateCharacteristicArchiveStatus,
-		UpdateCharacteristicUseCase updateCharacteristic
+		InsertCharacteristicUseCase insertCharacteristicUseCase,
+		GetCharacteristicsUseCase getCharacteristicsUseCase,
+		UpdateCharacteristicArchiveStatusUseCase updateCharacteristicArchiveStatusUseCase,
+		UpdateCharacteristicUseCase updateCharacteristicUseCase
 	) {
-		this.insertCharacteristic = insertCharacteristic;
-		this.getCharacteristics = getCharacteristics;
-		this.updateCharacteristicArchiveStatus = updateCharacteristicArchiveStatus;
-		this.updateCharacteristic = updateCharacteristic;
+		this.insertCharacteristicUseCase = insertCharacteristicUseCase;
+		this.getCharacteristicsUseCase = getCharacteristicsUseCase;
+		this.updateCharacteristicArchiveStatusUseCase = updateCharacteristicArchiveStatusUseCase;
+		this.updateCharacteristicUseCase = updateCharacteristicUseCase;
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class AdminsCharacteristicsController {
 	) throws BusinessException {
 		return ResponseEntity.ok(Map.of(
 			"id",
-			this.insertCharacteristic.insertByDevice(deviceId, characteristic)
+			this.insertCharacteristicUseCase.insertByDevice(deviceId, characteristic)
 		));
 	}
 
@@ -77,7 +77,7 @@ public class AdminsCharacteristicsController {
 	 */
 	@GetMapping("")
 	public List<Characteristic> getCharacteristics(@PathVariable("deviceId") int deviceId) throws BusinessException {
-		return this.getCharacteristics.getByDevice(deviceId);
+		return this.getCharacteristicsUseCase.getByDevice(deviceId);
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class AdminsCharacteristicsController {
 		@RequestBody JsonNode body
 	) throws BusinessException {
 		boolean archived = body.get("archived").asBoolean();
-		this.updateCharacteristicArchiveStatus.updateCharacteristicArchiveStatus(new CharacteristicArchiveStatus(
+		this.updateCharacteristicArchiveStatusUseCase.updateCharacteristicArchiveStatus(new CharacteristicArchiveStatus(
 			characteristicId,
 			deviceId,
 			archived
@@ -136,7 +136,7 @@ public class AdminsCharacteristicsController {
 			toUpdateBuilder = toUpdateBuilder.withSampleSize(OptionalInt.of(body.get("sampleSize").asInt()));
 		}
 
-		this.updateCharacteristic.updateCharacteristic(toUpdateBuilder.build());
+		this.updateCharacteristicUseCase.updateCharacteristic(toUpdateBuilder.build());
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

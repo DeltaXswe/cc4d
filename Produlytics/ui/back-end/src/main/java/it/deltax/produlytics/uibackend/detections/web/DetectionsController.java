@@ -15,15 +15,15 @@ import java.util.OptionalLong;
 @RestController
 @RequestMapping("/devices/{deviceId}/characteristics/{characteristicId}/detections")
 public class DetectionsController {
-	private final GetDetectionsUseCase listDetectionsByCharacteristic;
+	private final GetDetectionsUseCase getDetectionsUseCase;
 
 	/**
 	 * Il costruttore
-	 * @param listDetectionsByCharacteristic l'interfaccia per il caso d'uso di ottenimento della lista delle
+	 * @param getDetectionsUseCase l'interfaccia per il caso d'uso di ottenimento della lista delle
 	 *                                       rilevazioni di una caratteristica
 	 */
-	public DetectionsController(GetDetectionsUseCase listDetectionsByCharacteristic) {
-		this.listDetectionsByCharacteristic = listDetectionsByCharacteristic;
+	public DetectionsController(GetDetectionsUseCase getDetectionsUseCase) {
+		this.getDetectionsUseCase = getDetectionsUseCase;
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class DetectionsController {
 		@RequestParam(value = "newerThan", required = false) Long newerThan,
 		@RequestParam(value = "limit", required = false) Integer limit
 	) throws BusinessException {
-		return this.listDetectionsByCharacteristic.listByCharacteristic(
+		return this.getDetectionsUseCase.listByCharacteristic(
 			deviceId, characteristicId, new DetectionFilters(
 			olderThan != null ? OptionalLong.of(olderThan) : OptionalLong.empty(),
 			newerThan != null ? OptionalLong.of(newerThan) : OptionalLong.empty(),

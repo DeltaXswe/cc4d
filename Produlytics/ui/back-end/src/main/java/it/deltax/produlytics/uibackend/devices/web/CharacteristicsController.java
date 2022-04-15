@@ -19,20 +19,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/devices/{id}/characteristics")
 public class CharacteristicsController {
-	private final GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristics;
-	private final GetLimitsUseCase getLimits;
+	private final GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristicsUseCase;
+	private final GetLimitsUseCase getLimitsUseCase;
 
 	/**
 	 * Il costruttore
-	 * @param getUnarchivedCharacteristics l'interfaccia per il caso d'uso di ottenimento delle caratteristiche non
-	 *                                     archiviate
-	 * @param getLimits l'interfaccia per il caso d'uso di ottenimento dei limiti tecnici di una caratteristica
+	 * @param getUnarchivedCharacteristicsUseCase l'interfaccia per il caso d'uso di ottenimento delle caratteristiche
+	 *                                               non archiviate
+	 * @param getLimitsUseCase l'interfaccia per il caso d'uso di ottenimento dei limiti tecnici di una caratteristica
 	 */
 	public CharacteristicsController(
-		GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristics, GetLimitsUseCase getLimits
+		GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristicsUseCase, GetLimitsUseCase getLimitsUseCase
 	) {
-		this.getUnarchivedCharacteristics = getUnarchivedCharacteristics;
-		this.getLimits = getLimits;
+		this.getUnarchivedCharacteristicsUseCase = getUnarchivedCharacteristicsUseCase;
+		this.getLimitsUseCase = getLimitsUseCase;
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class CharacteristicsController {
     ResponseEntity<List<CharacteristicTitle>> getUnarchivedCharacteristics(
         @PathVariable("id") int deviceId
     ) throws BusinessException {
-        return ResponseEntity.ok(this.getUnarchivedCharacteristics.getByDevice(deviceId));
+        return ResponseEntity.ok(this.getUnarchivedCharacteristicsUseCase.getByDevice(deviceId));
     }
 
 	/**
@@ -61,6 +61,6 @@ public class CharacteristicsController {
         @PathVariable("id") int deviceId,
         @PathVariable("characteristicId") int characteristicId
     ) throws BusinessException {
-        return ResponseEntity.ok(this.getLimits.getByCharacteristic(deviceId, characteristicId));
+        return ResponseEntity.ok(this.getLimitsUseCase.getByCharacteristic(deviceId, characteristicId));
     }
 }
