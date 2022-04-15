@@ -13,7 +13,6 @@ import it.deltax.produlytics.api.repositories.DetectionRepository;
 import it.deltax.produlytics.api.repositories.DeviceRepository;
 import it.deltax.produlytics.api.repositories.LimitsEntity;
 import it.deltax.produlytics.persistence.DetectionEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -28,12 +27,19 @@ public class DetectionsAdapter implements FindDeviceByApiKeyPort,
 	FindLimitsPort,
 	MarkOutlierPort
 {
-	@Autowired
-	private CharacteristicRepository characteristicRepository;
-	@Autowired
-	private DeviceRepository deviceRepository;
-	@Autowired
-	private DetectionRepository detectionRepository;
+	private final CharacteristicRepository characteristicRepository;
+	private final DeviceRepository deviceRepository;
+	private final DetectionRepository detectionRepository;
+
+	public DetectionsAdapter(
+		CharacteristicRepository characteristicRepository,
+		DeviceRepository deviceRepository,
+		DetectionRepository detectionRepository
+	) {
+		this.characteristicRepository = characteristicRepository;
+		this.deviceRepository = deviceRepository;
+		this.detectionRepository = detectionRepository;
+	}
 
 	@Override
 	public Optional<DeviceInfo> findDeviceByApiKey(String apiKey) {
