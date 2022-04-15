@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class PasswordMatcherAdapter implements PasswordMatcherPort {
-	@Autowired
 	private final EncoderConfig encoderConfig;
 
 
