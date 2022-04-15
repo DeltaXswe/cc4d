@@ -13,20 +13,20 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UpdateCharacteristicArchiveStatusService implements UpdateCharacteristicArchiveStatusUseCase {
-	private final FindDetailedCharacteristicPort findDetailedCharacteristicPort;
+	private final FindDetailedCharacteristicPort findCharacteristicPort;
 	private final UpdateCharacteristicPort updateCharacteristicPort;
 
 	/**
 	 * Il costruttore
-	 * @param findDetailedCharacteristicPort la porta per trovare una caratteristica completa di tutte le sue
+	 * @param findCharacteristicPort la porta per trovare una caratteristica completa di tutte le sue
 	 *                                       informazioni
 	 * @param updateCharacteristicPort la porta per modificare le informazioni di una caratteristica
 	 */
 	public UpdateCharacteristicArchiveStatusService(
-		FindDetailedCharacteristicPort findDetailedCharacteristicPort,
+		FindDetailedCharacteristicPort findCharacteristicPort,
 		UpdateCharacteristicPort updateCharacteristicPort
 	) {
-		this.findDetailedCharacteristicPort = findDetailedCharacteristicPort;
+		this.findCharacteristicPort = findCharacteristicPort;
 		this.updateCharacteristicPort = updateCharacteristicPort;
 	}
 
@@ -38,7 +38,7 @@ public class UpdateCharacteristicArchiveStatusService implements UpdateCharacter
 	@Override
 	public void updateCharacteristicArchiveStatus(CharacteristicArchiveStatus toUpdate) throws BusinessException {
 		updateCharacteristicPort.updateCharacteristic(
-			findDetailedCharacteristicPort.findByCharacteristic(toUpdate.deviceId(), toUpdate.id()).map(
+			findCharacteristicPort.findByCharacteristic(toUpdate.deviceId(), toUpdate.id()).map(
 				characteristic -> characteristic.toBuilder()
 					.withArchived(toUpdate.archived())
 					.build()

@@ -7,7 +7,7 @@ import it.deltax.produlytics.uibackend.admins.devices.business.domain.DetailedCh
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.NewCharacteristic;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindAllCharacteristicsPort;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindDetailedCharacteristicPort;
-import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertCharacteristicUseCase;
+import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertCharacteristicPort;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.UpdateCharacteristicPort;
 import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ import java.util.Optional;
  * L'adapter dello strato di persistenza per le operazioni svolte dagli amministratori sulle caratteristiche
  */
 @Component
-public class AdminCharacteristicAdapter implements FindDetailedCharacteristicPort, InsertCharacteristicUseCase,
+public class AdminCharacteristicAdapter implements FindDetailedCharacteristicPort, InsertCharacteristicPort,
 	FindAllCharacteristicsPort,
 	UpdateCharacteristicPort {
 	private final CharacteristicRepository repo;
