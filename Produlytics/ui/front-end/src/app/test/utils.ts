@@ -14,7 +14,7 @@ import {SaveAccountAbstractService} from "../model/admin-account/save-account-ab
 import {LoginService} from "../model/login/login.service";
 import {LoginAbstractService} from "../model/login/login-abstract.service";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {BehaviorSubject, Observable, Subject} from "rxjs";
+import {Observable, Subject} from "rxjs";
 
 export const testModules = [
   HttpClientTestingModule,
@@ -26,7 +26,6 @@ export const testModules = [
   MatToolbarModule,
   MatIconModule,
   MatFormFieldModule,
-  MatDialogModule,
   MatInputModule,
   MatCheckboxModule,
   MatSlideToggleModule
@@ -63,4 +62,10 @@ export class MockDialogRef<T> {
     return this._afterClosed;
   }
 
+}
+
+export class MockDialog {
+  open(_?: any, options?: any) {
+    return new MockDialogRef();
+  }
 }

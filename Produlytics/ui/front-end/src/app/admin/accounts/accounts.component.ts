@@ -37,7 +37,7 @@ export class AccountsComponent implements OnInit {
       if (reload) {
         this.initTable();
       }
-    })
+    });
   }
 
   openEditAccountDialog(account: Account): void {
