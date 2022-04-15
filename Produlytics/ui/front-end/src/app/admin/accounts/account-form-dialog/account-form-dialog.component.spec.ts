@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AccountFormDialogComponent } from './account-form-dialog.component';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Account} from "../../../model/admin-account/account";
-import {MockDialogRef, sleep, testModules} from "../../../test/utils";
+import {MockDialogRef, testModules} from "../../../test/utils";
 import {AccountSaveCommand} from "../../../model/admin-account/account-save-command";
 import {AppModule} from "../../../app.module";
 import {FakeAccountService} from "../../../test/account/fake-account.service";
@@ -22,12 +22,6 @@ const validSaveUser: AccountSaveCommand = {
   administrator: false,
   password: 'fossadeileoni'
 };
-
-const invalidUpdateValidInsertUser: AccountSaveCommand = {
-  username: 'clay',
-  administrator: true,
-  password: null
-}
 
 describe('AccountFormDialogComponent new mode', () => {
   let component: AccountFormDialogComponent;
@@ -94,7 +88,7 @@ describe('AccountFormDialogComponent new mode', () => {
     component.confirm();
   });
 
-  it('should not accept the data', () => {
+  it('should have duplicate username error', () => {
     component.formGroup.setValue({
       username: alice.username,
       administrator: false,
@@ -102,6 +96,17 @@ describe('AccountFormDialogComponent new mode', () => {
     });
     component.confirm();
     expect(component.formGroup.get('username')?.hasError('duplicateUsername'))
+      .toBeTrue();
+  })
+
+  it('should have invalid password error', () => {
+    component.formGroup.setValue({
+      username: 'carl',
+      administrator: false,
+      password: 'carl'
+    })
+    component.confirm();
+    expect(component.formGroup.get('password')?.hasError('invalidPassword'))
       .toBeTrue();
   })
 
@@ -114,6 +119,24 @@ describe('AccountFormDialogComponent new mode', () => {
       error: done.fail,
       complete: done
     })
+  })
+
+  it('should remove username error', () => {
+    component.formGroup.setValue({
+      username: 'alice',
+      administrator: false,
+      password: 'fossadeileoni'
+    });
+    component.confirm();
+    expect(component.formGroup.get('username')?.hasError('duplicateUsername'))
+      .toBeTrue();
+    component.formGroup.setValue({
+      username: 'alice1',
+      administrator: false,
+      password: 'fossadeileoni'
+    });
+    expect(component.formGroup.get('username')?.hasError('duplicateUsername'))
+      .toBeFalse();
   })
 });
 
@@ -159,12 +182,6 @@ describe('AccountFormDialogComponent edit mode', () => {
   });
 
   it('should update a user', async (done) => {
-    component.formGroup.setValue({
-      username: 'bob',
-      administrator: true,
-      password: 'banditi1899'
-    });
-    component.confirm();
     mockDialogRef.afterClosed().subscribe({
       next: value => {
         expect(value)
@@ -174,6 +191,41 @@ describe('AccountFormDialogComponent edit mode', () => {
       },
       error: done.fail
     });
+    component.formGroup.setValue({
+      username: 'bobby',
+      administrator: true,
+      password: 'banditi1899'
+    });
+    component.confirm();
+  })
+
+  it('should not find the user', () => {
+    component.formGroup.setValue({
+      username: 'Robert Paulsen',
+      administrator: false,
+      password: null
+    });
+    component.confirm();
+    expect(component.formGroup.get('username')?.hasError('userNotFound'))
+      .toBeTrue();
+  })
+
+  it('should enable and disable the toggle', () => {
+    component.toggleChangePassword({
+      checked: true,
+      // @ts-ignore
+      source: null
+    });
+    expect(component.formGroup.get('password')?.enabled)
+      .toBeTrue();
+    component.toggleChangePassword({
+      checked: false,
+      // @ts-ignore
+      source: null
+    });
+    expect(component.formGroup.get('password')?.disabled)
+      .toBeTrue();
+
   })
 });
 

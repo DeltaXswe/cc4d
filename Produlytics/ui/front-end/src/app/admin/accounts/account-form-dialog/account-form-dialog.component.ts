@@ -8,7 +8,6 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {AccountSaveCommand} from "../../../model/admin-account/account-save-command";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {LoginAbstractService} from "../../../model/login/login-abstract.service";
-import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-account-form-dialog',
@@ -55,12 +54,6 @@ export class AccountFormDialogComponent implements OnInit {
     if (this.editMode) {
       usernameField.disable();
     }
-    usernameField.valueChanges.subscribe(() => {
-      if (usernameField && usernameField.hasError('duplicateUsername')) {
-        usernameField.setErrors({ duplicateUsername: null });
-        usernameField.updateValueAndValidity();
-      }
-    });
   }
 
   cancel(): void {
@@ -106,11 +99,11 @@ export class AccountFormDialogComponent implements OnInit {
           this.matDialogRef.close(true);
         },
         error: (err: StandardError) => {
+          if (err.errorCode === 'invalidPassword') {
+            this.invalidPasswordError();
+          }
           if (err.errorCode === 'duplicateUsername') {
             this.formGroup.get('username')?.setErrors({duplicateUsername: true})
-          }
-          if (err.errorCode === 'invalidPassword') {
-            this.formGroup.get('password')?.setErrors({invalidPassword: true});
           }
         }
       });
@@ -127,10 +120,17 @@ export class AccountFormDialogComponent implements OnInit {
       },
       error: (err: StandardError) => {
         if (err.errorCode === 'invalidPassword') {
-          this.formGroup.get('password')?.setErrors({invalidPassword: true});
+          this.invalidPasswordError();
+        }
+        if (err.errorCode === 'userNotFound') {
+          this.formGroup.get('username')?.setErrors({userNotFound: true});
         }
       }
     });
+  }
+
+  private invalidPasswordError() {
+    this.formGroup.get('password')?.setErrors({invalidPassword: true});
   }
 
 }

@@ -34,6 +34,10 @@ class AccountEntity {
   }
 }
 
+const userNotFoundError = {
+  errorCode: 'userNotFound'
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -57,6 +61,11 @@ export class FakeAccountService implements
       username: 'bobby',
       administrator: false,
       archived: true
+    },
+    {
+      username: 'alice',
+      administrator: true,
+      archived: false
     }
   ].map(account => new AccountEntity(account));
 
@@ -74,7 +83,7 @@ export class FakeAccountService implements
       source.archived = true;
       return of({});
     } else {
-      return throwError('Utente non trovato');
+      return throwError(userNotFoundError);
     }
   }
 
@@ -84,11 +93,16 @@ export class FakeAccountService implements
       source.archived = false;
       return of({});
     } else {
-      return throwError('Utente non trovato');
+      return throwError(userNotFoundError);
     }
   }
 
   insertAccount(command: AccountSaveCommand): Observable<{ username: string }> {
+    if (!command.password || command.password.length < 6) {
+      return throwError({
+        errorCode: 'invalidPassword'
+      });
+    }
     if (this.accounts.find(account => account.username === command.username)) {
       return throwError({
         errorCode: 'duplicateUsername'
@@ -105,7 +119,7 @@ export class FakeAccountService implements
       source.update(command);
       return of({});
     } else {
-      return throwError('Utente non trovato');
+      return throwError(userNotFoundError);
     }
   }
 }
