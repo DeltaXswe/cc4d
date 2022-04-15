@@ -13,7 +13,7 @@ import java.util.stream.StreamSupport;
  * L'adapter dello strato di persistenza per le operazioni riguardanti le macchine
  */
 @Component
-public class DeviceAdapter implements GetUnarchivedDevicesPort {
+public class UnarchivedDeviceAdapter implements GetUnarchivedDevicesPort {
     private final DeviceRepository repo;
 
 
@@ -21,7 +21,7 @@ public class DeviceAdapter implements GetUnarchivedDevicesPort {
      * Il costruttore
      * @param repo lo strato di persistenza con i dati delle macchine
      */
-    public DeviceAdapter(DeviceRepository repo) {
+    public UnarchivedDeviceAdapter(DeviceRepository repo) {
         this.repo = repo;
     }
 
