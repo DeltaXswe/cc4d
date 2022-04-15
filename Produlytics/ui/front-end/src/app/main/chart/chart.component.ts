@@ -25,13 +25,9 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   limits!: Limits;
   private points: ChartPoint[] = [];
   private updateSubscription?: Subscription;
-  brushh!: d3.BrushBehavior<unknown>;
-  line!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
   xAxis: any;
   yAxis: any;
-  xScale2: any;
-  zooom:any;
-  ciao: string = 'fjdskjasljlkds'
+  
   constructor(
     private chartService: ChartAbstractService,
   ) { }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LoginAbstractService } from './login-abstract.service';
 import { LoginCommand } from './login-command';
@@ -18,10 +18,13 @@ export class LoginService implements LoginAbstractService{
     private cookieService: CookieService) { }
 
   login(command: LoginCommand): Observable<any>{
-    const header: object = new HttpHeaders()
-      .set('username', command.username)
-      .set('password', command.password)
-    return this.http.get('/login', header).pipe(
+    const httpOptions = {
+      headers: new HttpHeaders()
+        .set('Authorization', `Basic ${btoa(command.username + ':' + command.password)}`),
+      params: new HttpParams()
+        .set('remember-me', `${command.rememberMe}`)
+    };
+    return this.http.get('/login', httpOptions).pipe(
       tap((res: any) => {
         localStorage.setItem('accessToken', res);
         this.router.navigate(['/']);

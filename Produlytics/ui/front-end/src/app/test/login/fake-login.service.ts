@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { users } from './users';
 import { CookieService } from 'ngx-cookie-service';
 import { LoginCommand } from '../../model/login/login-command';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +24,13 @@ export class FakeLoginService implements LoginAbstractService {
         localStorage.setItem('accessToken', JSON.stringify(
           users.find(wow => wow.username === command.username))
         );
+        const httpOptions = {
+          headers: new HttpHeaders()
+            .set('Authorization', `Basic ${btoa(command.username + ':' + command.password)}`),
+          params: new HttpParams()
+            .set('remember-me', command.rememberMe)
+        };
+        console.log(httpOptions);
         if (command.rememberMe)
           this.cookieService.set('PRODULYTICS_RM', 'valore');
         this.router.navigate(['/']);

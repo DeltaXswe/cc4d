@@ -28,8 +28,7 @@ export class ModifyPwComponent implements OnInit {
       }, { validators: [this.checkPasswords]})}; 
 
   
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
   
   checkPasswords(control: AbstractControl){
       if (control){
@@ -63,9 +62,14 @@ export class ModifyPwComponent implements OnInit {
       .subscribe({next: () => this.matSnackBar.open('La password è stata cambiata', 'Undo', {
         duration: 3000
       }), 
-      error: () => this.matSnackBar.open('La password corrente è errata', 'Undo', {
+      error: (error) => {if (error.status == 401){
+      this.matSnackBar.open('La password corrente è errata', 'Undo', {
         duration: 3000
-      })});
+      })}else if (error.status == 400){
+        this.matSnackBar.open('La nuova password inserita non è valida', 'Undo', {
+          duration: 3000
+        })
+      }}});
     this.matDialogRef.close();
   }
 
