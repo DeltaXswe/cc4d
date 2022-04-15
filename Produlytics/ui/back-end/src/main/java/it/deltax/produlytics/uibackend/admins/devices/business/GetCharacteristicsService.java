@@ -14,14 +14,14 @@ import java.util.List;
  */
 @Service
 public class GetCharacteristicsService implements GetCharacteristicsUseCase {
-	private final FindAllCharacteristicsPort port;
+	private final FindAllCharacteristicsPort findCharacteristicsPort;
 
 	/**
 	 * Il costruttore
-	 * @param port la porta per ottenere la lista delle caratteristiche
+	 * @param findCharacteristicsPort la porta per ottenere la lista delle caratteristiche
 	 */
-	public GetCharacteristicsService(FindAllCharacteristicsPort port) {
-		this.port = port;
+	public GetCharacteristicsService(FindAllCharacteristicsPort findCharacteristicsPort) {
+		this.findCharacteristicsPort = findCharacteristicsPort;
 	}
 
 	/**
@@ -32,7 +32,7 @@ public class GetCharacteristicsService implements GetCharacteristicsUseCase {
 	 */
 	@Override
 	public List<Characteristic> getByDevice(int deviceId) throws BusinessException {
-		List<Characteristic> characteristics = port.findAllByDeviceId(deviceId);
+		List<Characteristic> characteristics = findCharacteristicsPort.findAllByDeviceId(deviceId);
 		if (characteristics.isEmpty())
 			throw new BusinessException("deviceNotFound", ErrorType.NOT_FOUND);
 
