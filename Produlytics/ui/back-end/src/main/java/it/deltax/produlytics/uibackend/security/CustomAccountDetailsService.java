@@ -8,12 +8,20 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
- * Il service per verificare se l'utente che sta eseguendo l'autentiazione esiste
+ * Il service per verificare se l'utente che sta eseguendo l'autenticazione esiste
  */
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomAccountDetailsService implements UserDetailsService {
 	@Autowired
-	AccountRepository repo;
+	private final AccountRepository repo;
+
+	/**
+	 * Il costruttore
+	 * @param repo lo strato di persistenza con i dati sugli utenti
+	 */
+	public CustomAccountDetailsService(AccountRepository repo) {
+		this.repo = repo;
+	}
 
 	/**
 	 * Resituisce se l'utente esiste oppure no
@@ -23,7 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return repo.findById(username).map(CustomUserDetails::new)
+		return repo.findById(username).map(CustomAccountDetails::new)
 			.orElseThrow(() -> new UsernameNotFoundException(("usernameNotFound")));
 	}
 }

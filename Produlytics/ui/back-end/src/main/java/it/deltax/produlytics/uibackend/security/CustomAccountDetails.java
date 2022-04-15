@@ -1,26 +1,22 @@
 package it.deltax.produlytics.uibackend.security;
 
 import it.deltax.produlytics.persistence.AccountEntity;
-import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Classe che rappresenta un utente in Spring Security
  */
-public class CustomUserDetails implements UserDetails {
-	private AccountEntity account;
+public class CustomAccountDetails implements UserDetails {
+	private final AccountEntity account;
 
 	/**
 	 * Il costruttore
 	 * @param account l'utente contenente tutte le sue informazioni
 	 */
-	public CustomUserDetails(AccountEntity account){
+	public CustomAccountDetails(AccountEntity account){
 		this.account = account;
 	}
 

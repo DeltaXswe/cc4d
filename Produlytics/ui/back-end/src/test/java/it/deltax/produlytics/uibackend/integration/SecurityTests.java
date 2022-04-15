@@ -2,7 +2,7 @@ package it.deltax.produlytics.uibackend.integration;
 
 import it.deltax.produlytics.persistence.AccountEntity;
 import it.deltax.produlytics.uibackend.repositories.AccountRepository;
-import it.deltax.produlytics.uibackend.security.CustomUserDetailsService;
+import it.deltax.produlytics.uibackend.security.CustomAccountDetailsService;
 import it.deltax.produlytics.uibackend.security.LoginController;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeAll;
@@ -36,7 +36,7 @@ public class SecurityTests {
 	private AccountRepository accountRepository;
 
 	@Autowired
-	private CustomUserDetailsService customUserDetailsService;
+	private CustomAccountDetailsService customUserDetailsService;
 
 	@Autowired
 	protected MockMvc mockMvc;
