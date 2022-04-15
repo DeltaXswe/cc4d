@@ -17,7 +17,7 @@ import java.util.List;
  * Il controller per le richieste effettuate relative alle caratteristiche non archiviate di una macchina non archiviata
  */
 @RestController
-@RequestMapping("/devices/{id}/characteristics")
+@RequestMapping("/devices/{deviceId}/characteristics")
 public class CharacteristicsController {
 	private final GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristicsUseCase;
 	private final GetLimitsUseCase getLimitsUseCase;
@@ -44,7 +44,7 @@ public class CharacteristicsController {
 	 */
     @GetMapping("")
     ResponseEntity<List<CharacteristicTitle>> getUnarchivedCharacteristics(
-        @PathVariable("id") int deviceId
+        @PathVariable("deviceId") int deviceId
     ) throws BusinessException {
         return ResponseEntity.ok(this.getUnarchivedCharacteristicsUseCase.getByDevice(deviceId));
     }
@@ -58,7 +58,7 @@ public class CharacteristicsController {
 	 */
 	@GetMapping("{characteristicId}/limits")
 	ResponseEntity<CharacteristicLimits> getCharacteristicLimits(
-        @PathVariable("id") int deviceId,
+        @PathVariable("deviceId") int deviceId,
         @PathVariable("characteristicId") int characteristicId
     ) throws BusinessException {
         return ResponseEntity.ok(this.getLimitsUseCase.getByCharacteristic(deviceId, characteristicId));
