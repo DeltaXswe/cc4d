@@ -19,7 +19,7 @@ public record Characteristic(
 	 * Fornisce il builder del record
 	 * @return un nuovo builder con <code>archived</code> inizializzato a <code>false</code> di default
 	 */
-	public static Characteristic.CharacteristicBuilder builder() {
+	public static CharacteristicBuilder builder() {
 		return new CharacteristicBuilder()
 			.withArchived(false);
 	}

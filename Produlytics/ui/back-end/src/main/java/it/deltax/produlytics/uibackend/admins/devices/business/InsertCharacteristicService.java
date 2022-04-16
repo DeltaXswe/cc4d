@@ -38,7 +38,7 @@ public class InsertCharacteristicService implements InsertCharacteristicUseCase 
 	/**
 	 * Inserisce una nuova caratteristica in una macchina
 	 * @param deviceId l'id della macchina
-	 * @param characteristic la caratteristica da inserire
+	 * @param characteristic la nuova caratteristica da inserire
 	 * @return l'id della nuova caratteristica
 	 * @throws BusinessException se la macchina non esiste, la caratteristica esiste già oppure i valori inseriti
 	 * non sono validi

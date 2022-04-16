@@ -31,7 +31,7 @@ public class UpdateCharacteristicArchiveStatusService implements UpdateCharacter
 	}
 
 	/**
-	 * Aggiorna lo stato di archiviazione di una caratteristica
+	 * Modifica lo stato di archiviazione di una caratteristica
 	 * @param toUpdate la caratteristica con lo stato di archiviazione aggiornato
 	 * @throws BusinessException se la caratteristica è inesistente
 	 */

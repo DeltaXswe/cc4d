@@ -5,5 +5,5 @@ import it.deltax.produlytics.uibackend.admins.devices.business.domain.Characteri
 import java.util.List;
 
 public interface FindAllCharacteristicsPort {
-	public List<Characteristic> findAllByDeviceId(int deviceId);
+	List<Characteristic> findAllByDeviceId(int deviceId);
 }
