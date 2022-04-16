@@ -4,5 +4,5 @@ import it.deltax.produlytics.uibackend.admins.devices.business.domain.NewCharact
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 
 public interface InsertCharacteristicUseCase {
-	public int insertByDevice(int deviceId, NewCharacteristic characteristic) throws BusinessException;
+	int insertByDevice(int deviceId, NewCharacteristic characteristic) throws BusinessException;
 }
