@@ -36,8 +36,9 @@ public class AdminsCharacteristicsController {
 	 * @param getCharacteristicsUseCase l'interfaccia per il caso d'uso di ottenimento della lista delle caratteristiche
 	 *                              di una macchina
 	 * @param updateCharacteristicArchiveStatusUseCase l'interfaccia per il caso d'uso di modifica dello stato di
-	 *                                             archiviazione di una caratteristica
-	 * @param updateCharacteristicUseCase l'interfaccia per il caso d'uso di modifica della caratteristica di una macchina
+	 *                                                    archiviazione della caratteristica di una macchina
+	 * @param updateCharacteristicUseCase l'interfaccia per il caso d'uso di modifica della caratteristica di una
+	 *                                      macchina
 	 */
 	AdminsCharacteristicsController(
 		InsertCharacteristicUseCase insertCharacteristicUseCase,
@@ -53,8 +54,8 @@ public class AdminsCharacteristicsController {
 
 	/**
 	 * Riceve le chiamate all'endpoint REST per l'inserimento di una nuova caratteristica nella macchina specificata
-	 * @param deviceId id della macchina in cui inserire la caratteristica
-	 * @param characteristic informazioni della nuova caratteristica
+	 * @param deviceId l'id della macchina
+	 * @param characteristic le informazioni della nuova caratteristica
 	 * @return l'id della caratteristica creata
 	 * @throws BusinessException se la caratteristica esiste già o la macchina è inesistente
 	 */
@@ -84,7 +85,7 @@ public class AdminsCharacteristicsController {
 	 * Riceve le chiamate all'endpoint REST per la modifica dello stato di archiviazione della caratteristica di
 	 * una macchina
 	 * @param deviceId l'id della macchina
-	 * @param characteristicId l'id della caratteristica da modifica
+	 * @param characteristicId l'id della caratteristica da modificare
 	 * @param body il corpo della richiesta HTTP
 	 * @return lo stato HTTP
 	 * @throws BusinessException se la caratteristica è inesistente
