@@ -1,5 +1,5 @@
 export interface ChartPoint {
-  createdAtUtc: number;
+  epoch: number;
   value: number;
   anomalous: boolean;
 }

@@ -49,14 +49,17 @@ import { CookieService } from 'ngx-cookie-service';
 import { DeviceSelectionComponent } from './main/device-selection/device-selection.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatTreeModule} from "@angular/material/tree";
+import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {
   UnarchivedCharacteristicAbstractService
 } from "./model/characteristic/unarchived-characteristic-abstract.service";
 import {UnarchivedDeviceAbstractService} from "./model/device/unarchived-device-abstract.service";
 import {MatGridListModule} from '@angular/material/grid-list';
+import { MatNativeDateModule } from '@angular/material/core';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DatePickerDialogComponent } from './main/date-picker-dialog/date-picker-dialog.component';
 
 @NgModule({
   declarations: [
@@ -68,13 +71,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ToolbarComponent,
     LoginComponent,
     ModifyPwComponent,
-    DeviceSelectionComponent
+    DeviceSelectionComponent,
+    DatePickerDialogComponent
   ],
   imports: [
     // angular
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     // flex style
     FlexModule,
     FlexLayoutModule,

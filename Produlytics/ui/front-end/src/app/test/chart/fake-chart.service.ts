@@ -24,52 +24,46 @@ export class FakeChartService implements ChartAbstractService {
 
   fakeInitialPoints2 = new BehaviorSubject<ChartPoint[]> ([
   {
-    createdAtUtc: 100,
+    epoch: 1650067200000,
     value: 300,
     anomalous: false
   },
   {
-    createdAtUtc: 110,
+    epoch: 1650067201000,
     value: 200,
     anomalous: false
   },
   {
-    createdAtUtc: 120,
+    epoch: 1650067202000,
     value: 240,
     anomalous: false
   },
   {
-    createdAtUtc: 130,
+    epoch: 1650067203000,
     value: 230,
     anomalous: false
   } ]);
   
   fakeInitialPoints3 = new BehaviorSubject<ChartPoint[]> ([{
-    createdAtUtc: 100,
+    epoch: 1650067200000,
     value: 400,
     anomalous: false
   },
   {
-    createdAtUtc: 110,
+    epoch: 1650067201000,
     value: 300,
     anomalous: false
   },
   {
-    createdAtUtc: 120,
+    epoch: 1650067202000,
     value: 340,
     anomalous: false
   },
   {
-    createdAtUtc: 130,
+    epoch: 1650067203000,
     value: 330,
     anomalous: false
   } ]);
-
-  fakePoints= new BehaviorSubject<ChartPoint[]> ([{
-    createdAtUtc: 140,
-    value: 320,
-    anomalous: true
-  }])
 
   constructor() { }
 
@@ -80,13 +74,13 @@ export class FakeChartService implements ChartAbstractService {
       return this.fakeInitialPoints3;
   }
 
-  getNextPoints(macchina: number, caratteristica: number, ultimo_utc: number): Observable<ChartPoint[]> {
-    let createdAtUtc: number = ultimo_utc+10;
+  getNextPoints(macchina: number, caratteristica: number, latestEpoch: number): Observable<ChartPoint[]> {
+    let epoch: number = latestEpoch+1000;
     let value: number = Math.floor(Math.random() * (500));
     value *= Math.round(Math.random()) ? 1 : -1;
     let anomalous: boolean = Math.random() < 0.5;
     const point: ChartPoint = {
-      createdAtUtc: createdAtUtc,
+      epoch: epoch,
       value: value,
       anomalous: anomalous
     }
@@ -98,6 +92,21 @@ export class FakeChartService implements ChartAbstractService {
       return this.fakeLimits2;
     else(deviceId == 3)
       return this.fakeLimits3;
+  }
+
+  getOldPoints(start: any, end: any): Observable<ChartPoint[]>{
+    let points: ChartPoint[] = [];
+    /* for (let i = Date.parse(start); i < Date.parse(end); i+= 1000){  commentato perchè è un ciclo grosso come una casa
+      let value: number = Math.floor(Math.random() * (500));
+      value *= Math.round(Math.random()) ? 1 : -1;
+      let point: ChartPoint = {
+        epoch: i,
+        value: value,
+        anomalous: false
+      }
+      points.push(point);
+    } */
+    return of(points);
   }
 
 }

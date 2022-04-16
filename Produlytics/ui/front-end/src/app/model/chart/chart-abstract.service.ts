@@ -17,4 +17,6 @@ export abstract class ChartAbstractService {
   ): Observable<ChartPoint[]>;
 
   abstract getLimits(deviceId: number, characteristicId: number): Observable<Limits>;
+
+  abstract getOldPoints(start: any, end: any): Observable<ChartPoint[]>;
 }

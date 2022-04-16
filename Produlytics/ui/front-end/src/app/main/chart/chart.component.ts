@@ -8,6 +8,8 @@ import { ChartPoint } from '../../model/chart/chart-point';
 import { ChartAbstractService } from "../../model/chart/chart-abstract.service";
 import { CharacteristicNode } from '../device-selection/selection-data-source/characteristic-node';
 import { Limits } from '../../model/chart/limits';
+import { MatDialog } from '@angular/material/dialog';
+import { DatePickerDialogComponent } from '../date-picker-dialog/date-picker-dialog.component';
 
 @Component({
   selector: 'app-chart',
@@ -30,6 +32,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   
   constructor(
     private chartService: ChartAbstractService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {}
@@ -52,7 +55,20 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     const svgHeight = parseInt(d3.select('.d3svg').style('height'), 10);
     return svgHeight - this.margin.top - this.margin.bottom;
   }
-
+  openDialog(){
+    const dialogRef = this.dialog.open(DatePickerDialogComponent);
+    dialogRef.afterClosed().subscribe(res => {
+      if (res){
+        this.updateSubscription?.unsubscribe();
+        this.clearChart();
+        this.chartService.getOldPoints(res.data.start, res.data.end)
+          .subscribe({
+            next: (points) => this.points = points
+          });
+        this.createChart();
+      }
+    });
+  }
   // TODO?: Muovi i metodi in una classe separata dove sono sicuro che svg sia inizializzato
   private svg!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
   private xScale!: d3.ScaleTime<number, number, never>;
@@ -98,6 +114,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   setupInitialPoints(deviceId: number, characteristicId: number) {
+    if (this.points.length == 0){
     this.chartService
       .getInitialPoints(deviceId, characteristicId)
       .subscribe((points) => {
@@ -105,6 +122,9 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
         this.drawChart();
         this.subscribeToUpdates();
       });
+    } else{
+      this.drawChart();
+    }
   }
 
   drawChart() {
@@ -121,7 +141,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     const [ymin, ymax] = d3.extent(points, (p) => p.value);
 
     this.xScale.domain(
-      d3.extent(points, (p) => p.createdAtUtc * 1000) as [number, number]
+      d3.extent(points, (p) => p.epoch) as [number, number]
     );
 
     this.yScale.domain([
@@ -138,7 +158,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     setGuideLine('.line-limite-min', this.yScale(this.limits.lowerLimit));
     setGuideLine('.line-limite-max', this.yScale(this.limits.upperLimit));
 
-    let xp = (p: ChartPoint) => this.xScale(p.createdAtUtc * 1000);
+    let xp = (p: ChartPoint) => this.xScale(p.epoch);
     let yp = (p: ChartPoint) => this.yScale(p.value);
     this.svg.select('.chart-path').datum(points).attr('d', d3.line(xp, yp));
     // TODO: Evidenzia i punti anomali
@@ -170,7 +190,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
           this.chartService.getNextPoints(
             this.currentNode.device.id,
             this.currentNode.id,
-            this.points[this.points.length - 1].createdAtUtc
+            this.points[this.points.length - 1].epoch
           )
         )
       )
@@ -179,5 +199,9 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
         this.points = this.points.slice(new_points.length);
         this.drawChart();
       });
+  }
+  clearChart(): void{
+    let svg = d3.select(`#d3svg${this.index}`);
+    svg.selectAll("*").remove();
   }
 }
