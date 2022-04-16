@@ -23,15 +23,6 @@ public class GetAccountsServiceTest {
 		service.getAccounts();
 	}
 
-	/**
-	 * Testa il caso in cui non ci sono degli utenti
-	 */
-	@Test
-	void testGetNoAccounts()  {
-		GetAccountsService service = new GetAccountsService(new GetNoAccountsPortMock());
-		service.getAccounts();
-	}
-
 	// CLASSI MOCK
 	static class GetAccountsPortMock implements GetAccountsPort {
 		@Override

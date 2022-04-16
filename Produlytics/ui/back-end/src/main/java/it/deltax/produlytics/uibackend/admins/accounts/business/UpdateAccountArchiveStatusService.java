@@ -7,6 +7,7 @@ import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.Update
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.UpdateAccountArchiveStatusUseCase;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,7 +25,7 @@ public class UpdateAccountArchiveStatusService implements UpdateAccountArchiveSt
 	 * @param updateAccountArchiveStatusPort la porta per aggiornare lo stato di archiviazione di un utente
 	 */
 	public UpdateAccountArchiveStatusService(
-		FindAccountPort findAccountPort,
+		@Qualifier("adminAccountAdapter") FindAccountPort findAccountPort,
 		UpdateAccountArchiveStatusPort updateAccountArchiveStatusPort) {
 		this.findAccountPort = findAccountPort;
 		this.updateAccountArchiveStatusPort = updateAccountArchiveStatusPort;

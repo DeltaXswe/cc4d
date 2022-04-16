@@ -18,6 +18,10 @@ import java.util.Optional;
  * Test di unità della classe UpdateAccountPasswordService
  */
 public class UpdateAccountPasswordServiceTest {
+	/**
+	 * Testa il caso in cui la nuova password non è valida
+	 * @throws BusinessException la nuova password non è valida
+	 */
 	@Test
 	void testNewPasswordNotValid() throws BusinessException {
 		AccountPasswordToUpdate account = new AccountPasswordToUpdate(
@@ -34,6 +38,10 @@ public class UpdateAccountPasswordServiceTest {
 		assert exception.getType() == ErrorType.GENERIC;
 	}
 
+	/**
+	 * Testa il caso in cui la password corrente è sbagliata
+	 * @throws BusinessException la password corrente è sbagliata
+	 */
 	@Test
 	void testWrongCurrentPassword() throws BusinessException {
 		AccountPasswordToUpdate account = new AccountPasswordToUpdate(
@@ -50,6 +58,10 @@ public class UpdateAccountPasswordServiceTest {
 		assert exception.getType() == ErrorType.AUTHENTICATION;
 	}
 
+	/**
+	 * Testa il caso in cui l'utente non è stato trovato
+	 * @throws BusinessException l'utente non è stato trovato
+	 */
 	@Test
 	void testAccountNotFound() throws BusinessException {
 		AccountPasswordToUpdate account = new AccountPasswordToUpdate(
@@ -67,6 +79,10 @@ public class UpdateAccountPasswordServiceTest {
 		assert exception.getType() == ErrorType.NOT_FOUND;
 	}
 
+	/**
+	 * Testa il caso in cui l'aggiornamento avviene correttamente
+	 * @throws BusinessException
+	 */
 	@Test
 	void testOk() throws BusinessException {
 		AccountPasswordToUpdate account = new AccountPasswordToUpdate(

@@ -28,7 +28,7 @@ public class UpdateAccountByAdminService implements UpdateAccountByAdminUseCase 
 	 * @param updateAccountByAdminPort la porta usata da un amministratore per aggiornare un utente
 	 */
 	public UpdateAccountByAdminService(
-		FindAccountPort findAccountPort,
+		@Qualifier("adminAccountAdapter") FindAccountPort findAccountPort,
 		@Qualifier("passwordEncoderAdapter") PasswordEncoderPort passwordEncoderPort,
 		UpdateAccountByAdminPort updateAccountByAdminPort){
 		this.findAccountPort = findAccountPort;

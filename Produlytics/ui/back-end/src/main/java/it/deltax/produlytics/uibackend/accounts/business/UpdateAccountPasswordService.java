@@ -9,6 +9,7 @@ import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordMatch
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.UpdateAccountPasswordPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,7 +27,7 @@ public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCas
      * @param updateAccountPasswordPort la porta per aggiornare la password di un utente
      */
     public UpdateAccountPasswordService(
-            FindAccountPort findAccountPort,
+            @Qualifier("accountAdapter") FindAccountPort findAccountPort,
             PasswordMatcherPort passwordMatcherPort,
             PasswordEncoderPort passwordEncoderPort,
             UpdateAccountPasswordPort updateAccountPasswordPort

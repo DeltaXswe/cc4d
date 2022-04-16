@@ -29,7 +29,7 @@ public class InsertAccountService implements InsertAccountUseCase {
 	 * @param insertAccountPort la porta per memorizzare un utente
 	 */
 	public InsertAccountService(
-		FindAccountPort findAccountPort,
+		@Qualifier("adminAccountAdapter") FindAccountPort findAccountPort,
 		@Qualifier("passwordEncoderAdapter") PasswordEncoderPort passwordEncoderPort,
 		InsertAccountPort insertAccountPort
 	){
