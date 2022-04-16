@@ -5,7 +5,7 @@ import java.util.OptionalLong;
 
 /**
  * <p>Record che rappresenta una lista di rilevazioni
- * <p>Fornisce anche timestamp per ottenere le liste delle rilevazioni più vecchie o più nuove in una nuova richiesta
+ * <p>Fornisce anche timestamp per ottenere le liste delle rilevazioni più vecchie o più recenti in una nuova richiesta
  */
 public record Detections(
 	List<Detection> detections, OptionalLong nextOld, long nextNew

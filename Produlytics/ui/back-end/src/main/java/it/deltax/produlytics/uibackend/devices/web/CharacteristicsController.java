@@ -27,6 +27,7 @@ public class CharacteristicsController {
 	 * @param getUnarchivedCharacteristicsUseCase l'interfaccia per il caso d'uso di ottenimento delle caratteristiche
 	 *                                               non archiviate
 	 * @param getLimitsUseCase l'interfaccia per il caso d'uso di ottenimento dei limiti tecnici di una caratteristica
+	 *                         non archiviata
 	 */
 	public CharacteristicsController(
 		GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristicsUseCase, GetLimitsUseCase getLimitsUseCase

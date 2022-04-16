@@ -44,10 +44,10 @@ public class UnarchivedCharacteristicAdapter implements FindAllUnarchivedCharact
     }
 
     /**
-     * Restituisce la caratteristica non archiviata di una macchina con un dato id
+     * Restituisce i limiti tecnci della caratteristica non archiviata di una macchina
      * @param deviceId l'id della macchina
      * @param characteristicId l'id della caratteristica
-     * @return la caratteristica, se esiste
+     * @return i limiti della caratteristica, se esiste
      */
     @Override
     public Optional<CharacteristicLimits> findByCharacteristic(int deviceId, int characteristicId) {

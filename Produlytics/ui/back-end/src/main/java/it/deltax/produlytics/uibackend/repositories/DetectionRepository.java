@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Repository
 public interface DetectionRepository extends CrudRepository<DetectionEntity, DetectionEntityId> {
-	@Query(value="""
+	@Query(value = """
 		select d
 		from DetectionEntity d
 		where d.id.deviceId = :deviceId

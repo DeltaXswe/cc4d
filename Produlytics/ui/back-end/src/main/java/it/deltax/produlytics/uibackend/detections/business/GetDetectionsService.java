@@ -42,7 +42,7 @@ public class GetDetectionsService implements GetDetectionsUseCase {
 	 * applicando i filtri richiesti
 	 * @param deviceId l'id della macchina
 	 * @param characteristicId l'id della caratteristica
-	 * @param filters i filtri richiesti
+	 * @param filters i filtri di ricerca richiesti
 	 * @return la lisa di rilevazioni, con i timestamp utili per altre richieste
 	 * @throws BusinessException se la caratteristica è inesistente o è archiviata
 	 */

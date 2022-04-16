@@ -30,7 +30,7 @@ public class GetLimitsService implements GetLimitsUseCase {
     }
 
     /**
-     * Restituisce i limiti tecnici di un caratteristica non archiviata con il dato id
+     * Restituisce i limiti tecnici di un caratteristica non archiviata
      * @param deviceId l'id della macchina
      * @param characteristicId l'id della caratteristica
      * @return i limiti tecnici della caratteristica
