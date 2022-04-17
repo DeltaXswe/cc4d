@@ -24,11 +24,11 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input()
   index: number = 0;
 
-  limits!: Limits;
+  private limits!: Limits;
   private points: ChartPoint[] = [];
   private updateSubscription?: Subscription;
-  xAxis: any;
-  yAxis: any;
+  private xAxis!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
+  private yAxis!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
   
   constructor(
     private chartService: ChartAbstractService,
@@ -80,7 +80,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
         .append('svg')
         .append('g')
         .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
-
+    let xxx = document.querySelector('.chart-container');
       this.xScale = d3.scaleTime().range([0, this.chartWidth]);
       this.yScale = d3.scaleLinear().range([this.chartHeight, 0]);
 

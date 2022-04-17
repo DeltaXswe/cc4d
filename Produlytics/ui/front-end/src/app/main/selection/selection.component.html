@@ -3,9 +3,11 @@
     <app-device-selection (devicesChanged)="onSubmit($event)"></app-device-selection>
   </mat-sidenav>
   <mat-sidenav-content class="deltax-content">
-    <mat-grid-list cols="2" rowHeight="300px">
+    <mat-grid-list cols="2" rowHeight="{{height}}">
       <mat-grid-tile *ngFor="let tile of characteristics; let i = index" [colspan]="this.colspan" [rowspan]="this.rowspan">
-        <app-chart [currentNode] = tile [index] = i></app-chart>
+        <div class="chart-container">
+          <app-chart [currentNode] = tile [index] = i></app-chart>
+        </div>
       </mat-grid-tile>
     </mat-grid-list>
   </mat-sidenav-content>

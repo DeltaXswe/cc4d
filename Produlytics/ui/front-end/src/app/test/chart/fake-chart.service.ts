@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ChartAbstractService } from "../../model/chart/chart-abstract.service";
 import { BehaviorSubject, Observable, of } from "rxjs";
-import { CharacteristicInfo } from "../../model/chart/characteristic-info";
 import { ChartPoint } from "../../model/chart/chart-point";
 import { Limits } from '../../model/chart/limits';
 
@@ -96,7 +95,7 @@ export class FakeChartService implements ChartAbstractService {
 
   getOldPoints(start: any, end: any): Observable<ChartPoint[]>{
     let points: ChartPoint[] = [];
-    /* for (let i = Date.parse(start); i < Date.parse(end); i+= 1000){  commentato perchè è un ciclo grosso come una casa
+     for (let i = Date.parse(start); i < Date.parse(start)+100000; i+= 1000){  //commentato perchè è un ciclo grosso come una casa
       let value: number = Math.floor(Math.random() * (500));
       value *= Math.round(Math.random()) ? 1 : -1;
       let point: ChartPoint = {
@@ -105,7 +104,7 @@ export class FakeChartService implements ChartAbstractService {
         anomalous: false
       }
       points.push(point);
-    } */
+    } 
     return of(points);
   }
 
