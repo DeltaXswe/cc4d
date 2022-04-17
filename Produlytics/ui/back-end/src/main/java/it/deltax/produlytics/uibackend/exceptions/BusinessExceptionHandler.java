@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Cattura le eccezioni e ritorna un messaggio di errore appropiato
@@ -18,9 +18,8 @@ public class BusinessExceptionHandler {
 	 * @return il messaggio di errore e lo stato HTTP
 	 */
 	@ExceptionHandler(BusinessException.class)
-	ResponseEntity<HashMap<String, String>> handleStatusException(BusinessException exception) {
-		var error = new HashMap<String, String>();
-		error.put("errorCode", exception.getMessage());
+	ResponseEntity<Map<String, String>> handleStatusException(BusinessException exception) {
+		var error = Map.of("errorCode", exception.getMessage());
 
 		HttpStatus httpStatus = switch(exception.getType()) {
 			case GENERIC -> HttpStatus.BAD_REQUEST;
