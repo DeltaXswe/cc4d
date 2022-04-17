@@ -1,6 +1,6 @@
 package it.deltax.produlytics.uibackend.unit;
 
-import it.deltax.produlytics.uibackend.admins.devices.business.UpdateDeviceArchiveStatusService;
+import it.deltax.produlytics.uibackend.admins.devices.business.services.UpdateDeviceArchiveStatusService;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.DetailedDevice;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.DeviceArchiveStatus;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindDetailedDevicePort;

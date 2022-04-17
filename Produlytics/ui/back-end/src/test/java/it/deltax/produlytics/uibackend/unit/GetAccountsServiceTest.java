@@ -1,7 +1,7 @@
 package it.deltax.produlytics.uibackend.unit;
 
-import it.deltax.produlytics.uibackend.accounts.business.domain.AccountTiny;
-import it.deltax.produlytics.uibackend.admins.accounts.business.GetAccountsService;
+import it.deltax.produlytics.uibackend.accounts.business.domain.TinyAccount;
+import it.deltax.produlytics.uibackend.admins.accounts.business.services.GetAccountsService;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.GetAccountsPort;
 import org.junit.jupiter.api.Test;
 
@@ -26,16 +26,16 @@ public class GetAccountsServiceTest {
 	// CLASSI MOCK
 	static class GetAccountsPortMock implements GetAccountsPort {
 		@Override
-		public List<AccountTiny> getAccounts() {
-			AccountTiny account1 = new AccountTiny("user1", false, false);
-			AccountTiny account2 = new AccountTiny("user2", false, false);
-			return new ArrayList<AccountTiny>(Arrays.asList(account1, account2));
+		public List<TinyAccount> getAccounts() {
+			TinyAccount account1 = new TinyAccount("user1", false, false);
+			TinyAccount account2 = new TinyAccount("user2", false, false);
+			return new ArrayList<TinyAccount>(Arrays.asList(account1, account2));
 		}
 	}
 
 	static class GetNoAccountsPortMock implements GetAccountsPort{
 		@Override
-		public List<AccountTiny> getAccounts() {
+		public List<TinyAccount> getAccounts() {
 			return null;
 		}
 	}

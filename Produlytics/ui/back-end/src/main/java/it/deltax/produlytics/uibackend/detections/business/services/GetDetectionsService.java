@@ -1,4 +1,4 @@
-package it.deltax.produlytics.uibackend.detections.business;
+package it.deltax.produlytics.uibackend.detections.business.services;
 
 import it.deltax.produlytics.uibackend.detections.business.domain.Detection;
 import it.deltax.produlytics.uibackend.detections.business.domain.DetectionFilters;

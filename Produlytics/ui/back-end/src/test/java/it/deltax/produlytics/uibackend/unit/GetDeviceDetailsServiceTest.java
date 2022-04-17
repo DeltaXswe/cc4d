@@ -1,6 +1,6 @@
 package it.deltax.produlytics.uibackend.unit;
 
-import it.deltax.produlytics.uibackend.admins.devices.business.GetDeviceDetailsService;
+import it.deltax.produlytics.uibackend.admins.devices.business.services.GetDeviceDetailsService;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.DetailedDevice;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindDetailedDevicePort;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
@@ -14,10 +14,7 @@ import java.util.Optional;
  * Test di unità della classe GetDeviceDetailsService
  */
 public class GetDeviceDetailsServiceTest {
-	/**
-	 * Testa il caso in cui la macchina non sia stata trovata
-	 * @throws BusinessException la macchina non è stata trovata
-	 */
+
 	@Test
 	void testDeviceNotFound() throws BusinessException {
 		GetDeviceDetailsService service = new GetDeviceDetailsService(

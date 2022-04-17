@@ -2,7 +2,7 @@ package it.deltax.produlytics.uibackend.unit;
 
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
-import it.deltax.produlytics.uibackend.admins.accounts.business.UpdateAccountArchiveStatusService;
+import it.deltax.produlytics.uibackend.admins.accounts.business.services.UpdateAccountArchiveStatusService;
 import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountArchiveStatus;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.UpdateAccountArchiveStatusPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;

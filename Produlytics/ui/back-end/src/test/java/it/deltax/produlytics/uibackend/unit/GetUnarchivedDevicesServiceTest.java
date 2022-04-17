@@ -1,6 +1,6 @@
 package it.deltax.produlytics.uibackend.unit;
 
-import it.deltax.produlytics.uibackend.devices.business.GetUnarchivedDevicesService;
+import it.deltax.produlytics.uibackend.devices.business.services.GetUnarchivedDevicesService;
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.GetUnarchivedDevicesPort;
 import org.junit.jupiter.api.Test;

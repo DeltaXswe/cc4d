@@ -1,4 +1,4 @@
-package it.deltax.produlytics.uibackend.devices.business;
+package it.deltax.produlytics.uibackend.devices.business.services;
 
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicLimits;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetLimitsUseCase;

@@ -1,4 +1,4 @@
-package it.deltax.produlytics.uibackend.admins.devices.business;
+package it.deltax.produlytics.uibackend.admins.devices.business.services;
 
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.DeviceDeactivateStatus;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.in.UpdateDeviceDeactivateStatusUseCase;

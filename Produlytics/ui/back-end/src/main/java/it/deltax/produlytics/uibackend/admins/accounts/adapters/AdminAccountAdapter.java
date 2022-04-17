@@ -2,7 +2,7 @@ package it.deltax.produlytics.uibackend.admins.accounts.adapters;
 
 import it.deltax.produlytics.persistence.AccountEntity;
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
-import it.deltax.produlytics.uibackend.accounts.business.domain.AccountTiny;
+import it.deltax.produlytics.uibackend.accounts.business.domain.TinyAccount;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.GetAccountsPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.InsertAccountPort;
@@ -100,10 +100,10 @@ public class AdminAccountAdapter implements UpdateAccountArchiveStatusPort,
 	 * @return la lista degli utenti, ciascuno con username, permessi e stato di archiviazione
 	 */
 	@Override
-	public List<AccountTiny> getAccounts() {
+	public List<TinyAccount> getAccounts() {
 		return StreamSupport.stream(this.repo.findAll().spliterator(), false)
 			.map(account ->
-				new AccountTiny(account.getUsername(), account.getAdministrator(), account.getArchived())
+				new TinyAccount(account.getUsername(), account.getAdministrator(), account.getArchived())
 			)
 			.collect(Collectors.toList());
 	}

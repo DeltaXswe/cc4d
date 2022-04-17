@@ -1,6 +1,6 @@
 package it.deltax.produlytics.uibackend.unit;
 
-import it.deltax.produlytics.uibackend.admins.devices.business.UpdateDeviceNameService;
+import it.deltax.produlytics.uibackend.admins.devices.business.services.UpdateDeviceNameService;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.DetailedDevice;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindDetailedDevicePort;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.UpdateDeviceNamePort;

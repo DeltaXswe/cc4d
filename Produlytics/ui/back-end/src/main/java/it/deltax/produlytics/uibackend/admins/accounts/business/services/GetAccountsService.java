@@ -1,6 +1,6 @@
-package it.deltax.produlytics.uibackend.admins.accounts.business;
+package it.deltax.produlytics.uibackend.admins.accounts.business.services;
 
-import it.deltax.produlytics.uibackend.accounts.business.domain.AccountTiny;
+import it.deltax.produlytics.uibackend.accounts.business.domain.TinyAccount;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.GetAccountsPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.GetAccountsUseCase;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class GetAccountsService implements GetAccountsUseCase {
 	 * @return la lista degli utenti
 	 */
 	@Override
-	public List<AccountTiny> getAccounts() {
+	public List<TinyAccount> getAccounts() {
 		return this.getAccountsPort.getAccounts();
 	}
 }

@@ -1,5 +1,6 @@
-package it.deltax.produlytics.uibackend.admins.devices.business;
+package it.deltax.produlytics.uibackend.admins.devices.business.services;
 
+import it.deltax.produlytics.uibackend.admins.devices.business.CharacteristicConstraints;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.CharacteristicConstraintsToCheck;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.NewCharacteristic;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.in.InsertCharacteristicUseCase;

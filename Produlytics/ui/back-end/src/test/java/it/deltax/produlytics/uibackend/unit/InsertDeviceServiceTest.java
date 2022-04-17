@@ -1,7 +1,7 @@
 package it.deltax.produlytics.uibackend.unit;
 
 import it.deltax.produlytics.uibackend.admins.devices.business.CreateDevice;
-import it.deltax.produlytics.uibackend.admins.devices.business.InsertDeviceService;
+import it.deltax.produlytics.uibackend.admins.devices.business.services.InsertDeviceService;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.DeviceToInsert;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.NewCharacteristic;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.NewDevice;

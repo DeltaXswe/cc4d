@@ -1,4 +1,4 @@
-package it.deltax.produlytics.uibackend.admins.accounts.business;
+package it.deltax.produlytics.uibackend.admins.accounts.business.services;
 
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
 import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountArchiveStatus;

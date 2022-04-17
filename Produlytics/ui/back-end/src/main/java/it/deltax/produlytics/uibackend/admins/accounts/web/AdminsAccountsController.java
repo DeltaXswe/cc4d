@@ -2,7 +2,7 @@ package it.deltax.produlytics.uibackend.admins.accounts.web;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import it.deltax.produlytics.uibackend.accounts.business.domain.AccountDataToUpdate;
-import it.deltax.produlytics.uibackend.accounts.business.domain.AccountTiny;
+import it.deltax.produlytics.uibackend.accounts.business.domain.TinyAccount;
 import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountArchiveStatus;
 import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountToInsert;
 import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountUpdatedByAdmin;
@@ -71,7 +71,7 @@ public class AdminsAccountsController {
 	 * @return la lista degli utenti
 	 */
 	@GetMapping("/accounts")
-	public ResponseEntity<List<AccountTiny>> getAccounts() {
+	public ResponseEntity<List<TinyAccount>> getAccounts() {
 		return ResponseEntity.ok(this.getAccountsUseCase.getAccounts());
 	}
 

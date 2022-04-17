@@ -1,9 +1,8 @@
 package it.deltax.produlytics.uibackend.unit;
 
-import it.deltax.produlytics.uibackend.admins.devices.business.GetDevicesService;
+import it.deltax.produlytics.uibackend.admins.devices.business.services.GetDevicesService;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.Device;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.GetDevicesPort;
-import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

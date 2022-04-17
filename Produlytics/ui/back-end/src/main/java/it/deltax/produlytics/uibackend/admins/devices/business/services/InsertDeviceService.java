@@ -1,5 +1,6 @@
-package it.deltax.produlytics.uibackend.admins.devices.business;
+package it.deltax.produlytics.uibackend.admins.devices.business.services;
 
+import it.deltax.produlytics.uibackend.admins.devices.business.CreateDevice;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.NewCharacteristic;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.in.InsertCharacteristicUseCase;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertCharacteristicPort;

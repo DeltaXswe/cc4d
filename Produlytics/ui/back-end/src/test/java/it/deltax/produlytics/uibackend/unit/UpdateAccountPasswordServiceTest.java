@@ -1,6 +1,6 @@
 package it.deltax.produlytics.uibackend.unit;
 
-import it.deltax.produlytics.uibackend.accounts.business.UpdateAccountPasswordService;
+import it.deltax.produlytics.uibackend.accounts.business.services.UpdateAccountPasswordService;
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
 import it.deltax.produlytics.uibackend.accounts.business.domain.AccountPasswordToUpdate;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
