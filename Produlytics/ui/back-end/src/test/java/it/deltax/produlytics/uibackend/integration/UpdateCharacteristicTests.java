@@ -122,7 +122,7 @@ public class UpdateCharacteristicTests {
 	}
 
 	/**
-	 * Testa la modifica di una caratteristica archiviata impostando l'autoAdjust
+	 * Testa la modifica di una caratteristica impostando l'autoAdjust
 	 * @throws Exception se la caratteristica non esiste, verrebbe duplicata dopo la modifica, vengono inseriti dei
 	 * valori non validi o la caratteristica non viene modificata correttamente
 	 */
@@ -132,6 +132,33 @@ public class UpdateCharacteristicTests {
 			.put("name", "frequenza")
 			.put("autoAdjust", true)
 			.put("sampleSize", 10);
+
+		this.mockMvc.perform(put("/admin/devices/" + deviceId + "/characteristics/" + characteristicId)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(body.toString())
+				.characterEncoding("utf-8")
+			)
+			.andDo(print())
+			.andExpect(status().isNoContent());
+
+		CharacteristicEntity characteristic = this.characteristicRepository
+			.findById(new CharacteristicEntityId(deviceId, characteristicId)).get();
+
+		assertThat(characteristic.getName()).isEqualTo("frequenza");
+		assertThat(characteristic.getAutoAdjust()).isEqualTo(true);
+		assertThat(characteristic.getSampleSize()).isEqualTo(10);
+	}
+
+	/**
+	 * Testa la modifica di una caratteristica archiviata
+	 * @throws Exception se la caratteristica non esiste, verrebbe duplicata dopo la modifica, vengono inseriti dei
+	 * valori non validi o la caratteristica non viene modificata correttamente
+	 */
+	@Test
+	void updateArchivedCharacteristic() throws Exception {
+		JSONObject body = new JSONObject()
+			.put("name", "frequenza")
+			.put("autoAdjust", false);
 
 		this.mockMvc.perform(put(
 			"/admin/devices/" + deviceId + "/characteristics/" + archivedCharacteristicId
@@ -147,8 +174,7 @@ public class UpdateCharacteristicTests {
 			.findById(new CharacteristicEntityId(deviceId, archivedCharacteristicId)).get();
 
 		assertThat(characteristic.getName()).isEqualTo("frequenza");
-		assertThat(characteristic.getAutoAdjust()).isEqualTo(true);
-		assertThat(characteristic.getSampleSize()).isEqualTo(10);
+		assertThat(characteristic.getAutoAdjust()).isEqualTo(false);
 		assertThat(characteristic.getArchived()).isEqualTo(true);
 	}
 

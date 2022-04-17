@@ -206,19 +206,20 @@ public class DetectionsTests {
 	}
 
 	/**
-	 * Testa l'ottenimento delle rilevazioni di una caratteristica con olderThan e newerThan
+	 * Testa l'ottenimento delle rilevazioni di una caratteristica meno recenti di un determinato istante
 	 * @throws Exception se la caratteristica è inesistente, archiviata o si ottiene un risultato diverso da
 	 * quello atteso
 	 */
 	@Test
-	void getWithOlderAndNewer() throws Exception {
+	void getWithOlder() throws Exception {
 		JSONArray detections = new JSONArray()
+			.put(detection1)
 			.put(detection2)
 			.put(detection3);
 
 		JSONObject response = new JSONObject()
 			.put("detections", detections)
-			.put("nextOld", 2)
+			.put("nextOld", null)
 			.put("nextNew", 3);
 
 		this.mockMvc.perform(get(
@@ -226,7 +227,36 @@ public class DetectionsTests {
 					+ deviceId
 					+ "/characteristics/"
 					+ characteristicId
-					+ "/detections?newerThan=1&olderThan=4"
+					+ "/detections?olderThan=4"
+			))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(content().json(response.toString()));
+	}
+
+	/**
+	 * Testa l'ottenimento delle rilevazioni di una caratteristica più recenti di un determinato istante
+	 * @throws Exception se la caratteristica è inesistente, archiviata o si ottiene un risultato diverso da
+	 * quello atteso
+	 */
+	@Test
+	void getWithNewer() throws Exception {
+		JSONArray detections = new JSONArray()
+			.put(detection2)
+			.put(detection3)
+			.put(detection4);
+
+		JSONObject response = new JSONObject()
+			.put("detections", detections)
+			.put("nextOld", 2)
+			.put("nextNew", 4);
+
+		this.mockMvc.perform(get(
+				"/devices/"
+					+ deviceId
+					+ "/characteristics/"
+					+ characteristicId
+					+ "/detections?newerThan=1"
 			))
 			.andDo(print())
 			.andExpect(status().isOk())

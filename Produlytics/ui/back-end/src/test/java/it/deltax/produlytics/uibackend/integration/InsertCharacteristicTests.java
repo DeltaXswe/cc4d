@@ -106,6 +106,28 @@ public class InsertCharacteristicTests {
 	}
 
 	/**
+	 * Testa il corretto inserimento di una nuova caratteristica senza autoAdjust
+	 * @throws Exception se l'inserimento non va a buon fine
+	 */
+	@Test
+	void insertCharacteristicWithNoAutoAdjustAndLimits() throws Exception {
+		JSONObject body = new JSONObject()
+			.put("name", "pressione")
+			.put("upperLimit", 98d)
+			.put("lowerLimit", -13d)
+			.put("autoAdjust", "false")
+			.put("archived", "false");
+
+		this.mockMvc.perform(post("/admin/devices/" + deviceId + "/characteristics")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(body.toString())
+				.characterEncoding("utf-8")
+			)
+			.andDo(print())
+			.andExpect(status().isOk());
+	}
+
+	/**
 	 * Testa il corretto inserimento di una nuova caratteristica con autoAdjust e senza limiti tecnici
 	 * @throws Exception se l'inserimento non va a buon fine
 	 */
@@ -140,28 +162,6 @@ public class InsertCharacteristicTests {
 	}
 
 	/**
-	 * Testa il corretto inserimento di una nuova caratteristica senza autoAdjust
-	 * @throws Exception se l'inserimento non va a buon fine
-	 */
-	@Test
-	void insertCharacteristicWithNoAutoAdjustAndLimits() throws Exception {
-		JSONObject body = new JSONObject()
-			.put("name", "pressione")
-			.put("upperLimit", 98d)
-			.put("lowerLimit", -13d)
-			.put("autoAdjust", "false")
-			.put("archived", "false");
-
-		this.mockMvc.perform(post("/admin/devices/" + deviceId + "/characteristics")
-			.contentType(MediaType.APPLICATION_JSON)
-			.content(body.toString())
-			.characterEncoding("utf-8")
-		)
-			.andDo(print())
-			.andExpect(status().isOk());
-	}
-
-	/**
 	 * Testa l'inserimento di una nuova caratteristica senza autoAdjust e senza limiti tecnici
 	 * @throws Exception non viene rilevato l'errore
 	 */
@@ -172,13 +172,17 @@ public class InsertCharacteristicTests {
 			.put("autoAdjust", "false")
 			.put("archived", "false");
 
+		JSONObject response = new JSONObject()
+			.put("errorCode", "invalidValues");
+
 		this.mockMvc.perform(post("/admin/devices/" + deviceId + "/characteristics")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(body.toString())
 				.characterEncoding("utf-8")
 			)
 			.andDo(print())
-			.andExpect(status().isBadRequest());
+			.andExpect(status().isBadRequest())
+			.andExpect(content().json(response.toString()));
 	}
 
 	/**
@@ -192,13 +196,17 @@ public class InsertCharacteristicTests {
 			.put("autoAdjust", "true")
 			.put("archived", "false");
 
+		JSONObject response = new JSONObject()
+			.put("errorCode", "invalidValues");
+
 		this.mockMvc.perform(post("/admin/devices/" + deviceId + "/characteristics")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(body.toString())
 				.characterEncoding("utf-8")
 			)
 			.andDo(print())
-			.andExpect(status().isBadRequest());
+			.andExpect(status().isBadRequest())
+			.andExpect(content().json(response.toString()));
 	}
 
 	/**
