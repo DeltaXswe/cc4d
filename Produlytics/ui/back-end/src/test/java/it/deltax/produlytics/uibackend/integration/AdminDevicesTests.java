@@ -86,6 +86,7 @@ public class AdminDevicesTests {
 		JSONObject characteristic1 = new JSONObject()
 			.put("name", "pressione")
 			.put("autoAdjust", "true")
+			.put("sampleSize", 5)
 			.put("archived", "false");
 		characteristics.put(characteristic1);
 		JSONObject device = new JSONObject()
