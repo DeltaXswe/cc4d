@@ -70,7 +70,12 @@ public class DetectionQueueImpl implements DetectionQueue {
 		// Registra il gruppo nel Phaser, segnalandone quindi la sua esistenza.
 		this.groupPhaser.register();
 
-		Single<DetectionSerie> serieSingle = this.createSerieForKey(key);
+        // Crea una `DetectionSerie` per la data caratteristica.
+        // Ritorna un `Single` perchè la sua creazione può richiedere una chiamata al database,
+        // e questa non dovrebbe bloccare il subscribe del `group` in `handleDetectionGroup`.
+        // `.cache()` è importante per non ricreare la `DetectionSerie` per ogni rilevazione.
+		Single<DetectionSerie> serieSingle = Single.fromCallable(() -> this.serieFactory.createSerie(key)).cache().subscribeOn(Schedulers.io());
+
 		// TODO: Fix warning subscribe ignored
 		group.observeOn(Schedulers.computation())
 			.timeout(300, TimeUnit.SECONDS, Flowable.empty())
@@ -78,14 +83,6 @@ public class DetectionQueueImpl implements DetectionQueue {
 			// Segnala il completamento di questo gruppo al Phaser, senza aspettare gli altri.
 			.doFinally(this.groupPhaser::arriveAndDeregister)
 			.subscribe();
-	}
-
-	// Crea una `DetectionSerie` per la data caratteristica.
-	// Ritorna un `Single` perchè la sua creazione può richiedere una chiamata al database,
-	// e questa non dovrebbe bloccare il subscribe del `group` in `handleDetectionGroup`.
-	// `.cache()` è importante per non ricreare la `DetectionSerie` per ogni rilevazione.
-	private Single<DetectionSerie> createSerieForKey(CharacteristicId key) {
-		return Single.fromCallable(() -> this.serieFactory.createSerie(key)).cache().subscribeOn(Schedulers.io());
 	}
 
 	// Gestisce una singola rilevazione, semplicemente chiamando `DetectionSerie::insertDetection`.
