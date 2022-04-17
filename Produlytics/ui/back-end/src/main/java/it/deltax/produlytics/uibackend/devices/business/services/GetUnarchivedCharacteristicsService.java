@@ -1,6 +1,6 @@
 package it.deltax.produlytics.uibackend.devices.business.services;
 
-import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTitle;
+import it.deltax.produlytics.uibackend.devices.business.domain.TinyCharacteristic;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetUnarchivedCharacteristicsUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchivedCharacteristicsPort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.GetUnarchivedDevicesPort;
@@ -38,7 +38,7 @@ public class GetUnarchivedCharacteristicsService implements GetUnarchivedCharact
      * @throws BusinessException se la macchina è inesistente
      */
     @Override
-    public List<CharacteristicTitle> getByDevice(int deviceId) throws BusinessException {
+    public List<TinyCharacteristic> getByDevice(int deviceId) throws BusinessException {
         if (
             findDevicesPort.getUnarchivedDevices().stream()
                 .filter(device -> device.id() == deviceId)

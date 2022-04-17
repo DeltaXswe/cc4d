@@ -2,7 +2,7 @@ package it.deltax.produlytics.uibackend.detections.business.services;
 
 import it.deltax.produlytics.uibackend.detections.business.domain.Detection;
 import it.deltax.produlytics.uibackend.detections.business.domain.DetectionFilters;
-import it.deltax.produlytics.uibackend.detections.business.domain.Detections;
+import it.deltax.produlytics.uibackend.detections.business.domain.DetectionsGroup;
 import it.deltax.produlytics.uibackend.detections.business.ports.in.GetDetectionsUseCase;
 import it.deltax.produlytics.uibackend.detections.business.ports.out.FindAllDetectionsPort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicLimitsPort;
@@ -47,7 +47,7 @@ public class GetDetectionsService implements GetDetectionsUseCase {
 	 * @throws BusinessException se la caratteristica è inesistente o è archiviata
 	 */
 	@Override
-	public Detections listByCharacteristic(int deviceId, int characteristicId, DetectionFilters filters)
+	public DetectionsGroup listByCharacteristic(int deviceId, int characteristicId, DetectionFilters filters)
 	throws BusinessException {
 		this.findCharacteristicPort.findByCharacteristic(deviceId, characteristicId)
 			.orElseThrow(() -> new BusinessException("characteristicNotFound", ErrorType.NOT_FOUND));
@@ -72,7 +72,7 @@ public class GetDetectionsService implements GetDetectionsUseCase {
 		}
 
 		if (detections.isEmpty())
-			return new Detections(Collections.emptyList(), OptionalLong.empty(), Instant.now().toEpochMilli());
+			return new DetectionsGroup(Collections.emptyList(), OptionalLong.empty(), Instant.now().toEpochMilli());
 
 		final long nextNew = detections.get(0).creationTime();
 		final OptionalLong nextOld = detections.size() < initialSize
@@ -82,6 +82,6 @@ public class GetDetectionsService implements GetDetectionsUseCase {
 		List<Detection> reversedDetections = new ArrayList<>(detections);
 		Collections.reverse(reversedDetections);
 
-		return new Detections(reversedDetections, nextOld, nextNew);
+		return new DetectionsGroup(reversedDetections, nextOld, nextNew);
 	}
 }

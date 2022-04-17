@@ -1,7 +1,7 @@
 package it.deltax.produlytics.uibackend.detections.web;
 
 import it.deltax.produlytics.uibackend.detections.business.domain.DetectionFilters;
-import it.deltax.produlytics.uibackend.detections.business.domain.Detections;
+import it.deltax.produlytics.uibackend.detections.business.domain.DetectionsGroup;
 import it.deltax.produlytics.uibackend.detections.business.ports.in.GetDetectionsUseCase;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +41,7 @@ public class DetectionsController {
 	 * @throws BusinessException se la caratteristica è inesistente
 	 */
 	@GetMapping("")
-	public Detections getCharacteristicDetections(
+	public DetectionsGroup getCharacteristicDetections(
 		@PathVariable int deviceId,
 		@PathVariable int characteristicId,
 		@RequestParam(value = "olderThan", required = false) Long olderThan,

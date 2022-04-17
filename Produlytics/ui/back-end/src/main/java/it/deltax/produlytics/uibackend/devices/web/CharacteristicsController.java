@@ -1,7 +1,7 @@
 package it.deltax.produlytics.uibackend.devices.web;
 
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicLimits;
-import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTitle;
+import it.deltax.produlytics.uibackend.devices.business.domain.TinyCharacteristic;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetLimitsUseCase;
 import it.deltax.produlytics.uibackend.devices.business.ports.in.GetUnarchivedCharacteristicsUseCase;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
@@ -44,7 +44,7 @@ public class CharacteristicsController {
 	 * @throws BusinessException se la macchina è inesistente o archiviata
 	 */
     @GetMapping("")
-    ResponseEntity<List<CharacteristicTitle>> getUnarchivedCharacteristics(
+    ResponseEntity<List<TinyCharacteristic>> getUnarchivedCharacteristics(
         @PathVariable("deviceId") int deviceId
     ) throws BusinessException {
         return ResponseEntity.ok(this.getUnarchivedCharacteristicsUseCase.getByDevice(deviceId));

@@ -1,10 +1,10 @@
 package it.deltax.produlytics.uibackend.devices.business.ports.in;
 
-import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTitle;
+import it.deltax.produlytics.uibackend.devices.business.domain.TinyCharacteristic;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 
 import java.util.List;
 
 public interface GetUnarchivedCharacteristicsUseCase {
-    List<CharacteristicTitle> getByDevice(int deviceId) throws BusinessException;
+    List<TinyCharacteristic> getByDevice(int deviceId) throws BusinessException;
 }

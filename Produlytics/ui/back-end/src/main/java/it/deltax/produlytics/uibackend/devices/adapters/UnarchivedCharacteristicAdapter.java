@@ -1,7 +1,7 @@
 package it.deltax.produlytics.uibackend.devices.adapters;
 
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicLimits;
-import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicTitle;
+import it.deltax.produlytics.uibackend.devices.business.domain.TinyCharacteristic;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchivedCharacteristicsPort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicLimitsPort;
 import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
@@ -33,10 +33,10 @@ public class UnarchivedCharacteristicAdapter implements FindAllUnarchivedCharact
      * @return la lista di tutte le caratteristiche non archiviate
      */
     @Override
-    public List<CharacteristicTitle> findAllByDeviceId(int deviceId) {
+    public List<TinyCharacteristic> findAllByDeviceId(int deviceId) {
         return this.repo.findByArchivedFalseAndDeviceId(deviceId)
                 .stream()
-                .map(characteristicEntity -> new CharacteristicTitle(
+                .map(characteristicEntity -> new TinyCharacteristic(
                     characteristicEntity.getId(),
                     characteristicEntity.getName()
                 ))
