@@ -8,13 +8,9 @@ import it.deltax.produlytics.uibackend.detections.business.services.GetDetection
 import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicLimits;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicLimitsPort;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalLong;
+import java.util.*;
 
 /**
  * Test di unità della classe GetDetectionsService
@@ -22,7 +18,24 @@ import java.util.OptionalLong;
 public class GetDetectionsServiceTest {
 	private static GetDetectionsService service;
 
-	@Disabled
+	private static final Detection detection1 = new Detection(
+		1,
+		100,
+		false
+	);
+
+	private static final Detection detection2 = new Detection(
+		2,
+		200,
+		false
+	);
+
+	private static final Detection detection3 = new Detection(
+		3,
+		300,
+		false
+	);
+
 	@Test
 	void testGetDetectionsWithNoFilters() throws BusinessException {
 		service = new GetDetectionsService(
@@ -37,24 +50,28 @@ public class GetDetectionsServiceTest {
 				.build()
 		);
 
-		assert detections.detections().equals(List.of(
-			new Detection(
-				1,
-				100,
-				false
-			),
-			new Detection(
-				2,
-				200,
-				false
-			),
-			new Detection(
-				3,
-				300,
-				false
-			)
-		));
+		assert detections.detections().equals(List.of(detection1, detection2, detection3));
 		assert detections.nextOld().isEmpty();
+		assert detections.nextNew() == 3;
+	}
+
+	@Test
+	void testGetDetectionsWithLimit() throws BusinessException {
+		service = new GetDetectionsService(
+			new FindAllDetectionsPortMock(),
+			new FindCharacteristicLimitsPortMock()
+		);
+
+		DetectionsGroup detections = service.listByCharacteristic(
+			1,
+			1,
+			DetectionFilters.builder()
+				.withLimit(OptionalInt.of(1))
+				.build()
+		);
+
+		assert detections.detections().equals(List.of(detection3));
+		assert detections.nextOld().getAsLong() == 3;
 		assert detections.nextNew() == 3;
 	}
 
@@ -62,24 +79,7 @@ public class GetDetectionsServiceTest {
 	private static class FindAllDetectionsPortMock implements FindAllDetectionsPort {
 		@Override
 		public List<Detection> findAllByCharacteristic(int deviceId, int characteristicId, OptionalLong olderThan) {
-			long base = olderThan.isPresent() ? olderThan.getAsLong() : 0;
-			return List.of(
-				new Detection(
-					base + 1,
-					100 * (base + 1),
-					false
-				),
-				new Detection(
-					base + 2,
-					100 * (base + 2),
-					false
-				),
-				new Detection(
-					base + 3,
-					100 * (base + 3),
-					false
-				)
-			);
+			return List.of(detection3, detection2, detection1);
 		}
 	}
 
