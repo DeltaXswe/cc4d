@@ -2,6 +2,7 @@ package it.deltax.produlytics.uibackend.accounts.adapters;
 
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordEncoderPort;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,14 +10,15 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class PasswordEncoderAdapter implements PasswordEncoderPort {
-	private final EncoderConfig encoderConfig;
+	@Autowired
+	private final BCryptPasswordEncoder encoderConfig;
 
 
 	/**
 	 * Il costruttore
 	 * @param encoderConfig il cifratore
 	 */
-	public PasswordEncoderAdapter(EncoderConfig encoderConfig) {
+	public PasswordEncoderAdapter(BCryptPasswordEncoder encoderConfig) {
 		this.encoderConfig = encoderConfig;
 	}
 
@@ -28,6 +30,6 @@ public class PasswordEncoderAdapter implements PasswordEncoderPort {
 	 */
 	@Override
 	public String encode(String rawPassword){
-		return this.encoderConfig.getEncoder().encode(rawPassword);
+		return this.encoderConfig.encode(rawPassword);
 	}
 }

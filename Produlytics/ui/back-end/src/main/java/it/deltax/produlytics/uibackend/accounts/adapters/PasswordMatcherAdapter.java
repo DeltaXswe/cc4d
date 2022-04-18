@@ -2,6 +2,7 @@ package it.deltax.produlytics.uibackend.accounts.adapters;
 
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordMatcherPort;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,14 +10,15 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class PasswordMatcherAdapter implements PasswordMatcherPort {
-	private final EncoderConfig encoderConfig;
+	@Autowired
+	private final BCryptPasswordEncoder encoderConfig;
 
 
 	/**
 	 * Il costruttore
 	 * @param encoderConfig il confrontatore di due password
 	 */
-	public PasswordMatcherAdapter(EncoderConfig encoderConfig) {
+	public PasswordMatcherAdapter(BCryptPasswordEncoder encoderConfig) {
 		this.encoderConfig = encoderConfig;
 	}
 
@@ -29,6 +31,6 @@ public class PasswordMatcherAdapter implements PasswordMatcherPort {
 	 */
 	@Override
 	public boolean matches(String rawPassword, String hashedPassword) {
-		return this.encoderConfig.getEncoder().matches(rawPassword, hashedPassword);
+		return this.encoderConfig.matches(rawPassword, hashedPassword);
 	}
 }
