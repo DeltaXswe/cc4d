@@ -1,19 +1,11 @@
-.d3svg {
-  margin: 32px auto;
-  width: 600px;
-  height: 300px;
+.ciao{
+  height: 500px;
+  width: 500px;
 }
-
-.button-container{
-  margin-bottom: -60px;
-  height: max-content;
-  width: max-content
-}
-::ng-deep .d3svg svg {
-  width: 100%;
+/* mat-card{
   height: 100%;
-}
-
+  width: 100%;
+} */
 ::ng-deep .d3svg title {
   fill: black;
   text-anchor: middle;

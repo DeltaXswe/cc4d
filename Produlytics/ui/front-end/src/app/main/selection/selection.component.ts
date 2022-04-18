@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import { CharacteristicNode } from '../device-selection/selection-data-source/characteristic-node';
 
 @Component({
@@ -8,6 +8,7 @@ import { CharacteristicNode } from '../device-selection/selection-data-source/ch
   encapsulation: ViewEncapsulation.None
 })
 export class SelectionComponent implements OnInit {
+
   colspan?: number;
   rowspan?: number;
   height: string = '84vh';
@@ -32,8 +33,8 @@ export class SelectionComponent implements OnInit {
         break;
       case characteristics.length == 2:
         this.height = '42vh';
-        this.colspan = 2;
-        this.rowspan = 1;
+        this.colspan = 1;
+        this.rowspan = 2;
         break;
       case characteristics.length > 2:
         this.height = '42vh';
