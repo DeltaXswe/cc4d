@@ -48,11 +48,20 @@ public class DetectionsController {
 		@RequestParam(value = "newerThan", required = false) Long newerThan,
 		@RequestParam(value = "limit", required = false) Integer limit
 	) throws BusinessException {
+		DetectionFilters.DetectionFiltersBuilder builder = DetectionFilters.builder();
+
+		if (olderThan != null) {
+			builder = builder.withOlderThan(OptionalLong.of(olderThan));
+		}
+
+		if (newerThan != null) {
+			builder = builder.withNewerThan(OptionalLong.of(newerThan));
+		}
+
+		if (limit != null)
+			builder = builder.withLimit(OptionalInt.of(limit));
+
 		return this.getDetectionsUseCase.listByCharacteristic(
-			deviceId, characteristicId, new DetectionFilters(
-			olderThan != null ? OptionalLong.of(olderThan) : OptionalLong.empty(),
-			newerThan != null ? OptionalLong.of(newerThan) : OptionalLong.empty(),
-			limit != null ? OptionalInt.of(limit) : OptionalInt.empty()
-		));
+			deviceId, characteristicId, builder.build());
 	}
 }
