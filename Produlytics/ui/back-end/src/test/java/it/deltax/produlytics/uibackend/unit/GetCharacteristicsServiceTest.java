@@ -14,8 +14,6 @@ import java.util.List;
  * Test di unità della classe GetCharacteristicsService
  */
 public class GetCharacteristicsServiceTest {
-	private static GetCharacteristicsService service;
-
 	private static final Characteristic characteristic1 = new Characteristic(
 		1,
 		"temperatura",
@@ -30,14 +28,14 @@ public class GetCharacteristicsServiceTest {
 
 	@Test
 	void testGetCharacteristics() throws BusinessException {
-		service = new GetCharacteristicsService(new FindAllCharacteristicsPortMock());
+		GetCharacteristicsService service = new GetCharacteristicsService(new FindAllCharacteristicsPortMock());
 
 		assert service.getByDevice(1).equals(List.of(characteristic1, characteristic2));
 	}
 
 	@Test
 	void testNotFound() {
-		service = new GetCharacteristicsService(new FindAllCharacteristicsNotFoundPortMock());
+		GetCharacteristicsService service = new GetCharacteristicsService(new FindAllCharacteristicsNotFoundPortMock());
 
 		assertThrows(BusinessException.class, () -> service.getByDevice(1));
 	}

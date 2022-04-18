@@ -18,11 +18,9 @@ import java.util.Optional;
  * Test di unità della classe GetLimitsService
  */
 public class GetLimitsServiceTest {
-	private static GetLimitsService service;
-
 	@Test
 	void testGetLimits() throws BusinessException {
-		service = new GetLimitsService(new GetUnarchivedDevicesPortMock(), new FindCharacteristicLimitsPortMock());
+		GetLimitsService service = new GetLimitsService(new GetUnarchivedDevicesPortMock(), new FindCharacteristicLimitsPortMock());
 
 		CharacteristicLimits limits = service.getByCharacteristic(1, 1);
 		assert limits.lowerLimit() == 10d;
@@ -32,7 +30,7 @@ public class GetLimitsServiceTest {
 
 	@Test
 	void testNotFoundAndArchived() {
-		service = new GetLimitsService(
+		GetLimitsService service = new GetLimitsService(
 			new GetUnarchivedDevicesPortMock(),
 			new FindCharacteristicLimitsNotFoundPortMock()
 		);
@@ -47,7 +45,7 @@ public class GetLimitsServiceTest {
 
 	@Test
 	void testDeviceNotFound() {
-		service = new GetLimitsService(
+		GetLimitsService service = new GetLimitsService(
 			new GetUnarchivedDevicesNotFoundPortMock(),
 			new FindCharacteristicLimitsPortMock()
 		);

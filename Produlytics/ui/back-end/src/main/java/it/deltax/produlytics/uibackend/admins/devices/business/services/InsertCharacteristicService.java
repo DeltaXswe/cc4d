@@ -26,7 +26,7 @@ public class InsertCharacteristicService implements InsertCharacteristicUseCase 
 	 * @param findDevicePort la porta per trovare una macchina
 	 * @param findCharacteristicPort la porta per trovare una caratteristica
 	 */
-	InsertCharacteristicService(
+	public InsertCharacteristicService(
 		InsertCharacteristicPort insertCharacteristicPort,
 		FindDetailedDevicePort findDevicePort,
 		FindDetailedCharacteristicPort findCharacteristicPort

@@ -17,8 +17,6 @@ import java.util.List;
  * Test di unità della classe GetUnarchivedCharacteristicsService
  */
 public class GetUnarchivedCharacteristicsServiceTest {
-	private static GetUnarchivedCharacteristicsService service;
-
 	private static final TinyDevice device = new TinyDevice(
 		1,
 		"macchina"
@@ -36,7 +34,7 @@ public class GetUnarchivedCharacteristicsServiceTest {
 
 	@Test
 	void testGetUnarchivedCharacteristics() throws BusinessException {
-		service = new GetUnarchivedCharacteristicsService(
+		GetUnarchivedCharacteristicsService service = new GetUnarchivedCharacteristicsService(
 			new GetUnarchivedDevicesPortMock(),
 			new FindAllUnarchivedCharacteristicsPortMock()
 		);
@@ -46,7 +44,7 @@ public class GetUnarchivedCharacteristicsServiceTest {
 
 	@Test
 	void testEmpty() throws BusinessException {
-		service = new GetUnarchivedCharacteristicsService(
+		GetUnarchivedCharacteristicsService service = new GetUnarchivedCharacteristicsService(
 			new GetUnarchivedDevicesPortMock(),
 			new FindAllUnarchivedCharacteristicsEmptyPortMock()
 		);
@@ -56,7 +54,7 @@ public class GetUnarchivedCharacteristicsServiceTest {
 
 	@Test
 	void testArchivedAndNotFoundDevice() {
-		service = new GetUnarchivedCharacteristicsService(
+		GetUnarchivedCharacteristicsService service = new GetUnarchivedCharacteristicsService(
 			new GetUnarchivedDevicesNotFoundPortMock(),
 			new FindAllUnarchivedCharacteristicsPortMock()
 		);
