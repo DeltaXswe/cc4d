@@ -138,7 +138,7 @@ public class CharacteristicsTests {
 	 * @throws Exception se la macchina non esiste, è archiviata o non vengono restituite le caratteristiche attese
 	 */
 	@Test
-	void getUnarchivedCharacteristics() throws Exception {
+	void testGetUnarchivedCharacteristics() throws Exception {
 		var characteristic1 = new JSONObject()
 			.put("id", characteristic1Id)
 			.put("name", "temperatura");
@@ -163,7 +163,7 @@ public class CharacteristicsTests {
 	 * @throws Exception se viene ottenuta qualche caratteristica, la macchina non esiste o è archiviata
 	 */
 	@Test
-	void getEmptyCharacteristics() throws Exception {
+	void testGetEmptyCharacteristics() throws Exception {
 		characteristicRepository.deleteById(new CharacteristicEntityId(deviceId, characteristic1Id));
 		characteristicRepository.deleteById(new CharacteristicEntityId(deviceId, characteristic2Id));
 
@@ -183,7 +183,7 @@ public class CharacteristicsTests {
 	 * @throws Exception se non viene rilevato l'errore
 	 */
 	@Test
-	void getFromArchivedDeviceError() throws Exception {
+	void testGetFromArchivedDeviceError() throws Exception {
 		JSONObject response = new JSONObject()
 			.put("errorCode", "deviceNotFound");
 
@@ -198,7 +198,7 @@ public class CharacteristicsTests {
 	 * @throws Exception se non viene rilevato l'errore
 	 */
 	@Test
-	void deviceNotFoundError() throws Exception {
+	void testDeviceNotFoundError() throws Exception {
 		deleteAll(deviceRepository, characteristicRepository);
 
 		JSONObject response = new JSONObject()
@@ -217,7 +217,7 @@ public class CharacteristicsTests {
 	 * @throws Exception se la caratteristica è inesistente, è archiviata o non vengono restituiti i limiti attesi
 	 */
 	@Test
-	void getCharacteristicLimits() throws Exception {
+	void testGetCharacteristicLimits() throws Exception {
 		JSONObject response = new JSONObject()
 			.put("lowerLimit", -13d)
 			.put("upperLimit", 98d)
@@ -236,7 +236,7 @@ public class CharacteristicsTests {
 	 * @throws Exception se non viene rilevato l'errore
 	 */
 	@Test
-	void characteristicNotFoundError() throws Exception {
+	void testCharacteristicNotFoundError() throws Exception {
 		characteristicRepository.deleteAll();
 
 		JSONObject response = new JSONObject()
@@ -256,7 +256,7 @@ public class CharacteristicsTests {
 	 * @throws Exception se la caratteristica non esiste, non è archiviata o non viene rilevato l'errore
 	 */
 	@Test
-	void characteristicArchivedError() throws Exception {
+	void testCharacteristicArchivedError() throws Exception {
 		JSONObject response = new JSONObject()
 			.put("errorCode", "characteristicNotFound");
 
@@ -273,7 +273,7 @@ public class CharacteristicsTests {
 	 * @throws Exception se non viene rilevato l'errore
 	 */
 	@Test
-	void deviceArchivedError() throws Exception {
+	void testDeviceArchivedError() throws Exception {
 		JSONObject response = new JSONObject()
 			.put("errorCode", "characteristicNotFound");
 

@@ -123,7 +123,7 @@ public class AdminGetCharacteristicsTests {
 	 * @throws Exception se la macchina non esiste o non vengono restituite le caratteristiche attese
 	 */
 	@Test
-	void getCharacteristics() throws Exception {
+	void testGetCharacteristics() throws Exception {
 		JSONObject characteristic1 = new JSONObject()
 			.put("id", characteristic1Id)
 			.put("name", "temperatura")
@@ -148,7 +148,7 @@ public class AdminGetCharacteristicsTests {
 	 * @throws Exception se non viene rilevato l'errore
 	 */
 	@Test
-	void deviceNotFoundError() throws Exception {
+	void testDeviceNotFoundError() throws Exception {
 		deleteAll(deviceRepository, characteristicRepository);
 
 		JSONObject response = new JSONObject();

@@ -97,7 +97,7 @@ public class UpdateCharacteristicTests {
 	 * valori non validi o la caratteristica non viene modificata correttamente
 	 */
 	@Test
-	void updateCharacteristicWithNoAutoAdjust() throws Exception {
+	void testUpdateCharacteristicWithNoAutoAdjust() throws Exception {
 		JSONObject body = new JSONObject()
 			.put("name", "frequenza")
 			.put("lowerLimit", 10d)
@@ -127,7 +127,7 @@ public class UpdateCharacteristicTests {
 	 * valori non validi o la caratteristica non viene modificata correttamente
 	 */
 	@Test
-	void updateCharacteristicWithAutoAdjust() throws Exception {
+	void testUpdateCharacteristicWithAutoAdjust() throws Exception {
 		JSONObject body = new JSONObject()
 			.put("name", "frequenza")
 			.put("autoAdjust", true)
@@ -155,7 +155,7 @@ public class UpdateCharacteristicTests {
 	 * valori non validi o la caratteristica non viene modificata correttamente
 	 */
 	@Test
-	void updateArchivedCharacteristic() throws Exception {
+	void testUpdateArchivedCharacteristic() throws Exception {
 		JSONObject body = new JSONObject()
 			.put("name", "frequenza")
 			.put("lowerLimit", 10d)
@@ -185,7 +185,7 @@ public class UpdateCharacteristicTests {
 	 * @throws Exception se la caratteristica non esiste o non viene rilevato l'errore
 	 */
 	@Test
-	void updateCharacteristicDuplicateError() throws Exception {
+	void testUpdateCharacteristicDuplicateError() throws Exception {
 		JSONObject body = new JSONObject()
 			.put("name", "pressione")
 			.put("autoAdjust", true)
@@ -212,7 +212,7 @@ public class UpdateCharacteristicTests {
 	 * l'errore
 	 */
 	@Test
-	void updateCharacteristicNoLimitsError() throws Exception {
+	void testUpdateCharacteristicNoLimitsError() throws Exception {
 		JSONObject body = new JSONObject()
 			.put("name", "frequenza")
 			.put("autoAdjust", false);
@@ -238,7 +238,7 @@ public class UpdateCharacteristicTests {
 	 * l'errore
 	 */
 	@Test
-	void updateCharacteristicNoSampleSizeError() throws Exception {
+	void testUpdateCharacteristicNoSampleSizeError() throws Exception {
 		JSONObject body = new JSONObject()
 			.put("name", "frequenza")
 			.put("autoAdjust", true);
@@ -263,7 +263,7 @@ public class UpdateCharacteristicTests {
 	 * @throws Exception se non viene rilevato l'errore
 	 */
 	@Test
-	void updateCharacteristicNotFoundError() throws Exception {
+	void testUpdateCharacteristicNotFoundError() throws Exception {
 		deleteAll();
 
 		JSONObject body = new JSONObject()
@@ -291,7 +291,7 @@ public class UpdateCharacteristicTests {
 	 * @throws Exception se l'operazione non va a buon fine
 	 */
 	@Test
-	void setArchived() throws Exception {
+	void testArchiveCharacteristic() throws Exception {
 		JSONObject body = new JSONObject()
 			.put("archived", true);
 
@@ -317,7 +317,7 @@ public class UpdateCharacteristicTests {
 	 * @throws Exception se l'operazione non va a buon fine
 	 */
 	@Test
-	void setUnarchived() throws Exception {
+	void testUnarchiveCharacteristic() throws Exception {
 		JSONObject body = new JSONObject()
 			.put("archived", false);
 
@@ -343,7 +343,7 @@ public class UpdateCharacteristicTests {
 	 * @throws Exception se l'errore non viene rilevato
 	 */
 	@Test
-	void characteristicNotFoundError() throws Exception {
+	void testCharacteristicNotFoundError() throws Exception {
 		deleteAll();
 
 		JSONObject body = new JSONObject()

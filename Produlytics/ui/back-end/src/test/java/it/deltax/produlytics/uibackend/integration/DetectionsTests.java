@@ -161,7 +161,7 @@ public class DetectionsTests {
 	 * quello atteso
 	 */
 	@Test
-	void getWithNoFilter() throws Exception {
+	void testGetWithNoFilter() throws Exception {
 		JSONArray detections = new JSONArray()
 			.put(detection1)
 			.put(detection2)
@@ -187,7 +187,7 @@ public class DetectionsTests {
 	 * quello atteso
 	 */
 	@Test
-	void getWithLimit() throws Exception {
+	void testGetWithLimit() throws Exception {
 		JSONArray detections = new JSONArray()
 			.put(detection3)
 			.put(detection4);
@@ -211,7 +211,7 @@ public class DetectionsTests {
 	 * quello atteso
 	 */
 	@Test
-	void getWithOlder() throws Exception {
+	void testGetWithOlder() throws Exception {
 		JSONArray detections = new JSONArray()
 			.put(detection1)
 			.put(detection2)
@@ -240,7 +240,7 @@ public class DetectionsTests {
 	 * quello atteso
 	 */
 	@Test
-	void getWithNewer() throws Exception {
+	void testGetWithNewer() throws Exception {
 		JSONArray detections = new JSONArray()
 			.put(detection2)
 			.put(detection3)
@@ -270,7 +270,7 @@ public class DetectionsTests {
 	 * quello atteso
 	 */
 	@Test
-	void getEmpty() throws Exception {
+	void testGetEmpty() throws Exception {
 		this.mockMvc.perform(get(
 				"/devices/"
 					+ deviceId
@@ -287,7 +287,7 @@ public class DetectionsTests {
 	 * @throws Exception se non viene rilevato l'errore
 	 */
 	@Test
-	void characteristicNotFoundError() throws Exception {
+	void testCharacteristicNotFoundError() throws Exception {
 		deleteAll(deviceRepository, characteristicRepository, detectionRepository);
 
 		JSONObject response = new JSONObject()
@@ -307,7 +307,7 @@ public class DetectionsTests {
 	 * @throws Exception se non viene rilevato l'errore
 	 */
 	@Test
-	void characteristicArchivedError() throws Exception {
+	void testCharacteristicArchivedError() throws Exception {
 		JSONObject response = new JSONObject()
 			.put("errorCode", "characteristicNotFound");
 

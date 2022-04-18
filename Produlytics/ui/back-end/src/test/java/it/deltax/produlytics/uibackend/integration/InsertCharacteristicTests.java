@@ -110,7 +110,7 @@ public class InsertCharacteristicTests {
 	 * @throws Exception se l'inserimento non va a buon fine
 	 */
 	@Test
-	void insertCharacteristicWithNoAutoAdjustAndLimits() throws Exception {
+	void testInsertCharacteristicWithNoAutoAdjustAndLimits() throws Exception {
 		JSONObject body = new JSONObject()
 			.put("name", "pressione")
 			.put("upperLimit", 98d)
@@ -132,7 +132,7 @@ public class InsertCharacteristicTests {
 	 * @throws Exception se l'inserimento non va a buon fine
 	 */
 	@Test
-	void insertCharacteristicWithAutoAdjustAndNoLimits() throws Exception {
+	void testInsertCharacteristicWithAutoAdjustAndNoLimits() throws Exception {
 		performInsertSmallCharacteristic()
 			.andDo(print())
 			.andExpect(status().isOk());
@@ -143,7 +143,7 @@ public class InsertCharacteristicTests {
 	 * @throws Exception se l'inserimento non va a buon fine
 	 */
 	@Test
-	void insertCharacteristicWithAutoAdjustAndLimits() throws Exception {
+	void testInsertCharacteristicWithAutoAdjustAndLimits() throws Exception {
 		JSONObject body = new JSONObject()
 			.put("name", "pressione")
 			.put("upperLimit", 98d)
@@ -166,7 +166,7 @@ public class InsertCharacteristicTests {
 	 * @throws Exception non viene rilevato l'errore
 	 */
 	@Test
-	void insertCharacteristicWithNoAutoAdjustAndNoLimitsError() throws Exception {
+	void testInsertCharacteristicWithNoAutoAdjustAndNoLimitsError() throws Exception {
 		JSONObject body = new JSONObject()
 			.put("name", "pressione")
 			.put("autoAdjust", "false")
@@ -190,7 +190,7 @@ public class InsertCharacteristicTests {
 	 * @throws Exception se l'inserimento non va a buon fine
 	 */
 	@Test
-	void insertCharacteristicWithAutoAdjustAndNoSampleSize() throws Exception {
+	void testInsertCharacteristicWithAutoAdjustAndNoSampleSize() throws Exception {
 		JSONObject body = new JSONObject()
 			.put("name", "pressione")
 			.put("autoAdjust", "true")
@@ -214,7 +214,7 @@ public class InsertCharacteristicTests {
 	 * @throws Exception non viene rilevato l'errore
 	 */
 	@Test
-	void duplicateError() throws Exception {
+	void testDuplicateError() throws Exception {
 		JSONObject response = new JSONObject();
 		response.put("errorCode", "duplicateCharacteristicName");
 
@@ -231,7 +231,7 @@ public class InsertCharacteristicTests {
 	 * @throws Exception non viene rilevato l'errore
 	 */
 	@Test
-	void deviceNotFoundError() throws Exception {
+	void testDeviceNotFoundError() throws Exception {
 		this.deviceRepository.deleteAll();
 
 		JSONObject response = new JSONObject();
