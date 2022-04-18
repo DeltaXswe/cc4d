@@ -8,7 +8,7 @@ import java.util.OptionalInt;
 /**
  * <p>Record che rappresenta i dati necessari per la creazione di una nuova caratteristica
  * <p>Contiene tutti i campi di una caratteristica, meno il suo id, quello della macchina e lo stato di archiviazione
- * <p>Mette a disposizione un builder con valori di defaiult
+ * <p>Mette a disposizione un builder con valori di default
  */
 public record NewCharacteristic(
 	String name,
@@ -17,7 +17,7 @@ public record NewCharacteristic(
 	boolean autoAdjust,
 	OptionalInt sampleSize
 ) {
-	@Builder(toBuilder = true, builderMethodName = "", setterPrefix = "with")
+	@Builder(builderMethodName = "", setterPrefix = "with")
 	public NewCharacteristic {}
 
 	/**

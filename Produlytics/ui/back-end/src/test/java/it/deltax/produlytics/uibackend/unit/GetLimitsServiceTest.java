@@ -20,11 +20,6 @@ import java.util.Optional;
 public class GetLimitsServiceTest {
 	private static GetLimitsService service;
 
-	private static final TinyDevice device = new TinyDevice(
-		1,
-		"macchina"
-	);
-
 	@Test
 	void testGetLimits() throws BusinessException {
 		service = new GetLimitsService(new GetUnarchivedDevicesPortMock(), new FindCharacteristicLimitsPortMock());
@@ -68,7 +63,10 @@ public class GetLimitsServiceTest {
 	// Classi mock
 	private static class GetUnarchivedDevicesPortMock implements GetUnarchivedDevicesPort {
 		public List<TinyDevice> getUnarchivedDevices() {
-			return List.of(device);
+			return List.of(new TinyDevice(
+				1,
+				"macchina"
+			));
 		}
 	}
 
