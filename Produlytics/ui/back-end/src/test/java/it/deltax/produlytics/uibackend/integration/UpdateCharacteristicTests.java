@@ -158,6 +158,8 @@ public class UpdateCharacteristicTests {
 	void updateArchivedCharacteristic() throws Exception {
 		JSONObject body = new JSONObject()
 			.put("name", "frequenza")
+			.put("lowerLimit", 10d)
+			.put("upperLimit", 100d)
 			.put("autoAdjust", false);
 
 		this.mockMvc.perform(put(
