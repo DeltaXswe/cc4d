@@ -22,7 +22,7 @@ public record DetectionFilters(
 	 * Fornisce il builder del record
 	 * @return un nuovo builder con i seguenti valori di default:
 	 * <ul>
-	 *     <li>olderTham: empty
+	 *     <li>olderThan: empty
 	 * 	   <li>newerThan: empty
 	 * 	   <li>limit: empty
 	 */
