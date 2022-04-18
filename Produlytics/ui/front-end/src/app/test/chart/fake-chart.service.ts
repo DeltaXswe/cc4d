@@ -3,6 +3,7 @@ import { ChartAbstractService } from "../../model/chart/chart-abstract.service";
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { ChartPoint } from "../../model/chart/chart-point";
 import { Limits } from '../../model/chart/limits';
+import { ChartPointReturn } from 'src/app/model/chart/chart-point-return';
 
 @Injectable({
   providedIn: "root"
@@ -21,7 +22,8 @@ export class FakeChartService implements ChartAbstractService {
     mean: 100
   });
 
-  fakeInitialPoints2 = new BehaviorSubject<ChartPoint[]> ([
+  fakeInitialPoints2 = new BehaviorSubject<ChartPointReturn> ({
+  chartPoints: [
   {
     epoch: 1650067200000,
     value: 300,
@@ -41,9 +43,14 @@ export class FakeChartService implements ChartAbstractService {
     epoch: 1650067203000,
     value: 230,
     anomalous: false
-  } ]);
+  }],
+  nextOld: 1650067200000,
+  nextNew: 1650067203000
+  });
   
-  fakeInitialPoints3 = new BehaviorSubject<ChartPoint[]> ([{
+  fakeInitialPoints3 = new BehaviorSubject<ChartPointReturn> ({
+  chartPoints:[
+  {
     epoch: 1650067200000,
     value: 400,
     anomalous: false
@@ -62,28 +69,37 @@ export class FakeChartService implements ChartAbstractService {
     epoch: 1650067203000,
     value: 330,
     anomalous: false
-  } ]);
+  }],
+  nextOld: 1650067200000,
+  nextNew: 16500672030000
+  });
 
   constructor() { }
 
-  getInitialPoints(deviceId: number, characteristicId: number): Observable<ChartPoint[]> {
+  getInitialPoints(deviceId: number, characteristicId: number): Observable<ChartPointReturn> {
     if(deviceId == 2)
       return this.fakeInitialPoints2;
     else(deviceId == 3)
       return this.fakeInitialPoints3;
   }
 
-  getNextPoints(macchina: number, caratteristica: number, latestEpoch: number): Observable<ChartPoint[]> {
+  getNextPoints(macchina: number, caratteristica: number, latestEpoch: number): Observable<ChartPointReturn> {
     let epoch: number = latestEpoch+1000;
     let value: number = Math.floor(Math.random() * (500));
     value *= Math.round(Math.random()) ? 1 : -1;
     let anomalous: boolean = Math.random() < 0.5;
-    const point: ChartPoint = {
-      epoch: epoch,
-      value: value,
-      anomalous: anomalous
+    const point: ChartPointReturn = {
+      chartPoints: [
+      {
+        epoch: epoch,
+        value: value,
+        anomalous: anomalous
+      }],
+      nextOld: epoch,
+      nextNew: epoch
     }
-    return of([point]);
+
+    return of(point);
   }
 
   getLimits(deviceId: number, characteristicId: number){
@@ -93,9 +109,9 @@ export class FakeChartService implements ChartAbstractService {
       return this.fakeLimits3;
   }
 
-  getOldPoints(start: any, end: any): Observable<ChartPoint[]>{
+  getOldPoints(start: string, end: string, deviceId: number, characteristicId: number): Observable<ChartPointReturn>{
     let points: ChartPoint[] = [];
-     for (let i = Date.parse(start); i < Date.parse(start)+100000; i+= 1000){  //commentato perchè è un ciclo grosso come una casa
+     for (let i = Date.parse(start); i < Date.parse(start)+100000; i+= 1000){
       let value: number = Math.floor(Math.random() * (500));
       value *= Math.round(Math.random()) ? 1 : -1;
       let point: ChartPoint = {
@@ -105,7 +121,11 @@ export class FakeChartService implements ChartAbstractService {
       }
       points.push(point);
     } 
-    return of(points);
+    const point: ChartPointReturn = {
+      chartPoints: points,
+      nextNew: 100
+    }
+    return of(point);
   }
 
 }

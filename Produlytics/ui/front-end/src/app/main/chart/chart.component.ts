@@ -61,9 +61,9 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       if (res){
         this.updateSubscription?.unsubscribe();
         this.clearChart();
-        this.chartService.getOldPoints(res.data.start, res.data.end)
+        this.chartService.getOldPoints(res.data.start, res.data.end, this.currentNode?.device.id, this.currentNode?.id)
           .subscribe({
-            next: (points) => this.points = points
+            next: (points) => this.points = points.chartPoints
           });
         this.createChart();
       }
@@ -80,7 +80,6 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
         .append('svg')
         .append('g')
         .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
-    let xxx = document.querySelector('.chart-container');
       this.xScale = d3.scaleTime().range([0, this.chartWidth]);
       this.yScale = d3.scaleLinear().range([this.chartHeight, 0]);
 
@@ -118,7 +117,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     this.chartService
       .getInitialPoints(deviceId, characteristicId)
       .subscribe((points) => {
-        this.points = points;
+        this.points = points.chartPoints;
         this.drawChart();
         this.subscribeToUpdates();
       });
@@ -195,8 +194,8 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
         )
       )
       .subscribe((new_points) => {
-        new_points.forEach((p) => this.points.push(p));
-        this.points = this.points.slice(new_points.length);
+        new_points.chartPoints.forEach((p) => this.points.push(p));
+        this.points = this.points.slice(new_points.chartPoints.length);
         this.drawChart();
       });
   }
