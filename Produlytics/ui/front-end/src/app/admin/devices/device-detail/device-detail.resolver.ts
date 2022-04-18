@@ -7,6 +7,9 @@ import {Observable} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
+/**
+ * Modella le interrogazioni asincrone da fare prima del caricamento della pagina di dettaglio della macchina.
+ */
 export class DeviceDetailResolver implements Resolve<Device> {
 
   constructor(
@@ -14,7 +17,13 @@ export class DeviceDetailResolver implements Resolve<Device> {
   ) {
   }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Device> {
+  /**
+   * Ereditato da {@link Resolve}. Ottiene la macchina indicata come parametro dalla {@link ActivatedRouteSnapshot}
+   * attivata. Si interfaccia con un servizio che implementa {@link FindDeviceAbstractService}.
+   *
+   * @param route il link url attivato per arrivare a questa pagina.
+   */
+  resolve(route: ActivatedRouteSnapshot): Observable<Device> {
     return this.findDeviceService.findDeviceById(Number(route.params['id']));
   }
 

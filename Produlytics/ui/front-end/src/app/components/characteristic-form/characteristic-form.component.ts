@@ -10,6 +10,9 @@ import {CharacteristicCreationCommand} from "../../model/admin-device/new/charac
   styleUrls: ['./characteristic-form.component.css'],
   encapsulation: ViewEncapsulation.None
 })
+/**
+ * Questa classe incapsula la logica di inserimento o modifica di una caratteristica.
+ */
 export class CharacteristicFormComponent implements OnInit {
 
   @Input() startingData: Characteristic | null = null;
@@ -30,6 +33,10 @@ export class CharacteristicFormComponent implements OnInit {
     });
   }
 
+  /**
+   * Ereditato da {@link OnInit}. Configura la logica di validazioni dei dati del {@link FormGroup}. Inoltre,
+   * inizializza il form con i dati iniziali se sono presenti.
+   */
   ngOnInit(): void {
     if (this.startingData) {
       this.formGroup.setValue({
@@ -63,6 +70,9 @@ export class CharacteristicFormComponent implements OnInit {
     });
   }
 
+  /**
+   * Questo metodo permette di ottenere i dati del {@link FormGroup} sotto forma di {@link CharacteristicCreationCommand}.
+   */
   requireData(): CharacteristicCreationCommand {
     const rawValue = this.formGroup.getRawValue();
     if (rawValue.autoAdjust) {

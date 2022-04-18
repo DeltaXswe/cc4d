@@ -14,6 +14,9 @@ import {DeviceDataSource} from "./device.data-source";
   templateUrl: './devices.component.html',
   styleUrls: ['./devices.component.css']
 })
+/**
+ * Questo component permette di censire e modificare le macchine del sistema.
+ */
 export class DevicesComponent implements OnInit {
   private reloader: Observer<void> = {
     next: () => {
@@ -42,18 +45,33 @@ export class DevicesComponent implements OnInit {
     private matDialog: MatDialog
   ) { }
 
+  /**
+   * Ereditato dall'interfaccia {@link OnInit}. Inizializza i dati da visualizzare nella tabella delle macchine.
+   */
   ngOnInit(): void {
     this.initTable();
   }
 
+  /**
+   * Naviga alla pagina di inserimento nuova macchina, tramite un oggetto della classe {@link Router}.
+   */
   createDevice(): void {
     this.router.navigate(['gestione-macchine', 'nuova']);
   }
 
+  /**
+   * Naviga alla pagina di dettaglio della macchina passata come parametro, tramite un oggetto della classe {@link Router}.
+   * @param device la macchina della quale vedere il dettaglio.
+   */
   openDeviceDetail(device: Device): void {
     this.router.navigate(['gestione-macchine', device.id]);
   }
 
+  /**
+   * Attiva la macchina passata come parametro se era disattivata, altrimenti la disattiva. Questo metodo
+   * si interfaccia con il server mediante un servizio che implementa {@link DeviceAbstractService}.
+   * @param device il device da attivare o disattivare.
+   */
   toggleActivationDevice(device: Device): void {
     if (device.deactivated) {
       this.deviceService.activateDevice(device)
@@ -80,6 +98,11 @@ export class DevicesComponent implements OnInit {
     }
   }
 
+  /**
+   * Archivia la macchina passata come parametro se non lo era, viceversa la ripristina. Si
+   * interfaccia con un servizio che implementa {@link DeviceAbstractService}.
+   * @param device la macchina da archiviare o ripristinare.
+   */
   toggleStatusDevice(device: Device): void {
     if (device.archived) {
       this.deviceService.restoreDevice(device)
@@ -115,6 +138,9 @@ export class DevicesComponent implements OnInit {
     }
   }
 
+  /**
+   * Inizializza la tabella delle macchine.
+   * */
   private initTable() {
     this.deviceService.getDevices()
       .subscribe({

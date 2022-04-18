@@ -14,6 +14,9 @@ import {DeviceCreationCommand} from "../../../model/admin-device/new/device-crea
   templateUrl: './new-device.component.html',
   styleUrls: ['./new-device.component.css']
 })
+/**
+ * Questa pagina permette di creare una nuova macchina.
+ */
 export class NewDeviceComponent implements OnInit {
 
   formGroup: FormGroup;
@@ -32,10 +35,18 @@ export class NewDeviceComponent implements OnInit {
     });
   }
 
+  /**
+   * Ereditato da {@link OnInit}. Inizializza la logica di validazione del form.
+   */
   ngOnInit(): void {
     this.initForm();
   }
 
+  /**
+   * Apre una finestra di dialogo (classe {@link NewCharacteristicDialogComponent}) che permette di aggiungere una
+   * caratteristica alla macchina in creazione. Alla chiusura della finestra di dialogo, se l'operazione non era
+   * stata annullata, viene aggiunta la caratteristica all'elenco.
+   */
   openNewCharacteristicDialog(): void {
     const dialogRef = this.matDialog.open(NewCharacteristicDialogComponent, {
       data: {
@@ -49,6 +60,11 @@ export class NewDeviceComponent implements OnInit {
     });
   }
 
+  /**
+   * Tenta l'inserimento della macchina, interfacciandosi con un servizio che implementa {@link NewDeviceAbstractService}.
+   * Se l'inserimento va a buon fine, l'utente visualizza tramite una {@link MatSnackBar} un messaggio. Altrimenti,
+   * viene notificato al form dei dati di mostrare una spiegazione dell'errore.
+   */
   insertDevice(): void {
     const device: DeviceCreationCommand = {
       name: this.formGroup.getRawValue().name,
@@ -79,6 +95,11 @@ export class NewDeviceComponent implements OnInit {
     })
   }
 
+  /**
+   * Inizializza la logica di validazione del campo del nome della macchina.
+   * @private che contiene solo un campo hihihi
+   *
+   */
   private initForm(): void {
     const nameField = this.formGroup.get('name');
     if (nameField) {
