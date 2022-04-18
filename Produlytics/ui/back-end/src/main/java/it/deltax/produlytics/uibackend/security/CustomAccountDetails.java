@@ -35,7 +35,6 @@ public class CustomAccountDetails implements UserDetails {
 	 */
 	@Override
 	public String getPassword() {
-		System.out.println("getPassword");
 		return this.account.getHashedPassword();
 	}
 

@@ -118,7 +118,8 @@ public class AdminsDevicesController {
 		@PathVariable("id") int id,
 		@RequestBody JsonNode body) throws BusinessException {
 		boolean archived = body.get("archived").asBoolean();
-		this.updateDeviceArchiveStatusUseCase.updateDeviceArchiveStatus(new DeviceArchiveStatus(id, archived));
+		this.updateDeviceArchiveStatusUseCase.updateDeviceArchiveStatus(
+			new DeviceArchiveStatus(id, archived));
 		return new ResponseEntity<>(NO_CONTENT);
 	}
 
