@@ -1,11 +1,22 @@
-.ciao{
-  height: 500px;
-  width: 500px;
-}
-/* mat-card{
+/* ::ng-deep .mat-card mat-focus-indicator{
   height: 100%;
   width: 100%;
+  box-sizing: border-box;
 } */
+
+.d3svg{
+  width: 1150px;
+  height: 550px;
+}
+mat-card-content{
+  height: 100%;
+  width: 100%;
+  
+}
+mat-card{
+  height: 100%;
+  width: 100%;
+}
 ::ng-deep .d3svg title {
   fill: black;
   text-anchor: middle;

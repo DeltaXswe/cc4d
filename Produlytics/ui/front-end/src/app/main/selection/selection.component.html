@@ -6,11 +6,9 @@
     <!-- <div fxLayout="row wrap" fxLayoutGap="8px" fxLayoutAlign="space-around center">
       <app-chart fxFlex.gt-xs="50%" fxFlex.xs="100%" *ngFor="let tile of characteristics; let i = index" [currentNode]="tile" [index]="i"></app-chart>
     </div> -->
-    <mat-grid-list cols="2" rowHeight="{{height}}">
-      <mat-grid-tile class="tile" *ngFor="let tile of characteristics; let i = index" [colspan]="this.colspan" [rowspan]="this.rowspan">
-          <app-chart [currentNode] = tile [index] = i></app-chart>
-      </mat-grid-tile>
-    </mat-grid-list>
+    <div class="chart-container" *ngFor="let tile of characteristics; let i = index">
+      <app-chart [currentNode] = tile [index] = i></app-chart>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
 <ngb-carousel *ngIf="!showCarousel">

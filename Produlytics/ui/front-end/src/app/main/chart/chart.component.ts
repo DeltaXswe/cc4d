@@ -49,18 +49,18 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // TODO: Nomi migliori e separati dai metodi?
-  margin = { top: 10, right: 60, bottom: 30, left: 60 };
+  margin = { top: 10, right: 60, bottom: 60, left: 60 };
   get chartWidth(): number {
-    /* const svgWidth = parseInt(d3.select('.d3svg').style('width'), 10);
-    return svgWidth- this.margin.left - this.margin.right; */
-    console.log(this.cardContent.nativeElement.getBoundingClientRect().width)
-    return this.cardContent.nativeElement.offsetWidth;
+    const svgWidth = parseInt(d3.select('.d3svg').style('width'), 10);
+    return svgWidth- this.margin.left - this.margin.right;
+    /* console.log(this.cardContent.nativeElement.getBoundingClientRect().width)
+    return this.cardContent.nativeElement.offsetWidth; */
   }
   get chartHeight(): number {
-    /* const svgHeight = parseInt(d3.select('.d3svg').style('height'), 10);
-    return svgHeight - this.margin.top - this.margin.bottom; */
-    console.log(this.cardContent.nativeElement.offsetHeight);
-    return this.cardContent.nativeElement.offsetHeight;
+    const svgHeight = parseInt(d3.select('.d3svg').style('height'), 10);
+    return svgHeight - this.margin.top - this.margin.bottom;
+    /* console.log(this.cardContent.nativeElement.offsetHeight);
+    return this.cardContent.nativeElement.offsetHeight; */
   }
   openDialog(){
     const dialogRef = this.dialog.open(DatePickerDialogComponent);
@@ -84,13 +84,13 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   createChart() {
       this.svg = d3
         .selectAll(`#d3svg${this.index}`)
-        .append('svg')
+        //.append('svg')
         .append('g')
         .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
 
-      d3.selectAll(`#d3svg${this.index}`)
+      /* d3.selectAll(`#d3svg${this.index}`)
         .style('width', this.chartWidth + "px")
-        .style('height', this.chartHeight + "px")
+        .style('height', this.chartHeight + "px") */
 
       this.xScale = d3.scaleTime().range([0, this.chartWidth]);
       this.yScale = d3.scaleLinear().range([this.chartHeight, 0]);
