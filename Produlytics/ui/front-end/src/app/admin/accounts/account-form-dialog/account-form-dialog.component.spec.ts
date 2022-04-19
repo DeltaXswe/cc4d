@@ -211,18 +211,10 @@ describe('AccountFormDialogComponent edit mode', () => {
   })
 
   it('should enable and disable the toggle', () => {
-    component.toggleChangePassword({
-      checked: true,
-      // @ts-ignore
-      source: null
-    });
+    component.toggleChangePassword(true);
     expect(component.formGroup.get('password')?.enabled)
       .toBeTrue();
-    component.toggleChangePassword({
-      checked: false,
-      // @ts-ignore
-      source: null
-    });
+    component.toggleChangePassword(false);
     expect(component.formGroup.get('password')?.disabled)
       .toBeTrue();
 

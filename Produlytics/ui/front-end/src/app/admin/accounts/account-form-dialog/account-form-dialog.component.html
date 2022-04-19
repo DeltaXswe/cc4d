@@ -37,7 +37,7 @@
           La password non rispetta i criteri minimi di sicurezza.
         </mat-error>
       </mat-form-field>
-      <mat-slide-toggle *ngIf="editMode" (change)="toggleChangePassword($event)">
+      <mat-slide-toggle *ngIf="editMode" (change)="toggleChangePassword($event.checked)">
         Cambia password
       </mat-slide-toggle>
     </div>

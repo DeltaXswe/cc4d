@@ -1,13 +1,14 @@
 import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Account} from "../../../model/admin-account/account";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {StandardError} from "../../../../lib/standard-error";
 import {SaveAccountAbstractService} from "../../../model/admin-account/save-account-abstract.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AccountSaveCommand} from "../../../model/admin-account/account-save-command";
-import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {LoginAbstractService} from "../../../model/login/login-abstract.service";
+import {Observable, tap} from "rxjs";
+import {ErrorDialogComponent} from "../../../components/error-dialog/error-dialog.component";
 
 @Component({
   selector: 'app-account-form-dialog',
@@ -15,6 +16,11 @@ import {LoginAbstractService} from "../../../model/login/login-abstract.service"
   styleUrls: ['./account-form-dialog.component.css'],
   encapsulation: ViewEncapsulation.None
 })
+/**
+ * Gestisce la modifica di un utente fornito nel campo data di {@link MAT_DIALOG_DATA} o inserimento di un nuovo utente.
+ *
+ * Il dato è in questa forma: data?: { account: Account }.
+ */
 export class AccountFormDialogComponent implements OnInit {
 
   formGroup: FormGroup;
@@ -27,6 +33,7 @@ export class AccountFormDialogComponent implements OnInit {
     private matDialogRef: MatDialogRef<AccountFormDialogComponent>,
     private saveAccountService: SaveAccountAbstractService,
     private matSnackBar: MatSnackBar,
+    private matDialog: MatDialog,
     loginService: LoginAbstractService,
     formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data?: { account: Account }
@@ -49,6 +56,9 @@ export class AccountFormDialogComponent implements OnInit {
     }
   }
 
+  /**
+   * Ereditato da {@link OnInit}. Viene usato per configurare la logica di validazione del form.
+   */
   ngOnInit(): void {
     const usernameField = this.formGroup.get('username')!;
     if (this.editMode) {
@@ -56,10 +66,17 @@ export class AccountFormDialogComponent implements OnInit {
     }
   }
 
+  /**
+   * Annulla l'operazione, chiudendo la finestra di dialogo tramite {@link MatDialogRef} senza parametri.
+   */
   cancel(): void {
     this.matDialogRef.close();
   }
 
+  /**
+   * Tenta la conferma dell'operazione. Se dà successo, allora chiude la finestra di dialogo indicando che
+   * l'operazione ha avuto successo. Altrimenti visualizza l'errore a schermo.
+   */
   confirm(): void {
     const rawValue = this.formGroup.getRawValue();
     const command: AccountSaveCommand = {
@@ -67,16 +84,30 @@ export class AccountFormDialogComponent implements OnInit {
       password: rawValue.password,
       administrator: rawValue.administrator
     };
+    let operation: Observable<{ }>;
     if (this.editMode) {
-      this.updateAccount(command);
+      operation = this.updateAccount(command);
     } else {
-      this.insertAccount(command);
+      operation = this.insertAccount(command);
     }
+    operation.subscribe({
+      next: () => {
+        this.matDialogRef.close(true);
+      },
+      error: (err: StandardError) => {
+        this.showError(err);
+      }
+    });
   }
 
-  toggleChangePassword(toggleChange: MatSlideToggleChange): void {
+  /**
+   * Se enabled è true allora imposta lo stato per abilitare alla modifica della password, altrimenti lo imposta per
+   * mantenerla com'è.
+   * @param enabled lo stato da imporre alla form.
+   */
+  toggleChangePassword(enabled: boolean): void {
     const field = this.formGroup.get('password')!;
-    if (toggleChange.checked) {
+    if (enabled) {
       field.enable();
       field.setValidators(this.passwordValidators);
       field.updateValueAndValidity();
@@ -88,49 +119,60 @@ export class AccountFormDialogComponent implements OnInit {
     }
   }
 
-  private insertAccount(command: AccountSaveCommand): void {
-    this.saveAccountService.insertAccount(command)
-      .subscribe({
-        next: () => {
-          this.matSnackBar.open(
-            'Utente inserito con successo',
-            'Ok'
-          );
-          this.matDialogRef.close(true);
-        },
-        error: (err: StandardError) => {
-          if (err.errorCode === 'invalidPassword') {
-            this.invalidPasswordError();
-          }
-          if (err.errorCode === 'duplicateUsername') {
-            this.formGroup.get('username')?.setErrors({duplicateUsername: true})
-          }
-        }
-      });
-  }
-
-  private updateAccount(command: AccountSaveCommand): void {
-    this.saveAccountService.updateAccount(command).subscribe({
-      next: () => {
+  /**
+   * Tenta l'inserimento di un nuovo utente tramite un {@link AccountSaveCommand}, interfacciandosi
+   * con un servizio che implementa {@link SaveAccountAbstractService}. Restituisce un observable dell'operazione.
+   * @param command le informazioni del nuovo utente.
+   * @private
+   */
+  private insertAccount(command: AccountSaveCommand): Observable<{ username: string }> {
+    return this.saveAccountService.insertAccount(command)
+      .pipe(tap(({username}) => {
         this.matSnackBar.open(
-          'Utente aggiornato con successo',
+          `Utente "${username}" inserito con successo`,
           'Ok'
         );
-        this.matDialogRef.close(true);
-      },
-      error: (err: StandardError) => {
-        if (err.errorCode === 'invalidPassword') {
-          this.invalidPasswordError();
-        }
-        if (err.errorCode === 'userNotFound') {
-          this.formGroup.get('username')?.setErrors({userNotFound: true});
-        }
-      }
-    });
+      }));
   }
 
-  private invalidPasswordError() {
-    this.formGroup.get('password')?.setErrors({invalidPassword: true});
+  /**
+   * Tenta la modifica di un utente esistente, tramite un {@link AccountSaveCommand}, interfacciandosi
+   * con un servizio che implementa {@link SaveAccountAbstractService}. Restituisce un observable dell'operazione.
+   * @param command le informazioni di modifica dell'utente.
+   * @private
+   */
+  private updateAccount(command: AccountSaveCommand): Observable<{ }> {
+    return this.saveAccountService.updateAccount(command)
+      .pipe(tap(() => {
+        this.matSnackBar.open(
+          `Utente "${command.username}" aggiornato con successo`,
+          'Ok'
+        );
+      }));
   }
 
+  /**
+   * Incapsula la logica di visualizzazione dell'errore.
+   * @param err l'errore da visualizzare.
+   * @private
+   */
+  private showError(err: StandardError) {
+    switch (err.errorCode) {
+      case 'invalidPassword':
+        this.formGroup.get('password')?.setErrors({invalidPassword: true});
+        break;
+      case 'userNotFound':
+        this.formGroup.get('username')?.setErrors({userNotFound: true});
+        break;
+      case 'duplicateUsername':
+        this.formGroup.get('username')?.setErrors({duplicateUsername: true});
+        break;
+      default:
+        this.matDialog.open(ErrorDialogComponent, {
+          data: {
+            message: `Errore non riconosciuto: "${JSON.stringify(err)}"`
+          }
+        });
+    }
+  }
 }

@@ -6,7 +6,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {_MatDialogContainerBase, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {MatDialogModule} from "@angular/material/dialog";
 import {MatInputModule} from "@angular/material/input";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {SaveAccountService} from "../model/admin-account/save-account.service";
@@ -28,7 +28,8 @@ export const testModules = [
   MatFormFieldModule,
   MatInputModule,
   MatCheckboxModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatDialogModule
 ];
 
 // per i test d'integrazione
