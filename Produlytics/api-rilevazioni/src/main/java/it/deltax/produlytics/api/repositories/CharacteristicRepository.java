@@ -33,7 +33,7 @@ public interface CharacteristicRepository extends CrudRepository<CharacteristicE
 				WHERE dt.device_id = :deviceId AND dt.characteristic_id = :characteristicId
 				ORDER BY dt.creation_time DESC
 				LIMIT (
-					SELECT sample_size
+					SELECT COALESCE(sample_size, 0)
 					FROM characteristic ch2
 					WHERE ch2.device_id = :deviceId AND ch2.id = :characteristicId
 				)

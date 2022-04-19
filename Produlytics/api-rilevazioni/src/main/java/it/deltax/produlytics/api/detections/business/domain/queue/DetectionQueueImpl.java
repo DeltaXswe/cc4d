@@ -74,26 +74,13 @@ public class DetectionQueueImpl implements DetectionQueue {
         // Ritorna un `Single` perchè la sua creazione può richiedere una chiamata al database,
         // e questa non dovrebbe bloccare il subscribe del `group` in `handleDetectionGroup`.
         // `.cache()` è importante per non ricreare la `DetectionSerie` per ogni rilevazione.
-		Single<DetectionSerie> serieSingle = Single.fromCallable(() -> this.serieFactory.createSerie(key)).cache().subscribeOn(Schedulers.io());
+		DetectionSerie serie = this.serieFactory.createSerie(key);
 
 		// TODO: Fix warning subscribe ignored
 		group.observeOn(Schedulers.computation())
 			.timeout(300, TimeUnit.SECONDS, Flowable.empty())
-			.concatMapCompletable(detection -> this.handleDetection(serieSingle, detection))
 			// Segnala il completamento di questo gruppo al Phaser, senza aspettare gli altri.
 			.doFinally(this.groupPhaser::arriveAndDeregister)
-			.subscribe();
-	}
-
-	// Gestisce una singola rilevazione, semplicemente chiamando `DetectionSerie::insertDetection`.
-	// Note importanti:
-	// - ritorna un `Completable` su cui è settato `subscribeOn(Schedulers.io())` così che ogni
-	//   rilevazione possa essere gestita su un thread diverso (altrimenti tutte le rilevazione di una
-	//   stessa caratteristica saranno gestite sullo stesso thread).
-	// - viene usato Schedulers.io() invece che Schedulers.computation() perchè il grosso del lavoro
-	//   sarà aspettare la risposta a chiamate al database.
-	private Completable handleDetection(Single<DetectionSerie> serieSingle, Detection detection) {
-		return serieSingle.flatMapCompletable(serie -> Completable.fromAction(() -> serie.insertDetection(detection)))
-			.subscribeOn(Schedulers.io());
+			.subscribe(serie::insertDetection);
 	}
 }

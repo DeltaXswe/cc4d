@@ -21,7 +21,7 @@ public class ControlChartZoneC implements ControlChart {
 		long inLowerZone = detections.stream().filter(detection -> detection.value() < mean).count();
 		long inUpperZone = detections.stream().filter(detection -> detection.value() > mean).count();
 
-		if(inLowerZone >= 7 || inUpperZone >= 7) {
+		if(inLowerZone == 7 || inUpperZone == 7) {
 			ControlChartUtils.markAll(detections);
 		}
 	}

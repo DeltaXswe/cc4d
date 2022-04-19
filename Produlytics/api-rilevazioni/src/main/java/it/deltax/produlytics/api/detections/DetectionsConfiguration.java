@@ -16,7 +16,7 @@ import it.deltax.produlytics.api.detections.business.domain.validate.DetectionVa
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidatorImpl;
 import it.deltax.produlytics.api.detections.business.ports.in.ProcessIncomingDetectionUseCase;
 import it.deltax.produlytics.api.detections.business.ports.out.*;
-import it.deltax.produlytics.api.detections.business.ports.services.DetectionsService;
+import it.deltax.produlytics.api.detections.business.services.DetectionsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

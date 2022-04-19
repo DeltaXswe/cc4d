@@ -21,10 +21,11 @@ public class ControlChartsGroupImpl implements ControlChartsGroup {
 		for(ControlChart controlChart : this.controlCharts) {
 			// Evita d'interrogare la carta di controllo se non ci sono abbastanza rilevazioni.
 			int count = controlChart.requiredDetectionCount();
-			if(detections.size() >= count) {
-				// Passa solo le ultime rilevazioni richieste dalla carta di controllo.
-				controlChart.analyzeDetections(this.cutLastDetections(detections, count), limits);
+			if (detections.size() < count) {
+				continue;
 			}
+			// Passa solo le ultime rilevazioni richieste dalla carta di controllo.
+			controlChart.analyzeDetections(this.cutLastDetections(detections, count), limits);
 		}
 	}
 
