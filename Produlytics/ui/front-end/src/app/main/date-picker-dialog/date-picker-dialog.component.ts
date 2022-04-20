@@ -9,7 +9,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class DatePickerDialogComponent implements OnInit {
   dateForm: FormGroup;
-
+  startTime = {hour: 12, minute: 0, second: 0};
+  endTime = {hour: 12, minute: 0, second: 0};
   constructor(formBuilder: FormBuilder,
     private matDialogRef: MatDialogRef<DatePickerDialogComponent>) {
     this.dateForm = formBuilder.group({
@@ -21,7 +22,11 @@ export class DatePickerDialogComponent implements OnInit {
   ngOnInit(): void {
   }
   confirm(){
-    this.matDialogRef.close({data: this.dateForm.getRawValue()});
+    let wtf: number[] = [
+      Date.parse(this.dateForm.getRawValue().start) + ((this.startTime.hour*3600 + this.startTime.minute*60 + this.startTime.second)*1000),
+      Date.parse(this.dateForm.getRawValue().end) + ((this.endTime.hour*3600 + this.endTime.minute*60 + this.endTime.second)*1000)
+    ];
+    this.matDialogRef.close(wtf);
   }
 
   cancel(){

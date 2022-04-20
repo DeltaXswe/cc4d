@@ -69,7 +69,8 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       if (res){
         this.updateSubscription?.unsubscribe();
         this.clearChart();
-        this.chartService.getOldPoints(res.data.start, res.data.end, this.currentNode?.device.id, this.currentNode?.id)
+        console.log(res[0]);
+        this.chartService.getOldPoints(res[0], res[1], this.currentNode?.device.id, this.currentNode?.id)
           .subscribe({
             next: (points) => this.points = points.chartPoints
           });

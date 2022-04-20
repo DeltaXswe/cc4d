@@ -109,9 +109,11 @@ export class FakeChartService implements ChartAbstractService {
       return this.fakeLimits3;
   }
 
-  getOldPoints(start: string, end: string, deviceId: number, characteristicId: number): Observable<ChartPointReturn>{
+  getOldPoints(start: number, end: number, deviceId: number, characteristicId: number): Observable<ChartPointReturn>{
     let points: ChartPoint[] = [];
-     for (let i = Date.parse(start); i < Date.parse(start)+3000000; i+= 1000){
+    console.log(start);
+    console.log(end);
+     for (let i = /* Date.parse */(start); i < /* Date.parse */(end); i+= 1000){
       let value: number = Math.floor(Math.random() * (500));
       value *= Math.round(Math.random()) ? 1 : -1;
       let point: ChartPoint = {
