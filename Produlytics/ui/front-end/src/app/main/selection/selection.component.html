@@ -3,6 +3,7 @@
     <app-device-selection (devicesChanged)="onSubmit($event)"></app-device-selection>
   </mat-sidenav>
   <mat-sidenav-content class="deltax-content">
+    <div *ngIf="this.characteristics.length == 0" id="placeholder"></div>
     <!-- <div fxLayout="row wrap" fxLayoutGap="8px" fxLayoutAlign="space-around center">
       <app-chart fxFlex.gt-xs="50%" fxFlex.xs="100%" *ngFor="let tile of characteristics; let i = index" [currentNode]="tile" [index]="i"></app-chart>
     </div> -->
