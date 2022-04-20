@@ -4,35 +4,16 @@ import {Observable, of, Subject, throwError} from "rxjs";
 import {Account} from "../../model/admin-account/account";
 import {SaveAccountAbstractService} from "../../model/admin-account/save-account-abstract.service";
 import {AccountSaveCommand} from "../../model/admin-account/account-save-command";
-
-class AccountEntity {
-  username: string;
-  administrator: boolean;
-  archived: boolean;
-  password: string = 'START';
-
-  constructor(account: Account) {
-    this.username = account.username;
-    this.administrator = account.administrator;
-    this.archived = account.archived;
-  }
-
-  static CREATE(command: AccountSaveCommand): AccountEntity {
-    const nova = new AccountEntity({
-      username: command.username,
-      archived: false,
-      administrator: command.administrator
-    });
-    nova.password = command.password!;
-    return nova;
-  }
-
-  update(command: AccountSaveCommand): void {
-    this.username = command.username;
-    this.administrator = command.administrator;
-    if (command.password) { this.password = command.password; }
-  }
-}
+import {LoginAbstractService} from "../../model/login/login-abstract.service";
+import {LoginCommand} from "../../model/login/login-command";
+import {users} from "./users";
+import {HttpErrorResponse, HttpHeaders, HttpParams} from "@angular/common/http";
+import {Router} from "@angular/router";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {CookieService} from "ngx-cookie-service";
+import {AccountEntity} from "./account-entity";
+import {ModifyPwAbstractService} from "../../model/modify-pw/modify-pw-abstract.service";
+import {ModifyPwCommand} from "../../model/modify-pw/modify-pw-command";
 
 const userNotFoundError = {
   errorCode: 'userNotFound'
@@ -43,42 +24,24 @@ const userNotFoundError = {
 })
 export class FakeAccountService implements
   AccountAbstractService,
-  SaveAccountAbstractService
+  SaveAccountAbstractService,
+  LoginAbstractService,
+  ModifyPwAbstractService
 {
 
-  private accounts: AccountEntity[] = [
-    {
-      username: 'billy',
-      administrator: true,
-      archived: false
-    },
-    {
-      username: 'britney',
-      administrator: false,
-      archived: false
-    },
-    {
-      username: 'bobby',
-      administrator: false,
-      archived: true
-    },
-    {
-      username: 'alice',
-      administrator: true,
-      archived: false
-    }
-  ].map(account => new AccountEntity(account));
-
-  constructor() {
-    console.log('Sono stato creato aaaaaaaaa end my sufferings');
+  constructor(
+    private matSnackBar: MatSnackBar,
+    private cookieService: CookieService,
+    private router: Router // qui dobbiamo rivedere la prog.
+  ) {
   }
 
   getAccounts(): Observable<Account[]> {
-    return of(this.accounts);
+    return of(users);
   }
 
   archiveAccount(account: Account): Observable<{}> {
-    const source = this.accounts.find(source => account.username === source.username);
+    const source = users.find(source => account.username === source.username);
     if (source) {
       source.archived = true;
       return of({});
@@ -88,7 +51,7 @@ export class FakeAccountService implements
   }
 
   recoverAccount(account: Account): Observable<{}> {
-    const source = this.accounts.find(source => account.username === source.username);
+    const source = users.find(source => account.username === source.username);
     if (source) {
       source.archived = false;
       return of({});
@@ -103,23 +66,86 @@ export class FakeAccountService implements
         errorCode: 'invalidPassword'
       });
     }
-    if (this.accounts.find(account => account.username === command.username)) {
+    if (users.find(account => account.username === command.username)) {
       return throwError({
         errorCode: 'duplicateUsername'
       });
     } else {
-      this.accounts.push(AccountEntity.CREATE(command));
+      users.push(AccountEntity.CREATE(command));
       return of(command);
     }
   }
 
   updateAccount(command: AccountSaveCommand): Observable<{}> {
-    const source = this.accounts.find(source => command.username === source.username);
+    const source = users.find(source => command.username === source.username);
     if (source) {
       source.update(command);
       return of({});
     } else {
       return throwError(userNotFoundError);
+    }
+  }
+
+  login(command: LoginCommand): Observable<any> {
+    if(users.find(account => account.username === command.username &&
+      users.find(account => account.password === command.password))){
+      localStorage.setItem('accessToken', JSON.stringify(
+        users.find(wow => wow.username === command.username))
+      );
+      const httpOptions = {
+        headers: new HttpHeaders()
+          .set('Authorization', `Basic ${btoa(command.username + ':' + command.password)}`),
+        params: new HttpParams()
+          .set('remember-me', command.rememberMe)
+      };
+      console.log(httpOptions);
+      if (command.rememberMe)
+        this.cookieService.set('PRODULYTICS_RM', 'valore');
+      this.router.navigate(['/']);
+      return of({});
+    } else {
+      const error = new HttpErrorResponse({ status: 401 });
+      return throwError(() => (error));
+    }
+  }
+
+  isLogged(): boolean {
+    if (localStorage.getItem('accessToken'))
+      return true;
+    else
+      return false;
+  }
+
+  isAdmin(): boolean{
+    let user = localStorage.getItem('accessToken');
+    if (user)
+      return JSON.parse(user).isAdmin;
+    else
+      return false;
+  }
+
+  logout(): void {
+    localStorage.removeItem('accessToken');
+    this.cookieService.delete('PRODULYTICS_RM');
+    this.router.navigate(['/login']);
+  }
+
+  getUsername(){
+    let user = localStorage.getItem('accessToken');
+    if (user)
+      return JSON.parse(user).username;
+    else
+      return 'username';
+  }
+
+  modifyPw(username: string, command: ModifyPwCommand){
+    if(users.find(account => account.username === username) &&
+      users.find(account => account.password === command.oldPassword)){
+      users.find(account => account.username === username)!.password = command.newPassword;
+      return of({});
+    } else{
+      const error = new HttpErrorResponse({ status: 401 });
+      return throwError(() => error);
     }
   }
 }
