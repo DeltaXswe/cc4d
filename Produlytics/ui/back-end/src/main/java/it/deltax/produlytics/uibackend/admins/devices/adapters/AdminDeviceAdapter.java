@@ -22,6 +22,7 @@ public class AdminDeviceAdapter implements
 	InsertDevicePort,
 	GetDevicesPort,
 	FindTinyDevicePort,
+	FindTinyDeviceByNamePort,
 	FindDetailedDevicePort,
 	UpdateDeviceArchiveStatusPort,
 	UpdateDeviceDeactivateStatusPort,
@@ -67,6 +68,21 @@ public class AdminDeviceAdapter implements
 				new TinyDevice(
 					device.getId(),
 					device.getName())
+			);
+	}
+
+	/**
+	 * Trova nello strato di persistenza una macchina, dato il suo nome
+	 * @param name il nome della macchina da trovare
+	 * @return la macchina, se trovata, con id e nome; Optional vuoto, altrimenti
+	 */
+	@Override
+	public Optional<TinyDevice> findByName(String name){
+		return this.repo.findByName(name).stream().findFirst()
+			.map(device ->
+				new TinyDevice(
+					device.id(),
+					device.name())
 			);
 	}
 

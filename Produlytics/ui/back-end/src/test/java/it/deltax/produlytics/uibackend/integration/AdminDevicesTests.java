@@ -90,7 +90,7 @@ public class AdminDevicesTests {
 			.put("archived", "false");
 		characteristics.put(characteristic1);
 		JSONObject device = new JSONObject()
-			.put("name", "macchina1")
+			.put("name", "macchina1000")
 			.put("characteristics", characteristics);
 
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/admin/devices")
@@ -99,6 +99,32 @@ public class AdminDevicesTests {
 				.characterEncoding("utf-8")
 			).andDo(print())
 			.andExpect(status().isOk());
+	}
+
+	/**
+	 * Testa l'inserimento di una nuova macchina
+	 * @throws Exception esiste già una macchina con lo stesso nome
+	 */
+	@Test
+	public void testInsertDeviceDuplicateName() throws Exception {
+		JSONArray characteristics = new JSONArray();
+		JSONObject characteristic1 = new JSONObject()
+			.put("name", "pressione")
+			.put("autoAdjust", "true")
+			.put("sampleSize", 5)
+			.put("archived", "false");
+		characteristics.put(characteristic1);
+		JSONObject device = new JSONObject()
+			.put("name", "macchina1")
+			.put("characteristics", characteristics);
+
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/admin/devices")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(device.toString())
+				.characterEncoding("utf-8")
+			).andDo(print())
+			.andExpect(status().is(400))
+			.andExpect(content().string("{\"errorCode\":\"duplicateDeviceName\"}"));
 	}
 
 	/**
@@ -162,6 +188,24 @@ public class AdminDevicesTests {
 			).andDo(print())
 			.andExpect(status().isNotFound())
 			.andExpect(content().string("{\"errorCode\":\"deviceNotFound\"}"));
+	}
+
+	/**
+	 * Testa la modifica del nome di una macchina non esistente
+	 * @throws Exception la macchina non è stata trovata
+	 */
+	@Test
+	public void testModifyDeviceDuplicateName() throws Exception {
+		JSONObject json = new JSONObject();
+		json.put("name", "macchina2");
+
+		this.mockMvc.perform(put("/admin/devices/"+deviceId1+"/name")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json.toString())
+				.characterEncoding("utf-8")
+			).andDo(print())
+			.andExpect(status().is(400))
+			.andExpect(content().string("{\"errorCode\":\"duplicateDeviceName\"}"));
 	}
 
 	/**

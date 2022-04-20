@@ -2,6 +2,7 @@ package it.deltax.produlytics.uibackend.admins.devices.business.services;
 
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.in.UpdateDeviceNameUseCase;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.DetailedDevice;
+import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindTinyDeviceByNamePort;
 import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindDetailedDevicePort;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.UpdateDeviceNamePort;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UpdateDeviceNameService implements UpdateDeviceNameUseCase {
 	private final FindDetailedDevicePort findDetailedDevicePort;
+	private final FindTinyDeviceByNamePort findTinyDeviceByNamePort;
 	private final UpdateDeviceNamePort updateDeviceNamePort;
 
 	/**
@@ -24,24 +26,30 @@ public class UpdateDeviceNameService implements UpdateDeviceNameUseCase {
 	 */
 	public UpdateDeviceNameService(
 		FindDetailedDevicePort findDetailedDevicePort,
+		FindTinyDeviceByNamePort findTinyDeviceByNamePort,
 		UpdateDeviceNamePort updateDeviceNamePort) {
 		this.findDetailedDevicePort = findDetailedDevicePort;
+		this.findTinyDeviceByNamePort = findTinyDeviceByNamePort;
 		this.updateDeviceNamePort = updateDeviceNamePort;
 	}
 
 	/**
 	 * Aggiorna il nome di una macchina
 	 * @param tinyDevice la macchina con il nome aggiornato
-	 * @throws BusinessException se la macchina non è stata trovata
+	 * @throws BusinessException se la macchina non è stata trovata o esiste già una macchina con lo stesso nome
 	 */
 	@Override
 	public void updateDeviceName(TinyDevice tinyDevice) throws BusinessException {
 		DetailedDevice.DetailedDeviceBuilder toUpdate =
 			this.findDetailedDevicePort.findDetailedDevice(tinyDevice.id())
-			.map(device -> device.toBuilder())
-			.orElseThrow(() -> new BusinessException("deviceNotFound", ErrorType.NOT_FOUND));
+				.map(device -> device.toBuilder())
+				.orElseThrow(() -> new BusinessException("deviceNotFound", ErrorType.NOT_FOUND));
 
-		toUpdate.withName(tinyDevice.name());
-		this.updateDeviceNamePort.updateDeviceName(toUpdate.build());
+		if(findTinyDeviceByNamePort.findByName(tinyDevice.name()).isPresent()) {
+			throw new BusinessException("duplicateDeviceName", ErrorType.GENERIC);
+		}else {
+			toUpdate.withName(tinyDevice.name());
+			this.updateDeviceNamePort.updateDeviceName(toUpdate.build());
+		}
 	}
 }

@@ -101,7 +101,8 @@ public class AdminsDevicesController {
 	public ResponseEntity<String> updateDeviceName(
 		@PathVariable("id") int id,
 		@RequestBody JsonNode body) throws BusinessException {
-		String name = body.get("name").toString();
+		String name = body.get("name").asText();
+		System.out.println(name);
 		this.updateDeviceNameUseCase.updateDeviceName(new TinyDevice(id, name));
 		return new ResponseEntity<>(NO_CONTENT);
 	}
