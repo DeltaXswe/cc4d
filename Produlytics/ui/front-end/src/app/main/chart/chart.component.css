@@ -3,11 +3,11 @@
   width: 100%;
   box-sizing: border-box;
 } */
-
-.d3svg{
-  width: 1150px;
-  height: 550px;
+.chart-container{
+  overflow: auto;
+  height: 560px;
 }
+
 mat-card-content{
   height: 100%;
   width: 100%;

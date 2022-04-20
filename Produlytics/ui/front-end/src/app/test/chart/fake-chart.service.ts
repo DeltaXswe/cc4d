@@ -3,7 +3,7 @@ import { ChartAbstractService } from "../../model/chart/chart-abstract.service";
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { ChartPoint } from "../../model/chart/chart-point";
 import { Limits } from '../../model/chart/limits';
-import { ChartPointReturn } from 'src/app/model/chart/chart-point-return';
+import { ChartPointReturn } from '../../model/chart/chart-point-return';
 
 @Injectable({
   providedIn: "root"
@@ -111,7 +111,7 @@ export class FakeChartService implements ChartAbstractService {
 
   getOldPoints(start: string, end: string, deviceId: number, characteristicId: number): Observable<ChartPointReturn>{
     let points: ChartPoint[] = [];
-     for (let i = Date.parse(start); i < Date.parse(start)+100000; i+= 1000){
+     for (let i = Date.parse(start); i < Date.parse(start)+3000000; i+= 1000){
       let value: number = Math.floor(Math.random() * (500));
       value *= Math.round(Math.random()) ? 1 : -1;
       let point: ChartPoint = {

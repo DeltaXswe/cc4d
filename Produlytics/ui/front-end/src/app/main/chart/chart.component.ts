@@ -11,6 +11,7 @@ import { Limits } from '../../model/chart/limits';
 import { MatDialog } from '@angular/material/dialog';
 import { DatePickerDialogComponent } from '../date-picker-dialog/date-picker-dialog.component';
 import { MatCardContent } from '@angular/material/card';
+import { tickFormat, zoomIdentity } from 'd3';
 
 @Component({
   selector: 'app-chart',
@@ -32,7 +33,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   private updateSubscription?: Subscription;
   private xAxis!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
   private yAxis!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
-  
+  zoom: any;
   constructor(
     private chartService: ChartAbstractService,
     public dialog: MatDialog
@@ -51,13 +52,13 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   // TODO: Nomi migliori e separati dai metodi?
   margin = { top: 10, right: 60, bottom: 60, left: 60 };
   get chartWidth(): number {
-    const svgWidth = parseInt(d3.select('.d3svg').style('width'), 10);
+    const svgWidth = parseInt(d3.select(`#d3svg${this.index}`).style('width'), 10);
     return svgWidth- this.margin.left - this.margin.right;
     /* console.log(this.cardContent.nativeElement.getBoundingClientRect().width)
     return this.cardContent.nativeElement.offsetWidth; */
   }
   get chartHeight(): number {
-    const svgHeight = parseInt(d3.select('.d3svg').style('height'), 10);
+    const svgHeight = parseInt(d3.select(`#d3svg${this.index}`).style('height'), 10);
     return svgHeight - this.margin.top - this.margin.bottom;
     /* console.log(this.cardContent.nativeElement.offsetHeight);
     return this.cardContent.nativeElement.offsetHeight; */
@@ -82,17 +83,22 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   private yScale!: d3.ScaleLinear<number, number, never>;
 
   createChart() {
+      
       this.svg = d3
-        .selectAll(`#d3svg${this.index}`)
-        //.append('svg')
+        .select(`#d3svg${this.index}`)
+        .style('width', 1150 + 'px')
+        .style('height', 550 + 'px')
         .append('g')
         .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
 
-      /* d3.selectAll(`#d3svg${this.index}`)
-        .style('width', this.chartWidth + "px")
-        .style('height', this.chartHeight + "px") */
-
-      this.xScale = d3.scaleTime().range([0, this.chartWidth]);
+      if (this.points.length > 100){
+          d3.select(`#d3svg${this.index}`)
+            .style('width', this.chartWidth + this.points.length*10 + "px");
+            this.xScale = d3.scaleTime().range([0, this.chartWidth+ this.points.length*10]);
+      }else{
+        this.xScale = d3.scaleTime()
+        .range([0, this.chartWidth])
+      } 
       this.yScale = d3.scaleLinear().range([this.chartHeight, 0]);
 
       this.xAxis = this.svg
@@ -112,7 +118,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       createGuideLine('line-media');
       createGuideLine('line-limite line-limite-min');
       createGuideLine('line-limite line-limite-max');
-
+      
       this.svg.append('path').attr('class', 'chart-path');
       this.svg.append('g').attr('class', 'chart-points');
       this.svg
@@ -141,6 +147,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   drawChart() {
     if (this.points.length == 0) return;
     const points = this.points;
+    
     this.chartService.getLimits(this.currentNode.device.id, this.currentNode.id)
       .subscribe({
         next: limit => this.limits = limit,
@@ -213,8 +220,8 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   clearChart(): void{
     let svg = d3.select(`#d3svg${this.index}`);
-    this.points = [];
     this.updateSubscription?.unsubscribe();
+    this.points = [];
     svg.selectAll("*").remove();
   }
 }
