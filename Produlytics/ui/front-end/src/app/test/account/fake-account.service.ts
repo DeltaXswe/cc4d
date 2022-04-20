@@ -119,7 +119,7 @@ export class FakeAccountService implements
   isAdmin(): boolean{
     let user = localStorage.getItem('accessToken');
     if (user)
-      return JSON.parse(user).isAdmin;
+      return JSON.parse(user).administrator;
     else
       return false;
   }
