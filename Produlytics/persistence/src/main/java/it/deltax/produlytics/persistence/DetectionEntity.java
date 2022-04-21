@@ -1,59 +1,66 @@
 package it.deltax.produlytics.persistence;
 
-import javax.persistence.*;
 import java.time.Instant;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "detection")
 @IdClass(DetectionEntityId.class)
 public class DetectionEntity {
-	@Column(name = "creation_time", nullable = false)
-	@Id
-	private Instant creationTime;
+  @Column(name = "creation_time", nullable = false)
+  @Id
+  private Instant creationTime;
 
-	@Column(name = "characteristic_id", nullable = false)
-	@Id
-	private Integer characteristicId;
+  @Column(name = "characteristic_id", nullable = false)
+  @Id
+  private Integer characteristicId;
 
-	@Column(name = "device_id", nullable = false)
-	@Id
-	private Integer deviceId;
+  @Column(name = "device_id", nullable = false)
+  @Id
+  private Integer deviceId;
 
-	@Column(name = "value", nullable = false)
-	private Double value;
+  @Column(name = "value", nullable = false)
+  private Double value;
 
-	@Column(name = "outlier", nullable = false)
-	private Boolean outlier;
+  @Column(name = "outlier", nullable = false)
+  private Boolean outlier;
 
-	protected DetectionEntity() {}
+  protected DetectionEntity() {}
 
-	public DetectionEntity(
-		Instant creationTime, Integer characteristicId, Integer deviceId, Double value, Boolean outlier
-	) {
-		this.creationTime = creationTime;
-		this.characteristicId = characteristicId;
-		this.deviceId = deviceId;
-		this.value = value;
-		this.outlier = outlier;
-	}
+  public DetectionEntity(
+      Instant creationTime,
+      Integer characteristicId,
+      Integer deviceId,
+      Double value,
+      Boolean outlier) {
+    this.creationTime = creationTime;
+    this.characteristicId = characteristicId;
+    this.deviceId = deviceId;
+    this.value = value;
+    this.outlier = outlier;
+  }
 
-	public Instant getCreationTime() {
-		return creationTime;
-	}
+  public Instant getCreationTime() {
+    return creationTime;
+  }
 
-	public Integer getCharacteristicId() {
-		return characteristicId;
-	}
+  public Integer getCharacteristicId() {
+    return characteristicId;
+  }
 
-	public Integer getDeviceId() {
-		return deviceId;
-	}
+  public Integer getDeviceId() {
+    return deviceId;
+  }
 
-	public Double getValue() {
-		return this.value;
-	}
+  public Double getValue() {
+    return this.value;
+  }
 
-	public Boolean getOutlier() {
-		return this.outlier;
-	}
+  public Boolean getOutlier() {
+    return this.outlier;
+  }
 }
