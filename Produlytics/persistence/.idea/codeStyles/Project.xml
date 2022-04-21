@@ -23,6 +23,8 @@
       <option name="ANNOTATION_PARAMETER_WRAP" value="5" />
       <option name="ALIGN_MULTILINE_ANNOTATION_PARAMETERS" value="true" />
       <option name="LAYOUT_STATIC_IMPORTS_SEPARATELY" value="false" />
+      <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="999" />
+      <option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="999" />
       <option name="PACKAGES_TO_USE_IMPORT_ON_DEMAND">
         <value>
           <package name="java.awt" withSubpackages="false" static="false" />
@@ -34,9 +36,6 @@
       <option name="IMPORT_LAYOUT_TABLE">
         <value>
           <package name="" withSubpackages="true" static="false" />
-          <emptyLine />
-          <package name="javax" withSubpackages="true" static="false" />
-          <package name="java" withSubpackages="true" static="false" />
           <emptyLine />
         </value>
       </option>
@@ -117,7 +116,6 @@
       <option name="ENUM_CONSTANTS_WRAP" value="2" />
       <indentOptions>
         <option name="CONTINUATION_INDENT_SIZE" value="4" />
-        <option name="USE_TAB_CHARACTER" value="true" />
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="kotlin">
