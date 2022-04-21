@@ -1,6 +1,5 @@
 package it.deltax.produlytics.uibackend.security;
 
-import it.deltax.produlytics.persistence.AccountEntity;
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
 import org.springframework.security.core.userdetails.UserDetails;
 

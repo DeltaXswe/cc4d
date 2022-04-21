@@ -2,7 +2,6 @@ package it.deltax.produlytics.uibackend.security;
 
 import it.deltax.produlytics.uibackend.accounts.adapters.EncoderConfig;
 import it.deltax.produlytics.uibackend.accounts.business.ports.in.FindAccountUseCase;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
