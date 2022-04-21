@@ -87,7 +87,7 @@ public class UpdateCharacteristicServiceTest {
 				.withSampleSize(OptionalInt.of(0))
 				.build()
 		));
-		assert exception.getMessage().equals("duplicateCharacteristicName");
+		assert exception.getCode().equals("duplicateCharacteristicName");
 		assert exception.getType() == ErrorType.GENERIC;
 	}
 
@@ -106,7 +106,7 @@ public class UpdateCharacteristicServiceTest {
 				.withAutoAdjust(false)
 				.build()
 		));
-		assert exception.getMessage().equals("invalidValues");
+		assert exception.getCode().equals("invalidValues");
 		assert exception.getType() == ErrorType.GENERIC;
 	}
 
@@ -125,7 +125,7 @@ public class UpdateCharacteristicServiceTest {
 				.withAutoAdjust(true)
 				.build()
 		));
-		assert exception.getMessage().equals("invalidValues");
+		assert exception.getCode().equals("invalidValues");
 		assert exception.getType() == ErrorType.GENERIC;
 	}
 
@@ -145,7 +145,7 @@ public class UpdateCharacteristicServiceTest {
 				.withSampleSize(OptionalInt.of(0))
 				.build()
 		));
-		assert exception.getMessage().equals("characteristicNotFound");
+		assert exception.getCode().equals("characteristicNotFound");
 		assert exception.getType() == ErrorType.NOT_FOUND;
 	}
 

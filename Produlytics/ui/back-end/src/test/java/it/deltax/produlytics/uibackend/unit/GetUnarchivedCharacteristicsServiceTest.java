@@ -60,7 +60,7 @@ public class GetUnarchivedCharacteristicsServiceTest {
 		);
 
 		BusinessException exception = assertThrows(BusinessException.class, () -> service.getByDevice(1));
-		assert exception.getMessage().equals("deviceNotFound");
+		assert exception.getCode().equals("deviceNotFound");
 		assert exception.getType() == ErrorType.NOT_FOUND;
 	}
 

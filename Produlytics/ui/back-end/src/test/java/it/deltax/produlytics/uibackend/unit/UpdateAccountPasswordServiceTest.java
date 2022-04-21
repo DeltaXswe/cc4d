@@ -34,7 +34,7 @@ public class UpdateAccountPasswordServiceTest {
 		);
 		BusinessException exception = assertThrows(BusinessException.class,
 			() -> service.updatePasswordByUsername(account));
-		assert exception.getMessage().equals("invalidNewPassword");
+		assert exception.getCode().equals("invalidNewPassword");
 		assert exception.getType() == ErrorType.GENERIC;
 	}
 
@@ -54,7 +54,7 @@ public class UpdateAccountPasswordServiceTest {
 		);
 		BusinessException exception = assertThrows(BusinessException.class,
 			() -> service.updatePasswordByUsername(account));
-		assert exception.getMessage().equals("wrongCurrentPassword");
+		assert exception.getCode().equals("wrongCurrentPassword");
 		assert exception.getType() == ErrorType.AUTHENTICATION;
 	}
 
@@ -75,7 +75,7 @@ public class UpdateAccountPasswordServiceTest {
 
 		BusinessException exception = assertThrows(BusinessException.class,
 			() -> service.updatePasswordByUsername(account));
-		assert exception.getMessage().equals("accountNotFound");
+		assert exception.getCode().equals("accountNotFound");
 		assert exception.getType() == ErrorType.NOT_FOUND;
 	}
 

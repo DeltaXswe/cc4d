@@ -39,7 +39,7 @@ public class GetLimitsServiceTest {
 			BusinessException.class,
 			() -> service.getByCharacteristic(1, 1)
 		);
-		assert exception.getMessage().equals("characteristicNotFound");
+		assert exception.getCode().equals("characteristicNotFound");
 		assert exception.getType() == ErrorType.NOT_FOUND;
 	}
 
@@ -54,7 +54,7 @@ public class GetLimitsServiceTest {
 			BusinessException.class,
 			() -> service.getByCharacteristic(1, 1)
 		);
-		assert exception.getMessage().equals("characteristicNotFound");
+		assert exception.getCode().equals("characteristicNotFound");
 		assert exception.getType() == ErrorType.NOT_FOUND;
 	}
 

@@ -32,7 +32,7 @@ public class UpdateAccountByAdminServiceTest {
 		);
 		BusinessException exception = assertThrows(
 			BusinessException.class, () -> service.updateByUsername(account));
-		assert exception.getMessage().equals("invalidNewPassword");
+		assert exception.getCode().equals("invalidNewPassword");
 		assert exception.getType() == ErrorType.GENERIC;
 	}
 
@@ -51,7 +51,7 @@ public class UpdateAccountByAdminServiceTest {
 		);
 		BusinessException exception = assertThrows(
 			BusinessException.class, () -> service.updateByUsername(account));
-		assert exception.getMessage().equals("accountNotFound");
+		assert exception.getCode().equals("accountNotFound");
 		assert exception.getType() == ErrorType.NOT_FOUND;
 	}
 

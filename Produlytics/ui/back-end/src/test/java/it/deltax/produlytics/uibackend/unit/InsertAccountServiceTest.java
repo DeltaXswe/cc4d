@@ -30,7 +30,7 @@ public class InsertAccountServiceTest {
 		);
 		BusinessException exception = assertThrows(BusinessException.class,
 			() -> service.insertAccount(account));
-		assert exception.getMessage().equals("invalidPassword");
+		assert exception.getCode().equals("invalidPassword");
 		assert exception.getType() == ErrorType.GENERIC;
 	}
 
@@ -46,7 +46,7 @@ public class InsertAccountServiceTest {
 		);
 		BusinessException exception = assertThrows(BusinessException.class,
 			() -> service.insertAccount(account));
-		assert exception.getMessage().equals("duplicateUsername");
+		assert exception.getCode().equals("duplicateUsername");
 		assert exception.getType() == ErrorType.GENERIC;
 	}
 

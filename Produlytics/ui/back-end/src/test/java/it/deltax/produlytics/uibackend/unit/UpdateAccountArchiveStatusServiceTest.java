@@ -28,7 +28,7 @@ public class UpdateAccountArchiveStatusServiceTest {
 		);
 		BusinessException exception = assertThrows(BusinessException.class,
 			() -> service.updateAccountArchiveStatus(account));
-		assert exception.getMessage().equals("accountNotFound");
+		assert exception.getCode().equals("accountNotFound");
 		assert exception.getType() == ErrorType.NOT_FOUND;
 	}
 

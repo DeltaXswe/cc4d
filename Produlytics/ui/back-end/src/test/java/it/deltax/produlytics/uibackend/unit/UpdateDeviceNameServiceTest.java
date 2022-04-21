@@ -32,7 +32,7 @@ public class UpdateDeviceNameServiceTest {
 
 		BusinessException exception = assertThrows(BusinessException.class,
 			() -> service.updateDeviceName(device));
-		assert exception.getMessage().equals("deviceNotFound");
+		assert exception.getCode().equals("deviceNotFound");
 		assert exception.getType() == ErrorType.NOT_FOUND;
 	}
 
@@ -51,7 +51,7 @@ public class UpdateDeviceNameServiceTest {
 
 		BusinessException exception = assertThrows(BusinessException.class,
 			() -> service.updateDeviceName(device));
-		assert exception.getMessage().equals("duplicateDeviceName");
+		assert exception.getCode().equals("duplicateDeviceName");
 		assert exception.getType() == ErrorType.GENERIC;
 	}
 

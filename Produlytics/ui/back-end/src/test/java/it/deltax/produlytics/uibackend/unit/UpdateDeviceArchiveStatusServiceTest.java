@@ -29,7 +29,7 @@ public class UpdateDeviceArchiveStatusServiceTest {
 
 		BusinessException exception = assertThrows(BusinessException.class,
 			() -> service.updateDeviceArchiveStatus(device));
-		assert exception.getMessage().equals("deviceNotFound");
+		assert exception.getCode().equals("deviceNotFound");
 		assert exception.getType() == ErrorType.NOT_FOUND;
 	}
 

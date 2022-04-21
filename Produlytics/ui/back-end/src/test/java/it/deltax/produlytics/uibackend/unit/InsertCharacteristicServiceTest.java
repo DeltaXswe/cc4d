@@ -90,7 +90,7 @@ public class InsertCharacteristicServiceTest {
 				.withAutoAdjust(false)
 				.build()
 		));
-		assert exception.getMessage().equals("invalidValues");
+		assert exception.getCode().equals("invalidValues");
 		assert exception.getType() == ErrorType.GENERIC;
 	}
 
@@ -109,7 +109,7 @@ public class InsertCharacteristicServiceTest {
 				.withAutoAdjust(true)
 				.build()
 		));
-		assert exception.getMessage().equals("invalidValues");
+		assert exception.getCode().equals("invalidValues");
 		assert exception.getType() == ErrorType.GENERIC;
 	}
 
@@ -129,7 +129,7 @@ public class InsertCharacteristicServiceTest {
 				.withSampleSize(OptionalInt.of(10))
 				.build()
 		));
-		assert exception.getMessage().equals("duplicateCharacteristicName");
+		assert exception.getCode().equals("duplicateCharacteristicName");
 		assert exception.getType() == ErrorType.GENERIC;
 	}
 
@@ -149,7 +149,7 @@ public class InsertCharacteristicServiceTest {
 				.withSampleSize(OptionalInt.of(10))
 				.build()
 		));
-		assert exception.getMessage().equals("deviceNotFound");
+		assert exception.getCode().equals("deviceNotFound");
 		assert exception.getType() == ErrorType.NOT_FOUND;
 	}
 

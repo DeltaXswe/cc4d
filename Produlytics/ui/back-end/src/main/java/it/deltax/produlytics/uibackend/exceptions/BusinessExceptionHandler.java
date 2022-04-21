@@ -19,7 +19,7 @@ public class BusinessExceptionHandler {
 	 */
 	@ExceptionHandler(BusinessException.class)
 	ResponseEntity<Map<String, String>> handleStatusException(BusinessException exception) {
-		var error = Map.of("errorCode", exception.getMessage());
+		var error = Map.of("errorCode", exception.getCode());
 
 		HttpStatus httpStatus = switch(exception.getType()) {
 			case GENERIC -> HttpStatus.BAD_REQUEST;

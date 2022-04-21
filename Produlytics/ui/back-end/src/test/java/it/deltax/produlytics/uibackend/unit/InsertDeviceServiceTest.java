@@ -61,7 +61,7 @@ public class InsertDeviceServiceTest {
 
 		BusinessException exception = assertThrows(BusinessException.class,
 			() -> service.insertDevice(device));
-		assert exception.getMessage().equals("duplicateDeviceName");
+		assert exception.getCode().equals("duplicateDeviceName");
 		assert exception.getType() == ErrorType.GENERIC;
 	}
 

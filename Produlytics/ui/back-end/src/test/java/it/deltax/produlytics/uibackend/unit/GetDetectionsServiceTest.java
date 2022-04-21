@@ -168,7 +168,7 @@ public class GetDetectionsServiceTest {
 			DetectionFilters.builder()
 				.build()
 		));
-		assert exception.getMessage().equals("characteristicNotFound");
+		assert exception.getCode().equals("characteristicNotFound");
 		assert exception.getType() == ErrorType.NOT_FOUND;
 	}
 
