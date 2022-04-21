@@ -1,11 +1,10 @@
 package it.deltax.produlytics.api.exceptions;
 
+import java.util.Map;
+import java.util.Objects;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.util.Map;
-import java.util.Objects;
 
 public class BusinessExceptionHandlerTest {
   @Test

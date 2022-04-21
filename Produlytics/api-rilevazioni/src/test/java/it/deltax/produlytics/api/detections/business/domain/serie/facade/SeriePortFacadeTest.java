@@ -5,10 +5,9 @@ import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.ports.out.FindLastDetectionsPort;
 import it.deltax.produlytics.api.detections.business.ports.out.InsertDetectionPort;
 import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
-import org.junit.jupiter.api.Test;
-
 import java.time.Instant;
 import java.util.List;
+import org.junit.jupiter.api.Test;
 
 public class SeriePortFacadeTest {
   @Test

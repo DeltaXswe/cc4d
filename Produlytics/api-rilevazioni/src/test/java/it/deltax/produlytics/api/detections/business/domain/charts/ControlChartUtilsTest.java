@@ -1,8 +1,7 @@
 package it.deltax.produlytics.api.detections.business.domain.charts;
 
-import org.junit.jupiter.api.Test;
-
 import java.util.List;
+import org.junit.jupiter.api.Test;
 
 public class ControlChartUtilsTest {
   @Test

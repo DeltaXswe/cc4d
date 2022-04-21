@@ -3,9 +3,8 @@ package it.deltax.produlytics.api.detections.business.domain.charts.impls;
 import it.deltax.produlytics.api.detections.business.domain.charts.ControlChart;
 import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetectionMock;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
-import org.junit.jupiter.api.Test;
-
 import java.util.List;
+import org.junit.jupiter.api.Test;
 
 public class ControlChartZoneBTest {
   @Test

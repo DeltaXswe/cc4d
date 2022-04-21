@@ -4,11 +4,10 @@ import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerie;
 import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerieFactory;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Timeout;
-
 import java.time.Instant;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 public class DetectionQueueTest {
   @Test

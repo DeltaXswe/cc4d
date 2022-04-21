@@ -1,7 +1,6 @@
 package it.deltax.produlytics.api.detections.business.domain.charts;
 
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
-
 import java.util.List;
 
 /**

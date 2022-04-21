@@ -9,4 +9,7 @@ import java.util.Optional;
  * @param technicalLimits I limiti tecnici, se esistono.
  * @param meanStddev I limiti di processo, se esistono.
  */
-public record LimitsInfo(Optional<TechnicalLimits> technicalLimits, Optional<MeanStddev> meanStddev) {}
+public record LimitsInfo(
+  Optional<TechnicalLimits> technicalLimits,
+  Optional<MeanStddev> meanStddev)
+{}

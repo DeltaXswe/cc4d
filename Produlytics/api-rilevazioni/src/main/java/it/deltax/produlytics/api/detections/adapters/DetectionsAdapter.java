@@ -7,16 +7,20 @@ import it.deltax.produlytics.api.detections.business.domain.limits.MeanStddev;
 import it.deltax.produlytics.api.detections.business.domain.limits.TechnicalLimits;
 import it.deltax.produlytics.api.detections.business.domain.validate.CharacteristicInfo;
 import it.deltax.produlytics.api.detections.business.domain.validate.DeviceInfo;
-import it.deltax.produlytics.api.detections.business.ports.out.*;
+import it.deltax.produlytics.api.detections.business.ports.out.FindCharacteristicByNamePort;
+import it.deltax.produlytics.api.detections.business.ports.out.FindDeviceByApiKeyPort;
+import it.deltax.produlytics.api.detections.business.ports.out.FindLastDetectionsPort;
+import it.deltax.produlytics.api.detections.business.ports.out.FindLimitsPort;
+import it.deltax.produlytics.api.detections.business.ports.out.InsertDetectionPort;
+import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
 import it.deltax.produlytics.api.repositories.CharacteristicRepository;
 import it.deltax.produlytics.api.repositories.DetectionRepository;
 import it.deltax.produlytics.api.repositories.DeviceRepository;
 import it.deltax.produlytics.api.repositories.LimitsEntity;
 import it.deltax.produlytics.persistence.DetectionEntity;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Component;
 
 /**
  * Questa classe si occupa di adattare i repository di Spring alle porte descritte dalla parte di

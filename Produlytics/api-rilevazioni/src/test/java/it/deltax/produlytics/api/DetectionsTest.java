@@ -9,6 +9,11 @@ import it.deltax.produlytics.api.repositories.DeviceRepository;
 import it.deltax.produlytics.persistence.CharacteristicEntity;
 import it.deltax.produlytics.persistence.DetectionEntity;
 import it.deltax.produlytics.persistence.DeviceEntity;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.LinkedBlockingDeque;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +24,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.time.Instant;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.LinkedBlockingDeque;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @ActiveProfiles("test")

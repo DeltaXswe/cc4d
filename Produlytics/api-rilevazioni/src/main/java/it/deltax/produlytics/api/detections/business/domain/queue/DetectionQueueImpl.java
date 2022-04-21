@@ -8,7 +8,6 @@ import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerie;
 import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerieFactory;
-
 import java.util.concurrent.Phaser;
 import java.util.concurrent.TimeUnit;
 

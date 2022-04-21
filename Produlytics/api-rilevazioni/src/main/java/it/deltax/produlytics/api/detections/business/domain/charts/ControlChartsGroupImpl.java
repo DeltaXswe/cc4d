@@ -1,9 +1,8 @@
 package it.deltax.produlytics.api.detections.business.domain.charts;
 
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
-import lombok.AllArgsConstructor;
-
 import java.util.List;
+import lombok.AllArgsConstructor;
 
 /** Questa classe implementa un insieme di carte di controllo. */
 @AllArgsConstructor

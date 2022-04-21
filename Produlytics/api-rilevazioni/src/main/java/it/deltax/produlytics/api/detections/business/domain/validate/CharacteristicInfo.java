@@ -1,7 +1,8 @@
 package it.deltax.produlytics.api.detections.business.domain.validate;
 
 /**
- * Questo record rappresenta le informazioni di una caratteristica utili alla validazione di una rilevazione.
+ * Questo record rappresenta le informazioni di una caratteristica utili alla validazion
+ * di una rilevazione.
  *
  * @param characteristicId L'identificativo della caratteristica all'interno della sua macchina.
  * @param archived `true` se la caratteristica è archiviata, `false` altrimenti.

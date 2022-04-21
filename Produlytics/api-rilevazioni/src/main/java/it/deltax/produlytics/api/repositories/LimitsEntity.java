@@ -15,28 +15,28 @@ public interface LimitsEntity {
   boolean getAutoAdjust();
 
   /**
-   * Ritorna il valore del limite tecnico inferiore, se presente;
+   * Ritorna il valore del limite tecnico inferiore, se presente.
    *
    * @return Il valore del limite tecnico inferiore, se presente, altrimenti `Optional.empty()`.
    */
   Optional<Double> getTechnicalLowerLimit();
 
   /**
-   * Ritorna il valore del limite tecnico superiore, se presente;
+   * Ritorna il valore del limite tecnico superiore, se presente.
    *
    * @return Il valore del limite tecnico superiore, se presente, altrimenti `Optional.empty()`.
    */
   Optional<Double> getTechnicalUpperLimit();
 
   /**
-   * Ritorna il valore della media calcolata con l'auto-adjust;
+   * Ritorna il valore della media calcolata con l'auto-adjust.
    *
    * @return Il valore della media, se è attivato l'auto-adjust, altrimenti un valore arbitrario.
    */
   double getComputedMean();
 
   /**
-   * Ritorna il valore della deviazione standard calcolata con l'auto-adjust;
+   * Ritorna il valore della deviazione standard calcolata con l'auto-adjust.
    *
    * @return Il valore della deviazione standard, se è attivato l'auto-adjust, altrimenti un valore
    *     arbitrario.

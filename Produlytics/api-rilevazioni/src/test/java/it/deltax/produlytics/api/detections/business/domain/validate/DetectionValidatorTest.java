@@ -5,11 +5,10 @@ import it.deltax.produlytics.api.detections.business.ports.out.FindCharacteristi
 import it.deltax.produlytics.api.detections.business.ports.out.FindDeviceByApiKeyPort;
 import it.deltax.produlytics.api.exceptions.BusinessException;
 import it.deltax.produlytics.api.exceptions.ErrorType;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
 
 public class DetectionValidatorTest {
   @Test

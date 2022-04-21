@@ -7,10 +7,9 @@ import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetec
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimitsCalculator;
 import it.deltax.produlytics.api.detections.business.domain.serie.facade.SeriePortFacade;
-import org.junit.jupiter.api.Test;
-
 import java.time.Instant;
 import java.util.List;
+import org.junit.jupiter.api.Test;
 
 public class DetectionSerieTest {
   @Test

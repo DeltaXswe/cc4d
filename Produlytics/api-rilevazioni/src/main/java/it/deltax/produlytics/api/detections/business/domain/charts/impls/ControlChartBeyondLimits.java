@@ -3,7 +3,6 @@ package it.deltax.produlytics.api.detections.business.domain.charts.impls;
 import it.deltax.produlytics.api.detections.business.domain.charts.ControlChart;
 import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetection;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
-
 import java.util.List;
 
 /**

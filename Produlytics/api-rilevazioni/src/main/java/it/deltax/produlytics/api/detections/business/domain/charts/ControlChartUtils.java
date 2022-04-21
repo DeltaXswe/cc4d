@@ -11,25 +11,26 @@ public class ControlChartUtils {
    * instanziabile.
    */
   private ControlChartUtils() {}
+
   /**
    * Questo metodo ritorna uno `Stream` di "finestre" della lista sorgente, cioè uno `Stream` di
    * tutte le liste contenenti valori adiacenti nella lista sorgente.
    *
+   * @param <T> Il tipo dei valori della lista.
    * @param list La lista sorgente di valori.
    * @param size La dimensione delle finestre nello `Stream` ritornato.
    * @return Uno stream di finestre della lista `list` di dimensione `size`.
-   * @param <T> Il tipo dei valori della lista.
    */
   public static <T> Stream<List<T>> windows(List<T> list, int size) {
     /*
     Ad esempio, dato:
-    	list = [1, 2, 3, 4, 5, 6, 7], size = 3
+        list = [1, 2, 3, 4, 5, 6, 7], size = 3
     vengono restituiti:
                [1, 2, 3]
-    			  [2, 3, 4]
-    					 [3, 4, 5]
-    						[4, 5, 6]
-    						   [5, 6, 7]
+                  [2, 3, 4]
+                     [3, 4, 5]
+                        [4, 5, 6]
+                           [5, 6, 7]
     */
     return IntStream.range(0, list.size() - size + 1).mapToObj(i -> list.subList(i, i + size));
   }

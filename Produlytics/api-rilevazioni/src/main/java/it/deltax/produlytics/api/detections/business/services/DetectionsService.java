@@ -7,9 +7,8 @@ import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueue
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidator;
 import it.deltax.produlytics.api.detections.business.ports.in.ProcessIncomingDetectionUseCase;
 import it.deltax.produlytics.api.exceptions.BusinessException;
-import lombok.AllArgsConstructor;
-
 import java.time.Instant;
+import lombok.AllArgsConstructor;
 
 /** Questa classe si occupa di gestire le rilevazioni in arrivo da una macchina. */
 @AllArgsConstructor

@@ -3,7 +3,14 @@ package it.deltax.produlytics.api.detections;
 import it.deltax.produlytics.api.detections.business.domain.charts.ControlChart;
 import it.deltax.produlytics.api.detections.business.domain.charts.ControlChartsGroup;
 import it.deltax.produlytics.api.detections.business.domain.charts.ControlChartsGroupImpl;
-import it.deltax.produlytics.api.detections.business.domain.charts.impls.*;
+import it.deltax.produlytics.api.detections.business.domain.charts.impls.ControlChartBeyondLimits;
+import it.deltax.produlytics.api.detections.business.domain.charts.impls.ControlChartMixture;
+import it.deltax.produlytics.api.detections.business.domain.charts.impls.ControlChartOverControl;
+import it.deltax.produlytics.api.detections.business.domain.charts.impls.ControlChartStratification;
+import it.deltax.produlytics.api.detections.business.domain.charts.impls.ControlChartTrend;
+import it.deltax.produlytics.api.detections.business.domain.charts.impls.ControlChartZoneA;
+import it.deltax.produlytics.api.detections.business.domain.charts.impls.ControlChartZoneB;
+import it.deltax.produlytics.api.detections.business.domain.charts.impls.ControlChartZoneC;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimitsCalculator;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimitsCalculatorImpl;
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueue;
@@ -15,13 +22,17 @@ import it.deltax.produlytics.api.detections.business.domain.serie.facade.SeriePo
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidator;
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidatorImpl;
 import it.deltax.produlytics.api.detections.business.ports.in.ProcessIncomingDetectionUseCase;
-import it.deltax.produlytics.api.detections.business.ports.out.*;
+import it.deltax.produlytics.api.detections.business.ports.out.FindCharacteristicByNamePort;
+import it.deltax.produlytics.api.detections.business.ports.out.FindDeviceByApiKeyPort;
+import it.deltax.produlytics.api.detections.business.ports.out.FindLastDetectionsPort;
+import it.deltax.produlytics.api.detections.business.ports.out.FindLimitsPort;
+import it.deltax.produlytics.api.detections.business.ports.out.InsertDetectionPort;
+import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
 import it.deltax.produlytics.api.detections.business.services.DetectionsService;
+import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * Questa classe implementa una configurazione di Spring che descrive come creare le varie classi di

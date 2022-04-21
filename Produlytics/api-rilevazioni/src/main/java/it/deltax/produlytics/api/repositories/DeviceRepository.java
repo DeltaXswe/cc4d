@@ -1,10 +1,9 @@
 package it.deltax.produlytics.api.repositories;
 
 import it.deltax.produlytics.persistence.DeviceEntity;
+import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 /**
  * Questa interfaccia espone le query che è possibile effettuare sul database, in particolare sulla

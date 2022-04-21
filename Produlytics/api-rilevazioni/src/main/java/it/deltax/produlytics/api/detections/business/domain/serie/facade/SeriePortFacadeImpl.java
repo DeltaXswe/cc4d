@@ -5,9 +5,8 @@ import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.ports.out.FindLastDetectionsPort;
 import it.deltax.produlytics.api.detections.business.ports.out.InsertDetectionPort;
 import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
-import lombok.AllArgsConstructor;
-
 import java.util.List;
+import lombok.AllArgsConstructor;
 
 /** Questa classe implementa l'interfaccia di alcune porte che sono usate sempre insieme. */
 @AllArgsConstructor

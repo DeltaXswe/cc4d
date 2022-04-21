@@ -8,10 +8,9 @@ import it.deltax.produlytics.api.detections.business.domain.validate.DetectionVa
 import it.deltax.produlytics.api.detections.business.services.DetectionsService;
 import it.deltax.produlytics.api.exceptions.BusinessException;
 import it.deltax.produlytics.api.exceptions.ErrorType;
+import java.time.Instant;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
-
-import java.time.Instant;
 
 public class DetectionServiceTest {
   @Test

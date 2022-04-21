@@ -7,9 +7,8 @@ import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetec
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimitsCalculator;
 import it.deltax.produlytics.api.detections.business.domain.serie.facade.SeriePortFacade;
-import lombok.AllArgsConstructor;
-
 import java.util.List;
+import lombok.AllArgsConstructor;
 
 /**
  * Questa classe si occupa di processare una serie di rilevazioni relative a una stessa

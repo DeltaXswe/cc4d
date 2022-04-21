@@ -1,9 +1,8 @@
 package it.deltax.produlytics.api.detections.business.domain.charts;
 
-import lombok.AllArgsConstructor;
-
 import java.util.Arrays;
 import java.util.List;
+import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class MarkableDetectionMock implements MarkableDetection {
