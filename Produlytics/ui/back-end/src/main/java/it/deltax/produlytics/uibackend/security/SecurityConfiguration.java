@@ -1,6 +1,7 @@
 package it.deltax.produlytics.uibackend.security;
 
 import it.deltax.produlytics.uibackend.accounts.adapters.EncoderConfig;
+import it.deltax.produlytics.uibackend.accounts.business.ports.in.FindAccountUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,24 +17,24 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-	private final CustomAccountDetailsService customAccountDetailsService;
+	private final UserDetailsAdapter userDetailsAdapter;
 	private final EncoderConfig encoder;
 
 	/**
 	 * Il costruttore
-	 * @param customAccountDetailsService il service per verificare che l'utente esista
+	 * @param userDetailsAdapter il service per verificare che l'utente esista
 	 * @param encoder il cifratore
 	 */
-	public SecurityConfiguration(CustomAccountDetailsService customAccountDetailsService, EncoderConfig encoder) {
-		this.customAccountDetailsService = customAccountDetailsService;
+	public SecurityConfiguration(UserDetailsAdapter userDetailsAdapter, EncoderConfig encoder) {
+		this.userDetailsAdapter = userDetailsAdapter;
 		this.encoder = encoder;
 	}
 
 	@Bean
-	public AuthenticationProvider authenticationProvider(){
+	public AuthenticationProvider authenticationProvider(FindAccountUseCase findAccountUseCase){
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 
-		provider.setUserDetailsService(this.customAccountDetailsService);
+		provider.setUserDetailsService(new UserDetailsAdapter(findAccountUseCase));
 		provider.setPasswordEncoder(encoder.getEncoder());
 
 		return provider;
@@ -60,6 +61,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.httpBasic()
 			.and()
 			.rememberMe().key(encoder.getEncoder().encode("produlytics"))
-			.userDetailsService(customAccountDetailsService);
+			.userDetailsService(userDetailsAdapter);
 	}
 }

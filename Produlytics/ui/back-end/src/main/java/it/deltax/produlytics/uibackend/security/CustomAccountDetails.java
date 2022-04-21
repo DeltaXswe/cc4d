@@ -1,6 +1,7 @@
 package it.deltax.produlytics.uibackend.security;
 
 import it.deltax.produlytics.persistence.AccountEntity;
+import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -10,13 +11,13 @@ import java.util.List;
  * Classe che rappresenta un utente in Spring Security
  */
 public class CustomAccountDetails implements UserDetails {
-	private final AccountEntity account;
+	private final Account account;
 
 	/**
 	 * Il costruttore
 	 * @param account l'utente contenente tutte le sue informazioni
 	 */
-	public CustomAccountDetails(AccountEntity account){
+	public CustomAccountDetails(Account account){
 		this.account = account;
 	}
 
@@ -26,7 +27,7 @@ public class CustomAccountDetails implements UserDetails {
 	 */
 	@Override
 	public String getUsername() {
-		return this.account.getUsername();
+		return this.account.username();
 	}
 
 	/**
@@ -35,7 +36,7 @@ public class CustomAccountDetails implements UserDetails {
 	 */
 	@Override
 	public String getPassword() {
-		return this.account.getHashedPassword();
+		return this.account.hashedPassword();
 	}
 
 	/**
@@ -44,7 +45,7 @@ public class CustomAccountDetails implements UserDetails {
 	 */
 	@Override
 	public Collection<ProdulyticsGrantedAuthority> getAuthorities() {
-		if(account.getAdministrator())
+		if(account.administrator())
 			return List.of(
 				ProdulyticsGrantedAuthority.ACCOUNT,
 				ProdulyticsGrantedAuthority.ADMIN
@@ -87,6 +88,6 @@ public class CustomAccountDetails implements UserDetails {
 	 */
 	@Override
 	public boolean isEnabled() {
-		return !this.account.getArchived();
+		return !this.account.archived();
 	}
 }

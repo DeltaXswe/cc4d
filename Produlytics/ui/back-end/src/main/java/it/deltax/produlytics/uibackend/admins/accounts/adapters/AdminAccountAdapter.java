@@ -4,7 +4,7 @@ import it.deltax.produlytics.persistence.AccountEntity;
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
 import it.deltax.produlytics.uibackend.accounts.business.domain.TinyAccount;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
-import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.GetAccountsPort;
+import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.GetTinyAccountsPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.InsertAccountPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.UpdateAccountArchiveStatusPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.UpdateAccountByAdminPort;
@@ -24,7 +24,8 @@ public class AdminAccountAdapter implements UpdateAccountArchiveStatusPort,
 	UpdateAccountByAdminPort,
 	FindAccountPort,
 	InsertAccountPort,
-	GetAccountsPort {
+	GetTinyAccountsPort
+{
 	private final AccountRepository repo;
 
 
@@ -68,7 +69,7 @@ public class AdminAccountAdapter implements UpdateAccountArchiveStatusPort,
 
 	/**
 	 * Aggiorna un utente nello strato di persistenza
-	 * @param account l'utente da aggiornare
+	 * @param account l'utente da memorizzare con la password aggiornata
 	 */
 	@Override
 	public void updateAccount(Account account){
@@ -100,7 +101,7 @@ public class AdminAccountAdapter implements UpdateAccountArchiveStatusPort,
 	 * @return la lista degli utenti, ciascuno con username, permessi e stato di archiviazione
 	 */
 	@Override
-	public List<TinyAccount> getAccounts() {
+	public List<TinyAccount> getTinyAccounts() {
 		return StreamSupport.stream(this.repo.findAll().spliterator(), false)
 			.map(account ->
 				new TinyAccount(account.getUsername(), account.getAdministrator(), account.getArchived())

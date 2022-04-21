@@ -8,7 +8,6 @@ import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.InsertA
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.InsertAccountPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.Optional;
 
@@ -27,8 +26,8 @@ public class InsertAccountService implements InsertAccountUseCase {
 	 * @param insertAccountPort la porta per memorizzare un utente
 	 */
 	public InsertAccountService(
-		@Qualifier("adminAccountAdapter") FindAccountPort findAccountPort,
-		@Qualifier("passwordEncoderAdapter") PasswordEncoderPort passwordEncoderPort,
+		FindAccountPort findAccountPort,
+		PasswordEncoderPort passwordEncoderPort,
 		InsertAccountPort insertAccountPort
 	){
 		this.findAccountPort = findAccountPort;

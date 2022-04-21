@@ -8,7 +8,6 @@ import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.Update
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.UpdateAccountByAdminUseCase;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * Il service per l'aggiornamento di un utente per mano di un amministratore
@@ -26,8 +25,8 @@ public class UpdateAccountByAdminService implements UpdateAccountByAdminUseCase 
 	 * @param updateAccountByAdminPort la porta usata da un amministratore per aggiornare un utente
 	 */
 	public UpdateAccountByAdminService(
-		@Qualifier("adminAccountAdapter") FindAccountPort findAccountPort,
-		@Qualifier("passwordEncoderAdapter") PasswordEncoderPort passwordEncoderPort,
+		FindAccountPort findAccountPort,
+		PasswordEncoderPort passwordEncoderPort,
 		UpdateAccountByAdminPort updateAccountByAdminPort){
 		this.findAccountPort = findAccountPort;
 		this.passwordEncoderPort = passwordEncoderPort;

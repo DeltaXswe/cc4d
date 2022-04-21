@@ -1,8 +1,8 @@
 package it.deltax.produlytics.uibackend.unit;
 
 import it.deltax.produlytics.uibackend.accounts.business.domain.TinyAccount;
-import it.deltax.produlytics.uibackend.admins.accounts.business.services.GetAccountsService;
-import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.GetAccountsPort;
+import it.deltax.produlytics.uibackend.admins.accounts.business.services.GetTinyAccountsService;
+import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.GetTinyAccountsPort;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -19,23 +19,23 @@ public class GetAccountsServiceTest {
 	 */
 	@Test
 	void testGetAccounts()  {
-		GetAccountsService service = new GetAccountsService(new GetNoAccountsPortMock());
-		service.getAccounts();
+		GetTinyAccountsService service = new GetTinyAccountsService(new GetNoAccountsPortMock());
+		service.getTinyAccounts();
 	}
 
 	// CLASSI MOCK
-	static class GetAccountsPortMock implements GetAccountsPort {
+	static class GetAccountsPortMock implements GetTinyAccountsPort {
 		@Override
-		public List<TinyAccount> getAccounts() {
+		public List<TinyAccount> getTinyAccounts() {
 			TinyAccount account1 = new TinyAccount("user1", false, false);
 			TinyAccount account2 = new TinyAccount("user2", false, false);
 			return new ArrayList<TinyAccount>(Arrays.asList(account1, account2));
 		}
 	}
 
-	static class GetNoAccountsPortMock implements GetAccountsPort{
+	static class GetNoAccountsPortMock implements GetTinyAccountsPort {
 		@Override
-		public List<TinyAccount> getAccounts() {
+		public List<TinyAccount> getTinyAccounts() {
 			return null;
 		}
 	}

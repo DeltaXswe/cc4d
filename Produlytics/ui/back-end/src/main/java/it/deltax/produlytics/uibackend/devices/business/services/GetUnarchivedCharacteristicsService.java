@@ -6,14 +6,12 @@ import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchi
 import it.deltax.produlytics.uibackend.devices.business.ports.out.GetUnarchivedDevicesPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Il service per l'ottenimento delle caratteristiche non archiviate di una macchina
  */
-@Service
 public class GetUnarchivedCharacteristicsService implements GetUnarchivedCharacteristicsUseCase {
     private final GetUnarchivedDevicesPort findDevicesPort;
     private final FindAllUnarchivedCharacteristicsPort findCharacteristicsPort;

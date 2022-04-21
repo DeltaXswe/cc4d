@@ -6,12 +6,10 @@ import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteri
 import it.deltax.produlytics.uibackend.devices.business.ports.out.GetUnarchivedDevicesPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
-import org.springframework.stereotype.Service;
 
 /**
  * Il service per l'ottenimento dei limiti tecnici di una caratteristica non archiviata
  */
-@Service
 public class GetLimitsService implements GetLimitsUseCase {
     private final GetUnarchivedDevicesPort findDevicesPort;
     private final FindCharacteristicLimitsPort findCharacteristicLimitsPort;

@@ -1,6 +1,7 @@
 package it.deltax.produlytics.uibackend.admins.devices.business;
 
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.NewDevice;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -8,7 +9,7 @@ import java.util.Random;
 /**
  * Il service per la creazione di una macchina
  */
-@Service
+@Component
 public class CreateDevice {
 
 	/**

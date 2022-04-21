@@ -5,8 +5,8 @@ import it.deltax.produlytics.uibackend.accounts.business.domain.TinyAccount;
 import java.util.List;
 
 /**
- * La porta per l'ottenimento degli utenti
+ * La porta per l'ottenimento degli utenti con le informazioni essenziali
  */
-public interface GetAccountsPort {
-	List<TinyAccount> getAccounts();
+public interface GetTinyAccountsPort {
+	List<TinyAccount> getTinyAccounts();
 }

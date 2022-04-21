@@ -6,7 +6,7 @@ import it.deltax.produlytics.uibackend.accounts.business.domain.TinyAccount;
 import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountArchiveStatus;
 import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountToInsert;
 import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountUpdatedByAdmin;
-import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.GetAccountsUseCase;
+import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.GetTinyAccountsUseCase;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.InsertAccountUseCase;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.UpdateAccountArchiveStatusUseCase;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.UpdateAccountByAdminUseCase;
@@ -26,7 +26,7 @@ import java.util.Map;
 @RequestMapping("/admin")
 public class AdminsAccountsController {
 	private final InsertAccountUseCase insertAccountUseCase;
-	private final GetAccountsUseCase getAccountsUseCase;
+	private final GetTinyAccountsUseCase getAccountsUseCase;
 	private final UpdateAccountByAdminUseCase updateAccountByAdminUseCase;
 	private final UpdateAccountArchiveStatusUseCase updateAccountArchiveStatusUseCase;
 
@@ -42,7 +42,7 @@ public class AdminsAccountsController {
 	 */
 	public AdminsAccountsController(
 		InsertAccountUseCase insertAccountUseCase,
-		GetAccountsUseCase getAccountsUseCase,
+		GetTinyAccountsUseCase getAccountsUseCase,
 		UpdateAccountByAdminUseCase updateAccountByAdminUseCase,
 		UpdateAccountArchiveStatusUseCase updateAccountArchiveStatusUseCase) {
 		this.insertAccountUseCase = insertAccountUseCase;
@@ -72,7 +72,7 @@ public class AdminsAccountsController {
 	 */
 	@GetMapping("/accounts")
 	public ResponseEntity<List<TinyAccount>> getAccounts() {
-		return ResponseEntity.ok(this.getAccountsUseCase.getAccounts());
+		return ResponseEntity.ok(this.getAccountsUseCase.getTinyAccounts());
 	}
 
 	/**
