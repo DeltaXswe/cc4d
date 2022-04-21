@@ -7,6 +7,7 @@ import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetec
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimitsCalculator;
 import it.deltax.produlytics.api.detections.business.domain.serie.facade.SeriePortFacade;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * Questa classe si occupa di processare una serie di rilevazioni relative a una stessa
  * caratteristica.
  */
+@AllArgsConstructor
 public class DetectionSerieImpl implements DetectionSerie {
   /** Le porte utilizzate da questa classe. */
   private final SeriePortFacade ports;
@@ -23,25 +25,6 @@ public class DetectionSerieImpl implements DetectionSerie {
   private final ControlChartsGroup controlChartsGroup;
   /** L'identificativo globale della caratteristica associata a questa serie. */
   private final CharacteristicId characteristicId;
-
-  /**
-   * Crea una nuova istanza di `DetectionSerieImpl`.
-   *
-   * @param ports Il valore per il campo `ports`.
-   * @param controlLimitsCalculator Il valore per il campo `controlLimitsCalculator`.
-   * @param controlChartsGroup Il valore per il campo `controlChartsGroup`.
-   * @param characteristicId Il valore per il campo `characteristicId`.
-   */
-  DetectionSerieImpl(
-      SeriePortFacade ports,
-      ControlLimitsCalculator controlLimitsCalculator,
-      ControlChartsGroup controlChartsGroup,
-      CharacteristicId characteristicId) {
-    this.ports = ports;
-    this.controlLimitsCalculator = controlLimitsCalculator;
-    this.controlChartsGroup = controlChartsGroup;
-    this.characteristicId = characteristicId;
-  }
 
   /**
    * Questo metodo implementa l'omonimo metodo definito in `DetectionSerie`.

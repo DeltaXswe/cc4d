@@ -7,10 +7,12 @@ import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueue
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidator;
 import it.deltax.produlytics.api.detections.business.ports.in.ProcessIncomingDetectionUseCase;
 import it.deltax.produlytics.api.exceptions.BusinessException;
+import lombok.AllArgsConstructor;
 
 import java.time.Instant;
 
 /** Questa classe si occupa di gestire le rilevazioni in arrivo da una macchina. */
+@AllArgsConstructor
 public class DetectionsService implements ProcessIncomingDetectionUseCase {
   /**
    * Un'istanza di `DetectionValidator` a cui delegare il compito di validare una rilevazione in
@@ -22,17 +24,6 @@ public class DetectionsService implements ProcessIncomingDetectionUseCase {
    * background.
    */
   private final DetectionQueue detectionQueue;
-
-  /**
-   * Crea una nuova istanza di `DetectionsService`.
-   *
-   * @param detectionValidator Il valore per il campo `detectionValidator`.
-   * @param detectionQueue Il valore per il campo `detectionQueue`.
-   */
-  public DetectionsService(DetectionValidator detectionValidator, DetectionQueue detectionQueue) {
-    this.detectionValidator = detectionValidator;
-    this.detectionQueue = detectionQueue;
-  }
 
   /**
    * Questo metodo implementa l'omonimo metodo definito in `ProcessIncomingDetectionUseCase`.

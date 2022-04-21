@@ -1,16 +1,14 @@
 package it.deltax.produlytics.api.detections.business.domain.charts;
 
+import lombok.AllArgsConstructor;
+
 import java.util.Arrays;
 import java.util.List;
 
+@AllArgsConstructor
 public class MarkableDetectionMock implements MarkableDetection {
   private final double value;
   private boolean outlier;
-
-  public MarkableDetectionMock(double value, boolean outlier) {
-    this.value = value;
-    this.outlier = outlier;
-  }
 
   public static List<MarkableDetectionMock> listFromValues(double... values) {
     return Arrays.stream(values)

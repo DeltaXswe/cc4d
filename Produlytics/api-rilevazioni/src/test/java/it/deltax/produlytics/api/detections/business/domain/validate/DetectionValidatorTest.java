@@ -5,6 +5,7 @@ import it.deltax.produlytics.api.detections.business.ports.out.FindCharacteristi
 import it.deltax.produlytics.api.detections.business.ports.out.FindDeviceByApiKeyPort;
 import it.deltax.produlytics.api.exceptions.BusinessException;
 import it.deltax.produlytics.api.exceptions.ErrorType;
+import lombok.AllArgsConstructor;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
@@ -190,17 +191,11 @@ public class DetectionValidatorTest {
     }
   }
 
+  @AllArgsConstructor
   private static class FindCharacteristicByNamePortMock implements FindCharacteristicByNamePort {
     private final int deviceId;
     private final String name;
     private final CharacteristicInfo characteristicInfo;
-
-    public FindCharacteristicByNamePortMock(
-        int deviceId, String name, CharacteristicInfo characteristicInfo) {
-      this.deviceId = deviceId;
-      this.name = name;
-      this.characteristicInfo = characteristicInfo;
-    }
 
     @Override
     public Optional<CharacteristicInfo> findCharacteristicByName(int deviceId, String name) {

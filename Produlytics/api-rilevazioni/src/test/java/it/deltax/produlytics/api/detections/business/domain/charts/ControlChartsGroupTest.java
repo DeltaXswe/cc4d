@@ -1,6 +1,7 @@
 package it.deltax.produlytics.api.detections.business.domain.charts;
 
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -39,14 +40,10 @@ public class ControlChartsGroupTest {
     assert fakeControlCharts.get(2).wasCalled();
   }
 
+  @RequiredArgsConstructor
   private static class FakeControlChart implements ControlChart {
     private final int detectionCount;
-    private boolean called;
-
-    public FakeControlChart(int detectionCount) {
-      this.detectionCount = detectionCount;
-      this.called = false;
-    }
+    private boolean called = false;
 
     @Override
     public int requiredDetectionCount() {

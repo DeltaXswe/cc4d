@@ -3,6 +3,7 @@ package it.deltax.produlytics.api.detections.web;
 import it.deltax.produlytics.api.detections.business.domain.IncomingDetection;
 import it.deltax.produlytics.api.detections.business.ports.in.ProcessIncomingDetectionUseCase;
 import it.deltax.produlytics.api.exceptions.BusinessException;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/detections")
+@AllArgsConstructor
 @SuppressWarnings("unused")
 public class DetectionsController {
   /**
@@ -19,16 +21,6 @@ public class DetectionsController {
    * processarle.
    */
   private final ProcessIncomingDetectionUseCase processIncomingDetectionUseCase;
-
-  /**
-   * Costruisce una nuova istanza di `DetectionsController`.
-   *
-   * @param processIncomingDetectionUseCase Il valore per il campo
-   *     `processIncomingDetectionUseCase`.
-   */
-  public DetectionsController(ProcessIncomingDetectionUseCase processIncomingDetectionUseCase) {
-    this.processIncomingDetectionUseCase = processIncomingDetectionUseCase;
-  }
 
   /**
    * Questo metodo riceve le richieste HTTP fatte all'API e si occupa d'inoltrarle al relativo

@@ -1,22 +1,15 @@
 package it.deltax.produlytics.api.detections.business.domain.charts;
 
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 
 /** Questa classe implementa un insieme di carte di controllo. */
+@AllArgsConstructor
 public class ControlChartsGroupImpl implements ControlChartsGroup {
   /** Una lista di carte di controllo. */
   private final List<? extends ControlChart> controlCharts;
-
-  /**
-   * Crea una nuova istanza di `ControlChartsGroupImpl`.
-   *
-   * @param controlCharts Il valore per il campo `controlCharts`.
-   */
-  public ControlChartsGroupImpl(List<? extends ControlChart> controlCharts) {
-    this.controlCharts = controlCharts;
-  }
 
   /**
    * Implementazione dell'omonimo metodo definito in `ControlChartsGroup`.

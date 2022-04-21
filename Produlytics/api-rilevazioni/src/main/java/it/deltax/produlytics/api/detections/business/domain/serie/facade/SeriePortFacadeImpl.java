@@ -5,10 +5,12 @@ import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.ports.out.FindLastDetectionsPort;
 import it.deltax.produlytics.api.detections.business.ports.out.InsertDetectionPort;
 import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 
 /** Questa classe implementa l'interfaccia di alcune porte che sono usate sempre insieme. */
+@AllArgsConstructor
 public class SeriePortFacadeImpl implements SeriePortFacade {
   /** La porta a cui viene inoltrato `insertDetection`. */
   private final InsertDetectionPort insertDetectionPort;
@@ -16,22 +18,6 @@ public class SeriePortFacadeImpl implements SeriePortFacade {
   private final FindLastDetectionsPort findLastDetectionsPort;
   /** La porta a cui viene inoltrato `markOutlier`. */
   private final MarkOutlierPort markOutlierPort;
-
-  /**
-   * Crea una nuova istanza di `SeriePortFacadeImpl`.
-   *
-   * @param insertDetectionPort Il valore per il campo `insertDetectionPort`.
-   * @param findLastDetectionsPort Il valore per il campo `findLastDetectionsPort`.
-   * @param markOutlierPort Il valore per il campo `markOutlierPort`.
-   */
-  public SeriePortFacadeImpl(
-      InsertDetectionPort insertDetectionPort,
-      FindLastDetectionsPort findLastDetectionsPort,
-      MarkOutlierPort markOutlierPort) {
-    this.insertDetectionPort = insertDetectionPort;
-    this.findLastDetectionsPort = findLastDetectionsPort;
-    this.markOutlierPort = markOutlierPort;
-  }
 
   /**
    * Implementazione dell'omonimo metodo definito in `SeriePortFacade`.

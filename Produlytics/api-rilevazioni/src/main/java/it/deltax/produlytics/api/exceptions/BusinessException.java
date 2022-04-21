@@ -1,25 +1,17 @@
 package it.deltax.produlytics.api.exceptions;
 
+import lombok.AllArgsConstructor;
+
 /**
  * Questa classe rappresenta un'eccezione derivante dalle componenti di business. Rappresenta un
  * errore causato dall'esterno, e quindi gestibile.
  */
+@AllArgsConstructor
 public class BusinessException extends Exception {
   /** Il codice identificativo dell'errore. */
   private final String code;
   /** Il tipo o categoria di errore. */
   private final ErrorType type;
-
-  /**
-   * Crea una nuova istanza di `BusinessException`.
-   *
-   * @param code Il valore per il campo `code`.
-   * @param type Il valore per il campo `type`.
-   */
-  public BusinessException(String code, ErrorType type) {
-    this.code = code;
-    this.type = type;
-  }
 
   /**
    * Getter per il campo `code`.

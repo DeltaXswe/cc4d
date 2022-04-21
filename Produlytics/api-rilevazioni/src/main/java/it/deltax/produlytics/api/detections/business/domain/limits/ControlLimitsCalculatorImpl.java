@@ -2,20 +2,13 @@ package it.deltax.produlytics.api.detections.business.domain.limits;
 
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.ports.out.FindLimitsPort;
+import lombok.AllArgsConstructor;
 
 /** Questa classe si occupa di calcolare i limiti di controllo di una caratteristica. */
+@AllArgsConstructor
 public class ControlLimitsCalculatorImpl implements ControlLimitsCalculator {
   /** La porta per ottenere i limiti tecnici e di processo di una caratteristica. */
   private final FindLimitsPort findLimitsPort;
-
-  /**
-   * Crea una nuova istanza di `ControlLimitsCalculatorImpl`.
-   *
-   * @param findLimitsPort Il valore per il campo `findLimitsPort`.
-   */
-  public ControlLimitsCalculatorImpl(FindLimitsPort findLimitsPort) {
-    this.findLimitsPort = findLimitsPort;
-  }
 
   /**
    * Implementazione dell'omonimo metodo definito in `ControlLimitsCalculator`.

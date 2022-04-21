@@ -5,8 +5,10 @@ import it.deltax.produlytics.api.detections.business.ports.out.FindCharacteristi
 import it.deltax.produlytics.api.detections.business.ports.out.FindDeviceByApiKeyPort;
 import it.deltax.produlytics.api.exceptions.BusinessException;
 import it.deltax.produlytics.api.exceptions.ErrorType;
+import lombok.AllArgsConstructor;
 
 /** Questa classe si occupa di validare le rilevazioni in arrivo da una macchina. */
+@AllArgsConstructor
 public class DetectionValidatorImpl implements DetectionValidator {
   /**
    * Una porta necessaria per ottenere le informazioni di una macchina a partire dalla sua chiave
@@ -19,19 +21,6 @@ public class DetectionValidatorImpl implements DetectionValidator {
    * dall'identificativo della macchina a cui appartiene e il suo nome.
    */
   private final FindCharacteristicByNamePort findCharacteristicByNamePort;
-
-  /**
-   * Crea una nuova istanza di `DetectionValidatorImpl`.
-   *
-   * @param findDeviceByApiKeyPort Il valore per il campo `findDeviceByApiKeyPort`.
-   * @param findCharacteristicByNamePort Il valore per il campo `findCharacteristicByNamePort`.
-   */
-  public DetectionValidatorImpl(
-      FindDeviceByApiKeyPort findDeviceByApiKeyPort,
-      FindCharacteristicByNamePort findCharacteristicByNamePort) {
-    this.findDeviceByApiKeyPort = findDeviceByApiKeyPort;
-    this.findCharacteristicByNamePort = findCharacteristicByNamePort;
-  }
 
   /**
    * Questo metodo implementa l'omonimo metodo definito in `DetectionValidator`.
