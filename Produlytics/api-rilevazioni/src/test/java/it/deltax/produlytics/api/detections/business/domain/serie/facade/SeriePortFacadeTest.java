@@ -14,9 +14,10 @@ public class SeriePortFacadeTest {
   @Test
   void testForwardCorrectly() {
     Detection insertDetection = new Detection(new CharacteristicId(24, 96), Instant.now(), 7);
-    InsertDetectionPort insertDetectionPort = detection -> {
-      assert detection == insertDetection;
-    };
+    InsertDetectionPort insertDetectionPort =
+        detection -> {
+          assert detection == insertDetection;
+        };
 
     CharacteristicId findLastCharacteristicId = new CharacteristicId(15, 16);
     int findLastCount = 7;
@@ -24,16 +25,18 @@ public class SeriePortFacadeTest {
         List.of(
             new Detection(findLastCharacteristicId, Instant.now(), 6),
             new Detection(findLastCharacteristicId, Instant.now(), 0));
-    FindLastDetectionsPort findLastDetectionsPort = (characteristicId, count) -> {
-      assert characteristicId == findLastCharacteristicId;
-      assert count == findLastCount;
-      return lastDetections;
-    };
+    FindLastDetectionsPort findLastDetectionsPort =
+        (characteristicId, count) -> {
+          assert characteristicId == findLastCharacteristicId;
+          assert count == findLastCount;
+          return lastDetections;
+        };
 
     Detection markOutlierDetection = new Detection(new CharacteristicId(42, 69), Instant.now(), 15);
-    MarkOutlierPort markOutlierPort = detection -> {
-      assert detection == markOutlierDetection;
-    };
+    MarkOutlierPort markOutlierPort =
+        detection -> {
+          assert detection == markOutlierDetection;
+        };
 
     SeriePortFacade seriePortFacade =
         new SeriePortFacadeImpl(insertDetectionPort, findLastDetectionsPort, markOutlierPort);
