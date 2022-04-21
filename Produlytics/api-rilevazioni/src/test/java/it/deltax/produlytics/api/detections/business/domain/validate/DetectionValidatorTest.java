@@ -11,195 +11,204 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 public class DetectionValidatorTest {
-	@Test
-	void checkValid() throws BusinessException {
-		String apiKey = "foo";
-		DeviceInfo deviceInfo = new DeviceInfo(42, false, false);
+  @Test
+  void checkValid() throws BusinessException {
+    String apiKey = "foo";
+    DeviceInfo deviceInfo = new DeviceInfo(42, false, false);
 
-		FindDeviceByApiKeyPort findDeviceByApiKeyPort = new FindDeviceByApiKeyPortMock(apiKey, deviceInfo);
+    FindDeviceByApiKeyPort findDeviceByApiKeyPort =
+        new FindDeviceByApiKeyPortMock(apiKey, deviceInfo);
 
-		CharacteristicId characteristicId = new CharacteristicId(42, 69);
-		CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
+    CharacteristicId characteristicId = new CharacteristicId(42, 69);
+    CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
 
-		FindCharacteristicByNamePort findCharacteristicByNamePort = new FindCharacteristicByNamePortMock(42,
-			"bar",
-			characteristicInfo
-		);
+    FindCharacteristicByNamePort findCharacteristicByNamePort =
+        new FindCharacteristicByNamePortMock(42, "bar", characteristicInfo);
 
-		DetectionValidator detectionValidator = new DetectionValidatorImpl(findDeviceByApiKeyPort,
-			findCharacteristicByNamePort
-		);
+    DetectionValidator detectionValidator =
+        new DetectionValidatorImpl(findDeviceByApiKeyPort, findCharacteristicByNamePort);
 
-		assert detectionValidator.validateAndFindId(apiKey, "bar").equals(characteristicId);
-	}
-	@Test
-	void checkApiKeyInvalid() throws BusinessException {
-		BusinessException exception = assertThrows(BusinessException.class, () -> {
-			String apiKey = "foo";
-			DeviceInfo deviceInfo = new DeviceInfo(42, false, false);
+    assert detectionValidator.validateAndFindId(apiKey, "bar").equals(characteristicId);
+  }
 
-			FindDeviceByApiKeyPort findDeviceByApiKeyPort = new FindDeviceByApiKeyPortMock(apiKey, deviceInfo);
+  @Test
+  void checkApiKeyInvalid() throws BusinessException {
+    BusinessException exception =
+        assertThrows(
+            BusinessException.class,
+            () -> {
+              String apiKey = "foo";
+              DeviceInfo deviceInfo = new DeviceInfo(42, false, false);
 
-			CharacteristicId characteristicId = new CharacteristicId(42, 69);
-			CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
+              FindDeviceByApiKeyPort findDeviceByApiKeyPort =
+                  new FindDeviceByApiKeyPortMock(apiKey, deviceInfo);
 
-			FindCharacteristicByNamePort findCharacteristicByNamePort = new FindCharacteristicByNamePortMock(42,
-				"bar",
-				characteristicInfo
-			);
+              CharacteristicId characteristicId = new CharacteristicId(42, 69);
+              CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
 
-			DetectionValidator detectionValidator = new DetectionValidatorImpl(findDeviceByApiKeyPort,
-				findCharacteristicByNamePort
-			);
+              FindCharacteristicByNamePort findCharacteristicByNamePort =
+                  new FindCharacteristicByNamePortMock(42, "bar", characteristicInfo);
 
-			detectionValidator.validateAndFindId("invalidFoo", "bar");
-		});
+              DetectionValidator detectionValidator =
+                  new DetectionValidatorImpl(findDeviceByApiKeyPort, findCharacteristicByNamePort);
 
-		assert exception.getCode().equals("notAuthenticated");
-		assert exception.getType() == ErrorType.AUTHENTICATION;
-	}
-	@Test
-	void checkDeviceArchived() throws BusinessException {
-		BusinessException exception = assertThrows(BusinessException.class, () -> {
-			String apiKey = "foo";
-			DeviceInfo deviceInfo = new DeviceInfo(42, true, false);
+              detectionValidator.validateAndFindId("invalidFoo", "bar");
+            });
 
-			FindDeviceByApiKeyPort findDeviceByApiKeyPort = new FindDeviceByApiKeyPortMock(apiKey, deviceInfo);
+    assert exception.getCode().equals("notAuthenticated");
+    assert exception.getType() == ErrorType.AUTHENTICATION;
+  }
 
-			CharacteristicId characteristicId = new CharacteristicId(42, 69);
-			CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
+  @Test
+  void checkDeviceArchived() throws BusinessException {
+    BusinessException exception =
+        assertThrows(
+            BusinessException.class,
+            () -> {
+              String apiKey = "foo";
+              DeviceInfo deviceInfo = new DeviceInfo(42, true, false);
 
-			FindCharacteristicByNamePort findCharacteristicByNamePort = new FindCharacteristicByNamePortMock(42,
-				"bar",
-				characteristicInfo
-			);
+              FindDeviceByApiKeyPort findDeviceByApiKeyPort =
+                  new FindDeviceByApiKeyPortMock(apiKey, deviceInfo);
 
-			DetectionValidator detectionValidator = new DetectionValidatorImpl(findDeviceByApiKeyPort,
-				findCharacteristicByNamePort
-			);
+              CharacteristicId characteristicId = new CharacteristicId(42, 69);
+              CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
 
-			detectionValidator.validateAndFindId(apiKey, "bar");
-		});
+              FindCharacteristicByNamePort findCharacteristicByNamePort =
+                  new FindCharacteristicByNamePortMock(42, "bar", characteristicInfo);
 
-		assert exception.getCode().equals("archived");
-		assert exception.getType() == ErrorType.ARCHIVED;
-	}
-	@Test
-	void checkCharacteristicNotFound() throws BusinessException {
-		BusinessException exception = assertThrows(BusinessException.class, () -> {
-			String apiKey = "foo";
-			DeviceInfo deviceInfo = new DeviceInfo(42, false, false);
+              DetectionValidator detectionValidator =
+                  new DetectionValidatorImpl(findDeviceByApiKeyPort, findCharacteristicByNamePort);
 
-			FindDeviceByApiKeyPort findDeviceByApiKeyPort = new FindDeviceByApiKeyPortMock(apiKey, deviceInfo);
+              detectionValidator.validateAndFindId(apiKey, "bar");
+            });
 
-			CharacteristicId characteristicId = new CharacteristicId(42, 69);
-			CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
+    assert exception.getCode().equals("archived");
+    assert exception.getType() == ErrorType.ARCHIVED;
+  }
 
-			FindCharacteristicByNamePort findCharacteristicByNamePort = new FindCharacteristicByNamePortMock(42,
-				"bar",
-				characteristicInfo
-			);
+  @Test
+  void checkCharacteristicNotFound() throws BusinessException {
+    BusinessException exception =
+        assertThrows(
+            BusinessException.class,
+            () -> {
+              String apiKey = "foo";
+              DeviceInfo deviceInfo = new DeviceInfo(42, false, false);
 
-			DetectionValidator detectionValidator = new DetectionValidatorImpl(findDeviceByApiKeyPort,
-				findCharacteristicByNamePort
-			);
+              FindDeviceByApiKeyPort findDeviceByApiKeyPort =
+                  new FindDeviceByApiKeyPortMock(apiKey, deviceInfo);
 
-			detectionValidator.validateAndFindId(apiKey, "baz");
-		});
+              CharacteristicId characteristicId = new CharacteristicId(42, 69);
+              CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
 
-		assert exception.getCode().equals("characteristicNotFound");
-		assert exception.getType() == ErrorType.NOT_FOUND;
-	}
-	@Test
-	void checkDeviceDeactivated() throws BusinessException {
-		BusinessException exception = assertThrows(BusinessException.class, () -> {
-			String apiKey = "foo";
-			DeviceInfo deviceInfo = new DeviceInfo(42, false, true);
+              FindCharacteristicByNamePort findCharacteristicByNamePort =
+                  new FindCharacteristicByNamePortMock(42, "bar", characteristicInfo);
 
-			FindDeviceByApiKeyPort findDeviceByApiKeyPort = new FindDeviceByApiKeyPortMock(apiKey, deviceInfo);
+              DetectionValidator detectionValidator =
+                  new DetectionValidatorImpl(findDeviceByApiKeyPort, findCharacteristicByNamePort);
 
-			CharacteristicId characteristicId = new CharacteristicId(42, 69);
-			CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
+              detectionValidator.validateAndFindId(apiKey, "baz");
+            });
 
-			FindCharacteristicByNamePort findCharacteristicByNamePort = new FindCharacteristicByNamePortMock(42,
-				"bar",
-				characteristicInfo
-			);
+    assert exception.getCode().equals("characteristicNotFound");
+    assert exception.getType() == ErrorType.NOT_FOUND;
+  }
 
-			DetectionValidator detectionValidator = new DetectionValidatorImpl(findDeviceByApiKeyPort,
-				findCharacteristicByNamePort
-			);
+  @Test
+  void checkDeviceDeactivated() throws BusinessException {
+    BusinessException exception =
+        assertThrows(
+            BusinessException.class,
+            () -> {
+              String apiKey = "foo";
+              DeviceInfo deviceInfo = new DeviceInfo(42, false, true);
 
-			detectionValidator.validateAndFindId(apiKey, "bar");
-		});
+              FindDeviceByApiKeyPort findDeviceByApiKeyPort =
+                  new FindDeviceByApiKeyPortMock(apiKey, deviceInfo);
 
-		assert exception.getCode().equals("archived");
-		assert exception.getType() == ErrorType.ARCHIVED;
-	}
-	@Test
-	void checkCharacteristicArchived() throws BusinessException {
-		BusinessException exception = assertThrows(BusinessException.class, () -> {
-			String apiKey = "foo";
-			DeviceInfo deviceInfo = new DeviceInfo(42, false, false);
+              CharacteristicId characteristicId = new CharacteristicId(42, 69);
+              CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
 
-			FindDeviceByApiKeyPort findDeviceByApiKeyPort = new FindDeviceByApiKeyPortMock(apiKey, deviceInfo);
+              FindCharacteristicByNamePort findCharacteristicByNamePort =
+                  new FindCharacteristicByNamePortMock(42, "bar", characteristicInfo);
 
-			CharacteristicId characteristicId = new CharacteristicId(42, 69);
-			CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, true);
+              DetectionValidator detectionValidator =
+                  new DetectionValidatorImpl(findDeviceByApiKeyPort, findCharacteristicByNamePort);
 
-			FindCharacteristicByNamePort findCharacteristicByNamePort = new FindCharacteristicByNamePortMock(42,
-				"bar",
-				characteristicInfo
-			);
+              detectionValidator.validateAndFindId(apiKey, "bar");
+            });
 
-			DetectionValidator detectionValidator = new DetectionValidatorImpl(findDeviceByApiKeyPort,
-				findCharacteristicByNamePort
-			);
+    assert exception.getCode().equals("archived");
+    assert exception.getType() == ErrorType.ARCHIVED;
+  }
 
-			detectionValidator.validateAndFindId(apiKey, "bar");
-		});
+  @Test
+  void checkCharacteristicArchived() throws BusinessException {
+    BusinessException exception =
+        assertThrows(
+            BusinessException.class,
+            () -> {
+              String apiKey = "foo";
+              DeviceInfo deviceInfo = new DeviceInfo(42, false, false);
 
-		assert exception.getCode().equals("archived");
-		assert exception.getType() == ErrorType.ARCHIVED;
-	}
+              FindDeviceByApiKeyPort findDeviceByApiKeyPort =
+                  new FindDeviceByApiKeyPortMock(apiKey, deviceInfo);
 
-	private static class FindDeviceByApiKeyPortMock implements FindDeviceByApiKeyPort {
-		private final String apiKey;
-		private final DeviceInfo deviceInfo;
+              CharacteristicId characteristicId = new CharacteristicId(42, 69);
+              CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, true);
 
-		public FindDeviceByApiKeyPortMock(String apiKey, DeviceInfo deviceInfo) {
-			this.apiKey = apiKey;
-			this.deviceInfo = deviceInfo;
-		}
+              FindCharacteristicByNamePort findCharacteristicByNamePort =
+                  new FindCharacteristicByNamePortMock(42, "bar", characteristicInfo);
 
-		@Override
-		public Optional<DeviceInfo> findDeviceByApiKey(String apiKey) {
-			if(apiKey.equals(this.apiKey)) {
-				return Optional.of(this.deviceInfo);
-			} else {
-				return Optional.empty();
-			}
-		}
-	}
+              DetectionValidator detectionValidator =
+                  new DetectionValidatorImpl(findDeviceByApiKeyPort, findCharacteristicByNamePort);
 
-	private static class FindCharacteristicByNamePortMock implements FindCharacteristicByNamePort {
-		private final int deviceId;
-		private final String name;
-		private final CharacteristicInfo characteristicInfo;
+              detectionValidator.validateAndFindId(apiKey, "bar");
+            });
 
-		public FindCharacteristicByNamePortMock(int deviceId, String name, CharacteristicInfo characteristicInfo) {
-			this.deviceId = deviceId;
-			this.name = name;
-			this.characteristicInfo = characteristicInfo;
-		}
+    assert exception.getCode().equals("archived");
+    assert exception.getType() == ErrorType.ARCHIVED;
+  }
 
-		@Override
-		public Optional<CharacteristicInfo> findCharacteristicByName(int deviceId, String name) {
-			if(deviceId == this.deviceId && name.equals(this.name)) {
-				return Optional.of(characteristicInfo);
-			} else {
-				return Optional.empty();
-			}
-		}
-	}
+  private static class FindDeviceByApiKeyPortMock implements FindDeviceByApiKeyPort {
+    private final String apiKey;
+    private final DeviceInfo deviceInfo;
+
+    public FindDeviceByApiKeyPortMock(String apiKey, DeviceInfo deviceInfo) {
+      this.apiKey = apiKey;
+      this.deviceInfo = deviceInfo;
+    }
+
+    @Override
+    public Optional<DeviceInfo> findDeviceByApiKey(String apiKey) {
+      if (apiKey.equals(this.apiKey)) {
+        return Optional.of(this.deviceInfo);
+      } else {
+        return Optional.empty();
+      }
+    }
+  }
+
+  private static class FindCharacteristicByNamePortMock implements FindCharacteristicByNamePort {
+    private final int deviceId;
+    private final String name;
+    private final CharacteristicInfo characteristicInfo;
+
+    public FindCharacteristicByNamePortMock(
+        int deviceId, String name, CharacteristicInfo characteristicInfo) {
+      this.deviceId = deviceId;
+      this.name = name;
+      this.characteristicInfo = characteristicInfo;
+    }
+
+    @Override
+    public Optional<CharacteristicInfo> findCharacteristicByName(int deviceId, String name) {
+      if (deviceId == this.deviceId && name.equals(this.name)) {
+        return Optional.of(characteristicInfo);
+      } else {
+        return Optional.empty();
+      }
+    }
+  }
 }

@@ -8,71 +8,62 @@ import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
 
 import java.util.List;
 
-/**
- * Questa classe implementa l'interfaccia di alcune porte che sono usate sempre insieme.
- */
+/** Questa classe implementa l'interfaccia di alcune porte che sono usate sempre insieme. */
 public class SeriePortFacadeImpl implements SeriePortFacade {
-	/**
-	 * La porta a cui viene inoltrato `insertDetection`.
-	 */
-	private final InsertDetectionPort insertDetectionPort;
-	/**
-	 * La porta a cui viene inoltrato `findLastDetections`.
-	 */
-	private final FindLastDetectionsPort findLastDetectionsPort;
-	/**
-	 * La porta a cui viene inoltrato `markOutlier`.
-	 */
-	private final MarkOutlierPort markOutlierPort;
+  /** La porta a cui viene inoltrato `insertDetection`. */
+  private final InsertDetectionPort insertDetectionPort;
+  /** La porta a cui viene inoltrato `findLastDetections`. */
+  private final FindLastDetectionsPort findLastDetectionsPort;
+  /** La porta a cui viene inoltrato `markOutlier`. */
+  private final MarkOutlierPort markOutlierPort;
 
-	/**
-	 * Crea una nuova istanza di `SeriePortFacadeImpl`.
-	 *
-	 * @param insertDetectionPort Il valore per il campo `insertDetectionPort`.
-	 * @param findLastDetectionsPort Il valore per il campo `findLastDetectionsPort`.
-	 * @param markOutlierPort Il valore per il campo `markOutlierPort`.
-	 */
-	public SeriePortFacadeImpl(
-		InsertDetectionPort insertDetectionPort,
-		FindLastDetectionsPort findLastDetectionsPort,
-		MarkOutlierPort markOutlierPort
-	) {
-		this.insertDetectionPort = insertDetectionPort;
-		this.findLastDetectionsPort = findLastDetectionsPort;
-		this.markOutlierPort = markOutlierPort;
-	}
+  /**
+   * Crea una nuova istanza di `SeriePortFacadeImpl`.
+   *
+   * @param insertDetectionPort Il valore per il campo `insertDetectionPort`.
+   * @param findLastDetectionsPort Il valore per il campo `findLastDetectionsPort`.
+   * @param markOutlierPort Il valore per il campo `markOutlierPort`.
+   */
+  public SeriePortFacadeImpl(
+      InsertDetectionPort insertDetectionPort,
+      FindLastDetectionsPort findLastDetectionsPort,
+      MarkOutlierPort markOutlierPort) {
+    this.insertDetectionPort = insertDetectionPort;
+    this.findLastDetectionsPort = findLastDetectionsPort;
+    this.markOutlierPort = markOutlierPort;
+  }
 
-	/**
-	 * Implementazione dell'omonimo metodo definito in `SeriePortFacade`.
-	 *
-	 * @param detection La rilevazione da persistere.
-	 */
-	@Override
-	public void insertDetection(Detection detection) {
-		this.insertDetectionPort.insertDetection(detection);
-	}
+  /**
+   * Implementazione dell'omonimo metodo definito in `SeriePortFacade`.
+   *
+   * @param detection La rilevazione da persistere.
+   */
+  @Override
+  public void insertDetection(Detection detection) {
+    this.insertDetectionPort.insertDetection(detection);
+  }
 
-	/**
-	 * Implementazione dell'omonimo metodo definito in `SeriePortFacade`.
-	 *
-	 * @param characteristicId L'identificativo globale della caratteristica di cui cercare le
-	 *     rilevazioni, la quale deve esistere.
-	 * @param count Il numero massimo di rilevazioni da ottenere.
-	 * @return Una lista delle ultime `count` rilevazioni della caratteristica con identificativo
-	 * 		`characteristicId, * o meno se non ce ne sono abbastanza.
-	 */
-	@Override
-	public List<Detection> findLastDetections(CharacteristicId characteristicId, int count) {
-		return this.findLastDetectionsPort.findLastDetections(characteristicId, count);
-	}
+  /**
+   * Implementazione dell'omonimo metodo definito in `SeriePortFacade`.
+   *
+   * @param characteristicId L'identificativo globale della caratteristica di cui cercare le
+   *     rilevazioni, la quale deve esistere.
+   * @param count Il numero massimo di rilevazioni da ottenere.
+   * @return Una lista delle ultime `count` rilevazioni della caratteristica con identificativo
+   *     `characteristicId, * o meno se non ce ne sono abbastanza.
+   */
+  @Override
+  public List<Detection> findLastDetections(CharacteristicId characteristicId, int count) {
+    return this.findLastDetectionsPort.findLastDetections(characteristicId, count);
+  }
 
-	/**
-	 * Implementazione dell'omonimo metodo definito in `SeriePortFacade`.
-	 *
-	 * @param detection La rilevazione da marcare come anomala.
-	 */
-	@Override
-	public void markOutlier(Detection detection) {
-		this.markOutlierPort.markOutlier(detection);
-	}
+  /**
+   * Implementazione dell'omonimo metodo definito in `SeriePortFacade`.
+   *
+   * @param detection La rilevazione da marcare come anomala.
+   */
+  @Override
+  public void markOutlier(Detection detection) {
+    this.markOutlierPort.markOutlier(detection);
+  }
 }

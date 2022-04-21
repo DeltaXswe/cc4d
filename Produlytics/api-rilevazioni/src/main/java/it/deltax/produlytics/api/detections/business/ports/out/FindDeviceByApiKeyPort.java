@@ -9,11 +9,12 @@ import java.util.Optional;
  * tramite la sua chiave API e permette di separare la sua implementazione dalla logica di business.
  */
 public interface FindDeviceByApiKeyPort {
-	/**
-	 * Questo metodo cerca i dettagli di una macchina e se esiste li ritorna, altrimenti ritorna `Optional.empty()`.
-	 *
-	 * @param apiKey La chiave API della macchina da cercare. Potrebbe non esistere.
-	 * @return Le informazioni della macchina se esiste, altrimenti `Optional.empty()`.
-	 */
-	Optional<DeviceInfo> findDeviceByApiKey(String apiKey);
+  /**
+   * Questo metodo cerca i dettagli di una macchina e se esiste li ritorna, altrimenti ritorna
+   * `Optional.empty()`.
+   *
+   * @param apiKey La chiave API della macchina da cercare. Potrebbe non esistere.
+   * @return Le informazioni della macchina se esiste, altrimenti `Optional.empty()`.
+   */
+  Optional<DeviceInfo> findDeviceByApiKey(String apiKey);
 }
