@@ -9,14 +9,12 @@ import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.Insert
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 /**
  * Il service per l'inserimento di un utente
  */
-@Service
 public class InsertAccountService implements InsertAccountUseCase {
 	private final FindAccountPort findAccountPort;
 	private final PasswordEncoderPort passwordEncoderPort;

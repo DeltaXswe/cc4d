@@ -6,12 +6,10 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindDet
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.UpdateCharacteristicPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
-import org.springframework.stereotype.Service;
 
 /**
  * Il service per l'aggiornamento dello stato di archiviazione di una caratteristica
  */
-@Service
 public class UpdateCharacteristicArchiveStatusService implements UpdateCharacteristicArchiveStatusUseCase {
 	private final FindDetailedCharacteristicPort findCharacteristicPort;
 	private final UpdateCharacteristicPort updateCharacteristicPort;

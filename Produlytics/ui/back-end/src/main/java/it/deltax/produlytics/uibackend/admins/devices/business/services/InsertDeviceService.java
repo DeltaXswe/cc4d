@@ -9,12 +9,10 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindTin
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertDevicePort;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
-import org.springframework.stereotype.Service;
 
 /**
  * Il service per l'insierimento di una macchina
  */
-@Service
 public class InsertDeviceService implements InsertDeviceUseCase {
 	private final FindTinyDeviceByNamePort findTinyDeviceByNamePort;
 	private final InsertDevicePort insertDevicePort;

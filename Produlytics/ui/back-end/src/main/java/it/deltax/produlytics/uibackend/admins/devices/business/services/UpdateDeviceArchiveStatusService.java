@@ -7,12 +7,10 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindDet
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.UpdateDeviceArchiveStatusPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
-import org.springframework.stereotype.Service;
 
 /**
  * Il service per l'aggiornamento dello stato di archiviazione di una macchina
  */
-@Service
 public class UpdateDeviceArchiveStatusService implements UpdateDeviceArchiveStatusUseCase {
 	private final FindDetailedDevicePort findDetailedDevicePort;
 	private final UpdateDeviceArchiveStatusPort updateDeviceArchiveStatus;

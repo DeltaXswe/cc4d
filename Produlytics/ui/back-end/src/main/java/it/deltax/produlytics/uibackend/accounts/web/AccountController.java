@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import it.deltax.produlytics.uibackend.accounts.business.domain.AccountPasswordToUpdate;
 import it.deltax.produlytics.uibackend.accounts.business.ports.in.UpdateAccountPasswordUseCase;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import static org.springframework.http.HttpStatus.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
+    @Autowired
     private final UpdateAccountPasswordUseCase updateAccountPasswordUseCase;
 
 
@@ -21,7 +24,8 @@ public class AccountController {
      * Il costruttore
      * @param updateAccountPasswordUseCase l'interfaccia per il caso d'uso di aggiornamento password
      */
-    public AccountController(UpdateAccountPasswordUseCase updateAccountPasswordUseCase){
+    public AccountController(
+        UpdateAccountPasswordUseCase updateAccountPasswordUseCase){
         this.updateAccountPasswordUseCase = updateAccountPasswordUseCase;
     }
 

@@ -5,12 +5,10 @@ import it.deltax.produlytics.uibackend.admins.devices.business.domain.DetailedDe
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindDetailedDevicePort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
-import org.springframework.stereotype.Service;
 
 /**
  * Il service per l'ottenimento dei dettagli di una macchina
  */
-@Service
 public class GetDeviceDetailsService implements GetDeviceDetailsUseCase {
 	private final FindDetailedDevicePort findDetailedDevicePort;
 

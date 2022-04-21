@@ -9,12 +9,10 @@ import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.UpdateA
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
 
 /**
  * Il service per l'aggiornamento di un utente per mano di un amministratore
  */
-@Service
 public class UpdateAccountByAdminService implements UpdateAccountByAdminUseCase {
 	private final FindAccountPort findAccountPort;
 	private final PasswordEncoderPort passwordEncoderPort;

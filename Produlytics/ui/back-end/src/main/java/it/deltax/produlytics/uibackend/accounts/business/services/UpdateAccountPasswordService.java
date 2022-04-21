@@ -10,9 +10,7 @@ import it.deltax.produlytics.uibackend.accounts.business.ports.out.UpdateAccount
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
 
-@Service
 public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCase {
     private final FindAccountPort findAccountPort;
     private final PasswordMatcherPort passwordMatcherPort;

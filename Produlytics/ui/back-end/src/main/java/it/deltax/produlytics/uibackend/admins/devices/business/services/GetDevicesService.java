@@ -3,14 +3,12 @@ package it.deltax.produlytics.uibackend.admins.devices.business.services;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.in.GetDevicesUseCase;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.Device;
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.GetDevicesPort;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Il service per l'ottenimento delle macchine
  */
-@Service
 public class GetDevicesService implements GetDevicesUseCase {
 	private final GetDevicesPort getDevicesPort;
 

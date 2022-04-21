@@ -9,12 +9,10 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindDet
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.UpdateCharacteristicPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
-import org.springframework.stereotype.Service;
 
 /**
  * Il service per la modifica di una caratteristica
  */
-@Service
 public class UpdateCharacteristicService implements UpdateCharacteristicUseCase {
 	private final FindDetailedCharacteristicPort findCharacteristicPort;
 	private final UpdateCharacteristicPort updateCharacteristicPort;

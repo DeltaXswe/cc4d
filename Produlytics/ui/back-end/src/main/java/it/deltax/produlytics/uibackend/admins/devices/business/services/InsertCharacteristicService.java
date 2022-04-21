@@ -9,12 +9,10 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertC
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindDetailedDevicePort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
-import org.springframework.stereotype.Service;
 
 /**
  * Il service per l'insierimento di una nuova caratteristica
  */
-@Service
 public class InsertCharacteristicService implements InsertCharacteristicUseCase {
 	private final InsertCharacteristicPort insertCharacteristicPort;
 	private final FindDetailedDevicePort findDevicePort;

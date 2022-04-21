@@ -7,12 +7,10 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindDet
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.UpdateDeviceDeactivateStatusPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
-import org.springframework.stereotype.Service;
 
 /**
  * Il service per l'aggiornamento dello stato di attivazione di una macchina
  */
-@Service
 public class UpdateDeviceDeactivateStatusService implements UpdateDeviceDeactivateStatusUseCase {
 	private final FindDetailedDevicePort findDetailedDevicePort;
 	private final UpdateDeviceDeactivateStatusPort updateDeviceDeactivateStatusPort;

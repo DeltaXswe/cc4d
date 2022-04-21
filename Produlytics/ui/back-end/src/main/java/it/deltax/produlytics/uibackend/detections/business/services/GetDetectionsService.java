@@ -8,7 +8,6 @@ import it.deltax.produlytics.uibackend.detections.business.ports.out.FindAllDete
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicLimitsPort;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
-import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -19,7 +18,6 @@ import java.util.OptionalLong;
 /**
  * Il service per l'ottenimento della lista di rilevazioni
  */
-@Service
 public class GetDetectionsService implements GetDetectionsUseCase {
 	private final FindAllDetectionsPort findDetectionsPort;
 	private final FindCharacteristicLimitsPort findCharacteristicPort;
