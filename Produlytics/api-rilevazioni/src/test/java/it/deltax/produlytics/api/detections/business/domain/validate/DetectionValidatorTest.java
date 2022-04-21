@@ -33,7 +33,7 @@ public class DetectionValidatorTest {
   }
 
   @Test
-  void checkApiKeyInvalid() throws BusinessException {
+  void checkApiKeyInvalid() {
     BusinessException exception =
         assertThrows(
             BusinessException.class,
@@ -44,7 +44,6 @@ public class DetectionValidatorTest {
               FindDeviceByApiKeyPort findDeviceByApiKeyPort =
                   new FindDeviceByApiKeyPortMock(apiKey, deviceInfo);
 
-              CharacteristicId characteristicId = new CharacteristicId(42, 69);
               CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
 
               FindCharacteristicByNamePort findCharacteristicByNamePort =
@@ -61,7 +60,7 @@ public class DetectionValidatorTest {
   }
 
   @Test
-  void checkDeviceArchived() throws BusinessException {
+  void checkDeviceArchived() {
     BusinessException exception =
         assertThrows(
             BusinessException.class,
@@ -72,7 +71,6 @@ public class DetectionValidatorTest {
               FindDeviceByApiKeyPort findDeviceByApiKeyPort =
                   new FindDeviceByApiKeyPortMock(apiKey, deviceInfo);
 
-              CharacteristicId characteristicId = new CharacteristicId(42, 69);
               CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
 
               FindCharacteristicByNamePort findCharacteristicByNamePort =
@@ -89,7 +87,7 @@ public class DetectionValidatorTest {
   }
 
   @Test
-  void checkCharacteristicNotFound() throws BusinessException {
+  void checkCharacteristicNotFound() {
     BusinessException exception =
         assertThrows(
             BusinessException.class,
@@ -100,7 +98,6 @@ public class DetectionValidatorTest {
               FindDeviceByApiKeyPort findDeviceByApiKeyPort =
                   new FindDeviceByApiKeyPortMock(apiKey, deviceInfo);
 
-              CharacteristicId characteristicId = new CharacteristicId(42, 69);
               CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
 
               FindCharacteristicByNamePort findCharacteristicByNamePort =
@@ -117,7 +114,7 @@ public class DetectionValidatorTest {
   }
 
   @Test
-  void checkDeviceDeactivated() throws BusinessException {
+  void checkDeviceDeactivated() {
     BusinessException exception =
         assertThrows(
             BusinessException.class,
@@ -128,7 +125,6 @@ public class DetectionValidatorTest {
               FindDeviceByApiKeyPort findDeviceByApiKeyPort =
                   new FindDeviceByApiKeyPortMock(apiKey, deviceInfo);
 
-              CharacteristicId characteristicId = new CharacteristicId(42, 69);
               CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, false);
 
               FindCharacteristicByNamePort findCharacteristicByNamePort =
@@ -145,7 +141,7 @@ public class DetectionValidatorTest {
   }
 
   @Test
-  void checkCharacteristicArchived() throws BusinessException {
+  void checkCharacteristicArchived() {
     BusinessException exception =
         assertThrows(
             BusinessException.class,
@@ -156,7 +152,6 @@ public class DetectionValidatorTest {
               FindDeviceByApiKeyPort findDeviceByApiKeyPort =
                   new FindDeviceByApiKeyPortMock(apiKey, deviceInfo);
 
-              CharacteristicId characteristicId = new CharacteristicId(42, 69);
               CharacteristicInfo characteristicInfo = new CharacteristicInfo(69, true);
 
               FindCharacteristicByNamePort findCharacteristicByNamePort =

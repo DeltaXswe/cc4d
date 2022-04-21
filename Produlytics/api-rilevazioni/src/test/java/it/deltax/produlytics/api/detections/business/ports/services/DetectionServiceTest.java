@@ -31,7 +31,7 @@ public class DetectionServiceTest {
   }
 
   @Test
-  void testInvalid() throws BusinessException {
+  void testInvalid() {
     IncomingDetection incomingDetection = new IncomingDetection("fooo", "bar", 15);
     CharacteristicId realCharacteristicId = new CharacteristicId(42, 69);
     Detection expectedDetection = new Detection(realCharacteristicId, Instant.now(), 15);
