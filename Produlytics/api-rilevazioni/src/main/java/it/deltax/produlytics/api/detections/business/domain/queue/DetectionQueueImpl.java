@@ -14,13 +14,30 @@ import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerie
 import java.util.concurrent.Phaser;
 import java.util.concurrent.TimeUnit;
 
-// Implementazione di riferimento di `DetectionQueue`.
+/**
+ * Questa classe si occupa di accodare una rilevazione per essere processata successivamente in background,
+ * senza quindi bloccare l'utilizzatore.
+ */
 public class DetectionQueueImpl implements DetectionQueue {
+	/**
+	 * La factory per creare una `DetectionSerie` per ogni caratteristica in coda.
+	 */
 	private final DetectionSerieFactory serieFactory;
+	/**
+	 * Un canale di RxJava 3 che si occupa di raggruppare le rilevazioni e processarle in differenti thread.
+	 */
 	private final FlowableProcessor<Detection> detectionProcessor;
-	// Questo phaser è usato per coordinare il termine dei vari gruppi di `detectionProcessor`.
+
+	/**
+	 * Una primitiva di sincronizzazione che coordina la chiusura della coda.
+	 */
 	private final Phaser groupPhaser;
 
+	/**
+	 * Crea una nuova istanza di `DetectionQueueImpl`.
+	 *
+	 * @param serieFactory Il valore per il campo `serieFactory`.
+	 */
 	public DetectionQueueImpl(DetectionSerieFactory serieFactory) {
 		this.serieFactory = serieFactory;
 		// `.toSerialized()` è necessario perchè `this.detectionProcessor.onNext` potrebbe essere chiamato da più
@@ -36,17 +53,20 @@ public class DetectionQueueImpl implements DetectionQueue {
 			.subscribe(group -> this.handleDetectionGroup(group.getKey(), group));
 	}
 
-	// Invia le rilevazioni in entrata al PublishProcessor.
-	// `onNext` non è thread-safe, e `enqueueDetection` potrebbe essere chiamato da più thread,
-	// quindi questo metodo deve essere marcato synchronized.
+	/**
+	 * Questo metodo implementa l'omonimo metodo definito in `DetectionQueue`.
+	 *
+	 * @param detection La rilevazione da accodare.
+	 */
 	@Override
 	public void enqueueDetection(Detection detection) {
 		// TODO: Gestisci back-pressure
 		this.detectionProcessor.onNext(detection);
 	}
 
-	// Aspetta che tutte le rilevazioni siano processate.
-	// Spring vede questo metodo e lo chiama automaticamente quando il programma sta per uscire.
+	/**
+	 * Questo metodo implementa l'omonimo metodo definito in `DetectionQueue`.
+	 */
 	@Override
 	public void close() {
 		// Completa il FlowableProcessor e impedisci nuovi inserimenti.
@@ -57,16 +77,24 @@ public class DetectionQueueImpl implements DetectionQueue {
 		this.groupPhaser.arriveAndAwaitAdvance();
 	}
 
-	// Gestisce ogni gruppo/caratteristica:
-	// - crea una `DetectionSerie` per quel gruppo/caratteristica, ma non aspetta il suo completamento;
-	// - imposta un timeout, che viene attivato dopo 30 secondi che non vengono ricevute rilevazioni
-	//   per quella caratteristica;
-	// - gestisce la singola rilevazione con `this.handleDetection`.
-	//
-	// Note importanti:
-	// - il parametro `Flowable.empty()` di `timeout` evita di lanciare errori in caso di timeout;
-	// - `concatMapCompletable` permette di finire di gestire una rilevazione prima della prossima.
-	private void handleDetectionGroup(CharacteristicId key, Flowable<Detection> group) {
+  /**
+   * Questo metodo si occupa di gestire una serie di rilevazioni relative a una caratteristica.
+   *
+   * @param key L'identificativo globale della caratteristica.
+   * @param group Una serie di rilevazioni della caratteristica identificata da `key` da analizzare.
+   */
+  private void handleDetectionGroup(CharacteristicId key, Flowable<Detection> group) {
+
+		// Gestisce ogni gruppo/caratteristica:
+		// - crea una `DetectionSerie` per quel gruppo/caratteristica, ma non aspetta il suo completamento;
+		// - imposta un timeout, che viene attivato dopo 30 secondi che non vengono ricevute rilevazioni
+		//   per quella caratteristica;
+		// - gestisce la singola rilevazione con `this.handleDetection`.
+		//
+		// Note importanti:
+		// - il parametro `Flowable.empty()` di `timeout` evita di lanciare errori in caso di timeout;
+		// - `concatMapCompletable` permette di finire di gestire una rilevazione prima della prossima.
+
 		// Registra il gruppo nel Phaser, segnalandone quindi la sua esistenza.
 		this.groupPhaser.register();
 

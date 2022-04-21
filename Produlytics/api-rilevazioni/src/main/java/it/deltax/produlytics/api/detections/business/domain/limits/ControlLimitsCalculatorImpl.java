@@ -3,13 +3,30 @@ package it.deltax.produlytics.api.detections.business.domain.limits;
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.ports.out.FindLimitsPort;
 
+/**
+ * Questa classe si occupa di calcolare i limiti di controllo di una caratteristica.
+ */
 public class ControlLimitsCalculatorImpl implements ControlLimitsCalculator {
+	/**
+	 * La porta per ottenere i limiti tecnici e di processo di una caratteristica.
+	 */
 	private final FindLimitsPort findLimitsPort;
 
+	/**
+	 * Crea una nuova istanza di `ControlLimitsCalculatorImpl`.
+	 *
+	 * @param findLimitsPort Il valore per il campo `findLimitsPort`.
+	 */
 	public ControlLimitsCalculatorImpl(FindLimitsPort findLimitsPort) {
 		this.findLimitsPort = findLimitsPort;
 	}
 
+	/**
+	 * Implementazione dell'omonimo metodo definito in `ControlLimitsCalculator`.
+	 *
+	 * @param characteristicId L'identificativo globale della caratteristica di cui calcolare i limiti di controllo.
+	 * @return I limiti di controllo della caratteristica identificata da `characteristicId`.
+	 */
 	@Override
 	public ControlLimits calculateControlLimits(CharacteristicId characteristicId) {
 		LimitsInfo limitsInfo = this.findLimitsPort.findLimits(characteristicId);
@@ -24,12 +41,24 @@ public class ControlLimitsCalculatorImpl implements ControlLimitsCalculator {
 		}
 	}
 
+	/**
+	 * Questo metodo crea una nuova istanza di `ControlLimits` utilizzando un'istanza di `MeanStddev`.
+	 *
+	 * @param meanStddev I limiti di processo.
+	 * @return I limiti di controllo derivanti dai limiti di processo.
+	 */
 	private ControlLimits fromMeanStddev(MeanStddev meanStddev) {
 		double lowerLimit = meanStddev.mean() - 3 * meanStddev.stddev();
 		double upperLimit = meanStddev.mean() + 3 * meanStddev.stddev();
 		return new ControlLimits(lowerLimit, upperLimit);
 	}
 
+	/**
+	 * Questo metodo crea una nuova istanza di `ControlLimits` utilizzando un'istanza di `TechnicalLimits`.
+	 *
+	 * @param technicalLimits I limiti tecnici.
+	 * @return I limiti di controllo derivanti dai limiti tecnici.
+	 */
 	private ControlLimits fromTechnicalLimits(TechnicalLimits technicalLimits) {
 		return new ControlLimits(technicalLimits.lowerLimit(), technicalLimits.upperLimit());
 	}

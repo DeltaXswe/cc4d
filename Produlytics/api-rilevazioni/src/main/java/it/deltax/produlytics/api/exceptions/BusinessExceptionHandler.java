@@ -7,10 +7,22 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.Map;
 
+/**
+ * Questa classe si occupa di catturare e gestire le eccezioni lanciate dal controller
+ * e produrre un adeguato messaggio di errore per il chiamante.
+ */
 // Cattura le eccezioni e ritorna un messaggio di errore appropiato
 @ControllerAdvice
 @SuppressWarnings("unused")
 public class BusinessExceptionHandler {
+
+	/**
+	 * Questo metodo viene chiamato quando il controller lancia un'eccezione. Una volta ricevuta,
+	 * si occupa di convertirla in un messaggio di errore per il client, con annesso codice di stato HTTP.
+	 *
+	 * @param businessException L'eccezione lanciata dal controller.
+	 * @return La risposta da inviare al client.
+	 */
 	@ExceptionHandler(BusinessException.class)
 	public ResponseEntity<Map<String, String>> handleStatusException(BusinessException businessException) {
 		Map<String, String> body = Map.of("errorCode" , businessException.getCode());

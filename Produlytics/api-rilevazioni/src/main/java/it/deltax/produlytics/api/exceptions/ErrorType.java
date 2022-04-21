@@ -1,8 +1,19 @@
 package it.deltax.produlytics.api.exceptions;
 
-// Tipo di errore della parte business. È pensato per mappare a un codice di stato HTTP
+/**
+ * Questa enumerazione rappresenta le possibili tipologie di errore.
+ */
 public enum ErrorType {
-	AUTHENTICATION, // 401
-	NOT_FOUND, // 404
-	ARCHIVED // 410
+	/**
+	 * Caratterizza gli errori di autenticazione.
+	 */
+	AUTHENTICATION,
+	/**
+	 * Caratterizza gli errori dovuti a macchine o caratteristiche non esistenti.
+	 */
+	NOT_FOUND,
+	/**
+	 * Caratterizza gli errori dovuti a macchine o caratteristiche archiviate o disattivate.
+	 */
+	ARCHIVED
 }

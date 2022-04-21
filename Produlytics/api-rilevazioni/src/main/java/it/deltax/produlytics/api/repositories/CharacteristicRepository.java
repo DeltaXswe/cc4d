@@ -9,13 +9,29 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-// Repository per interagire con la tabella `characteristic`.
+/**
+ * Questa interfaccia espone le query che è possibile effettuare sul database, in particolare sulla tabella
+ * `characteristic`, lasciando a Spring il compito d'implementarla.
+ */
 @Repository
 @SuppressWarnings("unused")
 public interface CharacteristicRepository extends CrudRepository<CharacteristicEntity, CharacteristicEntityId> {
+	/**
+	 * Questo metodo si occupa di cercare una caratteristica dato l'identificativo della sua macchina e il suo nome.
+	 *
+	 * @param deviceId L'identificativo della macchina, che deve esistere, a cui appartiene la caratteristica da cercare.
+	 * @param name Il nome della caratteristica da cercare.
+	 * @return Ritorna un entità rappresentante la caratteristica, se esiste, altrimenti ritorna `Optional.empty()`.
+	 */
 	Optional<CharacteristicEntity> findByDeviceIdAndName(int deviceId, String name);
 
-	// Trova i limiti tecnici e di processo di una caratteristica.
+	/**
+	 * Questo metodo si occupa di ottenere i limiti tecnici e di processo della caratteristica specificata dai suoi argomenti.
+	 *
+	 * @param deviceId L'identificativo della macchina a cui appartiene la caratteristica;
+	 * @param characteristicId L'identificativo della caratteristica all'interno della macchina.
+	 * @return I limiti tecnici e di processo della caratteristica cercata.
+	 */
 	// COALESCE(STDDEV_SAMP(helper.value), 1) è necessario perchè STDDEV_SAMP ritorna `null` se viene
 	// passato un solo valore. Il valore 1 è arbitrario, basta che sia != 0.
 	@Query(value = """

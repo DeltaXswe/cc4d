@@ -12,11 +12,21 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.util.List;
 
-// Repository per interagire con la tabella `detection`.
+/**
+ * Questa interfaccia espone le query che è possibile effettuare sul database, in particolare sulla tabella
+ * `detection`, lasciando a Spring il compito d'implementarla.
+ */
 @Repository
 @SuppressWarnings("unused")
 public interface DetectionRepository extends CrudRepository<DetectionEntity, DetectionEntityId> {
-	// Trova le ultime `count` rilevazioni di una caratteristica, ordinate per data di creazione.
+	/**
+	 * Questo metodo si occupa di ottenere le ultime `count` rilevazioni della caratteristica specificata.
+	 *
+	 * @param deviceId L'identificativo della macchina.
+	 * @param characteristicId L'identificativo della caratteristica all'interno della macchina.
+	 * @param count Il numero di rilevazioni da ottenere.
+	 * @return Una lista di massimo `count` elementi con le ultime rilevazioni della caratteristica specificata.
+	 */
 	@Query(value = """
 			SELECT *
 			FROM (
@@ -32,14 +42,21 @@ public interface DetectionRepository extends CrudRepository<DetectionEntity, Det
 		@Param("deviceId") int deviceId, @Param("characteristicId") int characteristicId, @Param("count") int count
 	);
 
-	// Marca una rilevazione come anomala.
+	/**
+	 * Questo metodo si occupa di marcare come anomala la rilevazione identificata dai tre parametri.
+	 *
+	 * @param deviceId L'identificativo della macchina a cui appartiene la rilevazione.
+	 * @param characteristicId L'identificativo della caratteristica all'interno della macchina
+	 *                            a cui appartiene la rilevazione.
+	 * @param creationTime L'istante in cui è stata creata la rilevazione.
+	 */
 	@Transactional
 	@Modifying
 	@Query(value = """
- 			UPDATE DetectionEntity
- 			SET outlier = true
- 			WHERE deviceId = :deviceId AND characteristicId = :characteristicId AND creationTime = :creationTime
- 		""")
+			UPDATE DetectionEntity
+			SET outlier = true
+			WHERE deviceId = :deviceId AND characteristicId = :characteristicId AND creationTime = :creationTime
+		""")
 	void markOutlier(
 		@Param("deviceId") int deviceId,
 		@Param("characteristicId") int characteristicId,

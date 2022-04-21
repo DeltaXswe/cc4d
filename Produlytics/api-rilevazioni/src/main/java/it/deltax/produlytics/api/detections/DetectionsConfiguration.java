@@ -23,10 +23,19 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-// Dependency Injection manuale visto che le classi di business non dovrebbero dipendere da quella di Spring.
+/**
+ * Questa classe implementa una configurazione di Spring che descrive come creare le varie classi di business.
+ */
 @Component
 @SuppressWarnings("unused") // Viene utilizzata da Spring a runtime, ma l'analisi statica non lo può sapere
 public class DetectionsConfiguration {
+	/**
+	 * Questo metodo crea un'istanza di `DetectionValidator`.
+	 *
+	 * @param findDeviceByApiKeyPort La `FindDeviceByApiKeyPort` da usare nel costruttore di `DetectionValidatorImpl`.
+	 * @param findCharacteristicByNamePort La `FindCharacteristicByNamePort` da usare nel costruttore di `DetectionValidatorImpl`.
+	 * @return Una nuova istanza di `DetectionValidator`.
+	 */
 	@Bean
 	DetectionValidator createDetectionValidator(
 		FindDeviceByApiKeyPort findDeviceByApiKeyPort, FindCharacteristicByNamePort findCharacteristicByNamePort
@@ -34,6 +43,11 @@ public class DetectionsConfiguration {
 		return new DetectionValidatorImpl(findDeviceByApiKeyPort, findCharacteristicByNamePort);
 	}
 
+	/**
+	 * Questo metodo crea un'istanza di `ControlChartsGroup`.
+	 *
+	 * @return Una nuova istanza di `ControlChartsGroup`.
+	 */
 	@Bean
 	ControlChartsGroup createControlCharts() {
 		List<ControlChart> controlChartList = List.of(
@@ -50,6 +64,14 @@ public class DetectionsConfiguration {
 		return new ControlChartsGroupImpl(controlChartList);
 	}
 
+	/**
+	 * Questo metodo crea un'istanza di `SeriePortFacade`.
+	 *
+	 * @param insertDetectionPort La `InsertDetectionPort` da usare nel costruttore di `SeriePortFacadeImpl`.
+	 * @param findLastDetectionsPort La `FindLastDetectionsPort` da usare nel costruttore di `SeriePortFacadeImpl`.
+	 * @param markOutlierPort La `MarkOutlierPort` da usare nel costruttore di `SeriePortFacadeImpl`.
+	 * @return Una nuova istanza di `SeriePortFacade`.
+	 */
 	@Bean
 	SeriePortFacade createSerieFacadePort(
 		InsertDetectionPort insertDetectionPort,
@@ -59,11 +81,25 @@ public class DetectionsConfiguration {
 		return new SeriePortFacadeImpl(insertDetectionPort, findLastDetectionsPort, markOutlierPort);
 	}
 
+	/**
+	 * Questo metodo crea un'istanza di `ControlLimitsCalculator`.
+	 *
+	 * @param findLimitsPort La `FindLimitsPort` da usare nel costruttore di `ControlLimitsCalculatorImpl`.
+	 * @return Una nuova istanza di `ControlLimitsCalculator`.
+	 */
 	@Bean
 	ControlLimitsCalculator controlLimitsCalculator(FindLimitsPort findLimitsPort) {
 		return new ControlLimitsCalculatorImpl(findLimitsPort);
 	}
 
+	/**
+	 * Questo metodo crea un'istanza di `DetectionSerieFactory`.
+	 *
+	 * @param seriePortFacade La `SeriePortFacade` da usare nel costruttore di `DetectionSerieImplFactory`.
+	 * @param controlLimitsCalculator Il `ControlLimitsCalculator` da usare nel costruttore di `DetectionSerieImplFactory`.
+	 * @param controlChartsGroup Il `ControlChartsGroup` da usare nel costruttore di `DetectionSerieImplFactory`.
+	 * @return Una nuova istanza di `DetectionSerieFactory`.
+	 */
 	@Bean
 	DetectionSerieFactory createDetectionSerieFactory(
 		SeriePortFacade seriePortFacade, ControlLimitsCalculator controlLimitsCalculator, ControlChartsGroup controlChartsGroup
@@ -71,12 +107,25 @@ public class DetectionsConfiguration {
 		return new DetectionSerieImplFactory(seriePortFacade, controlLimitsCalculator, controlChartsGroup);
 	}
 
+	/**
+	 * Questo metodo crea un'istanza di `DetectionQueue`.
+	 *
+	 * @param detectionSerieFactory La `DetectionSerieFactory` da usare nel costruttore di `DetectionQueueImpl`.
+	 * @return Una nuova istanza di `DetectionQueue`.
+	 */
 	@Bean
 	@Scope("singleton")
 	DetectionQueue createDetectionQueue(DetectionSerieFactory detectionSerieFactory) {
 		return new DetectionQueueImpl(detectionSerieFactory);
 	}
 
+	/**
+	 * Questo metodo crea un'istanza di `ProcessIncomingDetectionUseCase`.
+	 *
+	 * @param detectionValidation Il `DetectionValidator` da usare nel costruttore di `DetectionsService`.
+	 * @param detectionQueue La `DetectionQueue` da usare nel costruttore di `DetectionsService`.
+	 * @return Una nuova istanza di `ProcessIncomingDetectionUseCase`.
+	 */
 	@Bean
 	ProcessIncomingDetectionUseCase createProcessDetectionUseCase(
 		DetectionValidator detectionValidation, DetectionQueue detectionQueue

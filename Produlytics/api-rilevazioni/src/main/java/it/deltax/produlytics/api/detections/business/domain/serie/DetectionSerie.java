@@ -2,8 +2,15 @@ package it.deltax.produlytics.api.detections.business.domain.serie;
 
 import it.deltax.produlytics.api.detections.business.domain.Detection;
 
-// Rappresenta una serie di rilevazioni che si occupa di memorizzare
-// nuove rilevazioni e identificare quelle anomale.
+/**
+ * Questa interfaccia descrive l'abilità di processare una serie di rilevazioni,
+ * tutte relative a una singola caratteristica.
+ */
 public interface DetectionSerie {
+	/**
+	 * Questo metodo inserisce una nuova rilevazione nella serie, processandola.
+	 *
+	 * @param rawDetection La rilevazione da processare. Deve appartenere alla caratteristica associata a questa serie.
+	 */
 	void insertDetection(Detection rawDetection);
 }

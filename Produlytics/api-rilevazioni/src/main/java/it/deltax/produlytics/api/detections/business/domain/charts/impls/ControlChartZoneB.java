@@ -7,14 +7,27 @@ import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits
 
 import java.util.List;
 
-// Implementazione della carta di controllo corrispondente al requisito ROF24.3.
-// Identifica se 4 punti su 5 consecutivi sono all'interno di una delle due zone B o oltre.
+/**
+ * Questa classe implementa la carta di controllo descritta in ROF24.3,
+ * cioè identifica se 4 punti su 5 consecutivi sono all'interno di una delle due zone B o oltre.
+ */
 public class ControlChartZoneB implements ControlChart {
+	/**
+	 * Implementazione dell'omonimo metodo definito in `ControlChart`.
+	 *
+	 * @return Il numero di rilevazioni richieste per l'analisi.
+	 */
 	@Override
 	public int requiredDetectionCount() {
 		return 5;
 	}
 
+	/**
+	 * Implementazione dell'omonimo metodo definito in `ControlChart`.
+	 *
+	 * @param detections Le rilevazioni da analizzare. Deve avere la lunghezza specificata da `requiredDetectionCount`.
+	 * @param limits I limiti di controllo della caratteristica a cui appartengono le rilevazioni.
+	 */
 	@Override
 	public void analyzeDetections(List<? extends MarkableDetection> detections, ControlLimits limits) {
 		double lowerZone = limits.lowerBCLimit();

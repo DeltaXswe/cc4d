@@ -18,6 +18,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Questa classe si occupa di adattare i repository di Spring alle porte descritte dalla parte di business.
+ */
 @Component
 @SuppressWarnings("unused")
 public class DetectionsAdapter implements FindDeviceByApiKeyPort,
@@ -27,10 +30,26 @@ public class DetectionsAdapter implements FindDeviceByApiKeyPort,
 	FindLimitsPort,
 	MarkOutlierPort
 {
+	/**
+	 * Un'istanza del repository delle caratteristiche.
+	 */
 	private final CharacteristicRepository characteristicRepository;
+	/**
+	 * Un'istanza del repository delle macchine.
+	 */
 	private final DeviceRepository deviceRepository;
+	/**
+	 * Un'istanza del repository delle rilevazioni.
+	 */
 	private final DetectionRepository detectionRepository;
 
+	/**
+	 * Crea una nuova istanza di DetectionsAdapter.
+	 *
+	 * @param characteristicRepository Una repository di caratteristiche.
+	 * @param deviceRepository Una repository di macchine.
+	 * @param detectionRepository Una repository di rilevazioni.
+	 */
 	public DetectionsAdapter(
 		CharacteristicRepository characteristicRepository,
 		DeviceRepository deviceRepository,
@@ -41,6 +60,12 @@ public class DetectionsAdapter implements FindDeviceByApiKeyPort,
 		this.detectionRepository = detectionRepository;
 	}
 
+	/**
+	 * Implementa l'omonimo metodo definito in `FindDeviceByApiKeyPort`.
+	 *
+	 * @param apiKey La chiave API della macchina da cercare, la quale potrebbe non esistere.
+	 * @return Le informazioni della macchina se esiste, altrimenti `Optional.empty()`.
+	 */
 	@Override
 	public Optional<DeviceInfo> findDeviceByApiKey(String apiKey) {
 		return this.deviceRepository.findByApiKey(apiKey)
@@ -50,6 +75,13 @@ public class DetectionsAdapter implements FindDeviceByApiKeyPort,
 			));
 	}
 
+	/**
+	 * Implementa l'omonimo metodo definito in `FindCharacteristicByNamePort`.
+	 *
+	 * @param deviceId L'identificativo della macchina, che deve esistere, a cui appartiene la caratteristica da cercare.
+	 * @param name Il nome della caratteristica da cercare.
+	 * @return Le informazioni della caratteristica se esite, altrimenti `Optional.empty()`.
+	 */
 	@Override
 	public Optional<CharacteristicInfo> findCharacteristicByName(int deviceId, String name) {
 		return this.characteristicRepository.findByDeviceIdAndName(deviceId, name)
@@ -58,6 +90,15 @@ public class DetectionsAdapter implements FindDeviceByApiKeyPort,
 			));
 	}
 
+	/**
+	 * Implementa l'omonimo metodo definito in `FindLastDetectionsPort`.
+	 *
+	 * @param characteristicId L'identificativo globale della caratteristica a cui appartengono le rilevazioni
+	 *                            da ottenere. Si può assumere che esista una caratteristica con tale identificativo.
+	 * @param count Il numero di rilevazioni da ottenere.
+	 * @return Una lista delle ultime `count` rilevazioni della caratteristica con identificativo `characteristicId,
+	 * 		o meno se non ce ne sono abbastanza.
+	 */
 	@Override
 	public List<Detection> findLastDetections(CharacteristicId characteristicId, int count) {
 		return this.detectionRepository.findLastDetectionsById(characteristicId.deviceId(),
@@ -73,6 +114,11 @@ public class DetectionsAdapter implements FindDeviceByApiKeyPort,
 			.toList();
 	}
 
+	/**
+	 * Implementa l'omonimo metodo definito in `InsertDetectionPort`.
+	 *
+	 * @param detection La rilevazione da memorizzare.
+	 */
 	@Override
 	public void insertDetection(Detection detection) {
 		DetectionEntity detectionEntity = new DetectionEntity(detection.creationTime(),
@@ -84,6 +130,13 @@ public class DetectionsAdapter implements FindDeviceByApiKeyPort,
 		this.detectionRepository.save(detectionEntity);
 	}
 
+	/**
+	 * Implementa l'omonimo metodo definito in `FindLimitsPort`.
+	 *
+	 * @param characteristicId L'identificativo globale della caratteristica a cui appartengono i limiti da ottenere.
+	 *                            Si può assumere che esista una caratteristica con tale identificativo.
+	 * @return I limiti tecnici e di processo della caratteristica cercata.
+	 */
 	@Override
 	public LimitsInfo findLimits(CharacteristicId characteristicId) {
 		LimitsEntity limitsEntity = this.characteristicRepository.findLimits(characteristicId.deviceId(),
@@ -107,6 +160,11 @@ public class DetectionsAdapter implements FindDeviceByApiKeyPort,
 		return new LimitsInfo(technicalLimits, meanStddev);
 	}
 
+	/**
+	 * Implementa l'omonimo metodo definito in `MarkOutlierPort`.
+	 *
+	 * @param detection La rilevazione da marcare come anomala.
+	 */
 	@Override
 	public void markOutlier(Detection detection) {
 		this.detectionRepository.markOutlier(detection.characteristicId().deviceId(),

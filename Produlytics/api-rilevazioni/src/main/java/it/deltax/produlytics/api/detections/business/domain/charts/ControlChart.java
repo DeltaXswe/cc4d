@@ -4,13 +4,23 @@ import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits
 
 import java.util.List;
 
-// Rappresenta l'implementazione di una carta di controllo.
+/**
+ * Questa interfaccia descrive l'abilità di analizzare una serie di rilevazioni per trovarne di anomale.
+ */
 public interface ControlChart {
-	// Ritorna il numero di rilevazioni che devono essere presenti nella lista passata come argomento
-	// a `analyzeDetections`. Tale numero deve essere sempre lo stesso per una data istanza di `ControlChart`.
+	/**
+	 * Ritorna il numero di rilevazioni richieste per l'analisi.
+	 * Questo metodo deve ritornare sempre lo stesso valore per una data istanza.
+	 *
+	 * @return Il numero di rilevazioni richieste per l'analisi.
+	 */
 	int requiredDetectionCount();
 
-	// `detections` sono le ultime requiredDetectionCount() rilevazioni
-	// `limits` sono i valori limite, calcolati o forniti dall'amministratore, della caratteristica in considerazione.
+	/**
+	 * Analizza le rilevazioni alla luce dei limiti di controllo e marca quelle anomale.
+	 *
+	 * @param detections Le rilevazioni da analizzare. Deve avere la lunghezza specificata da `requiredDetectionCount`.
+	 * @param limits I limiti di controllo della caratteristica a cui appartengono le rilevazioni.
+	 */
 	void analyzeDetections(List<? extends MarkableDetection> detections, ControlLimits limits);
 }

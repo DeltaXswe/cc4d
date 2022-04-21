@@ -2,9 +2,20 @@ package it.deltax.produlytics.api.detections.business.domain.queue;
 
 import it.deltax.produlytics.api.detections.business.domain.Detection;
 
-// Si occupa di accodare una rilevazione autenticata per analizzarla in futuro.
-// L'operazione non è bloccante.
+/**
+ * Questa interfaccia descrive l'abilità di accodare una rilevazione per essere processata
+ * successivamente in background, senza quindi bloccare l'utilizzatore.
+ */
 public interface DetectionQueue {
+	/**
+	 * Questo metodo accoda una rilevazione per essere processata successivamente in background.
+	 *
+	 * @param detection La rilevazione da accodare.
+	 */
 	void enqueueDetection(Detection detection);
+
+	/**
+	 * Questo metodo permette di chiudere la coda, bloccando il chiamante finchè tutte le rilevazioni non siano processate.
+	 */
 	void close();
 }
