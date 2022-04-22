@@ -246,7 +246,6 @@ public class DetectionsTest {
           List<DetectionEntity> lastDetections =
               this.detectionRepository.findLastDetectionsById(
                   device.getId(), characteristic.getId(), 3);
-          System.out.println("" + lastDetections.size());
           assert lastDetections.size() == 2;
           assert lastDetections.get(0).getValue() == 42d;
           assert lastDetections.get(1).getValue() == 70d;
