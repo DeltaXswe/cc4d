@@ -56,19 +56,4 @@ public class ControlLimitsCalculatorTest {
     ControlLimitsCalculator calculator = new ControlLimitsCalculatorImpl(findLimitsPort);
     assert calculator.calculateControlLimits(findCharacteristicId).equals(new ControlLimits(0, 60));
   }
-
-  @Test
-  void testNone() {
-    CharacteristicId findCharacteristicId = new CharacteristicId(42, 69);
-    FindLimitsPort findLimitsPort =
-        characteristicId -> {
-          assert characteristicId == findCharacteristicId;
-          Optional<MeanStddev> meanStddev = Optional.empty();
-          Optional<TechnicalLimits> technicalLimits = Optional.empty();
-          return new LimitsInfo(technicalLimits, meanStddev);
-        };
-    ControlLimitsCalculator calculator = new ControlLimitsCalculatorImpl(findLimitsPort);
-    assertThrows(
-        RuntimeException.class, () -> calculator.calculateControlLimits(findCharacteristicId));
-  }
 }

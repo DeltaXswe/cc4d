@@ -61,7 +61,7 @@ public class ControlChartZoneBTest {
   }
 
   @Test
-  void testAllLowerBOrUnder() {
+  void testAllUnder() {
     double[] values = {15, 5, 5, -5, -5};
     List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
     ControlLimits limits = new ControlLimits(0, 60);
@@ -71,7 +71,7 @@ public class ControlChartZoneBTest {
   }
 
   @Test
-  void testAllUpperBOrOver() {
+  void testAllOver() {
     double[] values = {45, 55, 55, 65, 65};
     List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
     ControlLimits limits = new ControlLimits(0, 60);

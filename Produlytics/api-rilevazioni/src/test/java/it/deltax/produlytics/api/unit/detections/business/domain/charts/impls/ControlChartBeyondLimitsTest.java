@@ -35,7 +35,7 @@ public class ControlChartBeyondLimitsTest {
   }
 
   @Test
-  void testInControlLimitsUnderMean() {
+  void testUnderMean() {
     List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(1);
     ControlLimits limits = new ControlLimits(0, 100);
     assert 1 > limits.lowerLimit();
@@ -46,7 +46,7 @@ public class ControlChartBeyondLimitsTest {
   }
 
   @Test
-  void testInControlLimitsOverMean() {
+  void testOverMean() {
     List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(99);
     ControlLimits limits = new ControlLimits(0, 100);
     assert 99 > limits.lowerLimit();

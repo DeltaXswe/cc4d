@@ -15,7 +15,7 @@ public class ControlChartZoneCTest {
   }
 
   @Test
-  void testAllUnderMean() {
+  void testAllLowerC() {
     double[] values = {25, 25, 25, 25, 25, 25, 25};
     List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
     ControlLimits limits = new ControlLimits(0, 60);
@@ -27,7 +27,7 @@ public class ControlChartZoneCTest {
   }
 
   @Test
-  void testAllOverMean() {
+  void testAllUpperC() {
     double[] values = {35, 35, 35, 35, 35, 35, 35};
     List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
     ControlLimits limits = new ControlLimits(0, 60);
@@ -39,7 +39,7 @@ public class ControlChartZoneCTest {
   }
 
   @Test
-  void testAllUnderMeanOrUnder() {
+  void testAllUnderMean() {
     double[] values = {25, 25, 25, 25, 15, 5, -5};
     List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
     ControlLimits limits = new ControlLimits(0, 60);
@@ -49,7 +49,7 @@ public class ControlChartZoneCTest {
   }
 
   @Test
-  void testAllOverMeanOrOver() {
+  void testAllOverMean() {
     double[] values = {35, 35, 35, 35, 45, 55, 65};
     List<MarkableDetectionMock> detections = MarkableDetectionMock.listFromValues(values);
     ControlLimits limits = new ControlLimits(0, 60);

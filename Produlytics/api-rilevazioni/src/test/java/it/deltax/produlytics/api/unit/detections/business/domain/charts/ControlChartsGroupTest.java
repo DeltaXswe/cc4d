@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 public class ControlChartsGroupTest {
   @Test
-  void testCorrectRequiredDetectionCount() {
+  void testRequiredDetections() {
     ControlChartsGroup controlChartsGroup =
         new ControlChartsGroupImpl(
             List.of(new FakeControlChart(3), new FakeControlChart(5), new FakeControlChart(2)));
