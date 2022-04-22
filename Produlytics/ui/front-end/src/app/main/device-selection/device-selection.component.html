@@ -4,7 +4,7 @@
     <!-- Qui sono CERTO che è un CharacteristicNode -->
     <button mat-icon-button disabled></button>
     <mat-checkbox [checked]="nodeIsChecked(node)"
-                  (change)="toggleNodeCheck($event, node)">
+                  (change)="toggleNodeCheck($event.checked, node)">
       {{node.name}}
     </mat-checkbox>
   </mat-tree-node>

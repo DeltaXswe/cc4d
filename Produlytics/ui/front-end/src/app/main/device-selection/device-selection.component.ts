@@ -53,8 +53,8 @@ export class DeviceSelectionComponent implements OnInit {
     return this.checkedNodes.indexOf(node) >= 0;
   }
 
-  toggleNodeCheck(event: MatCheckboxChange, node: CharacteristicNode): void {
-    if (event.checked) {
+  toggleNodeCheck(checked: boolean, node: CharacteristicNode): void {
+    if (checked) {
       this.checkedNodes.push(node)
     } else {
       this.checkedNodes.splice(this.checkedNodes.indexOf(node), 1)
