@@ -7,7 +7,7 @@ import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits
 import java.util.List;
 
 /**
- * Questa classe implementa la carta di controllo descritta in ROF24.6, cioè identifica se 8 punti
+ * Questa classe implementa la carta di controllo descritta in ROF22.6, cioè identifica se 8 punti
  * consecutivi non appartengono alle zone C.
  */
 public class ControlChartMixture implements ControlChart {

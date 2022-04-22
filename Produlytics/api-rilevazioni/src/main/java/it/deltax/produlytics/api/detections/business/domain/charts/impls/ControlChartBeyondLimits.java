@@ -6,7 +6,7 @@ import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits
 import java.util.List;
 
 /**
- * Questa classe implementa la carta di controllo descritta in ROF24.1, cioè identifica i punti
+ * Questa classe implementa la carta di controllo descritta in ROF22.1, cioè identifica i punti
  * oltre i limiti di controllo.
  */
 public class ControlChartBeyondLimits implements ControlChart {

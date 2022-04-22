@@ -7,7 +7,7 @@ import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits
 import java.util.List;
 
 /**
- * Questa classe implementa la carta di controllo descritta in ROF24.8, cioè identifica se 14 punti
+ * Questa classe implementa la carta di controllo descritta in ROF22.8, cioè identifica se 14 punti
  * consecutivi sono a zig-zag.
  */
 public class ControlChartOverControl implements ControlChart {
