@@ -6,9 +6,9 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
 /**
- * <p>Record che rappresenta i dati necessari per la modifica di una caratteristica
- * <p>Contiene tutti i campi di una caratteristica, meno lo stato di archiviazione
- * <p>Mette a disposizione un builder con valori di default
+ * Record che rappresenta i dati necessari per la modifica di una caratteristica.
+ * Contiene tutti i campi di una caratteristica, meno lo stato di archiviazione.
+ * Mette a disposizione un builder con valori di default
  */
 public record CharacteristicToUpdate(
 	int id,
@@ -25,10 +25,10 @@ public record CharacteristicToUpdate(
 	/**
 	 * Fornisce il builder del record
 	 * @return un nuovo builder con i seguenti valori di default:
-	 * <ul>
-	 *     <li>upperLimit: empty
-	 * 	   <li>lowerLimit: empty
-	 * 	   <li>sampleSize: empty
+	 *
+	 * upperLimit: empty
+	 * lowerLimit: empty
+	 * sampleSize: empty
 	 */
 	public static CharacteristicToUpdateBuilder builder() {
 		return new CharacteristicToUpdateBuilder()

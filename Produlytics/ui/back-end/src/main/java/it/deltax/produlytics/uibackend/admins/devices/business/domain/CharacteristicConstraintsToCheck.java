@@ -6,9 +6,9 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
 /**
- * <p>Record che rappresenta i dati necessari per effettuare i controlli di validità di una caratteristica
- * <p>Contiene i campi opzionali di una caratteristica quello relativo all'autoAdjust, per poter effettuare i controlli
- * <p>Mette a disposizione un builder con valori di default
+ * Record che rappresenta i dati necessari per effettuare i controlli di validità di una caratteristica
+ * Contiene i campi opzionali di una caratteristica quello relativo all'autoAdjust, per poter effettuare i controlli
+ * Mette a disposizione un builder con valori di default
  */
 public record CharacteristicConstraintsToCheck(
 	OptionalDouble upperLimit,
@@ -22,10 +22,9 @@ public record CharacteristicConstraintsToCheck(
 	/**
 	 * Fornisce il builder del record
 	 * @return un nuovo builder con i seguenti valori di default:
-	 * <ul>
-	 *     <li>upperLimit: empty
-	 * 	   <li>lowerLimit: empty
-	 * 	   <li>sampleSize: empty
+	 * upperLimit: empty
+	 * lowerLimit: empty
+	 * sampleSize: empty
 	 */
 	public static CharacteristicConstraintsToCheck.CharacteristicConstraintsToCheckBuilder builder() {
 		return new CharacteristicConstraintsToCheckBuilder()

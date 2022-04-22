@@ -6,8 +6,8 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
 /**
- * <p>Il record rappresenta una caratteristica con tutti i suoi dati
- * <p>Mette a disposizione un builder con valori di default
+ * Il record rappresenta una caratteristica con tutti i suoi dati
+ * Mette a disposizione un builder con valori di default
  */
 public record DetailedCharacteristic(
 	int id,
@@ -25,11 +25,10 @@ public record DetailedCharacteristic(
 	/**
 	 * Fornisce il builder del record
 	 * @return un nuovo builder con i seguenti valori di default:
-	 * <ul>
-	 * 	   <li>upperLimit: empty
-	 * 	   <li>lowerLimit: empty
-	 * 	   <li>sampleSize: empty
-	 *     <li>archived: false
+	 * upperLimit: empty
+	 * lowerLimit: empty
+	 * sampleSize: empty
+	 * archived: false
 	 */
 	public static DetailedCharacteristic.DetailedCharacteristicBuilder builder() {
 		return new DetailedCharacteristicBuilder()

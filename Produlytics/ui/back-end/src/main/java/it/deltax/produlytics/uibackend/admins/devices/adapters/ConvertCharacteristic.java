@@ -12,9 +12,9 @@ import java.util.OptionalInt;
  */
 public interface ConvertCharacteristic {
 	/**
-	 * Converte un oggetto <code>CharacteristicEntity</code> in uno <code>DetailedCharacteristic</code>
-	 * @param characteristic la <code>CharacteristicEntity</code> da convertire
-	 * @return la <code>DetailedCharacteristic</code> equivalente
+	 * Converte un oggetto CharacteristicEntity in uno DetailedCharacteristic
+	 * @param characteristic la CharacteristicEntity da convertire
+	 * @return la DetailedCharacteristic equivalente
 	 */
 	static DetailedCharacteristic toDetailed(CharacteristicEntity characteristic) {
 		return DetailedCharacteristic.builder()
@@ -42,9 +42,9 @@ public interface ConvertCharacteristic {
 	}
 
 	/**
-	 * Converte un oggetto <code>DetailedCharacteristic</code> in uno <code>CharacteristicEntity</code>
-	 * @param characteristic la <code>DetailedCharacteristic</code> da convertire
-	 * @return la <code>CharacteristicEntity</code> equivalente
+	 * Converte un oggetto DetailedCharacteristic in uno CharacteristicEntity
+	 * @param characteristic la DetailedCharacteristic da convertire
+	 * @return la CharacteristicEntity equivalente
 	 */
 	static CharacteristicEntity toEntity(DetailedCharacteristic characteristic) {
 		return new CharacteristicEntity(

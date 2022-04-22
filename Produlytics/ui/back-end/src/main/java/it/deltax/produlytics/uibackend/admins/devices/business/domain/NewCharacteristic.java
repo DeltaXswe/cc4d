@@ -6,9 +6,9 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
 /**
- * <p>Record che rappresenta i dati necessari per la creazione di una nuova caratteristica
- * <p>Contiene tutti i campi di una caratteristica, meno il suo id, quello della macchina e lo stato di archiviazione
- * <p>Mette a disposizione un builder con valori di default
+ * Record che rappresenta i dati necessari per la creazione di una nuova caratteristica
+ * Contiene tutti i campi di una caratteristica, meno il suo id, quello della macchina e lo stato di archiviazione
+ * Mette a disposizione un builder con valori di default
  */
 public record NewCharacteristic(
 	String name,
@@ -23,10 +23,10 @@ public record NewCharacteristic(
 	/**
 	 * Fornisce il builder del record
 	 * @return un nuovo builder con i seguenti valori di default:
-	 * <ul>
-	 *     <li>upperLimit: empty
-	 * 	   <li>lowerLimit: empty
-	 * 	   <li>sampleSize: empty
+	 *
+	 * upperLimit: empty
+	 * lowerLimit: empty
+	 * sampleSize: empty
 	 */
 	public static NewCharacteristicBuilder builder() {
 		return new NewCharacteristicBuilder()
