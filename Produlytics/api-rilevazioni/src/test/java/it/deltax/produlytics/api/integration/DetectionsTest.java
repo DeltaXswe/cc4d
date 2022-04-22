@@ -178,7 +178,7 @@ public class DetectionsTest {
   }
 
   @Test
-  void testProcessLimitsNoDetectionsExisting() {
+  void testDetectionAccepted() {
     capturingRxJavaExceptions(
         () -> {
           String ident = "6";
