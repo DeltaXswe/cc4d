@@ -4,6 +4,9 @@ import it.deltax.produlytics.uibackend.devices.business.domain.CharacteristicLim
 
 import java.util.Optional;
 
+/**
+ * La porta per l'ottenimento dei limiti di una caratteristica di una macchina
+ */
 public interface FindCharacteristicLimitsPort {
     Optional<CharacteristicLimits> findByCharacteristic(int deviceId, int characteristicId);
 }

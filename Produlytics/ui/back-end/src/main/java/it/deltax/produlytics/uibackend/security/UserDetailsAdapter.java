@@ -7,6 +7,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+/**
+ * Adapter dell'interfaccia UserDetailsService di Spring Security
+ */
 @Component
 public class UserDetailsAdapter implements UserDetailsService {
 	private final FindAccountUseCase findAccountUseCase;
@@ -22,12 +25,12 @@ public class UserDetailsAdapter implements UserDetailsService {
 	/**
 	 * Resituisce se l'utente esiste oppure no
 	 * @param username l'username dell'utente da cercare
-	 * @return i dettagli dell'utente trovato
+	 * @return un'istanza di UserDetails, con i dettagli dell'utente trovato
 	 * @throws UsernameNotFoundException se l'utente non è stato trovato
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		try { //CustomAccountDetails::new
+		try {
 			return findAccountUseCase.findByUsername(username).map(
 				account -> new CustomAccountDetails(account))
 				.orElseThrow(() -> new UsernameNotFoundException(("usernameNotFound")));

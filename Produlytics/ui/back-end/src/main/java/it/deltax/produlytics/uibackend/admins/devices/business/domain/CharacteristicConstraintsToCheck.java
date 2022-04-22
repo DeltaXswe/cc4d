@@ -8,7 +8,7 @@ import java.util.OptionalInt;
 /**
  * <p>Record che rappresenta i dati necessari per effettuare i controlli di validità di una caratteristica
  * <p>Contiene i campi opzionali di una caratteristica quello relativo all'autoAdjust, per poter effettuare i controlli
- * <p>Mette a disposizione un builder con valori di defaiult
+ * <p>Mette a disposizione un builder con valori di default
  */
 public record CharacteristicConstraintsToCheck(
 	OptionalDouble upperLimit,

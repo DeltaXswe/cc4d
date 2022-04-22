@@ -6,6 +6,9 @@ import it.deltax.produlytics.uibackend.devices.business.ports.out.GetUnarchivedD
 
 import java.util.List;
 
+/**
+ * Il service per l'ottenimento delle macchine non archiviate
+ */
 public class GetUnarchivedDevicesService implements GetUnarchivedDevicesUseCase {
     private final GetUnarchivedDevicesPort getUnarchivedDevicesPort;
 

@@ -1,6 +1,6 @@
 package it.deltax.produlytics.uibackend.security;
 
-import it.deltax.produlytics.uibackend.accounts.adapters.EncoderConfig;
+import it.deltax.produlytics.uibackend.accounts.EncoderConfig;
 import it.deltax.produlytics.uibackend.accounts.business.ports.in.FindAccountUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +29,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		this.encoder = encoder;
 	}
 
+	/**
+	 * Crea un'istanza di AuthenticationProvider
+	 * @param findAccountUseCase interfaccia rappresentante il caso d'uso per la ricerca di un utente, da passare al
+	 *                           costruttore di UserDetailsAdapter
+	 * @return la nuova istanza di DaoAuthenticationProvider
+	 */
 	@Bean
 	public AuthenticationProvider authenticationProvider(FindAccountUseCase findAccountUseCase){
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();

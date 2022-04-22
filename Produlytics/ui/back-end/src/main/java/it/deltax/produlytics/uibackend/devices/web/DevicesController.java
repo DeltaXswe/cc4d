@@ -24,7 +24,6 @@ public class DevicesController {
         this.getUnarchivedDevicesUseCase = getUnarchivedDevicesUseCase;
     }
 
-
     /**
      * Riceve le chiamate all'endpoint REST per l'ottenimento delle macchine non archiviate
      * @return lo stato HTTP e la lista delle macchine non archiviate, ognuna con id e nome

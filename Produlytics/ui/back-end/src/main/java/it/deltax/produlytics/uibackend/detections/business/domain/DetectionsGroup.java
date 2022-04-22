@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.OptionalLong;
 
 /**
- * <p>Record che rappresenta una lista di rilevazioni
- * <p>Fornisce anche timestamp per ottenere le liste delle rilevazioni più vecchie o più recenti in una nuova richiesta
+ * Record che rappresenta una lista di rilevazioni.
+ * Fornisce anche timestamp per ottenere le liste delle rilevazioni più vecchie o più recenti in una nuova richiesta.
  */
 public record DetectionsGroup(
 	List<Detection> detections,
