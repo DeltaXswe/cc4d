@@ -186,11 +186,11 @@ public class InsertCharacteristicTests {
 	}
 
 	/**
-	 * Testa il corretto inserimento di una nuova caratteristica con autoAdjust, ma senza sampleSize
-	 * @throws Exception se l'inserimento non va a buon fine
+	 * Testa l'inserimento di una nuova caratteristica con autoAdjust, ma senza sampleSize
+	 * @throws Exception non viene rilevato l'errore
 	 */
 	@Test
-	void testInsertCharacteristicWithAutoAdjustAndNoSampleSize() throws Exception {
+	void testInsertCharacteristicWithAutoAdjustAndNoSampleSizeError() throws Exception {
 		JSONObject body = new JSONObject()
 			.put("name", "pressione")
 			.put("autoAdjust", "true")

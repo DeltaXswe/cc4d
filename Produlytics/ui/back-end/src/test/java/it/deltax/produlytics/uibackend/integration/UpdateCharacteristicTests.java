@@ -207,7 +207,7 @@ public class UpdateCharacteristicTests {
 	}
 
 	/**
-	 * Testa la modifica di una caratteristica senza autoAdjust, ma senza limiti tecnici
+	 * Testa la modifica di una caratteristica senza autoAdjust e senza limiti tecnici
 	 * @throws Exception se la caratteristica non esiste, verrebbe duplicata dopo la modifica o non viene rilevato
 	 * l'errore
 	 */
@@ -233,7 +233,7 @@ public class UpdateCharacteristicTests {
 	}
 
 	/**
-	 * Testa la modifica di una caratteristica con autoAdjust, ma senza sampleSize
+	 * Testa la modifica di una caratteristica con autoAdjust e senza sampleSize
 	 * @throws Exception se la caratteristica non esiste, verrebbe duplicata dopo la modifica o non viene rilevato
 	 * l'errore
 	 */

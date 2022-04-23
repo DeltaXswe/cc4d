@@ -264,8 +264,8 @@ public class DetectionsTests {
 	}
 
 	/**
-	 * Testa l'ottenimento delle rilevazioni di una caratteristica, facendo restituire una lista vuota invertendo
-	 * l'ordine di olerThan e newerThan
+	 * Testa l'ottenimento delle rilevazioni di una caratteristica, applicando un filtro di ricerca per cui viene
+	 * restituita una lista vuota
 	 * @throws Exception se la caratteristica è inesistente, archiviata o si ottiene un risultato diverso da
 	 * quello atteso
 	 */
@@ -276,7 +276,7 @@ public class DetectionsTests {
 					+ deviceId
 					+ "/characteristics/"
 					+ characteristicId
-					+ "/detections?newerThan=7&olderThan=4"
+					+ "/detections?newerThan=7"
 			))
 			.andDo(print())
 			.andExpect(status().isOk());
