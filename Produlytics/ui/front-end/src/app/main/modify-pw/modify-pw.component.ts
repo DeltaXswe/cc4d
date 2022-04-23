@@ -13,6 +13,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./modify-pw.component.css'],
   encapsulation: ViewEncapsulation.None 
 })
+
+/**
+ * Questo component permette all'utente di modificare la propria password.
+ */
 export class ModifyPwComponent implements OnInit {
   modifyPw: FormGroup;
 
@@ -30,6 +34,13 @@ export class ModifyPwComponent implements OnInit {
   
   ngOnInit(): void { }
   
+  /**
+   * Validatore personalizzato che controlla che:
+   * - password nuova e sua ripetizione siano uguali;
+   * - poassword vecchia e nuova siano diverse.
+   * @param control permette di ottenere gli input dell'utente tramite control.get
+   * @returns un errore appropriato o null
+   */
   checkPasswords(control: AbstractControl){
       if (control){
         const oldPassword =  control.get('oldPassword')?.value;
@@ -49,6 +60,12 @@ export class ModifyPwComponent implements OnInit {
     return null;
   }
 
+  /**
+   * Tramite un service che implementa {@link ModifyPwAbstractService},
+   * esegue un tentativo di cambio password.
+   * In caso di successo visualizza un messaggio che conferma l'esito positivo,
+   * altrimenti un messaggio di errore, tramite {@link MatSnackBar}
+   */
   confirm(): void{
     const rawValue = this.modifyPw.getRawValue();
     const command: ModifyPwCommand = {
@@ -73,6 +90,10 @@ export class ModifyPwComponent implements OnInit {
     this.matDialogRef.close();
   }
 
+  /**
+   * Annulla l'operazione chiudendo la finestra di dialogo,
+   * senza alcuna operazione aggiuntiva.
+   */
   cancel(): void{
     this.matDialogRef.close();
   }

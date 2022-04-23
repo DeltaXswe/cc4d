@@ -69,7 +69,6 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       if (res){
         this.updateSubscription?.unsubscribe();
         this.clearChart();
-        console.log(res[0]);
         this.chartService.getOldPoints(res[0], res[1], this.currentNode?.device.id, this.currentNode?.id)
           .subscribe({
             next: (points) => this.points = points.chartPoints
@@ -108,7 +107,6 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
         .attr('transform', `translate(0, ${this.chartHeight})`);
 
       this.yAxis = this.svg.append('g').attr('class', 'axis-y');
-
       const createGuideLine = (cls: string) => {
         this.svg
           .append('line')
@@ -127,9 +125,21 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       .attr("class", "title")
       .attr("x", this.chartWidth / 2)
       .attr("y", this.margin.top)
+      
+      this.zoom = d3.zoom()
+      .scaleExtent([1, 1])
+      .on('zoom', this.zoooom.bind(this))
+      /* d3.select('.chart-container').call(this.zoom); */
+      this.svg.selectAll('g').call(this.zoom);
       this.setupInitialPoints(this.currentNode?.device.id, this.currentNode?.id);
   }
-
+  zoooom(event: any){
+    console.log('ciao');
+    //const t = event.transform;
+    
+    d3.selectAll('g')
+    .attr('transform', event.transform);
+  }
   setupInitialPoints(deviceId: number, characteristicId: number) {
     if (this.points.length == 0){
     this.chartService
@@ -160,7 +170,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     const [ymin, ymax] = d3.extent(points, (p) => p.value);
 
     this.xScale.domain(
-      d3.extent(points, (p) => p.epoch) as [number, number]
+      d3.extent(points, (p) => new Date(p.epoch)) as [Date, Date]
     );
 
     this.yScale.domain([

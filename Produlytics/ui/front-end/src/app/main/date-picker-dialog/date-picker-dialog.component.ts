@@ -11,7 +11,7 @@ export class DatePickerDialogComponent implements OnInit {
   dateForm: FormGroup;
   startTime = {hour: 12, minute: 0, second: 0};
   endTime = {hour: 12, minute: 0, second: 0};
-  constructor(formBuilder: FormBuilder,
+  constructor(private formBuilder: FormBuilder,
     private matDialogRef: MatDialogRef<DatePickerDialogComponent>) {
     this.dateForm = formBuilder.group({
       start: new FormControl(''),
@@ -22,11 +22,11 @@ export class DatePickerDialogComponent implements OnInit {
   ngOnInit(): void {
   }
   confirm(){
-    let wtf: number[] = [
+    let data: number[] = [
       Date.parse(this.dateForm.getRawValue().start) + ((this.startTime.hour*3600 + this.startTime.minute*60 + this.startTime.second)*1000),
       Date.parse(this.dateForm.getRawValue().end) + ((this.endTime.hour*3600 + this.endTime.minute*60 + this.endTime.second)*1000)
     ];
-    this.matDialogRef.close(wtf);
+    this.matDialogRef.close(data);
   }
 
   cancel(){

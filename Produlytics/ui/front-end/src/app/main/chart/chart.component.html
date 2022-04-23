@@ -15,7 +15,8 @@
           <button id="refresh" mat-icon-button (click)="clearChart(); createChart()"><mat-icon>refresh</mat-icon></button>
         </div>
         </mat-toolbar>
-        <div class="chart-container">
+        <div id="vertical{{index}}"></div>
+        <div id="horizontal{{index}}" class="chart-container">
         <svg  class="d3svg" id="d3svg{{index}}"></svg>
       </div>
       <!-- </div> -->

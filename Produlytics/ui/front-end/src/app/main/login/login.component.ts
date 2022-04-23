@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ViewEncapsulation } from '@angular/core';
 import { LoginAbstractService } from '../../model/login/login-abstract.service';
@@ -13,6 +13,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./login.component.css'],
   encapsulation: ViewEncapsulation.None 
 })
+
+/**
+ * Questo component permette di effettuare il login.
+ */
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
@@ -29,11 +33,22 @@ export class LoginComponent implements OnInit {
       });
     }
 
+  /**
+   * Controlla che sia già presente un cookie di sessione.
+   * In caso positivo naviga alla dashboard.
+   */
   ngOnInit(): void {
     if (this.cookieService.get('PRODULYTICS_RM'))
       this.router.navigate(['/']);
   }
 
+  /**
+   * Prende i dati inseriti dall'utente.
+   * Se tutti passano le validazioni imposte, effettua un tentativo di login
+   * utilizzando un servizio che implementa {@link LoginAbstractService}.
+   * In caso di successo porta alla dashboard, altrimenti mostra un errore
+   * con {@link MatSnackBar}
+   */
   onSubmit(): void{
     const rawValue = this.loginForm.getRawValue();
     const command: LoginCommand = {
@@ -41,7 +56,6 @@ export class LoginComponent implements OnInit {
       password: rawValue.password,
       rememberMe: rawValue.rememberMe
     }  
-    console.log(command.password);
     if (this.loginForm.invalid) {
       return;
     }
