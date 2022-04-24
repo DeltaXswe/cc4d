@@ -38,6 +38,6 @@ public class UnarchivedDeviceAdapter implements GetUnarchivedDevicesPort {
                     device.id(),
                     device.name())
             )
-            .collect(Collectors.toList());
+            .toList();
     }
 }

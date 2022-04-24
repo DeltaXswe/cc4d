@@ -106,6 +106,6 @@ public class AdminAccountAdapter implements UpdateAccountArchiveStatusPort,
 			.map(account ->
 				new TinyAccount(account.getUsername(), account.getAdministrator(), account.getArchived())
 			)
-			.collect(Collectors.toList());
+			.toList();
 	}
 }

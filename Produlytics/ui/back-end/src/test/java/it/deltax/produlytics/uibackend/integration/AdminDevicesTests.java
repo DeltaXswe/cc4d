@@ -123,7 +123,7 @@ public class AdminDevicesTests {
 				.content(device.toString())
 				.characterEncoding("utf-8")
 			).andDo(print())
-			.andExpect(status().is(400))
+			.andExpect(status().isBadRequest())
 			.andExpect(content().string("{\"errorCode\":\"duplicateDeviceName\"}"));
 	}
 
@@ -204,7 +204,7 @@ public class AdminDevicesTests {
 				.content(json.toString())
 				.characterEncoding("utf-8")
 			).andDo(print())
-			.andExpect(status().is(400))
+			.andExpect(status().isBadRequest())
 			.andExpect(content().string("{\"errorCode\":\"duplicateDeviceName\"}"));
 	}
 

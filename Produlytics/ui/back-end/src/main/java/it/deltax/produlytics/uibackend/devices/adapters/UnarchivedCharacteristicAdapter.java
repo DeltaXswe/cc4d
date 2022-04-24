@@ -40,7 +40,7 @@ public class UnarchivedCharacteristicAdapter implements FindAllUnarchivedCharact
                     characteristicEntity.getId(),
                     characteristicEntity.getName()
                 ))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**

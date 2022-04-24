@@ -53,7 +53,7 @@ public class AdminDeviceAdapter implements
 					device.getArchived(),
 					device.getDeactivated())
 			)
-			.collect(Collectors.toList());
+			.toList();
 	}
 
 	/**

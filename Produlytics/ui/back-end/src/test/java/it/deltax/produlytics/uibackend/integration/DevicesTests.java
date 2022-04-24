@@ -84,7 +84,7 @@ class DevicesTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void getAllUnarchivedDevices() throws Exception {
+	public void testGetAllUnarchivedDevices() throws Exception {
 		JSONObject d1 = new JSONObject().put("id", deviceId1)
 			.put("name", "macchina1");
 		JSONObject d2 = new JSONObject().put("id", deviceId2)
@@ -102,7 +102,7 @@ class DevicesTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void getAllUnarchivedDevicesWhenThereAreNone() throws Exception {
+	public void testGetAllUnarchivedDevicesWhenThereAreNone() throws Exception {
 		deleteAll(deviceRepository);
 		this.mockMvc.perform(get("/devices"))
 			.andDo(print())
