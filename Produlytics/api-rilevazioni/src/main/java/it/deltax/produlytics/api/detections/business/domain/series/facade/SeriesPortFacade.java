@@ -1,4 +1,4 @@
-package it.deltax.produlytics.api.detections.business.domain.serie.facade;
+package it.deltax.produlytics.api.detections.business.domain.series.facade;
 
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Questa interfaccia raccoglie insieme l'interfaccia di alcune porte che sono usate sempre insieme.
  */
-public interface SeriePortFacade {
+public interface SeriesPortFacade {
   /**
    * Questo metodo è equivalente all'omonimo definito in `InsertDetectionPort`.
    *

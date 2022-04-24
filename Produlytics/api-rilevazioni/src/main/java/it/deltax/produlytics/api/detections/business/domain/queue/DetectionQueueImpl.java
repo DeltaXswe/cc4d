@@ -6,8 +6,8 @@ import io.reactivex.rxjava3.processors.PublishProcessor;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
-import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerie;
-import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerieFactory;
+import it.deltax.produlytics.api.detections.business.domain.series.DetectionSeries;
+import it.deltax.produlytics.api.detections.business.domain.series.DetectionSeriesFactory;
 import java.util.concurrent.Phaser;
 import java.util.concurrent.TimeUnit;
 
@@ -16,8 +16,8 @@ import java.util.concurrent.TimeUnit;
  * background, senza quindi bloccare l'utilizzatore.
  */
 public class DetectionQueueImpl implements DetectionQueue {
-  /** La factory per creare una `DetectionSerie` per ogni caratteristica in coda. */
-  private final DetectionSerieFactory serieFactory;
+  /** La factory per creare una `DetectionSeries` per ogni caratteristica in coda. */
+  private final DetectionSeriesFactory seriesFactory;
   /**
    * Un canale di RxJava 3 che si occupa di raggruppare le rilevazioni e processarle in differenti
    * thread.
@@ -30,10 +30,10 @@ public class DetectionQueueImpl implements DetectionQueue {
   /**
    * Crea una nuova istanza di `DetectionQueueImpl`.
    *
-   * @param serieFactory Il valore per il campo `serieFactory`.
+   * @param seriesFactory Il valore per il campo `seriesFactory`.
    */
-  public DetectionQueueImpl(DetectionSerieFactory serieFactory) {
-    this.serieFactory = serieFactory;
+  public DetectionQueueImpl(DetectionSeriesFactory seriesFactory) {
+    this.seriesFactory = seriesFactory;
     // `.toSerialized()` è necessario perchè `this.detectionProcessor.onNext` potrebbe essere
     // chiamato da più
     // thread, e `PublishProcessor` non è thread-safe.
@@ -81,7 +81,7 @@ public class DetectionQueueImpl implements DetectionQueue {
   private void handleDetectionGroup(CharacteristicId key, Flowable<Detection> group) {
 
     // Gestisce ogni gruppo/caratteristica:
-    // - crea una `DetectionSerie` per quel gruppo/caratteristica, ma non aspetta il suo
+    // - crea una `DetectionSeries` per quel gruppo/caratteristica, ma non aspetta il suo
     // completamento;
     // - imposta un timeout, che viene attivato dopo 30 secondi che non vengono ricevute rilevazioni
     //   per quella caratteristica;
@@ -94,11 +94,11 @@ public class DetectionQueueImpl implements DetectionQueue {
     // Registra il gruppo nel Phaser, segnalandone quindi la sua esistenza.
     this.groupPhaser.register();
 
-    // Crea una `DetectionSerie` per la data caratteristica.
+    // Crea una `DetectionSeries` per la data caratteristica.
     // Ritorna un `Single` perchè la sua creazione può richiedere una chiamata al database,
     // e questa non dovrebbe bloccare il subscribe del `group` in `handleDetectionGroup`.
-    // `.cache()` è importante per non ricreare la `DetectionSerie` per ogni rilevazione.
-    DetectionSerie serie = this.serieFactory.createSerie(key);
+    // `.cache()` è importante per non ricreare la `DetectionSeries` per ogni rilevazione.
+    DetectionSeries series = this.seriesFactory.createSeries(key);
 
     // TODO: Fix warning subscribe ignored
     group
@@ -106,6 +106,6 @@ public class DetectionQueueImpl implements DetectionQueue {
         .timeout(300, TimeUnit.SECONDS, Flowable.empty())
         // Segnala il completamento di questo gruppo al Phaser, senza aspettare gli altri.
         .doFinally(this.groupPhaser::arriveAndDeregister)
-        .subscribe(serie::insertDetection);
+        .subscribe(series::insertDetection);
   }
 }

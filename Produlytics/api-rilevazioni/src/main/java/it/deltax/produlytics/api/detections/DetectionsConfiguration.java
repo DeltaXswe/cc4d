@@ -15,10 +15,10 @@ import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimitsCalculatorImpl;
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueue;
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueueImpl;
-import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerieFactory;
-import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerieImplFactory;
-import it.deltax.produlytics.api.detections.business.domain.serie.facade.SeriePortFacade;
-import it.deltax.produlytics.api.detections.business.domain.serie.facade.SeriePortFacadeImpl;
+import it.deltax.produlytics.api.detections.business.domain.series.DetectionSeriesFactory;
+import it.deltax.produlytics.api.detections.business.domain.series.DetectionSeriesImplFactory;
+import it.deltax.produlytics.api.detections.business.domain.series.facade.SeriesPortFacade;
+import it.deltax.produlytics.api.detections.business.domain.series.facade.SeriesPortFacadeImpl;
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidator;
 import it.deltax.produlytics.api.detections.business.domain.validate.DetectionValidatorImpl;
 import it.deltax.produlytics.api.detections.business.ports.in.ProcessIncomingDetectionUseCase;
@@ -80,21 +80,21 @@ public class DetectionsConfiguration {
   }
 
   /**
-   * Questo metodo crea un'istanza di `SeriePortFacade`.
+   * Questo metodo crea un'istanza di `SeriesPortFacade`.
    *
    * @param insertDetectionPort La `InsertDetectionPort` da usare nel costruttore di
-   *     `SeriePortFacadeImpl`.
+   *     `SeriesPortFacadeImpl`.
    * @param findLastDetectionsPort La `FindLastDetectionsPort` da usare nel costruttore di
-   *     `SeriePortFacadeImpl`.
-   * @param markOutlierPort La `MarkOutlierPort` da usare nel costruttore di `SeriePortFacadeImpl`.
-   * @return Una nuova istanza di `SeriePortFacade`.
+   *     `SeriesPortFacadeImpl`.
+   * @param markOutlierPort La `MarkOutlierPort` da usare nel costruttore di `SeriesPortFacadeImpl`.
+   * @return Una nuova istanza di `SeriesPortFacade`.
    */
   @Bean
-  SeriePortFacade createSerieFacadePort(
+  SeriesPortFacade createSeriesFacadePort(
       InsertDetectionPort insertDetectionPort,
       FindLastDetectionsPort findLastDetectionsPort,
       MarkOutlierPort markOutlierPort) {
-    return new SeriePortFacadeImpl(insertDetectionPort, findLastDetectionsPort, markOutlierPort);
+    return new SeriesPortFacadeImpl(insertDetectionPort, findLastDetectionsPort, markOutlierPort);
   }
 
   /**
@@ -110,36 +110,36 @@ public class DetectionsConfiguration {
   }
 
   /**
-   * Questo metodo crea un'istanza di `DetectionSerieFactory`.
+   * Questo metodo crea un'istanza di `DetectionSeriesFactory`.
    *
-   * @param seriePortFacade La `SeriePortFacade` da usare nel costruttore di
-   *     `DetectionSerieImplFactory`.
+   * @param seriesPortFacade La `SeriesPortFacade` da usare nel costruttore di
+   *     `DetectionSeriesImplFactory`.
    * @param controlLimitsCalculator Il `ControlLimitsCalculator` da usare nel costruttore di
-   *     `DetectionSerieImplFactory`.
+   *     `DetectionSeriesImplFactory`.
    * @param controlChartsGroup Il `ControlChartsGroup` da usare nel costruttore di
-   *     `DetectionSerieImplFactory`.
-   * @return Una nuova istanza di `DetectionSerieFactory`.
+   *     `DetectionSeriesImplFactory`.
+   * @return Una nuova istanza di `DetectionSeriesFactory`.
    */
   @Bean
-  DetectionSerieFactory createDetectionSerieFactory(
-      SeriePortFacade seriePortFacade,
+  DetectionSeriesFactory createDetectionSeriesFactory(
+      SeriesPortFacade seriesPortFacade,
       ControlLimitsCalculator controlLimitsCalculator,
       ControlChartsGroup controlChartsGroup) {
-    return new DetectionSerieImplFactory(
-        seriePortFacade, controlLimitsCalculator, controlChartsGroup);
+    return new DetectionSeriesImplFactory(
+        seriesPortFacade, controlLimitsCalculator, controlChartsGroup);
   }
 
   /**
    * Questo metodo crea un'istanza di `DetectionQueue`.
    *
-   * @param detectionSerieFactory La `DetectionSerieFactory` da usare nel costruttore di
+   * @param detectionSeriesFactory La `DetectionSeriesFactory` da usare nel costruttore di
    *     `DetectionQueueImpl`.
    * @return Una nuova istanza di `DetectionQueue`.
    */
   @Bean
   @Scope("singleton")
-  DetectionQueue createDetectionQueue(DetectionSerieFactory detectionSerieFactory) {
-    return new DetectionQueueImpl(detectionSerieFactory);
+  DetectionQueue createDetectionQueue(DetectionSeriesFactory detectionSeriesFactory) {
+    return new DetectionQueueImpl(detectionSeriesFactory);
   }
 
   /**

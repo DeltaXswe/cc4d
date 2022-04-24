@@ -1,9 +1,9 @@
-package it.deltax.produlytics.api.unit.detections.business.domain.serie.facade;
+package it.deltax.produlytics.api.unit.detections.business.domain.series.facade;
 
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
-import it.deltax.produlytics.api.detections.business.domain.serie.facade.SeriePortFacade;
-import it.deltax.produlytics.api.detections.business.domain.serie.facade.SeriePortFacadeImpl;
+import it.deltax.produlytics.api.detections.business.domain.series.facade.SeriesPortFacade;
+import it.deltax.produlytics.api.detections.business.domain.series.facade.SeriesPortFacadeImpl;
 import it.deltax.produlytics.api.detections.business.ports.out.FindLastDetectionsPort;
 import it.deltax.produlytics.api.detections.business.ports.out.InsertDetectionPort;
 import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
@@ -11,7 +11,7 @@ import java.time.Instant;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-public class SeriePortFacadeTest {
+public class SeriesPortFacadeTest {
   @Test
   void testForwardCorrectly() {
     Detection insertDetection = new Detection(new CharacteristicId(24, 96), Instant.now(), 7);
@@ -39,12 +39,12 @@ public class SeriePortFacadeTest {
           assert detection == markOutlierDetection;
         };
 
-    SeriePortFacade seriePortFacade =
-        new SeriePortFacadeImpl(insertDetectionPort, findLastDetectionsPort, markOutlierPort);
+    SeriesPortFacade seriesPortFacade =
+        new SeriesPortFacadeImpl(insertDetectionPort, findLastDetectionsPort, markOutlierPort);
 
-    seriePortFacade.insertDetection(insertDetection);
-    assert seriePortFacade.findLastDetections(findLastCharacteristicId, findLastCount)
+    seriesPortFacade.insertDetection(insertDetection);
+    assert seriesPortFacade.findLastDetections(findLastCharacteristicId, findLastCount)
         == lastDetections;
-    seriePortFacade.markOutlier(markOutlierDetection);
+    seriesPortFacade.markOutlier(markOutlierDetection);
   }
 }

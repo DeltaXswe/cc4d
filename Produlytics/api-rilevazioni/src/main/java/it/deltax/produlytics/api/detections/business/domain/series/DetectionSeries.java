@@ -1,4 +1,4 @@
-package it.deltax.produlytics.api.detections.business.domain.serie;
+package it.deltax.produlytics.api.detections.business.domain.series;
 
 import it.deltax.produlytics.api.detections.business.domain.Detection;
 
@@ -6,7 +6,7 @@ import it.deltax.produlytics.api.detections.business.domain.Detection;
  * Questa interfaccia descrive l'abilità di processare una serie di rilevazioni, tutte relative a
  * una singola caratteristica.
  */
-public interface DetectionSerie {
+public interface DetectionSeries {
   /**
    * Questo metodo inserisce una nuova rilevazione nella serie, processandola.
    *

@@ -1,4 +1,4 @@
-package it.deltax.produlytics.api.unit.detections.business.domain.serie;
+package it.deltax.produlytics.api.unit.detections.business.domain.series;
 
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
@@ -6,15 +6,15 @@ import it.deltax.produlytics.api.detections.business.domain.charts.ControlCharts
 import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetection;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimitsCalculator;
-import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerie;
-import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerieFactory;
-import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerieImplFactory;
-import it.deltax.produlytics.api.detections.business.domain.serie.facade.SeriePortFacade;
+import it.deltax.produlytics.api.detections.business.domain.series.DetectionSeries;
+import it.deltax.produlytics.api.detections.business.domain.series.DetectionSeriesFactory;
+import it.deltax.produlytics.api.detections.business.domain.series.DetectionSeriesImplFactory;
+import it.deltax.produlytics.api.detections.business.domain.series.facade.SeriesPortFacade;
 import java.time.Instant;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-public class DetectionSerieTest {
+public class DetectionSeriesTest {
   @Test
   void testNormal() {
     CharacteristicId characteristicId = new CharacteristicId(69, 42);
@@ -27,8 +27,8 @@ public class DetectionSerieTest {
             new Detection(characteristicId, Instant.now(), 77));
     final boolean[] detection1Marked = {false};
 
-    SeriePortFacade ports =
-        new SeriePortFacade() {
+    SeriesPortFacade ports =
+        new SeriesPortFacade() {
           @Override
           public void insertDetection(Detection newDetection) {
             assert newDetection == detection;
@@ -73,10 +73,10 @@ public class DetectionSerieTest {
           }
         };
 
-    DetectionSerieFactory factory =
-        new DetectionSerieImplFactory(ports, calculator, controlChartsGroup);
-    DetectionSerie serie = factory.createSerie(characteristicId);
-    serie.insertDetection(detection);
+    DetectionSeriesFactory factory =
+        new DetectionSeriesImplFactory(ports, calculator, controlChartsGroup);
+    DetectionSeries series = factory.createSeries(characteristicId);
+    series.insertDetection(detection);
 
     assert detection1Marked[0];
   }

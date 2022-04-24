@@ -3,8 +3,8 @@ package it.deltax.produlytics.api.unit.detections.business.domain.queue;
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.domain.queue.DetectionQueueImpl;
-import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerie;
-import it.deltax.produlytics.api.detections.business.domain.serie.DetectionSerieFactory;
+import it.deltax.produlytics.api.detections.business.domain.series.DetectionSeries;
+import it.deltax.produlytics.api.detections.business.domain.series.DetectionSeriesFactory;
 import java.time.Instant;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ public class DetectionQueueTest {
 
     final int[] seen = {0, 0};
 
-    DetectionSerieFactory factory =
+    DetectionSeriesFactory factory =
         characteristicId -> {
           // Controlla che la queue non vada in timeout troppo presto.
           if (characteristicId == characteristicId1) {
@@ -37,12 +37,12 @@ public class DetectionQueueTest {
             assert !alreadyCreated;
           } else {
             // Controlla che la queue non crei nuove caratteristiche.
-            throw new RuntimeException("La Serie Factory ha ricevuto un id non corretto");
+            throw new RuntimeException("La Series Factory ha ricevuto un id non corretto");
           }
 
           AtomicBoolean inserting = new AtomicBoolean(false);
 
-          return (DetectionSerie)
+          return (DetectionSeries)
               rawDetection -> {
                 // Controlla che una rilevazione venga processata solo dopo quella precedente
                 boolean alreadyInserting = inserting.getAndSet(true);
@@ -55,14 +55,14 @@ public class DetectionQueueTest {
                   } else if (seen[0] == 1) {
                     assert rawDetection == detection1b;
                   } else {
-                    throw new RuntimeException("La Serie ha ricevuto una rilevazione inesistente");
+                    throw new RuntimeException("La Series ha ricevuto una rilevazione inesistente");
                   }
                   seen[0] += 1;
                 } else {
                   if (seen[1] == 0) {
                     assert rawDetection == detection2a;
                   } else {
-                    throw new RuntimeException("La Serie ha ricevuto una rilevazione inesistente");
+                    throw new RuntimeException("La Series ha ricevuto una rilevazione inesistente");
                   }
                   seen[1] += 1;
                 }

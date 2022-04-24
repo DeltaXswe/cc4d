@@ -1,4 +1,4 @@
-package it.deltax.produlytics.api.detections.business.domain.serie;
+package it.deltax.produlytics.api.detections.business.domain.series;
 
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
@@ -6,7 +6,7 @@ import it.deltax.produlytics.api.detections.business.domain.charts.ControlCharts
 import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetection;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits;
 import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimitsCalculator;
-import it.deltax.produlytics.api.detections.business.domain.serie.facade.SeriePortFacade;
+import it.deltax.produlytics.api.detections.business.domain.series.facade.SeriesPortFacade;
 import java.util.List;
 import lombok.AllArgsConstructor;
 
@@ -15,9 +15,9 @@ import lombok.AllArgsConstructor;
  * caratteristica.
  */
 @AllArgsConstructor
-public class DetectionSerieImpl implements DetectionSerie {
+public class DetectionSeriesImpl implements DetectionSeries {
   /** Le porte utilizzate da questa classe. */
-  private final SeriePortFacade ports;
+  private final SeriesPortFacade ports;
   /** Un calcolatore di limiti di controllo. */
   private final ControlLimitsCalculator controlLimitsCalculator;
   /** Le carte di controllo da applicare. */
@@ -26,7 +26,7 @@ public class DetectionSerieImpl implements DetectionSerie {
   private final CharacteristicId characteristicId;
 
   /**
-   * Questo metodo implementa l'omonimo metodo definito in `DetectionSerie`.
+   * Questo metodo implementa l'omonimo metodo definito in `DetectionSeries`.
    *
    * @param detection La rilevazione da processare. Deve appartenere alla caratteristica associata a
    *     questa serie.

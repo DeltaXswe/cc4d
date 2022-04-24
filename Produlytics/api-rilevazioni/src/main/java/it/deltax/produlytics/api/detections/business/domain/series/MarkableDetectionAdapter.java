@@ -1,15 +1,15 @@
-package it.deltax.produlytics.api.detections.business.domain.serie;
+package it.deltax.produlytics.api.detections.business.domain.series;
 
 import it.deltax.produlytics.api.detections.business.domain.Detection;
 import it.deltax.produlytics.api.detections.business.domain.charts.MarkableDetection;
-import it.deltax.produlytics.api.detections.business.domain.serie.facade.SeriePortFacade;
+import it.deltax.produlytics.api.detections.business.domain.series.facade.SeriesPortFacade;
 import lombok.AllArgsConstructor;
 
 /** Questa classe implementa una rilevazione che può essere marcata come anomala. */
 @AllArgsConstructor
 public class MarkableDetectionAdapter implements MarkableDetection {
   /** La porta utilizzata per marcare le rilevazioni come anomale. */
-  private final SeriePortFacade seriePortFacade;
+  private final SeriesPortFacade seriesPortFacade;
   /** La rilevazione. */
   private final Detection detection;
 
@@ -26,6 +26,6 @@ public class MarkableDetectionAdapter implements MarkableDetection {
   /** Questo metodo implementa l'omonimo definito in `MarkableDetection`. */
   @Override
   public void markOutlier() {
-    this.seriePortFacade.markOutlier(this.detection);
+    this.seriesPortFacade.markOutlier(this.detection);
   }
 }

@@ -1,4 +1,4 @@
-package it.deltax.produlytics.api.detections.business.domain.serie.facade;
+package it.deltax.produlytics.api.detections.business.domain.series.facade;
 
 import it.deltax.produlytics.api.detections.business.domain.CharacteristicId;
 import it.deltax.produlytics.api.detections.business.domain.Detection;
@@ -10,7 +10,7 @@ import lombok.AllArgsConstructor;
 
 /** Questa classe implementa l'interfaccia di alcune porte che sono usate sempre insieme. */
 @AllArgsConstructor
-public class SeriePortFacadeImpl implements SeriePortFacade {
+public class SeriesPortFacadeImpl implements SeriesPortFacade {
   /** La porta a cui viene inoltrato `insertDetection`. */
   private final InsertDetectionPort insertDetectionPort;
   /** La porta a cui viene inoltrato `findLastDetections`. */
@@ -19,7 +19,7 @@ public class SeriePortFacadeImpl implements SeriePortFacade {
   private final MarkOutlierPort markOutlierPort;
 
   /**
-   * Implementazione dell'omonimo metodo definito in `SeriePortFacade`.
+   * Implementazione dell'omonimo metodo definito in `SeriesPortFacade`.
    *
    * @param detection La rilevazione da persistere.
    */
@@ -29,7 +29,7 @@ public class SeriePortFacadeImpl implements SeriePortFacade {
   }
 
   /**
-   * Implementazione dell'omonimo metodo definito in `SeriePortFacade`.
+   * Implementazione dell'omonimo metodo definito in `SeriesPortFacade`.
    *
    * @param characteristicId L'identificativo globale della caratteristica di cui cercare le
    *     rilevazioni, la quale deve esistere.
@@ -43,7 +43,7 @@ public class SeriePortFacadeImpl implements SeriePortFacade {
   }
 
   /**
-   * Implementazione dell'omonimo metodo definito in `SeriePortFacade`.
+   * Implementazione dell'omonimo metodo definito in `SeriesPortFacade`.
    *
    * @param detection La rilevazione da marcare come anomala.
    */
