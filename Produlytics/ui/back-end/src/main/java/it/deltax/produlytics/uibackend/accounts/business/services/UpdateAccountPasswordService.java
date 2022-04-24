@@ -48,11 +48,11 @@ public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCas
         if (accountToUpdate.newPassword().length() < 6)
             throw new BusinessException("invalidNewPassword", ErrorType.GENERIC);
 
-        Account.AccountBuilder toUpdate = this.findAccountPort.findByUsername(accountToUpdate.username())
-            .map(account -> account.toBuilder())
+        Account account = this.findAccountPort.findByUsername(accountToUpdate.username())
             .orElseThrow(() -> new BusinessException(("accountNotFound"), ErrorType.NOT_FOUND));
+        Account.AccountBuilder toUpdate = account.toBuilder();
 
-        if (this.passwordMatcherPort.matches(accountToUpdate.currentPassword(),toUpdate.build().hashedPassword())) {
+        if (this.passwordMatcherPort.matches(accountToUpdate.currentPassword(), account.hashedPassword())) {
             String hashedNewPassword = this.passwordEncoderPort.encode(accountToUpdate.newPassword());
             toUpdate.withHashedPassword(hashedNewPassword);
             this.updateAccountPasswordPort.updateAccountPassword(toUpdate.build());
