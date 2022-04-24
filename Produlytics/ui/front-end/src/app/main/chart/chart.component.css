@@ -3,15 +3,24 @@
   width: 100%;
   box-sizing: border-box;
 } */
-.chart-container{
-  overflow: auto;
-  height: 560px;
+.container{
+  height: 530px;
 }
-
+.y-container{
+  float: left;
+}
+.chart-container{
+  overflow-x: auto;
+  overflow-y: hidden;
+  /*margin-left: -100px;*/
+}
+.d3svg{
+  width: 1150px;
+  height: 550px;
+}
 mat-card-content{
   height: 100%;
   width: 100%;
-  
 }
 mat-card{
   height: 100%;

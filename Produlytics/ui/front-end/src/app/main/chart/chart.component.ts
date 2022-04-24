@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import * as d3 from 'd3';
 import { Subscription, interval } from 'rxjs';
@@ -17,8 +17,6 @@ import { DatePickerDialogComponent } from '../date-picker-dialog/date-picker-dia
   styleUrls: ['./chart.component.css'],
 })
 export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('cardContent')
-  cardContent!: ElementRef<HTMLDivElement>;
 
   @Input()
   currentNode!: CharacteristicNode;
@@ -50,20 +48,19 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     this.updateSubscription?.unsubscribe();
   }
 
-  // TODO: Nomi migliori e separati dai metodi?
   margin = { top: 10, right: 60, bottom: 60, left: 60 };
   get chartWidth(): number {
-    const svgWidth = parseInt(d3.select(`#d3svg${this.index}`).style('width'), 10);
-    return svgWidth- this.margin.left - this.margin.right;
-    /* console.log(this.cardContent.nativeElement.getBoundingClientRect().width)
-    return this.cardContent.nativeElement.offsetWidth; */
+    if (this.points.length < 100) {
+      return 1100;
+    } else {
+      return 1100 + this.points.length*10;
+    }
   }
   get chartHeight(): number {
     const svgHeight = parseInt(d3.select(`#d3svg${this.index}`).style('height'), 10);
     return svgHeight - this.margin.top - this.margin.bottom;
-    /* console.log(this.cardContent.nativeElement.offsetHeight);
-    return this.cardContent.nativeElement.offsetHeight; */
   }
+
   openDialog(){
     const dialogRef = this.dialog.open(DatePickerDialogComponent);
     dialogRef.afterClosed().subscribe(res => {
@@ -79,27 +76,35 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
   }
-  // TODO?: Muovi i metodi in una classe separata dove sono sicuro che svg sia inizializzato
+
   private svg!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
+  private svgy!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
   private xScale!: d3.ScaleTime<number, number, never>;
   private yScale!: d3.ScaleLinear<number, number, never>;
 
   createChart() {
       this.svg = d3
         .select(`#d3svg${this.index}`)
-        .style('width', 1150 + 'px')
+        .style('width', this.chartWidth)
         .style('height', 550 + 'px')
         .append('g')
-        .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
- 
+        .attr('transform', `translate(0, ${this.margin.top})`);
+
+      this.svgy = d3
+        .select(`#vertical${this.index}`)
+        .style('width', 100 + 'px')
+        .style('height', 550 + 'px')
+        .append('g')
+        .attr('transform', `translate(30, ${this.margin.top})`);
+
       this.xScale = d3.scaleTime().range([0, this.chartWidth]);
       this.yScale = d3.scaleLinear().range([this.chartHeight, 0]);
 
       this.xAxis = this.svg.append('g')
         .attr("transform", `translate(0, ${this.chartHeight})`);
       
-      this.yAxis = this.svg.append('g');
-
+      this.yAxis = this.svgy.append('g');
+      
       const createGuideLine = (cls: string) => {
         this.svg
           .append('line')
@@ -139,7 +144,6 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     
     const delta = Math.floor((this.limits.upperLimit - this.limits.lowerLimit) / 6);
 
-    // TODO: includi i punti in ymin e ymax
     const [ymin, ymax] = d3.extent(this.points, (p) => p.value);
 
     this.xScale.domain(
@@ -151,9 +155,13 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       Math.max(this.limits.upperLimit + delta, ...(ymax ? [ymax] : [])),
     ]);
     
-    this.xAxis.call(d3.axisBottom(this.xScale));
-    this.yAxis.call(d3.axisLeft(this.yScale));
+    this.xAxis
+      .call(d3.axisBottom(this.xScale))
+      .select('.tick')
+      .attr('transform', `translate(10, 0)`);
 
+    this.yAxis.call(d3.axisLeft(this.yScale));
+    
     const setGuideLine = (cls: string, y: number) => {
       this.svg.select(cls).attr('y1', y).attr('y2', y);
     };
@@ -203,10 +211,18 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
         this.drawChart();
       });
   }
+  refresh(){
+    this.clearChart();
+    this.getData(this.currentNode?.device.id, this.currentNode?.id);
+    this.createChart();
+    this.subscribeToUpdates();
+  }
   clearChart(): void{
     let svg = d3.select(`#d3svg${this.index}`);
+    let svgy = d3.select(`#vertical${this.index}`)
     this.updateSubscription?.unsubscribe();
     this.points = [];
     svg.selectAll("*").remove();
+    svgy.selectAll("*").remove();
   }
 }
