@@ -10,8 +10,6 @@ import { CharacteristicNode } from '../device-selection/selection-data-source/ch
 import { Limits } from '../../model/chart/limits';
 import { MatDialog } from '@angular/material/dialog';
 import { DatePickerDialogComponent } from '../date-picker-dialog/date-picker-dialog.component';
-import { MatCardContent } from '@angular/material/card';
-import { tickFormat, zoomIdentity } from 'd3';
 
 @Component({
   selector: 'app-chart',
@@ -33,7 +31,6 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   private updateSubscription?: Subscription;
   private xAxis!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
   private yAxis!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
-  zoom: any;
   constructor(
     private chartService: ChartAbstractService,
     public dialog: MatDialog
@@ -42,7 +39,11 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    this.createChart();
+    this.getData(this.currentNode?.device.id, this.currentNode?.id);
+    if (this.points){
+      this.createChart();
+      this.subscribeToUpdates();
+    }
   }
 
   ngOnDestroy(): void {
@@ -74,6 +75,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
             next: (points) => this.points = points.chartPoints
           });
         this.createChart();
+        this.drawChart();
       }
     });
   }
@@ -83,30 +85,21 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   private yScale!: d3.ScaleLinear<number, number, never>;
 
   createChart() {
-      
       this.svg = d3
         .select(`#d3svg${this.index}`)
         .style('width', 1150 + 'px')
         .style('height', 550 + 'px')
         .append('g')
         .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
-
-      if (this.points.length > 100){
-          d3.select(`#d3svg${this.index}`)
-            .style('width', this.chartWidth + this.points.length*10 + "px");
-            this.xScale = d3.scaleTime().range([0, this.chartWidth+ this.points.length*10]);
-      }else{
-        this.xScale = d3.scaleTime()
-        .range([0, this.chartWidth])
-      } 
+ 
+      this.xScale = d3.scaleTime().range([0, this.chartWidth]);
       this.yScale = d3.scaleLinear().range([this.chartHeight, 0]);
 
-      this.xAxis = this.svg
-        .append('g')
-        .attr('class', 'axis-x')
-        .attr('transform', `translate(0, ${this.chartHeight})`);
+      this.xAxis = this.svg.append('g')
+        .attr("transform", `translate(0, ${this.chartHeight})`);
+      
+      this.yAxis = this.svg.append('g');
 
-      this.yAxis = this.svg.append('g').attr('class', 'axis-y');
       const createGuideLine = (cls: string) => {
         this.svg
           .append('line')
@@ -120,63 +113,44 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       
       this.svg.append('path').attr('class', 'chart-path');
       this.svg.append('g').attr('class', 'chart-points');
-      this.svg
-      .append("text")
-      .attr("class", "title")
-      .attr("x", this.chartWidth / 2)
-      .attr("y", this.margin.top)
-      
-      this.zoom = d3.zoom()
-      .scaleExtent([1, 1])
-      .on('zoom', this.zoooom.bind(this))
-      /* d3.select('.chart-container').call(this.zoom); */
-      this.svg.selectAll('g').call(this.zoom);
-      this.setupInitialPoints(this.currentNode?.device.id, this.currentNode?.id);
+
+      this.drawChart();
   }
-  zoooom(event: any){
-    console.log('ciao');
-    //const t = event.transform;
-    
-    d3.selectAll('g')
-    .attr('transform', event.transform);
-  }
-  setupInitialPoints(deviceId: number, characteristicId: number) {
-    if (this.points.length == 0){
+
+  getData(deviceId: number, characteristicId: number){
+
     this.chartService
       .getInitialPoints(deviceId, characteristicId)
       .subscribe((points) => {
         this.points = points.chartPoints;
-        this.drawChart();
-        this.subscribeToUpdates();
       });
-    } else{
 
-      this.drawChart();
-    }
+      this.chartService.getLimits(this.currentNode.device.id, this.currentNode.id)
+      .subscribe({
+        next: limits => this.limits = limits,
+        error: () => console.log('ciao')  //TODO: da rivedere qui
+      });
   }
 
   drawChart() {
-    if (this.points.length == 0) return;
-    const points = this.points;
+    if (this.points.length == 0) {
+      return;
+    }
     
-    this.chartService.getLimits(this.currentNode.device.id, this.currentNode.id)
-      .subscribe({
-        next: limit => this.limits = limit,
-        error: () => console.log('ciao')  //TODO: da rivedere qui
-      });
     const delta = Math.floor((this.limits.upperLimit - this.limits.lowerLimit) / 6);
 
     // TODO: includi i punti in ymin e ymax
-    const [ymin, ymax] = d3.extent(points, (p) => p.value);
+    const [ymin, ymax] = d3.extent(this.points, (p) => p.value);
 
     this.xScale.domain(
-      d3.extent(points, (p) => new Date(p.epoch)) as [Date, Date]
+      d3.extent(this.points, (p) => new Date(p.epoch)) as [Date, Date]
     );
 
     this.yScale.domain([
       Math.min(this.limits.lowerLimit - delta, ...(ymin ? [ymin] : [])),
       Math.max(this.limits.upperLimit + delta, ...(ymax ? [ymax] : [])),
     ]);
+    
     this.xAxis.call(d3.axisBottom(this.xScale));
     this.yAxis.call(d3.axisLeft(this.yScale));
 
@@ -189,12 +163,12 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
 
     let xp = (p: ChartPoint) => this.xScale(p.epoch);
     let yp = (p: ChartPoint) => this.yScale(p.value);
-    this.svg.select('.chart-path').datum(points).attr('d', d3.line(xp, yp));
+    this.svg.select('.chart-path').datum(this.points).attr('d', d3.line(xp, yp));
     // TODO: Evidenzia i punti anomali
     this.svg
       .select('.chart-points')
       .selectAll('circle')
-      .data(points)
+      .data(this.points)
       .join(
         (enter) =>
           enter
