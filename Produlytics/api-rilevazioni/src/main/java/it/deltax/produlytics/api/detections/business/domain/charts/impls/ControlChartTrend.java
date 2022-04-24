@@ -7,8 +7,8 @@ import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits
 import java.util.List;
 
 /**
- * Questa classe implementa la carta di controllo descritta in ROF22.5, cioè identifica se 7 punti
- * consecutivi seguono lo stesso ordine.
+ * Questa classe implementa la carta di controllo che identifica
+ * se 7 punti consecutivi seguono lo stesso ordine.
  */
 public class ControlChartTrend implements ControlChart {
   /**

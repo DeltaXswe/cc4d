@@ -7,8 +7,8 @@ import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits
 import java.util.List;
 
 /**
- * Questa classe implementa la carta di controllo descritta in ROF22.7, cioè identifica se 15 punti
- * consecutivi appartengono alle zone C.
+ * Questa classe implementa la carta di controllo che identifica
+ * se 15 punti consecutivi appartengono alle zone C.
  */
 public class ControlChartStratification implements ControlChart {
   /**

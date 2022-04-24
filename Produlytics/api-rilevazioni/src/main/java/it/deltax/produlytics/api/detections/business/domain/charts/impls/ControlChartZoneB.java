@@ -7,8 +7,8 @@ import it.deltax.produlytics.api.detections.business.domain.limits.ControlLimits
 import java.util.List;
 
 /**
- * Questa classe implementa la carta di controllo descritta in ROF22.3, cioè identifica se 4 punti
- * su 5 consecutivi sono all'interno di una delle due zone B o oltre.
+ * Questa classe implementa la carta di controllo che identifica
+ * se 4 punti su 5 consecutivi sono all'interno di una delle due zone B o oltre.
  */
 public class ControlChartZoneB implements ControlChart {
   /**
