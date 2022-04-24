@@ -6,7 +6,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
 /**
- * Il record rappresenta una caratteristica con tutti i suoi dati
+ * Record che rappresenta una caratteristica con tutti i suoi dati
  * Mette a disposizione un builder con valori di default
  */
 public record DetailedCharacteristic(

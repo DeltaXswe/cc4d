@@ -3,7 +3,7 @@ package it.deltax.produlytics.uibackend.admins.devices.business;
 import it.deltax.produlytics.uibackend.admins.devices.business.domain.CharacteristicConstraintsToCheck;
 
 /**
- * L'interfaccia che verifica il rispetto dei vincoli di una caratteristica
+ * Interfaccia che verifica il rispetto dei vincoli di una caratteristica
  */
 public interface CharacteristicConstraints {
 	/**

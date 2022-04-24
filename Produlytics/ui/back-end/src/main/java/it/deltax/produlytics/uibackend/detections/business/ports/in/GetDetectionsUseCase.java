@@ -5,7 +5,7 @@ import it.deltax.produlytics.uibackend.detections.business.domain.DetectionsGrou
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 
 /**
- * L'interfaccia che rappresenta il caso d'uso di ottenimento delle rilevazioni di una caratteristica di una macchina
+ * Interfaccia che rappresenta il caso d'uso di ottenimento delle rilevazioni di una caratteristica di una macchina
  */
 public interface GetDetectionsUseCase {
 	DetectionsGroup listByCharacteristic(int deviceId, int characteristicId, DetectionFilters filters)

@@ -1,7 +1,7 @@
 package it.deltax.produlytics.uibackend.admins.devices.business.domain;
 
 /**
- * Il record rappresenta una macchina a cui è stato aggiornato lo stato di attivazione
+ * Record che rappresenta una macchina a cui è stato aggiornato lo stato di attivazione
  */
 public record DeviceDeactivateStatus(
 	int id,

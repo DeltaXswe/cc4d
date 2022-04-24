@@ -4,7 +4,7 @@ import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountTo
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 
 /**
- * L'interfaccia che rappresenta il caso d'uso di inserimento di un utente
+ * Interfaccia che rappresenta il caso d'uso di inserimento di un utente
  */
 public interface InsertAccountUseCase {
 	void insertAccount(AccountToInsert account) throws BusinessException;

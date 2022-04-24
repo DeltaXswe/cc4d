@@ -3,7 +3,7 @@ package it.deltax.produlytics.uibackend.admins.devices.business.domain;
 import lombok.Builder;
 
 /**
- * Il record rappresenta una macchina con tutti i suoi dati
+ * Record che rappresenta una macchina con tutti i suoi dati
  */
 public record DetailedDevice(
 	int id,

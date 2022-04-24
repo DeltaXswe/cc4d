@@ -4,7 +4,7 @@ import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountAr
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 
 /**
- * L'interfaccia che rappresenta il caso d'uso di aggiornamento dello stato di archiviazione di un utente
+ * Interfaccia che rappresenta il caso d'uso di aggiornamento dello stato di archiviazione di un utente
  */
 public interface UpdateAccountArchiveStatusUseCase {
 	void updateAccountArchiveStatus(AccountArchiveStatus accountArchiveStatus) throws BusinessException;

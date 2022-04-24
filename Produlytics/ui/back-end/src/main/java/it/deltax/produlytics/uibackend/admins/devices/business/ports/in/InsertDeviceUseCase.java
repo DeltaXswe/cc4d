@@ -4,7 +4,7 @@ import it.deltax.produlytics.uibackend.admins.devices.business.domain.DeviceToIn
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 
 /**
- * L'interfaccia che rappresenta il caso d'uso di inserimento di una macchina
+ * Interfaccia che rappresenta il caso d'uso di inserimento di una macchina
  */
 public interface InsertDeviceUseCase {
 	int insertDevice(DeviceToInsert device) throws BusinessException;
