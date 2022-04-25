@@ -54,18 +54,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-			.antMatchers("/")
-			.permitAll()
 			.antMatchers("/admin/**")
 			.hasAuthority(ProdulyticsGrantedAuthority.ADMIN.getAuthority())
-			.antMatchers("/**")
+			.antMatchers("/devices", "/accounts", "/logout")
 			.hasAuthority(ProdulyticsGrantedAuthority.ACCOUNT.getAuthority())
+			.antMatchers("/index.html", "/*", "/login")
+			.permitAll()
 			.anyRequest()
 			.authenticated()
 			.and()
 			.httpBasic()
 			.and()
 			.rememberMe().key(encoder.getEncoder().encode("produlytics"))
-			.userDetailsService(userDetailsAdapter);
+			.userDetailsService(userDetailsAdapter)
+			.and()
+			.csrf()
+			.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 	}
 }
