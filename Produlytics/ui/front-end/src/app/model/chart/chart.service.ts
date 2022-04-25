@@ -38,10 +38,10 @@ export class ChartService implements ChartAbstractService{
     return this.httpClient.get<Limits>(`/devices/${deviceId}/characteristics/${characteristicId}/limits`)
   }
 
-  getOldPoints(start: string, end: string, deviceId: number, characteristicId: number): Observable<ChartPointReturn> {
-    const limit = (Date.parse(end) - Date.parse(start))/1000;
+  getOldPoints(start: number, end: number, deviceId: number, characteristicId: number): Observable<ChartPointReturn> {
+    const limit = (end - start)/1000;
     const paramsObj = {
-      olderThan: Date.parse(end),
+      olderThan: end,
       limit: limit
     }
     const params: HttpParams = new HttpParams({fromObject: paramsObj});

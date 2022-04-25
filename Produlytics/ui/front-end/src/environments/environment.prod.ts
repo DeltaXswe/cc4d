@@ -1,4 +1,4 @@
-import {ChartService} from "../app/model/chart/chart-service.service";
+import {ChartService} from "../app/model/chart/chart.service";
 import {ProdulyticsEnvironment} from "./produlytics-environment";
 import {DeviceService} from "../app/model/admin-device/device.service";
 import {AccountService} from "../app/model/admin-account/account.service";
