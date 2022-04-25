@@ -1,8 +1,6 @@
 import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {SelectionComponent} from "./main/selection/selection.component";
-import {MachineComponent} from "./main/selection/machine/machine.component";
-import {CharacteristicComponent} from "./main/selection/characteristic/characteristic.component";
 import {ChartComponent} from "./main/chart/chart.component";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatTabsModule} from "@angular/material/tabs";
@@ -43,7 +41,6 @@ import {UpdateDeviceAbstractService} from "./model/admin-device/update/update-de
 import {
   UpdateCharacteristicAbstractService
 } from "./model/admin-device/characteristic/update-characteristic-abstract.service";
-import { ModifyPwService } from './model/modify-pw/modify-pw.service';
 import { ModifyPwAbstractService } from './model/modify-pw/modify-pw-abstract.service';
 import { CookieService } from 'ngx-cookie-service';
 import { DeviceSelectionComponent } from './main/device-selection/device-selection.component';
@@ -65,8 +62,6 @@ import { DatePickerDialogComponent } from './main/date-picker-dialog/date-picker
   declarations: [
     AppComponent,
     SelectionComponent,
-    MachineComponent,
-    CharacteristicComponent,
     ChartComponent,
     ToolbarComponent,
     LoginComponent,
