@@ -82,7 +82,7 @@ public class AdminCharacteristicAdapter implements FindDetailedCharacteristicPor
 	 */
 	@Override
 	public int insertByDevice(int deviceId, NewCharacteristic characteristic) {
-		CharacteristicEntity entity = this.repo.save(new CharacteristicEntity(
+		this.repo.save(new CharacteristicEntity(
 			deviceId,
 			characteristic.name(),
 			characteristic.upperLimit().isPresent() ? characteristic.upperLimit().getAsDouble() : null,
@@ -91,7 +91,7 @@ public class AdminCharacteristicAdapter implements FindDetailedCharacteristicPor
 			characteristic.sampleSize().isPresent() ? characteristic.sampleSize().getAsInt() : null,
 			false
 		));
-		return entity.getId();
+		return this.repo.findByDeviceIdAndName(deviceId, characteristic.name()).get().getId();
 	}
 
 	/**
