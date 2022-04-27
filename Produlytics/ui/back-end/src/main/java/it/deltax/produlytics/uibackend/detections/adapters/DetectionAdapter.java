@@ -3,12 +3,10 @@ package it.deltax.produlytics.uibackend.detections.adapters;
 import it.deltax.produlytics.uibackend.detections.business.domain.Detection;
 import it.deltax.produlytics.uibackend.detections.business.ports.out.FindAllDetectionsPort;
 import it.deltax.produlytics.uibackend.repositories.DetectionRepository;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Component;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.OptionalLong;
+import org.springframework.stereotype.Component;
 
 /**
  * L'adapter dello strato di persistenza per le operazioni riguardanti le rilevazioni
@@ -41,8 +39,7 @@ public class DetectionAdapter implements FindAllDetectionsPort {
 		return repo.findByCharacteristicAndCreationTimeGreaterThanQuery(
 			deviceId,
 			characteristicId,
-			olderThan.isPresent() ? Instant.ofEpochMilli(olderThan.getAsLong()) : null,
-			Sort.by(Sort.Direction.DESC, "id.creationTime")
+			olderThan.isPresent() ? Instant.ofEpochMilli(olderThan.getAsLong()) : Instant.now().plusSeconds(1)
 		)
 		.stream()
 		.map(detection -> new Detection(
