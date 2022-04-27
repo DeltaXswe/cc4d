@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModifyPwComponent } from 'src/app/main/modify-pw/modify-pw.component';
 import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
 
@@ -17,17 +18,29 @@ export class ToolbarComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private loginService: LoginAbstractService
+    private loginService: LoginAbstractService,
+    private matSnackBar: MatSnackBar
     ) { }
 
     ngOnInit() {
     }
 
     /**
-     * Apre la finestra di dialogo di modifica password {@link ModifyPwComponent}
+     * Apre la finestra di dialogo di modifica password {@link ModifyPwComponent}.
+     * A seconda della risposta che otterrà da {@link ModifyPwComponent},
+     * informa l'utente del successo/errore tramite {@link MatSnackBar}
      */
     openPwDialog(): void{
       const dialogRef = this.dialog.open(ModifyPwComponent);
+      dialogRef.afterClosed().subscribe(data => {
+        if (data == 400){
+          this.matSnackBar.open('La nuova password inserita non è valida', 'Ok');
+        }else if (data == 401){
+          this.matSnackBar.open('La password corrente è errata', 'Ok');
+        }else{
+          this.matSnackBar.open('Password cambiata con successo', 'Ok');
+        }
+        });
     }
 
     /**

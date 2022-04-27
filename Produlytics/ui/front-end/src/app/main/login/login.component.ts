@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
     this.loginService.login(command)
       .subscribe({
         next: () => this.router.navigate(['/']),
-        error: () => this.matSnackBar.open('Credenziali non valide', 'Undo', {
+        error: () => this.matSnackBar.open('Credenziali non valide', 'Ok', {
           duration: 3000
         })});
   }

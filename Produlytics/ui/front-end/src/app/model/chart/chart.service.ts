@@ -24,10 +24,10 @@ export class ChartService implements ChartAbstractService{
       {params});
   }
 
-  getNextPoints(deviceId: number, characteristicId: number, olderThan: number): Observable<ChartPointReturn> {
+  getNextPoints(deviceId: number, characteristicId: number, newerThan: number): Observable<ChartPointReturn> {
     const paramsObj = {
-      newerThan: (new Date).getTime(),
-      limit: 10 //?
+      newerThan: newerThan,
+      limit: 10 
     }
     const params: HttpParams = new HttpParams({fromObject: paramsObj})
     return this.httpClient.get<ChartPointReturn>(`/devices/${deviceId}/characteristics/${characteristicId}/detections`

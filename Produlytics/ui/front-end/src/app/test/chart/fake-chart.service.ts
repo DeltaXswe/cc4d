@@ -23,52 +23,52 @@ export class FakeChartService implements ChartAbstractService {
   });
 
   fakeInitialPoints2 = new BehaviorSubject<ChartPointReturn> ({
-  chartPoints: [
+  detections: [
   {
-    epoch: 1650067200000,
+    creationTime: 1650067200000,
     value: 300,
-    anomalous: false
+    outlier: false
   },
   {
-    epoch: 1650067201000,
+    creationTime: 1650067201000,
     value: 200,
-    anomalous: false
+    outlier: false
   },
   {
-    epoch: 1650067202000,
+    creationTime: 1650067202000,
     value: 240,
-    anomalous: false
+    outlier: false
   },
   {
-    epoch: 1650067203000,
+    creationTime: 1650067203000,
     value: 230,
-    anomalous: false
+    outlier: false
   }],
   nextOld: 1650067200000,
   nextNew: 1650067203000
   });
   
   fakeInitialPoints3 = new BehaviorSubject<ChartPointReturn> ({
-  chartPoints:[
+  detections:[
   {
-    epoch: 1650067200000,
+    creationTime: 1650067200000,
     value: 400,
-    anomalous: false
+    outlier: false
   },
   {
-    epoch: 1650067201000,
+    creationTime: 1650067201000,
     value: 300,
-    anomalous: false
+    outlier: false
   },
   {
-    epoch: 1650067202000,
+    creationTime: 1650067202000,
     value: 340,
-    anomalous: false
+    outlier: false
   },
   {
-    epoch: 1650067203000,
+    creationTime: 1650067203000,
     value: 330,
-    anomalous: false
+    outlier: false
   }],
   nextOld: 1650067200000,
   nextNew: 16500672030000
@@ -83,20 +83,20 @@ export class FakeChartService implements ChartAbstractService {
       return this.fakeInitialPoints3;
   }
 
-  getNextPoints(macchina: number, caratteristica: number, latestEpoch: number): Observable<ChartPointReturn> {
-    let epoch: number = latestEpoch+1000;
+  getNextPoints(macchina: number, caratteristica: number, latestcreationTime: number): Observable<ChartPointReturn> {
+    let creationTime: number = latestcreationTime+1000;
     let value: number = Math.floor(Math.random() * (500));
     value *= Math.round(Math.random()) ? 1 : -1;
-    let anomalous: boolean = Math.random() < 0.5;
+    let outlier: boolean = Math.random() < 0.5;
     const point: ChartPointReturn = {
-      chartPoints: [
+      detections: [
       {
-        epoch: epoch,
+        creationTime: creationTime,
         value: value,
-        anomalous: anomalous
+        outlier: outlier
       }],
-      nextOld: epoch,
-      nextNew: epoch
+      nextOld: creationTime,
+      nextNew: creationTime
     }
 
     return of(point);
@@ -117,14 +117,14 @@ export class FakeChartService implements ChartAbstractService {
       let value: number = Math.floor(Math.random() * (500));
       value *= Math.round(Math.random()) ? 1 : -1;
       let point: ChartPoint = {
-        epoch: i,
+        creationTime: i,
         value: value,
-        anomalous: false
+        outlier: false
       }
       points.push(point);
     } 
     const point: ChartPointReturn = {
-      chartPoints: points,
+      detections: points,
       nextNew: 100
     }
     return of(point);

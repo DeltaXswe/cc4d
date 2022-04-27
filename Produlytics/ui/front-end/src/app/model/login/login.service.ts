@@ -26,7 +26,9 @@ export class LoginService implements LoginAbstractService{
     };
     return this.http.get('/login', httpOptions).pipe(
       tap((res: any) => {
-        localStorage.setItem('accessToken', res);
+        localStorage.setItem('username', command.username)
+        localStorage.setItem('admin', res['admin'])
+        localStorage.setItem('accessToken', res["token"]);
         this.router.navigate(['/']);
       }));
   }
@@ -46,9 +48,9 @@ export class LoginService implements LoginAbstractService{
       return false;
   }
 
-   logout(): void{ //da vedere coi cookie
+  logout(): void{ //da vedere coi cookie
     this.cookieService.deleteAll;
-    }
+  }
 
   getUsername(): string{
     let user = localStorage.getItem('accessToken');

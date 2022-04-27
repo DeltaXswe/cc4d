@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder, AbstractControlOptions, ValidationErrors, FormControl, AbstractControl } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, FormControl, AbstractControl } from '@angular/forms';
 import { MatDialogRef } from "@angular/material/dialog";
 import { ViewEncapsulation } from '@angular/core';
 import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
 import { ModifyPwAbstractService } from 'src/app/model/modify-pw/modify-pw-abstract.service';
 import { ModifyPwCommand } from 'src/app/model/modify-pw/modify-pw-command';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-modify-pw',
@@ -23,8 +22,7 @@ export class ModifyPwComponent implements OnInit {
   constructor(private matDialogRef: MatDialogRef<ModifyPwComponent>,
     private formBuilder: FormBuilder,
     private modifyPwService: ModifyPwAbstractService,
-    private loginService: LoginAbstractService,
-    private matSnackBar: MatSnackBar) {
+    private loginService: LoginAbstractService) {
       this.modifyPw = this.formBuilder.group({
         oldPassword: new FormControl('', Validators.required),
         newPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
@@ -63,8 +61,7 @@ export class ModifyPwComponent implements OnInit {
   /**
    * Tramite un service che implementa {@link ModifyPwAbstractService},
    * esegue un tentativo di cambio password.
-   * In caso di successo visualizza un messaggio che conferma l'esito positivo,
-   * altrimenti un messaggio di errore, tramite {@link MatSnackBar}
+   * Passa poi la conferma di successo o di errore a {@link ToolbarComponent}
    */
   confirm(): void{
     const rawValue = this.modifyPw.getRawValue();
@@ -76,18 +73,9 @@ export class ModifyPwComponent implements OnInit {
       return;
     }
     this.modifyPwService.modifyPw(this.loginService.getUsername(), command)
-      .subscribe({next: () => this.matSnackBar.open('La password è stata cambiata', 'Undo', {
-        duration: 3000
-      }), 
-      error: (error) => {if (error.status == 401){
-      this.matSnackBar.open('La password corrente è errata', 'Undo', {
-        duration: 3000
-      })}else if (error.status == 400){
-        this.matSnackBar.open('La nuova password inserita non è valida', 'Undo', {
-          duration: 3000
-        })
-      }}});
-    this.matDialogRef.close();
+      .subscribe({next: (data) => this.matDialogRef.close(data),
+        error: (error) => this.matDialogRef.close(error.status)
+      });
   }
 
   /**

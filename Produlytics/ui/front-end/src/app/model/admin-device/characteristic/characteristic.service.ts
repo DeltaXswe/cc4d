@@ -19,7 +19,7 @@ export class CharacteristicService implements CharacteristicAbstractService {
   }
 
   addCharacteristic(deviceId: number, command: CharacteristicCreationCommand): Observable<{ id: number }> {
-    return this.httpClient.post<{id: number}>(`admin/devices/{deviceId}/characteristics`, command);
+    return this.httpClient.post<{id: number}>(`admin/devices/${deviceId}/characteristics`, command);
   }
 
   recoverCharacteristic(deviceId: number, id: number): Observable<{}> {

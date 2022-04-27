@@ -1,7 +1,7 @@
 import { ChartPoint } from "./chart-point";
 
 export interface ChartPointReturn {
-   chartPoints: ChartPoint[]
+   detections: ChartPoint[]
    nextOld?: number
    nextNew: number
 }

@@ -27,6 +27,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   private limits!: Limits;
   private points: ChartPoint[] = [];
   private updateSubscription?: Subscription;
+  private nextNew: number = 0;
   private xAxis!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
   private yAxis!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
   constructor(
@@ -69,7 +70,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
         this.clearChart();
         this.chartService.getOldPoints(res[0], res[1], this.currentNode?.device.id, this.currentNode?.id)
           .subscribe({
-            next: (points) => this.points = points.chartPoints
+            next: (points) => this.points = points.detections
           });
         this.createChart();
         this.drawChart();
@@ -127,7 +128,8 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     this.chartService
       .getInitialPoints(deviceId, characteristicId)
       .subscribe((points) => {
-        this.points = points.chartPoints;
+        this.points = points.detections;
+        this.nextNew = points.nextNew;
       });
 
       this.chartService.getLimits(this.currentNode.device.id, this.currentNode.id)
@@ -147,7 +149,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     const [ymin, ymax] = d3.extent(this.points, (p) => p.value);
 
     this.xScale.domain(
-      d3.extent(this.points, (p) => new Date(p.epoch)) as [Date, Date]
+      d3.extent(this.points, (p) => new Date(p.creationTime)) as [Date, Date]
     );
 
     this.yScale.domain([
@@ -169,7 +171,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     setGuideLine('.line-limite-min', this.yScale(this.limits.lowerLimit));
     setGuideLine('.line-limite-max', this.yScale(this.limits.upperLimit));
 
-    let xp = (p: ChartPoint) => this.xScale(p.epoch);
+    let xp = (p: ChartPoint) => this.xScale(p.creationTime);
     let yp = (p: ChartPoint) => this.yScale(p.value);
     this.svg.select('.chart-path').datum(this.points).attr('d', d3.line(xp, yp));
     // TODO: Evidenzia i punti anomali
@@ -182,11 +184,11 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
           enter
             .append('circle')
             .attr('class', (p) =>
-              p.anomalous ? 'circle-anomalo' : 'circle-normal'
+              p.outlier ? 'circle-anomalo' : 'circle-normal'
             ),
         (update) =>
           update.attr('class', (p) =>
-            p.anomalous ? 'circle-anomalo' : 'circle-normal'
+            p.outlier ? 'circle-anomalo' : 'circle-normal'
           ),
         (exit) => exit.remove()
       )
@@ -201,13 +203,16 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
           this.chartService.getNextPoints(
             this.currentNode.device.id,
             this.currentNode.id,
-            this.points[this.points.length - 1].epoch
+            this.nextNew
           )
         )
       )
       .subscribe((new_points) => {
-        new_points.chartPoints.forEach((p) => this.points.push(p));
-        this.points = this.points.slice(new_points.chartPoints.length);
+        new_points.detections.forEach((p) => this.points.push(p));
+        if(this.points.length > 100) {
+          this.points = this.points.slice(this.points.length - 100);
+        }
+        this.nextNew = new_points.nextNew;
         this.drawChart();
       });
   }
