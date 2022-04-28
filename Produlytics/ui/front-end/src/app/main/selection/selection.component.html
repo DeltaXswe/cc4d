@@ -4,18 +4,8 @@
   </mat-sidenav>
   <mat-sidenav-content class="deltax-content">
     <div *ngIf="this.characteristics.length == 0" id="placeholder"></div>
-    <!-- <div fxLayout="row wrap" fxLayoutGap="8px" fxLayoutAlign="space-around center">
-      <app-chart fxFlex.gt-xs="50%" fxFlex.xs="100%" *ngFor="let tile of characteristics; let i = index" [currentNode]="tile" [index]="i"></app-chart>
-    </div> -->
     <div fxLayout="column" fxLayoutGap="16px" class="chart-container" *ngFor="let tile of characteristics; let i = index">
       <app-chart [currentNode] = tile [index] = i></app-chart>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<ngb-carousel *ngIf="!showCarousel">
-  <ng-template *ngFor="let tile of characteristics; let i = index" ngbSlide>
-    <div>
-      <svg class="d3svg" id="d3svg{{i}}"></svg>
-    </div>
-  </ng-template>
-</ngb-carousel>

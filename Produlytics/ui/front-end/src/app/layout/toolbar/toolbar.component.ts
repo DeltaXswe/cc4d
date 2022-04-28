@@ -12,7 +12,7 @@ import { LoginAbstractService } from 'src/app/model/login/login-abstract.service
 })
 
 /**
- * Questo component costituisce la barra di navigazione.
+ * Questo component implementa le funzionalità dela barra di navigazione.
  */
 export class ToolbarComponent implements OnInit {
 
@@ -28,7 +28,7 @@ export class ToolbarComponent implements OnInit {
     /**
      * Apre la finestra di dialogo di modifica password {@link ModifyPwComponent}.
      * A seconda della risposta che otterrà da {@link ModifyPwComponent},
-     * informa l'utente del successo/errore tramite {@link MatSnackBar}
+     * informa l'utente del successo/errore tramite {@link MatSnackBar}.
      */
     openPwDialog(): void{
       const dialogRef = this.dialog.open(ModifyPwComponent);
@@ -39,13 +39,12 @@ export class ToolbarComponent implements OnInit {
           this.matSnackBar.open('La password corrente è errata', 'Ok');
         }else if (data){
           this.matSnackBar.open('Password cambiata con successo', 'Ok');
-        }
-        });
+        }});
     }
 
     /**
      * Tramite un service che implementa {@link LoginAbstractService},
-     * ritorna true se l'utente è autenticato, false altrimenti.
+     * @returns true se l'utente è autenticato, false altrimenti.
      */
     isLogged(): boolean{
       return this.loginService.isLogged();
@@ -53,7 +52,7 @@ export class ToolbarComponent implements OnInit {
 
     /**
      * Tramite un service che implementa {@link LoginAbstractService},
-     * ritorna true se l'utente è un admin, false altrimenti.
+     * @returns true se l'utente è un amministratore, false altrimenti.
      */
     isAdmin(): boolean{  
       return this.loginService.isAdmin();
@@ -61,7 +60,7 @@ export class ToolbarComponent implements OnInit {
 
     /**
      * Tramite un service che implementa {@link LoginAbstractService},
-     * ritorna lo username dell'utente.
+     * @returns lo username dell'utente.
      */
     getUsername(): string{
       return this.loginService.getUsername();

@@ -39,6 +39,10 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {}
 
+  /**
+   * Chiama tutti i metodi necessari a creare il grafico dopo che la view
+   * è stata inizilizzata.
+   */
   ngAfterViewInit(): void {
     this.getData(this.currentNode?.device.id, this.currentNode?.id);
     if (this.points){
@@ -52,19 +56,36 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   margin = { top: 10, right: 60, bottom: 60, left: 60 };
+
+  /**
+   * @returns la larghezza del grafico.
+   * Se il nuero di punti da rappresentare è minore o uguale a 100, la imposta
+   * in modo da occupare tutto il div che contiene il grafico, altrimenti lo allunga
+   * permettendo di uno scroll orizzontale.
+   */
   get chartWidth(): number {
-    if (this.points.length < 100) {
+    if (this.points.length <= 100) {
       return 1100;
     } else {
       return 1100 + this.points.length*10;
     }
   }
+
+  /**
+   * @returns la altezza del grafico.
+   */
   get chartHeight(): number {
     const svgHeight = parseInt(d3.select(`#d3svg${this.index}`).style('height'), 10);
     return svgHeight - this.margin.top - this.margin.bottom;
   }
-
-  openDialog(){
+  /**
+   * Apre {@link DatePickerDialogComponent} e resta in attesa dei dati.
+   * In caso di risposta tenta di ottenere le rilevazioni comprese fra gli estremi 
+   * temporali ottenuti, tramite un service che implementa {@link ChartAbstractService}.
+   * In caso di successo cancella la corrente rappresentazione e ne crea un'altra 
+   * con le rilevazioni ottenute.
+   */
+  openDialog(): void{
     const dialogRef = this.dialog.open(DatePickerDialogComponent, { panelClass: "date" });
     dialogRef.afterClosed().subscribe(res => {
       if (res){
@@ -88,6 +109,10 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   private xScale!: d3.ScaleTime<number, number, never>;
   private yScale!: d3.ScaleLinear<number, number, never>;
 
+  /**
+   * Inizializza gli attributi della classe, chiamando poi {@link drawChart()} per 
+   * disegnare il grafico.
+   */
   createChart() {
       this.svg = d3
         .select(`#d3svg${this.index}`)
@@ -128,8 +153,14 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       this.drawChart();
   }
 
+  /**
+   * Tramite un service che implementa {@link ChartAbstractService}, cerca di
+   * ottenere prima i punti iniziali e poi i limiti e la media del grafico.
+   * In caso di errore notifica l'utente con {@link MatSnackBar}
+   * @param deviceId l'identificativo della macchina
+   * @param characteristicId l'identificativo della caratteristica
+   */
   getData(deviceId: number, characteristicId: number){
-
     this.chartService
       .getInitialPoints(deviceId, characteristicId)
       .subscribe({
@@ -147,7 +178,10 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
-  drawChart() {
+  /**
+   * Rappresenta gli elementi precedentemente inizializzati da {@link createChart()}
+   */
+  drawChart(): void {
     if (this.points.length == 0) {
       return;
     }
@@ -204,7 +238,15 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       .attr('cy', yp);
   }
 
-  subscribeToUpdates() {
+  /**
+   * Ogni secondo tenta di ottenere nuove rilevazioni tramite un service che
+   * implementa {@link ChartAbstractService}.
+   * In caso vengano ottenute, le aggiunge a {@link points}.
+   * Se points è però troppo lunga vengono aggiunte le nuove rilevazioni
+   * e rimosse rilevazioni vecchie in modo che si rappresentino non più
+   * di 100 punti.
+   */
+  subscribeToUpdates(): void {
     this.updateSubscription = interval(1000)
       .pipe(
         concatMap(() =>
@@ -216,26 +258,35 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
         )
       )
       .subscribe({ next: (new_points) => {
-        new_points.detections.forEach((p) => this.points.push(p));
-        this.points = this.points.slice();
-        if(this.points.length > 100) {
-          this.points = this.points.slice(this.points.length - 100);
-        }
-        this.nextNew = new_points.nextNew;
-        this.drawChart();
-      },
+        if (new_points){
+          new_points.detections.forEach((p) => this.points.push(p));
+          this.points = this.points.slice();
+          if(this.points.length > 100) {
+            this.points = this.points.slice(this.points.length - 100);
+          }
+          this.nextNew = new_points.nextNew;
+          this.drawChart();
+      }},
       error: () => this.matSnackBar.open('Caratteristica non trovata', 'Ok')
       });
   }
-  refresh(){
+
+  /**
+   * Elimina completamente la rappresentazione del grafico.
+   */
+   clearChart(): void{
+    this.updateSubscription?.unsubscribe();
+    this.svg.selectAll("*").remove();
+    this.svgy.selectAll("*").remove();
+  }
+
+  /**
+   * Oltre a eliminare la rappresentazione del grafico, lo reiniizializza.
+   */
+  refresh(): void{
     this.clearChart();
     this.getData(this.currentNode?.device.id, this.currentNode?.id);
     this.createChart();
     this.subscribeToUpdates();
-  }
-  clearChart(): void{
-    this.updateSubscription?.unsubscribe();
-    this.svg.selectAll("*").remove();
-    this.svgy.selectAll("*").remove();
   }
 }

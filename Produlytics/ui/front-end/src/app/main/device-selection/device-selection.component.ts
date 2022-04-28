@@ -7,7 +7,6 @@ import { UnarchivedDeviceAbstractService } from "../../model/device/unarchived-d
 import { SelectionNode } from "./selection-data-source/selection-node";
 import { SelectionDataSource } from "./selection-data-source/selection.data-source";
 import { EventEmitter } from '@angular/core';
-import { MatCheckboxChange } from "@angular/material/checkbox/checkbox";
 import { CharacteristicNode } from './selection-data-source/characteristic-node';
 
 // TODO STA CLASSE È TUTTA DA RINOMINARE AAAAAAA (device->characteristic)
