@@ -10,6 +10,7 @@ import { CharacteristicNode } from '../device-selection/selection-data-source/ch
 import { Limits } from '../../model/chart/limits';
 import { MatDialog } from '@angular/material/dialog';
 import { DatePickerDialogComponent } from '../date-picker-dialog/date-picker-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-chart',
@@ -32,7 +33,8 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   private yAxis!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
   constructor(
     private chartService: ChartAbstractService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private matSnackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {}
@@ -63,17 +65,20 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   openDialog(){
-    const dialogRef = this.dialog.open(DatePickerDialogComponent);
+    const dialogRef = this.dialog.open(DatePickerDialogComponent, { panelClass: "date" });
     dialogRef.afterClosed().subscribe(res => {
       if (res){
         this.updateSubscription?.unsubscribe();
         this.clearChart();
         this.chartService.getOldPoints(res[0], res[1], this.currentNode?.device.id, this.currentNode?.id)
           .subscribe({
-            next: (points) => this.points = points.detections
+            next: (points) => {
+              this.points = points.detections
+              this.createChart();
+              this.drawChart();
+            },
+            error: () => this.matSnackBar.open('Caratteristica non trovata', 'Ok')
           });
-        this.createChart();
-        this.drawChart();
       }
     });
   }
@@ -127,15 +132,18 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.chartService
       .getInitialPoints(deviceId, characteristicId)
-      .subscribe((points) => {
+      .subscribe({
+        next: (points) => {
         this.points = points.detections;
         this.nextNew = points.nextNew;
+        },
+        error: () => this.matSnackBar.open('Caratteristica non trovata', 'Ok')
       });
 
       this.chartService.getLimits(this.currentNode.device.id, this.currentNode.id)
       .subscribe({
         next: limits => this.limits = limits,
-        error: () => console.log('ciao')  //TODO: da rivedere qui
+        error: () => this.matSnackBar.open('Caratteristica non trovata', 'Ok')
       });
   }
 
@@ -174,7 +182,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     let xp = (p: ChartPoint) => this.xScale(p.creationTime);
     let yp = (p: ChartPoint) => this.yScale(p.value);
     this.svg.select('.chart-path').datum(this.points).attr('d', d3.line(xp, yp));
-    // TODO: Evidenzia i punti anomali
+
     this.svg
       .select('.chart-points')
       .selectAll('circle')
@@ -207,13 +215,15 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
           )
         )
       )
-      .subscribe((new_points) => {
+      .subscribe({ next: (new_points) => {
         new_points.detections.forEach((p) => this.points.push(p));
         if(this.points.length > 100) {
           this.points = this.points.slice(this.points.length - 100);
         }
         this.nextNew = new_points.nextNew;
         this.drawChart();
+      },
+      error: () => this.matSnackBar.open('Caratteristica non trovata', 'Ok')
       });
   }
   refresh(){
@@ -223,11 +233,8 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscribeToUpdates();
   }
   clearChart(): void{
-    let svg = d3.select(`#d3svg${this.index}`);
-    let svgy = d3.select(`#vertical${this.index}`)
     this.updateSubscription?.unsubscribe();
-    this.points = [];
-    svg.selectAll("*").remove();
-    svgy.selectAll("*").remove();
+    this.svg.selectAll("*").remove();
+    this.svgy.selectAll("*").remove();
   }
 }

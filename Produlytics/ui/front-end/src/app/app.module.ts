@@ -53,7 +53,7 @@ import {
 } from "./model/characteristic/unarchived-characteristic-abstract.service";
 import {UnarchivedDeviceAbstractService} from "./model/device/unarchived-device-abstract.service";
 import {MatGridListModule} from '@angular/material/grid-list';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerDialogComponent } from './main/date-picker-dialog/date-picker-dialog.component';
@@ -109,6 +109,9 @@ import { XhrInterceptor } from './model/http-interceptor/http-interceptor.servic
     NgbModule
   ],
   providers: [
+    {
+      provide: MAT_DATE_LOCALE, useValue: 'en-GB'
+    },
     { 
       provide: HTTP_INTERCEPTORS, 
       useClass: XhrInterceptor, 

@@ -1,0 +1,16 @@
+.date .mat-form-field{
+   margin-top: 15px;
+   margin-bottom: 15px;
+   margin-left: 8px;
+   margin-right: 8px;
+   padding: 0px;
+}
+.date .mat-dialog-container {
+   padding: 0;
+   height: 340px;
+   width: 500px;
+}
+
+.date .mat-dialog-actions{
+   margin-right: 8px;
+}

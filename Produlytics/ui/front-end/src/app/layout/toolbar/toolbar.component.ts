@@ -37,7 +37,7 @@ export class ToolbarComponent implements OnInit {
           this.matSnackBar.open('La nuova password inserita non è valida', 'Ok');
         }else if (data == 401){
           this.matSnackBar.open('La password corrente è errata', 'Ok');
-        }else{
+        }else if (data){
           this.matSnackBar.open('Password cambiata con successo', 'Ok');
         }
         });
