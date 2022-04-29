@@ -26,7 +26,7 @@ import java.util.Map;
 @RequestMapping("/admin")
 public class AdminsAccountsController {
 	private final InsertAccountUseCase insertAccountUseCase;
-	private final GetTinyAccountsUseCase getAccountsUseCase;
+	private final GetTinyAccountsUseCase getTinyAccountsUseCase;
 	private final UpdateAccountByAdminUseCase updateAccountByAdminUseCase;
 	private final UpdateAccountArchiveStatusUseCase updateAccountArchiveStatusUseCase;
 
@@ -46,7 +46,7 @@ public class AdminsAccountsController {
 		UpdateAccountByAdminUseCase updateAccountByAdminUseCase,
 		UpdateAccountArchiveStatusUseCase updateAccountArchiveStatusUseCase) {
 		this.insertAccountUseCase = insertAccountUseCase;
-		this.getAccountsUseCase = getAccountsUseCase;
+		this.getTinyAccountsUseCase = getAccountsUseCase;
 		this.updateAccountByAdminUseCase = updateAccountByAdminUseCase;
 		this.updateAccountArchiveStatusUseCase = updateAccountArchiveStatusUseCase;
 	}
@@ -72,7 +72,7 @@ public class AdminsAccountsController {
 	 */
 	@GetMapping("/accounts")
 	public ResponseEntity<List<TinyAccount>> getAccounts() {
-		return ResponseEntity.ok(this.getAccountsUseCase.getTinyAccounts());
+		return ResponseEntity.ok(this.getTinyAccountsUseCase.getTinyAccounts());
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class AdminsAccountsController {
 	@PutMapping("/{username}")
 	public ResponseEntity<String> updateAccount(
 		@PathVariable("username") String username,
-		@RequestBody(required=false) AccountDataToUpdate body) throws BusinessException {
+		@RequestBody AccountDataToUpdate body) throws BusinessException {
 		this.updateAccountByAdminUseCase.updateByUsername(
 			new AccountUpdatedByAdmin(username, body.newPassword(), body.administrator()));
 		return new ResponseEntity<>(NO_CONTENT);
