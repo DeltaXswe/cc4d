@@ -13,13 +13,10 @@
   width: 1150px;
   height: 550px;
 }
-mat-card-content{
-  height: 100%;
-  width: 100%;
-}
-mat-card{
-  height: 100%;
-  width: 100%;
+::ng-deep .d3svg line.grid{
+  stroke: lightgrey;
+  stroke-opacity: 0.6;
+  shape-rendering: crispEdges;
 }
 ::ng-deep .d3svg title {
   fill: black;

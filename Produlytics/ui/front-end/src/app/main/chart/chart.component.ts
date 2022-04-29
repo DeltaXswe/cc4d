@@ -29,7 +29,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   private points: ChartPoint[] = [];
   private updateSubscription?: Subscription;
   private nextNew: number = 0;
-  private xAxis!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
+  private xAxis!: any;/* d3.Selection<SVGGElement, unknown, HTMLElement, any>; */
   private yAxis!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
   constructor(
     private chartService: ChartAbstractService,
@@ -143,13 +143,14 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
           .attr('x1', 0)
           .attr('x2', this.chartWidth);
       };
+      
       createGuideLine('line-media');
       createGuideLine('line-limite line-limite-min');
       createGuideLine('line-limite line-limite-max');
       
+      
       this.svg.append('path').attr('class', 'chart-path');
       this.svg.append('g').attr('class', 'chart-points');
-
       this.drawChart();
   }
 
@@ -200,12 +201,28 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     ]);
     
     this.xAxis
-      .call(d3.axisBottom(this.xScale))
+      .call(d3.axisBottom(this.xScale).ticks(d3.timeSecond.every(5)))
       .select('.tick')
       .attr('transform', `translate(10, 0)`);
 
     this.yAxis.call(d3.axisLeft(this.yScale));
-    
+
+    let tickValues = this.yScale.ticks();
+    this.svg.selectAll('.grid').remove();
+
+    for (let i = 0; i < tickValues.length; i++){
+      this.svg
+        .append('line')
+        .lower()
+        .attr('class', 'grid')
+        .attr('id', `grid${i}`)
+        .attr('x1', 0)
+        .attr('x2', this.chartWidth);
+
+        this.svg.select(`#grid${i}`).attr('y1', this.yScale(tickValues[i])).attr('y2', this.yScale(tickValues[i]));
+
+    }
+
     const setGuideLine = (cls: string, y: number) => {
       this.svg.select(cls).attr('y1', y).attr('y2', y);
     };

@@ -71,7 +71,7 @@ export class FakeChartService implements ChartAbstractService {
     outlier: false
   }],
   nextOld: 1650067200000,
-  nextNew: 16500672030000
+  nextNew: 1650067203000
   });
 
   constructor() { }
@@ -113,7 +113,7 @@ export class FakeChartService implements ChartAbstractService {
     let points: ChartPoint[] = [];
     console.log(start);
     console.log(end);
-     for (let i = /* Date.parse */(start); i < /* Date.parse */(end); i+= 1000){
+     for (let i = start; i < end; i+= 1000){
       let value: number = Math.floor(Math.random() * (500));
       value *= Math.round(Math.random()) ? 1 : -1;
       let point: ChartPoint = {
