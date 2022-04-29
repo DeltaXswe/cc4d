@@ -9,7 +9,6 @@ import {AppModule} from "../../../app.module";
 import {FakeAccountService} from "../../../test/account/fake-account.service";
 import {SaveAccountAbstractService} from "../../../model/admin-account/save-account-abstract.service";
 import {LoginAbstractService} from "../../../model/login/login-abstract.service";
-import {FakeLoginService} from "../../../test/login/fake-login.service";
 
 const alice: Account = {
   username: 'alice',
@@ -39,10 +38,9 @@ describe('AccountFormDialogComponent new mode', () => {
           provide: SaveAccountAbstractService,
           useExisting: FakeAccountService
         },
-        FakeLoginService,
         {
           provide: LoginAbstractService,
-          useExisting: FakeLoginService
+          useExisting: FakeAccountService
         },
         MockDialogRef,
         {

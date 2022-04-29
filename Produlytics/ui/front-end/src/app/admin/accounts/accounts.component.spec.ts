@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AccountsComponent } from './accounts.component';
-import {FakeLoginService} from "../../test/login/fake-login.service";
 import {LoginAbstractService} from "../../model/login/login-abstract.service";
 import {FakeAccountService} from "../../test/account/fake-account.service";
 import {AccountAbstractService} from "../../model/admin-account/account-abstract.service";
@@ -19,14 +18,13 @@ describe('AccountsComponent', () => {
         ...testModules
       ],
       providers: [
-        FakeLoginService,
-        {
-          provide: LoginAbstractService,
-          useExisting: FakeLoginService
-        },
         FakeAccountService,
         {
           provide: AccountAbstractService,
+          useExisting: FakeAccountService
+        },
+        {
+          provide: LoginAbstractService,
           useExisting: FakeAccountService
         },
         {
