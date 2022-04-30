@@ -17,8 +17,8 @@ public class ControlChartUtils {
    * tutte le liste contenenti valori adiacenti nella lista sorgente.
    *
    * @param <T> il tipo dei valori della lista
-   * @param <T> il tipo dei valori della lista
-   * @param <T> il tipo dei valori della lista
+   * @param list la lista sorgente
+   * @param size la dimensione di ogni finestra prodotta
    * @return uno stream di finestre della lista {@code list} di dimensione {@code size}
    */
   public static <T> Stream<List<T>> windows(List<T> list, int size) {
