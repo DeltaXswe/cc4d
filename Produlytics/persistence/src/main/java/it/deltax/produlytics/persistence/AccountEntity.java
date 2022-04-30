@@ -27,7 +27,7 @@ public class AccountEntity {
   /**
    * I permessi dell'utente.
    */
-  @Column(name = "administratore", nullable = false)
+  @Column(name = "administrator", nullable = false)
   private Boolean administrator;
 
   /**
