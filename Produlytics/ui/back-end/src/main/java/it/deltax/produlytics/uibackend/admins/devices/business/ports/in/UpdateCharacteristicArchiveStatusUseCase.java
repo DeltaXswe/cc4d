@@ -4,8 +4,10 @@ import it.deltax.produlytics.uibackend.admins.devices.business.domain.Characteri
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 
 /**
- * Interfaccia che rappresenta il caso d'uso di aggiornamento dello stato di archiviazione di una caratteristica
+ * Interfaccia che rappresenta il caso d'uso di aggiornamento dello stato di archiviazione di una
+ * caratteristica
  */
 public interface UpdateCharacteristicArchiveStatusUseCase {
-	void updateCharacteristicArchiveStatus(CharacteristicArchiveStatus toUpdate) throws BusinessException;
+  void updateCharacteristicArchiveStatus(CharacteristicArchiveStatus toUpdate)
+      throws BusinessException;
 }

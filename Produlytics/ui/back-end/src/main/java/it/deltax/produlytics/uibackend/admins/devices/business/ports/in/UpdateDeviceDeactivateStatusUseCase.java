@@ -4,8 +4,9 @@ import it.deltax.produlytics.uibackend.admins.devices.business.domain.DeviceDeac
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 
 /**
- * Interfaccia che rappresenta il caso d'uso di aggiornamento dello stato di attivazione di una macchina
+ * Interfaccia che rappresenta il caso d'uso di aggiornamento dello stato di attivazione di una
+ * macchina
  */
 public interface UpdateDeviceDeactivateStatusUseCase {
-	void updateDeviceDeactivateStatus(DeviceDeactivateStatus device) throws BusinessException;
+  void updateDeviceDeactivateStatus(DeviceDeactivateStatus device) throws BusinessException;
 }

@@ -12,50 +12,51 @@ import it.deltax.produlytics.uibackend.devices.business.services.GetUnarchivedDe
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Classe per la configurazione di Spring che descrive come creare le classi di business.
- */
+/** Classe per la configurazione di Spring che descrive come creare le classi di business. */
 @Configuration
 public class DevicesConfiguration {
-	/**
-	 * Crea un'istanza di GetLimitsUseCase
-	 * @param findDevicesPort la porta cercare le macchine, da passare al costruttore di GetLimitsService
-	 * @param findCharacteristicLimitsPort la porta per cercare i limiti tecnici di una caratteristica, da passare
-	 *                                  	al costruttore di GetLimitsService
-	 * @return la nuova istanza di GetLimitsService
-	 */
-	@Bean
-	GetLimitsUseCase getLimitsUseCase(
-		GetUnarchivedDevicesPort findDevicesPort,
-		FindCharacteristicLimitsPort findCharacteristicLimitsPort
-	){
-		return new GetLimitsService(findDevicesPort, findCharacteristicLimitsPort);
-	}
+  /**
+   * Crea un'istanza di GetLimitsUseCase
+   *
+   * @param findDevicesPort la porta cercare le macchine, da passare al costruttore di
+   *     GetLimitsService
+   * @param findCharacteristicLimitsPort la porta per cercare i limiti tecnici di una
+   *     caratteristica, da passare al costruttore di GetLimitsService
+   * @return la nuova istanza di GetLimitsService
+   */
+  @Bean
+  GetLimitsUseCase getLimitsUseCase(
+      GetUnarchivedDevicesPort findDevicesPort,
+      FindCharacteristicLimitsPort findCharacteristicLimitsPort) {
+    return new GetLimitsService(findDevicesPort, findCharacteristicLimitsPort);
+  }
 
-	/**
-	 * Crea un'istanza di GetUnarchivedCharacteristicsUseCase
-	 * @param findDevicesPort la porta per cercare le macchine, da passare al costruttore di
-	 *                        GetUnarchivedCharacteristicsService
-	 * @param findCharacteristicsPort la porta per cercare le caratteristiche, da passare al costruttore di
-	 *                                GetUnarchivedCharacteristicsService
-	 * @return la nuova istanza di GetUnarchivedCharacteristicsService
-	 */
-	@Bean
-	GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristicsUseCase(
-		GetUnarchivedDevicesPort findDevicesPort,
-		FindAllUnarchivedCharacteristicsPort findCharacteristicsPort
-	){
-		return new GetUnarchivedCharacteristicsService(findDevicesPort, findCharacteristicsPort);
-	}
+  /**
+   * Crea un'istanza di GetUnarchivedCharacteristicsUseCase
+   *
+   * @param findDevicesPort la porta per cercare le macchine, da passare al costruttore di
+   *     GetUnarchivedCharacteristicsService
+   * @param findCharacteristicsPort la porta per cercare le caratteristiche, da passare al
+   *     costruttore di GetUnarchivedCharacteristicsService
+   * @return la nuova istanza di GetUnarchivedCharacteristicsService
+   */
+  @Bean
+  GetUnarchivedCharacteristicsUseCase getUnarchivedCharacteristicsUseCase(
+      GetUnarchivedDevicesPort findDevicesPort,
+      FindAllUnarchivedCharacteristicsPort findCharacteristicsPort) {
+    return new GetUnarchivedCharacteristicsService(findDevicesPort, findCharacteristicsPort);
+  }
 
-	/**
-	 * Crea un'istanza di GetUnarchivedDevicesUseCase
-	 * @param getUnarchivedDevicesPort la porta per ottenere le macchine non archiviate, da passare al costruttore di
-	 *                                 GetUnarchivedDevicesService
-	 * @return la nuova istanza di GetUnarchivedDevicesService
-	 */
-	@Bean
-	GetUnarchivedDevicesUseCase getUnarchivedDevices(GetUnarchivedDevicesPort getUnarchivedDevicesPort){
-		return new GetUnarchivedDevicesService(getUnarchivedDevicesPort);
-	}
+  /**
+   * Crea un'istanza di GetUnarchivedDevicesUseCase
+   *
+   * @param getUnarchivedDevicesPort la porta per ottenere le macchine non archiviate, da passare al
+   *     costruttore di GetUnarchivedDevicesService
+   * @return la nuova istanza di GetUnarchivedDevicesService
+   */
+  @Bean
+  GetUnarchivedDevicesUseCase getUnarchivedDevices(
+      GetUnarchivedDevicesPort getUnarchivedDevicesPort) {
+    return new GetUnarchivedDevicesService(getUnarchivedDevicesPort);
+  }
 }

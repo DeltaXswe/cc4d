@@ -1,9 +1,8 @@
 package it.deltax.produlytics.uibackend.admins.devices.business.domain;
 
-import lombok.Builder;
-
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
+import lombok.Builder;
 
 /**
  * Record che rappresenta i dati necessari per la modifica di una caratteristica.

@@ -9,6 +9,6 @@ public record TinyDevice(
         int id,
         String name
 ) {
-	@Builder(toBuilder = true, builderMethodName = "", setterPrefix = "with")
-	public TinyDevice {}
+  @Builder(toBuilder = true, builderMethodName = "", setterPrefix = "with")
+  public TinyDevice {}
 }

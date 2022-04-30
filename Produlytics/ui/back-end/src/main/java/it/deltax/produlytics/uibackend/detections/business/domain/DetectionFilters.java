@@ -1,9 +1,8 @@
 package it.deltax.produlytics.uibackend.detections.business.domain;
 
-import lombok.Builder;
-
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import lombok.Builder;
 
 /**
  * Record che rappresenta i filtri applicabili alla ricerca di una lista di rilevazioni.

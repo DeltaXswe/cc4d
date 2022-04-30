@@ -22,345 +22,318 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Test d'integrazione per le operazioni svolte dagli amministratori relative alla modifica di una caratteristica
+ * Test d'integrazione per le operazioni svolte dagli amministratori relative alla modifica di una
+ * caratteristica
  */
-@SpringBootTest(
-	webEnvironment = SpringBootTest.WebEnvironment.MOCK
-)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @ActiveProfiles("test")
 @AutoConfigureMockMvc(addFilters = false)
 public class UpdateCharacteristicTests {
-	@Autowired
-	private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-	@Autowired
-	private DeviceRepository deviceRepository;
+  @Autowired private DeviceRepository deviceRepository;
 
-	@Autowired
-	private CharacteristicRepository characteristicRepository;
+  @Autowired private CharacteristicRepository characteristicRepository;
 
-	private static int deviceId;
-	private static int characteristicId;
-	private static int archivedCharacteristicId;
+  private static int deviceId;
+  private static int characteristicId;
+  private static int archivedCharacteristicId;
 
-	/**
-	 * Prepara il contesto di partenza, comune a tutti i test
-	 */
-	@BeforeEach
-	private void prepareContext() {
-		deviceId = this.deviceRepository.save(new DeviceEntity(
-			"macchina",
-			false,
-			false,
-			"a"
-		)).getId();
+  /** Prepara il contesto di partenza, comune a tutti i test */
+  @BeforeEach
+  private void prepareContext() {
+    deviceId = this.deviceRepository.save(new DeviceEntity("macchina", false, false, "a")).getId();
 
-		characteristicId = this.characteristicRepository.save(new CharacteristicEntity(
-			deviceId,
-			"temperatura",
-			98d,
-			-13d,
-			true,
-			0,
-			false
-		)).getId();
+    characteristicId =
+        this.characteristicRepository
+            .save(new CharacteristicEntity(deviceId, "temperatura", 98d, -13d, true, 0, false))
+            .getId();
 
-		archivedCharacteristicId = this.characteristicRepository.save(new CharacteristicEntity(
-			deviceId,
-			"pressione",
-			50d,
-			-10d,
-			false,
-			0,
-			true
-		)).getId();
-	}
+    archivedCharacteristicId =
+        this.characteristicRepository
+            .save(new CharacteristicEntity(deviceId, "pressione", 50d, -10d, false, 0, true))
+            .getId();
+  }
 
-	/**
-	 * Pulisce i repository dai dati utilizzati dai test
-	 */
-	@AfterEach
-	private void deleteAll() {
-		this.characteristicRepository.deleteAll();
-		this.deviceRepository.deleteAll();
-	}
+  /** Pulisce i repository dai dati utilizzati dai test */
+  @AfterEach
+  private void deleteAll() {
+    this.characteristicRepository.deleteAll();
+    this.deviceRepository.deleteAll();
+  }
 
-	@Test
-	void contextLoads() {
-		assertThat(this.deviceRepository).isNotNull();
-		assertThat(this.characteristicRepository).isNotNull();
-	}
+  @Test
+  void contextLoads() {
+    assertThat(this.deviceRepository).isNotNull();
+    assertThat(this.characteristicRepository).isNotNull();
+  }
 
-	/**
-	 * Testa la modifica di una caratteristica non impostando l'autoAdjust
-	 * @throws Exception se la caratteristica non esiste, verrebbe duplicata dopo la modifica, vengono inseriti dei
-	 * valori non validi o la caratteristica non viene modificata correttamente
-	 */
-	@Test
-	void testUpdateCharacteristicWithNoAutoAdjust() throws Exception {
-		JSONObject body = new JSONObject()
-			.put("name", "frequenza")
-			.put("lowerLimit", 10d)
-			.put("upperLimit", 100d)
-			.put("autoAdjust", false);
+  /**
+   * Testa la modifica di una caratteristica non impostando l'autoAdjust
+   *
+   * @throws Exception se la caratteristica non esiste, verrebbe duplicata dopo la modifica, vengono
+   *     inseriti dei valori non validi o la caratteristica non viene modificata correttamente
+   */
+  @Test
+  void testUpdateCharacteristicWithNoAutoAdjust() throws Exception {
+    JSONObject body =
+        new JSONObject()
+            .put("name", "frequenza")
+            .put("lowerLimit", 10d)
+            .put("upperLimit", 100d)
+            .put("autoAdjust", false);
 
-		this.mockMvc.perform(put("/admin/devices/" + deviceId + "/characteristics/" + characteristicId)
-					.contentType(MediaType.APPLICATION_JSON)
-					.content(body.toString())
-					.characterEncoding("utf-8")
-			)
-			.andDo(print())
-			.andExpect(status().isNoContent());
+    this.mockMvc
+        .perform(
+            put("/admin/devices/" + deviceId + "/characteristics/" + characteristicId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body.toString())
+                .characterEncoding("utf-8"))
+        .andDo(print())
+        .andExpect(status().isNoContent());
 
-		CharacteristicEntity characteristic = this.characteristicRepository
-			.findById(new CharacteristicEntityId(deviceId, characteristicId)).get();
+    CharacteristicEntity characteristic =
+        this.characteristicRepository
+            .findById(new CharacteristicEntityId(deviceId, characteristicId))
+            .get();
 
-		assertThat(characteristic.getName()).isEqualTo("frequenza");
-		assertThat(characteristic.getLowerLimit()).isEqualTo(10d);
-		assertThat(characteristic.getUpperLimit()).isEqualTo(100d);
-		assertThat(characteristic.getAutoAdjust()).isEqualTo(false);
-	}
+    assertThat(characteristic.getName()).isEqualTo("frequenza");
+    assertThat(characteristic.getLowerLimit()).isEqualTo(10d);
+    assertThat(characteristic.getUpperLimit()).isEqualTo(100d);
+    assertThat(characteristic.getAutoAdjust()).isEqualTo(false);
+  }
 
-	/**
-	 * Testa la modifica di una caratteristica impostando l'autoAdjust
-	 * @throws Exception se la caratteristica non esiste, verrebbe duplicata dopo la modifica, vengono inseriti dei
-	 * valori non validi o la caratteristica non viene modificata correttamente
-	 */
-	@Test
-	void testUpdateCharacteristicWithAutoAdjust() throws Exception {
-		JSONObject body = new JSONObject()
-			.put("name", "frequenza")
-			.put("autoAdjust", true)
-			.put("sampleSize", 10);
+  /**
+   * Testa la modifica di una caratteristica impostando l'autoAdjust
+   *
+   * @throws Exception se la caratteristica non esiste, verrebbe duplicata dopo la modifica, vengono
+   *     inseriti dei valori non validi o la caratteristica non viene modificata correttamente
+   */
+  @Test
+  void testUpdateCharacteristicWithAutoAdjust() throws Exception {
+    JSONObject body =
+        new JSONObject().put("name", "frequenza").put("autoAdjust", true).put("sampleSize", 10);
 
-		this.mockMvc.perform(put("/admin/devices/" + deviceId + "/characteristics/" + characteristicId)
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(body.toString())
-				.characterEncoding("utf-8")
-			)
-			.andDo(print())
-			.andExpect(status().isNoContent());
+    this.mockMvc
+        .perform(
+            put("/admin/devices/" + deviceId + "/characteristics/" + characteristicId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body.toString())
+                .characterEncoding("utf-8"))
+        .andDo(print())
+        .andExpect(status().isNoContent());
 
-		CharacteristicEntity characteristic = this.characteristicRepository
-			.findById(new CharacteristicEntityId(deviceId, characteristicId)).get();
+    CharacteristicEntity characteristic =
+        this.characteristicRepository
+            .findById(new CharacteristicEntityId(deviceId, characteristicId))
+            .get();
 
-		assertThat(characteristic.getName()).isEqualTo("frequenza");
-		assertThat(characteristic.getAutoAdjust()).isEqualTo(true);
-		assertThat(characteristic.getSampleSize()).isEqualTo(10);
-	}
+    assertThat(characteristic.getName()).isEqualTo("frequenza");
+    assertThat(characteristic.getAutoAdjust()).isEqualTo(true);
+    assertThat(characteristic.getSampleSize()).isEqualTo(10);
+  }
 
-	/**
-	 * Testa la modifica di una caratteristica archiviata
-	 * @throws Exception se la caratteristica non esiste, verrebbe duplicata dopo la modifica, vengono inseriti dei
-	 * valori non validi o la caratteristica non viene modificata correttamente
-	 */
-	@Test
-	void testUpdateArchivedCharacteristic() throws Exception {
-		JSONObject body = new JSONObject()
-			.put("name", "frequenza")
-			.put("lowerLimit", 10d)
-			.put("upperLimit", 100d)
-			.put("autoAdjust", false);
+  /**
+   * Testa la modifica di una caratteristica archiviata
+   *
+   * @throws Exception se la caratteristica non esiste, verrebbe duplicata dopo la modifica, vengono
+   *     inseriti dei valori non validi o la caratteristica non viene modificata correttamente
+   */
+  @Test
+  void testUpdateArchivedCharacteristic() throws Exception {
+    JSONObject body =
+        new JSONObject()
+            .put("name", "frequenza")
+            .put("lowerLimit", 10d)
+            .put("upperLimit", 100d)
+            .put("autoAdjust", false);
 
-		this.mockMvc.perform(put(
-			"/admin/devices/" + deviceId + "/characteristics/" + archivedCharacteristicId
-				)
-					.contentType(MediaType.APPLICATION_JSON)
-					.content(body.toString())
-					.characterEncoding("utf-8")
-			)
-			.andDo(print())
-			.andExpect(status().isNoContent());
+    this.mockMvc
+        .perform(
+            put("/admin/devices/" + deviceId + "/characteristics/" + archivedCharacteristicId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body.toString())
+                .characterEncoding("utf-8"))
+        .andDo(print())
+        .andExpect(status().isNoContent());
 
-		CharacteristicEntity characteristic = this.characteristicRepository
-			.findById(new CharacteristicEntityId(deviceId, archivedCharacteristicId)).get();
+    CharacteristicEntity characteristic =
+        this.characteristicRepository
+            .findById(new CharacteristicEntityId(deviceId, archivedCharacteristicId))
+            .get();
 
-		assertThat(characteristic.getName()).isEqualTo("frequenza");
-		assertThat(characteristic.getAutoAdjust()).isEqualTo(false);
-		assertThat(characteristic.getArchived()).isEqualTo(true);
-	}
+    assertThat(characteristic.getName()).isEqualTo("frequenza");
+    assertThat(characteristic.getAutoAdjust()).isEqualTo(false);
+    assertThat(characteristic.getArchived()).isEqualTo(true);
+  }
 
-	/**
-	 * Testa la modifica di una caratteristica inserendo il nome di una caratteristica già esistente
-	 * @throws Exception se la caratteristica non esiste o non viene rilevato l'errore
-	 */
-	@Test
-	void testUpdateCharacteristicDuplicateError() throws Exception {
-		JSONObject body = new JSONObject()
-			.put("name", "pressione")
-			.put("autoAdjust", true)
-			.put("sampleSize", 10);
+  /**
+   * Testa la modifica di una caratteristica inserendo il nome di una caratteristica già esistente
+   *
+   * @throws Exception se la caratteristica non esiste o non viene rilevato l'errore
+   */
+  @Test
+  void testUpdateCharacteristicDuplicateError() throws Exception {
+    JSONObject body =
+        new JSONObject().put("name", "pressione").put("autoAdjust", true).put("sampleSize", 10);
 
-		JSONObject response = new JSONObject()
-			.put("errorCode", "duplicateCharacteristicName");
+    JSONObject response = new JSONObject().put("errorCode", "duplicateCharacteristicName");
 
-		this.mockMvc.perform(put(
-					"/admin/devices/" + deviceId + "/characteristics/" + characteristicId
-				)
-					.contentType(MediaType.APPLICATION_JSON)
-					.content(body.toString())
-					.characterEncoding("utf-8")
-			)
-			.andDo(print())
-			.andExpect(status().isBadRequest())
-			.andExpect(content().json(response.toString()));
-	}
+    this.mockMvc
+        .perform(
+            put("/admin/devices/" + deviceId + "/characteristics/" + characteristicId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body.toString())
+                .characterEncoding("utf-8"))
+        .andDo(print())
+        .andExpect(status().isBadRequest())
+        .andExpect(content().json(response.toString()));
+  }
 
-	/**
-	 * Testa la modifica di una caratteristica senza autoAdjust e senza limiti tecnici
-	 * @throws Exception se la caratteristica non esiste, verrebbe duplicata dopo la modifica o non viene rilevato
-	 * l'errore
-	 */
-	@Test
-	void testUpdateCharacteristicNoLimitsError() throws Exception {
-		JSONObject body = new JSONObject()
-			.put("name", "frequenza")
-			.put("autoAdjust", false);
+  /**
+   * Testa la modifica di una caratteristica senza autoAdjust e senza limiti tecnici
+   *
+   * @throws Exception se la caratteristica non esiste, verrebbe duplicata dopo la modifica o non
+   *     viene rilevato l'errore
+   */
+  @Test
+  void testUpdateCharacteristicNoLimitsError() throws Exception {
+    JSONObject body = new JSONObject().put("name", "frequenza").put("autoAdjust", false);
 
-		JSONObject response = new JSONObject()
-			.put("errorCode", "invalidValues");
+    JSONObject response = new JSONObject().put("errorCode", "invalidValues");
 
-		this.mockMvc.perform(put(
-					"/admin/devices/" + deviceId + "/characteristics/" + characteristicId
-				)
-					.contentType(MediaType.APPLICATION_JSON)
-					.content(body.toString())
-					.characterEncoding("utf-8")
-			)
-			.andDo(print())
-			.andExpect(status().isBadRequest())
-			.andExpect(content().json(response.toString()));
-	}
+    this.mockMvc
+        .perform(
+            put("/admin/devices/" + deviceId + "/characteristics/" + characteristicId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body.toString())
+                .characterEncoding("utf-8"))
+        .andDo(print())
+        .andExpect(status().isBadRequest())
+        .andExpect(content().json(response.toString()));
+  }
 
-	/**
-	 * Testa la modifica di una caratteristica con autoAdjust e senza sampleSize
-	 * @throws Exception se la caratteristica non esiste, verrebbe duplicata dopo la modifica o non viene rilevato
-	 * l'errore
-	 */
-	@Test
-	void testUpdateCharacteristicNoSampleSizeError() throws Exception {
-		JSONObject body = new JSONObject()
-			.put("name", "frequenza")
-			.put("autoAdjust", true);
+  /**
+   * Testa la modifica di una caratteristica con autoAdjust e senza sampleSize
+   *
+   * @throws Exception se la caratteristica non esiste, verrebbe duplicata dopo la modifica o non
+   *     viene rilevato l'errore
+   */
+  @Test
+  void testUpdateCharacteristicNoSampleSizeError() throws Exception {
+    JSONObject body = new JSONObject().put("name", "frequenza").put("autoAdjust", true);
 
-		JSONObject response = new JSONObject()
-			.put("errorCode", "invalidValues");
+    JSONObject response = new JSONObject().put("errorCode", "invalidValues");
 
-		this.mockMvc.perform(put(
-					"/admin/devices/" + deviceId + "/characteristics/" + characteristicId
-				)
-					.contentType(MediaType.APPLICATION_JSON)
-					.content(body.toString())
-					.characterEncoding("utf-8")
-			)
-			.andDo(print())
-			.andExpect(status().isBadRequest())
-			.andExpect(content().json(response.toString()));
-	}
+    this.mockMvc
+        .perform(
+            put("/admin/devices/" + deviceId + "/characteristics/" + characteristicId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body.toString())
+                .characterEncoding("utf-8"))
+        .andDo(print())
+        .andExpect(status().isBadRequest())
+        .andExpect(content().json(response.toString()));
+  }
 
-	/**
-	 * Testa la modifica di una caratteristica inesistente
-	 * @throws Exception se non viene rilevato l'errore
-	 */
-	@Test
-	void testUpdateCharacteristicNotFoundError() throws Exception {
-		deleteAll();
+  /**
+   * Testa la modifica di una caratteristica inesistente
+   *
+   * @throws Exception se non viene rilevato l'errore
+   */
+  @Test
+  void testUpdateCharacteristicNotFoundError() throws Exception {
+    deleteAll();
 
-		JSONObject body = new JSONObject()
-			.put("name", "frequenza")
-			.put("autoAdjust", true)
-			.put("sampleSize", 10);
+    JSONObject body =
+        new JSONObject().put("name", "frequenza").put("autoAdjust", true).put("sampleSize", 10);
 
-		JSONObject response = new JSONObject()
-			.put("errorCode", "characteristicNotFound");
+    JSONObject response = new JSONObject().put("errorCode", "characteristicNotFound");
 
-		this.mockMvc.perform(put(
-					"/admin/devices/" + deviceId + "/characteristics/" + characteristicId
-				)
-					.contentType(MediaType.APPLICATION_JSON)
-					.content(body.toString())
-					.characterEncoding("utf-8")
-			)
-			.andDo(print())
-			.andExpect(status().isNotFound())
-			.andExpect(content().json(response.toString()));
-	}
+    this.mockMvc
+        .perform(
+            put("/admin/devices/" + deviceId + "/characteristics/" + characteristicId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body.toString())
+                .characterEncoding("utf-8"))
+        .andDo(print())
+        .andExpect(status().isNotFound())
+        .andExpect(content().json(response.toString()));
+  }
 
-	/**
-	 * Testa la modifica dello stato di archiviazione di una macchina, impostando true come valore
-	 * @throws Exception se l'operazione non va a buon fine
-	 */
-	@Test
-	void testArchiveCharacteristic() throws Exception {
-		JSONObject body = new JSONObject()
-			.put("archived", true);
+  /**
+   * Testa la modifica dello stato di archiviazione di una macchina, impostando true come valore
+   *
+   * @throws Exception se l'operazione non va a buon fine
+   */
+  @Test
+  void testArchiveCharacteristic() throws Exception {
+    JSONObject body = new JSONObject().put("archived", true);
 
-		this.mockMvc.perform(put(
-			"/admin/devices/" + deviceId + "/characteristics/" + characteristicId + "/archived"
-			)
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(body.toString())
-				.characterEncoding("utf-8")
-			)
-			.andDo(print())
-			.andExpect(status().isNoContent());
+    this.mockMvc
+        .perform(
+            put("/admin/devices/" + deviceId + "/characteristics/" + characteristicId + "/archived")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body.toString())
+                .characterEncoding("utf-8"))
+        .andDo(print())
+        .andExpect(status().isNoContent());
 
-		assertThat(this.characteristicRepository
-			.findById(new CharacteristicEntityId(deviceId, characteristicId))
-			.get()
-			.getArchived()
-		).isEqualTo(true);
-	}
+    assertThat(
+            this.characteristicRepository
+                .findById(new CharacteristicEntityId(deviceId, characteristicId))
+                .get()
+                .getArchived())
+        .isEqualTo(true);
+  }
 
-	/**
-	 * Testa la modifica dello stato di archiviazione di una macchina, impostando false come valore
-	 * @throws Exception se l'operazione non va a buon fine
-	 */
-	@Test
-	void testUnarchiveCharacteristic() throws Exception {
-		JSONObject body = new JSONObject()
-			.put("archived", false);
+  /**
+   * Testa la modifica dello stato di archiviazione di una macchina, impostando false come valore
+   *
+   * @throws Exception se l'operazione non va a buon fine
+   */
+  @Test
+  void testUnarchiveCharacteristic() throws Exception {
+    JSONObject body = new JSONObject().put("archived", false);
 
-		this.mockMvc.perform(put(
-					"/admin/devices/" + deviceId + "/characteristics/" + characteristicId + "/archived"
-				)
-					.contentType(MediaType.APPLICATION_JSON)
-					.content(body.toString())
-					.characterEncoding("utf-8")
-			)
-			.andDo(print())
-			.andExpect(status().isNoContent());
+    this.mockMvc
+        .perform(
+            put("/admin/devices/" + deviceId + "/characteristics/" + characteristicId + "/archived")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body.toString())
+                .characterEncoding("utf-8"))
+        .andDo(print())
+        .andExpect(status().isNoContent());
 
-		assertThat(this.characteristicRepository
-			.findById(new CharacteristicEntityId(deviceId, characteristicId))
-			.get()
-			.getArchived()
-		).isEqualTo(false);
-	}
+    assertThat(
+            this.characteristicRepository
+                .findById(new CharacteristicEntityId(deviceId, characteristicId))
+                .get()
+                .getArchived())
+        .isEqualTo(false);
+  }
 
-	/**
-	 * Testa la modifica dello stato di una caratteristica inesistente
-	 * @throws Exception se l'errore non viene rilevato
-	 */
-	@Test
-	void testCharacteristicNotFoundError() throws Exception {
-		deleteAll();
+  /**
+   * Testa la modifica dello stato di una caratteristica inesistente
+   *
+   * @throws Exception se l'errore non viene rilevato
+   */
+  @Test
+  void testCharacteristicNotFoundError() throws Exception {
+    deleteAll();
 
-		JSONObject body = new JSONObject()
-			.put("archived", false);
+    JSONObject body = new JSONObject().put("archived", false);
 
-		JSONObject response = new JSONObject()
-			.put("errorCode", "characteristicNotFound");
+    JSONObject response = new JSONObject().put("errorCode", "characteristicNotFound");
 
-		this.mockMvc.perform(put(
-					"/admin/devices/" + deviceId + "/characteristics/" + characteristicId + "/archived"
-				)
-					.contentType(MediaType.APPLICATION_JSON)
-					.content(body.toString())
-					.characterEncoding("utf-8")
-			)
-			.andDo(print())
-			.andExpect(status().isNotFound())
-			.andExpect(content().json(response.toString()));
-	}
+    this.mockMvc
+        .perform(
+            put("/admin/devices/" + deviceId + "/characteristics/" + characteristicId + "/archived")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body.toString())
+                .characterEncoding("utf-8"))
+        .andDo(print())
+        .andExpect(status().isNotFound())
+        .andExpect(content().json(response.toString()));
+  }
 }

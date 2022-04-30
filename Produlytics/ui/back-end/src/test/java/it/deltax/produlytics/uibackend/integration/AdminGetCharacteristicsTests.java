@@ -22,142 +22,124 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Test d'integrazione per le operazioni svolte dagli amministratori relative all'ottenimento
- * delle caratteristiche di una macchina
+ * Test d'integrazione per le operazioni svolte dagli amministratori relative all'ottenimento delle
+ * caratteristiche di una macchina
  */
-@SpringBootTest(
-	webEnvironment = SpringBootTest.WebEnvironment.MOCK
-)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @ActiveProfiles("test")
 @AutoConfigureMockMvc(addFilters = false)
 public class AdminGetCharacteristicsTests {
-	@Autowired
-	private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-	@Autowired
-	private DeviceRepository deviceRepository;
+  @Autowired private DeviceRepository deviceRepository;
 
-	@Autowired
-	private CharacteristicRepository characteristicRepository;
+  @Autowired private CharacteristicRepository characteristicRepository;
 
-	private static int deviceId;
-	private static int characteristic1Id;
-	private static int characteristic2Id;
+  private static int deviceId;
+  private static int characteristic1Id;
+  private static int characteristic2Id;
 
-	/**
-	 * Prepara il contesto di partenza, comune a tutti i test
-	 * @param deviceRepository lo strato di persistenza relativo alle macchine
-	 * @param characteristicRepository lo strato di persistenza relativo alle caratteristiche
-	 */
-	@BeforeAll
-	private static void prepareContext(
-		@Autowired DeviceRepository deviceRepository,
-		@Autowired CharacteristicRepository characteristicRepository
-	) {
-		DeviceEntity device = deviceRepository.save(new DeviceEntity(
-			"macchina",
-			false,
-			false,
-			"a"
-		));
+  /**
+   * Prepara il contesto di partenza, comune a tutti i test
+   *
+   * @param deviceRepository lo strato di persistenza relativo alle macchine
+   * @param characteristicRepository lo strato di persistenza relativo alle caratteristiche
+   */
+  @BeforeAll
+  private static void prepareContext(
+      @Autowired DeviceRepository deviceRepository,
+      @Autowired CharacteristicRepository characteristicRepository) {
+    DeviceEntity device = deviceRepository.save(new DeviceEntity("macchina", false, false, "a"));
 
-		deviceId = device.getId();
+    deviceId = device.getId();
 
-		CharacteristicEntity characteristic = characteristicRepository.save(new CharacteristicEntity(
-			deviceId,
-			"temperatura",
-			98d,
-			-13d,
-			true,
-			0,
-			true
-		));
+    CharacteristicEntity characteristic =
+        characteristicRepository.save(
+            new CharacteristicEntity(deviceId, "temperatura", 98d, -13d, true, 0, true));
 
-		characteristic1Id = characteristic.getId();
+    characteristic1Id = characteristic.getId();
 
-		characteristic = characteristicRepository.save(new CharacteristicEntity(
-			deviceId,
-			"pressione",
-			100d,
-			10d,
-			false,
-			null,
-			false
-		));
+    characteristic =
+        characteristicRepository.save(
+            new CharacteristicEntity(deviceId, "pressione", 100d, 10d, false, null, false));
 
-		characteristic2Id = characteristic.getId();
-	}
+    characteristic2Id = characteristic.getId();
+  }
 
-	/**
-	 * Pulisce i repository dai dati utilizzati dai test
-	 * @param deviceRepository lo strato di persistenza relativo alle macchine
-	 * @param characteristicRepository lo strato di persistenza relativo alle caratteristiche
-	 */
-	@AfterAll
-	private static void deleteAll(
-		@Autowired DeviceRepository deviceRepository,
-		@Autowired CharacteristicRepository characteristicRepository
-	) {
-		characteristicRepository.deleteAll();
-		deviceRepository.deleteAll();
-	}
+  /**
+   * Pulisce i repository dai dati utilizzati dai test
+   *
+   * @param deviceRepository lo strato di persistenza relativo alle macchine
+   * @param characteristicRepository lo strato di persistenza relativo alle caratteristiche
+   */
+  @AfterAll
+  private static void deleteAll(
+      @Autowired DeviceRepository deviceRepository,
+      @Autowired CharacteristicRepository characteristicRepository) {
+    characteristicRepository.deleteAll();
+    deviceRepository.deleteAll();
+  }
 
-	@Test
-	void contextLoads() {
-		assertThat(this.deviceRepository).isNotNull();
-		assertThat(this.characteristicRepository).isNotNull();
-	}
+  @Test
+  void contextLoads() {
+    assertThat(this.deviceRepository).isNotNull();
+    assertThat(this.characteristicRepository).isNotNull();
+  }
 
-	/**
-	 * Esegue l'ottenimento delle caratteristiche senza eseguire controlli
-	 * @return il risultato dell'esecuzione su cui poter eseguire i controlli
-	 * @throws Exception se l'ottenimento non va a buon fine
-	 */
-	private ResultActions performGetCharacteristics() throws Exception {
-		return this.mockMvc.perform(get("/admin/devices/" + deviceId + "/characteristics"))
-			.andDo(print());
-	}
+  /**
+   * Esegue l'ottenimento delle caratteristiche senza eseguire controlli
+   *
+   * @return il risultato dell'esecuzione su cui poter eseguire i controlli
+   * @throws Exception se l'ottenimento non va a buon fine
+   */
+  private ResultActions performGetCharacteristics() throws Exception {
+    return this.mockMvc
+        .perform(get("/admin/devices/" + deviceId + "/characteristics"))
+        .andDo(print());
+  }
 
-	/**
-	 * Testa l'ottenimento di tutte le caratteristiche di una macchina
-	 * @throws Exception se la macchina non esiste o non vengono restituite le caratteristiche attese
-	 */
-	@Test
-	void testGetCharacteristics() throws Exception {
-		JSONObject characteristic1 = new JSONObject()
-			.put("id", characteristic1Id)
-			.put("name", "temperatura")
-			.put("archived", true);
+  /**
+   * Testa l'ottenimento di tutte le caratteristiche di una macchina
+   *
+   * @throws Exception se la macchina non esiste o non vengono restituite le caratteristiche attese
+   */
+  @Test
+  void testGetCharacteristics() throws Exception {
+    JSONObject characteristic1 =
+        new JSONObject()
+            .put("id", characteristic1Id)
+            .put("name", "temperatura")
+            .put("archived", true);
 
-		JSONObject characteristic2 = new JSONObject()
-			.put("id", characteristic2Id)
-			.put("name", "pressione")
-			.put("archived", false);
+    JSONObject characteristic2 =
+        new JSONObject()
+            .put("id", characteristic2Id)
+            .put("name", "pressione")
+            .put("archived", false);
 
-		JSONArray response = new JSONArray()
-			.put(characteristic1)
-			.put(characteristic2);
+    JSONArray response = new JSONArray().put(characteristic1).put(characteristic2);
 
-		performGetCharacteristics()
-			.andExpect(status().isOk())
-			.andExpect(content().json(response.toString()));
-	}
+    performGetCharacteristics()
+        .andExpect(status().isOk())
+        .andExpect(content().json(response.toString()));
+  }
 
-	/**
-	 * Testa l'ottenimento di tutte le caratteristiche di una macchina inesistente
-	 * @throws Exception se non viene rilevato l'errore
-	 */
-	@Test
-	void testDeviceNotFoundError() throws Exception {
-		deleteAll(deviceRepository, characteristicRepository);
+  /**
+   * Testa l'ottenimento di tutte le caratteristiche di una macchina inesistente
+   *
+   * @throws Exception se non viene rilevato l'errore
+   */
+  @Test
+  void testDeviceNotFoundError() throws Exception {
+    deleteAll(deviceRepository, characteristicRepository);
 
-		JSONObject response = new JSONObject();
-		response.put("errorCode", "deviceNotFound");
+    JSONObject response = new JSONObject();
+    response.put("errorCode", "deviceNotFound");
 
-		performGetCharacteristics()
-			.andExpect(status().isNotFound())
-			.andExpect(content().json(response.toString()));
+    performGetCharacteristics()
+        .andExpect(status().isNotFound())
+        .andExpect(content().json(response.toString()));
 
-		prepareContext(deviceRepository, characteristicRepository);
-	}
+    prepareContext(deviceRepository, characteristicRepository);
+  }
 }
