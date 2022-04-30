@@ -49,7 +49,7 @@ public class CharacteristicEntity {
   private Double lowerLimit;
 
   /**
-   * `true` se l'autoadjust è attivo; `false` altrimenti.
+   * {@code true} se l'autoadjust è attivo; {@code false} altrimenti.
    */
   @Column(name = "auto_adjust", nullable = false)
   private Boolean autoAdjust;
@@ -72,16 +72,16 @@ public class CharacteristicEntity {
   protected CharacteristicEntity() {}
 
   /**
-   * Crea una nuova istanza di `CharacteristicEntity`.
+   * Crea una nuova istanza di {@code CharacteristicEntity}.
    *
-   * @param id Il valore per il campo `id`.
-   * @param deviceId Il valore per il campo `deviceId`.
-   * @param name Il valore per il campo `name`.
-   * @param upperLimit Il valore per il campo `upperLimit`.
-   * @param lowerLimit Il valore per il campo `lowerLimit`.
-   * @param autoAdjust Il valore per il campo `autoAdjust`.
-   * @param sampleSize Il valore per il campo `sampleSize`.
-   * @param archived Il valore per il campo `archived`.
+   * @param id Il valore per il campo {@code id}.
+   * @param deviceId Il valore per il campo {@code deviceId}.
+   * @param name Il valore per il campo {@code name}.
+   * @param upperLimit Il valore per il campo {@code upperLimit}.
+   * @param lowerLimit Il valore per il campo {@code lowerLimit}.
+   * @param autoAdjust Il valore per il campo {@code autoAdjust}.
+   * @param sampleSize Il valore per il campo {@code sampleSize}.
+   * @param archived Il valore per il campo {@code archived}.
    */
   public CharacteristicEntity(
       Integer id,
@@ -103,15 +103,15 @@ public class CharacteristicEntity {
   }
 
   /**
-   * Questo costruttore crea una caratteristica senza il campo `id`.
+   * Questo costruttore crea una caratteristica senza il campo {@code id}.
    *
-   * @param deviceId Il valore per il campo `deviceId`.
-   * @param name Il valore per il campo `name`.
-   * @param upperLimit Il valore per il campo `upperLimit`.
-   * @param lowerLimit Il valore per il campo `lowerLimit`.
-   * @param autoAdjust Il valore per il campo `autoAdjust`.
-   * @param sampleSize Il valore per il campo `sampleSize`.
-   * @param archived Il valore per il campo `archived`.
+   * @param deviceId Il valore per il campo {@code deviceId}.
+   * @param name Il valore per il campo {@code name}.
+   * @param upperLimit Il valore per il campo {@code upperLimit}.
+   * @param lowerLimit Il valore per il campo {@code lowerLimit}.
+   * @param autoAdjust Il valore per il campo {@code autoAdjust}.
+   * @param sampleSize Il valore per il campo {@code sampleSize}.
+   * @param archived Il valore per il campo {@code archived}.
    */
   public CharacteristicEntity(
       Integer deviceId,
@@ -131,72 +131,72 @@ public class CharacteristicEntity {
   }
 
   /**
-   * Getter per il campo `id`.
+   * Getter per il campo {@code id}.
    *
-   * @return Il valore del campo `id`.
+   * @return Il valore del campo {@code id}.
    */
   public Integer getId() {
     return this.id;
   }
 
   /**
-   * Getter per il campo `deviceId`.
+   * Getter per il campo {@code deviceId}.
    *
-   * @return Il valore del campo `deviceId`.
+   * @return Il valore del campo {@code deviceId}.
    */
   public Integer getDeviceId() {
     return this.deviceId;
   }
 
   /**
-   * Getter per il campo `name`.
+   * Getter per il campo {@code name}.
    *
-   * @return Il valore del campo `name`.
+   * @return Il valore del campo {@code name}.
    */
   public String getName() {
     return this.name;
   }
 
   /**
-   * Getter per il campo `upperLimit`.
+   * Getter per il campo {@code upperLimit}.
    *
-   * @return Il valore del campo `upperLimit`.
+   * @return Il valore del campo {@code upperLimit}.
    */
   public Double getUpperLimit() {
     return this.upperLimit;
   }
 
   /**
-   * Getter per il campo `lowerLimit`.
+   * Getter per il campo {@code lowerLimit}.
    *
-   * @return Il valore del campo `lowerLimit`.
+   * @return Il valore del campo {@code lowerLimit}.
    */
   public Double getLowerLimit() {
     return this.lowerLimit;
   }
 
   /**
-   * Getter per il campo `autoAdjust`.
+   * Getter per il campo {@code autoAdjust}.
    *
-   * @return Il valore del campo `autoAdjust`.
+   * @return Il valore del campo {@code autoAdjust}.
    */
   public Boolean getAutoAdjust() {
     return this.autoAdjust;
   }
 
   /**
-   * Getter per il campo `sampleSize`.
+   * Getter per il campo {@code sampleSize}.
    *
-   * @return Il valore del campo `sampleSize`.
+   * @return Il valore del campo {@code sampleSize}.
    */
   public Integer getSampleSize() {
     return this.sampleSize;
   }
 
   /**
-   * Getter per il campo `archived`.
+   * Getter per il campo {@code archived}.
    *
-   * @return Il valore del campo `archived`.
+   * @return Il valore del campo {@code archived}.
    */
   public Boolean getArchived() {
     return this.archived;

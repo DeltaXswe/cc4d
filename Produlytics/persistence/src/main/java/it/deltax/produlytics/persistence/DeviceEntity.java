@@ -51,13 +51,13 @@ public class DeviceEntity {
   protected DeviceEntity() {}
 
   /**
-   * Crea una nuova istanza di `DeviceEntity`.
+   * Crea una nuova istanza di {@code DeviceEntity}.
    *
-   * @param id Il valore per il campo `id`.
-   * @param name Il valore per il campo `name`.
-   * @param archived Il valore per il campo `archived`.
-   * @param deactivated Il valore per il campo `deactivated`.
-   * @param apiKey Il valore per il campo `apiKey`.
+   * @param id Il valore per il campo {@code id}.
+   * @param name Il valore per il campo {@code name}.
+   * @param archived Il valore per il campo {@code archived}.
+   * @param deactivated Il valore per il campo {@code deactivated}.
+   * @param apiKey Il valore per il campo {@code apiKey}.
    */
   public DeviceEntity(
       Integer id, String name, Boolean archived, Boolean deactivated, String apiKey) {
@@ -69,12 +69,12 @@ public class DeviceEntity {
   }
 
   /**
-   * Questo costruttore crea una rilevazione senza il campo `id`.
+   * Questo costruttore crea una rilevazione senza il campo {@code id}.
    *
-   * @param name Il valore per il campo `name`.
-   * @param archived Il valore per il campo `archived`.
-   * @param deactivated Il valore per il campo `deactivated`.
-   * @param apiKey Il valore per il campo `apiKey`.
+   * @param name Il valore per il campo {@code name}.
+   * @param archived Il valore per il campo {@code archived}.
+   * @param deactivated Il valore per il campo {@code deactivated}.
+   * @param apiKey Il valore per il campo {@code apiKey}.
    */
   public DeviceEntity(String name, Boolean archived, Boolean deactivated, String apiKey) {
     this.name = name;
@@ -84,45 +84,45 @@ public class DeviceEntity {
   }
 
   /**
-   * Getter per il campo `id`.
+   * Getter per il campo {@code id}.
    *
-   * @return Il valore del campo `id`.
+   * @return Il valore del campo {@code id}.
    */
   public Integer getId() {
     return this.id;
   }
 
   /**
-   * Getter per il campo `name`.
+   * Getter per il campo {@code name}.
    *
-   * @return Il valore del campo `name`.
+   * @return Il valore del campo {@code name}.
    */
   public String getName() {
     return this.name;
   }
 
   /**
-   * Getter per il campo `deactivated`.
+   * Getter per il campo {@code deactivated}.
    *
-   * @return Il valore del campo `deactivated`.
+   * @return Il valore del campo {@code deactivated}.
    */
   public Boolean getDeactivated() {
     return this.deactivated;
   }
 
   /**
-   * Getter per il campo `archived`.
+   * Getter per il campo {@code archived}.
    *
-   * @return Il valore del campo `archived`.
+   * @return Il valore del campo {@code archived}.
    */
   public Boolean getArchived() {
     return this.archived;
   }
 
   /**
-   * Getter per il campo `apiKey`.
+   * Getter per il campo {@code apiKey}.
    *
-   * @return Il valore del campo `apiKey`.
+   * @return Il valore del campo {@code apiKey}.
    */
   public String getApikey() {
     return this.apiKey;

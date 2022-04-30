@@ -23,10 +23,10 @@ public class CharacteristicEntityId implements Serializable {
   protected CharacteristicEntityId() {}
 
   /**
-   * Crea una nuova istanza di `CharacteristicEntityId`.
+   * Crea una nuova istanza di {@code CharacteristicEntityId}.
    *
-   * @param id Il valore per il campo `id`.
-   * @param deviceId Il valore per il campo `deviceId`.
+   * @param id Il valore per il campo {@code id}.
+   * @param deviceId Il valore per il campo {@code deviceId}.
    */
   public CharacteristicEntityId(Integer deviceId, Integer id) {
     this.deviceId = deviceId;
@@ -34,37 +34,37 @@ public class CharacteristicEntityId implements Serializable {
   }
 
   /**
-   * Questo costruttore crea la chiave di una caratteristica senza il campo `id`.
+   * Questo costruttore crea la chiave di una caratteristica senza il campo {@code id}.
    *
-   * @param deviceId Il valore per il campo `deviceId`.
+   * @param deviceId Il valore per il campo {@code deviceId}.
    */
   public CharacteristicEntityId(Integer deviceId) {
     this.deviceId = deviceId;
   }
 
   /**
-   * Getter per il campo `id`.
+   * Getter per il campo {@code id}.
    *
-   * @return Il valore del campo `id`.
+   * @return Il valore del campo {@code id}.
    */
   public Integer getId() {
     return this.id;
   }
 
   /**
-   * Getter per il campo `deviceId`.
+   * Getter per il campo {@code deviceId}.
    *
-   * @return Il valore del campo `deviceId`.
+   * @return Il valore del campo {@code deviceId}.
    */
   public Integer getDeviceId() {
     return this.deviceId;
   }
 
   /**
-   * Compara questo oggetto con un altro oggetto, e restituisce `true` se sono uguali.
+   * Compara questo oggetto con un altro oggetto, e restituisce {@code true} se sono uguali.
    *
    * @param o L'oggetto con cui comparare questo oggetto.
-   * @return `true` se sono uguali; `false` altrimenti.
+   * @return {@code true} se sono uguali; {@code false} altrimenti.
    */
   @Override
   public boolean equals(Object o) {

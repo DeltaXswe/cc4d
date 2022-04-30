@@ -30,11 +30,11 @@ public class DetectionEntityId implements Serializable {
   protected DetectionEntityId() {}
 
   /**
-   * Crea una nuova istanza di `DetectionEntityId`.
+   * Crea una nuova istanza di {@code DetectionEntityId}.
    *
-   * @param creationTime Il valore per il campo `creationTime`.
-   * @param characteristicId Il valore per il campo `characteristicId`.
-   * @param deviceId Il valore per il campo `deviceId`.
+   * @param creationTime Il valore per il campo {@code creationTime}.
+   * @param characteristicId Il valore per il campo {@code characteristicId}.
+   * @param deviceId Il valore per il campo {@code deviceId}.
    */
   public DetectionEntityId(Instant creationTime, Integer characteristicId, Integer deviceId) {
     this.creationTime = creationTime;
@@ -43,37 +43,37 @@ public class DetectionEntityId implements Serializable {
   }
 
   /**
-   * Getter per il campo `creationTime`.
+   * Getter per il campo {@code creationTime}.
    *
-   * @return Il valore del campo `creationTime`.
+   * @return Il valore del campo {@code creationTime}.
    */
   public Instant getCreationTime() {
     return creationTime;
   }
 
   /**
-   * Getter per il campo `characteristicId`.
+   * Getter per il campo {@code characteristicId}.
    *
-   * @return Il valore del campo `characteristicId`.
+   * @return Il valore del campo {@code characteristicId}.
    */
   public Integer getCharacteristicId() {
     return this.characteristicId;
   }
 
   /**
-   * Getter per il campo `deviceId`.
+   * Getter per il campo {@code deviceId}.
    *
-   * @return Il valore del campo `deviceId`.
+   * @return Il valore del campo {@code deviceId}.
    */
   public Integer getDeviceId() {
     return this.deviceId;
   }
 
   /**
-   * Compara questo oggetto con un altro oggetto, e restituisce `true` se sono uguali.
+   * Compara questo oggetto con un altro oggetto, e restituisce {@code true} se sono uguali.
    *
    * @param o L'oggetto con cui comparare questo oggetto.
-   * @return `true` se sono uguali; `false` altrimenti.
+   * @return {@code true} se sono uguali; {@code false} altrimenti.
    */
   @Override
   public boolean equals(Object o) {

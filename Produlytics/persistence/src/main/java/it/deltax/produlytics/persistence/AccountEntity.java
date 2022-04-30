@@ -42,12 +42,12 @@ public class AccountEntity {
   protected AccountEntity() {}
 
   /**
-   * Crea una nuova istanza di `AccountEntity`.
+   * Crea una nuova istanza di {@code AccountEntity}.
    *
-   * @param username Il valore per il campo `username`.
-   * @param hashedPassword Il valore per il campo `hashedPassword`.
-   * @param administrator Il valore per il campo `administrator`.
-   * @param archived Il valore per il campo `archived`.
+   * @param username Il valore per il campo {@code username}.
+   * @param hashedPassword Il valore per il campo {@code hashedPassword}.
+   * @param administrator Il valore per il campo {@code administrator}.
+   * @param archived Il valore per il campo {@code archived}.
    */
   public AccountEntity(
       String username, String hashedPassword, Boolean administrator, Boolean archived) {
@@ -58,36 +58,36 @@ public class AccountEntity {
   }
 
   /**
-   * Getter per il campo `username`.
+   * Getter per il campo {@code username}.
    *
-   * @return Il valore del campo `username`.
+   * @return Il valore del campo {@code username}.
    */
   public String getUsername() {
     return username;
   }
 
   /**
-   * Getter per il campo `hashedPassword`.
+   * Getter per il campo {@code hashedPassword}.
    *
-   * @return Il valore del campo `hashedPassword`.
+   * @return Il valore del campo {@code hashedPassword}.
    */
   public String getHashedPassword() {
     return hashedPassword;
   }
 
   /**
-   * Getter per il campo `administrator`.
+   * Getter per il campo {@code administrator}.
    *
-   * @return Il valore del campo `administrator`.
+   * @return Il valore del campo {@code administrator}.
    */
   public Boolean getAdministrator() {
     return administrator;
   }
 
   /**
-   * Getter per il campo `archived`.
+   * Getter per il campo {@code archived}.
    *
-   * @return Il valore del campo `archived`.
+   * @return Il valore del campo {@code archived}.
    */
   public Boolean getArchived() {
     return archived;

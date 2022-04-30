@@ -43,7 +43,7 @@ public class DetectionEntity {
   private Double value;
 
   /**
-   * `true` se la rilevazione è anomala; `false` altrimenti.
+   * {@code true} se la rilevazione è anomala; {@code false} altrimenti.
    */
   @Column(name = "outlier", nullable = false)
   private Boolean outlier;
@@ -54,13 +54,13 @@ public class DetectionEntity {
   protected DetectionEntity() {}
 
   /**
-   * Crea una nuova istanza di `DetectionEntity`.
+   * Crea una nuova istanza di {@code DetectionEntity}.
    *
-   * @param creationTime Il valore per il campo `creationTime`.
-   * @param characteristicId Il valore per il campo `characteristicId`.
-   * @param deviceId Il valore per il campo `deviceId`.
-   * @param value Il valore per il campo `value`.
-   * @param outlier Il valore per il campo `outlier`.
+   * @param creationTime Il valore per il campo {@code creationTime}.
+   * @param characteristicId Il valore per il campo {@code characteristicId}.
+   * @param deviceId Il valore per il campo {@code deviceId}.
+   * @param value Il valore per il campo {@code value}.
+   * @param outlier Il valore per il campo {@code outlier}.
    */
   public DetectionEntity(
       Instant creationTime,
@@ -76,45 +76,45 @@ public class DetectionEntity {
   }
 
   /**
-   * Getter per il campo `creationTime`.
+   * Getter per il campo {@code creationTime}.
    *
-   * @return Il valore del campo `creationTime`.
+   * @return Il valore del campo {@code creationTime}.
    */
   public Instant getCreationTime() {
     return creationTime;
   }
 
   /**
-   * Getter per il campo `characteristicId`.
+   * Getter per il campo {@code characteristicId}.
    *
-   * @return Il valore del campo `characteristicId`.
+   * @return Il valore del campo {@code characteristicId}.
    */
   public Integer getCharacteristicId() {
     return characteristicId;
   }
 
   /**
-   * Getter per il campo `deviceId`.
+   * Getter per il campo {@code deviceId}.
    *
-   * @return Il valore del campo `deviceId`.
+   * @return Il valore del campo {@code deviceId}.
    */
   public Integer getDeviceId() {
     return deviceId;
   }
 
   /**
-   * Getter per il campo `value`.
+   * Getter per il campo {@code value}.
    *
-   * @return Il valore del campo `value`.
+   * @return Il valore del campo {@code value}.
    */
   public Double getValue() {
     return this.value;
   }
 
   /**
-   * Getter per il campo `outlier`.
+   * Getter per il campo {@code outlier}.
    *
-   * @return Il valore del campo `outlier`.
+   * @return Il valore del campo {@code outlier}.
    */
   public Boolean getOutlier() {
     return this.outlier;
