@@ -11,17 +11,17 @@ import lombok.AllArgsConstructor;
 /** Questa classe implementa l'interfaccia di alcune porte che sono usate sempre insieme. */
 @AllArgsConstructor
 public class SeriesPortFacadeImpl implements SeriesPortFacade {
-  /** La porta a cui viene inoltrato `insertDetection`. */
+  /** La porta a cui viene inoltrato {@code insertDetection}. */
   private final InsertDetectionPort insertDetectionPort;
-  /** La porta a cui viene inoltrato `findLastDetections`. */
+  /** La porta a cui viene inoltrato {@code findLastDetections}. */
   private final FindLastDetectionsPort findLastDetectionsPort;
-  /** La porta a cui viene inoltrato `markOutlier`. */
+  /** La porta a cui viene inoltrato {@code markOutlier}. */
   private final MarkOutlierPort markOutlierPort;
 
   /**
-   * Implementazione dell'omonimo metodo definito in `SeriesPortFacade`.
+   * Implementazione dell'omonimo metodo definito in {@code SeriesPortFacade}.
    *
-   * @param detection La rilevazione da persistere.
+   * @param detection la rilevazione da persistere
    */
   @Override
   public void insertDetection(Detection detection) {
@@ -29,13 +29,13 @@ public class SeriesPortFacadeImpl implements SeriesPortFacade {
   }
 
   /**
-   * Implementazione dell'omonimo metodo definito in `SeriesPortFacade`.
+   * Implementazione dell'omonimo metodo definito in {@code SeriesPortFacade}.
    *
-   * @param characteristicId L'identificativo globale della caratteristica di cui cercare le
-   *     rilevazioni, la quale deve esistere.
-   * @param count Il numero massimo di rilevazioni da ottenere.
-   * @return Una lista delle ultime `count` rilevazioni della caratteristica con identificativo
-   *     `characteristicId, * o meno se non ce ne sono abbastanza.
+   * @param characteristicId l'identificativo globale della caratteristica di cui cercare le
+   *     rilevazioni, la quale deve esistere
+   * @param count il numero massimo di rilevazioni da ottenere
+   * @return una lista delle ultime {@code count} rilevazioni della caratteristica con identificativo
+   *     `characteristicId, * o meno se non ce ne sono abbastanza
    */
   @Override
   public List<Detection> findLastDetections(CharacteristicId characteristicId, int count) {
@@ -43,9 +43,9 @@ public class SeriesPortFacadeImpl implements SeriesPortFacade {
   }
 
   /**
-   * Implementazione dell'omonimo metodo definito in `SeriesPortFacade`.
+   * Implementazione dell'omonimo metodo definito in {@code SeriesPortFacade}.
    *
-   * @param detection La rilevazione da marcare come anomala.
+   * @param detection la rilevazione da marcare come anomala
    */
   @Override
   public void markOutlier(Detection detection) {

@@ -10,15 +10,15 @@ import java.util.List;
  */
 public interface FindLastDetectionsPort {
   /**
-   * Questo metodo ritorna le ultime `count` rilevazioni della caratteristica specificata, o meno se
+   * Questo metodo ritorna le ultime {@code count} rilevazioni della caratteristica specificata, o meno se
    * non ne esistono abbastanza.
    *
-   * @param characteristicId L'identificativo globale della caratteristica a cui appartengono le
+   * @param characteristicId l'identificativo globale della caratteristica a cui appartengono le
    *     rilevazioni da ottenere. Si può assumere che esista una caratteristica con tale
-   *     identificativo.
-   * @param count Il numero di rilevazioni da ottenere.
-   * @return Una lista delle ultime `count` rilevazioni della caratteristica con identificativo
-   *     `characteristicId, o meno se non ce ne sono abbastanza.
+   *     identificativo
+   * @param count il numero di rilevazioni da ottenere
+   * @return una lista delle ultime {@code count} rilevazioni della caratteristica con identificativo
+   *     `characteristicId, o meno se non ce ne sono abbastanza
    */
   List<Detection> findLastDetections(CharacteristicId characteristicId, int count);
 }

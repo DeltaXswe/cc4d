@@ -12,16 +12,16 @@ public interface ControlChart {
    * Ritorna il numero di rilevazioni richieste per l'analisi. Questo metodo deve ritornare sempre
    * lo stesso valore per una data istanza.
    *
-   * @return Il numero di rilevazioni richieste per l'analisi.
+   * @return il numero di rilevazioni richieste per l'analisi
    */
   int requiredDetectionCount();
 
   /**
    * Analizza le rilevazioni alla luce dei limiti di controllo e marca quelle anomale.
    *
-   * @param detections Le rilevazioni da analizzare. Deve avere la lunghezza specificata da
-   *     `requiredDetectionCount`.
-   * @param limits I limiti di controllo della caratteristica a cui appartengono le rilevazioni.
+   * @param detections le rilevazioni da analizzare. Deve avere la lunghezza specificata da
+   *     {@code requiredDetectionCount}
+   * @param limits i limiti di controllo della caratteristica a cui appartengono le rilevazioni
    */
   void analyzeDetections(List<? extends MarkableDetection> detections, ControlLimits limits);
 }

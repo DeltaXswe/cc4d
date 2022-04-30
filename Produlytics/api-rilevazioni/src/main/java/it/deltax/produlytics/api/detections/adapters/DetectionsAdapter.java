@@ -45,9 +45,9 @@ public class DetectionsAdapter
   /**
    * Crea una nuova istanza di DetectionsAdapter.
    *
-   * @param characteristicRepository Una repository di caratteristiche.
-   * @param deviceRepository Una repository di macchine.
-   * @param detectionRepository Una repository di rilevazioni.
+   * @param characteristicRepository una repository di caratteristiche
+   * @param deviceRepository una repository di macchine
+   * @param detectionRepository una repository di rilevazioni
    */
   public DetectionsAdapter(
       CharacteristicRepository characteristicRepository,
@@ -59,10 +59,10 @@ public class DetectionsAdapter
   }
 
   /**
-   * Implementa l'omonimo metodo definito in `FindDeviceByApiKeyPort`.
+   * Implementa l'omonimo metodo definito in {@code FindDeviceByApiKeyPort}.
    *
-   * @param apiKey La chiave API della macchina da cercare, la quale potrebbe non esistere.
-   * @return Le informazioni della macchina se esiste, altrimenti `Optional.empty()`.
+   * @param apiKey la chiave API della macchina da cercare, la quale potrebbe non esistere
+   * @return le informazioni della macchina se esiste, altrimenti {@code Optional.empty()}
    */
   @Override
   public Optional<DeviceInfo> findDeviceByApiKey(String apiKey) {
@@ -77,12 +77,12 @@ public class DetectionsAdapter
   }
 
   /**
-   * Implementa l'omonimo metodo definito in `FindCharacteristicByNamePort`.
+   * Implementa l'omonimo metodo definito in {@code FindCharacteristicByNamePort}.
    *
-   * @param deviceId L'identificativo della macchina, che deve esistere, a cui appartiene la
-   *     caratteristica da cercare.
-   * @param name Il nome della caratteristica da cercare.
-   * @return Le informazioni della caratteristica se esite, altrimenti `Optional.empty()`.
+   * @param deviceId l'identificativo della macchina, che deve esistere, a cui appartiene la
+   *     caratteristica da cercare
+   * @param name il nome della caratteristica da cercare
+   * @return le informazioni della caratteristica se esite, altrimenti {@code Optional.empty()}
    */
   @Override
   public Optional<CharacteristicInfo> findCharacteristicByName(int deviceId, String name) {
@@ -95,14 +95,14 @@ public class DetectionsAdapter
   }
 
   /**
-   * Implementa l'omonimo metodo definito in `FindLastDetectionsPort`.
+   * Implementa l'omonimo metodo definito in {@code FindLastDetectionsPort}.
    *
-   * @param characteristicId L'identificativo globale della caratteristica a cui appartengono le
+   * @param characteristicId l'identificativo globale della caratteristica a cui appartengono le
    *     rilevazioni da ottenere. Si può assumere che esista una caratteristica con tale
-   *     identificativo.
-   * @param count Il numero di rilevazioni da ottenere.
-   * @return Una lista delle ultime `count` rilevazioni della caratteristica con identificativo
-   *     `characteristicId, o meno se non ce ne sono abbastanza.
+   *     identificativo
+   * @param count il numero di rilevazioni da ottenere
+   * @return una lista delle ultime {@code count} rilevazioni della caratteristica con identificativo
+   *     `characteristicId, o meno se non ce ne sono abbastanza
    */
   @Override
   public List<Detection> findLastDetections(CharacteristicId characteristicId, int count) {
@@ -121,9 +121,9 @@ public class DetectionsAdapter
   }
 
   /**
-   * Implementa l'omonimo metodo definito in `InsertDetectionPort`.
+   * Implementa l'omonimo metodo definito in {@code InsertDetectionPort}.
    *
-   * @param detection La rilevazione da memorizzare.
+   * @param detection la rilevazione da memorizzare
    */
   @Override
   public void insertDetection(Detection detection) {
@@ -138,11 +138,11 @@ public class DetectionsAdapter
   }
 
   /**
-   * Implementa l'omonimo metodo definito in `FindLimitsPort`.
+   * Implementa l'omonimo metodo definito in {@code FindLimitsPort}.
    *
-   * @param characteristicId L'identificativo globale della caratteristica a cui appartengono i
-   *     limiti da ottenere. Si può assumere che esista una caratteristica con tale identificativo.
-   * @return I limiti tecnici e di processo della caratteristica cercata.
+   * @param characteristicId l'identificativo globale della caratteristica a cui appartengono i
+   *     limiti da ottenere. Si può assumere che esista una caratteristica con tale identificativo
+   * @return i limiti tecnici e di processo della caratteristica cercata
    */
   @Override
   public LimitsInfo findLimits(CharacteristicId characteristicId) {
@@ -169,9 +169,9 @@ public class DetectionsAdapter
   }
 
   /**
-   * Implementa l'omonimo metodo definito in `MarkOutlierPort`.
+   * Implementa l'omonimo metodo definito in {@code MarkOutlierPort}.
    *
-   * @param detection La rilevazione da marcare come anomala.
+   * @param detection la rilevazione da marcare come anomala
    */
   @Override
   public void markOutlier(Detection detection) {

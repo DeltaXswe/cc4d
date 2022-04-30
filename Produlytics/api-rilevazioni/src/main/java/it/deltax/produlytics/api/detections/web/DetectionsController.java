@@ -30,7 +30,7 @@ public class DetectionsController {
    * Questo metodo riceve le richieste HTTP fatte all'API e si occupa d'inoltrarle al relativo
    * servizio di business.
    *
-   * @param incomingDetection Il body della richiesta HTTP.
+   * @param incomingDetection il body della richiesta HTTP
    */
   @PostMapping("")
   @ResponseStatus(HttpStatus.ACCEPTED)

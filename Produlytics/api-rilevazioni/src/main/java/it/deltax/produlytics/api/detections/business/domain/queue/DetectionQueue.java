@@ -10,7 +10,7 @@ public interface DetectionQueue {
   /**
    * Questo metodo accoda una rilevazione per essere processata successivamente in background.
    *
-   * @param detection La rilevazione da accodare.
+   * @param detection la rilevazione da accodare
    */
   void enqueueDetection(Detection detection);
 

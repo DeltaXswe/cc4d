@@ -10,8 +10,8 @@ public interface DetectionSeries {
   /**
    * Questo metodo inserisce una nuova rilevazione nella serie, processandola.
    *
-   * @param rawDetection La rilevazione da processare. Deve appartenere alla caratteristica
-   *     associata a questa serie.
+   * @param rawDetection la rilevazione da processare. Deve appartenere alla caratteristica
+   *     associata a questa serie
    */
   void insertDetection(Detection rawDetection);
 }

@@ -11,7 +11,7 @@ public class ApiApplication {
   /**
    * L'entry point del programma.
    *
-   * @param args Gli argomenti passati al comando di esecuzione.
+   * @param args gli argomenti passati al comando di esecuzione
    */
   public static void main(String[] args) {
     SpringApplication.run(ApiApplication.class, args);

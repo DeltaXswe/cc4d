@@ -14,16 +14,16 @@ public class MarkableDetectionAdapter implements MarkableDetection {
   private final Detection detection;
 
   /**
-   * Questo metodo implementa l'omonimo definito in `MarkableDetection`.
+   * Questo metodo implementa l'omonimo definito in {@code MarkableDetection}.
    *
-   * @return Il valore della rilevazione;
+   * @return il valore della rilevazione
    */
   @Override
   public double value() {
     return this.detection.value();
   }
 
-  /** Questo metodo implementa l'omonimo definito in `MarkableDetection`. */
+  /** Questo metodo implementa l'omonimo definito in {@code MarkableDetection}. */
   @Override
   public void markOutlier() {
     this.seriesPortFacade.markOutlier(this.detection);

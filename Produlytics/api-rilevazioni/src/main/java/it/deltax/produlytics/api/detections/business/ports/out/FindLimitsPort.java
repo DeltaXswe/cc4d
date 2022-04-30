@@ -12,9 +12,9 @@ public interface FindLimitsPort {
   /**
    * Questo metodo ritorna i limiti tecnici e di processo di una caratteristica.
    *
-   * @param characteristicId L'identificativo globale della caratteristica di cui ottenere i limiti,
-   *     la quale deve esistere.
-   * @return I limiti tecnici e di processo della caratteristica cercata.
+   * @param characteristicId l'identificativo globale della caratteristica di cui ottenere i limiti,
+   *     la quale deve esistere
+   * @return i limiti tecnici e di processo della caratteristica cercata
    */
   LimitsInfo findLimits(CharacteristicId characteristicId);
 }

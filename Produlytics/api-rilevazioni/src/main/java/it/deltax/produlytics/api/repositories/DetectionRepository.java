@@ -13,20 +13,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Questa interfaccia espone le query che è possibile effettuare sul database, in particolare sulla
- * tabella `detection`, lasciando a Spring il compito d'implementarla.
+ * tabella {@code detection}, lasciando a Spring il compito d'implementarla.
  */
 @Repository
 @SuppressWarnings("unused")
 public interface DetectionRepository extends CrudRepository<DetectionEntity, DetectionEntityId> {
   /**
-   * Questo metodo si occupa di ottenere le ultime `count` rilevazioni della caratteristica
+   * Questo metodo si occupa di ottenere le ultime {@code count} rilevazioni della caratteristica
    * specificata.
    *
-   * @param deviceId L'identificativo della macchina.
-   * @param characteristicId L'identificativo della caratteristica all'interno della macchina.
-   * @param count Il numero di rilevazioni da ottenere.
-   * @return Una lista di massimo `count` elementi con le ultime rilevazioni della caratteristica
-   *     specificata.
+   * @param deviceId l'identificativo della macchina
+   * @param deviceId l'identificativo della macchina
+   * @param deviceId l'identificativo della macchina
+   * @return una lista di massimo {@code count} elementi con le ultime rilevazioni della caratteristica
+   *     specificata
    */
   @Query(value = """
     SELECT *
@@ -47,10 +47,10 @@ public interface DetectionRepository extends CrudRepository<DetectionEntity, Det
   /**
    * Questo metodo si occupa di marcare come anomala la rilevazione identificata dai tre parametri.
    *
-   * @param deviceId L'identificativo della macchina a cui appartiene la rilevazione.
-   * @param characteristicId L'identificativo della caratteristica all'interno della macchina a cui
-   *     appartiene la rilevazione.
-   * @param creationTime L'istante in cui è stata creata la rilevazione.
+   * @param deviceId l'identificativo della macchina a cui appartiene la rilevazione
+   * @param characteristicId l'identificativo della caratteristica all'interno della macchina a cui
+   *     appartiene la rilevazione
+   * @param creationTime l'istante in cui è stata creata la rilevazione
    */
   @Transactional
   @Modifying

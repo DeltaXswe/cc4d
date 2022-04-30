@@ -14,18 +14,18 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class DetectionsService implements ProcessIncomingDetectionUseCase {
   /**
-   * Un'istanza di `DetectionValidator` a cui delegare il compito di validare una rilevazione in
+   * Un'istanza di {@code DetectionValidator} a cui delegare il compito di validare una rilevazione in
    * arrivo.
    */
   private final DetectionValidator detectionValidator;
   /**
-   * Un'istanza di `DetectionQueue` a cui delegare il compito di processare le rilevazioni in
+   * Un'istanza di {@code DetectionQueue} a cui delegare il compito di processare le rilevazioni in
    * background.
    */
   private final DetectionQueue detectionQueue;
 
   /**
-   * Questo metodo implementa l'omonimo metodo definito in `ProcessIncomingDetectionUseCase`.
+   * Questo metodo implementa l'omonimo metodo definito in {@code ProcessIncomingDetectionUseCase}.
    *
    * @param incomingDetection la rilevazione in arrivo da processare;
    * @throws BusinessException nel caso in cui la chiave API non sia corretta, se la macchina o

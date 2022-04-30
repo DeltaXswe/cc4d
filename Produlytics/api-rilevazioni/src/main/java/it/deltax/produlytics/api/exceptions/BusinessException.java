@@ -14,18 +14,18 @@ public class BusinessException extends Exception {
   private final ErrorType type;
 
   /**
-   * Getter per il campo `code`.
+   * Getter per il campo {@code code}.
    *
-   * @return il codice di errore.
+   * @return il codice di errore
    */
   public String getCode() {
     return code;
   }
 
   /**
-   * Getter per il campo `type`.
+   * Getter per il campo {@code type}.
    *
-   * @return il tipo di errore.
+   * @return il tipo di errore
    */
   public ErrorType getType() {
     return type;

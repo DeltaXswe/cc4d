@@ -12,12 +12,12 @@ public interface FindCharacteristicByNamePort {
 
   /**
    * Questo metodo cerca i dettagli di una caratteristica dato l'identificativo della macchina a cui
-   * appartiene e il suo nome e se esiste li ritorna, altrimenti ritorna `Optional.empty()`.
+   * appartiene e il suo nome e se esiste li ritorna, altrimenti ritorna {@code Optional.empty()}.
    *
-   * @param deviceId L'identificativo della macchina, che deve esistere, a cui appartiene la
-   *     caratteristica da cercare.
-   * @param name Il nome della caratteristica da cercare.
-   * @return Le informazioni della caratteristica se esiste, altrimenti `Optional.empty()`.
+   * @param deviceId l'identificativo della macchina, che deve esistere, a cui appartiene la
+   *     caratteristica da cercare
+   * @param name il nome della caratteristica da cercare
+   * @return le informazioni della caratteristica se esiste, altrimenti {@code Optional.empty()}
    */
   Optional<CharacteristicInfo> findCharacteristicByName(int deviceId, String name);
 }

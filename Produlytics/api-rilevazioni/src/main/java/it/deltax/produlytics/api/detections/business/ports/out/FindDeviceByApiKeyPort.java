@@ -10,10 +10,10 @@ import java.util.Optional;
 public interface FindDeviceByApiKeyPort {
   /**
    * Questo metodo cerca i dettagli di una macchina e se esiste li ritorna, altrimenti ritorna
-   * `Optional.empty()`.
+   * {@code Optional.empty()}.
    *
-   * @param apiKey La chiave API della macchina da cercare. Potrebbe non esistere.
-   * @return Le informazioni della macchina se esiste, altrimenti `Optional.empty()`.
+   * @param apiKey la chiave API della macchina da cercare. Potrebbe non esistere
+   * @return le informazioni della macchina se esiste, altrimenti {@code Optional.empty()}
    */
   Optional<DeviceInfo> findDeviceByApiKey(String apiKey);
 }

@@ -10,7 +10,7 @@ public interface MarkOutlierPort {
   /**
    * Questo metodo si occupa di marcare una rilevazione come anomala.
    *
-   * @param detection La rilevazione da marcare come anomala.
+   * @param detection la rilevazione da marcare come anomala
    */
   void markOutlier(Detection detection);
 }

@@ -26,10 +26,10 @@ public class DetectionSeriesImpl implements DetectionSeries {
   private final CharacteristicId characteristicId;
 
   /**
-   * Questo metodo implementa l'omonimo metodo definito in `DetectionSeries`.
+   * Questo metodo implementa l'omonimo metodo definito in {@code DetectionSeries}.
    *
-   * @param detection La rilevazione da processare. Deve appartenere alla caratteristica associata a
-   *     questa serie.
+   * @param detection la rilevazione da processare. Deve appartenere alla caratteristica associata a
+   *     questa serie
    */
   @Override
   public void insertDetection(Detection detection) {
@@ -44,7 +44,7 @@ public class DetectionSeriesImpl implements DetectionSeries {
   /**
    * Questo metodo si occupa di preparare le ultime rilevazioni da passare alle carte di controllo.
    *
-   * @return Una lista di `MarkableDetection` per le carte di controllo di `controlChartsGroup`.
+   * @return una lista di {@code MarkableDetection} per le carte di controllo di {@code controlChartsGroup}
    */
   private List<? extends MarkableDetection> detectionsForControlCharts() {
     int count = this.controlChartsGroup.requiredDetectionCount();

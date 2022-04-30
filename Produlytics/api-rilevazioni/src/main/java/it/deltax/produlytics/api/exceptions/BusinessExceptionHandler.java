@@ -18,8 +18,8 @@ public class BusinessExceptionHandler {
    * occupa di convertirla in un messaggio di errore per il client, con annesso codice di stato
    * HTTP.
    *
-   * @param businessException L'eccezione lanciata dal controller.
-   * @return La risposta da inviare al client.
+   * @param businessException l'eccezione lanciata dal controller
+   * @return la risposta da inviare al client
    */
   @ExceptionHandler(BusinessException.class)
   public ResponseEntity<Map<String, String>> handleStatusException(

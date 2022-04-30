@@ -11,9 +11,9 @@ import java.util.List;
  */
 public class ControlChartBeyondLimits implements ControlChart {
   /**
-   * Implementazione dell'omonimo metodo definito in `ControlChart`.
+   * Implementazione dell'omonimo metodo definito in {@code ControlChart}.
    *
-   * @return Il numero di rilevazioni richieste per l'analisi.
+   * @return il numero di rilevazioni richieste per l'analisi
    */
   @Override
   public int requiredDetectionCount() {
@@ -21,11 +21,11 @@ public class ControlChartBeyondLimits implements ControlChart {
   }
 
   /**
-   * Implementazione dell'omonimo metodo definito in `ControlChart`.
+   * Implementazione dell'omonimo metodo definito in {@code ControlChart}.
    *
-   * @param detections Le rilevazioni da analizzare. Deve avere la lunghezza specificata da
-   *     `requiredDetectionCount`.
-   * @param limits I limiti di controllo della caratteristica a cui appartengono le rilevazioni.
+   * @param detections le rilevazioni da analizzare. Deve avere la lunghezza specificata da
+   *     {@code requiredDetectionCount}
+   * @param limits i limiti di controllo della caratteristica a cui appartengono le rilevazioni
    */
   @Override
   public void analyzeDetections(

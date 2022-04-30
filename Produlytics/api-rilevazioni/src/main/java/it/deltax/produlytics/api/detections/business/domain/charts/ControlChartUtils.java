@@ -13,13 +13,13 @@ public class ControlChartUtils {
   private ControlChartUtils() {}
 
   /**
-   * Questo metodo ritorna uno `Stream` di "finestre" della lista sorgente, cioè uno `Stream` di
+   * Questo metodo ritorna uno {@code Stream} di "finestre" della lista sorgente, cioè uno {@code Stream} di
    * tutte le liste contenenti valori adiacenti nella lista sorgente.
    *
-   * @param <T> Il tipo dei valori della lista.
-   * @param list La lista sorgente di valori.
-   * @param size La dimensione delle finestre nello `Stream` ritornato.
-   * @return Uno stream di finestre della lista `list` di dimensione `size`.
+   * @param <T> il tipo dei valori della lista
+   * @param <T> il tipo dei valori della lista
+   * @param <T> il tipo dei valori della lista
+   * @return uno stream di finestre della lista {@code list} di dimensione {@code size}
    */
   public static <T> Stream<List<T>> windows(List<T> list, int size) {
     /*
@@ -38,7 +38,7 @@ public class ControlChartUtils {
   /**
    * Questo metodo marca tutte le rilevazioni della lista.
    *
-   * @param detections Una lista di rilevazioni marcabili.
+   * @param detections una lista di rilevazioni marcabili
    */
   public static void markAll(List<? extends MarkableDetection> detections) {
     detections.forEach(MarkableDetection::markOutlier);

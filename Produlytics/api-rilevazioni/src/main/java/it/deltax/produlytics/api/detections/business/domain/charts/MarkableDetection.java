@@ -5,7 +5,7 @@ public interface MarkableDetection {
   /**
    * Ritorna il valore della rilevazione.
    *
-   * @return Il valore della rilevazione;
+   * @return il valore della rilevazione
    */
   double value();
 

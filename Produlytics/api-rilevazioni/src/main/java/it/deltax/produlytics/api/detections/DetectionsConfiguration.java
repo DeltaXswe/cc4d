@@ -43,13 +43,13 @@ import org.springframework.stereotype.Component;
     "unused") // Viene utilizzata da Spring a runtime, ma l'analisi statica non lo può sapere
 public class DetectionsConfiguration {
   /**
-   * Questo metodo crea un'istanza di `DetectionValidator`.
+   * Questo metodo crea un'istanza di {@code DetectionValidator}.
    *
-   * @param findDeviceByApiKeyPort La `FindDeviceByApiKeyPort` da usare nel costruttore di
-   *     `DetectionValidatorImpl`.
-   * @param findCharacteristicByNamePort La `FindCharacteristicByNamePort` da usare nel costruttore
-   *     di `DetectionValidatorImpl`.
-   * @return Una nuova istanza di `DetectionValidator`.
+   * @param findDeviceByApiKeyPort la {@code FindDeviceByApiKeyPort} da usare nel costruttore di
+   *     {@code DetectionValidatorImpl}
+   * @param findCharacteristicByNamePort la {@code FindCharacteristicByNamePort} da usare nel costruttore
+   *     di {@code DetectionValidatorImpl}
+   * @return una nuova istanza di {@code DetectionValidator}
    */
   @Bean
   DetectionValidator createDetectionValidator(
@@ -59,9 +59,9 @@ public class DetectionsConfiguration {
   }
 
   /**
-   * Questo metodo crea un'istanza di `ControlChartsGroup`.
+   * Questo metodo crea un'istanza di {@code ControlChartsGroup}.
    *
-   * @return Una nuova istanza di `ControlChartsGroup`.
+   * @return una nuova istanza di {@code ControlChartsGroup}
    */
   @Bean
   ControlChartsGroup createControlCharts() {
@@ -80,14 +80,14 @@ public class DetectionsConfiguration {
   }
 
   /**
-   * Questo metodo crea un'istanza di `SeriesPortFacade`.
+   * Questo metodo crea un'istanza di {@code SeriesPortFacade}.
    *
-   * @param insertDetectionPort La `InsertDetectionPort` da usare nel costruttore di
-   *     `SeriesPortFacadeImpl`.
-   * @param findLastDetectionsPort La `FindLastDetectionsPort` da usare nel costruttore di
-   *     `SeriesPortFacadeImpl`.
-   * @param markOutlierPort La `MarkOutlierPort` da usare nel costruttore di `SeriesPortFacadeImpl`.
-   * @return Una nuova istanza di `SeriesPortFacade`.
+   * @param insertDetectionPort la {@code InsertDetectionPort} da usare nel costruttore di
+   *     {@code SeriesPortFacadeImpl}
+   * @param findLastDetectionsPort la {@code FindLastDetectionsPort} da usare nel costruttore di
+   *     {@code SeriesPortFacadeImpl}
+   * @param markOutlierPort la {@code MarkOutlierPort} da usare nel costruttore di {@code SeriesPortFacadeImpl}
+   * @return una nuova istanza di {@code SeriesPortFacade}
    */
   @Bean
   SeriesPortFacade createSeriesFacadePort(
@@ -98,11 +98,11 @@ public class DetectionsConfiguration {
   }
 
   /**
-   * Questo metodo crea un'istanza di `ControlLimitsCalculator`.
+   * Questo metodo crea un'istanza di {@code ControlLimitsCalculator}.
    *
-   * @param findLimitsPort La `FindLimitsPort` da usare nel costruttore di
-   *     `ControlLimitsCalculatorImpl`.
-   * @return Una nuova istanza di `ControlLimitsCalculator`.
+   * @param findLimitsPort la {@code FindLimitsPort} da usare nel costruttore di
+   *     {@code ControlLimitsCalculatorImpl}
+   * @return una nuova istanza di {@code ControlLimitsCalculator}
    */
   @Bean
   ControlLimitsCalculator controlLimitsCalculator(FindLimitsPort findLimitsPort) {
@@ -110,15 +110,15 @@ public class DetectionsConfiguration {
   }
 
   /**
-   * Questo metodo crea un'istanza di `DetectionSeriesFactory`.
+   * Questo metodo crea un'istanza di {@code DetectionSeriesFactory}.
    *
-   * @param seriesPortFacade La `SeriesPortFacade` da usare nel costruttore di
-   *     `DetectionSeriesImplFactory`.
-   * @param controlLimitsCalculator Il `ControlLimitsCalculator` da usare nel costruttore di
-   *     `DetectionSeriesImplFactory`.
-   * @param controlChartsGroup Il `ControlChartsGroup` da usare nel costruttore di
-   *     `DetectionSeriesImplFactory`.
-   * @return Una nuova istanza di `DetectionSeriesFactory`.
+   * @param seriesPortFacade la {@code SeriesPortFacade} da usare nel costruttore di
+   *     {@code DetectionSeriesImplFactory}
+   * @param controlLimitsCalculator il {@code ControlLimitsCalculator} da usare nel costruttore di
+   *     {@code DetectionSeriesImplFactory}
+   * @param controlChartsGroup il {@code ControlChartsGroup} da usare nel costruttore di
+   *     {@code DetectionSeriesImplFactory}
+   * @return una nuova istanza di {@code DetectionSeriesFactory}
    */
   @Bean
   DetectionSeriesFactory createDetectionSeriesFactory(
@@ -130,11 +130,11 @@ public class DetectionsConfiguration {
   }
 
   /**
-   * Questo metodo crea un'istanza di `DetectionQueue`.
+   * Questo metodo crea un'istanza di {@code DetectionQueue}.
    *
-   * @param detectionSeriesFactory La `DetectionSeriesFactory` da usare nel costruttore di
-   *     `DetectionQueueImpl`.
-   * @return Una nuova istanza di `DetectionQueue`.
+   * @param detectionSeriesFactory la {@code DetectionSeriesFactory} da usare nel costruttore di
+   *     {@code DetectionQueueImpl}
+   * @return una nuova istanza di {@code DetectionQueue}
    */
   @Bean
   @Scope("singleton")
@@ -143,12 +143,12 @@ public class DetectionsConfiguration {
   }
 
   /**
-   * Questo metodo crea un'istanza di `ProcessIncomingDetectionUseCase`.
+   * Questo metodo crea un'istanza di {@code ProcessIncomingDetectionUseCase}.
    *
-   * @param detectionValidation Il `DetectionValidator` da usare nel costruttore di
-   *     `DetectionsService`.
-   * @param detectionQueue La `DetectionQueue` da usare nel costruttore di `DetectionsService`.
-   * @return Una nuova istanza di `ProcessIncomingDetectionUseCase`.
+   * @param detectionValidation il {@code DetectionValidator} da usare nel costruttore di
+   *     {@code DetectionsService}
+   * @param detectionQueue la {@code DetectionQueue} da usare nel costruttore di {@code DetectionsService}
+   * @return una nuova istanza di {@code ProcessIncomingDetectionUseCase}
    */
   @Bean
   ProcessIncomingDetectionUseCase createProcessDetectionUseCase(

@@ -10,7 +10,7 @@ public interface InsertDetectionPort {
   /**
    * Questo metodo si occupa di persistere una rilevazione per poterla riottenere successivamente.
    *
-   * @param detection La rilevazione da persistere.
+   * @param detection la rilevazione da persistere
    */
   void insertDetection(Detection detection);
 }

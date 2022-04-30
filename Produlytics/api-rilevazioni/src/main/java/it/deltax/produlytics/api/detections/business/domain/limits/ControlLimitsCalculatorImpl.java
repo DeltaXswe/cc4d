@@ -11,11 +11,11 @@ public class ControlLimitsCalculatorImpl implements ControlLimitsCalculator {
   private final FindLimitsPort findLimitsPort;
 
   /**
-   * Implementazione dell'omonimo metodo definito in `ControlLimitsCalculator`.
+   * Implementazione dell'omonimo metodo definito in {@code ControlLimitsCalculator}.
    *
-   * @param characteristicId L'identificativo globale della caratteristica di cui calcolare i limiti
-   *     di controllo.
-   * @return I limiti di controllo della caratteristica identificata da `characteristicId`.
+   * @param characteristicId l'identificativo globale della caratteristica di cui calcolare i limiti
+   *     di controllo
+   * @return i limiti di controllo della caratteristica identificata da {@code characteristicId}
    */
   @Override
   public ControlLimits calculateControlLimits(CharacteristicId characteristicId) {
@@ -33,10 +33,10 @@ public class ControlLimitsCalculatorImpl implements ControlLimitsCalculator {
   }
 
   /**
-   * Questo metodo crea una nuova istanza di `ControlLimits` utilizzando un'istanza di `MeanStddev`.
+   * Questo metodo crea una nuova istanza di {@code ControlLimits} utilizzando un'istanza di {@code MeanStddev}.
    *
-   * @param meanStddev I limiti di processo.
-   * @return I limiti di controllo derivanti dai limiti di processo.
+   * @param meanStddev i limiti di processo
+   * @return i limiti di controllo derivanti dai limiti di processo
    */
   private ControlLimits fromMeanStddev(MeanStddev meanStddev) {
     double lowerLimit = meanStddev.mean() - 3 * meanStddev.stddev();
@@ -45,11 +45,11 @@ public class ControlLimitsCalculatorImpl implements ControlLimitsCalculator {
   }
 
   /**
-   * Questo metodo crea una nuova istanza di `ControlLimits` utilizzando un'istanza di
-   * `TechnicalLimits`.
+   * Questo metodo crea una nuova istanza di {@code ControlLimits} utilizzando un'istanza di
+   * {@code TechnicalLimits}.
    *
-   * @param technicalLimits I limiti tecnici.
-   * @return I limiti di controllo derivanti dai limiti tecnici.
+   * @param technicalLimits i limiti tecnici
+   * @return i limiti di controllo derivanti dai limiti tecnici
    */
   private ControlLimits fromTechnicalLimits(TechnicalLimits technicalLimits) {
     return new ControlLimits(technicalLimits.lowerLimit(), technicalLimits.upperLimit());

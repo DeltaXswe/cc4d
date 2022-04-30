@@ -7,9 +7,9 @@ public interface ControlLimitsCalculator {
   /**
    * Questo metodo si occupa di calcolare i limiti di controllo di una caratteristica, ritornandoli.
    *
-   * @param characteristicId L'identificativo globale della caratteristica di cui calcolare i limiti
-   *     di controllo.
-   * @return I limiti di controllo della caratteristica identificata da `characteristicId`.
+   * @param characteristicId l'identificativo globale della caratteristica di cui calcolare i limiti
+   *     di controllo
+   * @return i limiti di controllo della caratteristica identificata da {@code characteristicId}
    */
   ControlLimits calculateControlLimits(CharacteristicId characteristicId);
 }

@@ -11,10 +11,10 @@ public interface DetectionValidator {
    * archiviate/disattivate. In caso di successo ritorna l'identificativo globale della
    * caratteristica, altrimenti lancia un'eccezione con la motivazione del fallimento.
    *
-   * @param apiKey La chiave API fornita dalla macchina e da validare.
-   * @param characteristicName Il nome della caratteristica, all'interno della macchina, da
-   *     validare.
-   * @return L'identificativo globale della caratteristica corrispondente ai parametri ricevuti.
+   * @param apiKey la chiave API fornita dalla macchina e da validare
+   * @param characteristicName il nome della caratteristica, all'interno della macchina, da
+   *     validare
+   * @return l'identificativo globale della caratteristica corrispondente ai parametri ricevuti
    * @throws BusinessException Se la macchina o caratteristica non esistono, o se sono archiviate o
    *     disattivate.
    */

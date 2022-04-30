@@ -11,9 +11,9 @@ public class ControlChartsGroupImpl implements ControlChartsGroup {
   private final List<? extends ControlChart> controlCharts;
 
   /**
-   * Implementazione dell'omonimo metodo definito in `ControlChartsGroup`.
+   * Implementazione dell'omonimo metodo definito in {@code ControlChartsGroup}.
    *
-   * @return Il numero di rilevazioni richiesto dalle carte di controllo contenute in questa classe.
+   * @return il numero di rilevazioni richiesto dalle carte di controllo contenute in questa classe
    */
   @Override
   public int requiredDetectionCount() {
@@ -24,10 +24,10 @@ public class ControlChartsGroupImpl implements ControlChartsGroup {
   }
 
   /**
-   * Implementazione dell'omonimo metodo definito in `ControlChartsGroup`.
+   * Implementazione dell'omonimo metodo definito in {@code ControlChartsGroup}.
    *
-   * @param detections Le rilevazioni da analizzare.
-   * @param limits I limiti di controllo della caratteristica a cui appartengono le rilevazioni.
+   * @param detections le rilevazioni da analizzare
+   * @param detections le rilevazioni da analizzare
    */
   @Override
   public void analyzeDetections(
@@ -44,12 +44,12 @@ public class ControlChartsGroupImpl implements ControlChartsGroup {
   }
 
   /**
-   * Ritorna una lista contenente solo le ultime `count` rilevazioni di `lastDetections`.
+   * Ritorna una lista contenente solo le ultime {@code count} rilevazioni di {@code lastDetections}.
    *
-   * @param lastDetections Una lista di rilevazioni marcabili come anomale.
-   * @param count Il numero delle ultime rilevazioni da ritornare. Deve essere maggiore o uguale
-   *     alla lunghezza di `lastDetections`.
-   * @return Le ultime `count` rilevazioni.
+   * @param lastDetections una lista di rilevazioni marcabili come anomale
+   * @param count il numero delle ultime rilevazioni da ritornare. Deve essere maggiore o uguale
+   *     alla lunghezza di {@code lastDetections}
+   * @return le ultime {@code count} rilevazioni
    */
   private List<? extends MarkableDetection> cutLastDetections(
       List<? extends MarkableDetection> lastDetections, int count) {

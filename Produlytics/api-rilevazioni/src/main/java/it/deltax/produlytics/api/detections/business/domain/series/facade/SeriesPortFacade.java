@@ -9,27 +9,27 @@ import java.util.List;
  */
 public interface SeriesPortFacade {
   /**
-   * Questo metodo è equivalente all'omonimo definito in `InsertDetectionPort`.
+   * Questo metodo è equivalente all'omonimo definito in {@code InsertDetectionPort}.
    *
-   * @param detection La rilevazione da persistere.
+   * @param detection la rilevazione da persistere
    */
   void insertDetection(Detection detection);
 
   /**
-   * Questo metodo è equivalente all'omonimo definito in `FindLastDetectionsPort`.
+   * Questo metodo è equivalente all'omonimo definito in {@code FindLastDetectionsPort}.
    *
-   * @param characteristicId L'identificativo globale della caratteristica di cui cercare le
-   *     rilevazioni, la quale deve esistere.
-   * @param count Il numero massimo di rilevazioni da ottenere.
-   * @return Una lista delle ultime `count` rilevazioni della caratteristica con identificativo
-   *     `characteristicId, * o meno se non ce ne sono abbastanza.
+   * @param characteristicId l'identificativo globale della caratteristica di cui cercare le
+   *     rilevazioni, la quale deve esistere
+   * @param count il numero massimo di rilevazioni da ottenere
+   * @return una lista delle ultime {@code count} rilevazioni della caratteristica con identificativo
+   *     `characteristicId, * o meno se non ce ne sono abbastanza
    */
   List<Detection> findLastDetections(CharacteristicId characteristicId, int count);
 
   /**
-   * Questo metodo è equivalente all'omonimo definito in `MarkOutlierPort`.
+   * Questo metodo è equivalente all'omonimo definito in {@code MarkOutlierPort}.
    *
-   * @param detection La rilevazione da marcare come anomala.
+   * @param detection la rilevazione da marcare come anomala
    */
   void markOutlier(Detection detection);
 }
