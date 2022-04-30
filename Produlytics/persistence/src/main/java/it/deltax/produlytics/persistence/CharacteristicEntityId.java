@@ -25,8 +25,8 @@ public class CharacteristicEntityId implements Serializable {
   /**
    * Crea una nuova istanza di {@code CharacteristicEntityId}.
    *
-   * @param id Il valore per il campo {@code id}.
-   * @param deviceId Il valore per il campo {@code deviceId}.
+   * @param id il valore per il campo {@code id}
+   * @param deviceId il valore per il campo {@code deviceId}
    */
   public CharacteristicEntityId(Integer deviceId, Integer id) {
     this.deviceId = deviceId;
@@ -36,7 +36,7 @@ public class CharacteristicEntityId implements Serializable {
   /**
    * Questo costruttore crea la chiave di una caratteristica senza il campo {@code id}.
    *
-   * @param deviceId Il valore per il campo {@code deviceId}.
+   * @param deviceId il valore per il campo {@code deviceId}
    */
   public CharacteristicEntityId(Integer deviceId) {
     this.deviceId = deviceId;
@@ -45,7 +45,7 @@ public class CharacteristicEntityId implements Serializable {
   /**
    * Getter per il campo {@code id}.
    *
-   * @return Il valore del campo {@code id}.
+   * @return il valore del campo {@code id}
    */
   public Integer getId() {
     return this.id;
@@ -54,7 +54,7 @@ public class CharacteristicEntityId implements Serializable {
   /**
    * Getter per il campo {@code deviceId}.
    *
-   * @return Il valore del campo {@code deviceId}.
+   * @return il valore del campo {@code deviceId}
    */
   public Integer getDeviceId() {
     return this.deviceId;
@@ -63,8 +63,8 @@ public class CharacteristicEntityId implements Serializable {
   /**
    * Compara questo oggetto con un altro oggetto, e restituisce {@code true} se sono uguali.
    *
-   * @param o L'oggetto con cui comparare questo oggetto.
-   * @return {@code true} se sono uguali; {@code false} altrimenti.
+   * @param o l'oggetto con cui comparare questo oggetto
+   * @return {@code true} se sono uguali; {@code false} altrimenti
    */
   @Override
   public boolean equals(Object o) {
@@ -81,7 +81,7 @@ public class CharacteristicEntityId implements Serializable {
   /**
    * Calcola l'hash di questo oggetto.
    *
-   * @return L'hash di questo oggetto.
+   * @return l'hash di questo oggetto
    */
   @Override
   public int hashCode() {

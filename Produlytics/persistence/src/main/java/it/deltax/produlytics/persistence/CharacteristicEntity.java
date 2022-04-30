@@ -74,14 +74,14 @@ public class CharacteristicEntity {
   /**
    * Crea una nuova istanza di {@code CharacteristicEntity}.
    *
-   * @param id Il valore per il campo {@code id}.
-   * @param deviceId Il valore per il campo {@code deviceId}.
-   * @param name Il valore per il campo {@code name}.
-   * @param upperLimit Il valore per il campo {@code upperLimit}.
-   * @param lowerLimit Il valore per il campo {@code lowerLimit}.
-   * @param autoAdjust Il valore per il campo {@code autoAdjust}.
-   * @param sampleSize Il valore per il campo {@code sampleSize}.
-   * @param archived Il valore per il campo {@code archived}.
+   * @param id il valore per il campo {@code id}
+   * @param deviceId il valore per il campo {@code deviceId}
+   * @param name il valore per il campo {@code name}
+   * @param upperLimit il valore per il campo {@code upperLimit}
+   * @param lowerLimit il valore per il campo {@code lowerLimit}
+   * @param autoAdjust il valore per il campo {@code autoAdjust}
+   * @param sampleSize il valore per il campo {@code sampleSize}
+   * @param archived il valore per il campo {@code archived}
    */
   public CharacteristicEntity(
       Integer id,
@@ -105,13 +105,13 @@ public class CharacteristicEntity {
   /**
    * Questo costruttore crea una caratteristica senza il campo {@code id}.
    *
-   * @param deviceId Il valore per il campo {@code deviceId}.
-   * @param name Il valore per il campo {@code name}.
-   * @param upperLimit Il valore per il campo {@code upperLimit}.
-   * @param lowerLimit Il valore per il campo {@code lowerLimit}.
-   * @param autoAdjust Il valore per il campo {@code autoAdjust}.
-   * @param sampleSize Il valore per il campo {@code sampleSize}.
-   * @param archived Il valore per il campo {@code archived}.
+   * @param deviceId il valore per il campo {@code deviceId}
+   * @param name il valore per il campo {@code name}
+   * @param upperLimit il valore per il campo {@code upperLimit}
+   * @param lowerLimit il valore per il campo {@code lowerLimit}
+   * @param autoAdjust il valore per il campo {@code autoAdjust}
+   * @param sampleSize il valore per il campo {@code sampleSize}
+   * @param archived il valore per il campo {@code archived}
    */
   public CharacteristicEntity(
       Integer deviceId,
@@ -133,7 +133,7 @@ public class CharacteristicEntity {
   /**
    * Getter per il campo {@code id}.
    *
-   * @return Il valore del campo {@code id}.
+   * @return il valore del campo {@code id}
    */
   public Integer getId() {
     return this.id;
@@ -142,7 +142,7 @@ public class CharacteristicEntity {
   /**
    * Getter per il campo {@code deviceId}.
    *
-   * @return Il valore del campo {@code deviceId}.
+   * @return il valore del campo {@code deviceId}
    */
   public Integer getDeviceId() {
     return this.deviceId;
@@ -151,7 +151,7 @@ public class CharacteristicEntity {
   /**
    * Getter per il campo {@code name}.
    *
-   * @return Il valore del campo {@code name}.
+   * @return il valore del campo {@code name}
    */
   public String getName() {
     return this.name;
@@ -160,7 +160,7 @@ public class CharacteristicEntity {
   /**
    * Getter per il campo {@code upperLimit}.
    *
-   * @return Il valore del campo {@code upperLimit}.
+   * @return il valore del campo {@code upperLimit}
    */
   public Double getUpperLimit() {
     return this.upperLimit;
@@ -169,7 +169,7 @@ public class CharacteristicEntity {
   /**
    * Getter per il campo {@code lowerLimit}.
    *
-   * @return Il valore del campo {@code lowerLimit}.
+   * @return il valore del campo {@code lowerLimit}
    */
   public Double getLowerLimit() {
     return this.lowerLimit;
@@ -178,7 +178,7 @@ public class CharacteristicEntity {
   /**
    * Getter per il campo {@code autoAdjust}.
    *
-   * @return Il valore del campo {@code autoAdjust}.
+   * @return il valore del campo {@code autoAdjust}
    */
   public Boolean getAutoAdjust() {
     return this.autoAdjust;
@@ -187,7 +187,7 @@ public class CharacteristicEntity {
   /**
    * Getter per il campo {@code sampleSize}.
    *
-   * @return Il valore del campo {@code sampleSize}.
+   * @return il valore del campo {@code sampleSize}
    */
   public Integer getSampleSize() {
     return this.sampleSize;
@@ -196,7 +196,7 @@ public class CharacteristicEntity {
   /**
    * Getter per il campo {@code archived}.
    *
-   * @return Il valore del campo {@code archived}.
+   * @return il valore del campo {@code archived}
    */
   public Boolean getArchived() {
     return this.archived;

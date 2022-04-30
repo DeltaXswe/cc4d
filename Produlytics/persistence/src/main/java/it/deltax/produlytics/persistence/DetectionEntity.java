@@ -56,11 +56,11 @@ public class DetectionEntity {
   /**
    * Crea una nuova istanza di {@code DetectionEntity}.
    *
-   * @param creationTime Il valore per il campo {@code creationTime}.
-   * @param characteristicId Il valore per il campo {@code characteristicId}.
-   * @param deviceId Il valore per il campo {@code deviceId}.
-   * @param value Il valore per il campo {@code value}.
-   * @param outlier Il valore per il campo {@code outlier}.
+   * @param creationTime il valore per il campo {@code creationTime}
+   * @param characteristicId il valore per il campo {@code characteristicId}
+   * @param deviceId il valore per il campo {@code deviceId}
+   * @param value il valore per il campo {@code value}
+   * @param outlier il valore per il campo {@code outlier}
    */
   public DetectionEntity(
       Instant creationTime,
@@ -78,7 +78,7 @@ public class DetectionEntity {
   /**
    * Getter per il campo {@code creationTime}.
    *
-   * @return Il valore del campo {@code creationTime}.
+   * @return il valore del campo {@code creationTime}
    */
   public Instant getCreationTime() {
     return creationTime;
@@ -87,7 +87,7 @@ public class DetectionEntity {
   /**
    * Getter per il campo {@code characteristicId}.
    *
-   * @return Il valore del campo {@code characteristicId}.
+   * @return il valore del campo {@code characteristicId}
    */
   public Integer getCharacteristicId() {
     return characteristicId;
@@ -96,7 +96,7 @@ public class DetectionEntity {
   /**
    * Getter per il campo {@code deviceId}.
    *
-   * @return Il valore del campo {@code deviceId}.
+   * @return il valore del campo {@code deviceId}
    */
   public Integer getDeviceId() {
     return deviceId;
@@ -105,7 +105,7 @@ public class DetectionEntity {
   /**
    * Getter per il campo {@code value}.
    *
-   * @return Il valore del campo {@code value}.
+   * @return il valore del campo {@code value}
    */
   public Double getValue() {
     return this.value;
@@ -114,7 +114,7 @@ public class DetectionEntity {
   /**
    * Getter per il campo {@code outlier}.
    *
-   * @return Il valore del campo {@code outlier}.
+   * @return il valore del campo {@code outlier}
    */
   public Boolean getOutlier() {
     return this.outlier;

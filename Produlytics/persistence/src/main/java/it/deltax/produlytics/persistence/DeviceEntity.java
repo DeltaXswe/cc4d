@@ -53,11 +53,11 @@ public class DeviceEntity {
   /**
    * Crea una nuova istanza di {@code DeviceEntity}.
    *
-   * @param id Il valore per il campo {@code id}.
-   * @param name Il valore per il campo {@code name}.
-   * @param archived Il valore per il campo {@code archived}.
-   * @param deactivated Il valore per il campo {@code deactivated}.
-   * @param apiKey Il valore per il campo {@code apiKey}.
+   * @param id il valore per il campo {@code id}
+   * @param name il valore per il campo {@code name}
+   * @param archived il valore per il campo {@code archived}
+   * @param deactivated il valore per il campo {@code deactivated}
+   * @param apiKey il valore per il campo {@code apiKey}
    */
   public DeviceEntity(
       Integer id, String name, Boolean archived, Boolean deactivated, String apiKey) {
@@ -71,10 +71,10 @@ public class DeviceEntity {
   /**
    * Questo costruttore crea una rilevazione senza il campo {@code id}.
    *
-   * @param name Il valore per il campo {@code name}.
-   * @param archived Il valore per il campo {@code archived}.
-   * @param deactivated Il valore per il campo {@code deactivated}.
-   * @param apiKey Il valore per il campo {@code apiKey}.
+   * @param name il valore per il campo {@code name}
+   * @param archived il valore per il campo {@code archived}
+   * @param deactivated il valore per il campo {@code deactivated}
+   * @param apiKey il valore per il campo {@code apiKey}
    */
   public DeviceEntity(String name, Boolean archived, Boolean deactivated, String apiKey) {
     this.name = name;
@@ -86,7 +86,7 @@ public class DeviceEntity {
   /**
    * Getter per il campo {@code id}.
    *
-   * @return Il valore del campo {@code id}.
+   * @return il valore del campo {@code id}
    */
   public Integer getId() {
     return this.id;
@@ -95,7 +95,7 @@ public class DeviceEntity {
   /**
    * Getter per il campo {@code name}.
    *
-   * @return Il valore del campo {@code name}.
+   * @return il valore del campo {@code name}
    */
   public String getName() {
     return this.name;
@@ -104,7 +104,7 @@ public class DeviceEntity {
   /**
    * Getter per il campo {@code deactivated}.
    *
-   * @return Il valore del campo {@code deactivated}.
+   * @return il valore del campo {@code deactivated}
    */
   public Boolean getDeactivated() {
     return this.deactivated;
@@ -113,7 +113,7 @@ public class DeviceEntity {
   /**
    * Getter per il campo {@code archived}.
    *
-   * @return Il valore del campo {@code archived}.
+   * @return il valore del campo {@code archived}
    */
   public Boolean getArchived() {
     return this.archived;
@@ -122,7 +122,7 @@ public class DeviceEntity {
   /**
    * Getter per il campo {@code apiKey}.
    *
-   * @return Il valore del campo {@code apiKey}.
+   * @return il valore del campo {@code apiKey}
    */
   public String getApikey() {
     return this.apiKey;

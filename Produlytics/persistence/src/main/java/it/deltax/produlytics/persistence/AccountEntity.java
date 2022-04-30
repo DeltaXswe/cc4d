@@ -44,10 +44,10 @@ public class AccountEntity {
   /**
    * Crea una nuova istanza di {@code AccountEntity}.
    *
-   * @param username Il valore per il campo {@code username}.
-   * @param hashedPassword Il valore per il campo {@code hashedPassword}.
-   * @param administrator Il valore per il campo {@code administrator}.
-   * @param archived Il valore per il campo {@code archived}.
+   * @param username il valore per il campo {@code username}
+   * @param hashedPassword il valore per il campo {@code hashedPassword}
+   * @param administrator il valore per il campo {@code administrator}
+   * @param archived il valore per il campo {@code archived}
    */
   public AccountEntity(
       String username, String hashedPassword, Boolean administrator, Boolean archived) {
@@ -60,7 +60,7 @@ public class AccountEntity {
   /**
    * Getter per il campo {@code username}.
    *
-   * @return Il valore del campo {@code username}.
+   * @return il valore del campo {@code username}
    */
   public String getUsername() {
     return username;
@@ -69,7 +69,7 @@ public class AccountEntity {
   /**
    * Getter per il campo {@code hashedPassword}.
    *
-   * @return Il valore del campo {@code hashedPassword}.
+   * @return il valore del campo {@code hashedPassword}
    */
   public String getHashedPassword() {
     return hashedPassword;
@@ -78,7 +78,7 @@ public class AccountEntity {
   /**
    * Getter per il campo {@code administrator}.
    *
-   * @return Il valore del campo {@code administrator}.
+   * @return il valore del campo {@code administrator}
    */
   public Boolean getAdministrator() {
     return administrator;
@@ -87,7 +87,7 @@ public class AccountEntity {
   /**
    * Getter per il campo {@code archived}.
    *
-   * @return Il valore del campo {@code archived}.
+   * @return il valore del campo {@code archived}
    */
   public Boolean getArchived() {
     return archived;

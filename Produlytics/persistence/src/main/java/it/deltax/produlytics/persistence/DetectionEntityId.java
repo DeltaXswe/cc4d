@@ -32,9 +32,9 @@ public class DetectionEntityId implements Serializable {
   /**
    * Crea una nuova istanza di {@code DetectionEntityId}.
    *
-   * @param creationTime Il valore per il campo {@code creationTime}.
-   * @param characteristicId Il valore per il campo {@code characteristicId}.
-   * @param deviceId Il valore per il campo {@code deviceId}.
+   * @param creationTime il valore per il campo {@code creationTime}
+   * @param characteristicId il valore per il campo {@code characteristicId}
+   * @param deviceId il valore per il campo {@code deviceId}
    */
   public DetectionEntityId(Instant creationTime, Integer characteristicId, Integer deviceId) {
     this.creationTime = creationTime;
@@ -45,7 +45,7 @@ public class DetectionEntityId implements Serializable {
   /**
    * Getter per il campo {@code creationTime}.
    *
-   * @return Il valore del campo {@code creationTime}.
+   * @return il valore del campo {@code creationTime}
    */
   public Instant getCreationTime() {
     return creationTime;
@@ -54,7 +54,7 @@ public class DetectionEntityId implements Serializable {
   /**
    * Getter per il campo {@code characteristicId}.
    *
-   * @return Il valore del campo {@code characteristicId}.
+   * @return il valore del campo {@code characteristicId}
    */
   public Integer getCharacteristicId() {
     return this.characteristicId;
@@ -63,7 +63,7 @@ public class DetectionEntityId implements Serializable {
   /**
    * Getter per il campo {@code deviceId}.
    *
-   * @return Il valore del campo {@code deviceId}.
+   * @return il valore del campo {@code deviceId}
    */
   public Integer getDeviceId() {
     return this.deviceId;
@@ -72,8 +72,8 @@ public class DetectionEntityId implements Serializable {
   /**
    * Compara questo oggetto con un altro oggetto, e restituisce {@code true} se sono uguali.
    *
-   * @param o L'oggetto con cui comparare questo oggetto.
-   * @return {@code true} se sono uguali; {@code false} altrimenti.
+   * @param o l'oggetto con cui comparare questo oggetto
+   * @return {@code true} se sono uguali; {@code false} altrimenti
    */
   @Override
   public boolean equals(Object o) {
@@ -92,7 +92,7 @@ public class DetectionEntityId implements Serializable {
   /**
    * Calcola l'hash di questo oggetto.
    *
-   * @return L'hash di questo oggetto.
+   * @return l'hash di questo oggetto
    */
   @Override
   public int hashCode() {
