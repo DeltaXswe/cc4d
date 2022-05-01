@@ -67,6 +67,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .httpBasic()
         .and()
         .rememberMe()
+        .rememberMeCookieName("PRODULYTICS_RM")
         .key(encoder.getEncoder().encode("produlytics"))
         .userDetailsService(userDetailsAdapter)
         .and()
