@@ -15,7 +15,7 @@ public class AccountEntity {
 	@Column(name = "hashed_password", nullable = false)
 	private String hashedPassword;
 
-	@Column(name = "administratore", nullable = false)
+	@Column(name = "administrator", nullable = false)
 	private Boolean administrator;
 
 	@Column(name = "archived", nullable = false)
