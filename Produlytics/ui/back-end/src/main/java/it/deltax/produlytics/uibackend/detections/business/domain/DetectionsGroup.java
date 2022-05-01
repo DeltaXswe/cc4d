@@ -5,10 +5,10 @@ import java.util.OptionalLong;
 
 /**
  * Record che rappresenta una lista di rilevazioni.
- * Fornisce anche timestamp per ottenere le liste delle rilevazioni più vecchie o più recenti in una nuova richiesta.
+ * Comprende timestamp per ottenere liste rilevazioni più vecchie/recenti in nuova richiesta.
  */
 public record DetectionsGroup(
-	List<Detection> detections,
-	OptionalLong nextOld,
-	long nextNew
+    List<Detection> detections,
+    OptionalLong nextOld,
+    long nextNew
 ) {}

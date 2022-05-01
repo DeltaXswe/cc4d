@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DetectionsConfiguration {
   /**
-   * Crea un'istanza di GetDetectionsUseCase
+   * Crea un'istanza di GetDetectionsUseCase.
    *
    * @param findDetectionsPort la porta per trovare le rilevazioni, da passare al costruttore di
    *     GetDetectionsService

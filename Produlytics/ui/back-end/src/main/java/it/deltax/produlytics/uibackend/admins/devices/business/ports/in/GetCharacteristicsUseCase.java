@@ -4,7 +4,7 @@ import it.deltax.produlytics.uibackend.admins.devices.business.domain.Characteri
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import java.util.List;
 
-/** Interfaccia che rappresenta il caso d'uso di ottenimento di una caratteristica */
+/** Interfaccia che rappresenta il caso d'uso di ottenimento di una caratteristica. */
 public interface GetCharacteristicsUseCase {
   List<Characteristic> getByDevice(int deviceId) throws BusinessException;
 }

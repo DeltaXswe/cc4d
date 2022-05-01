@@ -7,12 +7,12 @@ import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import java.util.Optional;
 
-/** Il service per l'ottenimento degli utenti */
+/** Il service per l'ottenimento degli utenti. */
 public class FindAccountService implements FindAccountUseCase {
   private final FindAccountPort findAccountPort;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param findAccountPort la cercare l'utente
    */
@@ -21,7 +21,7 @@ public class FindAccountService implements FindAccountUseCase {
   }
 
   /**
-   * Cerca l'utente
+   * Cerca l'utente.
    *
    * @return l'utente se lo trova; Optional vuoto, altrimenti
    */

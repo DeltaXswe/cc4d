@@ -5,12 +5,12 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.in.GetDevic
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.GetDevicesPort;
 import java.util.List;
 
-/** Il service per l'ottenimento delle macchine */
+/** Il service per l'ottenimento delle macchine. */
 public class GetDevicesService implements GetDevicesUseCase {
   private final GetDevicesPort getDevicesPort;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param getDevicesPort la porta per ottenere le macchine
    */
@@ -19,7 +19,7 @@ public class GetDevicesService implements GetDevicesUseCase {
   }
 
   /**
-   * Restituisce le macchine
+   * Restituisce le macchine.
    *
    * @return la lista delle macchine
    */

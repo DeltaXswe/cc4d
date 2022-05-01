@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Il controller per le richieste effettuate relative alle macchine */
+/** Il controller per le richieste effettuate relative alle macchine. */
 @RestController
 @RequestMapping("/devices")
 public class DevicesController {
   private final GetUnarchivedDevicesUseCase getUnarchivedDevicesUseCase;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param getUnarchivedDevicesUseCase l'interfaccia per il caso d'uso di ottenimento delle
    *     macchine non archiviate
@@ -24,7 +24,7 @@ public class DevicesController {
   }
 
   /**
-   * Riceve le chiamate all'endpoint REST per l'ottenimento delle macchine non archiviate
+   * Riceve le chiamate all'endpoint REST per l'ottenimento delle macchine non archiviate.
    *
    * @return lo stato HTTP e la lista delle macchine non archiviate, ognuna con id e nome
    */

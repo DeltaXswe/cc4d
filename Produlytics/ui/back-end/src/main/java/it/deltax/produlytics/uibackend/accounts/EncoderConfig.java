@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 public class EncoderConfig {
   /**
-   * Crea un'istanza di BCryptPasswordEncoder
+   * Crea un'istanza di BCryptPasswordEncoder.
    *
    * @return la nuova istanza di BCryptPasswordEncoder
    */

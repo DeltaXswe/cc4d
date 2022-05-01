@@ -5,7 +5,7 @@ import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 
 /**
  * Interfaccia che rappresenta il caso d'uso di ottenimento dei limiti di una caratteristica di una
- * macchina
+ * macchina.
  */
 public interface GetLimitsUseCase {
   CharacteristicLimits getByCharacteristic(int deviceId, int characteristicsId)

@@ -6,7 +6,7 @@ import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 
 /**
  * Interfaccia che rappresenta il caso d'uso di ottenimento delle rilevazioni di una caratteristica
- * di una macchina
+ * di una macchina.
  */
 public interface GetDetectionsUseCase {
   DetectionsGroup listByCharacteristic(int deviceId, int characteristicId, DetectionFilters filters)

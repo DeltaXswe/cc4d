@@ -7,13 +7,13 @@ import it.deltax.produlytics.uibackend.devices.business.ports.out.GetUnarchivedD
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 
-/** Il service per l'ottenimento dei limiti tecnici di una caratteristica non archiviata */
+/** Il service per l'ottenimento dei limiti tecnici di una caratteristica non archiviata. */
 public class GetLimitsService implements GetLimitsUseCase {
   private final GetUnarchivedDevicesPort findDevicesPort;
   private final FindCharacteristicLimitsPort findCharacteristicLimitsPort;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param findDevicesPort la porta per ottenere le macchine non archiviate
    * @param findCharacteristicLimitsPort la porta per ottenere i limiti di una caratteristica
@@ -26,7 +26,7 @@ public class GetLimitsService implements GetLimitsUseCase {
   }
 
   /**
-   * Restituisce i limiti tecnici di un caratteristica non archiviata
+   * Restituisce i limiti tecnici di un caratteristica non archiviata.
    *
    * @param deviceId l'id della macchina
    * @param characteristicId l'id della caratteristica

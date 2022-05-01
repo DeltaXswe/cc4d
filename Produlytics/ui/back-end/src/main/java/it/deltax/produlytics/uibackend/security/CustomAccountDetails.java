@@ -49,7 +49,7 @@ public class CustomAccountDetails implements UserDetails {
       return List.of(ProdulyticsGrantedAuthority.ACCOUNT, ProdulyticsGrantedAuthority.ADMIN);
     } else {
       return List.of(ProdulyticsGrantedAuthority.ACCOUNT);
-      }
+    }
   }
 
   /**

@@ -7,12 +7,12 @@ import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import java.util.List;
 
-/** Il service per l'ottenimento delle caratteristiche di una macchina */
+/** Il service per l'ottenimento delle caratteristiche di una macchina. */
 public class GetCharacteristicsService implements GetCharacteristicsUseCase {
   private final FindAllCharacteristicsPort findCharacteristicsPort;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param findCharacteristicsPort la porta per ottenere la lista delle caratteristiche
    */
@@ -21,7 +21,7 @@ public class GetCharacteristicsService implements GetCharacteristicsUseCase {
   }
 
   /**
-   * Restituisce la lista delle caratteristiche della macchina
+   * Restituisce la lista delle caratteristiche della macchina.
    *
    * @param deviceId l'id della macchina
    * @return la lista delle caratteristiche
@@ -30,8 +30,9 @@ public class GetCharacteristicsService implements GetCharacteristicsUseCase {
   @Override
   public List<Characteristic> getByDevice(int deviceId) throws BusinessException {
     List<Characteristic> characteristics = findCharacteristicsPort.findAllByDeviceId(deviceId);
-    if (characteristics.isEmpty())
+    if (characteristics.isEmpty()) {
       throw new BusinessException("deviceNotFound", ErrorType.NOT_FOUND);
+    }
 
     return characteristics;
   }

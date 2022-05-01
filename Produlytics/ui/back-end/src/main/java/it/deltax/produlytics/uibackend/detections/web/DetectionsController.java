@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Il controller per le richieste relative alle rilevazioni */
+/** Il controller per le richieste relative alle rilevazioni. */
 @RestController
 @RequestMapping("/devices/{deviceId}/characteristics/{characteristicId}/detections")
 public class DetectionsController {
   private final GetDetectionsUseCase getDetectionsUseCase;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param getDetectionsUseCase l'interfaccia per il caso d'uso di ottenimento della lista delle
    *     rilevazioni di una caratteristica
@@ -30,7 +30,7 @@ public class DetectionsController {
 
   /**
    * Riceve le chiamate all'endpoint REST per l'ottenimento delle rilevazioni della caratteristica
-   * non archiviata di una macchina
+   * non archiviata di una macchina.
    *
    * @param deviceId l'id della macchina
    * @param characteristicId l'id della caratteristica
@@ -61,7 +61,9 @@ public class DetectionsController {
       builder = builder.withNewerThan(OptionalLong.of(newerThan));
     }
 
-    if (limit != null) builder = builder.withLimit(OptionalInt.of(limit));
+    if (limit != null) {
+      builder = builder.withLimit(OptionalInt.of(limit));
+    }
 
     return this.getDetectionsUseCase.listByCharacteristic(
         deviceId, characteristicId, builder.build());

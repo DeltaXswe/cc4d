@@ -4,7 +4,7 @@ import it.deltax.produlytics.uibackend.admins.devices.business.domain.DetailedCh
 import java.util.List;
 import java.util.Optional;
 
-/** La porta per l'ottenimento di una caratteristica di una macchina, dato gli identificativi */
+/** La porta per l'ottenimento di una caratteristica di una macchina, dato gli identificativi. */
 public interface FindDetailedCharacteristicPort {
   Optional<DetailedCharacteristic> findByCharacteristic(int deviceId, int characteristicId);
 

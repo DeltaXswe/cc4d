@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.OptionalLong;
 import org.springframework.stereotype.Component;
 
-/** L'adapter dello strato di persistenza per le operazioni riguardanti le rilevazioni */
+/** L'adapter dello strato di persistenza per le operazioni riguardanti le rilevazioni. */
 @Component
 public class DetectionAdapter implements FindAllDetectionsPort {
   private final DetectionRepository repo;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param repo lo strato di persistenza con i dati sulle rilevazioni
    */
@@ -24,7 +24,7 @@ public class DetectionAdapter implements FindAllDetectionsPort {
 
   /**
    * Restituisce la lista di tutte le rilevazioni della caratteristica di una macchina,
-   * eventualmente più vecchie di un istante specificato
+   * eventualmente più vecchie di un istante specificato.
    *
    * @param deviceId l'id della macchina
    * @param characteristicId l'id della caratteristica

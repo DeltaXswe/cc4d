@@ -8,13 +8,13 @@ import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 import java.util.List;
 
-/** Il service per l'ottenimento delle caratteristiche non archiviate di una macchina */
+/** Il service per l'ottenimento delle caratteristiche non archiviate di una macchina. */
 public class GetUnarchivedCharacteristicsService implements GetUnarchivedCharacteristicsUseCase {
   private final GetUnarchivedDevicesPort findDevicesPort;
   private final FindAllUnarchivedCharacteristicsPort findCharacteristicsPort;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param findDevicesPort la porta per ottenere le macchine non archiviate
    * @param findCharacteristicsPort la porta per ottenere tutte le caratteristiche non archiviate di
@@ -28,7 +28,7 @@ public class GetUnarchivedCharacteristicsService implements GetUnarchivedCharact
   }
 
   /**
-   * Restituisce la lista delle caratteristiche non archiviate di una macchina
+   * Restituisce la lista delle caratteristiche non archiviate di una macchina.
    *
    * @param deviceId l'id della macchina
    * @return la lista delle caratteristiche non archiviate

@@ -6,12 +6,12 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindDet
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 
-/** Il service per l'ottenimento dei dettagli di una macchina */
+/** Il service per l'ottenimento dei dettagli di una macchina. */
 public class GetDeviceDetailsService implements GetDeviceDetailsUseCase {
   private final FindDetailedDevicePort findDetailedDevicePort;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param findDetailedDevicePort la porta per trovare una macchina completa di tutte le sue
    *     informazioni
@@ -21,7 +21,7 @@ public class GetDeviceDetailsService implements GetDeviceDetailsUseCase {
   }
 
   /**
-   * Restituisce la macchina con l'id dato
+   * Restituisce la macchina con l'id dato.
    *
    * @param id l'id della macchina da trovare
    * @return la macchina con l'id data, con tutte le sue informazioni

@@ -10,14 +10,14 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertC
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 
-/** Il service per l'insierimento di una nuova caratteristica */
+/** Il service per l'insierimento di una nuova caratteristica. */
 public class InsertCharacteristicService implements InsertCharacteristicUseCase {
   private final InsertCharacteristicPort insertCharacteristicPort;
   private final FindDetailedDevicePort findDevicePort;
   private final FindDetailedCharacteristicPort findCharacteristicPort;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param insertCharacteristicPort la porta per inserire una nuova caratteristica in una macchina
    * @param findDevicePort la porta per trovare una macchina
@@ -33,7 +33,7 @@ public class InsertCharacteristicService implements InsertCharacteristicUseCase 
   }
 
   /**
-   * Inserisce una nuova caratteristica in una macchina
+   * Inserisce una nuova caratteristica in una macchina.
    *
    * @param deviceId l'id della macchina
    * @param characteristic la nuova caratteristica da inserire

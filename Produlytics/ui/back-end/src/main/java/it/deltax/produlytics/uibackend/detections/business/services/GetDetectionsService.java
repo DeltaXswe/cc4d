@@ -14,13 +14,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.OptionalLong;
 
-/** Il service per l'ottenimento della lista di rilevazioni */
+/** Il service per l'ottenimento della lista di rilevazioni. */
 public class GetDetectionsService implements GetDetectionsUseCase {
   private final FindAllDetectionsPort findDetectionsPort;
   private final FindCharacteristicLimitsPort findCharacteristicPort;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param findDetectionsPort la porta per ottenere le rilevazioni
    * @param findCharacteristicPort la porta per ottenere i limiti di una caratteristica
@@ -34,7 +34,7 @@ public class GetDetectionsService implements GetDetectionsUseCase {
 
   /**
    * Restituisce la lista delle rilevazioni trovate della caratteristica non archiviata di una
-   * macchina, applicando i filtri richiesti
+   * macchina, applicando i filtri richiesti.
    *
    * @param deviceId l'id della macchina
    * @param characteristicId l'id della caratteristica
@@ -65,9 +65,10 @@ public class GetDetectionsService implements GetDetectionsUseCase {
               .toList();
     }
 
-    if (detections.isEmpty())
+    if (detections.isEmpty()) {
       return new DetectionsGroup(
           Collections.emptyList(), OptionalLong.empty(), Instant.now().toEpochMilli());
+    }
 
     final long nextNew = detections.get(0).creationTime();
     final OptionalLong nextOld =

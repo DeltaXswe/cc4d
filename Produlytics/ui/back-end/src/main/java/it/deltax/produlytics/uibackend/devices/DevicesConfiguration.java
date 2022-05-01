@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DevicesConfiguration {
   /**
-   * Crea un'istanza di GetLimitsUseCase
+   * Crea un'istanza di GetLimitsUseCase.
    *
    * @param findDevicesPort la porta cercare le macchine, da passare al costruttore di
    *     GetLimitsService
@@ -32,7 +32,7 @@ public class DevicesConfiguration {
   }
 
   /**
-   * Crea un'istanza di GetUnarchivedCharacteristicsUseCase
+   * Crea un'istanza di GetUnarchivedCharacteristicsUseCase.
    *
    * @param findDevicesPort la porta per cercare le macchine, da passare al costruttore di
    *     GetUnarchivedCharacteristicsService
@@ -48,7 +48,7 @@ public class DevicesConfiguration {
   }
 
   /**
-   * Crea un'istanza di GetUnarchivedDevicesUseCase
+   * Crea un'istanza di GetUnarchivedDevicesUseCase.
    *
    * @param getUnarchivedDevicesPort la porta per ottenere le macchine non archiviate, da passare al
    *     costruttore di GetUnarchivedDevicesService

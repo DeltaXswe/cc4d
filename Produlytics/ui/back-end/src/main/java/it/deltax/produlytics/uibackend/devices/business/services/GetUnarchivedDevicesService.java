@@ -5,12 +5,12 @@ import it.deltax.produlytics.uibackend.devices.business.ports.in.GetUnarchivedDe
 import it.deltax.produlytics.uibackend.devices.business.ports.out.GetUnarchivedDevicesPort;
 import java.util.List;
 
-/** Il service per l'ottenimento delle macchine non archiviate */
+/** Il service per l'ottenimento delle macchine non archiviate. */
 public class GetUnarchivedDevicesService implements GetUnarchivedDevicesUseCase {
   private final GetUnarchivedDevicesPort getUnarchivedDevicesPort;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param getUnarchivedDevicesPort la porta per ottenere le macchine non archiviate
    */
@@ -19,7 +19,7 @@ public class GetUnarchivedDevicesService implements GetUnarchivedDevicesUseCase 
   }
 
   /**
-   * Restituisce le macchine non archiviate
+   * Restituisce le macchine non archiviate.
    *
    * @return la lista delle macchine non archiviate, ognuna con id e nome
    */
