@@ -3,7 +3,7 @@ package it.deltax.produlytics.uibackend.accounts.business.services;
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
 import it.deltax.produlytics.uibackend.accounts.business.domain.AccountPasswordToUpdate;
 import it.deltax.produlytics.uibackend.accounts.business.ports.in.UpdateAccountPasswordUseCase;
-import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
+import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountByAdminPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordEncoderPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordMatcherPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.UpdateAccountPasswordPort;
@@ -12,7 +12,7 @@ import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 
 /** Il service per l'aggiornamento della password di un utente. */
 public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCase {
-  private final FindAccountPort findAccountPort;
+  private final FindAccountByAdminPort findAccountPort;
   private final PasswordMatcherPort passwordMatcherPort;
   private final PasswordEncoderPort passwordEncoderPort;
   private final UpdateAccountPasswordPort updateAccountPasswordPort;
@@ -26,7 +26,7 @@ public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCas
    * @param updateAccountPasswordPort la porta per aggiornare la password di un utente
    */
   public UpdateAccountPasswordService(
-      FindAccountPort findAccountPort,
+      FindAccountByAdminPort findAccountPort,
       PasswordMatcherPort passwordMatcherPort,
       PasswordEncoderPort passwordEncoderPort,
       UpdateAccountPasswordPort updateAccountPasswordPort) {

@@ -3,7 +3,7 @@ package it.deltax.produlytics.uibackend.admins.accounts.adapters;
 import it.deltax.produlytics.persistence.AccountEntity;
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
 import it.deltax.produlytics.uibackend.accounts.business.domain.TinyAccount;
-import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
+import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountByAdminPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.GetTinyAccountsPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.InsertAccountPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.UpdateAccountArchiveStatusPort;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 public class AdminAccountAdapter
     implements UpdateAccountArchiveStatusPort,
         UpdateAccountByAdminPort,
-        FindAccountPort,
+        FindAccountByAdminPort,
         InsertAccountPort,
         GetTinyAccountsPort {
   private final AccountRepository repo;

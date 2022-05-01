@@ -85,7 +85,7 @@ public class SecurityTests {
                 .param("remember-me", "true"))
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(cookie().exists("remember-me"));
+        .andExpect(cookie().exists("PRODULYTICS_RM"));
   }
 
   /**

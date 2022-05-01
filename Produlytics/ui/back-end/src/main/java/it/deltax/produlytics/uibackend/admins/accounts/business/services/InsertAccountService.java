@@ -1,7 +1,7 @@
 package it.deltax.produlytics.uibackend.admins.accounts.business.services;
 
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
-import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
+import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountByAdminPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordEncoderPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountToInsert;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.InsertAccountUseCase;
@@ -12,22 +12,22 @@ import java.util.Optional;
 
 /** Il service per l'inserimento di un utente. */
 public class InsertAccountService implements InsertAccountUseCase {
-  private final FindAccountPort findAccountPort;
+  private final FindAccountByAdminPort findAccountByAdminPort;
   private final PasswordEncoderPort passwordEncoderPort;
   private final InsertAccountPort insertAccountPort;
 
   /**
    * Il costruttore.
    *
-   * @param findAccountPort la porta per trovare un utente
+   * @param findAccountByAdminPort la porta per trovare un utente
    * @param passwordEncoderPort la porta per cifrare una password
    * @param insertAccountPort la porta per memorizzare un utente
    */
   public InsertAccountService(
-      FindAccountPort findAccountPort,
+      FindAccountByAdminPort findAccountByAdminPort,
       PasswordEncoderPort passwordEncoderPort,
       InsertAccountPort insertAccountPort) {
-    this.findAccountPort = findAccountPort;
+    this.findAccountByAdminPort = findAccountByAdminPort;
     this.passwordEncoderPort = passwordEncoderPort;
     this.insertAccountPort = insertAccountPort;
   }
@@ -44,7 +44,7 @@ public class InsertAccountService implements InsertAccountUseCase {
       throw new BusinessException("invalidPassword", ErrorType.GENERIC);
     }
 
-    Optional<Account> result = this.findAccountPort.findByUsername(account.username());
+    Optional<Account> result = this.findAccountByAdminPort.findByUsername(account.username());
     if (result.isPresent()) {
       throw new BusinessException("duplicateUsername", ErrorType.GENERIC);
     }

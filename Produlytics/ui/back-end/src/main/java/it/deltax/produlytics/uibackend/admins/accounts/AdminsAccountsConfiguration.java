@@ -1,6 +1,6 @@
 package it.deltax.produlytics.uibackend.admins.accounts;
 
-import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
+import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountByAdminPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordEncoderPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.GetTinyAccountsUseCase;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.InsertAccountUseCase;
@@ -46,7 +46,7 @@ public class AdminsAccountsConfiguration {
    */
   @Bean
   InsertAccountUseCase insertAccountUseCase(
-      @Qualifier("adminAccountAdapter") FindAccountPort findAccountPort,
+      @Qualifier("adminAccountAdapter") FindAccountByAdminPort findAccountPort,
       PasswordEncoderPort passwordEncoderPort,
       InsertAccountPort insertAccountPort) {
     return new InsertAccountService(findAccountPort, passwordEncoderPort, insertAccountPort);
@@ -63,7 +63,7 @@ public class AdminsAccountsConfiguration {
    */
   @Bean
   UpdateAccountArchiveStatusUseCase updateAccountArchiveStatusUseCase(
-      @Qualifier("adminAccountAdapter") FindAccountPort findAccountPort,
+      @Qualifier("adminAccountAdapter") FindAccountByAdminPort findAccountPort,
       UpdateAccountArchiveStatusPort updateAccountArchiveStatusPort) {
     return new UpdateAccountArchiveStatusService(findAccountPort, updateAccountArchiveStatusPort);
   }
@@ -81,7 +81,7 @@ public class AdminsAccountsConfiguration {
    */
   @Bean
   UpdateAccountByAdminUseCase updateAccountByAdminUseCase(
-      @Qualifier("adminAccountAdapter") FindAccountPort findAccountPort,
+      @Qualifier("adminAccountAdapter") FindAccountByAdminPort findAccountPort,
       PasswordEncoderPort passwordEncoderPort,
       UpdateAccountByAdminPort updateAccountByAdminPort) {
     return new UpdateAccountByAdminService(

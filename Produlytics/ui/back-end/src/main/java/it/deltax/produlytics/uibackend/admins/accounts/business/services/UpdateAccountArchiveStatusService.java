@@ -1,7 +1,7 @@
 package it.deltax.produlytics.uibackend.admins.accounts.business.services;
 
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
-import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
+import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountByAdminPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountArchiveStatus;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.UpdateAccountArchiveStatusUseCase;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.UpdateAccountArchiveStatusPort;
@@ -10,20 +10,20 @@ import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 
 /** Il service per l'aggiornamento dello stato di archiviazione di un utente. */
 public class UpdateAccountArchiveStatusService implements UpdateAccountArchiveStatusUseCase {
-  private final FindAccountPort findAccountPort;
+  private final FindAccountByAdminPort findAccountByAdminPort;
   private final UpdateAccountArchiveStatusPort updateAccountArchiveStatusPort;
 
   /**
    * Il costruttore.
    *
-   * @param findAccountPort la porta per cercare un utente
+   * @param findAccountByAdminPort la porta per cercare un utente
    * @param updateAccountArchiveStatusPort la porta per aggiornare lo stato di archiviazione di un
    *     utente
    */
   public UpdateAccountArchiveStatusService(
-      FindAccountPort findAccountPort,
+      FindAccountByAdminPort findAccountByAdminPort,
       UpdateAccountArchiveStatusPort updateAccountArchiveStatusPort) {
-    this.findAccountPort = findAccountPort;
+    this.findAccountByAdminPort = findAccountByAdminPort;
     this.updateAccountArchiveStatusPort = updateAccountArchiveStatusPort;
   }
 
@@ -37,7 +37,7 @@ public class UpdateAccountArchiveStatusService implements UpdateAccountArchiveSt
   public void updateAccountArchiveStatus(AccountArchiveStatus accountArchiveStatus)
       throws BusinessException {
     Account.AccountBuilder toUpdate =
-        this.findAccountPort
+        this.findAccountByAdminPort
             .findByUsername(accountArchiveStatus.username())
             .map(account -> account.toBuilder())
             .orElseThrow(() -> new BusinessException("accountNotFound", ErrorType.NOT_FOUND));

@@ -2,7 +2,7 @@ package it.deltax.produlytics.uibackend.accounts.adapters;
 
 import it.deltax.produlytics.persistence.AccountEntity;
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
-import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
+import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountByAdminPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.UpdateAccountPasswordPort;
 import it.deltax.produlytics.uibackend.repositories.AccountRepository;
 import java.util.Optional;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 /** L'adapter dello strato di persistenza per le operazioni svolte dagli utenti. */
 @Component
-public class AccountAdapter implements FindAccountPort, UpdateAccountPasswordPort {
+public class AccountAdapter implements FindAccountByAdminPort, UpdateAccountPasswordPort {
   private final AccountRepository repo;
 
   /**

@@ -1,7 +1,7 @@
 package it.deltax.produlytics.uibackend.unit;
 
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
-import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
+import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountByAdminPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordEncoderPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountUpdatedByAdmin;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.UpdateAccountByAdminPort;
@@ -87,14 +87,14 @@ public class UpdateAccountByAdminServiceTest {
   }
 
   // CLASSI MOCK
-  static class FindAccountPortMock implements FindAccountPort {
+  static class FindAccountPortMock implements FindAccountByAdminPort {
     @Override
     public Optional<Account> findByUsername(String username) {
       return Optional.of(new Account("user", "passwordvecchia", false, false));
     }
   }
 
-  static class FindAccountNotFoundPortMock implements FindAccountPort {
+  static class FindAccountNotFoundPortMock implements FindAccountByAdminPort {
     @Override
     public Optional<Account> findByUsername(String username) {
       return Optional.empty();
