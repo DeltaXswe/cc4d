@@ -1,0 +1,62 @@
+<div class="deltax-content">
+  <mat-card>
+    <mat-toolbar mat-card-title color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+      <span fxFlex>
+        Gestione utenti
+      </span>
+      <button mat-stroked-button (click)="openNewAccountDialog()">
+        Nuovo utente
+      </button>
+    </mat-toolbar>
+    <mat-card-content>
+      <mat-table [dataSource]="accounts" matSort (matSortChange)="accounts.sortData($event)">
+        <ng-container matColumnDef="username">
+          <mat-header-cell *matHeaderCellDef mat-sort-header="username">
+            Username
+          </mat-header-cell>
+          <mat-cell *matCellDef="let account">
+            {{account.username}}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="admin">
+          <mat-header-cell *matHeaderCellDef fxFlex="104px" mat-sort-header="administrator">
+            Amministratore
+          </mat-header-cell>
+          <mat-cell *matCellDef="let account" fxFlex="104px">
+            <mat-icon *ngIf="account.administrator" class="green-text">
+              done
+            </mat-icon>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="edit">
+          <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
+          <mat-cell *matCellDef="let account" fxFlex="64px">
+            <button mat-icon-button (click)="openEditAccountDialog(account)">
+              <mat-icon>
+                edit
+              </mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
+          <mat-cell *matCellDef="let account" fxFlex="64px">
+            <button mat-icon-button *ngIf="!isLoggedUser(account)" (click)="toggleStatus(account)">
+              <mat-icon [ngClass]="{
+              'red-text': !account.archived
+            }">
+                {{account.archived ? 'restore_from_trash' : 'delete'}}
+              </mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+      </mat-table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>

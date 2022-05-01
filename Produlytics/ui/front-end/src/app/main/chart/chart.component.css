@@ -1,42 +1,54 @@
-#d3svg {
-  margin: 32px auto;
-  width: 1000px;
-  height: 600px;
+.container{
+  height: 530px;
+}
+.y-container{
+  float: left;
+  z-index: -100;
+}
+.chart-container{
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.d3svg{
+  width: 1150px;
+  height: 550px;
+}
+::ng-deep .d3svg line.grid{
+  stroke: lightgrey;
+  stroke-opacity: 0.6;
+  shape-rendering: crispEdges;
+}
+::ng-deep .d3svg title {
+  fill: black;
+  text-anchor: middle;
 }
 
-::ng-deep #d3svg svg {
-  width: 100%;
-  height: 100%;
-}
-
-::ng-deep #d3svg line,
-::ng-deep #d3svg path {
+::ng-deep .d3svg line,
+::ng-deep .d3svg path {
   fill: none;
   stroke-width: 1.5;
 }
 
-::ng-deep #d3svg path.chart-path {
+::ng-deep .d3svg path.chart-path {
   stroke: #69b3a2;
 }
 
-/* TODO: Scegli colori migliori */
-::ng-deep #d3svg line.line-media {
+::ng-deep .d3svg line.line-media {
   stroke: green;
 }
 
-::ng-deep #d3svg line.line-limite {
+::ng-deep .d3svg line.line-limite {
   stroke: red;
 }
 
-/* TODO: Decidi se è ok */
-::ng-deep #d3svg circle {
+::ng-deep .d3svg circle {
   r: 0.3em;
 }
 
-::ng-deep #d3svg circle.circle-normal {
+::ng-deep .d3svg circle.circle-normal {
   fill: #69b3a2;
 }
 
-::ng-deep #d3svg circle.circle-anomalo {
+::ng-deep .d3svg circle.circle-anomalo {
   fill: red
 }

@@ -1,0 +1,39 @@
+<form [formGroup]="formGroup" fxLayout="column" fxLayoutAlign="start stretch">
+  <mat-form-field *ngIf="formGroup.get('name') as field" appearance="outline" floatLabel="always">
+    <mat-label>
+      Nome
+    </mat-label>
+    <input matInput formControlName="name" name="characteristic-name" />
+    <mat-error *ngIf="field.hasError('required')">
+      Il campo è richiesto
+    </mat-error>
+    <mat-error *ngIf="field.hasError('duplicateCharacteristicName')">
+      Esiste già una caratteristica con questo nome
+    </mat-error>
+  </mat-form-field>
+  <mat-checkbox formControlName="autoAdjust">
+    Calcolo automatico dei limiti
+  </mat-checkbox>
+  <mat-form-field *ngIf="formGroup.get('autoAdjust')?.value" appearance="outline" floatLabel="always">
+    <mat-label>
+      Dimensione del campione per il calcolo automatico
+    </mat-label>
+    <input matInput formControlName="sampleSize" name="sample-size" type="number" />
+  </mat-form-field>
+  <div *ngIf="!formGroup.get('autoAdjust')?.value" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px">
+    <mat-form-field fxFlex="50" appearance="outline" floatLabel="always">
+      <mat-label>
+        Limite inferiore
+      </mat-label>
+      <input matInput formControlName="lowerLimit" name="lower-limit" type="number" />
+      <mat-error>Il campo è richiesto</mat-error>
+    </mat-form-field>
+    <mat-form-field fxFlex="50" appearance="outline" floatLabel="always">
+      <mat-label>
+        Limite superiore
+      </mat-label>
+      <input matInput formControlName="upperLimit" name="upper-limit" type="number" />
+      <mat-error>Il campo è richiesto</mat-error>
+    </mat-form-field>
+  </div>
+</form>

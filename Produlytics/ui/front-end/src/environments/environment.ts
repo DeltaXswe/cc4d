@@ -3,12 +3,27 @@
 // The list of file replacements can be found in `angular.json`.
 
 import {ProdulyticsEnvironment} from "./produlytics-environment";
-import {FakeChartService} from "../app/model/fake-chart.service";
+import {FakeChartService} from "../app/test/chart/fake-chart.service";
+import {FakeDeviceService} from "../app/test/device/fake-device.service";
+import {FakeAccountService} from "../app/test/account/fake-account.service";
+import {FakeUnarchivedService} from "../app/test/unarchived/fake-unarchived.service";
 
 export const environment: ProdulyticsEnvironment = {
   production: false,
   apiUrl: 'http://localhost/apiweb',
-  chartAbstractService: FakeChartService
+  chartService: FakeChartService,
+  unarchivedDeviceService: FakeUnarchivedService,
+  unarchivedCharacteristicService: FakeUnarchivedService,
+  deviceService: FakeDeviceService,
+  accountService: FakeAccountService,
+  saveAccountService: FakeAccountService,
+  newDeviceService: FakeDeviceService,
+  findDeviceService: FakeDeviceService,
+  characteristicService: FakeDeviceService,
+  loginService: FakeAccountService,
+  updateDeviceService: FakeDeviceService,
+  modifyPwService: FakeAccountService,
+  updateCharacteristicService: FakeDeviceService
 };
 
 /*

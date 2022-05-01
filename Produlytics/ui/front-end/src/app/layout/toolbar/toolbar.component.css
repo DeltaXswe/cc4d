@@ -1,0 +1,29 @@
+/*Da completare*/
+#produlytics{
+   font-size: 150%;
+}
+
+#username{
+   font-size: 130%;
+}
+.mat-toolbar{
+ height: 70px;
+}
+
+#home{
+   font-size: 90%;
+   margin-right: 3px;
+}
+#user{
+   margin-right: 6px;
+}
+
+a{
+   text-decoration: none;
+   font-size: 110%;
+   white-space: normal;
+}
+
+.example-icon {
+   padding: 0 14px;
+ }

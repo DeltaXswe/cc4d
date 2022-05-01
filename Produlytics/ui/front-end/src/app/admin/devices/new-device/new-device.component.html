@@ -1,0 +1,56 @@
+<div class="deltax-content">
+  <mat-card>
+    <mat-toolbar mat-card-title color="primary" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="8px">
+      <a mat-icon-button routerLink="/gestione-macchine" matTooltip="Torna all'elenco">
+        <mat-icon>
+          arrow_back
+        </mat-icon>
+      </a>
+      <span fxFlex>
+        Nuova macchina
+      </span>
+      <button mat-raised-button [disabled]="formGroup.invalid || formGroup.pristine || characteristics.length === 0" (click)="insertDevice()">
+        Conferma dati
+      </button>
+    </mat-toolbar>
+    <mat-card-content>
+      <form [formGroup]="formGroup">
+        <mat-form-field *ngIf="formGroup.get('name') as field" appearance="outline" floatLabel="always">
+          <mat-label>
+            Nome
+          </mat-label>
+          <input matInput formControlName="name" name="name" />
+          <mat-error *ngIf="field.hasError('required')">
+            Il campo è richiesto
+          </mat-error>
+          <mat-error *ngIf="field.hasError('duplicateDeviceName')">
+            Esiste già una macchina con questo nome
+          </mat-error>
+        </mat-form-field>
+      </form>
+      <mat-divider></mat-divider>
+      <mat-card-subtitle style="margin-top: 8px" fxLayout="row" fxLayoutAlign="space-between center">
+        <span>
+          Caratteristiche
+        </span>
+        <button mat-stroked-button color="accent" (click)="openNewCharacteristicDialog()">
+          Nuova caratteristica
+        </button>
+      </mat-card-subtitle>
+      <!-- TODO da rifare -->
+      <mat-list disableRipple>
+        <mat-list-item *ngFor="let characteristic of characteristics">
+          <span>{{characteristic.name}}</span>
+          <mat-divider vertical></mat-divider>
+          <span *ngIf="characteristic.autoAdjust" class="green-text">
+            Calcolo automatico abilitato sugli ultimi {{characteristic.sampleSize}} campioni
+          </span>
+          <span *ngIf="!characteristic.autoAdjust">
+            Limiti: [{{characteristic.lowerLimit}}, {{characteristic.upperLimit}}]
+          </span>
+        </mat-list-item>
+      </mat-list>
+      <em *ngIf="characteristics.length === 0">Bisogna inserire almeno una caratteristica</em>
+    </mat-card-content>
+  </mat-card>
+</div>
