@@ -5,12 +5,12 @@ import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.GetTiny
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.GetTinyAccountsPort;
 import java.util.List;
 
-/** Il service per l'ottenimento degli utenti con le informazioni essenziali */
+/** Il service per l'ottenimento degli utenti con le informazioni essenziali. */
 public class GetTinyAccountsService implements GetTinyAccountsUseCase {
   private final GetTinyAccountsPort getTinyAccountsPort;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param getTinyAccountsPort la porta per ottenere gli utenti con le informazioni essenziali
    */
@@ -19,7 +19,7 @@ public class GetTinyAccountsService implements GetTinyAccountsUseCase {
   }
 
   /**
-   * Restituisce gli utenti con le informazioni essenziali
+   * Restituisce gli utenti con le informazioni essenziali.
    *
    * @return la lista degli utenti con le informazioni essenziali
    */

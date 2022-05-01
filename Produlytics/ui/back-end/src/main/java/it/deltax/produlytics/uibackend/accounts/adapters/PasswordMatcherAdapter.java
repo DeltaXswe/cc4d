@@ -4,13 +4,13 @@ import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordMatch
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-/** L'adapter della classe BCryptPasswordEncoder per confrontare due password */
+/** L'adapter della classe BCryptPasswordEncoder per confrontare due password. */
 @Component
 public class PasswordMatcherAdapter implements PasswordMatcherPort {
   private final BCryptPasswordEncoder encoderConfig;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param encoderConfig il confrontatore di due password
    */
@@ -19,7 +19,7 @@ public class PasswordMatcherAdapter implements PasswordMatcherPort {
   }
 
   /**
-   * Stabilisce se due password, una in chiaro e una cifrata, sono uguali
+   * Stabilisce se due password, una in chiaro e una cifrata, sono uguali.
    *
    * @param rawPassword la password in chiaro
    * @param hashedPassword la password cifrata

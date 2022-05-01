@@ -10,7 +10,7 @@ import it.deltax.produlytics.uibackend.accounts.business.ports.out.UpdateAccount
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 
-/** Il service per l'aggiornamento della password di un utente */
+/** Il service per l'aggiornamento della password di un utente. */
 public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCase {
   private final FindAccountPort findAccountPort;
   private final PasswordMatcherPort passwordMatcherPort;
@@ -18,7 +18,7 @@ public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCas
   private final UpdateAccountPasswordPort updateAccountPasswordPort;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param findAccountPort la porta per cercare un utente
    * @param passwordMatcherPort la porta per confrontare una password in chiaro con una cifrata
@@ -37,7 +37,7 @@ public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCas
   }
 
   /**
-   * Aggiorna la password dell'utente dato
+   * Aggiorna la password dell'utente dato.
    *
    * @param accountToUpdate l'utente con username, password nuova e corrente
    * @throws BusinessException se la password non è valida o l'utente da aggiornare non è stato

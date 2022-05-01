@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
-/** Configurazione di Spring Security */
+/** Configurazione di Spring Security. */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -19,7 +19,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   private final EncoderConfig encoder;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param userDetailsAdapter il service per verificare che l'utente esista
    * @param encoder il cifratore
@@ -30,7 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   }
 
   /**
-   * Crea un'istanza di AuthenticationProvider
+   * Crea un'istanza di AuthenticationProvider.
    *
    * @param findAccountUseCase interfaccia rappresentante il caso d'uso per la ricerca di un utente,
    *     da passare al costruttore di UserDetailsAdapter
@@ -47,10 +47,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   }
 
   /**
-   * Configura Spring Security
+   * Configura Spring Security.
    *
    * @param http la configurazione per richieste http
-   * @throws Exception
+   * @throws Exception TODO
    */
   @Override
   protected void configure(HttpSecurity http) throws Exception {

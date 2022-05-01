@@ -9,14 +9,14 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
 
-/** L'adapter dello strato di persistenza per le operazioni riguardanti le caratteristiche */
+/** L'adapter dello strato di persistenza per le operazioni riguardanti le caratteristiche. */
 @Component
 public class UnarchivedCharacteristicAdapter
     implements FindAllUnarchivedCharacteristicsPort, FindCharacteristicLimitsPort {
   private final CharacteristicRepository repo;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param repo lo strato di persistenza con i dati sulle caratteristiche
    */
@@ -25,7 +25,7 @@ public class UnarchivedCharacteristicAdapter
   }
 
   /**
-   * Restituisce la lista di tutte le caratteristiche non archiviate di una macchina
+   * Restituisce la lista di tutte le caratteristiche non archiviate di una macchina.
    *
    * @param deviceId l'id della macchina
    * @return la lista di tutte le caratteristiche non archiviate
@@ -41,7 +41,7 @@ public class UnarchivedCharacteristicAdapter
   }
 
   /**
-   * Restituisce i limiti tecnci della caratteristica non archiviata di una macchina
+   * Restituisce i limiti tecnci della caratteristica non archiviata di una macchina.
    *
    * @param deviceId l'id della macchina
    * @param characteristicId l'id della caratteristica

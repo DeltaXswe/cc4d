@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Interfaccia che rappresenta il caso d'uso di ottenimento delle caratteristiche non archiviate di
- * una macchina
+ * una macchina.
  */
 public interface GetUnarchivedCharacteristicsUseCase {
   List<TinyCharacteristic> getByDevice(int deviceId) throws BusinessException;
