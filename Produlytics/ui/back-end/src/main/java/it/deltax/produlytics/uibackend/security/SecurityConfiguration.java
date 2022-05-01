@@ -50,7 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
    * Configura Spring Security.
    *
    * @param http la configurazione per richieste http
-   * @throws Exception TODO
+   * @throws Exception l'eccezione lanciata da HttpSecurity.authorizeRequests
    */
   @Override
   protected void configure(HttpSecurity http) throws Exception {

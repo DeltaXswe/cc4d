@@ -119,22 +119,4 @@ public class AccountTests {
         .andExpect(content().string("{\"errorCode\":\"wrongCurrentPassword\"}"));
     ;
   }
-
-  /*TODO
-  /**
-   * Testa il caso in cui l'aggiornamento della password vada a buon fine
-   * @throws Exception la nuova password non è valida o la corrente è sbagliata
-
-
-  @Test
-  public void testUpdatePasswordEmpty() throws Exception {
-  	this.accountRepository.findById("utente1").get().getHashedPassword();
-
-  	this.mockMvc.perform(put("/accounts/utente1/password")
-  			.contentType(MediaType.APPLICATION_JSON)
-  			.characterEncoding("utf-8"))
-  			.andDo(print())
-  			.andExpect(status().isNoContent());
-  }
-  */
 }
