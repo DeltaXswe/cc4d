@@ -5,7 +5,7 @@ import java.util.Optional;
 
 /**
  * La porta per l'ottenimento di una macchina con le informazioni essenziali, dato il suo
- * identificativo
+ * identificativo.
  */
 public interface FindTinyDevicePort {
   Optional<TinyDevice> findTinyDevice(int deviceId);
