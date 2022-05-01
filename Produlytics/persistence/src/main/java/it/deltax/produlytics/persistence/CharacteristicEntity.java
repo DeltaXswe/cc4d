@@ -1,107 +1,204 @@
 package it.deltax.produlytics.persistence;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
 
+/**
+ * Questa classe rappresenta una caratteristica salvata nella banca dati.
+ */
 @Entity
 @Table(name = "characteristic")
 @IdClass(CharacteristicEntityId.class)
 public class CharacteristicEntity {
-	@GeneratedValue(strategy = GenerationType.TABLE)
-	@Column(name = "id", nullable = false)
-	@Id
-	private Integer id;
+  /**
+   * L'identificativo della caratteristica all'interno della macchina.
+   */
+  @GeneratedValue(strategy = GenerationType.TABLE)
+  @Column(name = "id", nullable = false)
+  @Id
+  private Integer id;
 
-	@Column(name = "device_id", nullable = false)
-	@Id
-	private Integer deviceId;
+  /**
+   * L'identificativo della macchina a cui la caratteristica appartiene.
+   */
+  @Column(name = "device_id", nullable = false)
+  @Id
+  private Integer deviceId;
 
-	@Column(name = "name", nullable = false)
-	private String name;
+  /**
+   * Il nome della caratteristica.
+   */
+  @Column(name = "name", nullable = false)
+  private String name;
 
-	@Column(name = "upper_limit", nullable = true)
-	private Double upperLimit;
+  /**
+   * Il limite tecnico superiore.
+   */
+  @Column(name = "upper_limit", nullable = true)
+  private Double upperLimit;
 
-	@Column(name = "lower_limit", nullable = true)
-	private Double lowerLimit;
+  /**
+   * Il limite tecnico inferiore.
+   */
+  @Column(name = "lower_limit", nullable = true)
+  private Double lowerLimit;
 
-	@Column(name = "auto_adjust", nullable = false)
-	private Boolean autoAdjust;
+  /**
+   * {@code true} se l'autoadjust è attivo; {@code false} altrimenti.
+   */
+  @Column(name = "auto_adjust", nullable = false)
+  private Boolean autoAdjust;
 
-	@Column(name = "sample_size", nullable = true)
-	private Integer sampleSize;
+  /**
+   * La grandezza del campione necessario a calcolare la media e la varianza.
+   */
+  @Column(name = "sample_size", nullable = true)
+  private Integer sampleSize;
 
-	@Column(name = "archived", nullable = false)
-	private Boolean archived;
+  /**
+   * Lo stato di archiviazione della caratteristica.
+   */
+  @Column(name = "archived", nullable = false)
+  private Boolean archived;
 
-	protected CharacteristicEntity() {}
+  /**
+   * Costruttore senza argomenti per JPA.
+   */
+  protected CharacteristicEntity() {}
 
-	public CharacteristicEntity(
-		Integer id,
-		Integer deviceId,
-		String name,
-		Double upperLimit,
-		Double lowerLimit,
-		Boolean autoAdjust,
-		Integer sampleSize,
-		Boolean archived
-	) {
-		this.id = id;
-		this.deviceId = deviceId;
-		this.name = name;
-		this.upperLimit = upperLimit;
-		this.lowerLimit = lowerLimit;
-		this.autoAdjust = autoAdjust;
-		this.sampleSize = sampleSize;
-		this.archived = archived;
-	}
+  /**
+   * Crea una nuova istanza di {@code CharacteristicEntity}.
+   *
+   * @param id il valore per il campo {@code id}
+   * @param deviceId il valore per il campo {@code deviceId}
+   * @param name il valore per il campo {@code name}
+   * @param upperLimit il valore per il campo {@code upperLimit}
+   * @param lowerLimit il valore per il campo {@code lowerLimit}
+   * @param autoAdjust il valore per il campo {@code autoAdjust}
+   * @param sampleSize il valore per il campo {@code sampleSize}
+   * @param archived il valore per il campo {@code archived}
+   */
+  public CharacteristicEntity(
+      Integer id,
+      Integer deviceId,
+      String name,
+      Double upperLimit,
+      Double lowerLimit,
+      Boolean autoAdjust,
+      Integer sampleSize,
+      Boolean archived) {
+    this.id = id;
+    this.deviceId = deviceId;
+    this.name = name;
+    this.upperLimit = upperLimit;
+    this.lowerLimit = lowerLimit;
+    this.autoAdjust = autoAdjust;
+    this.sampleSize = sampleSize;
+    this.archived = archived;
+  }
 
-	public CharacteristicEntity(
-		Integer deviceId,
-		String name,
-		Double upperLimit,
-		Double lowerLimit,
-		Boolean autoAdjust,
-		Integer sampleSize,
-		Boolean archived
-	) {
-		this.deviceId = deviceId;
-		this.name = name;
-		this.upperLimit = upperLimit;
-		this.lowerLimit = lowerLimit;
-		this.autoAdjust = autoAdjust;
-		this.sampleSize = sampleSize;
-		this.archived = archived;
-	}
+  /**
+   * Questo costruttore crea una caratteristica senza il campo {@code id}.
+   *
+   * @param deviceId il valore per il campo {@code deviceId}
+   * @param name il valore per il campo {@code name}
+   * @param upperLimit il valore per il campo {@code upperLimit}
+   * @param lowerLimit il valore per il campo {@code lowerLimit}
+   * @param autoAdjust il valore per il campo {@code autoAdjust}
+   * @param sampleSize il valore per il campo {@code sampleSize}
+   * @param archived il valore per il campo {@code archived}
+   */
+  public CharacteristicEntity(
+      Integer deviceId,
+      String name,
+      Double upperLimit,
+      Double lowerLimit,
+      Boolean autoAdjust,
+      Integer sampleSize,
+      Boolean archived) {
+    this.deviceId = deviceId;
+    this.name = name;
+    this.upperLimit = upperLimit;
+    this.lowerLimit = lowerLimit;
+    this.autoAdjust = autoAdjust;
+    this.sampleSize = sampleSize;
+    this.archived = archived;
+  }
 
-	public Integer getId() {
-		return this.id;
-	}
+  /**
+   * Getter per il campo {@code id}.
+   *
+   * @return il valore del campo {@code id}
+   */
+  public Integer getId() {
+    return this.id;
+  }
 
-	public Integer getDeviceId() {
-		return this.deviceId;
-	}
+  /**
+   * Getter per il campo {@code deviceId}.
+   *
+   * @return il valore del campo {@code deviceId}
+   */
+  public Integer getDeviceId() {
+    return this.deviceId;
+  }
 
-	public String getName() {
-		return this.name;
-	}
+  /**
+   * Getter per il campo {@code name}.
+   *
+   * @return il valore del campo {@code name}
+   */
+  public String getName() {
+    return this.name;
+  }
 
-	public Double getUpperLimit() {
-		return this.upperLimit;
-	}
+  /**
+   * Getter per il campo {@code upperLimit}.
+   *
+   * @return il valore del campo {@code upperLimit}
+   */
+  public Double getUpperLimit() {
+    return this.upperLimit;
+  }
 
-	public Double getLowerLimit() {
-		return this.lowerLimit;
-	}
+  /**
+   * Getter per il campo {@code lowerLimit}.
+   *
+   * @return il valore del campo {@code lowerLimit}
+   */
+  public Double getLowerLimit() {
+    return this.lowerLimit;
+  }
 
-	public Boolean getAutoAdjust() {
-		return this.autoAdjust;
-	}
+  /**
+   * Getter per il campo {@code autoAdjust}.
+   *
+   * @return il valore del campo {@code autoAdjust}
+   */
+  public Boolean getAutoAdjust() {
+    return this.autoAdjust;
+  }
 
-	public Integer getSampleSize() {
-		return this.sampleSize;
-	}
+  /**
+   * Getter per il campo {@code sampleSize}.
+   *
+   * @return il valore del campo {@code sampleSize}
+   */
+  public Integer getSampleSize() {
+    return this.sampleSize;
+  }
 
-	public Boolean getArchived() {
-		return this.archived;
-	}
+  /**
+   * Getter per il campo {@code archived}.
+   *
+   * @return il valore del campo {@code archived}
+   */
+  public Boolean getArchived() {
+    return this.archived;
+  }
 }
