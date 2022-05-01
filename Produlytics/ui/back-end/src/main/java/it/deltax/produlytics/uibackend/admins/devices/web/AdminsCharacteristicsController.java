@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Il controller per le richieste effettuate dagli amministratori, relative alle caratteristiche */
+/** Il controller per le richieste effettuate da amministratori, relative alle caratteristiche. */
 @RestController
 @RequestMapping("/admin/devices/{deviceId}/characteristics")
 public class AdminsCharacteristicsController {
@@ -34,7 +34,7 @@ public class AdminsCharacteristicsController {
   private final UpdateCharacteristicUseCase updateCharacteristicUseCase;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param insertCharacteristicUseCase l'interfaccia per il caso d'uso d'inserimento di una
    *     caratteristica
@@ -58,7 +58,7 @@ public class AdminsCharacteristicsController {
 
   /**
    * Riceve le chiamate all'endpoint REST per l'inserimento di una nuova caratteristica nella
-   * macchina specificata
+   * macchina specificata.
    *
    * @param deviceId l'id della macchina
    * @param characteristic le informazioni della nuova caratteristica
@@ -75,7 +75,7 @@ public class AdminsCharacteristicsController {
 
   /**
    * Riceve le chiamate all'endpoint REST per l'ottenimento di tutte le caratteristiche di una
-   * macchina
+   * macchina.
    *
    * @param deviceId l'id della macchina
    * @return la lista delle caratteristiche della macchina
@@ -89,7 +89,7 @@ public class AdminsCharacteristicsController {
 
   /**
    * Riceve le chiamate all'endpoint REST per la modifica dello stato di archiviazione della
-   * caratteristica di una macchina
+   * caratteristica di una macchina.
    *
    * @param deviceId l'id della macchina
    * @param characteristicId l'id della caratteristica da modificare
@@ -111,7 +111,7 @@ public class AdminsCharacteristicsController {
 
   /**
    * Riceve le chiamate all'endpoint REST per la modifica delle informazioni della caratteristica di
-   * una macchina
+   * una macchina.
    *
    * @param deviceId l'id della macchina
    * @param characteristicId l'id della caratteristica

@@ -1,13 +1,13 @@
 package it.deltax.produlytics.uibackend.exceptions;
 
-/** Contiene un errore gestibile lanciato dalla parte di business */
+/** Contiene un errore gestibile lanciato dalla parte di business. */
 public class BusinessException extends Exception {
   private final String code;
 
   private final ErrorType type;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param code il messaggio di errore
    * @param type il tipo di errore, utile per poi decidere il codice di stato HTTP
@@ -18,7 +18,7 @@ public class BusinessException extends Exception {
   }
 
   /**
-   * Getter del codice di errore
+   * Getter del codice di errore.
    *
    * @return il codice di errore dell'eccezione
    */
@@ -27,7 +27,7 @@ public class BusinessException extends Exception {
   }
 
   /**
-   * Getter del tipo di errore
+   * Getter del tipo di errore.
    *
    * @return il tipo di errore dell'eccezione
    */

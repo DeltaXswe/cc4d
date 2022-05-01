@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Il controller per le richieste effettuate relative alle caratteristiche non archiviate di una
- * macchina non archiviata
+ * macchina non archiviata.
  */
 @RestController
 @RequestMapping("/devices/{deviceId}/characteristics")
@@ -23,7 +23,7 @@ public class CharacteristicsController {
   private final GetLimitsUseCase getLimitsUseCase;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param getUnarchivedCharacteristicsUseCase l'interfaccia per il caso d'uso di ottenimento delle
    *     caratteristiche non archiviate
@@ -39,7 +39,7 @@ public class CharacteristicsController {
 
   /**
    * Riceve le chiamate all'endpoint REST per l'ottenimento delle caratteristiche non archiviate di
-   * una macchina non archiviata
+   * una macchina non archiviata.
    *
    * @param deviceId l'id della macchina
    * @return la lista delle caratteristiche non archiviate trovate
@@ -53,7 +53,7 @@ public class CharacteristicsController {
 
   /**
    * Riceve le chiamate all'endpoint REST per l'ottenimento dei limiti di una caratteristica non
-   * archiviata
+   * archiviata.
    *
    * @param deviceId l'id della macchina
    * @param characteristicId l'id della caratteristica

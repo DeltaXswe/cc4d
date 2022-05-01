@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * L'adapter dello strato di persistenza per le operazioni svolte dagli amministratori sulle
- * macchine
+ * macchine.
  */
 @Component
 public class AdminDeviceAdapter
@@ -36,7 +36,7 @@ public class AdminDeviceAdapter
   private final DeviceRepository repo;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param repo lo strato di persistenza con i dati sulle macchine
    */
@@ -45,7 +45,7 @@ public class AdminDeviceAdapter
   }
 
   /**
-   * Restituisce la lista delle macchine memorizzate nello strato di persistenza
+   * Restituisce la lista delle macchine memorizzate nello strato di persistenza.
    *
    * @return la lista delle macchine
    */
@@ -63,7 +63,7 @@ public class AdminDeviceAdapter
   }
 
   /**
-   * Trova nello strato di persistenza una macchina, dato il suo id
+   * Trova nello strato di persistenza una macchina, dato il suo id.
    *
    * @param deviceId l'id della macchina da trovare
    * @return la macchina, se trovata, con id e nome; Optional vuoto, altrimenti
@@ -76,7 +76,7 @@ public class AdminDeviceAdapter
   }
 
   /**
-   * Trova nello strato di persistenza una macchina, dato il suo nome
+   * Trova nello strato di persistenza una macchina, dato il suo nome.
    *
    * @param name il nome della macchina da trovare
    * @return la macchina, se trovata, con id e nome; Optional vuoto, altrimenti
@@ -89,7 +89,7 @@ public class AdminDeviceAdapter
   }
 
   /**
-   * Trova nello strato di persistenza una macchina, dato il suo id
+   * Trova nello strato di persistenza una macchina, dato il suo id.
    *
    * @param deviceId l'id della macchina da trovare
    * @return la macchina, se trovata, con id, nome, stato di archiviazione, stato di attivazione e
@@ -110,7 +110,7 @@ public class AdminDeviceAdapter
   }
 
   /**
-   * Aggiorna lo stato di archiviazione della macchina data nello strato di persistenza
+   * Aggiorna lo stato di archiviazione della macchina data nello strato di persistenza.
    *
    * @param device la macchina con lo stato di archiviazione aggiornato da memorizzare
    */
@@ -121,7 +121,7 @@ public class AdminDeviceAdapter
   }
 
   /**
-   * Aggiorna lo stato di attivazione della macchina data nello strato di persistenza
+   * Aggiorna lo stato di attivazione della macchina data nello strato di persistenza.
    *
    * @param device la macchina con lo stato di attivazione aggiornato da memorizzare
    */
@@ -132,7 +132,7 @@ public class AdminDeviceAdapter
   }
 
   /**
-   * Aggiorna il nome della macchina data nello strato di persistenza
+   * Aggiorna il nome della macchina data nello strato di persistenza.
    *
    * @param device la macchina con il nome aggiornato da memorizzare
    */
@@ -143,7 +143,7 @@ public class AdminDeviceAdapter
   }
 
   /**
-   * Inserisce una macchina nello strato di persistenza
+   * Inserisce una macchina nello strato di persistenza.
    *
    * @param device la macchina da memorizzare
    */

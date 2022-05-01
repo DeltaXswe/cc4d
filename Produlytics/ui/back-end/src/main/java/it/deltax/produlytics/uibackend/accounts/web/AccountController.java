@@ -5,22 +5,22 @@ import it.deltax.produlytics.uibackend.accounts.business.domain.AccountPasswordT
 import it.deltax.produlytics.uibackend.accounts.business.ports.in.UpdateAccountPasswordUseCase;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
-/** Il controller per le richieste effettuate dagli utenti */
+/** Il controller per le richieste effettuate dagli utenti. */
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
   @Autowired private final UpdateAccountPasswordUseCase updateAccountPasswordUseCase;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param updateAccountPasswordUseCase l'interfaccia per il caso d'uso di aggiornamento password
    */
@@ -29,7 +29,7 @@ public class AccountController {
   }
 
   /**
-   * Riceve le chiamate all'endpoint REST per l'aggiornamento della password di un utente
+   * Riceve le chiamate all'endpoint REST per l'aggiornamento della password di un utente.
    *
    * @param username l'username dell'utente che vuole aggiornare la password
    * @param body il corpo della richiesta HTTP

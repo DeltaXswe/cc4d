@@ -15,7 +15,7 @@ import java.util.stream.StreamSupport;
 import org.springframework.stereotype.Component;
 
 /**
- * L'adapter dello strato di persistenza per le operazioni svolte dagli amministratori sugli utenti
+ * L'adapter dello strato di persistenza per le operazioni svolte dagli amministratori sugli utenti.
  */
 @Component
 public class AdminAccountAdapter
@@ -27,7 +27,7 @@ public class AdminAccountAdapter
   private final AccountRepository repo;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param repo lo strato di persistenza con i dati sugli utenti
    */
@@ -36,7 +36,7 @@ public class AdminAccountAdapter
   }
 
   /**
-   * Aggiorna lo stato di archiviazione dell'utente dato nello strato di persistenza
+   * Aggiorna lo stato di archiviazione dell'utente dato nello strato di persistenza.
    *
    * @param account l'utente con lo stato di archiviazione aggiornato da memorizzare
    */
@@ -51,7 +51,7 @@ public class AdminAccountAdapter
   }
 
   /**
-   * Trova nello strato di persistenza un utente, dato il suo username
+   * Trova nello strato di persistenza un utente, dato il suo username.
    *
    * @param username l'username dell'utente da trovare
    * @return l'utente, se trovato; Optional vuoto, altrimenti
@@ -70,7 +70,7 @@ public class AdminAccountAdapter
   }
 
   /**
-   * Aggiorna un utente nello strato di persistenza
+   * Aggiorna un utente nello strato di persistenza.
    *
    * @param account l'utente da memorizzare con la password aggiornata
    */
@@ -85,7 +85,7 @@ public class AdminAccountAdapter
   }
 
   /**
-   * Inserisce un utente nello strato di persistenza
+   * Inserisce un utente nello strato di persistenza.
    *
    * @param account l'utente da inserire
    */
@@ -100,7 +100,7 @@ public class AdminAccountAdapter
   }
 
   /**
-   * Restituisce la lista di tutti gli utenti presenti nello strato di persistenza
+   * Restituisce la lista di tutti gli utenti presenti nello strato di persistenza.
    *
    * @return la lista degli utenti, ciascuno con username, permessi e stato di archiviazione
    */

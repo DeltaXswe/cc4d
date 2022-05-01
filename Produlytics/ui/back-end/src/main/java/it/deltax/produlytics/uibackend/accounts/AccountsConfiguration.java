@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AccountsConfiguration {
   /**
-   * Crea un'istanza di FindAccountUseCase
+   * Crea un'istanza di FindAccountUseCase.
    *
    * @param findAccountPort la porta per cercare un utente, da passare al costruttore di
    *     FindAccountService
@@ -29,7 +29,7 @@ public class AccountsConfiguration {
   }
 
   /**
-   * Crea un'istanza di UpdateAccountPasswordUseCase
+   * Crea un'istanza di UpdateAccountPasswordUseCase.
    *
    * @param findAccountPort la porta per cercare un utente, da passare al costruttore di
    *     UpdateAccountPasswordService

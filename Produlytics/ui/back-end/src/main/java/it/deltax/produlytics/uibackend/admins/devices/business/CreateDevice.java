@@ -4,12 +4,12 @@ import it.deltax.produlytics.uibackend.admins.devices.business.domain.NewDevice;
 import java.util.Random;
 import org.springframework.stereotype.Component;
 
-/** Classe per la creazione di una nuova macchina */
+/** Classe per la creazione di una nuova macchina. */
 @Component
 public class CreateDevice {
 
   /**
-   * Genere una chiave randomica lunga 32 caratteri alfanumerici per l'API
+   * Genere una chiave randomica lunga 32 caratteri alfanumerici per l'API.
    *
    * @return la chiave alfanumerica
    */
@@ -31,7 +31,7 @@ public class CreateDevice {
   }
 
   /**
-   * Crea una nuova macchina con il nome dato
+   * Crea una nuova macchina con il nome dato.
    *
    * @param name il nome della nuova macchina
    * @return una nuova macchina con nome dato, attivata, non archiviata e con chiave dell'API

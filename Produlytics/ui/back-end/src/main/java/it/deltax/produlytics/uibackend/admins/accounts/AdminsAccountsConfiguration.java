@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AdminsAccountsConfiguration {
   /**
-   * Crea un'istanza di GetTinyAccountsUseCase
+   * Crea un'istanza di GetTinyAccountsUseCase.
    *
    * @param getAccountsPort la porta per ottenere gli utenti, da passare al costruttore di
    *     GetTinyAccountsService
@@ -34,7 +34,7 @@ public class AdminsAccountsConfiguration {
   }
 
   /**
-   * Crea un'istanza di InsertAccountUseCase
+   * Crea un'istanza di InsertAccountUseCase.
    *
    * @param findAccountPort la porta per cercare un utente, da passare al costruttore di
    *     InsertAccountService
@@ -53,7 +53,7 @@ public class AdminsAccountsConfiguration {
   }
 
   /**
-   * Crea un'istanza di UpdateAccountArchiveStatusUseCase
+   * Crea un'istanza di UpdateAccountArchiveStatusUseCase.
    *
    * @param findAccountPort la porta per cercare un utente, da passare al costruttore di
    *     UpdateAccountArchiveStatusUseCase
@@ -69,7 +69,7 @@ public class AdminsAccountsConfiguration {
   }
 
   /**
-   * Crea un'istanza di UpdateAccountByAdminUseCase
+   * Crea un'istanza di UpdateAccountByAdminUseCase.
    *
    * @param findAccountPort la porta per cercare un utente, da passare al costruttore di
    *     InsertAccountService

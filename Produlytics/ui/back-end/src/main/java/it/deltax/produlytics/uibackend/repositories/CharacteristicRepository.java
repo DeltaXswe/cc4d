@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-/** Rappresenta il repository delle caratteristiche */
+/** Rappresenta il repository delle caratteristiche. */
 @Repository
 public interface CharacteristicRepository
     extends JpaRepository<CharacteristicEntity, CharacteristicEntityId> {

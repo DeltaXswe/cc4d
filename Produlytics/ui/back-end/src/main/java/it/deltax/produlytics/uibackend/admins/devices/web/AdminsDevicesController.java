@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Il controller per le richieste effettuate dagli amministratori riguradanti le macchine */
+/** Il controller per le richieste effettuate dagli amministratori riguradanti le macchine. */
 @RestController
 @RequestMapping("/admin")
 public class AdminsDevicesController {
@@ -38,7 +38,7 @@ public class AdminsDevicesController {
   private final UpdateDeviceDeactivateStatusUseCase updateDeviceDeactivateStatusUseCase;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param insertDeviceUseCase l'interfaccia per il caso d'uso d'inserimento di una macchina
    * @param getDevicesUseCase l'interfaccia per il caso d'uso di ottenimento delle macchine
@@ -67,7 +67,7 @@ public class AdminsDevicesController {
   }
 
   /**
-   * Riceve le chiamate all'endpoint REST per l'inserimento di una macchina
+   * Riceve le chiamate all'endpoint REST per l'inserimento di una macchina.
    *
    * @param device la macchina da inserire con le sue caratteristiche
    * @return lo stato HTTP
@@ -83,7 +83,7 @@ public class AdminsDevicesController {
   }
 
   /**
-   * Riceve le chiamate all'endpoint REST per l'ottenimento delle macchine
+   * Riceve le chiamate all'endpoint REST per l'ottenimento delle macchine.
    *
    * @return lo stato HTTP e la lista delle macchine
    */
@@ -93,7 +93,7 @@ public class AdminsDevicesController {
   }
 
   /**
-   * Riceve le chiamate all'endpoint REST per l'ottenimento dei dettagli di una macchina
+   * Riceve le chiamate all'endpoint REST per l'ottenimento dei dettagli di una macchina.
    *
    * @param id l'id della macchina da ottenere
    * @return la macchina dettagliata
@@ -106,7 +106,7 @@ public class AdminsDevicesController {
   }
 
   /**
-   * Riceve le chiamate all'endpoint REST per l'aggiornamento del nome di una macchina
+   * Riceve le chiamate all'endpoint REST per l'aggiornamento del nome di una macchina.
    *
    * @param id l'id della macchina da aggiornare
    * @param body il corpo della richiesta HTTP
@@ -124,7 +124,7 @@ public class AdminsDevicesController {
 
   /**
    * Riceve le chiamate all'endpoint REST per l'aggiornamento dello stato di archiviazione di una
-   * macchina
+   * macchina.
    *
    * @param id l'id della macchina da aggiornare
    * @param body il corpo della richiesta HTTP
@@ -142,7 +142,7 @@ public class AdminsDevicesController {
 
   /**
    * Riceve le chiamate all'endpoint REST per l'aggiornamento dello stato di attivazione di una
-   * macchina
+   * macchina.
    *
    * @param id l'id della macchina da aggiornare
    * @param body il corpo della richiesta HTTP

@@ -8,13 +8,13 @@ import it.deltax.produlytics.uibackend.repositories.AccountRepository;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
 
-/** L'adapter dello strato di persistenza per le operazioni svolte dagli utenti */
+/** L'adapter dello strato di persistenza per le operazioni svolte dagli utenti. */
 @Component
 public class AccountAdapter implements FindAccountPort, UpdateAccountPasswordPort {
   private final AccountRepository repo;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param repo lo strato di persistenza con i dati sugli utenti
    */
@@ -23,7 +23,7 @@ public class AccountAdapter implements FindAccountPort, UpdateAccountPasswordPor
   }
 
   /**
-   * Trova nello strato di persistenza un utente, dato il suo username
+   * Trova nello strato di persistenza un utente, dato il suo username.
    *
    * @param username l'username dell'utente da trovare
    * @return l'utente, se trovato; Optional vuoto, altrimenti
@@ -42,7 +42,7 @@ public class AccountAdapter implements FindAccountPort, UpdateAccountPasswordPor
   }
 
   /**
-   * Aggiorna la password di un utente nello strato di persistenza
+   * Aggiorna la password di un utente nello strato di persistenza.
    *
    * @param account l'utente da memorizzare con la password aggiornata
    */

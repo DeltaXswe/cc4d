@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * L'adapter dello strato di persistenza per le operazioni svolte dagli amministratori sulle
- * caratteristiche
+ * caratteristiche.
  */
 @Component
 public class AdminCharacteristicAdapter
@@ -27,7 +27,7 @@ public class AdminCharacteristicAdapter
   private final CharacteristicRepository repo;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param repo lo strato di persistenza con i dati sulle caratteristiche
    */
@@ -36,7 +36,7 @@ public class AdminCharacteristicAdapter
   }
 
   /**
-   * Restituisce tutte le caratteristiche di una macchina
+   * Restituisce tutte le caratteristiche di una macchina.
    *
    * @param deviceId l'id della macchina
    * @return la lista delle caratteristiche della macchina
@@ -55,7 +55,7 @@ public class AdminCharacteristicAdapter
   }
 
   /**
-   * Restituisce tutti i dettagli della caratteristica di una macchina
+   * Restituisce tutti i dettagli della caratteristica di una macchina.
    *
    * @param deviceId l'id della macchina
    * @param characteristicId l'id della caratteristica
@@ -69,7 +69,7 @@ public class AdminCharacteristicAdapter
   }
 
   /**
-   * Restituisce le caratteristiche di una macchina con un dato nome
+   * Restituisce le caratteristiche di una macchina con un dato nome.
    *
    * @param deviceId l'id della macchina
    * @param name il nome delle caratteristiche
@@ -83,7 +83,7 @@ public class AdminCharacteristicAdapter
   }
 
   /**
-   * Inserisce una nuova caratteristica in una macchina
+   * Inserisce una nuova caratteristica in una macchina.
    *
    * @param deviceId l'id della macchina
    * @param characteristic la caratteristica da inserire
@@ -108,7 +108,7 @@ public class AdminCharacteristicAdapter
   }
 
   /**
-   * Modifica le informazioni di una caratteristica
+   * Modifica le informazioni di una caratteristica.
    *
    * @param characteristic la caratteristica da modificare
    */

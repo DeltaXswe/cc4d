@@ -5,12 +5,12 @@ import java.util.Collection;
 import java.util.List;
 import org.springframework.security.core.userdetails.UserDetails;
 
-/** Classe che rappresenta un utente in Spring Security */
+/** Classe che rappresenta un utente in Spring Security. */
 public class CustomAccountDetails implements UserDetails {
   private final Account account;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param account l'utente contenente tutte le sue informazioni
    */
@@ -19,7 +19,7 @@ public class CustomAccountDetails implements UserDetails {
   }
 
   /**
-   * Restituisce l'username dell'utente
+   * Restituisce l'username dell'utente.
    *
    * @return una stringa rappresentante l'username dell'utente
    */
@@ -29,7 +29,7 @@ public class CustomAccountDetails implements UserDetails {
   }
 
   /**
-   * Restituisce la password dell'utente
+   * Restituisce la password dell'utente.
    *
    * @return una stringa rappresentante la password dell'utente
    */
@@ -39,19 +39,21 @@ public class CustomAccountDetails implements UserDetails {
   }
 
   /**
-   * Restituisce i permessi di cui dispone l'utente
+   * Restituisce i permessi di cui dispone l'utente.
    *
    * @return una collezione rappresentante i permessi di cui dispone l'utente
    */
   @Override
   public Collection<ProdulyticsGrantedAuthority> getAuthorities() {
-    if (account.administrator())
+    if (account.administrator()) {
       return List.of(ProdulyticsGrantedAuthority.ACCOUNT, ProdulyticsGrantedAuthority.ADMIN);
-    else return List.of(ProdulyticsGrantedAuthority.ACCOUNT);
+    } else {
+      return List.of(ProdulyticsGrantedAuthority.ACCOUNT);
+      }
   }
 
   /**
-   * Restituisce se l'utente non è scaduto
+   * Restituisce se l'utente non è scaduto.
    *
    * @return true
    */
@@ -61,7 +63,7 @@ public class CustomAccountDetails implements UserDetails {
   }
 
   /**
-   * Restituisce se l'utente non è bloccato
+   * Restituisce se l'utente non è bloccato.
    *
    * @return true
    */
@@ -71,7 +73,7 @@ public class CustomAccountDetails implements UserDetails {
   }
 
   /**
-   * Restituisce se le credenziali non sono scadute
+   * Restituisce se le credenziali non sono scadute.
    *
    * @return true
    */
@@ -81,7 +83,7 @@ public class CustomAccountDetails implements UserDetails {
   }
 
   /**
-   * Restituisce se l'utente non è archiviato
+   * Restituisce se l'utente non è archiviato.
    *
    * @return true se non è archiviato; false, altrimenti
    */

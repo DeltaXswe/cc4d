@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Il controller per le richieste effettuate dagli amministratori relative agli utenti */
+/** Il controller per le richieste effettuate dagli amministratori relative agli utenti. */
 @RestController
 @RequestMapping("/admin")
 public class AdminsAccountsController {
@@ -34,7 +34,7 @@ public class AdminsAccountsController {
   private final UpdateAccountArchiveStatusUseCase updateAccountArchiveStatusUseCase;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param insertAccountUseCase l'interfaccia per il caso d'uso d'inserimento di un utente
    * @param getAccountsUseCase l'interfaccia per il caso d'uso di ottenimento degli utenti
@@ -55,7 +55,7 @@ public class AdminsAccountsController {
   }
 
   /**
-   * Riceve le chiamate all'endpoint REST per l'inserimento di un utente
+   * Riceve le chiamate all'endpoint REST per l'inserimento di un utente.
    *
    * @param account l'utente da inserire
    * @return l'id dell'utente inserito e lo stato HTTP
@@ -71,7 +71,7 @@ public class AdminsAccountsController {
   }
 
   /**
-   * Riceve le chiamate all'endpoint REST per l'ottenimento degli utenti
+   * Riceve le chiamate all'endpoint REST per l'ottenimento degli utenti.
    *
    * @return la lista degli utenti
    */
@@ -81,7 +81,7 @@ public class AdminsAccountsController {
   }
 
   /**
-   * Riceve le chiamate all'endpoint REST per l'aggiornamento di un utente
+   * Riceve le chiamate all'endpoint REST per l'aggiornamento di un utente.
    *
    * @param username l'username dell'utente da aggiornare
    * @param body il corpo della richiesta HTTP
@@ -99,7 +99,7 @@ public class AdminsAccountsController {
 
   /**
    * Riceve le chiamate all'endpoint REST per l'aggiornamento dello stato di archiviazione di un
-   * utente
+   * utente.
    *
    * @param username l'username dell'utente da aggiornare
    * @param body il corpo della richiesta HTTP

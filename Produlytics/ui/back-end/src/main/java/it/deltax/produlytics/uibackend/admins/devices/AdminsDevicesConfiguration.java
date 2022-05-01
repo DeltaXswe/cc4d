@@ -39,7 +39,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AdminsDevicesConfiguration {
   /**
-   * Crea un'istanza di GetCharacteristicsUseCase
+   * Crea un'istanza di GetCharacteristicsUseCase.
    *
    * @param findAllCharacteristicsPort la porta per ottenere le caratteristiche, da passare al
    *     costruttore di GetCharacteristicsService
@@ -52,7 +52,7 @@ public class AdminsDevicesConfiguration {
   }
 
   /**
-   * Crea un'istanza di GetDeviceDetailsUseCase
+   * Crea un'istanza di GetDeviceDetailsUseCase.
    *
    * @param findDetailedDevicePort la porta per ottenere una macchina dettagliata, da passare al
    *     costruttore di GetDeviceDetailsService
@@ -64,7 +64,7 @@ public class AdminsDevicesConfiguration {
   }
 
   /**
-   * Crea un'istanza di GetDevicesUseCase
+   * Crea un'istanza di GetDevicesUseCase.
    *
    * @param getDevicesPort la porta per ottenere le macchine, da passare al costruttore di
    *     GetDevicesService
@@ -76,7 +76,7 @@ public class AdminsDevicesConfiguration {
   }
 
   /**
-   * Crea un'istanza di InsertCharacteristicUseCase
+   * Crea un'istanza di InsertCharacteristicUseCase.
    *
    * @param insertCharacteristicPort la porta per l'inserimento di una caratteristica, da passare al
    *     costruttore di InsertCharacteristicService
@@ -96,7 +96,7 @@ public class AdminsDevicesConfiguration {
   }
 
   /**
-   * Crea un'istanza di InsertDeviceUseCase
+   * Crea un'istanza di InsertDeviceUseCase.
    *
    * @param findTinyDeviceByNamePort la porta per cercare una macchina con le informazioni
    *     essenziali, da passare al costruttore di InsertDeviceService
@@ -119,7 +119,7 @@ public class AdminsDevicesConfiguration {
   }
 
   /**
-   * Crea un'istanza di UpdateCharacteristicArchiveStatusUseCase
+   * Crea un'istanza di UpdateCharacteristicArchiveStatusUseCase.
    *
    * @param findCharacteristicPort la porta per cercare una caratteristica, da passare al
    *     costruttore di UpdateCharacteristicArchiveStatusService
@@ -136,7 +136,7 @@ public class AdminsDevicesConfiguration {
   }
 
   /**
-   * Crea un'istanza di UpdateCharacteristicUseCase
+   * Crea un'istanza di UpdateCharacteristicUseCase.
    *
    * @param findCharacteristicPort la porta per cercare una caratteristica, da passare al
    *     costruttore di UpdateCharacteristicService
@@ -152,7 +152,7 @@ public class AdminsDevicesConfiguration {
   }
 
   /**
-   * Crea un'istanza di UpdateDeviceArchiveStatusUseCase
+   * Crea un'istanza di UpdateDeviceArchiveStatusUseCase.
    *
    * @param findDetailedDevicePort la porta per cercare una macchina dettagliata, da passare al
    *     costruttore di UpdateDeviceArchiveStatusService
@@ -168,7 +168,7 @@ public class AdminsDevicesConfiguration {
   }
 
   /**
-   * Crea un'istanza di UpdateDeviceDeactivateStatusUseCase
+   * Crea un'istanza di UpdateDeviceDeactivateStatusUseCase.
    *
    * @param findDetailedDevicePort la porta per cercare una macchina dettagliata, da passare al
    *     costruttore di UpdateDeviceDeactivateStatusService
@@ -185,7 +185,7 @@ public class AdminsDevicesConfiguration {
   }
 
   /**
-   * Crea un'istanza di UpdateDeviceNameUseCase
+   * Crea un'istanza di UpdateDeviceNameUseCase.
    *
    * @param findDetailedDevicePort la porta per cercare una macchina dettagliata, da passare al
    *     costruttore di UpdateDeviceNameService

@@ -7,11 +7,11 @@ import java.util.OptionalInt;
 
 /**
  * Interfaccia che fornisce i metodi per convertire oggetti delle caratteristiche utilizzati nella
- * business logic in oggetti utilizzati nel repository e l'inverso
+ * business logic in oggetti utilizzati nel repository e l'inverso.
  */
 public interface ConvertCharacteristic {
   /**
-   * Converte un oggetto CharacteristicEntity in uno DetailedCharacteristic
+   * Converte un oggetto CharacteristicEntity in uno DetailedCharacteristic.
    *
    * @param characteristic la CharacteristicEntity da convertire
    * @return la DetailedCharacteristic equivalente
@@ -39,7 +39,7 @@ public interface ConvertCharacteristic {
   }
 
   /**
-   * Converte un oggetto DetailedCharacteristic in uno CharacteristicEntity
+   * Converte un oggetto DetailedCharacteristic in uno CharacteristicEntity.
    *
    * @param characteristic la DetailedCharacteristic da convertire
    * @return la CharacteristicEntity equivalente
