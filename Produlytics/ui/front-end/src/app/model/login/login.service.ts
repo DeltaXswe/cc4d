@@ -41,9 +41,9 @@ export class LoginService implements LoginAbstractService{
   }
 
   isAdmin(): boolean{
-    let user = localStorage.getItem('accessToken');
-    if (user)
-      return JSON.parse(user).isAdmin;
+    let admin = localStorage.getItem('admin');
+    if (admin)
+      return admin == "true";
     else
       return false;
   }
@@ -53,10 +53,10 @@ export class LoginService implements LoginAbstractService{
   }
 
   getUsername(): string{
-    let user = localStorage.getItem('accessToken');
-    if (user)
-      return JSON.parse(user).username;
+    let username = localStorage.getItem('username');
+    if (username)
+      return username;
     else
-      return 'username'; 
+      return 'username';
   }
 }
