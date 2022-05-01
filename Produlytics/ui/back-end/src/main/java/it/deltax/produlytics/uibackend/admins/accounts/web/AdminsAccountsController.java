@@ -14,7 +14,7 @@ import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -94,7 +94,7 @@ public class AdminsAccountsController {
       throws BusinessException {
     this.updateAccountByAdminUseCase.updateByUsername(
         new AccountUpdatedByAdmin(username, body.newPassword(), body.administrator()));
-    return new ResponseEntity<>(NO_CONTENT);
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   /**
@@ -113,6 +113,6 @@ public class AdminsAccountsController {
     boolean archived = body.get("archived").asBoolean();
     this.updateAccountArchiveStatusUseCase.updateAccountArchiveStatus(
         new AccountArchiveStatus(username, archived));
-    return new ResponseEntity<>(NO_CONTENT);
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 }

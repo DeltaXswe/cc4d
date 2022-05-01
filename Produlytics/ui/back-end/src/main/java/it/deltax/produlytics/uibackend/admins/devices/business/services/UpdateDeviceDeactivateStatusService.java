@@ -8,13 +8,13 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.UpdateD
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 
-/** Il service per l'aggiornamento dello stato di attivazione di una macchina */
+/** Il service per l'aggiornamento dello stato di attivazione di una macchina. */
 public class UpdateDeviceDeactivateStatusService implements UpdateDeviceDeactivateStatusUseCase {
   private final FindDetailedDevicePort findDetailedDevicePort;
   private final UpdateDeviceDeactivateStatusPort updateDeviceDeactivateStatusPort;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param findDetailedDevicePort la porta per trovare una macchina completa di tutte le sue
    *     informazioni
@@ -29,7 +29,7 @@ public class UpdateDeviceDeactivateStatusService implements UpdateDeviceDeactiva
   }
 
   /**
-   * Aggiorna lo stato di attivazione di una macchina
+   * Aggiorna lo stato di attivazione di una macchina.
    *
    * @param deviceDeactivateStatus la macchina con lo stato di attivazione aggiornato
    * @throws BusinessException se la macchina non è stata trovata

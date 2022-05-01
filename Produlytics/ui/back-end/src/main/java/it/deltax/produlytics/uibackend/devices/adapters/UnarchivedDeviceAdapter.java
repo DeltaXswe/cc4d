@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.stream.StreamSupport;
 import org.springframework.stereotype.Component;
 
-/** L'adapter dello strato di persistenza per le operazioni riguardanti le macchine */
+/** L'adapter dello strato di persistenza per le operazioni riguardanti le macchine. */
 @Component
 public class UnarchivedDeviceAdapter implements GetUnarchivedDevicesPort {
   private final DeviceRepository repo;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param repo lo strato di persistenza con i dati delle macchine
    */
@@ -22,7 +22,7 @@ public class UnarchivedDeviceAdapter implements GetUnarchivedDevicesPort {
   }
 
   /**
-   * Restituisce le macchine non archiviate
+   * Restituisce le macchine non archiviate.
    *
    * @return la lista delle macchine non archiviate
    */

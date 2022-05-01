@@ -9,14 +9,14 @@ import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.Update
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 
-/** Il service per l'aggiornamento di un utente per mano di un amministratore */
+/** Il service per l'aggiornamento di un utente per mano di un amministratore. */
 public class UpdateAccountByAdminService implements UpdateAccountByAdminUseCase {
   private final FindAccountPort findAccountPort;
   private final PasswordEncoderPort passwordEncoderPort;
   private final UpdateAccountByAdminPort updateAccountByAdminPort;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param findAccountPort la porta per trovare un utente
    * @param passwordEncoderPort la porta per cifrare una password
@@ -32,7 +32,7 @@ public class UpdateAccountByAdminService implements UpdateAccountByAdminUseCase 
   }
 
   /**
-   * Aggiorna l'utente dato, per conto di un amministratore
+   * Aggiorna l'utente dato, per conto di un amministratore.
    *
    * @param updatedAccount l'utente con permessi e, opzionalmente, password aggiornati
    * @throws BusinessException se la password non è valida o l'utente non è stato trovato

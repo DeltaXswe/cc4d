@@ -7,14 +7,14 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.UpdateC
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 
-/** Il service per l'aggiornamento dello stato di archiviazione di una caratteristica */
+/** Il service per l'aggiornamento dello stato di archiviazione di una caratteristica. */
 public class UpdateCharacteristicArchiveStatusService
     implements UpdateCharacteristicArchiveStatusUseCase {
   private final FindDetailedCharacteristicPort findCharacteristicPort;
   private final UpdateCharacteristicPort updateCharacteristicPort;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param findCharacteristicPort la porta per trovare una caratteristica completa di tutte le sue
    *     informazioni
@@ -28,7 +28,7 @@ public class UpdateCharacteristicArchiveStatusService
   }
 
   /**
-   * Modifica lo stato di archiviazione di una caratteristica
+   * Modifica lo stato di archiviazione di una caratteristica.
    *
    * @param toUpdate la caratteristica con lo stato di archiviazione aggiornato
    * @throws BusinessException se la caratteristica è inesistente

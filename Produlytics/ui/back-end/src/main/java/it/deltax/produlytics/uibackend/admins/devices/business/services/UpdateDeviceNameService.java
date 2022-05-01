@@ -9,14 +9,14 @@ import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 
-/** Il service per l'aggiornamento del nome di una macchina */
+/** Il service per l'aggiornamento del nome di una macchina. */
 public class UpdateDeviceNameService implements UpdateDeviceNameUseCase {
   private final FindDetailedDevicePort findDetailedDevicePort;
   private final FindTinyDeviceByNamePort findTinyDeviceByNamePort;
   private final UpdateDeviceNamePort updateDeviceNamePort;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param findDetailedDevicePort la porta per trovare una macchina completa di tutte le sue
    *     informazioni
@@ -32,7 +32,7 @@ public class UpdateDeviceNameService implements UpdateDeviceNameUseCase {
   }
 
   /**
-   * Aggiorna il nome di una macchina
+   * Aggiorna il nome di una macchina.
    *
    * @param tinyDevice la macchina con il nome aggiornato
    * @throws BusinessException se la macchina non è stata trovata o esiste già una macchina con lo

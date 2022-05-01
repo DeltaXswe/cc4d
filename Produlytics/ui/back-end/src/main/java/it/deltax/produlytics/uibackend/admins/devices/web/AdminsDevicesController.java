@@ -16,7 +16,7 @@ import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import java.util.HashMap;
 import java.util.Map;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -119,7 +119,7 @@ public class AdminsDevicesController {
     String name = body.get("name").asText();
     System.out.println(name);
     this.updateDeviceNameUseCase.updateDeviceName(new TinyDevice(id, name));
-    return new ResponseEntity<>(NO_CONTENT);
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   /**
@@ -137,7 +137,7 @@ public class AdminsDevicesController {
     boolean archived = body.get("archived").asBoolean();
     this.updateDeviceArchiveStatusUseCase.updateDeviceArchiveStatus(
         new DeviceArchiveStatus(id, archived));
-    return new ResponseEntity<>(NO_CONTENT);
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   /**
@@ -155,6 +155,6 @@ public class AdminsDevicesController {
     boolean deactivated = body.get("deactivated").asBoolean();
     this.updateDeviceDeactivateStatusUseCase.updateDeviceDeactivateStatus(
         new DeviceDeactivateStatus(id, deactivated));
-    return new ResponseEntity<>(NO_CONTENT);
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 }

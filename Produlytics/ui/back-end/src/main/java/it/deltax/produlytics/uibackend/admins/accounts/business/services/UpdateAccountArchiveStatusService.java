@@ -8,13 +8,13 @@ import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.Update
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 
-/** Il service per l'aggiornamento dello stato di archiviazione di un utente */
+/** Il service per l'aggiornamento dello stato di archiviazione di un utente. */
 public class UpdateAccountArchiveStatusService implements UpdateAccountArchiveStatusUseCase {
   private final FindAccountPort findAccountPort;
   private final UpdateAccountArchiveStatusPort updateAccountArchiveStatusPort;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param findAccountPort la porta per cercare un utente
    * @param updateAccountArchiveStatusPort la porta per aggiornare lo stato di archiviazione di un
@@ -28,7 +28,7 @@ public class UpdateAccountArchiveStatusService implements UpdateAccountArchiveSt
   }
 
   /**
-   * Aggiorna lo stato di archiviazione dell'utente dato
+   * Aggiorna lo stato di archiviazione dell'utente dato.
    *
    * @param accountArchiveStatus l'utente con lo stato di archiviazione aggiornato
    * @throws BusinessException se l'utente non è stato trovato

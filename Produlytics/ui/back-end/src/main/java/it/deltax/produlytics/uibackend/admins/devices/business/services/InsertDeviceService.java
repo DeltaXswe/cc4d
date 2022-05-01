@@ -10,7 +10,7 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertD
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 
-/** Il service per l'insierimento di una macchina */
+/** Il service per l'insierimento di una macchina. */
 public class InsertDeviceService implements InsertDeviceUseCase {
   private final FindTinyDeviceByNamePort findTinyDeviceByNamePort;
   private final InsertDevicePort insertDevicePort;
@@ -18,7 +18,7 @@ public class InsertDeviceService implements InsertDeviceUseCase {
   private final InsertCharacteristicUseCase insertCharacteristicUseCase;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param insertDevicePort la porta per inserire una macchina
    * @param createDevice crea una nuova macchina
@@ -36,7 +36,7 @@ public class InsertDeviceService implements InsertDeviceUseCase {
   }
 
   /**
-   * Inserisce una nuova macchina
+   * Inserisce una nuova macchina.
    *
    * @param device la macchina da inserire
    * @return l'id della macchina inserita
@@ -48,8 +48,9 @@ public class InsertDeviceService implements InsertDeviceUseCase {
       throw new BusinessException("duplicateDeviceName", ErrorType.GENERIC);
     } else {
       int id = this.insertDevicePort.insertDevice(this.createDevice.createDevice(device.name()));
-      for (NewCharacteristic characteristic : device.characteristics())
+      for (NewCharacteristic characteristic : device.characteristics()) {
         this.insertCharacteristicUseCase.insertByDevice(id, characteristic);
+      }
       return id;
     }
   }
