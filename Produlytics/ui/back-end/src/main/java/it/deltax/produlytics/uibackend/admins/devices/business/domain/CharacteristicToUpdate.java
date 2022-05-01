@@ -22,12 +22,12 @@ public record CharacteristicToUpdate(
   public CharacteristicToUpdate {}
 
   /**
-    * Fornisce il builder del record.
+   * Fornisce il builder del record.
 
-    * @return un nuovo builder con i seguenti valori di default:
-S    * upperLimit: empty
-    * lowerLimit: empty
-    * sampleSize: empty
+   * @return un nuovo builder con i seguenti valori di default:
+   *     upperLimit: empty
+   *     lowerLimit: empty
+   *     sampleSize: empty
   */
   public static CharacteristicToUpdateBuilder builder() {
     return new CharacteristicToUpdateBuilder()

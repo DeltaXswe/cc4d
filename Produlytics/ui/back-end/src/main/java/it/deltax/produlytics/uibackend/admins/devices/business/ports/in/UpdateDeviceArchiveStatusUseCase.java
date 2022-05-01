@@ -5,7 +5,7 @@ import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 
 /**
  * Interfaccia che rappresenta il caso d'uso di aggiornamento dello stato di archiviazione di una
- * macchina
+ * macchina.
  */
 public interface UpdateDeviceArchiveStatusUseCase {
   void updateDeviceArchiveStatus(DeviceArchiveStatus device) throws BusinessException;

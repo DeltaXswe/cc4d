@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @Configuration
 public class UserDetailsAdapterConfiguration {
   /**
-   * Crea un'istanza di UserDetailsService
+   * Crea un'istanza di UserDetailsService.
    *
    * @param findAccountUseCase la porta per trovare un utente, da passare al costruttore di
    *     UserDetailsAdapter

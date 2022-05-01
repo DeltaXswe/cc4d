@@ -10,13 +10,13 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.UpdateC
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 
-/** Il service per la modifica di una caratteristica */
+/** Il service per la modifica di una caratteristica. */
 public class UpdateCharacteristicService implements UpdateCharacteristicUseCase {
   private final FindDetailedCharacteristicPort findCharacteristicPort;
   private final UpdateCharacteristicPort updateCharacteristicPort;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param findCharacteristicPort la porta per trovare una caratteristica completa di tutte le sue
    *     informazioni
@@ -30,7 +30,7 @@ public class UpdateCharacteristicService implements UpdateCharacteristicUseCase 
   }
 
   /**
-   * Modifica le informazioni di una caratteristica
+   * Modifica le informazioni di una caratteristica.
    *
    * @param toUpdate le informazioni della caratteristica da aggiornare
    * @throws BusinessException se le informazioni non sono valide o la caratteristica è inesistente

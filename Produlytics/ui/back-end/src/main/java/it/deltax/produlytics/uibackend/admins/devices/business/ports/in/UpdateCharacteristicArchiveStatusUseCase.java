@@ -5,7 +5,7 @@ import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 
 /**
  * Interfaccia che rappresenta il caso d'uso di aggiornamento dello stato di archiviazione di una
- * caratteristica
+ * caratteristica.
  */
 public interface UpdateCharacteristicArchiveStatusUseCase {
   void updateCharacteristicArchiveStatus(CharacteristicArchiveStatus toUpdate)

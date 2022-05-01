@@ -19,12 +19,12 @@ public record CharacteristicConstraintsToCheck(
   public CharacteristicConstraintsToCheck {}
 
   /**
-    * Fornisce il builder del record.
-    *
-    * @return un nuovo builder con i seguenti valori di default:
-    * upperLimit: empty
-    * lowerLimit: empty
-    * sampleSize: empty
+   * Fornisce il builder del record.
+   *
+   * @return un nuovo builder con i seguenti valori di default:
+   *     upperLimit: empty
+   *     lowerLimit: empty
+   *     sampleSize: empty
   */
   public static CharacteristicConstraintsToCheck.CharacteristicConstraintsToCheckBuilder builder() {
     return new CharacteristicConstraintsToCheckBuilder()

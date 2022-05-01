@@ -8,13 +8,13 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.UpdateD
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
 
-/** Il service per l'aggiornamento dello stato di archiviazione di una macchina */
+/** Il service per l'aggiornamento dello stato di archiviazione di una macchina. */
 public class UpdateDeviceArchiveStatusService implements UpdateDeviceArchiveStatusUseCase {
   private final FindDetailedDevicePort findDetailedDevicePort;
   private final UpdateDeviceArchiveStatusPort updateDeviceArchiveStatus;
 
   /**
-   * Il costruttore
+   * Il costruttore.
    *
    * @param findDetailedDevicePort la porta per trovare una macchina completa di tutte le sue
    *     informazioni
@@ -29,7 +29,7 @@ public class UpdateDeviceArchiveStatusService implements UpdateDeviceArchiveStat
   }
 
   /**
-   * Aggiorna lo stato di archiviazione di una macchina
+   * Aggiorna lo stato di archiviazione di una macchina.
    *
    * @param deviceArchiveStatus la macchina con lo stato di archiviazione aggiornato
    * @throws BusinessException se la macchina non è stata trovata
