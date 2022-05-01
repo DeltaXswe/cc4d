@@ -18,7 +18,7 @@ public class CharacteristicEntity {
   /**
    * L'identificativo della caratteristica all'interno della macchina.
    */
-  @GeneratedValue(strategy = GenerationType.TABLE)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id", nullable = false)
   @Id
   private Integer id;
