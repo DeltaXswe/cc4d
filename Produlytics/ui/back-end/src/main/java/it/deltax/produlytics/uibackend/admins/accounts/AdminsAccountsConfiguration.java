@@ -1,11 +1,11 @@
 package it.deltax.produlytics.uibackend.admins.accounts;
 
-import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountByAdminPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordEncoderPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.GetTinyAccountsUseCase;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.InsertAccountUseCase;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.UpdateAccountArchiveStatusUseCase;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.in.UpdateAccountByAdminUseCase;
+import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.FindAccountByAdminPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.GetTinyAccountsPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.InsertAccountPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.UpdateAccountArchiveStatusPort;
@@ -14,7 +14,6 @@ import it.deltax.produlytics.uibackend.admins.accounts.business.services.GetTiny
 import it.deltax.produlytics.uibackend.admins.accounts.business.services.InsertAccountService;
 import it.deltax.produlytics.uibackend.admins.accounts.business.services.UpdateAccountArchiveStatusService;
 import it.deltax.produlytics.uibackend.admins.accounts.business.services.UpdateAccountByAdminService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -36,7 +35,7 @@ public class AdminsAccountsConfiguration {
   /**
    * Crea un'istanza di InsertAccountUseCase.
    *
-   * @param findAccountPort la porta per cercare un utente, da passare al costruttore di
+   * @param findAccountByAdminPort la porta per cercare un utente, da passare al costruttore di
    *     InsertAccountService
    * @param passwordEncoderPort la porta per cifrare una password, da passare al costruttore di
    *     InsertAccountService
@@ -46,32 +45,32 @@ public class AdminsAccountsConfiguration {
    */
   @Bean
   InsertAccountUseCase insertAccountUseCase(
-      @Qualifier("adminAccountAdapter") FindAccountByAdminPort findAccountPort,
+      FindAccountByAdminPort findAccountByAdminPort,
       PasswordEncoderPort passwordEncoderPort,
       InsertAccountPort insertAccountPort) {
-    return new InsertAccountService(findAccountPort, passwordEncoderPort, insertAccountPort);
+    return new InsertAccountService(findAccountByAdminPort, passwordEncoderPort, insertAccountPort);
   }
 
   /**
    * Crea un'istanza di UpdateAccountArchiveStatusUseCase.
    *
-   * @param findAccountPort la porta per cercare un utente, da passare al costruttore di
+   * @param findAccountByAdminPort la porta per cercare un utente, da passare al costruttore di
    *     UpdateAccountArchiveStatusUseCase
-   * @param updateAccountArchiveStatusPort la porta per aggiornare lo stato di archiviazione di un
+   * @param updateAccArchStatusPort la porta per aggiornare lo stato di archiviazione di un
    *     utente, da passare al costruttore di UpdateAccountArchiveStatusUseCase
    * @return la nuova istanza di UpdateAccountArchiveStatusService
    */
   @Bean
   UpdateAccountArchiveStatusUseCase updateAccountArchiveStatusUseCase(
-      @Qualifier("adminAccountAdapter") FindAccountByAdminPort findAccountPort,
-      UpdateAccountArchiveStatusPort updateAccountArchiveStatusPort) {
-    return new UpdateAccountArchiveStatusService(findAccountPort, updateAccountArchiveStatusPort);
+      FindAccountByAdminPort findAccountByAdminPort,
+      UpdateAccountArchiveStatusPort updateAccArchStatusPort) {
+    return new UpdateAccountArchiveStatusService(findAccountByAdminPort, updateAccArchStatusPort);
   }
 
   /**
    * Crea un'istanza di UpdateAccountByAdminUseCase.
    *
-   * @param findAccountPort la porta per cercare un utente, da passare al costruttore di
+   * @param findAccountByAdminPort la porta per cercare un utente, da passare al costruttore di
    *     InsertAccountService
    * @param passwordEncoderPort la porta per cifrare una password, da passare al costruttore di
    *     InsertAccountService
@@ -81,10 +80,10 @@ public class AdminsAccountsConfiguration {
    */
   @Bean
   UpdateAccountByAdminUseCase updateAccountByAdminUseCase(
-      @Qualifier("adminAccountAdapter") FindAccountByAdminPort findAccountPort,
+      FindAccountByAdminPort findAccountByAdminPort,
       PasswordEncoderPort passwordEncoderPort,
       UpdateAccountByAdminPort updateAccountByAdminPort) {
     return new UpdateAccountByAdminService(
-        findAccountPort, passwordEncoderPort, updateAccountByAdminPort);
+        findAccountByAdminPort, passwordEncoderPort, updateAccountByAdminPort);
   }
 }

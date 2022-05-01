@@ -2,13 +2,12 @@ package it.deltax.produlytics.uibackend.accounts;
 
 import it.deltax.produlytics.uibackend.accounts.business.ports.in.FindAccountUseCase;
 import it.deltax.produlytics.uibackend.accounts.business.ports.in.UpdateAccountPasswordUseCase;
-import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountByAdminPort;
+import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordEncoderPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordMatcherPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.UpdateAccountPasswordPort;
 import it.deltax.produlytics.uibackend.accounts.business.services.FindAccountService;
 import it.deltax.produlytics.uibackend.accounts.business.services.UpdateAccountPasswordService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -24,7 +23,7 @@ public class AccountsConfiguration {
    */
   @Bean
   FindAccountUseCase findAccountUseCase(
-      @Qualifier("accountAdapter") FindAccountByAdminPort findAccountPort) {
+      FindAccountPort findAccountPort) {
     return new FindAccountService(findAccountPort);
   }
 
@@ -43,7 +42,7 @@ public class AccountsConfiguration {
    */
   @Bean
   UpdateAccountPasswordUseCase updateAccountPasswordUseCase(
-      @Qualifier("accountAdapter") FindAccountByAdminPort findAccountPort,
+      FindAccountPort findAccountPort,
       PasswordMatcherPort passwordMatcherPort,
       PasswordEncoderPort passwordEncoderPort,
       UpdateAccountPasswordPort updateAccountPasswordPort) {

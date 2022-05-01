@@ -1,8 +1,9 @@
 package it.deltax.produlytics.uibackend.unit;
 
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
-import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountByAdminPort;
+import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountArchiveStatus;
+import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.FindAccountByAdminPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.UpdateAccountArchiveStatusPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.services.UpdateAccountArchiveStatusService;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
@@ -23,7 +24,7 @@ public class UpdateAccountArchiveStatusServiceTest {
     AccountArchiveStatus account = new AccountArchiveStatus("user", false);
     UpdateAccountArchiveStatusService service =
         new UpdateAccountArchiveStatusService(
-            new FindAccountNotFoundPortMock(), new UpdateAccountArchiveStatusPortMock());
+            new FindAccountByAdminNotFoundPortMock(), new UpdateAccountArchiveStatusPortMock());
     BusinessException exception =
         assertThrows(BusinessException.class, () -> service.updateAccountArchiveStatus(account));
     assert exception.getCode().equals("accountNotFound");
@@ -40,19 +41,19 @@ public class UpdateAccountArchiveStatusServiceTest {
     AccountArchiveStatus account = new AccountArchiveStatus("user", false);
     UpdateAccountArchiveStatusService service =
         new UpdateAccountArchiveStatusService(
-            new FindAccountPortMock(), new UpdateAccountArchiveStatusPortMock());
+            new FindAccountByAdminPortMock(), new UpdateAccountArchiveStatusPortMock());
     service.updateAccountArchiveStatus(account);
   }
 
   // CLASSI MOCK
-  static class FindAccountPortMock implements FindAccountByAdminPort {
+  static class FindAccountByAdminPortMock implements FindAccountByAdminPort {
     @Override
     public Optional<Account> findByUsername(String username) {
       return Optional.of(new Account("user", "passwordvecchia", false, false));
     }
   }
 
-  static class FindAccountNotFoundPortMock implements FindAccountByAdminPort {
+  static class FindAccountByAdminNotFoundPortMock implements FindAccountByAdminPort {
     @Override
     public Optional<Account> findByUsername(String username) {
       return Optional.empty();

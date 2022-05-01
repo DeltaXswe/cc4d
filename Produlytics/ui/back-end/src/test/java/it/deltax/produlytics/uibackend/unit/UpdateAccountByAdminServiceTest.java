@@ -1,9 +1,10 @@
 package it.deltax.produlytics.uibackend.unit;
 
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
-import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountByAdminPort;
+import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordEncoderPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountUpdatedByAdmin;
+import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.FindAccountByAdminPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.UpdateAccountByAdminPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.services.UpdateAccountByAdminService;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
@@ -24,7 +25,7 @@ public class UpdateAccountByAdminServiceTest {
     AccountUpdatedByAdmin account = new AccountUpdatedByAdmin("user", Optional.of("p"), false);
     UpdateAccountByAdminService service =
         new UpdateAccountByAdminService(
-            new FindAccountPortMock(),
+            new FindAccountByAdminPortMock(),
             new PasswordEncoderPortMock(),
             new UpdateAccountByAdminPortMock());
     BusinessException exception =
@@ -44,7 +45,7 @@ public class UpdateAccountByAdminServiceTest {
         new AccountUpdatedByAdmin("user", Optional.of("passwordnuova"), false);
     UpdateAccountByAdminService service =
         new UpdateAccountByAdminService(
-            new FindAccountNotFoundPortMock(),
+            new FindAccountByAdminNotFoundPortMock(),
             new PasswordEncoderPortMock(),
             new UpdateAccountByAdminPortMock());
     BusinessException exception =
@@ -64,7 +65,7 @@ public class UpdateAccountByAdminServiceTest {
         new AccountUpdatedByAdmin("user", Optional.of("passwordnuova"), false);
     UpdateAccountByAdminService service =
         new UpdateAccountByAdminService(
-            new FindAccountPortMock(),
+            new FindAccountByAdminPortMock(),
             new PasswordEncoderPortMock(),
             new UpdateAccountByAdminPortMock());
     service.updateByUsername(account);
@@ -80,21 +81,21 @@ public class UpdateAccountByAdminServiceTest {
     AccountUpdatedByAdmin account = new AccountUpdatedByAdmin("user", Optional.empty(), false);
     UpdateAccountByAdminService service =
         new UpdateAccountByAdminService(
-            new FindAccountPortMock(),
+            new FindAccountByAdminPortMock(),
             new PasswordEncoderPortMock(),
             new UpdateAccountByAdminPortMock());
     service.updateByUsername(account);
   }
 
   // CLASSI MOCK
-  static class FindAccountPortMock implements FindAccountByAdminPort {
+  static class FindAccountByAdminPortMock implements FindAccountByAdminPort {
     @Override
     public Optional<Account> findByUsername(String username) {
       return Optional.of(new Account("user", "passwordvecchia", false, false));
     }
   }
 
-  static class FindAccountNotFoundPortMock implements FindAccountByAdminPort {
+  static class FindAccountByAdminNotFoundPortMock implements FindAccountByAdminPort {
     @Override
     public Optional<Account> findByUsername(String username) {
       return Optional.empty();

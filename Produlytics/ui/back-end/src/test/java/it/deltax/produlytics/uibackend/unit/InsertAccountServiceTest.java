@@ -1,9 +1,10 @@
 package it.deltax.produlytics.uibackend.unit;
 
 import it.deltax.produlytics.uibackend.accounts.business.domain.Account;
-import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountByAdminPort;
+import it.deltax.produlytics.uibackend.accounts.business.ports.out.FindAccountPort;
 import it.deltax.produlytics.uibackend.accounts.business.ports.out.PasswordEncoderPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.domain.AccountToInsert;
+import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.FindAccountByAdminPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.ports.out.InsertAccountPort;
 import it.deltax.produlytics.uibackend.admins.accounts.business.services.InsertAccountService;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
@@ -25,7 +26,7 @@ public class InsertAccountServiceTest {
     AccountToInsert account = new AccountToInsert("user", "p", false);
     InsertAccountService service =
         new InsertAccountService(
-            new FindAccountPortMock(), new PasswordEncoderPortMock(), new InsertAccountPortMock());
+            new FindAccountByAdminPortMock(), new PasswordEncoderPortMock(), new InsertAccountPortMock());
     BusinessException exception =
         assertThrows(BusinessException.class, () -> service.insertAccount(account));
     assert exception.getCode().equals("invalidPassword");
@@ -42,7 +43,7 @@ public class InsertAccountServiceTest {
     AccountToInsert account = new AccountToInsert("user", "password", false);
     InsertAccountService service =
         new InsertAccountService(
-            new FindAccountPortMock(), new PasswordEncoderPortMock(), new InsertAccountPortMock());
+            new FindAccountByAdminPortMock(), new PasswordEncoderPortMock(), new InsertAccountPortMock());
     BusinessException exception =
         assertThrows(BusinessException.class, () -> service.insertAccount(account));
     assert exception.getCode().equals("duplicateUsername");
@@ -59,18 +60,18 @@ public class InsertAccountServiceTest {
     AccountToInsert account = new AccountToInsert("user1", "password", false);
     InsertAccountService service =
         new InsertAccountService(
-            new FindAccountPortMock(), new PasswordEncoderPortMock(), new InsertAccountPortMock());
+            new FindAccountByAdminPortMock(), new PasswordEncoderPortMock(), new InsertAccountPortMock());
   }
 
   // CLASSI MOCK
-  static class FindAccountPortMock implements FindAccountByAdminPort {
+  static class FindAccountByAdminPortMock implements FindAccountByAdminPort {
     @Override
     public Optional<Account> findByUsername(String username) {
       return Optional.of(new Account("user", "passwordvecchia", false, false));
     }
   }
 
-  static class FindAccountNotFoundPortMock implements FindAccountByAdminPort {
+  static class FindAccountNotFoundPortMock implements FindAccountPort {
     @Override
     public Optional<Account> findByUsername(String username) {
       return Optional.empty();
