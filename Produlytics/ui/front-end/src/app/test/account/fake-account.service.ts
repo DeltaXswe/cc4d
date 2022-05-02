@@ -140,7 +140,7 @@ export class FakeAccountService implements
 
   modifyPw(username: string, command: ModifyPwCommand){
     if(users.find(account => account.username === username) &&
-      users.find(account => account.password === command.oldPassword)){
+      users.find(account => account.password === command.currentPassword)){
       users.find(account => account.username === username)!.password = command.newPassword;
       return of({});
     } else{

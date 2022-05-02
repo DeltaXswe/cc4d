@@ -1,4 +1,4 @@
 export interface ModifyPwCommand{
-  readonly oldPassword: string;
+  readonly currentPassword: string;
   readonly newPassword: string;
 }

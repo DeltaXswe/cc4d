@@ -66,7 +66,7 @@ export class ModifyPwComponent implements OnInit {
   confirm(): void{
     const rawValue = this.modifyPw.getRawValue();
     const command: ModifyPwCommand = {
-      oldPassword: rawValue.oldPassword,
+      currentPassword: rawValue.oldPassword,
       newPassword: rawValue.newPassword,
     }  
     if (this.modifyPw.invalid) {

@@ -13,11 +13,17 @@
   width: 1150px;
   height: 550px;
 }
-::ng-deep .d3svg line.grid{
-  stroke: lightgrey;
-  stroke-opacity: 0.6;
-  shape-rendering: crispEdges;
+
+::ng-deep .d3svg line.line-zona-c-up, ::ng-deep .d3svg line.line-zona-c-down {
+  stroke: green;
+  opacity: 30%;
 }
+
+::ng-deep .d3svg line.line-zona-b-up, ::ng-deep .d3svg line.line-zona-b-down {
+  stroke: red;
+  opacity: 30%;
+}
+
 ::ng-deep .d3svg title {
   fill: black;
   text-anchor: middle;

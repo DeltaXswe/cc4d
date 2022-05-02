@@ -49,7 +49,9 @@ export class LoginService implements LoginAbstractService{
   }
 
   logout(): void{ //da vedere coi cookie
-    this.cookieService.deleteAll;
+    localStorage.clear();
+    this.cookieService.deleteAll();
+    this.router.navigate(['/login']);
   }
 
   getUsername(): string{
