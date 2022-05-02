@@ -27,7 +27,7 @@ export class ChartService implements ChartAbstractService{
   getNextPoints(deviceId: number, characteristicId: number, newerThan: number): Observable<ChartPointReturn> {
     const paramsObj = {
       newerThan: newerThan,
-      limit: 10 
+      limit: 1
     }
     const params: HttpParams = new HttpParams({fromObject: paramsObj})
     return this.httpClient.get<ChartPointReturn>(`/devices/${deviceId}/characteristics/${characteristicId}/detections`
@@ -41,7 +41,7 @@ export class ChartService implements ChartAbstractService{
   getOldPoints(start: number, end: number, deviceId: number, characteristicId: number): Observable<ChartPointReturn> {
     const limit = (end - start)/1000;
     const paramsObj = {
-      olderThan: end,
+      olderThan: start,
       limit: limit
     }
     const params: HttpParams = new HttpParams({fromObject: paramsObj});
