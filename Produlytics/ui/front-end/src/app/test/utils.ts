@@ -14,11 +14,35 @@ import {SaveAccountAbstractService} from "../model/admin-account/save-account-ab
 import {LoginService} from "../model/login/login.service";
 import {LoginAbstractService} from "../model/login/login-abstract.service";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {Observable, Subject} from "rxjs";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
+import {MatCardModule} from "@angular/material/card";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatTableModule} from "@angular/material/table";
+import {Routes} from "@angular/router";
+import {DeviceDetailComponent} from "../admin/devices/device-detail/device-detail.component";
+import {NewDeviceComponent} from "../admin/devices/new-device/new-device.component";
+import {MatDividerModule} from "@angular/material/divider";
+import {MatListModule} from "@angular/material/list";
+
+const routes: Routes = [
+  {
+    path: 'gestione-macchine',
+    children: [
+      {
+        path: 'nuova',
+        component: NewDeviceComponent
+      },
+      {
+        path: ':id',
+        component: DeviceDetailComponent
+      }
+    ]
+  }
+];
 
 export const testModules = [
   HttpClientTestingModule,
-  RouterTestingModule,
+  RouterTestingModule.withRoutes(routes),
   FormsModule,
   ReactiveFormsModule,
   BrowserAnimationsModule,
@@ -29,7 +53,12 @@ export const testModules = [
   MatInputModule,
   MatCheckboxModule,
   MatSlideToggleModule,
-  MatDialogModule
+  MatDialogModule,
+  MatCardModule,
+  MatPaginatorModule,
+  MatTableModule,
+  MatDividerModule,
+  MatListModule
 ];
 
 // per i test d'integrazione
@@ -62,11 +91,39 @@ export class MockDialogRef<T> {
   public afterClosed(): Observable<any> {
     return this._afterClosed;
   }
-
 }
 
 export class MockDialog {
   open(_?: any, options?: any) {
     return new MockDialogRef();
+  }
+}
+
+export class MockDialogRefAlwaysConfirm {
+  private readonly _afterClosed = new BehaviorSubject<boolean>(false);
+
+  constructor() {
+    this.close(true);
+  }
+
+  public close(value: boolean = false) {
+    this._afterClosed.next(value);
+  }
+
+  public afterClosed(): Observable<any> {
+    return this._afterClosed;
+  }
+}
+
+export class MockDialogAlwaysConfirm {
+  open(_?: any, options?: any) {
+    return new MockDialogRefAlwaysConfirm();
+  }
+}
+
+// a quanto pare la snackbar crea dei tick aggiuntivi
+export class MockSnack {
+  open(message: string, action?: string, config?: any): any {
+    return undefined;
   }
 }
