@@ -12,5 +12,5 @@ export abstract class LoginAbstractService {
 
   public abstract getUsername(): string;
 
-  public abstract logout(): void;
+  public abstract logout(): Observable<any>;
 }

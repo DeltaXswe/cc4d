@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { ModifyPwComponent } from 'src/app/main/modify-pw/modify-pw.component';
 import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
 
@@ -19,7 +20,8 @@ export class ToolbarComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private loginService: LoginAbstractService,
-    private matSnackBar: MatSnackBar
+    private matSnackBar: MatSnackBar,
+    private router: Router
     ) { }
 
     ngOnInit() {
@@ -71,6 +73,8 @@ export class ToolbarComponent implements OnInit {
      * effettua il logout.
      */
     logout(): void{
-      this.loginService.logout();
+      this.loginService.logout().subscribe({
+        next: () =>this.router.navigate(['/login'])
+      });
     }
 }
