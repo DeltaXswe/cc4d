@@ -23,6 +23,7 @@ import {DeviceDetailComponent} from "../admin/devices/device-detail/device-detai
 import {NewDeviceComponent} from "../admin/devices/new-device/new-device.component";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatListModule} from "@angular/material/list";
+import { MatMenu, MatMenuModule } from "@angular/material/menu";
 
 const routes: Routes = [
   {
@@ -58,7 +59,8 @@ export const testModules = [
   MatPaginatorModule,
   MatTableModule,
   MatDividerModule,
-  MatListModule
+  MatListModule,
+  MatMenuModule
 ];
 
 // per i test d'integrazione

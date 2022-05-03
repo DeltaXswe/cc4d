@@ -12,8 +12,8 @@
          <span>{{getUsername()}}</span></button>
       </div>
       <mat-menu #menu="matMenu">
-         <button mat-menu-item *ngIf="isAdmin()" routerLink="/gestione-macchine">Gestione macchine</button>
-         <button mat-menu-item *ngIf="isAdmin()" routerLink="/gestione-utenti">Gestione utenti</button>
+         <button mat-menu-item id="gm" *ngIf="isAdmin()" routerLink="/gestione-macchine">Gestione macchine</button>
+         <button mat-menu-item id="2" *ngIf="isAdmin()" routerLink="/gestione-utenti">Gestione utenti</button>
          <button mat-menu-item (click)="openPwDialog()">Modifica password</button>
          <button mat-menu-item (click)="logout()">Logout</button>
        </mat-menu>

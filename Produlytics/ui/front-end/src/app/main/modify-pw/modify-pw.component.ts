@@ -44,16 +44,16 @@ export class ModifyPwComponent implements OnInit {
         const oldPassword =  control.get('oldPassword')?.value;
         const newPassword =  control.get('newPassword')?.value;
         const newPasswordRe =  control.get('newPasswordRe')?.value;
-      if (newPassword !== newPasswordRe) {
-        control.get('newPasswordRe')?.setErrors({mismatch: true})
-        return ({mismatch: true})
-      } else if(oldPassword == newPassword) {
-        control.get('newPassword')?.setErrors({mustBeDifferent: true})
-        return ({mustBeDifferent: true})
-      } else {
-        control.get('newPasswordRe')?.setErrors(null);
-        return null
-      }
+        if (newPassword !== newPasswordRe) {
+          control.get('newPasswordRe')?.setErrors({mismatch: true})
+          return ({mismatch: true})
+        } else if(oldPassword == newPassword) {
+          control.get('newPassword')?.setErrors({mustBeDifferent: true})
+          return ({mustBeDifferent: true})
+        } else {
+          control.get('newPasswordRe')?.setErrors(null);
+          return null
+        }
     }
     return null;
   }
