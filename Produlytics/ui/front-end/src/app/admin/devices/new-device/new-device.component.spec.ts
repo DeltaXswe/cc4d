@@ -12,7 +12,7 @@ import {Router} from "@angular/router";
 import {Location} from "@angular/common";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
-const inserted: CharacteristicCreationCommand = {
+export const testInsertCharacteristic: CharacteristicCreationCommand = {
   name: 'test-insert',
   autoAdjust: true,
   upperLimit: null,
@@ -20,21 +20,21 @@ const inserted: CharacteristicCreationCommand = {
   sampleSize: 9
 }
 
-class MockDialogNewCharacteristic {
+export class MockDialogNewCharacteristic {
   open(_?: any, options?: any) {
     return new MockDialogRefNewCharacteristic();
   }
 }
 
 class MockDialogRefNewCharacteristic {
-  private readonly _afterClosed = new BehaviorSubject<CharacteristicCreationCommand>(inserted);
+  private readonly _afterClosed = new BehaviorSubject<CharacteristicCreationCommand>(testInsertCharacteristic);
 
   constructor() {
     this.close(true);
   }
 
   public close(value: any) {
-    this._afterClosed.next(inserted);
+    this._afterClosed.next(testInsertCharacteristic);
   }
 
   public afterClosed(): Observable<any> {
@@ -89,7 +89,7 @@ describe('NewDeviceComponent', () => {
 
   it('aggiungi-caratteristica-nuova-macchina', () => {
     component.openNewCharacteristicDialog();
-    expect(component.characteristics.find(value => value.name === inserted.name)).toBeTruthy();
+    expect(component.characteristics.find(value => value.name === testInsertCharacteristic.name)).toBeTruthy();
   });
 
   it('conferma-inserisci-macchina', fakeAsync(() => {

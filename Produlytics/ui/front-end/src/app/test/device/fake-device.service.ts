@@ -16,7 +16,7 @@ import {
 } from "../../model/admin-device/characteristic/update-characteristic-abstract.service";
 import {CharacteristicUpdateCommand} from "../../model/admin-device/characteristic/characteristic-update-command";
 
-class CharacteristicMock implements Characteristic {
+export class CharacteristicMock implements Characteristic {
   id: number;
   name: string;
   archived: boolean;
