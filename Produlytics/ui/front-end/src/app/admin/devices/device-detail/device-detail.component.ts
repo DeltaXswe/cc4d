@@ -65,13 +65,12 @@ export class DeviceDetailComponent implements OnInit {
     this.updateDeviceService.updateDeviceName(this.device.id, newName)
       .subscribe({
         next: () => {
-          this.deviceNameForm.get('name')?.setValue(newName);
           this.deviceNameForm.get('name')?.setErrors({duplicateDeviceName: null});
           this.deviceNameForm.get('name')?.updateValueAndValidity();
         },
         error: () => {
           this.deviceNameForm.get('name')?.setErrors({duplicateDeviceName: true});
-          this.deviceNameForm.get('name')?.updateValueAndValidity();
+          // this.deviceNameForm.get('name')?.updateValueAndValidity();
         }
       });
   }
