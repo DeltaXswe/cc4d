@@ -18,8 +18,7 @@ export class SaveAccountService implements SaveAccountAbstractService {
   }
 
   updateAccount(command:AccountSaveCommand): Observable<{}> {
-    return this.httpClient.post(`admin/accounts/${command.username}`, command);
+    return this.httpClient.put(`admin/accounts/${command.username}`, command);
   }
-
 
 }

@@ -4,10 +4,19 @@ import { DevicesComponent } from './devices.component';
 import {MockDialogAlwaysConfirm, testModules} from "../../test/utils";
 import {Router} from "@angular/router";
 import {Location} from "@angular/common";
-import {FakeDeviceService, filaioDevice, locomotivaDevice, valvolaDevice} from "../../test/device/fake-device.service";
+import {
+  devices,
+  FakeDeviceService,
+  filaioDevice,
+  locomotivaDevice,
+  valvolaDevice
+} from "../../test/device/fake-device.service";
 import {DeviceAbstractService} from "../../model/admin-device/device-abstract.service";
-import {bobUser, cosimoUser} from "../../test/account/users";
 import {MatDialog} from "@angular/material/dialog";
+import {HttpTestingController} from "@angular/common/http/testing";
+import {HttpClient} from "@angular/common/http";
+import {RouterTestingModule} from "@angular/router/testing";
+import {DeviceService} from "../../model/admin-device/device.service";
 
 describe('DevicesComponent', () => {
   let component: DevicesComponent;
@@ -94,5 +103,110 @@ describe('DevicesComponent', () => {
         doneFn();
       }
     });
+  });
+});
+
+describe('DevicesComponent Integration', () => {
+  let component: DevicesComponent;
+  let fixture: ComponentFixture<DevicesComponent>;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+        declarations: [DevicesComponent],
+        imports: testModules,
+        providers: [
+          DeviceService,
+          {
+            provide: DeviceAbstractService,
+            useExisting: DeviceService
+          },
+          MockDialogAlwaysConfirm,
+          {
+            provide: MatDialog,
+            useExisting: MockDialogAlwaysConfirm
+          }
+        ]
+      })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(DevicesComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    httpClient = TestBed.inject(HttpClient);
+    httpTestingController = TestBed.inject(HttpTestingController);
+  });
+
+  it('devices-should-create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('devices-init', () => {
+    // oninit called in automatico
+    const req = httpTestingController.expectOne('admin/devices');
+    expect(req.request.method).toEqual('GET');
+    req.flush([]);
+    httpTestingController.verify();
+  });
+
+  it('devices-archive', () => {
+    let req = httpTestingController.expectOne('admin/devices');
+    expect(req.request.method).toEqual('GET');
+    req.flush(devices);
+    component.toggleStatusDevice(filaioDevice);
+    req = httpTestingController.expectOne(`admin/devices/${filaioDevice.id}/archived`);
+    expect(req.request.method).toEqual('PUT');
+    expect(req.request.body).toBeTrue();
+    req.flush({});
+    req = httpTestingController.expectOne('admin/devices');
+    expect(req.request.method).toEqual('GET');
+    req.flush(devices);
+    httpTestingController.verify();
+  });
+
+  it('devices-recover', () => {
+    let req = httpTestingController.expectOne('admin/devices');
+    expect(req.request.method).toEqual('GET');
+    req.flush(devices);
+    component.toggleStatusDevice(valvolaDevice);
+    req = httpTestingController.expectOne(`admin/devices/${valvolaDevice.id}/archived`);
+    expect(req.request.method).toEqual('PUT');
+    expect(req.request.body).toBeFalse();
+    req.flush({});
+    req = httpTestingController.expectOne('admin/devices');
+    expect(req.request.method).toEqual('GET');
+    req.flush(devices);
+    httpTestingController.verify();
+  });
+
+  it('devices-deactivate', () => {
+    let req = httpTestingController.expectOne('admin/devices');
+    expect(req.request.method).toEqual('GET');
+    req.flush(devices);
+    component.toggleActivationDevice(filaioDevice);
+    req = httpTestingController.expectOne(`admin/devices/${filaioDevice.id}/deactivated`);
+    expect(req.request.method).toEqual('PUT');
+    expect(req.request.body).toBeTrue();
+    req.flush({});
+    req = httpTestingController.expectOne('admin/devices');
+    expect(req.request.method).toEqual('GET');
+    req.flush(devices);
+    httpTestingController.verify();
+  });
+
+  it('devices-activate', () => {
+    let req = httpTestingController.expectOne('admin/devices');
+    expect(req.request.method).toEqual('GET');
+    req.flush(devices);
+    component.toggleActivationDevice(valvolaDevice);
+    req = httpTestingController.expectOne(`admin/devices/${valvolaDevice.id}/deactivated`);
+    expect(req.request.method).toEqual('PUT');
+    expect(req.request.body).toBeFalse();
+    req.flush({});
+    req = httpTestingController.expectOne('admin/devices');
+    expect(req.request.method).toEqual('GET');
+    req.flush(devices);
+    httpTestingController.verify();
   });
 });

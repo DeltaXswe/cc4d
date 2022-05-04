@@ -14,7 +14,6 @@ export class NewDeviceService implements NewDeviceAbstractService {
   ) { }
 
   insertDevice(machine: DeviceCreationCommand): Observable<{ id: number }> {
-    console.log({machine});
     return this.httpClient.post<{id: number}>(`admin/devices`, machine);
   }
 
