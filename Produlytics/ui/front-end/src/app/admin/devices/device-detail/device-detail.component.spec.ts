@@ -17,6 +17,10 @@ import {CharacteristicUpdateCommand} from "../../../model/admin-device/character
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {MockDialogNewCharacteristic, testInsertCharacteristic} from "../new-device/new-device.component.spec";
+import {HttpClient} from "@angular/common/http";
+import {HttpTestingController} from "@angular/common/http/testing";
+import {CharacteristicService} from "../../../model/admin-device/characteristic/characteristic.service";
+import {UpdateDeviceService} from "../../../model/admin-device/update/update-device.service";
 
 
 class MockDialogUpdateCharacteristic {
@@ -257,4 +261,53 @@ describe('DeviceDetailComponent Confirm', () => {
     component.toggleCharacteristicStatus(archivedChar);
     expect(archivedChar.archived).toBeTrue();
   });
+});
+
+describe('DeviceDetailComponent Integration', () => {
+
+  let component: DeviceDetailComponent;
+  let fixture: ComponentFixture<DeviceDetailComponent>;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+        declarations: [DeviceDetailComponent],
+        imports: testModules,
+        providers: [
+          CharacteristicService,
+          {
+            provide: CharacteristicAbstractService,
+            useExisting: CharacteristicService
+          },
+          UpdateDeviceService,
+          {
+            provide: UpdateDeviceAbstractService,
+            useExisting: CharacteristicService
+          },
+          {
+            provide: ActivatedRoute,
+            useValue: {
+              snapshot: {
+                data: {
+                  device: 1
+                }
+              }
+            }
+          }
+        ]
+      })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(DeviceDetailComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    httpClient = TestBed.inject(HttpClient);
+    httpTestingController = TestBed.inject(HttpTestingController);
+  });
+
+  it('devices-should-create', () => {
+    expect(component).toBeTruthy();
+  });
+
 });
