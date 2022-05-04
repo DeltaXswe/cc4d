@@ -26,12 +26,11 @@ describe('DeviceDataSource', () => {
 
   it('visualizza-elenco-macchine', (doneFn) => {
     const devices = [filaioDevice, locomotivaDevice];
-    dataSource.connect().subscribe(value => {
-      if (value === devices) {
-        doneFn();
-      }
-    })
     dataSource.setData(devices);
+    dataSource.connect().subscribe(value => {
+      expect(value).toEqual(devices);
+      doneFn();
+    });
   });
 
   it('ordinare-macchine', async (doneFn) => {
