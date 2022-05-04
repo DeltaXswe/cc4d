@@ -13,7 +13,7 @@ import { MockDialogRef, testModules } from 'src/app/test/utils';
 
 import { ModifyPwComponent } from './modify-pw.component';
 
-fdescribe('ModifyPwComponent', () => {
+describe('ModifyPwComponent', () => {
   let component: ModifyPwComponent;
   let fixture: ComponentFixture<ModifyPwComponent>;
   let mockDialogRef: MatDialogRef<any>;
