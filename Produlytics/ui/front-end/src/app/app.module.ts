@@ -29,7 +29,6 @@ import {AccountAbstractService} from "./model/admin-account/account-abstract.ser
 import {SaveAccountAbstractService} from "./model/admin-account/save-account-abstract.service";
 import { ToolbarComponent } from './layout/toolbar/toolbar.component';
 import { LoginComponent } from './main/login/login.component';
-import {ComponentsModule} from "./components/components.module";
 import {NewDeviceAbstractService} from "./model/admin-device/new/new-device-abstract.service";
 import { FormsModule }   from '@angular/forms';
 import { ReactiveFormsModule }   from '@angular/forms';
@@ -98,7 +97,6 @@ import { XhrInterceptor } from './model/http-interceptor/http-interceptor.servic
     ReactiveFormsModule,
     MatSnackBarModule,
     // other
-    ComponentsModule,
     MatSidenavModule,
     MatTreeModule,
     MatProgressBarModule,
@@ -110,9 +108,9 @@ import { XhrInterceptor } from './model/http-interceptor/http-interceptor.servic
     {
       provide: MAT_DATE_LOCALE, useValue: 'en-GB'
     },
-    { 
-      provide: HTTP_INTERCEPTORS, 
-      useClass: XhrInterceptor, 
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: XhrInterceptor,
       multi: true },
     {
       provide: ChartAbstractService,

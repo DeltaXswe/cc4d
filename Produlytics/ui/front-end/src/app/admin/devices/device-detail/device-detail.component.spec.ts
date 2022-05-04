@@ -1,9 +1,8 @@
 import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 
 import { DeviceDetailComponent } from './device-detail.component';
-import {MockSnack, testModules} from "../../../test/utils";
+import {MockDialogAlwaysConfirm, MockSnack, testModules} from "../../../test/utils";
 import {
-  CharacteristicMock,
   FakeDeviceService,
   filaioDevice,
   locomotivaDevice
@@ -36,22 +35,16 @@ const testUpdateCharacteristic = {
 };
 
 class MockDialogRefUpdateCharacteristic {
-  private readonly _afterClosed: BehaviorSubject<CharacteristicUpdateCommand>;
-  private updated: CharacteristicUpdateCommand;
+  private readonly _afterClosed = new BehaviorSubject<boolean>(false);
 
   constructor() {
     const toUpdate = filaioDevice.characteristics[0];
-    this.updated = {
-      ...testUpdateCharacteristic,
-      id: toUpdate.id
-    };
-
-    this._afterClosed = new BehaviorSubject<CharacteristicUpdateCommand>(this.updated);
+    Object.assign(toUpdate, testUpdateCharacteristic);
     this.close(true);
   }
 
   public close(value: any) {
-    this._afterClosed.next(this.updated);
+    this._afterClosed.next(true);
   }
 
   public afterClosed(): Observable<any> {
@@ -201,5 +194,67 @@ describe('DeviceDetailComponent Update', () => {
       expect(value.find(char => char.name === testUpdateCharacteristic.name)).toBeTruthy();
       doneFn();
     })
+  });
+});
+
+describe('DeviceDetailComponent Confirm', () => {
+  let component: DeviceDetailComponent;
+  let fixture: ComponentFixture<DeviceDetailComponent>;
+  let router: Router;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+        imports: testModules,
+        declarations: [ DeviceDetailComponent ],
+        providers: [
+          FakeDeviceService,
+          {
+            provide: CharacteristicAbstractService,
+            useExisting: FakeDeviceService
+          },
+          {
+            provide: UpdateDeviceAbstractService,
+            useExisting: FakeDeviceService
+          },
+          MockSnack,
+          {
+            provide: MatSnackBar,
+            useExisting: MockSnack
+          },
+          MockDialogAlwaysConfirm,
+          {
+            provide: MatDialog,
+            useExisting: MockDialogAlwaysConfirm
+          },
+          {
+            provide: ActivatedRoute,
+            useValue: {
+              snapshot: {
+                data: {
+                  device: locomotivaDevice
+                }
+              }
+            }
+          }
+        ]
+      })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(DeviceDetailComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    router = TestBed.inject(Router);
+  });
+
+  it('ripristina-caratteristica', () => {
+    const archivedChar = locomotivaDevice.characteristics[1];
+    component.toggleCharacteristicStatus(archivedChar);
+    expect(archivedChar.archived).toBeFalse();
+  });
+
+  it('archivia-caratteristica', () => {
+    const archivedChar = locomotivaDevice.characteristics[0];
+    component.toggleCharacteristicStatus(archivedChar);
+    expect(archivedChar.archived).toBeTrue();
   });
 });

@@ -28,6 +28,7 @@ import {MatChipsModule} from "@angular/material/chips";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import { CharacteristicFormComponent } from '../../components/characteristic-form/characteristic-form.component';
+import {ComponentsModule} from "../../components/components.module";
 
 const routes: Routes = [
   {
@@ -51,8 +52,7 @@ const routes: Routes = [
     NewDeviceComponent,
     NewCharacteristicDialogComponent,
     DeviceDetailComponent,
-    UpdateCharacteristicDialogComponent,
-    CharacteristicFormComponent
+    UpdateCharacteristicDialogComponent
   ],
   imports: [
     CommonModule,
@@ -74,7 +74,8 @@ const routes: Routes = [
     MatSortModule,
     MatChipsModule,
     MatTooltipModule,
-    ClipboardModule
+    ClipboardModule,
+    ComponentsModule
   ]
 })
 export class DevicesModule { }
