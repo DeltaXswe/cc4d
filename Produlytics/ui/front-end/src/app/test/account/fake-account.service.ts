@@ -124,10 +124,11 @@ export class FakeAccountService implements
       return false;
   }
 
-  logout(): void {
+  logout(): Observable<any> {
     localStorage.removeItem('accessToken');
     this.cookieService.delete('PRODULYTICS_RM');
     this.router.navigate(['/login']);
+    return of([]);
   }
 
   getUsername(){
