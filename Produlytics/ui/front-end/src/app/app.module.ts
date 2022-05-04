@@ -43,7 +43,6 @@ import {
 } from "./model/admin-device/characteristic/update-characteristic-abstract.service";
 import { ModifyPwAbstractService } from './model/modify-pw/modify-pw-abstract.service';
 import { CookieService } from 'ngx-cookie-service';
-import { DeviceSelectionComponent } from './main/device-selection/device-selection.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatTreeModule} from "@angular/material/tree";
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -67,7 +66,6 @@ import { XhrInterceptor } from './model/http-interceptor/http-interceptor.servic
     ToolbarComponent,
     LoginComponent,
     ModifyPwComponent,
-    DeviceSelectionComponent,
     DatePickerDialogComponent
   ],
   imports: [

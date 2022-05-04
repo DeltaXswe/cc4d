@@ -6,7 +6,7 @@ import { concatMap } from 'rxjs/operators';
 
 import { ChartPoint } from '../../model/chart/chart-point';
 import { ChartAbstractService } from "../../model/chart/chart-abstract.service";
-import { CharacteristicNode } from '../device-selection/selection-data-source/characteristic-node';
+import { CharacteristicNode } from '../selection/selection-data-source/characteristic-node';
 import { Limits } from '../../model/chart/limits';
 import { MatDialog } from '@angular/material/dialog';
 import { DatePickerDialogComponent } from '../date-picker-dialog/date-picker-dialog.component';

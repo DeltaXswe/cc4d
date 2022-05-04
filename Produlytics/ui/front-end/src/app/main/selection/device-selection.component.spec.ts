@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeviceSelectionComponent } from './device-selection.component';
+import { DeviceSelectionComponent } from '../device-selection/device-selection.component';
 
 describe('DeviceSelectionComponent', () => {
   let component: DeviceSelectionComponent;
