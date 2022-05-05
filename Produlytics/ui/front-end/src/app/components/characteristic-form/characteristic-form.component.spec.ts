@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CharacteristicFormComponent } from './characteristic-form.component';
 import {testModules} from "../../test/utils";
+import {HttpClient} from "@angular/common/http";
+import {HttpTestingController} from "@angular/common/http/testing";
 
 describe('CharacteristicFormComponent', () => {
   let component: CharacteristicFormComponent;
@@ -55,5 +57,31 @@ describe('CharacteristicFormComponent', () => {
     expect(command.sampleSize).toBeNull();
     expect(command.lowerLimit).toEqual(11);
     expect(command.upperLimit).toEqual(13);
+  });
+});
+
+describe('CharacteristicFormComponent Integration', () => {
+  let component: CharacteristicFormComponent;
+  let fixture: ComponentFixture<CharacteristicFormComponent>;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+        declarations: [CharacteristicFormComponent],
+        imports: testModules,
+        providers: []
+      })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(CharacteristicFormComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    httpClient = TestBed.inject(HttpClient);
+    httpTestingController = TestBed.inject(HttpTestingController);
+  });
+
+  it('form-component-should-create', () => {
+    expect(component).toBeTruthy();
   });
 });

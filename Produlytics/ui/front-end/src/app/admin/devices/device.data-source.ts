@@ -1,4 +1,4 @@
-import {CollectionViewer, DataSource} from "@angular/cdk/collections";
+import {DataSource} from "@angular/cdk/collections";
 import {Device} from "../../model/admin-device/device";
 import {BehaviorSubject, Observable} from "rxjs";
 import {Sort} from "@angular/material/sort";

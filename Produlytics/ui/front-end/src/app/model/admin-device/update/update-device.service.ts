@@ -13,6 +13,6 @@ export class UpdateDeviceService implements UpdateDeviceAbstractService {
   ) { }
 
   updateDeviceName(id: number, newName: string): Observable<{}> {
-    return this.httpClient.put(`/admin/devices/${id}/name`, newName);
+    return this.httpClient.put(`admin/devices/${id}/name`, newName);
   }
 }

@@ -149,7 +149,10 @@ export class DeviceDetailComponent implements OnInit {
    */
   toggleCharacteristicStatus(characteristic: Characteristic): void {
     if (characteristic.archived) {
-      this.characteristicService.recoverCharacteristic(this.device.id, characteristic.id);
+      this.characteristicService.recoverCharacteristic(this.device.id, characteristic.id)
+        .subscribe(() => {
+          this.initTable();
+        });
     } else {
       const dialogRef = this.matDialog.open(ConfirmDialogComponent, {
         data: {
@@ -158,7 +161,10 @@ export class DeviceDetailComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe(confirmed => {
         if (confirmed) {
-          this.characteristicService.archiveCharacteristic(this.device.id, characteristic.id);
+          this.characteristicService.archiveCharacteristic(this.device.id, characteristic.id)
+            .subscribe(() => {
+              this.initTable();
+            });
         }
       })
     }
