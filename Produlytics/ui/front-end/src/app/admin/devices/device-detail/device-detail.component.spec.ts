@@ -283,18 +283,23 @@ describe('DeviceDetailComponent Integration', () => {
           UpdateDeviceService,
           {
             provide: UpdateDeviceAbstractService,
-            useExisting: CharacteristicService
+            useExisting: UpdateDeviceService
           },
           {
             provide: ActivatedRoute,
             useValue: {
               snapshot: {
                 data: {
-                  device: 1
+                  device: locomotivaDevice
                 }
               }
             }
-          }
+          },
+          MockDialogNewCharacteristic,
+          {
+            provide: MatDialog,
+            useExisting: MockDialogNewCharacteristic
+          },
         ]
       })
       .compileComponents();
@@ -308,6 +313,88 @@ describe('DeviceDetailComponent Integration', () => {
 
   it('devices-should-create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('device-detail-init', () => {
+    // oninit called in automatico
+    const req = httpTestingController.expectOne(`admin/devices/${locomotivaDevice.id}/characteristics`);
+    expect(req.request.method).toEqual('GET');
+    req.flush([]);
+    httpTestingController.verify();
+  });
+
+  it('device-detail-add-char', () => {
+    let req = httpTestingController.expectOne(`admin/devices/${locomotivaDevice.id}/characteristics`);
+    expect(req.request.method).toEqual('GET');
+    req.flush([]);
+
+    component.openNewCharacteristicDialog();
+
+    req = httpTestingController.expectOne(`admin/devices/${locomotivaDevice.id}/characteristics`);
+    expect(req.request.method).toEqual('POST');
+    expect(req.request.body).toEqual(testInsertCharacteristic);
+    req.flush({id: 1000});
+
+    req = httpTestingController.expectOne(`admin/devices/${locomotivaDevice.id}/characteristics`);
+    expect(req.request.method).toEqual('GET');
+    req.flush([]);
+    httpTestingController.verify();
+  });
+
+  it('device-detail-archive-char', () => {
+    let req = httpTestingController.expectOne(`admin/devices/${locomotivaDevice.id}/characteristics`);
+    expect(req.request.method).toEqual('GET');
+    req.flush(locomotivaDevice.characteristics);
+
+    const char = locomotivaDevice.characteristics[0];
+    component.toggleCharacteristicStatus(char);
+
+    req = httpTestingController.expectOne(`admin/devices/${locomotivaDevice.id}/characteristics/${char.id}/archived`);
+    expect(req.request.method).toEqual('PUT');
+    expect(req.request.body).toBeTrue();
+    req.flush({id: 1000});
+
+    req = httpTestingController.expectOne(`admin/devices/${locomotivaDevice.id}/characteristics`);
+    expect(req.request.method).toEqual('GET');
+    req.flush([]);
+    httpTestingController.verify();
+  });
+
+  it('device-detail-recover-char', () => {
+
+    let req = httpTestingController.expectOne(`admin/devices/${locomotivaDevice.id}/characteristics`);
+    expect(req.request.method).toEqual('GET');
+    req.flush(locomotivaDevice.characteristics);
+
+    const char = locomotivaDevice.characteristics[1];
+    component.toggleCharacteristicStatus(char);
+
+    req = httpTestingController.expectOne(`admin/devices/${locomotivaDevice.id}/characteristics/${char.id}/archived`);
+    expect(req.request.method).toEqual('PUT');
+    expect(req.request.body).toBeFalse();
+    req.flush({id: 1000});
+
+    req = httpTestingController.expectOne(`admin/devices/${locomotivaDevice.id}/characteristics`);
+    expect(req.request.method).toEqual('GET');
+    req.flush([]);
+    httpTestingController.verify();
+  });
+
+  it('device-detail-name', () => {
+
+    let req = httpTestingController.expectOne(`admin/devices/${locomotivaDevice.id}/characteristics`);
+    expect(req.request.method).toEqual('GET');
+    req.flush(locomotivaDevice.characteristics);
+
+    component.deviceNameForm.setValue({
+      name: 'Colomotiva'
+    });
+    component.updateDeviceName();
+    req = httpTestingController.expectOne(`admin/devices/${locomotivaDevice.id}/name`);
+    expect(req.request.method).toEqual('PUT');
+    expect(req.request.body).toEqual('Colomotiva');
+    req.flush({});
+    httpTestingController.verify();
   });
 
 });
