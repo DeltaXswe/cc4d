@@ -13,7 +13,7 @@ import { LoginAbstractService } from 'src/app/model/login/login-abstract.service
 })
 
 /**
- * Questo component implementa le funzionalità dela barra di navigazione.
+ * Questo component implementa le funzionalità della barra di navigazione.
  */
 export class ToolbarComponent implements OnInit {
 
@@ -58,9 +58,9 @@ export class ToolbarComponent implements OnInit {
      * Tramite un service che implementa {@link LoginAbstractService},
      * @returns true se l'utente è un amministratore, false altrimenti.
      */
-    isAdmin(): boolean{  
+    isAdmin(): boolean{
       return this.loginService.isAdmin();
-    } 
+    }
 
     /**
      * Tramite un service che implementa {@link LoginAbstractService},
