@@ -7,10 +7,23 @@ import { testModules } from 'src/app/test/utils';
 import { gianniUser } from 'src/app/test/account/users';
 
 import { LoginComponent } from './login.component';
+import { CookieService } from 'ngx-cookie-service';
+import { Injector, ReflectiveInjector } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { HttpTestingController } from '@angular/common/http/testing';
+import { Router } from '@angular/router';
+import { LoginService } from 'src/app/model/login/login.service';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
+  let cookieService: CookieService;
+  let router = {
+    navigate: jasmine.createSpy('navigate')
+  };
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
+  let loginService: LoginAbstractService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -26,17 +39,27 @@ describe('LoginComponent', () => {
         },
         {
           provide: LoginAbstractService,
-          useExisting: FakeAccountService
-        }
+          useExisting: LoginService
+        },
+        CookieService,
+        {
+          provide: Router,
+          useValue: router
+        },
+        LoginService
       ]
     })
     .compileComponents();
   });
 
-  beforeEach(() => {
+  beforeEach(async () => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    cookieService = TestBed.inject(CookieService);
+    httpClient = TestBed.inject(HttpClient);
+    httpTestingController = TestBed.inject(HttpTestingController);
+    loginService = TestBed.inject(LoginAbstractService)
   });
   
   it('should create', () => {
@@ -75,4 +98,22 @@ describe('LoginComponent', () => {
 
     expect(component.loginForm.valid).toBeTruthy();
   })
+
+  it('con cookie vado direttamente alla dashboard', () => {
+    cookieService.deleteAll();
+    cookieService.set('PRODULYTICS_RM', 'valore');
+    component.ngOnInit();
+    expect(router.navigate).toHaveBeenCalledWith(['/']); 
+  })
+
+  it('chiamata a loginservice', () => {
+    component.loginForm.controls['username'].setValue(gianniUser.username);
+    component.loginForm.controls['password'].setValue(gianniUser.password);
+    component.loginForm.controls['rememberMe'].setValue(true);
+    component.onSubmit();
+    const req = httpTestingController.expectOne('/login?remember-me=true');
+    expect(req.request.method).toEqual('GET');
+    req.flush({});
+    httpTestingController.verify();
+  });
 });

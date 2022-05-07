@@ -1,20 +1,19 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AccountAbstractService } from 'src/app/model/admin-account/account-abstract.service';
 import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
 import { FakeAccountService } from 'src/app/test/account/fake-account.service';
 import { testModules } from 'src/app/test/utils';
-import { gianniUser, cosimoUser } from 'src/app/test/account/users';
 import { ToolbarComponent } from './toolbar.component';
-import { Router } from '@angular/router';
-import { By } from '@angular/platform-browser';
 import { Location } from '@angular/common';
+import {expect} from "@angular/flex-layout/_private-utils/testing";
 
 
-describe('ToolbarComponent', () => {
+fdescribe('ToolbarComponent', () => {
   let component: ToolbarComponent;
+  let loginService: LoginAbstractService;
   let fixture: ComponentFixture<ToolbarComponent>;
-  let router: Router;
+
   let location: Location;
 
   beforeEach(async () => {
@@ -32,47 +31,55 @@ describe('ToolbarComponent', () => {
         {
           provide: LoginAbstractService,
           useExisting: FakeAccountService
-        },
-        {
-          provide: Router,
-          useValue:{
-            url: '/'
-          }
         }
       ]
     })
     .compileComponents();
-    router = TestBed.inject(Router);
+    localStorage.clear();
+    localStorage.setItem('username', 'Cosimo');
+    localStorage.setItem('accessToken', 'Cosimo');
+    //localStorage.setItem('admin', 'Cosimo');
+    fixture = TestBed.createComponent(ToolbarComponent);
+    component = fixture.componentInstance;
+    loginService = TestBed.inject(LoginAbstractService);
     location = TestBed.inject(Location);
-    fixture = TestBed.createComponent(ToolbarComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ToolbarComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('dovrebbe essere loggato', () => {
+    expect(component.isLogged()).toBeTrue();
+  });
 
-  it('gestione nascosta a non-admin', () => {
-    const gestioneMacchine = fixture.debugElement.nativeElement.querySelector('#gm');
+  it('gestione nascosta a non-admin',() => {
+    const menu2 = fixture.debugElement.nativeElement.querySelector('#username');
+    menu2.click();
+    const gestioneMacchine = fixture.nativeElement.parentNode.querySelector('#gm');
     expect(gestioneMacchine).toBeNull();
-  })
+  });
 
   it('router home', () =>{
-    let home = fixture.debugElement.query(By.css('#gm')).nativeElement;
+    let home = fixture.debugElement.nativeElement.querySelector('#produlytics');
+    location.go('gestione-macchine');
     home.click();
     expect(location.path()).toBe('/');
   });
 
-  /* it('apri dialog modifica password', fakeAsync(() => {
-    component.openPwDialog();
-    tick();
-    expect
-  })) */
+  it('apri dialog modifica password', () => {
+    const openDialogSpy = spyOn(component, 'openPwDialog');
+    const menu = fixture.debugElement.nativeElement.querySelector('#username');
+    menu.click();
+    const modifyPw = fixture.nativeElement.parentNode.querySelector('#pw');
+    modifyPw.click();
+    expect(openDialogSpy).toHaveBeenCalled();
+  });
+
+  it('esegui il logout', () => {
+    const spy = spyOn(loginService, 'logout');
+    component.logout();
+    expect(spy).toHaveBeenCalled();
+  });
 });
