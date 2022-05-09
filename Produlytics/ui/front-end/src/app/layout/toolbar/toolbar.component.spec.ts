@@ -14,7 +14,7 @@ import {HttpClient} from "@angular/common/http";
 import {of} from "rxjs";
 
 
-fdescribe('ToolbarComponent', () => {
+describe('ToolbarComponent', () => {
   let component: ToolbarComponent;
   let loginService: LoginAbstractService;
   let fixture: ComponentFixture<ToolbarComponent>;
@@ -54,6 +54,7 @@ fdescribe('ToolbarComponent', () => {
     loginService = TestBed.inject(LoginAbstractService);
     location = TestBed.inject(Location);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
