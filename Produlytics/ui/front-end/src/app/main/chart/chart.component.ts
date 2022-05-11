@@ -45,7 +45,6 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
    * è stata inizilizzata.
    */
   ngAfterViewInit(): void {
-    console.log(this.currentNode);
     this.getData(this.currentNode?.device.id, this.currentNode?.id);
     //if (this.points){
       this.createChart();
