@@ -109,6 +109,9 @@ export class NewDeviceComponent implements OnInit {
     }
   }
 
+  /**
+   * Rimuove una caratteristica dall'elenco.
+   * */
   removeCharacteristic(row: CharacteristicCreationCommand) {
     this.characteristics = this.characteristics.filter(element => element !== row);
   }

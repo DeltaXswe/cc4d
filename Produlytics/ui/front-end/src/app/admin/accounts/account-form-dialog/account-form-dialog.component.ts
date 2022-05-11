@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Account} from "../../../model/admin-account/account";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {StandardError} from "../../../../lib/standard-error";

@@ -4,7 +4,6 @@ import {Router} from "@angular/router";
 import {DeviceAbstractService} from "../../model/admin-device/device-abstract.service";
 import {map, Observer} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
-import {ConfirmDialogComponent} from "../../components/confirm-dialog/confirm-dialog.component";
 import {DeviceDataSource} from "./device.data-source";
 import {NotificationService} from "../../utils/notification.service";
 
@@ -36,8 +35,7 @@ export class DevicesComponent implements OnInit {
   constructor(
     private router: Router,
     private deviceService: DeviceAbstractService,
-    private notificationService: NotificationService,
-    private matDialog: MatDialog
+    private notificationService: NotificationService
   ) { }
 
   /**

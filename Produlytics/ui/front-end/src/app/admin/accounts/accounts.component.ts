@@ -3,7 +3,6 @@ import {Account} from "../../model/admin-account/account";
 import {AccountAbstractService} from "../../model/admin-account/account-abstract.service";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {ConfirmDialogComponent} from "../../components/confirm-dialog/confirm-dialog.component";
 import {AccountFormDialogComponent} from "./account-form-dialog/account-form-dialog.component";
 import {AccountsDataSource} from "./accounts.data-source";
 import {LoginAbstractService} from "../../model/login/login-abstract.service";
