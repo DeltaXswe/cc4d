@@ -25,10 +25,10 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input()
   index: number = 0;
 
-  private limits!: Limits;
+  public limits!: Limits;
   private points: ChartPoint[] = [];
   private updateSubscription?: Subscription;
-  private nextNew: number = 0;
+  public nextNew: number = 0;
   private xAxis!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
   private yAxis!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
   constructor(
@@ -44,7 +44,6 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
    * è stata inizilizzata.
    */
   ngAfterViewInit(): void {
-    console.log(this.currentNode);
     this.getData(this.currentNode?.device.id, this.currentNode?.id);
     if (this.points){
       this.createChart();
