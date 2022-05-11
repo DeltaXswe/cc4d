@@ -7,7 +7,8 @@ import { AuthenticatedUserGuard } from './guards/authenticated-user-guard';
 import { LoginGuard } from './guards/login-guard';
 
 const routes: Routes = [
-  { path: '', component: SelectionComponent, canActivate: [AuthenticatedUserGuard]},
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: 'dashboard', component: SelectionComponent, canActivate: [AuthenticatedUserGuard]},
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard]}
 ];
 
