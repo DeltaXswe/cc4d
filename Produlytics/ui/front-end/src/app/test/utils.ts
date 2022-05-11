@@ -25,6 +25,8 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MatListModule} from "@angular/material/list";
 import {MatChipsModule} from "@angular/material/chips";
 import { MatMenu, MatMenuModule } from "@angular/material/menu";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 const routes: Routes = [
   {
@@ -58,6 +60,8 @@ export const testModules = [
   MatDialogModule,
   MatCardModule,
   MatPaginatorModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
   MatTableModule,
   MatDividerModule,
   MatListModule,
