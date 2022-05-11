@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Device} from "../../../model/admin-device/device";
 import {CharacteristicsDataSource} from "./characteristics.data-source";
@@ -16,12 +16,13 @@ import {
 } from "../update-characteristic-dialog/update-characteristic-dialog.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm-dialog.component";
-import {ErrorDialogComponent} from "../../../components/error-dialog/error-dialog.component";
+import {NotificationService} from "../../../utils/notification.service";
 
 @Component({
   selector: 'app-device-detail',
   templateUrl: './device-detail.component.html',
-  styleUrls: ['./device-detail.component.css']
+  styleUrls: ['./device-detail.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 /**
  * Questa classe rappresenta una singola macchina e ne gestisce le modifiche.
@@ -39,7 +40,7 @@ export class DeviceDetailComponent implements OnInit {
     private updateDeviceService: UpdateDeviceAbstractService,
     private matDialog: MatDialog,
     private activatedRoute: ActivatedRoute,
-    private matSnackBar: MatSnackBar,
+    private notificationService: NotificationService,
     formBuilder: FormBuilder
   ) {
     this.device = activatedRoute.snapshot.data['device'];
@@ -94,14 +95,10 @@ export class DeviceDetailComponent implements OnInit {
           .subscribe({
             next: () => {
               this.initTable();
-              this.matSnackBar.open('Caratteristica aggiunta con successo', 'Ok');
+              this.notificationService.notify('Caratteristica aggiunta con successo');
             },
             error: err => {
-              this.matDialog.open(ErrorDialogComponent, {
-                data: {
-                  message: `Errore imprevisto: "${JSON.stringify(err)}"`
-                }
-              });
+              this.notificationService.unexpectedError(`Errore imprevisto: "${JSON.stringify(err)}"`);
             }
           });
       }
@@ -134,10 +131,7 @@ export class DeviceDetailComponent implements OnInit {
    * Informa l'utente tramite {@link MatSnackBar} che la chiave è stata copiata negli appunti (CTRL-C, o tasto destro -> incolla).
    */
   notifyCopy(): void {
-    this.matSnackBar.open(
-      'Chiave copiata negli appunti',
-      'Ok'
-    );
+    this.notificationService.notify('Chiave copiata negli appunti');
   }
 
   /**
@@ -154,19 +148,16 @@ export class DeviceDetailComponent implements OnInit {
           this.initTable();
         });
     } else {
-      const dialogRef = this.matDialog.open(ConfirmDialogComponent, {
-        data: {
-          message: `La caratteristica ${characteristic.name} con id ${characteristic.id} sarà archiviata. Continuare?`
-        }
-      });
-      dialogRef.afterClosed().subscribe(confirmed => {
+      this.notificationService.requireConfirm(
+        `La caratteristica ${characteristic.name} con id ${characteristic.id} sarà archiviata. Continuare?`
+      ).subscribe(confirmed => {
         if (confirmed) {
           this.characteristicService.archiveCharacteristic(this.device.id, characteristic.id)
             .subscribe(() => {
               this.initTable();
             });
         }
-      })
+      });
     }
   }
 
