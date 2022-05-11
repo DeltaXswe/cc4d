@@ -156,15 +156,15 @@ let httpTestingController: HttpTestingController;
     reqLimits.flush({});
 
     const reqPoints = httpTestingController
-      .expectOne('devices/3/characteristics/1/detections');
+      .expectOne((request) => {
+        return request.url === "/devices/3/characteristics/1/detections"}
+      );
     expect(reqPoints.request.method).toEqual('GET');
-    expect(reqPoints.request.params.get('limit')).toEqual('100');
     reqPoints.flush({});
     httpTestingController.verify();
   });
 
-  it('subscribeToUpdates chiama ChartService', fakeAsync(inject([ChartService], (chartService: ChartAbstractService) => {
-    tick();
+  it('subscribeToUpdates chiama ChartService', () => {
     const reqPoints = httpTestingController
           .expectOne(`/devices/3/characteristics/1/detections?newerThan=${component.nextNew}&limit=10`);
         component.subscribeToUpdates();
@@ -173,5 +173,5 @@ let httpTestingController: HttpTestingController;
         reqPoints.flush({});
         httpTestingController.verify();
 
-  })));
+  });
 });
