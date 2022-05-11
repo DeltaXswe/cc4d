@@ -3,11 +3,10 @@ import {Device} from "../../model/admin-device/device";
 import {Router} from "@angular/router";
 import {DeviceAbstractService} from "../../model/admin-device/device-abstract.service";
 import {map, Observer} from "rxjs";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
-import {ErrorDialogComponent} from "../../components/error-dialog/error-dialog.component";
 import {ConfirmDialogComponent} from "../../components/confirm-dialog/confirm-dialog.component";
 import {DeviceDataSource} from "./device.data-source";
+import {NotificationService} from "../../utils/notification.service";
 
 @Component({
   selector: 'app-devices',
@@ -23,11 +22,7 @@ export class DevicesComponent implements OnInit {
       this.initTable();
     },
     error: err => {
-      this.matDialog.open(ErrorDialogComponent, {
-        data: {
-          message: err
-        }
-      });
+      this.notificationService.unexpectedError(`Errore inaspettato: ${JSON.stringify(err)}`);
     },
     complete: () => {
 
@@ -41,7 +36,7 @@ export class DevicesComponent implements OnInit {
   constructor(
     private router: Router,
     private deviceService: DeviceAbstractService,
-    private matSnackBar: MatSnackBar,
+    private notificationService: NotificationService,
     private matDialog: MatDialog
   ) { }
 
@@ -77,10 +72,7 @@ export class DevicesComponent implements OnInit {
       this.deviceService.activateDevice(device)
         .pipe(
           map(() => {
-            this.matSnackBar.open(
-              'Macchina attivata con successo.',
-              'Ok'
-            );
+            this.notificationService.notify('Macchina attivata con successo.');
           })
         )
         .subscribe(this.reloader);
@@ -88,10 +80,7 @@ export class DevicesComponent implements OnInit {
       this.deviceService.deactivateDevice(device)
         .pipe(
           map(() => {
-            this.matSnackBar.open(
-              'Macchina disattivata con successo.',
-              'Ok'
-            );
+            this.notificationService.notify('Macchina disattivata con successo.');
           })
         )
         .subscribe(this.reloader);
@@ -108,33 +97,23 @@ export class DevicesComponent implements OnInit {
       this.deviceService.restoreDevice(device)
         .pipe(
           map(() => {
-            this.matSnackBar.open(
-              'Macchina ripristinata con successo.',
-              'Ok'
-            );
+            this.notificationService.notify('Macchina disattivata con successo.');
           })
         )
         .subscribe(this.reloader);
     } else {
-      const dialogRef = this.matDialog.open(ConfirmDialogComponent, {
-        data: {
-          message: `La macchina ${device.name} verrà archiviata.`
-        }
-      });
-      dialogRef.afterClosed().subscribe(confirm => {
-        if (confirm) {
-          this.deviceService.archiveDevice(device)
-            .pipe(
-              map(() => {
-                this.matSnackBar.open(
-                  'Macchina archiviata con successo.',
-                  'Ok'
-                );
-              })
-            )
-            .subscribe(this.reloader);
-        }
-      });
+      this.notificationService.requireConfirm(`La macchina ${device.name} verrà archiviata.`)
+        .subscribe(confirm => {
+          if (confirm) {
+            this.deviceService.archiveDevice(device)
+              .pipe(
+                map(() => {
+                  this.notificationService.notify('Macchina disattivata con successo.');
+                })
+              )
+              .subscribe(this.reloader);
+          }
+        });
     }
   }
 
@@ -148,11 +127,7 @@ export class DevicesComponent implements OnInit {
           this.devices.setData(value);
         },
         error: err => {
-          this.matDialog.open(ErrorDialogComponent, {
-            data: {
-              message: err
-            }
-          });
+          this.notificationService.unexpectedError(`Errore inaspettato: ${JSON.stringify(err)}`);
         }
       });
   }

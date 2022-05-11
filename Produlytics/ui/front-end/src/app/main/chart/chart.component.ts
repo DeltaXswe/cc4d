@@ -11,6 +11,7 @@ import { Limits } from '../../model/chart/limits';
 import { MatDialog } from '@angular/material/dialog';
 import { DatePickerDialogComponent } from '../date-picker-dialog/date-picker-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {NotificationService} from "../../utils/notification.service";
 
 @Component({
   selector: 'app-chart',
@@ -34,7 +35,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private chartService: ChartAbstractService,
     public dialog: MatDialog,
-    private matSnackBar: MatSnackBar
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {}
@@ -98,7 +99,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
               this.createChart();
               this.drawChart();
             },
-            error: () => this.matSnackBar.open('Caratteristica non trovata', 'Ok')
+            error: () => this.notificationService.unexpectedError('Caratteristica non trovata')
           });
       }
     });
@@ -151,8 +152,8 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       createGuideLine('line-zona-c-down');
       createGuideLine('line-zona-b-up');
       createGuideLine('line-zona-b-down');
-      
-      
+
+
       this.svg.append('path').attr('class', 'chart-path');
       this.svg.append('g').attr('class', 'chart-points');
       this.drawChart();
@@ -173,13 +174,13 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
         this.points = points.detections;
         this.nextNew = points.nextNew;
         },
-        error: () => this.matSnackBar.open('Caratteristica non trovata', 'Ok')
+        error: () => this.notificationService.unexpectedError('Caratteristica non trovata')
       });
 
       this.chartService.getLimits(this.currentNode.device.id, this.currentNode.id)
       .subscribe({
         next: limits => this.limits = limits,
-        error: () => this.matSnackBar.open('Caratteristica non trovata', 'Ok')
+        error: () => this.notificationService.unexpectedError('Caratteristica non trovata')
       });
   }
 
@@ -279,7 +280,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
           this.nextNew = new_points.nextNew;
           this.drawChart();
       }},
-      error: () => this.matSnackBar.open('Caratteristica non trovata', 'Ok')
+      error: () => this.notificationService.unexpectedError('Caratteristica non trovata')
       });
   }
 

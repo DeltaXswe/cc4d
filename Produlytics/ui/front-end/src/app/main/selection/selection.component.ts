@@ -6,13 +6,10 @@ import {
 import { UnarchivedDeviceAbstractService } from "../../model/device/unarchived-device-abstract.service";
 import { SelectionNode } from './selection-data-source/selection-node';
 import { SelectionDataSource } from './selection-data-source/selection.data-source';
-import { EventEmitter } from '@angular/core';
 import { CharacteristicNode } from './selection-data-source/characteristic-node';
 
-// TODO: da rinominare (device->characteristics)
-
 @Component({
-  selector: 'app-device-selection',
+  selector: 'app-selection',
   templateUrl: './selection.component.html',
   styleUrls: ['./selection.component.css']
 })

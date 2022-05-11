@@ -1,4 +1,8 @@
-.content .bg-green {
-  background-color: forestgreen;
+.bg-green.mat-chip {
+  background-color: darkgreen;
   color: white;
+}
+
+.mat-card-content .mat-form-field-wrapper {
+  padding-top: 1.25em;
 }

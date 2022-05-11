@@ -5,7 +5,7 @@ import {
   UpdateCharacteristicAbstractService
 } from "../../../model/admin-device/characteristic/update-characteristic-abstract.service";
 import {CharacteristicFormComponent} from "../../../components/characteristic-form/characteristic-form.component";
-import {ErrorDialogComponent} from "../../../components/error-dialog/error-dialog.component";
+import {NotificationService} from "../../../utils/notification.service";
 
 @Component({
   selector: 'app-update-characteristic-dialog',
@@ -30,7 +30,7 @@ export class UpdateCharacteristicDialogComponent implements OnInit {
       readonly deviceId: number,
       readonly characteristic: Characteristic,
     },
-    private matDialog: MatDialog
+    private notificationService: NotificationService
   ) {
   }
 
@@ -68,11 +68,7 @@ export class UpdateCharacteristicDialogComponent implements OnInit {
           if (err.errorCode === 'duplicateCharacteristicName') {
             this.charForm.duplicateNameBehavior.next(true);
           } else {
-            this.matDialog.open(ErrorDialogComponent, {
-              data: {
-                message: `Errore inaspettato: ${JSON.stringify(err)}`
-              }
-            });
+            this.notificationService.unexpectedError(`Errore inaspettato: ${JSON.stringify(err)}`);
           }
         }
       });
