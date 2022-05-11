@@ -15,7 +15,6 @@ import {
   UpdateCharacteristicDialogComponent
 } from "../update-characteristic-dialog/update-characteristic-dialog.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm-dialog.component";
 import {NotificationService} from "../../../utils/notification.service";
 
 @Component({
