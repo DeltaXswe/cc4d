@@ -92,6 +92,18 @@ describe('ChartComponent', () => {
     component.openDialog();
     expect(spyDialog).toHaveBeenCalled();
   });
+
+  it('refresh', () => {
+    const spyClear = spyOn(component, "clearChart");
+    const spyData = spyOn(component, "getData");
+    const spyCreate = spyOn(component, "createChart");
+    const spySubscribe = spyOn(component, "subscribeToUpdates");
+    component.refresh();
+    expect(spyClear).toHaveBeenCalled();
+    expect(spyData).toHaveBeenCalled();
+    expect(spyCreate).toHaveBeenCalled();
+    expect(spySubscribe).toHaveBeenCalled();
+  })
 });
 
 describe('ChartComponent integration', () => {
@@ -126,6 +138,7 @@ let httpTestingController: HttpTestingController;
     })
       .compileComponents();
     httpTestingController = TestBed.inject(HttpTestingController);
+    chartService = TestBed.inject(ChartAbstractService);
     fixture = TestBed.createComponent(ChartComponent);
     httpClient = TestBed.inject(HttpClient);
     mockDialogRef = TestBed.inject(MatDialogRef);
@@ -156,22 +169,30 @@ let httpTestingController: HttpTestingController;
     reqLimits.flush({});
 
     const reqPoints = httpTestingController
-      .expectOne((request) => {
-        return request.url === "/devices/3/characteristics/1/detections"}
-      );
+      .expectOne((request) => request.url === "/devices/3/characteristics/1/detections");
     expect(reqPoints.request.method).toEqual('GET');
     reqPoints.flush({});
     httpTestingController.verify();
   });
 
-  it('subscribeToUpdates chiama ChartService', () => {
+  it('subscribeToUpdates chiama ChartService', fakeAsync (() => {
+    tick();
+    component.clearChart();
+    fixture.detectChanges();
+    chartService.getNextPoints(3, 1, 0)
     const reqPoints = httpTestingController
-          .expectOne(`/devices/3/characteristics/1/detections?newerThan=${component.nextNew}&limit=10`);
-        component.subscribeToUpdates();
-        fixture.detectChanges();
-        expect(reqPoints.request.method).toEqual('GET');
-        reqPoints.flush({});
-        httpTestingController.verify();
-
-  });
+      .expectOne((request) => request.url === "/devices/3/characteristics/1/detections");
+    expect(reqPoints.request.method).toEqual('GET');
+    reqPoints.flush({point: {
+      detections: [
+        {
+          creationTime: 11000000,
+          value: 500,
+          outlier: false
+        }],
+      nextOld: 1000000,
+      nextNew: 1000000
+    }});
+    httpTestingController.verify();
+  }));
 });

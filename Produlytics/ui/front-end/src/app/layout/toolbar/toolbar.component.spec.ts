@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AccountAbstractService } from 'src/app/model/admin-account/account-abstract.service';
 import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
@@ -11,6 +11,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {LoginService} from "../../model/login/login.service";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {HttpClient} from "@angular/common/http";
+import {of} from "rxjs";
 
 
 describe('ToolbarComponent', () => {
@@ -70,21 +71,22 @@ describe('ToolbarComponent', () => {
     expect(gestioneMacchine).toBeNull();
   });
 
-  it('router home', () =>{
+  it('router home', fakeAsync(() =>{
     let home = fixture.debugElement.nativeElement.querySelector('#produlytics');
+    tick();
     location.go('gestione-macchine');
     home.click();
+    tick();
     expect(location.path()).toBe('/');
-  });
+  }));
 
   it('apri dialog modifica password', () => {
-    //const openDialogSpy = spyOn(component, 'openPwDialog');
-    //const menu = fixture.debugElement.nativeElement.querySelector('#username');
-    //menu.click();
-    //const modifyPw = fixture.nativeElement.parentNode.querySelector('#pw');
-    //modifyPw.click();
-    //expect(openDialogSpy).toHaveBeenCalled();
-    component.openPwDialog()
+    const spyDialog = spyOn(component.dialog, 'open').and.returnValue({
+      afterClosed: () =>
+        of({data: {}})
+    } as any);
+    component.openPwDialog();
+    expect(spyDialog).toHaveBeenCalled();
   });
 
   it('esegui il logout',  () => {

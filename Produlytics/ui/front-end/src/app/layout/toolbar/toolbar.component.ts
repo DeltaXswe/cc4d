@@ -18,7 +18,7 @@ import { LoginAbstractService } from 'src/app/model/login/login-abstract.service
 export class ToolbarComponent implements OnInit {
 
   constructor(
-    private dialog: MatDialog,
+    public dialog: MatDialog,
     private loginService: LoginAbstractService,
     private matSnackBar: MatSnackBar,
     private router: Router
