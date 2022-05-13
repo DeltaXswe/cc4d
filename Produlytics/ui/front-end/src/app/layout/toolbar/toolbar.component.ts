@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { ModifyPwComponent } from 'src/app/main/modify-pw/modify-pw.component';
 import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
 
@@ -19,7 +20,8 @@ export class ToolbarComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private loginService: LoginAbstractService,
-    private matSnackBar: MatSnackBar
+    private matSnackBar: MatSnackBar,
+    private router: Router
     ) { }
 
     ngOnInit() {
@@ -37,8 +39,10 @@ export class ToolbarComponent implements OnInit {
           this.matSnackBar.open('La nuova password inserita non è valida', 'Ok');
         }else if (data == 401){
           this.matSnackBar.open('La password corrente è errata', 'Ok');
-        }else if (data){
-          this.matSnackBar.open('Password cambiata con successo', 'Ok');
+        }else {
+          if (data){
+            this.matSnackBar.open('Password cambiata con successo', 'Ok');
+          }
         }});
     }
 
@@ -71,6 +75,8 @@ export class ToolbarComponent implements OnInit {
      * effettua il logout.
      */
     logout(): void{
-      this.loginService.logout();
+      this.loginService.logout().subscribe({
+        next: () =>this.router.navigate(['/login'])
+      });
     }
 }

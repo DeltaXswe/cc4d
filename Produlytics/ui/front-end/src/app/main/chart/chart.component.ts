@@ -6,7 +6,7 @@ import { concatMap } from 'rxjs/operators';
 
 import { ChartPoint } from '../../model/chart/chart-point';
 import { ChartAbstractService } from "../../model/chart/chart-abstract.service";
-import { CharacteristicNode } from '../device-selection/selection-data-source/characteristic-node';
+import { CharacteristicNode } from '../selection/selection-data-source/characteristic-node';
 import { Limits } from '../../model/chart/limits';
 import { MatDialog } from '@angular/material/dialog';
 import { DatePickerDialogComponent } from '../date-picker-dialog/date-picker-dialog.component';
@@ -147,6 +147,10 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       createGuideLine('line-media');
       createGuideLine('line-limite line-limite-min');
       createGuideLine('line-limite line-limite-max');
+      createGuideLine('line-zona-c-up');
+      createGuideLine('line-zona-c-down');
+      createGuideLine('line-zona-b-up');
+      createGuideLine('line-zona-b-down');
       
       
       this.svg.append('path').attr('class', 'chart-path');
@@ -207,28 +211,19 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.yAxis.call(d3.axisLeft(this.yScale));
 
-    let tickValues = this.yScale.ticks();
-    this.svg.selectAll('.grid').remove();
-
-    for (let i = 0; i < tickValues.length; i++){
-      this.svg
-        .append('line')
-        .lower()
-        .attr('class', 'grid')
-        .attr('id', `grid${i}`)
-        .attr('x1', 0)
-        .attr('x2', this.chartWidth);
-
-        this.svg.select(`#grid${i}`).attr('y1', this.yScale(tickValues[i])).attr('y2', this.yScale(tickValues[i]));
-
-    }
-
     const setGuideLine = (cls: string, y: number) => {
       this.svg.select(cls).attr('y1', y).attr('y2', y);
     };
     setGuideLine('.line-media', this.yScale(this.limits.mean));
     setGuideLine('.line-limite-min', this.yScale(this.limits.lowerLimit));
     setGuideLine('.line-limite-max', this.yScale(this.limits.upperLimit));
+
+    const deviation = (this.limits.upperLimit - this.limits.mean)/3;
+
+    setGuideLine('.line-zona-c-up', this.yScale(this.limits.mean + deviation));
+    setGuideLine('.line-zona-c-down', this.yScale(this.limits.mean - deviation));
+    setGuideLine('.line-zona-b-up', this.yScale(this.limits.mean + 2*deviation));
+    setGuideLine('.line-zona-b-down', this.yScale(this.limits.mean - 2*deviation));
 
     let xp = (p: ChartPoint) => this.xScale(p.creationTime);
     let yp = (p: ChartPoint) => this.yScale(p.value);

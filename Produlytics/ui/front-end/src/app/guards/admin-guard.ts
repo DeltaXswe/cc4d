@@ -10,7 +10,7 @@ import { LoginAbstractService } from "../model/login/login-abstract.service";
 export class AdminGuard implements CanActivate{
    constructor(private router: Router, private loginService: LoginAbstractService){}
 
-   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
+   canActivate(): boolean | UrlTree {
       if (!this.loginService.isAdmin()){
          return this.router.parseUrl('');
       } else {

@@ -11,15 +11,15 @@ import { ChartPointReturn } from '../../model/chart/chart-point-return';
 export class FakeChartService implements ChartAbstractService {
 
   fakeLimits2 = new BehaviorSubject<Limits>({
-    lowerLimit: -100,
+    lowerLimit: -300,
     upperLimit: 300,
-    mean: 100
+    mean: 0
   });
 
   fakeLimits3 = new BehaviorSubject<Limits>({
-    lowerLimit: -200,
-    upperLimit: 400,
-    mean: 100
+    lowerLimit: -300,
+    upperLimit: 300,
+    mean: 0
   });
 
   fakeInitialPoints2 = new BehaviorSubject<ChartPointReturn> ({

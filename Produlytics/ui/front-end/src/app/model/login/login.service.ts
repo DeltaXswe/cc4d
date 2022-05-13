@@ -48,8 +48,9 @@ export class LoginService implements LoginAbstractService{
       return false;
   }
 
-  logout(): void{ //da vedere coi cookie
-    this.cookieService.deleteAll;
+  logout(): Observable<any>{
+    localStorage.clear();
+    return this.http.post('/logout', {});
   }
 
   getUsername(): string{
