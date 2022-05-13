@@ -9,7 +9,7 @@ import { SelectionDataSource } from './selection-data-source/selection.data-sour
 import { EventEmitter } from '@angular/core';
 import { CharacteristicNode } from './selection-data-source/characteristic-node';
 
-// TODO STA CLASSE È TUTTA DA RINOMINARE AAAAAAA (device->characteristic)
+// TODO: da rinominare (device->characteristics)
 
 @Component({
   selector: 'app-device-selection',

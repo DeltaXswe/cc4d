@@ -9,7 +9,7 @@ import { LoginAbstractService } from "../model/login/login-abstract.service";
 export class LoginGuard implements CanActivate{
    constructor(private router: Router, private loginService: LoginAbstractService){}
 
-   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
+   canActivate(): boolean | UrlTree {
       if (!this.loginService.isLogged()){
          return true;
       } else {
