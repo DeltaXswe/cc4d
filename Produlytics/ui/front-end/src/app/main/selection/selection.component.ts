@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { FlatTreeControl } from "@angular/cdk/tree";
 import {
   UnarchivedCharacteristicAbstractService
