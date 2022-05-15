@@ -68,3 +68,7 @@ GRANT INSERT, UPDATE ON TABLE detection TO api;
 -- Hibernate hack
 CREATE SEQUENCE hibernate_sequence START 1;
 GRANT ALL ON SEQUENCE hibernate_sequence TO ui;
+
+-- default account
+INSERT INTO account (username, hashed_password, administrator, archived)
+VALUES ('deltax', '$2a$10$hexb3XcuwBc.t71c1QKwX.IPVjd48ra8d6KY1svuyxQahE.YPPiIC', true, false);
