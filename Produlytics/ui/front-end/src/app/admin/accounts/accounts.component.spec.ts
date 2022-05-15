@@ -11,6 +11,7 @@ import {HttpClient} from "@angular/common/http";
 import {HttpTestingController} from "@angular/common/http/testing";
 import {AccountService} from "../../model/admin-account/account.service";
 import {LoginService} from "../../model/login/login.service";
+import {AccountEntity} from "../../test/account/account-entity";
 
 describe('AccountsComponent', () => {
   let component: AccountsComponent;
@@ -154,9 +155,15 @@ describe('AccountsComponent Integration', () => {
   });
 
   it('accounts-recover', () => {
+    const bobUser = AccountEntity.CREATE({
+      username: 'bob',
+      password: 'linkinpark',
+      administrator: false
+    });
+    bobUser.archived = true;
     let req = httpTestingController.expectOne('admin/accounts');
     expect(req.request.method).toEqual('GET');
-    req.flush(users);
+    req.flush([bobUser]);
     component.toggleStatus(bobUser);
     req = httpTestingController.expectOne('admin/accounts/bob/archived');
     expect(req.request.method).toEqual('PUT');

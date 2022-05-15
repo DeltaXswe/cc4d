@@ -5,11 +5,8 @@ import {MockDialogAlwaysConfirm, testModules} from "../../test/utils";
 import {Router} from "@angular/router";
 import {Location} from "@angular/common";
 import {
-  devices,
-  FakeDeviceService,
-  filaioDevice,
-  locomotivaDevice,
-  valvolaDevice
+  DeviceMock,
+  FakeDeviceService, filaioDevice, locomotivaDevice, valvolaDevice
 } from "../../test/device/fake-device.service";
 import {DeviceAbstractService} from "../../model/admin-device/device-abstract.service";
 import {MatDialog} from "@angular/material/dialog";
@@ -72,7 +69,7 @@ describe('DevicesComponent', () => {
   it('disattiva-macchina', (doneFn) => {
     component.toggleActivationDevice(filaioDevice);
     component.devices.connect().subscribe(data => {
-      if (locomotivaDevice.deactivated) {
+      if (filaioDevice.deactivated) {
         doneFn();
       }
     });
@@ -151,9 +148,26 @@ describe('DevicesComponent Integration', () => {
   });
 
   it('devices-archive', () => {
+    const filaioDevice = new DeviceMock({
+      id: 2,
+      name: 'Filaio a vapore',
+      archived: false,
+      deactivated: false,
+      apiKey: 'BBB'
+    }, [
+      {
+        id: 1,
+        name: 'Tensione fili',
+        archived: false,
+        autoAdjust: false,
+        sampleSize: null,
+        upperLimit: 30, // newton su metri2
+        lowerLimit: 0.5
+      }
+    ]);
     let req = httpTestingController.expectOne('admin/devices');
     expect(req.request.method).toEqual('GET');
-    req.flush(devices);
+    req.flush([filaioDevice]);
     component.toggleStatusDevice(filaioDevice);
     req = httpTestingController.expectOne(`admin/devices/${filaioDevice.id}/archived`);
     expect(req.request.method).toEqual('PUT');
@@ -161,29 +175,63 @@ describe('DevicesComponent Integration', () => {
     req.flush({});
     req = httpTestingController.expectOne('admin/devices');
     expect(req.request.method).toEqual('GET');
-    req.flush(devices);
+    req.flush([filaioDevice]);
     httpTestingController.verify();
   });
 
   it('devices-recover', () => {
+    const filaioDevice = new DeviceMock({
+      id: 2,
+      name: 'Filaio a vapore',
+      archived: true,
+      deactivated: true,
+      apiKey: 'BBB'
+    }, [
+      {
+        id: 1,
+        name: 'Tensione fili',
+        archived: false,
+        autoAdjust: false,
+        sampleSize: null,
+        upperLimit: 30, // newton su metri2
+        lowerLimit: 0.5
+      }
+    ]);
     let req = httpTestingController.expectOne('admin/devices');
     expect(req.request.method).toEqual('GET');
-    req.flush(devices);
-    component.toggleStatusDevice(valvolaDevice);
-    req = httpTestingController.expectOne(`admin/devices/${valvolaDevice.id}/archived`);
+    req.flush([filaioDevice]);
+    component.toggleStatusDevice(filaioDevice);
+    req = httpTestingController.expectOne(`admin/devices/${filaioDevice.id}/archived`);
     expect(req.request.method).toEqual('PUT');
     expect(req.request.body).toBeFalse();
     req.flush({});
     req = httpTestingController.expectOne('admin/devices');
     expect(req.request.method).toEqual('GET');
-    req.flush(devices);
+    req.flush([filaioDevice]);
     httpTestingController.verify();
   });
 
   it('devices-deactivate', () => {
+    const filaioDevice = new DeviceMock({
+      id: 2,
+      name: 'Filaio a vapore',
+      archived: false,
+      deactivated: false,
+      apiKey: 'BBB'
+    }, [
+      {
+        id: 1,
+        name: 'Tensione fili',
+        archived: false,
+        autoAdjust: false,
+        sampleSize: null,
+        upperLimit: 30, // newton su metri2
+        lowerLimit: 0.5
+      }
+    ]);
     let req = httpTestingController.expectOne('admin/devices');
     expect(req.request.method).toEqual('GET');
-    req.flush(devices);
+    req.flush([filaioDevice]);
     component.toggleActivationDevice(filaioDevice);
     req = httpTestingController.expectOne(`admin/devices/${filaioDevice.id}/deactivated`);
     expect(req.request.method).toEqual('PUT');
@@ -191,22 +239,39 @@ describe('DevicesComponent Integration', () => {
     req.flush({});
     req = httpTestingController.expectOne('admin/devices');
     expect(req.request.method).toEqual('GET');
-    req.flush(devices);
+    req.flush([filaioDevice]);
     httpTestingController.verify();
   });
 
   it('devices-activate', () => {
+    const filaioDevice = new DeviceMock({
+      id: 2,
+      name: 'Filaio a vapore',
+      archived: false,
+      deactivated: true,
+      apiKey: 'BBB'
+    }, [
+      {
+        id: 1,
+        name: 'Tensione fili',
+        archived: false,
+        autoAdjust: false,
+        sampleSize: null,
+        upperLimit: 30, // newton su metri2
+        lowerLimit: 0.5
+      }
+    ]);
     let req = httpTestingController.expectOne('admin/devices');
     expect(req.request.method).toEqual('GET');
-    req.flush(devices);
-    component.toggleActivationDevice(valvolaDevice);
-    req = httpTestingController.expectOne(`admin/devices/${valvolaDevice.id}/deactivated`);
+    req.flush([filaioDevice]);
+    component.toggleActivationDevice(filaioDevice);
+    req = httpTestingController.expectOne(`admin/devices/${filaioDevice.id}/deactivated`);
     expect(req.request.method).toEqual('PUT');
     expect(req.request.body).toBeFalse();
     req.flush({});
     req = httpTestingController.expectOne('admin/devices');
     expect(req.request.method).toEqual('GET');
-    req.flush(devices);
+    req.flush([filaioDevice]);
     httpTestingController.verify();
   });
 });
