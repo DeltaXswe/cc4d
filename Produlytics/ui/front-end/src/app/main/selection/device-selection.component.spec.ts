@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeviceSelectionComponent } from '../device-selection/device-selection.component';
+import { DeviceSelectionComponent } from './device-selection.component';
+import {FakeDeviceService} from "../../test/device/fake-device.service";
+import {UnarchivedDeviceAbstractService} from "../../model/device/unarchived-device-abstract.service";
 
 describe('DeviceSelectionComponent', () => {
   let component: DeviceSelectionComponent;
@@ -8,7 +10,15 @@ describe('DeviceSelectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeviceSelectionComponent ]
+      declarations: [ DeviceSelectionComponent ],
+      providers: [
+        FakeDeviceService,
+        {
+          provide: UnarchivedDeviceAbstractService,
+          useExisting: FakeDeviceService
+        },
+
+      ]
     })
     .compileComponents();
   });

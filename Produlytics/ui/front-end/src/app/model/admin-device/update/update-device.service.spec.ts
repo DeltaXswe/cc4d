@@ -1,12 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
 import { UpdateDeviceService } from './update-device.service';
+import {testModules} from "../../../test/utils";
 
 describe('UpdateDeviceService', () => {
   let service: UpdateDeviceService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: testModules
+    });
     service = TestBed.inject(UpdateDeviceService);
   });
 
