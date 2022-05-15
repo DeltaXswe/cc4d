@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeviceSelectionComponent } from './device-selection.component';
+import { SelectionComponent } from './selection.component';
 import {FakeDeviceService} from "../../test/device/fake-device.service";
 import {UnarchivedDeviceAbstractService} from "../../model/device/unarchived-device-abstract.service";
 
 describe('DeviceSelectionComponent', () => {
-  let component: DeviceSelectionComponent;
-  let fixture: ComponentFixture<DeviceSelectionComponent>;
+  let component: SelectionComponent;
+  let fixture: ComponentFixture<SelectionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeviceSelectionComponent ],
+      declarations: [ SelectionComponent ],
       providers: [
         FakeDeviceService,
         {
@@ -24,7 +24,7 @@ describe('DeviceSelectionComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DeviceSelectionComponent);
+    fixture = TestBed.createComponent(SelectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

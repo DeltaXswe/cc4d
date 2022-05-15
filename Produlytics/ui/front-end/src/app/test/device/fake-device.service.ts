@@ -36,7 +36,7 @@ export class CharacteristicMock implements Characteristic {
   }
 }
 
-class DeviceMock implements Device {
+export class DeviceMock implements Device {
 
    id: number;
    name: string;
