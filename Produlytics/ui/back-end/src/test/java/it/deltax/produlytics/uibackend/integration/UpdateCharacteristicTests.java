@@ -268,13 +268,11 @@ public class UpdateCharacteristicTests {
    */
   @Test
   void testArchiveCharacteristic() throws Exception {
-    JSONObject body = new JSONObject().put("archived", true);
-
     this.mockMvc
         .perform(
             put("/admin/devices/" + deviceId + "/characteristics/" + characteristicId + "/archived")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(body.toString())
+                .content("true")
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNoContent());
@@ -294,13 +292,11 @@ public class UpdateCharacteristicTests {
    */
   @Test
   void testUnarchiveCharacteristic() throws Exception {
-    JSONObject body = new JSONObject().put("archived", false);
-
     this.mockMvc
         .perform(
             put("/admin/devices/" + deviceId + "/characteristics/" + characteristicId + "/archived")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(body.toString())
+                .content("false")
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNoContent());
@@ -322,15 +318,13 @@ public class UpdateCharacteristicTests {
   void testCharacteristicNotFoundError() throws Exception {
     deleteAll();
 
-    JSONObject body = new JSONObject().put("archived", false);
-
     JSONObject response = new JSONObject().put("errorCode", "characteristicNotFound");
 
     this.mockMvc
         .perform(
             put("/admin/devices/" + deviceId + "/characteristics/" + characteristicId + "/archived")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(body.toString())
+                .content("false")
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNotFound())

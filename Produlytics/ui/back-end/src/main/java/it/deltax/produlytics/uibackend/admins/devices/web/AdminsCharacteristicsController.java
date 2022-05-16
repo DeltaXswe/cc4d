@@ -103,7 +103,7 @@ public class AdminsCharacteristicsController {
       @PathVariable("characteristicId") int characteristicId,
       @RequestBody JsonNode body)
       throws BusinessException {
-    boolean archived = body.get("archived").asBoolean();
+    boolean archived = body.asBoolean();
     this.updateCharacteristicArchiveStatusUseCase.updateCharacteristicArchiveStatus(
         new CharacteristicArchiveStatus(characteristicId, deviceId, archived));
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
