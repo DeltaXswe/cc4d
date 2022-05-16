@@ -134,7 +134,7 @@ public class AdminsDevicesController {
   @PutMapping("devices/{id}/archived")
   public ResponseEntity<String> updateDeviceArchiveStatus(
       @PathVariable("id") int id, @RequestBody JsonNode body) throws BusinessException {
-    boolean archived = body.get("archived").asBoolean();
+    boolean archived = body.asBoolean();
     this.updateDeviceArchiveStatusUseCase.updateDeviceArchiveStatus(
         new DeviceArchiveStatus(id, archived));
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
