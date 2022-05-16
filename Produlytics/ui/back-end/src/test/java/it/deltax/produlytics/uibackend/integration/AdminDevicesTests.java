@@ -221,14 +221,11 @@ public class AdminDevicesTests {
    */
   @Test
   public void testModifyDeviceArchiveStatus() throws Exception {
-    JSONObject json = new JSONObject();
-    json.put("archived", "true");
-
     this.mockMvc
         .perform(
             put("/admin/devices/" + deviceId1 + "/archived")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(json.toString())
+                .content("true")
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNoContent());
@@ -241,14 +238,11 @@ public class AdminDevicesTests {
    */
   @Test
   public void testModifyDeviceArchiveStatusNotFound() throws Exception {
-    JSONObject json = new JSONObject();
-    json.put("archived", "true");
-
     this.mockMvc
         .perform(
             put("/admin/devices/2000/archived")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(json.toString())
+                .content("true")
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNotFound())
@@ -262,14 +256,11 @@ public class AdminDevicesTests {
    */
   @Test
   public void testModifyDeviceDeactivateStatus() throws Exception {
-    JSONObject json = new JSONObject();
-    json.put("deactivated", "true");
-
     this.mockMvc
         .perform(
             put("/admin/devices/" + deviceId1 + "/deactivated")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(json.toString())
+                .content("true")
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNoContent());
@@ -282,14 +273,11 @@ public class AdminDevicesTests {
    */
   @Test
   public void testModifyDeviceDeactivateStatusNotFound() throws Exception {
-    JSONObject json = new JSONObject();
-    json.put("deactivated", "true");
-
     this.mockMvc
         .perform(
             put("/admin/devices/3000/deactivated")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(json.toString())
+                .content("true")
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNotFound())

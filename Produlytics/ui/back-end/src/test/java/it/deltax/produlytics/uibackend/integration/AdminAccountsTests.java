@@ -244,14 +244,11 @@ public class AdminAccountsTests {
    */
   @Test
   public void testUpdateArchiveStatusAccountOk() throws Exception {
-    JSONObject json = new JSONObject();
-    json.put("archived", "true");
-
     this.mockMvc
         .perform(
             put("/admin/accounts/utente1/archived")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(json.toString())
+                .content("true")
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNoContent());
@@ -264,14 +261,11 @@ public class AdminAccountsTests {
    */
   @Test
   public void testUpdateArchiveStatusAccountNotFound() throws Exception {
-    JSONObject json = new JSONObject();
-    json.put("archived", "true");
-
     this.mockMvc
         .perform(
             put("/admin/accounts/utenteCheNonEsiste/archived")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(json.toString())
+                .content("true")
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNotFound())
