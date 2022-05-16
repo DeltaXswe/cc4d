@@ -16,7 +16,7 @@ public record NewCharacteristic(
     boolean autoAdjust,
     OptionalInt sampleSize
 ) {
-  @Builder(builderMethodName = "", setterPrefix = "with")
+  @Builder(toBuilder = true, builderMethodName = "", setterPrefix = "with")
   public NewCharacteristic {}
 
   /**
