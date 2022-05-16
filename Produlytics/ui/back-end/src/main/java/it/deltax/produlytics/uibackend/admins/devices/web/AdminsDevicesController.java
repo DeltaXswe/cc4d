@@ -134,7 +134,7 @@ public class AdminsDevicesController {
   @PutMapping("devices/{id}/archived")
   public ResponseEntity<String> updateDeviceArchiveStatus(
       @PathVariable("id") int id, @RequestBody JsonNode body) throws BusinessException {
-    boolean archived = body.get("archived").asBoolean();
+    boolean archived = body.asBoolean();
     this.updateDeviceArchiveStatusUseCase.updateDeviceArchiveStatus(
         new DeviceArchiveStatus(id, archived));
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -152,7 +152,7 @@ public class AdminsDevicesController {
   @PutMapping("/devices/{id}/deactivated")
   public ResponseEntity<String> updateDeviceDeactivateStatus(
       @PathVariable("id") int id, @RequestBody JsonNode body) throws BusinessException {
-    boolean deactivated = body.get("deactivated").asBoolean();
+    boolean deactivated = body.asBoolean();
     this.updateDeviceDeactivateStatusUseCase.updateDeviceDeactivateStatus(
         new DeviceDeactivateStatus(id, deactivated));
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);

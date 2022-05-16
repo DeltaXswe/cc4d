@@ -110,7 +110,7 @@ public class AdminsAccountsController {
   public ResponseEntity<String> updateAccountArchiveStatus(
       @PathVariable("username") String username, @RequestBody JsonNode body)
       throws BusinessException {
-    boolean archived = body.get("archived").asBoolean();
+    boolean archived = body.asBoolean();
     this.updateAccountArchiveStatusUseCase.updateAccountArchiveStatus(
         new AccountArchiveStatus(username, archived));
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
