@@ -190,7 +190,7 @@ public class InsertCharacteristicTests {
    * @throws Exception non viene rilevato l'errore
    */
   @Test
-  void testInsertCharacteristicWithAutoAdjustAndNoSampleSizeError() throws Exception {
+  void testInsertCharacteristicWithAutoAdjustAndNoSampleSize() throws Exception {
     JSONObject body =
         new JSONObject()
             .put("name", "pressione")
