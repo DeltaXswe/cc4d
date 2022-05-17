@@ -25,4 +25,38 @@ public interface CharacteristicRepository
       nativeQuery = true)
   Optional<CharacteristicEntity> findByDeviceIdAndName(
       @Param("deviceId") int deviceId, @Param("name") String name);
+
+  @Query(value = """
+    SELECT
+      ch.auto_adjust as autoAdjust,
+      ch.lower_limit as technicalLowerLimit,
+      ch.upper_limit as technicalUpperLimit,
+      mean_stddev.mean as computedMean,
+      mean_stddev.stddev as computedStddev
+    FROM characteristic ch JOIN (
+      SELECT AVG(helper.value) as mean, COALESCE(STDDEV_SAMP(helper.value), 1) as stddev
+      FROM (
+        SELECT dt.value as value
+        FROM detection dt
+        WHERE dt.device_id = :deviceId AND dt.characteristic_id = :characteristicId
+        ORDER BY dt.creation_time DESC
+        LIMIT (
+          SELECT COALESCE(sample_size, 0)
+          FROM characteristic ch2
+          WHERE ch2.device_id = :deviceId AND ch2.id = :characteristicId
+        )
+      ) helper
+    ) mean_stddev
+    ON ch.device_id = :deviceId AND ch.id = :characteristicId
+    """, nativeQuery = true)
+  LimitsEntity findLimits(
+      @Param("deviceId") int deviceId, @Param("characteristicId") int characteristicId);
+
+  public interface LimitsEntity {
+    boolean getAutoAdjust();
+    Optional<Double> getTechnicalLowerLimit();
+    Optional<Double> getTechnicalUpperLimit();
+    double getComputedMean();
+    double getComputedStddev();
+  }
 }
