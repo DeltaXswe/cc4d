@@ -110,22 +110,22 @@ describe('DeviceDetailComponent New', () => {
   });
 
   it('aggiorna-nome-macchina', fakeAsync(() => {
-    component.deviceNameForm.setValue({
-      name: 'Filaio a mano'
-    });
+    component.deviceNameControl.setValue(
+      'Filaio a mano'
+    );
     component.updateDeviceName();
     tick();
-    expect(component.deviceNameForm.hasError('duplicateDeviceName')).toBeFalse();
+    expect(component.deviceNameControl.hasError('duplicateDeviceName')).toBeFalse();
     expect(filaioDevice.name).toEqual('Filaio a mano');
   }));
 
   it('rifiuta-aggiorna-nome-macchina', () => {
     const originalName = filaioDevice.name;
-    component.deviceNameForm.setValue({
-      name: locomotivaDevice.name
-    });
+    component.deviceNameControl.setValue(
+      locomotivaDevice.name
+    );
     component.updateDeviceName();
-    expect(component.deviceNameForm.get('name')?.hasError('duplicateDeviceName')).toBeTrue();
+    expect(component.deviceNameControl.hasError('duplicateDeviceName')).toBeTrue();
     expect(filaioDevice.name).toEqual(originalName);
   });
 
@@ -386,9 +386,9 @@ describe('DeviceDetailComponent Integration', () => {
     expect(req.request.method).toEqual('GET');
     req.flush(locomotivaDevice.characteristics);
 
-    component.deviceNameForm.setValue({
-      name: 'Colomotiva'
-    });
+    component.deviceNameControl.setValue(
+      'Colomotiva'
+    );
     component.updateDeviceName();
     req = httpTestingController.expectOne(`admin/devices/${locomotivaDevice.id}/name`);
     expect(req.request.method).toEqual('PUT');

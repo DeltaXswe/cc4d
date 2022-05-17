@@ -16,6 +16,7 @@ import {
 } from "../update-characteristic-dialog/update-characteristic-dialog.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {NotificationService} from "../../../utils/notification.service";
+import {StandardError} from "../../../../lib/standard-error";
 
 @Component({
   selector: 'app-device-detail',
@@ -29,7 +30,7 @@ import {NotificationService} from "../../../utils/notification.service";
 export class DeviceDetailComponent implements OnInit {
 
   characteristics = new CharacteristicsDataSource();
-  deviceNameForm: FormGroup;
+  deviceNameControl: FormControl;
   device: Device;
 
   readonly displayedColumns = ['name', 'edit', 'status'];
@@ -39,13 +40,10 @@ export class DeviceDetailComponent implements OnInit {
     private updateDeviceService: UpdateDeviceAbstractService,
     private matDialog: MatDialog,
     private activatedRoute: ActivatedRoute,
-    private notificationService: NotificationService,
-    formBuilder: FormBuilder
+    private notificationService: NotificationService
   ) {
     this.device = activatedRoute.snapshot.data['device'];
-    this.deviceNameForm = formBuilder.group({
-      name: new FormControl(this.device.name, Validators.required)
-    });
+    this.deviceNameControl = new FormControl(this.device.name, Validators.required);
   }
 
   /**
@@ -61,15 +59,20 @@ export class DeviceDetailComponent implements OnInit {
    * di errore, la utilizza per visualizzare l'errore.
    */
   updateDeviceName(): void {
-    const newName = this.deviceNameForm.getRawValue().name;
+    const newName = this.deviceNameControl.value;
     this.updateDeviceService.updateDeviceName(this.device.id, newName)
       .subscribe({
         next: () => {
-          this.deviceNameForm.get('name')?.setErrors({duplicateDeviceName: null});
-          this.deviceNameForm.get('name')?.updateValueAndValidity();
+          this.deviceNameControl.setErrors({duplicateDeviceName: null});
+          this.deviceNameControl.updateValueAndValidity();
+          window.location.reload();
         },
-        error: () => {
-          this.deviceNameForm.get('name')?.setErrors({duplicateDeviceName: true});
+        error: (err: StandardError) => {
+          if (err.errorCode === 'duplicateDeviceName') {
+            this.deviceNameControl.setErrors({duplicateDeviceName: true});
+          } else {
+            this.notificationService.unexpectedError(err.toString());
+          }
           // this.deviceNameForm.get('name')?.updateValueAndValidity();
         }
       });
@@ -171,5 +174,9 @@ export class DeviceDetailComponent implements OnInit {
       .subscribe(result => {
         this.characteristics.data = result;
       })
+  }
+
+  newNameInvalid() {
+    return this.deviceNameControl.invalid || this.deviceNameControl.value === this.device.name;
   }
 }

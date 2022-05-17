@@ -75,11 +75,14 @@ export class CharacteristicFormComponent implements OnInit {
    */
   requireData(): CharacteristicCreationCommand {
     const rawValue = this.formGroup.getRawValue();
-    if (rawValue.autoAdjust) {
-      rawValue.upperLimit = null;
-      rawValue.lowerLimit = null;
-    } else {
+    if (rawValue.sampleSize === '') {
       rawValue.sampleSize = null;
+    }
+    if (rawValue.upperLimit === '') {
+      rawValue.upperLimit = null;
+    }
+    if (rawValue.lowerLimit === '') {
+      rawValue.lowerLimit = null;
     }
     return rawValue;
   }

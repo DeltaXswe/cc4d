@@ -17,7 +17,25 @@
       </span>
     </mat-toolbar>
     <mat-card-content>
-      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" >
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+        <mat-form-field fxFlex floatLabel="always">
+          <mat-label>
+            Nome macchina
+          </mat-label>
+          <input matInput [formControl]="deviceNameControl" />
+          <mat-error *ngIf="deviceNameControl.hasError('required')">
+            Il nome è richiesto
+          </mat-error>
+          <mat-error *ngIf="deviceNameControl.hasError('duplicateDeviceName')">
+            Un'altra macchina ha questo nome
+          </mat-error>
+        </mat-form-field>
+
+        <button mat-stroked-button (click)="updateDeviceName()" [disabled]="newNameInvalid()">
+          Aggiorna nome
+        </button>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
         <mat-form-field fxFlex floatLabel="always">
           <mat-label>
             Chiave API
