@@ -28,12 +28,13 @@
       <input matInput formControlName="lowerLimit" name="lower-limit" type="number" />
       <mat-error>Il campo è richiesto</mat-error>
     </mat-form-field>
-    <mat-form-field fxFlex="50" appearance="outline" floatLabel="always">
+    <mat-form-field fxFlex="50" appearance="outline" floatLabel="always" *ngIf="formGroup.get('upperLimit') as formControl">
       <mat-label>
         Limite superiore
       </mat-label>
       <input matInput formControlName="upperLimit" name="upper-limit" type="number" />
-      <mat-error>Il campo è richiesto</mat-error>
+      <mat-error *ngIf="formControl.hasError('required')">Il campo è richiesto</mat-error>
+      <mat-error *ngIf="formControl.hasError('upperLowerThanLower')">Il limite superiore deve essere maggiore del limite inferiore</mat-error>
     </mat-form-field>
   </div>
 </form>

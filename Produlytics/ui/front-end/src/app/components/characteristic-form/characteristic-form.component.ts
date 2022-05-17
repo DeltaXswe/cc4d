@@ -62,6 +62,17 @@ export class CharacteristicFormComponent implements OnInit {
           this.formGroup.get('lowerLimit')?.updateValueAndValidity();
         }
       });
+    this.formGroup.valueChanges
+      .subscribe(value => {
+        const lowerLimit = parseFloat(value.lowerLimit);
+        const upperLimit = parseFloat(value.upperLimit)
+        if (upperLimit < lowerLimit) {
+          this.formGroup.get('upperLimit')?.setErrors({
+            upperLowerThanLower: true
+          });
+        }
+      })
+    // questo viene da fuori
     this.duplicateNameBehavior.subscribe(isError => {
       this.formGroup.get('name')?.setErrors({
         duplicateCharacteristicName: isError
