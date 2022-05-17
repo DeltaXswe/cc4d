@@ -60,7 +60,8 @@ export class SelectionComponent implements OnInit {
   notifyChange(): void {
     this._checkedNodes = [];
     setTimeout(() => {
+      // l'abc dell'hack in angular - spesso il runtime di angular ha bisogno di "aspettare" un momento
       this._checkedNodes = this.checkedNodes.slice();
-    }, 200);
+    });
   }
 }
