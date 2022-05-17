@@ -58,6 +58,9 @@ export class SelectionComponent implements OnInit {
   }
 
   notifyChange(): void {
-    this._checkedNodes = this.checkedNodes.slice();
+    this._checkedNodes = [];
+    setTimeout(() => {
+      this._checkedNodes = this.checkedNodes.slice();
+    }, 200);
   }
 }
