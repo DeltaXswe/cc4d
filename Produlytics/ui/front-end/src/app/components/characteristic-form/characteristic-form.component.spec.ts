@@ -39,8 +39,8 @@ describe('CharacteristicFormComponent', () => {
     expect(command.name).toEqual('Pressione gomme');
     expect(command.autoAdjust).toBeTrue();
     expect(command.sampleSize).toEqual(40);
-    expect(command.lowerLimit).toBeNull();
-    expect(command.upperLimit).toBeNull();
+    expect(command.lowerLimit).toEqual(11);
+    expect(command.upperLimit).toEqual(13);
   });
 
   it('richiedi-dati-caratteristica-fixed', () => {
@@ -54,7 +54,7 @@ describe('CharacteristicFormComponent', () => {
     const command = component.requireData();
     expect(command.name).toEqual('Pressione gomme');
     expect(command.autoAdjust).toBeFalse();
-    expect(command.sampleSize).toBeNull();
+    expect(command.sampleSize).toEqual(40);
     expect(command.lowerLimit).toEqual(11);
     expect(command.upperLimit).toEqual(13);
   });

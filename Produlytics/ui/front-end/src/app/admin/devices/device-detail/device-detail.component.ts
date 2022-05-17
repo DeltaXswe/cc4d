@@ -17,6 +17,7 @@ import {
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {NotificationService} from "../../../utils/notification.service";
 import {StandardError} from "../../../../lib/standard-error";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-device-detail',
@@ -65,7 +66,9 @@ export class DeviceDetailComponent implements OnInit {
         next: () => {
           this.deviceNameControl.setErrors({duplicateDeviceName: null});
           this.deviceNameControl.updateValueAndValidity();
-          window.location.reload();
+          if (environment.production) {
+            window.location.reload();
+          }
         },
         error: (err: StandardError) => {
           if (err.errorCode === 'duplicateDeviceName') {
