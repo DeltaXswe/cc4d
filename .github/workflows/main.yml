@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - developing
-      - ci
 
 jobs:
   persistence-library:
