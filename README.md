@@ -11,7 +11,7 @@ Uno strumento per il controllo dei processi di produzione
 
 ## Stato
 
-![Building](https://github.com/github/docs/actions/workflows/main.yml/badge.svg?branch=developing)
+![Building](https://github.com/DeltaXswe/cc4d/actions/workflows/main.yml/badge.svg?branch=developing)
 
 |    Componente   | Coverage |
 |-----------------|----------|
