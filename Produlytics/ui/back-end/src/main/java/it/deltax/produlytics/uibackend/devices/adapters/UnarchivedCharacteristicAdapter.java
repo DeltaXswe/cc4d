@@ -49,20 +49,20 @@ public class UnarchivedCharacteristicAdapter
    */
   @Override
   public Optional<CharacteristicLimits> findByCharacteristic(int deviceId, int characteristicId) {
-    var limits = this.repo.findLimits(deviceId, characteristicId);
-
-    if(limits.getTechnicalLowerLimit().isPresent() && limits.getTechnicalUpperLimit().isPresent()) {
-      return Optional.of(new CharacteristicLimits(
-          limits.getTechnicalLowerLimit().get(),
-          limits.getTechnicalUpperLimit().get(),
-          (limits.getTechnicalLowerLimit().get() + limits.getTechnicalUpperLimit().get()) / 2
-      ));
-    } else {
-      return Optional.of(new CharacteristicLimits(
-          limits.getComputedMean() - 3 * limits.getComputedStddev(),
-          limits.getComputedMean() + 3 * limits.getComputedStddev(),
-          limits.getComputedMean()
-      ));
-    }
+    return this.repo.findLimits(deviceId, characteristicId).map(limits -> {
+      if(limits.getTechnicalLowerLimit().isPresent() && limits.getTechnicalUpperLimit().isPresent()) {
+        return new CharacteristicLimits(
+            limits.getTechnicalLowerLimit().get(),
+            limits.getTechnicalUpperLimit().get(),
+            (limits.getTechnicalLowerLimit().get() + limits.getTechnicalUpperLimit().get()) / 2
+        );
+      } else {
+        return new CharacteristicLimits(
+            limits.getComputedMean() - 3 * limits.getComputedStddev(),
+            limits.getComputedMean() + 3 * limits.getComputedStddev(),
+            limits.getComputedMean()
+        );
+      }
+    });
   }
 }

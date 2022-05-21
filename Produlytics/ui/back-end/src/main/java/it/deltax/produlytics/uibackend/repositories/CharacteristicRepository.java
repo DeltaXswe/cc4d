@@ -33,7 +33,7 @@ public interface CharacteristicRepository
       ch.upper_limit as technicalUpperLimit,
       mean_stddev.mean as computedMean,
       mean_stddev.stddev as computedStddev
-    FROM characteristic ch JOIN (
+    FROM characteristic ch, device d, (
       SELECT AVG(helper.value) as mean, COALESCE(STDDEV_SAMP(helper.value), 1) as stddev
       FROM (
         SELECT dt.value as value
@@ -47,12 +47,16 @@ public interface CharacteristicRepository
         )
       ) helper
     ) mean_stddev
-    ON ch.device_id = :deviceId AND ch.id = :characteristicId
+    WHERE ch.device_id = :deviceId
+        AND ch.id = :characteristicId
+        AND NOT ch.archived
+        AND NOT d.archived
+        AND NOT d.deactivated
     """, nativeQuery = true)
-  LimitsEntity findLimits(
+  Optional<LimitsEntity> findLimits(
       @Param("deviceId") int deviceId, @Param("characteristicId") int characteristicId);
 
-  public interface LimitsEntity {
+  interface LimitsEntity {
     boolean getAutoAdjust();
     Optional<Double> getTechnicalLowerLimit();
     Optional<Double> getTechnicalUpperLimit();
