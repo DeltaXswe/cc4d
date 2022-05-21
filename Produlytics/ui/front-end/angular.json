@@ -98,7 +98,12 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "codeCoverageExclude": [
+              "src/app/test/",
+              "src/app/**/*spec.ts",
+              "src/app/**/fake*.ts"
+            ]
           }
         }
       }
