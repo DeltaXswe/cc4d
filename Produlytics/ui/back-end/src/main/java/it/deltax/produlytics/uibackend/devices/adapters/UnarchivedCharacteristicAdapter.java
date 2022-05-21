@@ -49,11 +49,20 @@ public class UnarchivedCharacteristicAdapter
    */
   @Override
   public Optional<CharacteristicLimits> findByCharacteristic(int deviceId, int characteristicId) {
-    return this.repo
-        .findByArchivedFalseAndDeviceIdAndId(deviceId, characteristicId)
-        .map(
-            characteristic ->
-                CharacteristicLimits.newCharacteristicLimits(
-                    characteristic.getLowerLimit(), characteristic.getUpperLimit()));
+    return this.repo.findLimits(deviceId, characteristicId).map(limits -> {
+      if(limits.getTechnicalLowerLimit().isPresent() && limits.getTechnicalUpperLimit().isPresent()) {
+        return new CharacteristicLimits(
+            limits.getTechnicalLowerLimit().get(),
+            limits.getTechnicalUpperLimit().get(),
+            (limits.getTechnicalLowerLimit().get() + limits.getTechnicalUpperLimit().get()) / 2
+        );
+      } else {
+        return new CharacteristicLimits(
+            limits.getComputedMean() - 3 * limits.getComputedStddev(),
+            limits.getComputedMean() + 3 * limits.getComputedStddev(),
+            limits.getComputedMean()
+        );
+      }
+    });
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { catchError, Observable, of, throwError } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
@@ -23,15 +23,18 @@ export class XhrInterceptor implements HttpInterceptor {
     });
     return next.handle(req)
     .pipe(
-      tap(
-        () => {},
+      catchError(
         (error: HttpErrorResponse) => {
           if (error.status === 401) {
               localStorage.removeItem("username");
               localStorage.removeItem("admin");
               localStorage.removeItem("accessToken");
               this.router.navigate(['/login']);
+
+              return of();
           }
+
+          return throwError(() => error);
       })
     );
   }
