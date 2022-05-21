@@ -1,12 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CharacteristicService } from './characteristic.service';
+import {testModules} from "../../../test/utils";
 
 describe('CharacteristicService', () => {
   let service: CharacteristicService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: testModules
+    });
     service = TestBed.inject(CharacteristicService);
   });
 

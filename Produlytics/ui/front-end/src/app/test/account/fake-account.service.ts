@@ -92,6 +92,8 @@ export class FakeAccountService implements
       localStorage.setItem('accessToken', JSON.stringify(
         users.find(wow => wow.username === command.username))
       );
+      localStorage.setItem('username', command.username)
+      localStorage.setItem('admin', command.password)
       const httpOptions = {
         headers: new HttpHeaders()
           .set('Authorization', `Basic ${btoa(command.username + ':' + command.password)}`),
@@ -117,9 +119,9 @@ export class FakeAccountService implements
   }
 
   isAdmin(): boolean{
-    let user = localStorage.getItem('accessToken');
+    let user = localStorage.getItem('admin');
     if (user)
-      return JSON.parse(user).administrator;
+      return true;
     else
       return false;
   }
@@ -132,9 +134,9 @@ export class FakeAccountService implements
   }
 
   getUsername(){
-    let user = localStorage.getItem('accessToken');
+    let user = localStorage.getItem('username');
     if (user)
-      return JSON.parse(user).username;
+      return user;
     else
       return 'username';
   }

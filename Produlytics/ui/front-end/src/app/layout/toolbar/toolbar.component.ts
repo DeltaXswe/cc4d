@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ModifyPwComponent } from 'src/app/main/modify-pw/modify-pw.component';
 import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
+import {NotificationService} from "../../utils/notification.service";
 
 @Component({
   selector: 'app-toolbar',
@@ -13,14 +14,14 @@ import { LoginAbstractService } from 'src/app/model/login/login-abstract.service
 })
 
 /**
- * Questo component implementa le funzionalità dela barra di navigazione.
+ * Questo component implementa le funzionalità della barra di navigazione.
  */
 export class ToolbarComponent implements OnInit {
 
   constructor(
-    private dialog: MatDialog,
+    public dialog: MatDialog,
     private loginService: LoginAbstractService,
-    private matSnackBar: MatSnackBar,
+    private notificationService: NotificationService,
     private router: Router
     ) { }
 
@@ -36,12 +37,12 @@ export class ToolbarComponent implements OnInit {
       const dialogRef = this.dialog.open(ModifyPwComponent);
       dialogRef.afterClosed().subscribe(data => {
         if (data == 400){
-          this.matSnackBar.open('La nuova password inserita non è valida', 'Ok');
+          this.notificationService.unexpectedError('La nuova password inserita non è valida');
         }else if (data == 401){
-          this.matSnackBar.open('La password corrente è errata', 'Ok');
+          this.notificationService.unexpectedError('La password corrente è errata');
         }else {
           if (data){
-            this.matSnackBar.open('Password cambiata con successo', 'Ok');
+            this.notificationService.notify('Password cambiata con successo');
           }
         }});
     }
@@ -58,9 +59,9 @@ export class ToolbarComponent implements OnInit {
      * Tramite un service che implementa {@link LoginAbstractService},
      * @returns true se l'utente è un amministratore, false altrimenti.
      */
-    isAdmin(): boolean{  
+    isAdmin(): boolean{
       return this.loginService.isAdmin();
-    } 
+    }
 
     /**
      * Tramite un service che implementa {@link LoginAbstractService},

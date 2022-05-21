@@ -37,19 +37,46 @@
           Nuova caratteristica
         </button>
       </mat-card-subtitle>
-      <!-- TODO da rifare -->
-      <mat-list disableRipple>
-        <mat-list-item *ngFor="let characteristic of characteristics">
-          <span>{{characteristic.name}}</span>
-          <mat-divider vertical></mat-divider>
-          <span *ngIf="characteristic.autoAdjust" class="green-text">
-            Calcolo automatico abilitato sugli ultimi {{characteristic.sampleSize}} campioni
-          </span>
-          <span *ngIf="!characteristic.autoAdjust">
-            Limiti: [{{characteristic.lowerLimit}}, {{characteristic.upperLimit}}]
-          </span>
-        </mat-list-item>
-      </mat-list>
+      <mat-table [dataSource]="characteristics">
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef fxFlex="15">
+            Nome
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row" fxFlex="15">
+            {{row.name}}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="limits">
+          <mat-header-cell *matHeaderCellDef>
+            Limiti
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <ng-container *ngIf="row.autoAdjust" class="green-text">
+              <ng-container *ngIf="row.sampleSize">
+                Calcolo dei limiti automatico su un campione di {{row.sampleSize}} elementi.
+              </ng-container>
+              <ng-container *ngIf="!row.sampleSize">
+                Calcolo dei limiti automatico sull'intero dataset.
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="!row.autoAdjust">
+              [{{row.lowerLimit}}, {{row.upperLimit}}]
+            </ng-container>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="delete">
+          <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
+          <mat-cell *matCellDef="let row" fxFlex="64px">
+            <button mat-icon-button (click)="removeCharacteristic(row)">
+              <mat-icon class="red-text">
+                delete
+              </mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
       <em *ngIf="characteristics.length === 0">Bisogna inserire almeno una caratteristica</em>
     </mat-card-content>
   </mat-card>

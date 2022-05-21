@@ -1,3 +1,26 @@
-mat-sidenav-container{
-  height: 650px
+mat-sidenav {
+  width: 20%;
+  min-width: 320px;
 }
+
+mat-sidenav-container{
+  height: calc(100vh - 70px);
+}
+
+.sidenav-title-container {
+  padding: 6px;
+  height: 48px;
+  max-height: 48px;
+}
+
+.sidenav-title {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.sidenav-content {
+  height: calc(100% - 48px);
+  max-height: calc(100% - 48px);
+  overflow-y: auto;
+}
+

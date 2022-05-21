@@ -6,8 +6,8 @@ import {NewCharacteristicDialogComponent} from "../new-characteristic-dialog/new
 import {NewDeviceAbstractService} from "../../../model/admin-device/new/new-device-abstract.service";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {ErrorDialogComponent} from "../../../components/error-dialog/error-dialog.component";
 import {DeviceCreationCommand} from "../../../model/admin-device/new/device-creation-command";
+import {NotificationService} from "../../../utils/notification.service";
 
 @Component({
   selector: 'app-new-device',
@@ -22,12 +22,17 @@ export class NewDeviceComponent implements OnInit {
   formGroup: FormGroup;
 
   characteristics: CharacteristicCreationCommand[] = [];
+  readonly displayedColumns = [
+    'name',
+    'limits',
+    'delete'
+  ];
 
   constructor(
     private matDialog: MatDialog,
     private newDeviceService: NewDeviceAbstractService,
     private router: Router,
-    private matSnackBar: MatSnackBar,
+    private notificationService: NotificationService,
     formBuilder: FormBuilder
   ) {
     this.formGroup = formBuilder.group({
@@ -55,7 +60,7 @@ export class NewDeviceComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(value => {
       if (value) {
-        this.characteristics.push(value);
+        this.characteristics = this.characteristics.concat(value);
       }
     });
   }
@@ -73,10 +78,7 @@ export class NewDeviceComponent implements OnInit {
     this.newDeviceService.insertDevice(device).subscribe({
       next: value => {
         this.router.navigate(['gestione-macchine', value.id]);
-        this.matSnackBar.open(
-          'Macchina creata con successo',
-          'Ok'
-        );
+        this.notificationService.notify('Macchina creata con successo');
       },
       error: err => {
         if (err.errorCode === 'duplicateDeviceName') {
@@ -85,11 +87,7 @@ export class NewDeviceComponent implements OnInit {
           });
           this.formGroup.updateValueAndValidity();
         } else {
-          this.matDialog.open(ErrorDialogComponent, {
-            data: {
-              message: `Errore inaspettato: ${JSON.stringify(err)}`
-            }
-          });
+          this.notificationService.unexpectedError(`Errore inaspettato: ${JSON.stringify(err)}`);
         }
       }
     })
@@ -109,5 +107,12 @@ export class NewDeviceComponent implements OnInit {
         }
       });
     }
+  }
+
+  /**
+   * Rimuove una caratteristica dall'elenco.
+   * */
+  removeCharacteristic(row: CharacteristicCreationCommand) {
+    this.characteristics = this.characteristics.filter(element => element !== row);
   }
 }

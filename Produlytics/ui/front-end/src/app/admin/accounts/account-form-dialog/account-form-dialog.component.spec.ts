@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AccountFormDialogComponent } from './account-form-dialog.component';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Account} from "../../../model/admin-account/account";
 import {MockDialogRef, testModules} from "../../../test/utils";
 import {AccountSaveCommand} from "../../../model/admin-account/account-save-command";
@@ -9,6 +9,12 @@ import {AppModule} from "../../../app.module";
 import {FakeAccountService} from "../../../test/account/fake-account.service";
 import {SaveAccountAbstractService} from "../../../model/admin-account/save-account-abstract.service";
 import {LoginAbstractService} from "../../../model/login/login-abstract.service";
+import {AccountsModule} from "../accounts.module";
+import {AccountAbstractService} from "../../../model/admin-account/account-abstract.service";
+import {SaveAccountService} from "../../../model/admin-account/save-account.service";
+import {HttpClient} from "@angular/common/http";
+import {HttpTestingController} from "@angular/common/http/testing";
+import {LoginService} from "../../../model/login/login.service";
 
 const alice: Account = {
   username: 'alice',
@@ -17,12 +23,12 @@ const alice: Account = {
 };
 
 const validSaveUser: AccountSaveCommand = {
-  username: 'bob',
+  username: 'janiel',
   administrator: false,
-  password: 'fossadeileoni'
+  password: 'danuary'
 };
 
-describe('AccountFormDialogComponent new mode', () => {
+describe('AccountFormDialogComponent Create Mode', () => {
   let component: AccountFormDialogComponent;
   let fixture: ComponentFixture<AccountFormDialogComponent>;
   let mockAccountService: FakeAccountService;
@@ -66,17 +72,17 @@ describe('AccountFormDialogComponent new mode', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have usernameField correctly initialized', () => {
+  it('should have username field correctly initialized', () => {
     const usernameField = component.formGroup.get('username');
     expect(usernameField?.disabled).toBeFalse();
   });
 
-  it('should accept the data', async (done) => {
+  it('conferma-nuovo-utente', (done) => {
     mockDialogRef.afterClosed()
       .subscribe({
         next: value => {
           expect(value)
-            .withContext('insertion esito')
+            .withContext('esito inserimento')
             .toBeTrue();
         },
         error: done.fail,
@@ -86,7 +92,7 @@ describe('AccountFormDialogComponent new mode', () => {
     component.confirm();
   });
 
-  it('should have duplicate username error', () => {
+  it('rifiuto-nuovo-utente-username', () => {
     component.formGroup.setValue({
       username: alice.username,
       administrator: false,
@@ -97,7 +103,7 @@ describe('AccountFormDialogComponent new mode', () => {
       .toBeTrue();
   })
 
-  it('should have invalid password error', () => {
+  it('rifiuto-nuovo-utente-password', () => {
     component.formGroup.setValue({
       username: 'carl',
       administrator: false,
@@ -108,7 +114,7 @@ describe('AccountFormDialogComponent new mode', () => {
       .toBeTrue();
   })
 
-  it('should cancel the operation', async (done) => {
+  it('annulla-salva-utente', async (done) => {
     component.cancel();
     mockDialogRef.afterClosed().subscribe({
       next: value => {
@@ -138,7 +144,7 @@ describe('AccountFormDialogComponent new mode', () => {
   })
 });
 
-describe('AccountFormDialogComponent edit mode', () => {
+describe('AccountFormDialogComponent Update Mode', () => {
   let component: AccountFormDialogComponent;
   let fixture: ComponentFixture<AccountFormDialogComponent>;
   let mockDialogRef: MatDialogRef<any>;
@@ -174,12 +180,12 @@ describe('AccountFormDialogComponent edit mode', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have usernameField correctly initialized', () => {
+  it('should have username field correctly initialized', () => {
     const usernameField = component.formGroup.get('username');
     expect(usernameField?.disabled).toBeTrue();
   });
 
-  it('should update a user', async (done) => {
+  it('conferma-modifica-utente', (done) => {
     mockDialogRef.afterClosed().subscribe({
       next: value => {
         expect(value)
@@ -190,14 +196,14 @@ describe('AccountFormDialogComponent edit mode', () => {
       error: done.fail
     });
     component.formGroup.setValue({
-      username: 'bobby',
+      username: 'bob',
       administrator: true,
       password: 'banditi1899'
     });
     component.confirm();
   })
 
-  it('should not find the user', () => {
+  it('rifiuta-modifica-utente', () => {
     component.formGroup.setValue({
       username: 'Robert Paulsen',
       administrator: false,
@@ -208,7 +214,7 @@ describe('AccountFormDialogComponent edit mode', () => {
       .toBeTrue();
   })
 
-  it('should enable and disable the toggle', () => {
+  it('abilita-cambio-password', () => {
     component.toggleChangePassword(true);
     expect(component.formGroup.get('password')?.enabled)
       .toBeTrue();
@@ -219,7 +225,7 @@ describe('AccountFormDialogComponent edit mode', () => {
   })
 });
 
-describe('AccountFormDialogComponent edit mode with same user', () => {
+describe('AccountFormDialogComponent Update Logged User', () => {
   let component: AccountFormDialogComponent;
   let fixture: ComponentFixture<AccountFormDialogComponent>;
   let mockDialogRef: MatDialogRef<any>;
@@ -259,5 +265,129 @@ describe('AccountFormDialogComponent edit mode with same user', () => {
 
   it('should be correctly configured', async () => {
     expect(component.formGroup.get('username')?.disabled).toBeTrue();
-  })
-})
+  });
+});
+
+describe('AccountFormDialog New Integration', () => {
+
+  let component: AccountFormDialogComponent;
+  let fixture: ComponentFixture<AccountFormDialogComponent>;
+  let saveAccountService: SaveAccountAbstractService;
+  let matDialogRef: MatDialogRef<any>;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+        declarations: [AccountFormDialogComponent],
+        imports: testModules,
+        providers: [
+          MatDialog,
+          {
+            provide: MatDialogRef,
+            useValue: {
+              close: (_?: any) => {}
+            }
+          },
+          SaveAccountService,
+          {
+            provide: SaveAccountAbstractService,
+            useExisting: SaveAccountService
+          },
+          LoginService,
+          {
+            provide: LoginAbstractService,
+            useExisting: LoginService
+          },
+          {
+            provide: MAT_DIALOG_DATA,
+            useValue: null
+          }
+        ]
+      })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(AccountFormDialogComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    saveAccountService = TestBed.inject(SaveAccountAbstractService);
+    matDialogRef = TestBed.inject(MatDialogRef);
+    httpClient = TestBed.inject(HttpClient);
+    httpTestingController = TestBed.inject(HttpTestingController);
+  });
+
+  it('save-account-should-create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('new-account-confirm', () => {
+    component.formGroup.setValue(validSaveUser);
+    component.confirm();
+    const req = httpTestingController.expectOne('admin/accounts');
+    expect(req.request.method).toEqual('POST');
+    req.flush({});
+    httpTestingController.verify();
+  });
+});
+
+describe('AccountFormDialog Update Integration', () => {
+
+  let component: AccountFormDialogComponent;
+  let fixture: ComponentFixture<AccountFormDialogComponent>;
+  let saveAccountService: SaveAccountAbstractService;
+  let matDialogRef: MatDialogRef<any>;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+        declarations: [AccountFormDialogComponent],
+        imports: testModules,
+        providers: [
+          MatDialog,
+          {
+            provide: MatDialogRef,
+            useValue: {
+              close: (_?: any) => {}
+            }
+          },
+          SaveAccountService,
+          {
+            provide: SaveAccountAbstractService,
+            useExisting: SaveAccountService
+          },
+          LoginService,
+          {
+            provide: LoginAbstractService,
+            useExisting: LoginService
+          },
+          {
+            provide: MAT_DIALOG_DATA,
+            useValue: {account: alice}
+          }
+        ]
+      })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(AccountFormDialogComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    saveAccountService = TestBed.inject(SaveAccountAbstractService);
+    matDialogRef = TestBed.inject(MatDialogRef);
+    httpClient = TestBed.inject(HttpClient);
+    httpTestingController = TestBed.inject(HttpTestingController);
+  });
+
+  it('update-account-confirm', () => {
+    component.formGroup.setValue({
+      username: 'alice',
+      administrator: true,
+      password: 'banditi1899'
+    });
+    component.confirm();
+    const req = httpTestingController.expectOne('admin/accounts/alice');
+    expect(req.request.method).toEqual('PUT');
+    req.flush({});
+    httpTestingController.verify();
+  });
+});

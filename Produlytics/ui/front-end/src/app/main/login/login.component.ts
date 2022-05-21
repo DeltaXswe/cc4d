@@ -6,12 +6,13 @@ import { LoginAbstractService } from '../../model/login/login-abstract.service';
 import { CookieService } from 'ngx-cookie-service';
 import { LoginCommand } from '../../model/login/login-command';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {NotificationService} from "../../utils/notification.service";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  encapsulation: ViewEncapsulation.None 
+  encapsulation: ViewEncapsulation.None
 })
 
 /**
@@ -21,11 +22,11 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
 
-  constructor (formBuilder: FormBuilder, 
-    private router: Router, 
+  constructor (formBuilder: FormBuilder,
+    private router: Router,
     private loginService: LoginAbstractService,
     private cookieService: CookieService,
-    private matSnackBar: MatSnackBar){ 
+    private notificationService: NotificationService){
       this.loginForm = formBuilder.group({
         username: new FormControl('', Validators.required),
         password: new FormControl('', [Validators.required, Validators.minLength(6)]),
@@ -55,15 +56,13 @@ export class LoginComponent implements OnInit {
       username: rawValue.username,
       password: rawValue.password,
       rememberMe: rawValue.rememberMe
-    }  
+    }
     if (this.loginForm.invalid) {
       return;
     }
     this.loginService.login(command)
       .subscribe({
         next: () => this.router.navigate(['/']),
-        error: () => this.matSnackBar.open('Credenziali non valide', 'Ok', {
-          duration: 3000
-        })});
+        error: () => this.notificationService.notify('Credenziali non valide')});
   }
 }

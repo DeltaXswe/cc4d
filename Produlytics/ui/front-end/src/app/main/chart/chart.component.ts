@@ -11,6 +11,7 @@ import { Limits } from '../../model/chart/limits';
 import { MatDialog } from '@angular/material/dialog';
 import { DatePickerDialogComponent } from '../date-picker-dialog/date-picker-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {NotificationService} from "../../utils/notification.service";
 
 @Component({
   selector: 'app-chart',
@@ -25,16 +26,16 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input()
   index: number = 0;
 
-  private limits!: Limits;
+  public limits!: Limits;
   private points: ChartPoint[] = [];
   private updateSubscription?: Subscription;
-  private nextNew: number = 0;
-  private xAxis!: d3.Selection<SVGGElement, unknown, HTMLElement, any>; 
+  public nextNew: number = 0;
+  private xAxis!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
   private yAxis!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
   constructor(
     private chartService: ChartAbstractService,
     public dialog: MatDialog,
-    private matSnackBar: MatSnackBar
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {}
@@ -45,10 +46,10 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   ngAfterViewInit(): void {
     this.getData(this.currentNode?.device.id, this.currentNode?.id);
-    if (this.points){
+    //if (this.points){
       this.createChart();
       this.subscribeToUpdates();
-    }
+    //}
   }
 
   ngOnDestroy(): void {
@@ -80,9 +81,9 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   /**
    * Apre {@link DatePickerDialogComponent} e resta in attesa dei dati.
-   * In caso di risposta tenta di ottenere le rilevazioni comprese fra gli estremi 
+   * In caso di risposta tenta di ottenere le rilevazioni comprese fra gli estremi
    * temporali ottenuti, tramite un service che implementa {@link ChartAbstractService}.
-   * In caso di successo cancella la corrente rappresentazione e ne crea un'altra 
+   * In caso di successo cancella la corrente rappresentazione e ne crea un'altra
    * con le rilevazioni ottenute.
    */
   openDialog(): void{
@@ -91,14 +92,14 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       if (res){
         this.updateSubscription?.unsubscribe();
         this.clearChart();
-        this.chartService.getOldPoints(res[0], res[1], this.currentNode?.device.id, this.currentNode?.id)
+        this.chartService.getOldPoints(res.start, res.end, this.currentNode?.device.id, this.currentNode?.id)
           .subscribe({
             next: (points) => {
               this.points = points.detections
               this.createChart();
               this.drawChart();
             },
-            error: () => this.matSnackBar.open('Caratteristica non trovata', 'Ok')
+            error: () => this.notificationService.unexpectedError('Caratteristica non trovata')
           });
       }
     });
@@ -110,7 +111,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   private yScale!: d3.ScaleLinear<number, number, never>;
 
   /**
-   * Inizializza gli attributi della classe, chiamando poi {@link drawChart()} per 
+   * Inizializza gli attributi della classe, chiamando poi {@link drawChart()} per
    * disegnare il grafico.
    */
   createChart() {
@@ -120,7 +121,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
         .style('height', 550 + 'px')
         .append('g')
         .attr('transform', `translate(0, ${this.margin.top})`);
-      
+
       this.svgy = d3
         .select(`#vertical${this.index}`)
         .style('width', 100 + 'px')
@@ -133,9 +134,9 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.xAxis = this.svg.append('g')
         .attr("transform", `translate(0, ${this.chartHeight})`);
-      
+
       this.yAxis = this.svgy.append('g');
-      
+
       const createGuideLine = (cls: string) => {
         this.svg
           .append('line')
@@ -143,7 +144,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
           .attr('x1', 0)
           .attr('x2', this.chartWidth);
       };
-      
+
       createGuideLine('line-media');
       createGuideLine('line-limite line-limite-min');
       createGuideLine('line-limite line-limite-max');
@@ -151,8 +152,8 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       createGuideLine('line-zona-c-down');
       createGuideLine('line-zona-b-up');
       createGuideLine('line-zona-b-down');
-      
-      
+
+
       this.svg.append('path').attr('class', 'chart-path');
       this.svg.append('g').attr('class', 'chart-points');
       this.drawChart();
@@ -173,13 +174,13 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
         this.points = points.detections;
         this.nextNew = points.nextNew;
         },
-        error: () => this.matSnackBar.open('Caratteristica non trovata', 'Ok')
+        error: () => this.notificationService.unexpectedError('Caratteristica non trovata')
       });
 
       this.chartService.getLimits(this.currentNode.device.id, this.currentNode.id)
       .subscribe({
         next: limits => this.limits = limits,
-        error: () => this.matSnackBar.open('Caratteristica non trovata', 'Ok')
+        error: () => this.notificationService.unexpectedError('Caratteristica non trovata')
       });
   }
 
@@ -190,7 +191,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.points.length == 0) {
       return;
     }
-    
+
     const delta = Math.floor((this.limits.upperLimit - this.limits.lowerLimit) / 6);
 
     const [ymin, ymax] = d3.extent(this.points, (p) => p.value);
@@ -203,7 +204,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       Math.min(this.limits.lowerLimit - delta, ...(ymin ? [ymin] : [])),
       Math.max(this.limits.upperLimit + delta, ...(ymax ? [ymax] : [])),
     ]);
-    
+
     this.xAxis
       .call(d3.axisBottom(this.xScale).ticks(d3.timeSecond.every(5)))
       .select('.tick')
@@ -279,7 +280,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
           this.nextNew = new_points.nextNew;
           this.drawChart();
       }},
-      error: () => this.matSnackBar.open('Caratteristica non trovata', 'Ok')
+      error: () => this.notificationService.unexpectedError('Caratteristica non trovata')
       });
   }
 

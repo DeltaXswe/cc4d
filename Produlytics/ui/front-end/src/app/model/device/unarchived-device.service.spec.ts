@@ -1,12 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
 import { UnarchivedDeviceService } from './unarchived-device.service';
+import {testModules} from "../../test/utils";
 
 describe('UnarchivedDeviceService', () => {
   let service: UnarchivedDeviceService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: testModules
+    });
     service = TestBed.inject(UnarchivedDeviceService);
   });
 

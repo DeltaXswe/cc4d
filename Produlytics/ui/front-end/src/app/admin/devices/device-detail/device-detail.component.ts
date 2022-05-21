@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Device} from "../../../model/admin-device/device";
 import {CharacteristicsDataSource} from "./characteristics.data-source";
@@ -15,13 +15,15 @@ import {
   UpdateCharacteristicDialogComponent
 } from "../update-characteristic-dialog/update-characteristic-dialog.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm-dialog.component";
-import {ErrorDialogComponent} from "../../../components/error-dialog/error-dialog.component";
+import {NotificationService} from "../../../utils/notification.service";
+import {StandardError} from "../../../../lib/standard-error";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-device-detail',
   templateUrl: './device-detail.component.html',
-  styleUrls: ['./device-detail.component.css']
+  styleUrls: ['./device-detail.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 /**
  * Questa classe rappresenta una singola macchina e ne gestisce le modifiche.
@@ -29,7 +31,7 @@ import {ErrorDialogComponent} from "../../../components/error-dialog/error-dialo
 export class DeviceDetailComponent implements OnInit {
 
   characteristics = new CharacteristicsDataSource();
-  deviceNameForm: FormGroup;
+  deviceNameControl: FormControl;
   device: Device;
 
   readonly displayedColumns = ['name', 'edit', 'status'];
@@ -39,13 +41,10 @@ export class DeviceDetailComponent implements OnInit {
     private updateDeviceService: UpdateDeviceAbstractService,
     private matDialog: MatDialog,
     private activatedRoute: ActivatedRoute,
-    private matSnackBar: MatSnackBar,
-    formBuilder: FormBuilder
+    private notificationService: NotificationService
   ) {
     this.device = activatedRoute.snapshot.data['device'];
-    this.deviceNameForm = formBuilder.group({
-      name: new FormControl(this.device.name, Validators.required)
-    });
+    this.deviceNameControl = new FormControl(this.device.name, Validators.required);
   }
 
   /**
@@ -61,17 +60,23 @@ export class DeviceDetailComponent implements OnInit {
    * di errore, la utilizza per visualizzare l'errore.
    */
   updateDeviceName(): void {
-    const newName = this.deviceNameForm.getRawValue().name;
+    const newName = this.deviceNameControl.value;
     this.updateDeviceService.updateDeviceName(this.device.id, newName)
       .subscribe({
         next: () => {
-          this.deviceNameForm.get('name')?.setValue(newName);
-          this.deviceNameForm.get('name')?.setErrors({duplicateDeviceName: null});
-          this.deviceNameForm.get('name')?.updateValueAndValidity();
+          this.deviceNameControl.setErrors({duplicateDeviceName: null});
+          this.deviceNameControl.updateValueAndValidity();
+          if (environment.production) {
+            window.location.reload();
+          }
         },
-        error: () => {
-          this.deviceNameForm.get('name')?.setErrors({duplicateDeviceName: true});
-          this.deviceNameForm.get('name')?.updateValueAndValidity();
+        error: (err: StandardError) => {
+          if (err.errorCode === 'duplicateDeviceName') {
+            this.deviceNameControl.setErrors({duplicateDeviceName: true});
+          } else {
+            this.notificationService.unexpectedError(err.toString());
+          }
+          // this.deviceNameForm.get('name')?.updateValueAndValidity();
         }
       });
   }
@@ -95,14 +100,10 @@ export class DeviceDetailComponent implements OnInit {
           .subscribe({
             next: () => {
               this.initTable();
-              this.matSnackBar.open('Caratteristica aggiunta con successo', 'Ok');
+              this.notificationService.notify('Caratteristica aggiunta con successo');
             },
             error: err => {
-              this.matDialog.open(ErrorDialogComponent, {
-                data: {
-                  message: `Errore imprevisto: "${JSON.stringify(err)}"`
-                }
-              });
+              this.notificationService.unexpectedError(`Errore imprevisto: "${JSON.stringify(err)}"`);
             }
           });
       }
@@ -135,10 +136,7 @@ export class DeviceDetailComponent implements OnInit {
    * Informa l'utente tramite {@link MatSnackBar} che la chiave è stata copiata negli appunti (CTRL-C, o tasto destro -> incolla).
    */
   notifyCopy(): void {
-    this.matSnackBar.open(
-      'Chiave copiata negli appunti',
-      'Ok'
-    );
+    this.notificationService.notify('Chiave copiata negli appunti');
   }
 
   /**
@@ -150,18 +148,21 @@ export class DeviceDetailComponent implements OnInit {
    */
   toggleCharacteristicStatus(characteristic: Characteristic): void {
     if (characteristic.archived) {
-      this.characteristicService.recoverCharacteristic(this.device.id, characteristic.id);
+      this.characteristicService.recoverCharacteristic(this.device.id, characteristic.id)
+        .subscribe(() => {
+          this.initTable();
+        });
     } else {
-      const dialogRef = this.matDialog.open(ConfirmDialogComponent, {
-        data: {
-          message: `La caratteristica ${characteristic.name} con id ${characteristic.id} sarà archiviata. Continuare?`
+      this.notificationService.requireConfirm(
+        `La caratteristica ${characteristic.name} con id ${characteristic.id} sarà archiviata. Continuare?`
+      ).subscribe(confirmed => {
+        if (confirmed) {
+          this.characteristicService.archiveCharacteristic(this.device.id, characteristic.id)
+            .subscribe(() => {
+              this.initTable();
+            });
         }
       });
-      dialogRef.afterClosed().subscribe(confirmed => {
-        if (confirmed) {
-          this.characteristicService.archiveCharacteristic(this.device.id, characteristic.id);
-        }
-      })
     }
   }
 
@@ -176,5 +177,9 @@ export class DeviceDetailComponent implements OnInit {
       .subscribe(result => {
         this.characteristics.data = result;
       })
+  }
+
+  newNameInvalid() {
+    return this.deviceNameControl.invalid || this.deviceNameControl.value === this.device.name;
   }
 }

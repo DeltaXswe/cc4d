@@ -18,7 +18,25 @@
     </mat-toolbar>
     <mat-card-content>
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
-        <mat-form-field fxFlex appearance="outline" floatLabel="always">
+        <mat-form-field fxFlex floatLabel="always">
+          <mat-label>
+            Nome macchina
+          </mat-label>
+          <input matInput [formControl]="deviceNameControl" />
+          <mat-error *ngIf="deviceNameControl.hasError('required')">
+            Il nome è richiesto
+          </mat-error>
+          <mat-error *ngIf="deviceNameControl.hasError('duplicateDeviceName')">
+            Un'altra macchina ha questo nome
+          </mat-error>
+        </mat-form-field>
+
+        <button mat-stroked-button (click)="updateDeviceName()" [disabled]="newNameInvalid()">
+          Aggiorna nome
+        </button>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+        <mat-form-field fxFlex floatLabel="always">
           <mat-label>
             Chiave API
           </mat-label>
@@ -31,12 +49,12 @@
             </mat-icon>
           </button>
         </mat-form-field>
-        <mat-chip-list fxLayoutAlign="start center">
+        <mat-chip-list disabled>
           <mat-chip *ngIf="device.deactivated" disableRipple>
             Disattivata
           </mat-chip>
           <mat-chip *ngIf="!device.deactivated" class="bg-green" disableRipple>
-            Attiva
+            Attivata
           </mat-chip>
           <mat-chip *ngIf="device.archived" selected color="warn" disableRipple>
             Archiviata

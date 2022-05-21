@@ -1,32 +1,42 @@
 <!--Selezione macchine-->
-<mat-sidenav-container id="selection" >
-  <mat-sidenav #sidenav mode="side" opened>
+<mat-sidenav-container id="selection">
+  <mat-sidenav mode="side" opened>
     <mat-progress-bar mode="indeterminate" *ngIf="dataSource.loading"></mat-progress-bar>
-<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-  <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-    <button mat-icon-button disabled></button>
-    <mat-checkbox [checked]="nodeIsChecked(node)"
-                  (change)="toggleNodeCheck($event.checked, node)">
-      {{node.name}}
-    </mat-checkbox>
-  </mat-tree-node>
-  <mat-tree-node *matTreeNodeDef="let node; when: hasChildren" matTreeNodePadding>
-    <button mat-icon-button matTreeNodeToggle *ngIf="!dataSource.isNodeLoading(node)">
-      <mat-icon>
-        {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-      </mat-icon>
-    </button>
-    <mat-spinner diameter="24" style="margin: 8px" *ngIf="dataSource.isNodeLoading(node)" mode="indeterminate"></mat-spinner>
-    {{node.name}}
-  </mat-tree-node>
-</mat-tree>
-<button mat-button (click)="notifyChange()">Conferma</button>
+    <ng-container *ngIf="!dataSource.loading">
+      <div fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-title-container">
+        <span class="sidenav-title" matTooltip="Per iniziare, si espanda una macchina per visualizzare le caratteristiche. Per monitorare le caratteristiche, selezionarle tramite le caselle di controllo e infine confermare la scelta tramite l'apposito bottone.">
+          Monitoraggio caratteristiche
+        </span>
+        <button mat-stroked-button color="primary" (click)="notifyChange()">
+          Conferma
+        </button>
+      </div>
+      <mat-tree class="sidenav-content" [dataSource]="dataSource" [treeControl]="treeControl">
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+          <button mat-icon-button disabled></button>
+          <mat-checkbox [checked]="nodeIsChecked(node)"
+                        (change)="toggleNodeCheck($event.checked, node)">
+            {{node.name}}
+          </mat-checkbox>
+        </mat-tree-node>
+        <mat-tree-node *matTreeNodeDef="let node; when: hasChildren" matTreeNodePadding>
+          <button mat-icon-button matTreeNodeToggle *ngIf="!dataSource.isNodeLoading(node)">
+            <mat-icon>
+              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+          </button>
+          <mat-spinner diameter="24" style="margin: 8px" *ngIf="dataSource.isNodeLoading(node)"
+                       mode="indeterminate"></mat-spinner>
+          {{node.name}}
+        </mat-tree-node>
+      </mat-tree>
+    </ng-container>
 
-<!--Grafici-->
-</mat-sidenav>
+    <!--Grafici-->
+  </mat-sidenav>
   <mat-sidenav-content class="deltax-content">
     <div fxLayout="column" fxLayoutGap="16px" class="chart-container" *ngFor="let tile of _checkedNodes; let i = index">
-      <app-chart [currentNode] = tile [index] = i></app-chart>
+      <app-chart [currentNode]=tile [index]=i></app-chart>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

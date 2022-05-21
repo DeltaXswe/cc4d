@@ -16,7 +16,7 @@ import {
 } from "../../model/admin-device/characteristic/update-characteristic-abstract.service";
 import {CharacteristicUpdateCommand} from "../../model/admin-device/characteristic/characteristic-update-command";
 
-class CharacteristicMock implements Characteristic {
+export class CharacteristicMock implements Characteristic {
   id: number;
   name: string;
   archived: boolean;
@@ -36,7 +36,7 @@ class CharacteristicMock implements Characteristic {
   }
 }
 
-class DeviceMock implements Device {
+export class DeviceMock implements Device {
 
    id: number;
    name: string;
@@ -57,6 +57,93 @@ class DeviceMock implements Device {
   }
 }
 
+export const valvolaDevice = new DeviceMock({
+  id: 1,
+  name: 'Valvola di pressione',
+  archived: true,
+  deactivated: true,
+  apiKey: 'AAA'
+}, [
+  {
+    id: 1,
+    name: 'Pressione',
+    autoAdjust: false,
+    archived: false,
+    lowerLimit: 0,
+    upperLimit: 20, // millibar
+    sampleSize: null
+  },
+  {
+    id: 2,
+    name: 'Temperatura',
+    autoAdjust: true,
+    archived: false,
+    lowerLimit: null,
+    upperLimit: null,
+    sampleSize: 80
+  }
+]);
+
+export const filaioDevice = new DeviceMock({
+  id: 2,
+  name: 'Filaio a vapore',
+  archived: false,
+  deactivated: false,
+  apiKey: 'BBB'
+}, [
+  {
+    id: 1,
+    name: 'Tensione fili',
+    archived: false,
+    autoAdjust: false,
+    sampleSize: null,
+    upperLimit: 30, // newton su metri2
+    lowerLimit: 0.5
+  }
+]);
+
+export const locomotivaDevice = new DeviceMock({
+  id: 3,
+  name: 'Locomotiva',
+  archived: false,
+  deactivated: true,
+  apiKey: 'CCC'
+}, [
+  {
+    id: 1,
+    name: 'Velocità',
+    autoAdjust: false,
+    sampleSize: null,
+    upperLimit: 90, // miglia orarie
+    lowerLimit: 0,
+    archived: false
+  },
+  {
+    id: 2,
+    name: 'Calore caldaia',
+    autoAdjust: true,
+    sampleSize: 100,
+    upperLimit: null,
+    lowerLimit: null,
+    archived: true
+  },
+  {
+    id: 3,
+    name: 'Carbone utilizzato',
+    autoAdjust: true,
+    sampleSize: 150,
+    upperLimit: null,
+    lowerLimit: null,
+    archived: false
+  }
+]);
+
+export const devices: DeviceMock[] = [
+  locomotivaDevice,
+  filaioDevice,
+  valvolaDevice
+];
+
 @Injectable({
   providedIn: 'root'
 })
@@ -69,57 +156,8 @@ export class FakeDeviceService implements
   UpdateDeviceAbstractService,
   UpdateCharacteristicAbstractService
 {
-  private devices: DeviceMock[] = [
-    {
-      id: 1,
-      name: 'Macchina 1',
-      archived: true,
-      deactivated: true,
-      apiKey: 'AAA'
-    },
-    {
-      id: 2,
-      name: 'Macchina 2',
-      archived: false,
-      deactivated: false,
-      apiKey: 'BBB'
-    },
-    {
-      id: 3,
-      name: 'Macchina 3',
-      archived: false,
-      deactivated: true,
-      apiKey: 'CCC'
-    }
-  ].map(device => new DeviceMock(device, [
-    {
-      id: 1,
-      name: 'Valvola',
-      archived: false,
-      autoAdjust: false,
-      lowerLimit: 10,
-      upperLimit: 20,
-      sampleSize: null
-    },
-    {
-      id: 2,
-      name: 'Isola',
-      archived: true,
-      autoAdjust: true,
-      lowerLimit: null,
-      upperLimit: null,
-      sampleSize: null
-    },
-    {
-      id: 3,
-      name: 'Asola',
-      archived: false,
-      autoAdjust: true,
-      lowerLimit: null,
-      upperLimit: null,
-      sampleSize: 12
-    }
-  ]));
+
+  devices = devices;
 
   constructor() { }
 
@@ -187,7 +225,7 @@ export class FakeDeviceService implements
         errorCode: 'duplicateDeviceName'
       });
     }
-    const nextId = Math.max(...this.devices.map(device => device.id)) + 1;
+    const nextId = this.getNextId();
     const newDevice = new DeviceMock({
       id: nextId,
       name: deviceCreationCommand.name,
@@ -197,6 +235,10 @@ export class FakeDeviceService implements
     });
     this.devices.push(newDevice);
     return of(newDevice);
+  }
+
+  getNextId() {
+    return Math.max(...this.devices.map(device => device.id)) + 1;
   }
 
   findDeviceById(id: number): Observable<Device> {

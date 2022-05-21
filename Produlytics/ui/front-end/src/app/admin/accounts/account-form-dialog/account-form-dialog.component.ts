@@ -1,14 +1,13 @@
 import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Account} from "../../../model/admin-account/account";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {StandardError} from "../../../../lib/standard-error";
 import {SaveAccountAbstractService} from "../../../model/admin-account/save-account-abstract.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {AccountSaveCommand} from "../../../model/admin-account/account-save-command";
 import {LoginAbstractService} from "../../../model/login/login-abstract.service";
 import {Observable, tap} from "rxjs";
-import {ErrorDialogComponent} from "../../../components/error-dialog/error-dialog.component";
+import {NotificationService} from "../../../utils/notification.service";
 
 @Component({
   selector: 'app-account-form-dialog',
@@ -32,8 +31,7 @@ export class AccountFormDialogComponent implements OnInit {
   constructor(
     private matDialogRef: MatDialogRef<AccountFormDialogComponent>,
     private saveAccountService: SaveAccountAbstractService,
-    private matSnackBar: MatSnackBar,
-    private matDialog: MatDialog,
+    private notificationService: NotificationService,
     loginService: LoginAbstractService,
     formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data?: { account: Account }
@@ -128,10 +126,7 @@ export class AccountFormDialogComponent implements OnInit {
   private insertAccount(command: AccountSaveCommand): Observable<{ username: string }> {
     return this.saveAccountService.insertAccount(command)
       .pipe(tap(({username}) => {
-        this.matSnackBar.open(
-          `Utente "${username}" inserito con successo`,
-          'Ok'
-        );
+        this.notificationService.notify(`Utente "${username}" inserito con successo`);
       }));
   }
 
@@ -144,10 +139,7 @@ export class AccountFormDialogComponent implements OnInit {
   private updateAccount(command: AccountSaveCommand): Observable<{ }> {
     return this.saveAccountService.updateAccount(command)
       .pipe(tap(() => {
-        this.matSnackBar.open(
-          `Utente "${command.username}" aggiornato con successo`,
-          'Ok'
-        );
+        this.notificationService.notify(`Utente "${command.username}" aggiornato con successo`);
       }));
   }
 
@@ -168,11 +160,7 @@ export class AccountFormDialogComponent implements OnInit {
         this.formGroup.get('username')?.setErrors({duplicateUsername: true});
         break;
       default:
-        this.matDialog.open(ErrorDialogComponent, {
-          data: {
-            message: `Errore non riconosciuto: "${JSON.stringify(err)}"`
-          }
-        });
+        this.notificationService.unexpectedError(`Errore non riconosciuto: "${JSON.stringify(err)}"`);
     }
   }
 }

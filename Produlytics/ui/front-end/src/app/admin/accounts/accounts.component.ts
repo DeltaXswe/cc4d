@@ -2,12 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {Account} from "../../model/admin-account/account";
 import {AccountAbstractService} from "../../model/admin-account/account-abstract.service";
 import {MatDialog} from "@angular/material/dialog";
-import {ErrorDialogComponent} from "../../components/error-dialog/error-dialog.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {ConfirmDialogComponent} from "../../components/confirm-dialog/confirm-dialog.component";
 import {AccountFormDialogComponent} from "./account-form-dialog/account-form-dialog.component";
 import {AccountsDataSource} from "./accounts.data-source";
 import {LoginAbstractService} from "../../model/login/login-abstract.service";
+import {NotificationService} from "../../utils/notification.service";
 
 @Component({
   selector: 'app-accounts',
@@ -26,7 +25,7 @@ export class AccountsComponent implements OnInit {
   constructor(
     private accountService: AccountAbstractService,
     private matDialog: MatDialog,
-    private matSnackBar: MatSnackBar,
+    private notificationService: NotificationService,
     private loginService: LoginAbstractService
   ) { }
 
@@ -83,28 +82,18 @@ export class AccountsComponent implements OnInit {
       this.accountService.recoverAccount(account)
         .subscribe(() => {
           this.initTable();
-          this.matSnackBar.open(
-            'Utente ripristinato con successo',
-            'Ok'
-          )
+          this.notificationService.notify('Utente ripristinato con successo');
         });
     } else {
-      const dialogRef = this.matDialog.open(ConfirmDialogComponent, {
-        data: {
-          message: `L'utente ${account.username} verrà disabilitato.`
-        }
-      });
-      dialogRef.afterClosed().subscribe(confirm => {
-        if (confirm) {
-          this.accountService.archiveAccount(account)
-            .subscribe(() => {
-              this.initTable();
-              this.matSnackBar.open(
-                'Utente archiviato con successo',
-                'Ok'
-              )
-            });
-        }
+      this.notificationService.requireConfirm(`L'utente ${account.username} verrà disabilitato.`)
+        .subscribe(confirm => {
+          if (confirm) {
+            this.accountService.archiveAccount(account)
+              .subscribe(() => {
+                this.initTable();
+                this.notificationService.notify('Utente archiviato con successo');
+              });
+          }
       });
     }
   }
@@ -130,11 +119,7 @@ export class AccountsComponent implements OnInit {
         this.accounts.setData(value);
       },
       error: err => {
-        this.matDialog.open(ErrorDialogComponent, {
-          data: {
-            message: err
-          }
-        });
+        this.notificationService.unexpectedError(err);
       }
     })
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { FlatTreeControl } from "@angular/cdk/tree";
 import {
   UnarchivedCharacteristicAbstractService
@@ -6,13 +6,10 @@ import {
 import { UnarchivedDeviceAbstractService } from "../../model/device/unarchived-device-abstract.service";
 import { SelectionNode } from './selection-data-source/selection-node';
 import { SelectionDataSource } from './selection-data-source/selection.data-source';
-import { EventEmitter } from '@angular/core';
 import { CharacteristicNode } from './selection-data-source/characteristic-node';
 
-// TODO: da rinominare (device->characteristics)
-
 @Component({
-  selector: 'app-device-selection',
+  selector: 'app-selection',
   templateUrl: './selection.component.html',
   styleUrls: ['./selection.component.css']
 })
@@ -61,6 +58,10 @@ export class SelectionComponent implements OnInit {
   }
 
   notifyChange(): void {
-    this._checkedNodes = this.checkedNodes.slice();
+    this._checkedNodes = [];
+    setTimeout(() => {
+      // l'abc dell'hack in angular - spesso il runtime di angular ha bisogno di "aspettare" un momento
+      this._checkedNodes = this.checkedNodes.slice();
+    });
   }
 }

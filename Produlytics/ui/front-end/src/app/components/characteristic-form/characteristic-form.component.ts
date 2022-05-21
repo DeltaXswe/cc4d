@@ -62,6 +62,17 @@ export class CharacteristicFormComponent implements OnInit {
           this.formGroup.get('lowerLimit')?.updateValueAndValidity();
         }
       });
+    this.formGroup.valueChanges
+      .subscribe(value => {
+        const lowerLimit = parseFloat(value.lowerLimit);
+        const upperLimit = parseFloat(value.upperLimit)
+        if (upperLimit < lowerLimit) {
+          this.formGroup.get('upperLimit')?.setErrors({
+            upperLowerThanLower: true
+          });
+        }
+      })
+    // questo viene da fuori
     this.duplicateNameBehavior.subscribe(isError => {
       this.formGroup.get('name')?.setErrors({
         duplicateCharacteristicName: isError
@@ -75,11 +86,14 @@ export class CharacteristicFormComponent implements OnInit {
    */
   requireData(): CharacteristicCreationCommand {
     const rawValue = this.formGroup.getRawValue();
-    if (rawValue.autoAdjust) {
-      rawValue.upperLimit = null;
-      rawValue.lowerLimit = null;
-    } else {
+    if (rawValue.sampleSize === '') {
       rawValue.sampleSize = null;
+    }
+    if (rawValue.upperLimit === '') {
+      rawValue.upperLimit = null;
+    }
+    if (rawValue.lowerLimit === '') {
+      rawValue.lowerLimit = null;
     }
     return rawValue;
   }
