@@ -3,6 +3,7 @@ import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing'
 import { DeviceDetailComponent } from './device-detail.component';
 import {MockDialogAlwaysConfirm, MockSnack, testModules} from "../../../test/utils";
 import {
+  DeviceMock,
   FakeDeviceService,
   filaioDevice,
   locomotivaDevice
@@ -342,6 +343,41 @@ describe('DeviceDetailComponent Integration', () => {
   });
 
   it('device-detail-archive-char', () => {
+    const locomotivaDevice = new DeviceMock({
+      id: 3,
+      name: 'Locomotiva',
+      archived: false,
+      deactivated: true,
+      apiKey: 'CCC'
+    }, [
+      {
+        id: 1,
+        name: 'Velocità',
+        autoAdjust: false,
+        sampleSize: null,
+        upperLimit: 90, // miglia orarie
+        lowerLimit: 0,
+        archived: false
+      },
+      {
+        id: 2,
+        name: 'Calore caldaia',
+        autoAdjust: true,
+        sampleSize: 100,
+        upperLimit: null,
+        lowerLimit: null,
+        archived: true
+      },
+      {
+        id: 3,
+        name: 'Carbone utilizzato',
+        autoAdjust: true,
+        sampleSize: 150,
+        upperLimit: null,
+        lowerLimit: null,
+        archived: false
+      }
+    ]);
     let req = httpTestingController.expectOne(`admin/devices/${locomotivaDevice.id}/characteristics`);
     expect(req.request.method).toEqual('GET');
     req.flush(locomotivaDevice.characteristics);
@@ -361,7 +397,41 @@ describe('DeviceDetailComponent Integration', () => {
   });
 
   it('device-detail-recover-char', () => {
-
+    const locomotivaDevice = new DeviceMock({
+      id: 3,
+      name: 'Locomotiva',
+      archived: false,
+      deactivated: true,
+      apiKey: 'CCC'
+    }, [
+      {
+        id: 1,
+        name: 'Velocità',
+        autoAdjust: false,
+        sampleSize: null,
+        upperLimit: 90, // miglia orarie
+        lowerLimit: 0,
+        archived: false
+      },
+      {
+        id: 2,
+        name: 'Calore caldaia',
+        autoAdjust: true,
+        sampleSize: 100,
+        upperLimit: null,
+        lowerLimit: null,
+        archived: true
+      },
+      {
+        id: 3,
+        name: 'Carbone utilizzato',
+        autoAdjust: true,
+        sampleSize: 150,
+        upperLimit: null,
+        lowerLimit: null,
+        archived: false
+      }
+    ]);
     let req = httpTestingController.expectOne(`admin/devices/${locomotivaDevice.id}/characteristics`);
     expect(req.request.method).toEqual('GET');
     req.flush(locomotivaDevice.characteristics);
