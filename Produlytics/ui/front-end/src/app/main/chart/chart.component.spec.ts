@@ -32,9 +32,6 @@ describe('ChartComponent', () => {
       ]
     })
       .compileComponents();
-  });
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(ChartComponent);
     chartService = TestBed.inject(ChartAbstractService);
     component = fixture.componentInstance;
@@ -55,7 +52,7 @@ describe('ChartComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should-create', () => {
     expect(component).toBeTruthy();
   });
 
@@ -84,7 +81,7 @@ describe('ChartComponent', () => {
     expect(gElements.length).toEqual(0);
   });
 
-  it('dialog', () => {
+  it('dialog-datepicker', () => {
     const spyDialog = spyOn(component.dialog, 'open').and.returnValue({
       afterClosed: () =>
         of({data: {start: 100000, end: 1500000}})
@@ -106,13 +103,13 @@ describe('ChartComponent', () => {
   })
 });
 
-describe('ChartComponent integration', () => {
-let component: ChartComponent;
-let fixture: ComponentFixture<ChartComponent>;
-let mockDialogRef: MatDialogRef<any>;
-let chartService: ChartAbstractService;
-let httpClient: HttpClient;
-let httpTestingController: HttpTestingController;
+describe('ChartComponentIntegration', () => {
+  let component: ChartComponent;
+  let fixture: ComponentFixture<ChartComponent>;
+  let mockDialogRef: MatDialogRef<any>;
+  let chartService: ChartAbstractService;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -159,11 +156,11 @@ let httpTestingController: HttpTestingController;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should-create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('getData chiama ChartService', () => {
+  it('getData', () => {
     const reqLimits = httpTestingController.expectOne(`/devices/3/characteristics/1/limits`);
     expect(reqLimits.request.method).toEqual('GET');
     reqLimits.flush({});
@@ -175,15 +172,14 @@ let httpTestingController: HttpTestingController;
     httpTestingController.verify();
   });
 
-  it('subscribeToUpdates chiama ChartService', fakeAsync (() => {
+  it('subscribeToUpdates', fakeAsync (() => {
     tick();
     component.clearChart();
     fixture.detectChanges();
-    chartService.getNextPoints(3, 1, 0)
-    const reqPoints = httpTestingController
+    const reqPoints1 = httpTestingController
       .expectOne((request) => request.url === "/devices/3/characteristics/1/detections");
-    expect(reqPoints.request.method).toEqual('GET');
-    reqPoints.flush({point: {
+    expect(reqPoints1.request.method).toEqual('GET');
+    reqPoints1.flush({
       detections: [
         {
           creationTime: 11000000,
@@ -192,7 +188,29 @@ let httpTestingController: HttpTestingController;
         }],
       nextOld: 1000000,
       nextNew: 1000000
-    }});
+    });
+    const reqLimits = httpTestingController.expectOne(`/devices/3/characteristics/1/limits`);
+    expect(reqLimits.request.method).toEqual('GET');
+    reqLimits.flush({});
+    tick();
+
+    component.subscribeToUpdates();
+    tick(1000);
+    const reqPoints2 = httpTestingController
+      .expectOne((request) => request.url === "/devices/3/characteristics/1/detections");
+    expect(reqPoints2.request.method).toEqual('GET');
+    reqPoints2.flush({
+      detections: [
+        {
+          creationTime: 11000000,
+          value: 500,
+          outlier: false
+        }],
+      nextOld: 1000000,
+      nextNew: 1000000
+    });
+    component.clearChart();
+    tick();
     httpTestingController.verify();
   }));
 });

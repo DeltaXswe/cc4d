@@ -46,7 +46,7 @@ describe('ModifyPwComponent', () => {
         },
       ]
     })
-    .compileComponents();
+      .compileComponents();
     localStorage.clear();
     localStorage.setItem('username', 'Gianni')
     fixture = TestBed.createComponent(ModifyPwComponent);
@@ -55,11 +55,11 @@ describe('ModifyPwComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should-create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('validità campi obbligatori', () => {
+  it('validità-campi-obbligatori', () => {
     let form = component.modifyPw;
     expect(form.valid).toBeFalsy();
 
@@ -81,7 +81,7 @@ describe('ModifyPwComponent', () => {
     expect(form.controls['newPassword'].hasError('minlength')).toBeTruthy();
   })
 
-  it('password corrente uguale a quella nuova', () => {
+  it('password-nuova=corrente', () => {
     let form = component.modifyPw;
     form.controls['oldPassword'].setValue('Gianni');
     form.controls['newPassword'].setValue('Gianni');
@@ -90,7 +90,7 @@ describe('ModifyPwComponent', () => {
     expect(form.controls['newPassword'].hasError('mustBeDifferent')).toBeTruthy();
   });
 
-  it('password nuova diversa da ripetizione', () => {
+  it('password-nuova!=ripetizione', () => {
     let form = component.modifyPw;
     form.controls['oldPassword'].setValue('Gianni');
     form.controls['newPassword'].setValue('Giannni');
@@ -99,7 +99,7 @@ describe('ModifyPwComponent', () => {
     expect(form.controls['newPasswordRe'].hasError('mismatch')).toBeTruthy();
   });
 
-  it('campi validi', () => {
+  it('campi-validi', () => {
     let form = component.modifyPw;
     form.controls['oldPassword'].setValue('Gianni');
     form.controls['newPassword'].setValue('Gianni1');
@@ -108,7 +108,7 @@ describe('ModifyPwComponent', () => {
     expect(form.valid).toBeTruthy();
   });
 
-  it('conferma password', (done) => {
+  it('conferma-password', (done) => {
     mockDialogRef.afterClosed()
       .subscribe({
         next: data => {
@@ -125,7 +125,7 @@ describe('ModifyPwComponent', () => {
     component.confirm();
   });
 
-  it('annulla password', async (done) => {
+  it('annulla-password', async (done) => {
     component.cancel();
     mockDialogRef.afterClosed()
       .subscribe({
@@ -138,7 +138,7 @@ describe('ModifyPwComponent', () => {
   })
 });
 
-describe('ModifyPwComponent', () => {
+describe('ModifyPwComponentIntegration', () => {
   let component: ModifyPwComponent;
   let fixture: ComponentFixture<ModifyPwComponent>;
   let mockDialogRef: MatDialogRef<any>;
@@ -184,7 +184,7 @@ describe('ModifyPwComponent', () => {
     httpClient = TestBed.inject(HttpClient);
   });
 
-  it('chiamata al modifypwservice', async () => {
+  it('modifypwservicePUT', async () => {
     component.modifyPw.controls['oldPassword'].setValue('Gianni');
     component.modifyPw.controls['newPassword'].setValue('Gianni2');
     component.modifyPw.controls['newPasswordRe'].setValue('Gianni2');

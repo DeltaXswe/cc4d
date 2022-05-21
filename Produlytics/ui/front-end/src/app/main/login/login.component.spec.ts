@@ -8,11 +8,11 @@ import { gianniUser } from 'src/app/test/account/users';
 
 import { LoginComponent } from './login.component';
 import { CookieService } from 'ngx-cookie-service';
-import { Injector, ReflectiveInjector } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { HttpTestingController } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/model/login/login.service';
+import { throwError } from 'rxjs';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -49,10 +49,7 @@ describe('LoginComponent', () => {
         LoginService
       ]
     })
-    .compileComponents();
-  });
-
-  beforeEach(async () => {
+      .compileComponents();
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -61,12 +58,12 @@ describe('LoginComponent', () => {
     httpTestingController = TestBed.inject(HttpTestingController);
     loginService = TestBed.inject(LoginAbstractService)
   });
-  
-  it('should create', () => {
+
+  it('should-create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('validità campi obbligatori', () => {
+  it('validità-campi-obbligatori', () => {
     let username = component.loginForm.controls['username'];
     let password = component.loginForm.controls['password'];
     expect(username.valid).toBeFalsy();
@@ -75,12 +72,12 @@ describe('LoginComponent', () => {
 
     username.setValue('');
     password.setValue('');
-    
+
     expect(username.hasError('required')).toBeTruthy();
     expect(password.hasError('required')).toBeTruthy();
   })
 
-  it('validità campo password>6caratteri', () => {
+  it('validità-password', () => {
     let password = component.loginForm.controls['password'];
 
     password.setValue('ciao');
@@ -89,7 +86,7 @@ describe('LoginComponent', () => {
     expect(password.hasError('minlength')).toBeTruthy();
   })
 
-  it('form valido con input validi', () => {
+  it('form-valido', () => {
     let username = component.loginForm.controls['username'];
     let password = component.loginForm.controls['password'];
 
@@ -99,14 +96,21 @@ describe('LoginComponent', () => {
     expect(component.loginForm.valid).toBeTruthy();
   })
 
-  it('con cookie vado direttamente alla dashboard', () => {
+  it('ngoninit-cookie', () => {
     cookieService.deleteAll();
     cookieService.set('PRODULYTICS_RM', 'valore');
     component.ngOnInit();
-    expect(router.navigate).toHaveBeenCalledWith(['/']); 
+    expect(router.navigate).toHaveBeenCalledWith(['/']);
   })
 
-  it('chiamata a loginservice', () => {
+  it('login-non-valido', () => {
+    let loginSpy = spyOn(loginService, 'login')
+    component.loginForm.controls['rememberMe'].setValue(true);
+    component.onSubmit();
+    expect(loginSpy.calls.count.length).toEqual(0);
+  });
+
+  it('loginservice-login', () => {
     component.loginForm.controls['username'].setValue(gianniUser.username);
     component.loginForm.controls['password'].setValue(gianniUser.password);
     component.loginForm.controls['rememberMe'].setValue(true);

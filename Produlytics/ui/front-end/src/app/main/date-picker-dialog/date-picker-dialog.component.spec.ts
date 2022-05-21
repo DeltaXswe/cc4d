@@ -24,10 +24,7 @@ describe('DatePickerDialogComponent', () => {
       ]
 
     })
-    .compileComponents();
-  });
-
-  beforeEach(() => {
+      .compileComponents();
     fixture = TestBed.createComponent(DatePickerDialogComponent);
     component = fixture.componentInstance;
     mockDialogRef = TestBed.inject(MatDialogRef);
@@ -38,7 +35,7 @@ describe('DatePickerDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('validità campi obbligatori', () => {
+  it('validità-campi-obbligatori', () => {
     let form = component.dateForm;
     expect(form.valid).toBeFalsy();
   });
@@ -63,7 +60,7 @@ describe('DatePickerDialogComponent', () => {
     component.confirm();
   });
 
-  it('annulla', async (done) => {
+  it('annulla',  (done) => {
     component.cancel();
     mockDialogRef.afterClosed()
       .subscribe({

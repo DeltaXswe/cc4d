@@ -1,17 +1,17 @@
 import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AccountAbstractService } from 'src/app/model/admin-account/account-abstract.service';
 import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
-import { FakeAccountService } from 'src/app/test/account/fake-account.service';
 import {MockDialogAlwaysConfirm, testModules} from 'src/app/test/utils';
 import { ToolbarComponent } from './toolbar.component';
 import { Location } from '@angular/common';
 import {expect} from "@angular/flex-layout/_private-utils/testing";
 import {MatDialog} from "@angular/material/dialog";
 import {LoginService} from "../../model/login/login.service";
-import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
+import {HttpTestingController} from "@angular/common/http/testing";
 import {HttpClient} from "@angular/common/http";
 import {of} from "rxjs";
+import {ChartComponent} from "../../main/chart/chart.component";
+import {LoginComponent} from "../../main/login/login.component";
 
 
 describe('ToolbarComponent', () => {
@@ -26,7 +26,14 @@ describe('ToolbarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([
+          {
+            path: '', component: ChartComponent
+          },
+          {
+            path: 'login', component: LoginComponent
+          }]
+        ),
         testModules
       ],
       declarations: [ ToolbarComponent ],
@@ -42,7 +49,7 @@ describe('ToolbarComponent', () => {
         }
       ]
     })
-    .compileComponents();
+      .compileComponents();
     localStorage.clear();
     localStorage.setItem('username', 'Cosimo');
     localStorage.setItem('accessToken', 'Cosimo');
@@ -60,18 +67,15 @@ describe('ToolbarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('dovrebbe essere loggato', () => {
-    expect(component.isLogged()).toBeTrue();
-  });
 
-  it('gestione nascosta a non-admin',() => {
+  it('admin-options',() => {
     const menu2 = fixture.debugElement.nativeElement.querySelector('#username');
     menu2.click();
     const gestioneMacchine = fixture.nativeElement.parentNode.querySelector('#gm');
     expect(gestioneMacchine).toBeNull();
   });
 
-  it('router home', fakeAsync(() =>{
+  it('router-home', fakeAsync(() =>{
     let home = fixture.debugElement.nativeElement.querySelector('#produlytics');
     tick();
     location.go('gestione-macchine');
@@ -80,7 +84,7 @@ describe('ToolbarComponent', () => {
     expect(location.path()).toBe('/');
   }));
 
-  it('apri dialog modifica password', () => {
+  it('open-modifypwdialog', () => {
     const spyDialog = spyOn(component.dialog, 'open').and.returnValue({
       afterClosed: () =>
         of({data: {}})
@@ -89,7 +93,25 @@ describe('ToolbarComponent', () => {
     expect(spyDialog).toHaveBeenCalled();
   });
 
-  it('esegui il logout',  () => {
+  it('open-modifypwdialog-error400', () => {
+    const spyDialog = spyOn(component.dialog, 'open').and.returnValue({
+      afterClosed: () =>
+        of(400)
+    } as any);
+    component.openPwDialog();
+    expect(spyDialog).toHaveBeenCalled();
+  });
+
+  it('open-modifypwdialog-error401', () => {
+    const spyDialog = spyOn(component.dialog, 'open').and.returnValue({
+      afterClosed: () =>
+        of(401)
+    } as any);
+    component.openPwDialog();
+    expect(spyDialog).toHaveBeenCalled();
+  });
+
+  it('logout',  () => {
     component.logout();
     const req = httpTestingController.expectOne('/logout');
     expect(req.request.method).toEqual('POST');
