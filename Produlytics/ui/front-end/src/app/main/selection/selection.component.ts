@@ -14,15 +14,15 @@ import { CharacteristicNode } from './selection-data-source/characteristic-node'
   styleUrls: ['./selection.component.css']
 })
 export class SelectionComponent implements OnInit {
+  @Output()
+  devicesChanged = new EventEmitter<CharacteristicNode[]>();
 
   treeControl: FlatTreeControl<SelectionNode>;
   dataSource: SelectionDataSource;
 
-  @Output()
-  devicesChanged = new EventEmitter<CharacteristicNode[]>();
-
-  _checkedNodes: CharacteristicNode[] = [];
   checkedNodes: CharacteristicNode[] = [];
+
+  private pendingSelection: CharacteristicNode[] = [];
 
   constructor(
     unarchivedDeviceService: UnarchivedDeviceAbstractService,
@@ -46,22 +46,22 @@ export class SelectionComponent implements OnInit {
   }
 
   nodeIsChecked(node: CharacteristicNode): boolean {
-    return this.checkedNodes.indexOf(node) >= 0;
+    return this.pendingSelection.indexOf(node) >= 0;
   }
 
-  toggleNodeCheck(checked: boolean, node: CharacteristicNode): void {
-    if (checked) {
-      this.checkedNodes.push(node)
-    } else {
-      this.checkedNodes.splice(this.checkedNodes.indexOf(node), 1)
-    }
+  checkNode(node: CharacteristicNode): void {
+    this.pendingSelection.push(node);
+  }
+
+  uncheckNode(node: CharacteristicNode): void {
+    this.pendingSelection.splice(this.pendingSelection.indexOf(node), 1);
   }
 
   notifyChange(): void {
-    this._checkedNodes = [];
+    this.checkedNodes = [];
     setTimeout(() => {
       // l'abc dell'hack in angular - spesso il runtime di angular ha bisogno di "aspettare" un momento
-      this._checkedNodes = this.checkedNodes.slice();
+      this.checkedNodes = this.pendingSelection.slice();
     });
   }
 }

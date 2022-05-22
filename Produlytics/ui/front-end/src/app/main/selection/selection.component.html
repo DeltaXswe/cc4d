@@ -15,7 +15,7 @@
         <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
           <button mat-icon-button disabled></button>
           <mat-checkbox [checked]="nodeIsChecked(node)"
-                        (change)="toggleNodeCheck($event.checked, node)">
+                        (change)="$event.checked ? checkNode(node) : uncheckNode(node)">
             {{node.name}}
           </mat-checkbox>
         </mat-tree-node>
@@ -35,7 +35,7 @@
     <!--Grafici-->
   </mat-sidenav>
   <mat-sidenav-content class="deltax-content">
-    <div fxLayout="column" fxLayoutGap="16px" class="chart-container" *ngFor="let tile of _checkedNodes; let i = index">
+    <div fxLayout="column" fxLayoutGap="16px" class="chart-container" *ngFor="let tile of checkedNodes; let i = index">
       <app-chart [currentNode]=tile [index]=i></app-chart>
     </div>
   </mat-sidenav-content>
