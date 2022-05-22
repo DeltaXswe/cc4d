@@ -190,14 +190,12 @@ public class InsertCharacteristicTests {
    * @throws Exception non viene rilevato l'errore
    */
   @Test
-  void testInsertCharacteristicWithAutoAdjustAndNoSampleSizeError() throws Exception {
+  void testInsertCharacteristicWithAutoAdjustAndNoSampleSize() throws Exception {
     JSONObject body =
         new JSONObject()
             .put("name", "pressione")
             .put("autoAdjust", "true")
             .put("archived", "false");
-
-    JSONObject response = new JSONObject().put("errorCode", "invalidValues");
 
     this.mockMvc
         .perform(
@@ -206,8 +204,7 @@ public class InsertCharacteristicTests {
                 .content(body.toString())
                 .characterEncoding("utf-8"))
         .andDo(print())
-        .andExpect(status().isBadRequest())
-        .andExpect(content().json(response.toString()));
+        .andExpect(status().isOk());
   }
 
   /**

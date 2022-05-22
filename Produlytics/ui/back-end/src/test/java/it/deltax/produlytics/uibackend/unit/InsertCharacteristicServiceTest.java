@@ -99,25 +99,20 @@ public class InsertCharacteristicServiceTest {
   }
 
   @Test
-  void testInsertCharacteristicWithAutoAdjustAndNoSampleSize() {
+  void testInsertCharacteristicWithAutoAdjustAndNoSampleSize() throws BusinessException {
     InsertCharacteristicService service =
         new InsertCharacteristicService(
             new InsertCharacteristicPortMock(),
             new FindDetailedDevicePortMock(),
             new FindDetailedCharacteristicPortMock());
 
-    BusinessException exception =
-        assertThrows(
-            BusinessException.class,
-            () ->
-                service.insertByDevice(
-                    1,
-                    NewCharacteristic.builder()
-                        .withName("pressione")
-                        .withAutoAdjust(true)
-                        .build()));
-    assert exception.getCode().equals("invalidValues");
-    assert exception.getType() == ErrorType.GENERIC;
+    assert service.insertByDevice(
+        1,
+        NewCharacteristic.builder()
+            .withName("pressione")
+            .withAutoAdjust(true)
+            .build())
+        == 1;
   }
 
   @Test

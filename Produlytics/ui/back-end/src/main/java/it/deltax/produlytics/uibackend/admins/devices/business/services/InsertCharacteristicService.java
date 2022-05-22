@@ -9,6 +9,7 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindDet
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertCharacteristicPort;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
+import java.util.OptionalInt;
 
 /** Il service per l'insierimento di una nuova caratteristica. */
 public class InsertCharacteristicService implements InsertCharacteristicUseCase {
@@ -51,6 +52,12 @@ public class InsertCharacteristicService implements InsertCharacteristicUseCase 
         .findByDeviceAndName(deviceId, characteristic.name())
         .isEmpty()) {
       throw new BusinessException("duplicateCharacteristicName", ErrorType.GENERIC);
+    }
+
+    if (characteristic.autoAdjust() && characteristic.sampleSize().isEmpty()) {
+      characteristic = characteristic.toBuilder()
+          .withSampleSize(OptionalInt.of(0))
+          .build();
     }
 
     if (!CharacteristicConstraints.characteristicConstraintsOk(
