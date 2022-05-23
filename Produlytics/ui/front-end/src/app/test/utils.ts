@@ -27,6 +27,7 @@ import {MatChipsModule} from "@angular/material/chips";
 import { MatMenu, MatMenuModule } from "@angular/material/menu";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
+import {LoginComponent} from "../main/login/login.component";
 
 const routes: Routes = [
   {
@@ -39,6 +40,10 @@ const routes: Routes = [
       {
         path: ':id',
         component: DeviceDetailComponent
+      },
+      {
+        path: 'login',
+        component: LoginComponent
       }
     ]
   }
