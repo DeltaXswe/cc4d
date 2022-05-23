@@ -12,7 +12,6 @@ import {DeviceAbstractService} from "../../model/admin-device/device-abstract.se
 import {MatDialog} from "@angular/material/dialog";
 import {HttpTestingController} from "@angular/common/http/testing";
 import {HttpClient} from "@angular/common/http";
-import {RouterTestingModule} from "@angular/router/testing";
 import {DeviceService} from "../../model/admin-device/device.service";
 
 describe('DevicesComponent', () => {

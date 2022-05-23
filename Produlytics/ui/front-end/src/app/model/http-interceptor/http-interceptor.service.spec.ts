@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { XhrInterceptor } from './http-interceptor.service';
 import {testModules} from "../../test/utils";
-import {HTTP_INTERCEPTORS, HttpClient} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {LoginAbstractService} from "../login/login-abstract.service";
 import {LoginService} from "../login/login.service";
@@ -63,9 +63,16 @@ describe('HttpInterceptorService', () => {
 
   it('other-error-http-call', () => {
     let logoutSpy = spyOn(loginService, 'logout');
-    const errMsg = '402 error';
-    const mockErrorResponse = {status: 402, statusText: 'not found'};
-    httpClient.get('/target').subscribe(res => fail('Ci dovrebbe essere un 402 qui...'));
+    const errMsg = '404 error';
+    const mockErrorResponse = {status: 404, statusText: 'errore strano'};
+    httpClient
+      .get('/target')
+      .subscribe({
+        next: () => fail('Ci dovrebbe essere un 404 qui...'),
+        error: (error: HttpErrorResponse) => {
+        expect(error.status).toEqual(404);
+        expect(error.error).toEqual('404 error');
+      }});
     let req = httpTestingController.expectOne('/target');
     req.flush(errMsg, mockErrorResponse);
     httpTestingController.verify();
