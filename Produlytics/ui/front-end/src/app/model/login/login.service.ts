@@ -9,14 +9,24 @@ import { CookieService } from 'ngx-cookie-service';
 @Injectable({
   providedIn: 'root'
 })
+/**
+ * Questo service si occupa di effettuare richieste HTTP al back-end per
+ * effettuare operazioni come login e logout. Offre inoltre metodi per
+ * capire se l'utente è autenticato o amministartore
+ */
 export class LoginService implements LoginAbstractService{
-
-  //TODO: da modificare a seconda se decidiamo di usare localStorage
 
   constructor(private http: HttpClient,
     public router: Router,
     private cookieService: CookieService) { }
 
+  /**
+   * Effettua una richiesta HTTP GET per effettuare un tentativo di login.
+   * Nome utente e password vengono passati tramite header, mentre il rememberMe
+   * viene passato tramite query.
+   * @param command Contiene nome utente, password, e rememberMe
+   * @returns Un {@link Observable} contente la risposta del back-end
+   */
   login(command: LoginCommand): Observable<any>{
     const httpOptions = {
       headers: new HttpHeaders()
@@ -33,13 +43,19 @@ export class LoginService implements LoginAbstractService{
       }));
   }
 
-  isLogged(): boolean{  //da rifare a seconda di come funziona coi cookie
+  /**
+   * @returns True se l'utente è autenticato, false altrimenti
+   */
+  isLogged(): boolean{
     if (localStorage.getItem('accessToken'))
       return true;
     else
       return false;
   }
 
+  /**
+   * @returns True se l'utente è un amministratore, false altrimenti
+   */
   isAdmin(): boolean{
     let admin = localStorage.getItem('admin');
     if (admin)
@@ -48,11 +64,18 @@ export class LoginService implements LoginAbstractService{
       return false;
   }
 
+  /**
+   * Effettua una richiesta HTTP POST per effettuare il logout
+   * @returns Un {@link Observable} contente la risposta del back-end
+   */
   logout(): Observable<any>{
     localStorage.clear();
     return this.http.post('/logout', {});
   }
 
+  /**
+   * @returns Il nome utente
+   */
   getUsername(): string{
     let username = localStorage.getItem('username');
     if (username)
