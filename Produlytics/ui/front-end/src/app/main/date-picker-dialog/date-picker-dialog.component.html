@@ -24,7 +24,7 @@
   </form>
   <div fxLayout="row" fxLayoutAlign="space-around center">
     <ngb-timepicker ngDefaultControl [(ngModel)]="startTime"></ngb-timepicker>
-    <ngb-timepicker ngDefaultControl name="end" [seconds]="true" [(ngModel)]="endTime"></ngb-timepicker>
+    <ngb-timepicker ngDefaultControl [(ngModel)]="endTime"></ngb-timepicker>
   </div>
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="end">
   <button mat-raised-button color="accent" [disabled] = 'this.dateForm.invalid' (click)="confirm()">Conferma</button>

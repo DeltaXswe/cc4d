@@ -1,17 +1,16 @@
-import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
-import {MockDialogAlwaysConfirm, testModules} from 'src/app/test/utils';
+import { MockDialogAlwaysConfirm, testModules } from 'src/app/test/utils';
 import { ToolbarComponent } from './toolbar.component';
 import { Location } from '@angular/common';
-import {expect} from "@angular/flex-layout/_private-utils/testing";
-import {MatDialog} from "@angular/material/dialog";
-import {LoginService} from "../../model/login/login.service";
-import {HttpTestingController} from "@angular/common/http/testing";
-import {HttpClient} from "@angular/common/http";
-import {of} from "rxjs";
-import {ChartComponent} from "../../main/chart/chart.component";
-import {LoginComponent} from "../../main/login/login.component";
+import { MatDialog } from "@angular/material/dialog";
+import { LoginService } from "../../model/login/login.service";
+import { HttpTestingController } from "@angular/common/http/testing";
+import { HttpClient } from "@angular/common/http";
+import { of } from "rxjs";
+import { ChartComponent } from "../../main/chart/chart.component";
+import { LoginComponent } from "../../main/login/login.component";
 
 
 describe('ToolbarComponent', () => {

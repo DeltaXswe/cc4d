@@ -1,17 +1,14 @@
-import {ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
-import {MockDialogAlwaysConfirm, MockDialogRef, testModules} from 'src/app/test/utils';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { MockDialogRef, testModules } from 'src/app/test/utils';
 
-import {ChartComponent} from "./chart.component";
-import {ChartAbstractService} from "../../model/chart/chart-abstract.service";
-import {FakeChartService} from "../../test/chart/fake-chart.service";
-import {ChartService} from "../../model/chart/chart.service";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {EMPTY, of} from "rxjs";
-import {HttpClient} from "@angular/common/http";
-import {HttpTestingController} from "@angular/common/http/testing";
-import any = jasmine.any;
-import {some} from "d3";
-import {ChartPointReturn} from "../../model/chart/chart-point-return";
+import { ChartComponent } from "./chart.component";
+import { ChartAbstractService } from "../../model/chart/chart-abstract.service";
+import { FakeChartService } from "../../test/chart/fake-chart.service";
+import { ChartService } from "../../model/chart/chart.service";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { of } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { HttpTestingController } from "@angular/common/http/testing";
 
 describe('ChartComponent', () => {
   let component: ChartComponent;

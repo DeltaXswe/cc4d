@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
+import { CanActivate, Router, UrlTree } from "@angular/router";
 import { LoginAbstractService } from "../model/login/login-abstract.service";
 /**
  * Questa guardia impedisce a qualsiasi utente autenticato di navigare

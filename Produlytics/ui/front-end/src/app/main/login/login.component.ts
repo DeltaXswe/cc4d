@@ -6,7 +6,7 @@ import { LoginAbstractService } from '../../model/login/login-abstract.service';
 import { CookieService } from 'ngx-cookie-service';
 import { LoginCommand } from '../../model/login/login-command';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {NotificationService} from "../../utils/notification.service";
+import { NotificationService } from "../../utils/notification.service";
 
 @Component({
   selector: 'app-login',
