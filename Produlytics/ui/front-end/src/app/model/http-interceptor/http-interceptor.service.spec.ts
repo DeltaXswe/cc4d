@@ -37,7 +37,7 @@ describe('HttpInterceptorService', () => {
     localStorage.setItem('accessToken', 'accessToken :D');
   });
 
-  it('should be created', () => {
+  it('should-create', () => {
     expect(interceptor).toBeTruthy();
   });
 

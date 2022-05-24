@@ -39,6 +39,10 @@ describe('AuthenticatedUserGuard', () => {
     localStorage.clear();
   })
 
+  it('should-create', () => {
+    expect(authGuard).toBeTruthy();
+  });
+
   it('user-logged-canActivate', () => {
     const canActivate = authGuard.canActivate();
     expect(canActivate).toBeTruthy();
@@ -84,12 +88,16 @@ describe('AuthenticatedUserGuard', () => {
       localStorage.clear();
     })
 
+    it('should-create', () => {
+      expect(adminGuard).toBeTruthy();
+    });
+
     it('admin-canActivate', () => {
       const canActivate = adminGuard.canActivate();
       expect(canActivate).toBeTruthy();
     });
 
-    it('user-not-logged-canActivate', () => {
+    it('not-admin-canActivate', () => {
       localStorage.removeItem('admin');
       const url = router.parseUrl('');
       const canActivate = adminGuard.canActivate();
@@ -126,6 +134,10 @@ describe('AuthenticatedUserGuard', () => {
       afterEach(() => {
         localStorage.clear();
       })
+
+      it('should-create', () => {
+        expect(loginGuard).toBeTruthy();
+      });
 
       it('not-authenticated-canActivate', () => {
         const canActivate = loginGuard.canActivate();
