@@ -32,6 +32,7 @@ import {SelectionComponent} from "../main/selection/selection.component";
 import {AuthenticatedUserGuard} from "../guards/authenticated-user-guard";
 import {AdminGuard} from "../guards/admin-guard";
 import {LoginGuard} from "../guards/login-guard";
+import {ClipboardModule} from "@angular/cdk/clipboard";
 
 const routes: Routes = [
   {
@@ -59,6 +60,7 @@ const routes: Routes = [
 
 export const testModules = [
   HttpClientTestingModule,
+  ClipboardModule,
   RouterTestingModule.withRoutes(routes),
   FormsModule,
   ReactiveFormsModule,

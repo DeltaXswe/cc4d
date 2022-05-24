@@ -66,21 +66,17 @@ describe('AccountsComponent', () => {
     component.accounts.connect().subscribe(doneFn);
   });
 
-  it('archivia-utente', (doneFn) => {
+  it('archivia-utente', () => {
     component.toggleStatus(cosimoUser);
     component.accounts.connect().subscribe(data => {
-      if (cosimoUser.archived) {
-        doneFn();
-      }
+      expect(cosimoUser.archived).toBeTruthy()
     });
   });
 
-  it('ripristina-utente', (doneFn) => {
+  it('ripristina-utente', () => {
     component.toggleStatus(bobUser);
     component.accounts.connect().subscribe(data => {
-      if (!bobUser.archived) {
-        doneFn();
-      }
+      expect(bobUser.archived).toBeFalsy()
     });
   });
 

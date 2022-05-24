@@ -60,15 +60,13 @@ describe('DatePickerDialogComponent', () => {
     component.confirm();
   });
 
-  it('annulla',  (done) => {
-    component.cancel();
+  it('annulla',  () => {
     mockDialogRef.afterClosed()
       .subscribe({
         next: value => {
           expect(value).toBeUndefined();
-        },
-        error: done.fail,
-        complete: done
+        }
       })
+    component.cancel();
   })
 });

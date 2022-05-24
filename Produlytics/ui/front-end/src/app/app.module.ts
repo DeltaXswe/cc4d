@@ -1,4 +1,5 @@
 import {NgModule} from '@angular/core';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 import {AppComponent} from './app.component';
 import {SelectionComponent} from "./main/selection/selection.component";
 import {ChartComponent} from "./main/chart/chart.component";
@@ -69,6 +70,7 @@ import { XhrInterceptor } from './model/http-interceptor/http-interceptor.servic
   ],
   imports: [
     // angular
+    ClipboardModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
