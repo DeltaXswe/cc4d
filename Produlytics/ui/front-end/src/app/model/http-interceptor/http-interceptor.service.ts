@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { catchError, Observable, of, throwError } from 'rxjs';
-import {LoginAbstractService} from "../login/login-abstract.service";
+import { LoginAbstractService } from "../login/login-abstract.service";
 
 /**
  * Questo service intercetta ogni chiamta uscente per aggiungerci un token di

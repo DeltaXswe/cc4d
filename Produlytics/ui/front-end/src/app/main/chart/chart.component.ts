@@ -11,7 +11,7 @@ import { Limits } from '../../model/chart/limits';
 import { MatDialog } from '@angular/material/dialog';
 import { DatePickerDialogComponent } from '../date-picker-dialog/date-picker-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {NotificationService} from "../../utils/notification.service";
+import { NotificationService } from "../../utils/notification.service";
 
 @Component({
   selector: 'app-chart',

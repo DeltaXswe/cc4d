@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ModifyPwComponent } from 'src/app/main/modify-pw/modify-pw.component';
 import { LoginAbstractService } from 'src/app/model/login/login-abstract.service';
-import {NotificationService} from "../../utils/notification.service";
+import { NotificationService } from "../../utils/notification.service";
 
 @Component({
   selector: 'app-toolbar',

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ModifyPwService } from './modify-pw.service';
-import {testModules} from "../../test/utils";
+import { testModules } from "../../test/utils";
 
 describe('ModifyPwService', () => {
   let service: ModifyPwService;

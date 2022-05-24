@@ -8,11 +8,10 @@ import { gianniUser } from 'src/app/test/account/users';
 
 import { LoginComponent } from './login.component';
 import { CookieService } from 'ngx-cookie-service';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient } from '@angular/common/http';
 import { HttpTestingController } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/model/login/login.service';
-import { throwError } from 'rxjs';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
