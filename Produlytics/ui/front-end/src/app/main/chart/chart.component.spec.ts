@@ -79,9 +79,13 @@ describe('ChartComponent', () => {
   });
 
   it('dialog-datepicker', () => {
+    const data = {
+      start: 100000,
+      end: 100000
+    }
     const spyDialog = spyOn(component.dialog, 'open').and.returnValue({
       afterClosed: () =>
-        of({data: {start: 100000, end: 1500000}})
+        of(data)
     } as any);
     component.openDialog();
     expect(spyDialog).toHaveBeenCalled();

@@ -125,16 +125,14 @@ describe('ModifyPwComponent', () => {
     component.confirm();
   });
 
-  it('annulla-password', async (done) => {
-    component.cancel();
+  it('annulla-password', () => {
     mockDialogRef.afterClosed()
       .subscribe({
         next: value => {
           expect(value).toBeUndefined();
-        },
-        error: done.fail,
-        complete: done
+        }
       })
+    component.cancel();
   })
 });
 

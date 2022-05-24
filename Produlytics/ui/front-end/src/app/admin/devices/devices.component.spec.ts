@@ -65,39 +65,31 @@ describe('DevicesComponent', () => {
   }));
 
 
-  it('disattiva-macchina', (doneFn) => {
+  it('disattiva-macchina', () => {
     component.toggleActivationDevice(filaioDevice);
     component.devices.connect().subscribe(data => {
-      if (filaioDevice.deactivated) {
-        doneFn();
-      }
+      expect(filaioDevice.deactivated).toBeTruthy();
     });
   });
 
-  it('attiva-macchina', (doneFn) => {
+  it('attiva-macchina', () => {
     component.toggleActivationDevice(valvolaDevice);
     component.devices.connect().subscribe(data => {
-      if (!valvolaDevice.deactivated) {
-        doneFn();
-      }
+      expect(valvolaDevice.deactivated).toBeFalsy();
     });
   });
 
-  it('archivia-macchina', (doneFn) => {
+  it('archivia-macchina', () => {
     component.toggleStatusDevice(locomotivaDevice);
     component.devices.connect().subscribe(data => {
-      if (locomotivaDevice.archived) {
-        doneFn();
-      }
+      expect(locomotivaDevice.archived).toBeTruthy();
     });
   });
 
-  it('ripristina-macchina', (doneFn) => {
+  it('ripristina-macchina', () => {
     component.toggleStatusDevice(valvolaDevice);
     component.devices.connect().subscribe(data => {
-      if (!valvolaDevice.archived) {
-        doneFn();
-      }
+      expect(valvolaDevice.archived).toBeFalsy();
     });
   });
 });

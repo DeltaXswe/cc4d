@@ -33,7 +33,7 @@ describe('DeviceDataSource', () => {
     });
   });
 
-  it('ordinare-macchine', async (doneFn) => {
+  it('ordinare-macchine', async () => {
     dataSource.setData(devices);
     dataSource.sortData({
       active: 'name',
@@ -41,6 +41,5 @@ describe('DeviceDataSource', () => {
     });
     const data = (await dataSource.connect().pipe(take(1)).toPromise())!;
     expect(isSorted(data, (prev, curr) => prev.name < curr.name)).toBeTrue();
-    doneFn();
   })
 });

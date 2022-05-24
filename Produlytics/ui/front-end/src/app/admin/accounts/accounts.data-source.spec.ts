@@ -31,7 +31,7 @@ describe('AccountsDataSource', () => {
     });
   });
 
-  it('ordinare-utenti', async (doneFn) => {
+  it('ordinare-utenti', async () => {
     const accounts = [aliceUser, bobUser, cosimoUser];
     dataSource.setData(accounts);
     dataSource.sortData({
@@ -48,6 +48,5 @@ describe('AccountsDataSource', () => {
     const data2 = (await dataSource.connect().pipe(take(1)).toPromise())!;
     expect(isSorted(data2, (prev, curr) => prev.administrator <= curr.administrator)).toBeTrue();
 
-    doneFn();
   })
 });

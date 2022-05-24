@@ -9,8 +9,6 @@ import {AppModule} from "../../../app.module";
 import {FakeAccountService} from "../../../test/account/fake-account.service";
 import {SaveAccountAbstractService} from "../../../model/admin-account/save-account-abstract.service";
 import {LoginAbstractService} from "../../../model/login/login-abstract.service";
-import {AccountsModule} from "../accounts.module";
-import {AccountAbstractService} from "../../../model/admin-account/account-abstract.service";
 import {SaveAccountService} from "../../../model/admin-account/save-account.service";
 import {HttpClient} from "@angular/common/http";
 import {HttpTestingController} from "@angular/common/http/testing";
@@ -114,15 +112,13 @@ describe('AccountFormDialogComponent Create Mode', () => {
       .toBeTrue();
   })
 
-  it('annulla-salva-utente', async (done) => {
-    component.cancel();
+  it('annulla-salva-utente', () => {
     mockDialogRef.afterClosed().subscribe({
       next: value => {
         expect(value).toBeUndefined();
-      },
-      error: done.fail,
-      complete: done
+      }
     })
+    component.cancel();
   })
 
   it('should remove username error', () => {

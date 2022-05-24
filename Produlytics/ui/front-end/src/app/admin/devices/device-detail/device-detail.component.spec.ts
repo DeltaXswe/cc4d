@@ -1,5 +1,4 @@
 import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
-
 import { DeviceDetailComponent } from './device-detail.component';
 import {MockDialogAlwaysConfirm, MockSnack, testModules} from "../../../test/utils";
 import {
@@ -14,7 +13,6 @@ import {
 import {UpdateDeviceAbstractService} from "../../../model/admin-device/update/update-device-abstract.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {BehaviorSubject, Observable} from "rxjs";
-import {CharacteristicUpdateCommand} from "../../../model/admin-device/characteristic/characteristic-update-command";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {MockDialogNewCharacteristic, testInsertCharacteristic} from "../new-device/new-device.component.spec";
@@ -22,6 +20,7 @@ import {HttpClient} from "@angular/common/http";
 import {HttpTestingController} from "@angular/common/http/testing";
 import {CharacteristicService} from "../../../model/admin-device/characteristic/characteristic.service";
 import {UpdateDeviceService} from "../../../model/admin-device/update/update-device.service";
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 
 class MockDialogUpdateCharacteristic {
