@@ -11,6 +11,7 @@ import {
 import {HttpClient} from "@angular/common/http";
 import {HttpTestingController} from "@angular/common/http/testing";
 import {UpdateCharacteristicService} from "../../../model/admin-device/characteristic/update-characteristic.service";
+import {testInsertCharacteristic} from "../new-device/new-device.component.spec";
 
 describe('UpdateCharacteristicDialogComponent', () => {
   let component: UpdateCharacteristicDialogComponent;
@@ -53,7 +54,7 @@ describe('UpdateCharacteristicDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should cancel', (doneFn) => {
+  it('annulla-modifica-caratteristica', (doneFn) => {
     matDialogRef.afterClosed().subscribe(value => {
       expect(value).toBeUndefined();
       doneFn();
@@ -61,7 +62,7 @@ describe('UpdateCharacteristicDialogComponent', () => {
     component.cancel();
   });
 
-  it('should-set-error', () => {
+  it('rifiuta-modifica-caratteristica', () => {
     component.data = {
       deviceId: 1,
       characteristic: valvolaDevice.characteristics[1]
@@ -78,6 +79,19 @@ describe('UpdateCharacteristicDialogComponent', () => {
       component.charForm.formGroup
         .get('name')?.hasError('duplicateCharacteristicName')
     ).toBeTrue();
+  });
+
+
+  it('conferma-modifica-caratteristica', (doneFn) => {
+    matDialogRef.afterClosed().subscribe(value => {
+      expect(value).toBeTrue();
+      doneFn();
+    });
+    component.data = {
+      deviceId: 1,
+      characteristic: valvolaDevice.characteristics[1]
+    }
+    component.confirm();
   });
 });
 
