@@ -1,13 +1,13 @@
-# cc4d
+# Produlytics
 Uno strumento per il controllo dei processi di produzione
 
 ## Struttura
-* **Candidatura**: contiene il documento con cui il gruppo si candida allo svolgimento del progetto didattico;
-* **RTB**: contiene i documenti per la revisione RTB;
-* **PB**: contiene i documenti per la revisione PB;
+* **Produlytics**: contiene il codice sorgente del prodotto.
 * **CA**: contiene i documenti per la revisione CA;
+* **PB**: contiene i documenti per la revisione PB;
+* **RTB**: contiene i documenti per la revisione RTB;
 * **Proof of Concept**: contiene l'implementazione del proof of concept per la revisione RTB;
-* **Prodotto**: contiene il codice sorgente del prodotto.
+* **Candidatura**: contiene il documento con cui il gruppo si candida allo svolgimento del progetto didattico;
 
 ## Stato
 
