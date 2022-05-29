@@ -1,0 +1,106 @@
+name: Test and coverage
+
+on:
+  push:
+    branches:
+      - developing
+
+jobs:
+  persistence-library:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./Produlytics/persistence
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup java and maven
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+      - name: Build persistence library
+        run: mvn -B package --file pom.xml
+      - name: Extract jar
+        uses: actions/upload-artifact@v2
+        with:
+          name: persistence
+          path: ./Produlytics/persistence/target/persistence.jar
+
+  api-rilevazioni:
+    needs: persistence-library
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./Produlytics/api-rilevazioni
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup java and maven
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+      - name: Download persistence library
+        uses: actions/download-artifact@v3
+        with:
+          name: persistence
+          path: ./Produlytics/api-rilevazioni
+      - name: Install persistence library
+        run: mvn install:install-file -Dfile=persistence.jar -DpomFile=../persistence/pom.xml
+      - name: Test API rilevazioni
+        run: mvn test
+      - name: Upload coverage data
+        run: bash <(curl -s https://codecov.io/bash) -F api-rilevazioni
+
+  back-end:
+    needs: persistence-library
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./Produlytics/ui/back-end
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup java and maven
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+      - name: Download persistence library
+        uses: actions/download-artifact@v3
+        with:
+          name: persistence
+          path: ./Produlytics/ui/back-end
+      - name: Install persistence library
+        run: mvn install:install-file -Dfile=persistence.jar -DpomFile=../../persistence/pom.xml
+      - name: Test back-end
+        run: mvn test
+      - name: Upload coverage data
+        run: bash <(curl -s https://codecov.io/bash) -F back-end
+
+  front-end:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./Produlytics/ui/front-end
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: ./Produlytics/ui/front-end/package-lock.json
+      - name: Run npm ci
+        run: npm ci
+      - name: Setup angular
+        run: npm i -g @angular/cli
+      - name: Test front-end
+        run: ng test --watch=false --code-coverage
+      - name: Upload coverage data
+        run: bash <(curl -s https://codecov.io/bash) -F front-end

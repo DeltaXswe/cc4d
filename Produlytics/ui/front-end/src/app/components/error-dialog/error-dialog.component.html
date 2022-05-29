@@ -1,0 +1,19 @@
+<mat-toolbar color="warn" fxLayout="row" fxLayoutAlign="space-between center">
+  <h2 mat-dialog-title>
+    Si è verificato un errore
+  </h2>
+  <button mat-icon-button (click)="close()">
+    <mat-icon>
+      clear
+    </mat-icon>
+  </button>
+</mat-toolbar>
+<div mat-dialog-content>
+  {{data.message}}
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
+    <div></div>
+    <button mat-raised-button color="warn" (click)="close()">
+      Ok
+    </button>
+  </mat-dialog-actions>
+</div>

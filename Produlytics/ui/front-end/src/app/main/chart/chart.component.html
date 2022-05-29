@@ -1,0 +1,28 @@
+<!--   <mat-card>
+    <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+      <h1>{{currentNode.device.name}} - {{currentNode.name}}</h1>
+    <div fxLayout="row" class="button-container">
+      <button id="opt" mat-icon-button (click)="openDialog()"><mat-icon>more_vert</mat-icon></button>
+      <button id="refresh" mat-icon-button (click)="clearChart(); createChart()"><mat-icon>refresh</mat-icon></button>
+    </div>
+    </mat-toolbar>
+    <mat-card-content> -->
+      <!-- <div class="inner-container" id="container{{index}}" #cardContent> -->
+        <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+          <h1>{{currentNode.device.name}} - {{currentNode.name}}</h1>
+        <div fxLayout="row" class="button-container">
+          <button id="opt" mat-icon-button (click)="openDialog()"><mat-icon>more_vert</mat-icon></button>
+          <button id="refresh" mat-icon-button (click)="refresh()"><mat-icon>refresh</mat-icon></button>
+        </div>
+        </mat-toolbar>
+        <div fxLayout="row" fxLayoutGap="-70" class="container">
+          <div class="y-container">
+            <svg id="vertical{{index}}"></svg>
+          </div>
+          <div class="chart-container">
+            <svg class="d3svg" id="d3svg{{index}}"></svg>
+          </div>
+        </div>
+      <!-- </div> -->
+<!--     </mat-card-content>
+  </mat-card> -->

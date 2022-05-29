@@ -1,0 +1,22 @@
+<div fxLayoutAlign="center center" fxFlexFill class="main-div">
+   <mat-card fxFlex="25">
+      <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="center center">
+         <mat-card-title>Login</mat-card-title>
+      </mat-toolbar>
+      <form fxLayoutAlign="stretch" fxLayout="column" class="login-form" [formGroup]="loginForm" (ngSubmit) = "onSubmit()">
+         <mat-form-field appearance="outline">
+            <mat-label>Nome utente</mat-label>
+            <input matInput formControlName="username">
+            <mat-error>Campo obbligatorio</mat-error>
+         </mat-form-field>
+         <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password">
+            <mat-error *ngIf="loginForm.controls['password'].errors?.['required']">Campo obbligatorio</mat-error>
+            <mat-error *ngIf="loginForm.controls['password'].errors?.['minlength']">Minimo 6 caratteri</mat-error>
+         </mat-form-field>
+         <mat-checkbox formControlName="rememberMe">Ricordami</mat-checkbox>
+         <button mat-button type="submit" value="submit">Login</button>
+      </form>
+   </mat-card>
+</div>

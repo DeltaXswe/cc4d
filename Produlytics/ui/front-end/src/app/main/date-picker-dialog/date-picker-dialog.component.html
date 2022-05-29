@@ -1,0 +1,32 @@
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+  <h2>
+    Selezione date
+  </h2>
+  <button mat-icon-button (click)="cancel()">
+    <mat-icon>
+      close
+    </mat-icon>
+  </button>
+</mat-toolbar>
+  <form [formGroup]="dateForm" fxLayout="row" fxLayoutAlign="start stretch">
+    <mat-form-field appearance="fill">
+      <mat-hint>Data di inizio</mat-hint>
+      <input matInput [matDatepicker]="picker1" formControlName="start">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-hint>Data di fine</mat-hint>
+      <input matInput [matDatepicker]="picker2" formControlName="end">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+  </form>
+  <div fxLayout="row" fxLayoutAlign="space-around center">
+    <ngb-timepicker ngDefaultControl [(ngModel)]="startTime"></ngb-timepicker>
+    <ngb-timepicker ngDefaultControl [(ngModel)]="endTime"></ngb-timepicker>
+  </div>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end">
+  <button mat-raised-button color="accent" [disabled] = 'this.dateForm.invalid' (click)="confirm()">Conferma</button>
+  <button mat-raised-button color="accent" (click)="cancel()">Annulla</button>
+</mat-dialog-actions>

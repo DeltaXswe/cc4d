@@ -1,0 +1,22 @@
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+  <h2>
+    Modifica caratteristica
+  </h2>
+  <button mat-icon-button (click)="cancel()">
+    <mat-icon>
+      close
+    </mat-icon>
+  </button>
+</mat-toolbar>
+<div mat-dialog-content>
+  <app-characteristic-form [startingData]="data.characteristic" #charForm></app-characteristic-form>
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
+    <button mat-button (click)="cancel()">
+      Annulla
+    </button>
+    <button mat-raised-button color="primary" [disabled]="charForm.formGroup.invalid" (click)="confirm()">
+      Conferma
+    </button>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,26 @@
+coverage:
+  status:
+    project:
+      default: off
+      frontend:
+        flags:
+          - front-end
+      back-end:
+        target: 90%
+        flags:
+          - back-end
+      api-rilevazioni:
+        target: 90%
+        flags:
+          - api-rilevazioni
+
+flags:
+  back-end:
+    paths:
+      - Produlytics/ui/back-end/
+  front-end:
+    paths:
+      - Produlytics/ui/front-end/
+  api-rilevazioni:
+    paths:
+      - Produlytics/api-rilevazioni/

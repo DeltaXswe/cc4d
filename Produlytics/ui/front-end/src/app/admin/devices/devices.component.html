@@ -1,0 +1,69 @@
+<!-- HEADER -->
+
+<!-- / HEADER -->
+<!-- CONTENT -->
+<div class="deltax-content">
+  <mat-card>
+    <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+      <h1>
+        Gestione macchine
+      </h1>
+      <button mat-stroked-button (click)="createDevice()">
+        Nuova macchina
+      </button>
+    </mat-toolbar>
+    <mat-card-content>
+      <mat-table [dataSource]="devices" matSort>
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header="name">
+            Nome
+          </mat-header-cell>
+          <mat-cell *matCellDef="let device">
+            {{device.name}}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="edit">
+          <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
+          <mat-cell *matCellDef="let device" fxFlex="64px">
+            <button mat-icon-button (click)="openDeviceDetail(device)">
+              <mat-icon>
+                edit
+              </mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="activation">
+          <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
+          <mat-cell *matCellDef="let device" fxFlex="64px">
+            <button mat-icon-button (click)="toggleActivationDevice(device)">
+              <mat-icon [ngClass]="{
+              'green-text': !device.deactivated,
+              'red-text': device.deactivated
+            }">
+                {{device.deactivated ? 'toggle_on' : 'toggle_off'}}
+              </mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
+          <mat-cell *matCellDef="let device" fxFlex="64px">
+            <button mat-icon-button (click)="toggleStatusDevice(device)">
+              <mat-icon [ngClass]="{
+              'red-text': !device.archived
+            }">
+                {{device.archived ? 'restore_from_trash' : 'delete'}}
+              </mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>
+<!-- / CONTENT -->
