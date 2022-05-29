@@ -2,12 +2,12 @@
 Uno strumento per il controllo dei processi di produzione
 
 ## Struttura
-* **Produlytics**: contiene il codice sorgente del prodotto.
+* **Produlytics**: contiene il codice sorgente del prodotto;
 * **CA**: contiene i documenti per la revisione CA;
 * **PB**: contiene i documenti per la revisione PB;
 * **RTB**: contiene i documenti per la revisione RTB;
 * **Proof of Concept**: contiene l'implementazione del proof of concept per la revisione RTB;
-* **Candidatura**: contiene il documento con cui il gruppo si candida allo svolgimento del progetto didattico;
+* **Candidatura**: contiene il documento con cui il gruppo si candida allo svolgimento del progetto didattico.
 
 ## Stato
 
