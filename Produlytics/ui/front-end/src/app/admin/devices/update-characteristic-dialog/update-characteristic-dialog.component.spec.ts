@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UpdateCharacteristicDialogComponent } from './update-characteristic-dialog.component';
-import {MockDialogAlwaysConfirm, MockDialogRef, testModules} from "../../../test/utils";
+import {MockDialogRef, testModules} from "../../../test/utils";
 import {ComponentsModule} from "../../../components/components.module";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FakeDeviceService, locomotivaDevice, valvolaDevice} from "../../../test/device/fake-device.service";
 import {
   UpdateCharacteristicAbstractService
@@ -11,7 +11,6 @@ import {
 import {HttpClient} from "@angular/common/http";
 import {HttpTestingController} from "@angular/common/http/testing";
 import {UpdateCharacteristicService} from "../../../model/admin-device/characteristic/update-characteristic.service";
-import {testInsertCharacteristic} from "../new-device/new-device.component.spec";
 
 describe('UpdateCharacteristicDialogComponent', () => {
   let component: UpdateCharacteristicDialogComponent;
