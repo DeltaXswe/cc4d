@@ -47,7 +47,7 @@ describe('NewCharacteristicDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should-set-error', () => {
+  it('rifiuta-nuova-caratteristica', () => {
     component.charForm.formGroup.setValue({
       name: 'Valvola',
       autoAdjust: true,
@@ -62,7 +62,7 @@ describe('NewCharacteristicDialogComponent', () => {
     ).toBeTrue();
   });
 
-  it('should cancel', (doneFn) => {
+  it('annulla-nuova-caratteristica', (doneFn) => {
     matDialogRef.afterClosed().subscribe(value => {
       expect(value).toBeUndefined();
       doneFn();
@@ -70,7 +70,7 @@ describe('NewCharacteristicDialogComponent', () => {
     component.cancel();
   });
 
-  it('should close', (doneFn) => {
+  it('conferma-nuova-caratteristica', (doneFn) => {
     matDialogRef.afterClosed().subscribe(value => {
       expect(value).toEqual(testInsertCharacteristic);
       doneFn();

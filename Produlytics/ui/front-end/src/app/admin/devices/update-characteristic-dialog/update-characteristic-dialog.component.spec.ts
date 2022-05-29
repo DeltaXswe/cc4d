@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UpdateCharacteristicDialogComponent } from './update-characteristic-dialog.component';
-import {MockDialogAlwaysConfirm, MockDialogRef, testModules} from "../../../test/utils";
+import {MockDialogRef, testModules} from "../../../test/utils";
 import {ComponentsModule} from "../../../components/components.module";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FakeDeviceService, locomotivaDevice, valvolaDevice} from "../../../test/device/fake-device.service";
 import {
   UpdateCharacteristicAbstractService
@@ -53,7 +53,7 @@ describe('UpdateCharacteristicDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should cancel', (doneFn) => {
+  it('annulla-modifica-caratteristica', (doneFn) => {
     matDialogRef.afterClosed().subscribe(value => {
       expect(value).toBeUndefined();
       doneFn();
@@ -61,7 +61,7 @@ describe('UpdateCharacteristicDialogComponent', () => {
     component.cancel();
   });
 
-  it('should-set-error', () => {
+  it('rifiuta-modifica-caratteristica', () => {
     component.data = {
       deviceId: 1,
       characteristic: valvolaDevice.characteristics[1]
@@ -78,6 +78,19 @@ describe('UpdateCharacteristicDialogComponent', () => {
       component.charForm.formGroup
         .get('name')?.hasError('duplicateCharacteristicName')
     ).toBeTrue();
+  });
+
+
+  it('conferma-modifica-caratteristica', (doneFn) => {
+    matDialogRef.afterClosed().subscribe(value => {
+      expect(value).toBeTrue();
+      doneFn();
+    });
+    component.data = {
+      deviceId: 1,
+      characteristic: valvolaDevice.characteristics[1]
+    }
+    component.confirm();
   });
 });
 
