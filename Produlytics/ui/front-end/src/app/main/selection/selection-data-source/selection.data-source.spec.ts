@@ -39,7 +39,6 @@ describe('SelectionDataSource', () => {
       viewChange: NEVER
     });
 
-    changed.next()
 
     observable.subscribe(value => {
 
