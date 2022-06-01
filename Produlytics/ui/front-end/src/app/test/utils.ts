@@ -35,6 +35,7 @@ import {LoginGuard} from "../guards/login-guard";
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import {MatTreeModule} from "@angular/material/tree";
 import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 const routes: Routes = [
   {
@@ -85,7 +86,8 @@ export const testModules = [
   MatMenuModule,
   MatChipsModule,
   MatTreeModule,
-  MatSidenavModule
+  MatSidenavModule,
+  MatProgressBarModule
 ];
 
 // per i test d'integrazione

@@ -49,9 +49,9 @@ export class SelectionDataSource implements DataSource<SelectionNode> {
       collectionViewer.viewChange,
       this.dataStream
     ).pipe(
-      map(
-        () => this.dataStream.value
-      )
+      map((_?) => {
+        return this.dataStream.value;
+      })
     );
   }
 
