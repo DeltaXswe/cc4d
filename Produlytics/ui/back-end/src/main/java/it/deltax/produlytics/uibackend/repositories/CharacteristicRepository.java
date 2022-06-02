@@ -34,14 +34,18 @@ public interface CharacteristicRepository
       mean_stddev.mean as computedMean,
       mean_stddev.stddev as computedStddev
     FROM characteristic ch, device d, (
-      SELECT AVG(helper.value) as mean, COALESCE(STDDEV_SAMP(helper.value), 1) as stddev
+      SELECT COALESCE(AVG(helper.value), 0) as mean, COALESCE(STDDEV_SAMP(helper.value), 1) as stddev
       FROM (
         SELECT dt.value as value
         FROM detection dt
         WHERE dt.device_id = :deviceId AND dt.characteristic_id = :characteristicId
         ORDER BY dt.creation_time DESC
         LIMIT (
-          SELECT COALESCE(sample_size, 0)
+          SELECT COALESCE(sample_size, (
+            SELECT COUNT(*)
+            FROM detection dt2
+            WHERE dt2.device_id = :deviceId and dt2.characteristic_id = :characteristicId
+          ))
           FROM characteristic ch2
           WHERE ch2.device_id = :deviceId AND ch2.id = :characteristicId
         )
@@ -49,6 +53,7 @@ public interface CharacteristicRepository
     ) mean_stddev
     WHERE ch.device_id = :deviceId
         AND ch.id = :characteristicId
+        AND d.id = :deviceId
         AND NOT ch.archived
         AND NOT d.archived
         AND NOT d.deactivated

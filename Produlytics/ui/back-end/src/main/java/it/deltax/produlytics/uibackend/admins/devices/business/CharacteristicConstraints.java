@@ -11,12 +11,9 @@ public interface CharacteristicConstraints {
    * @return true se e solo se le informazioni rispettano i vincoli
    */
   static boolean characteristicConstraintsOk(CharacteristicConstraintsToCheck toCheck) {
-    final boolean limitsOk =
-        toCheck.autoAdjust()
-            || (toCheck.upperLimit().isPresent() && toCheck.lowerLimit().isPresent());
+    final boolean autoAdjust = toCheck.autoAdjust();
+    final boolean technicalLimits = toCheck.upperLimit().isPresent() && toCheck.lowerLimit().isPresent();
 
-    final boolean sampleSizeOk = !toCheck.autoAdjust() || toCheck.sampleSize().isPresent();
-
-    return limitsOk && sampleSizeOk;
+    return autoAdjust || technicalLimits;
   }
 }

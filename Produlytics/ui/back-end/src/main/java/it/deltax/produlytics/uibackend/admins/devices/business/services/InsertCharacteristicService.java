@@ -54,11 +54,11 @@ public class InsertCharacteristicService implements InsertCharacteristicUseCase 
       throw new BusinessException("duplicateCharacteristicName", ErrorType.GENERIC);
     }
 
-    if (characteristic.autoAdjust() && characteristic.sampleSize().isEmpty()) {
-      characteristic = characteristic.toBuilder()
-          .withSampleSize(OptionalInt.of(0))
-          .build();
-    }
+//    if (characteristic.autoAdjust() && characteristic.sampleSize().isEmpty()) {
+//      characteristic = characteristic.toBuilder()
+//          .withSampleSize(OptionalInt.of(0))
+//          .build();
+//    }
 
     if (!CharacteristicConstraints.characteristicConstraintsOk(
         CharacteristicConstraintsToCheck.builder()
