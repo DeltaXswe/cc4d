@@ -54,10 +54,8 @@ public class InsertCharacteristicService implements InsertCharacteristicUseCase 
       throw new BusinessException("duplicateCharacteristicName", ErrorType.GENERIC);
     }
 
-    if (characteristic.sampleSize().isPresent() && characteristic.sampleSize().getAsInt() == 0) {
-      characteristic = characteristic.toBuilder()
-          .withSampleSize(OptionalInt.empty())
-          .build();
+    if (characteristic.sampleSize().equals(OptionalInt.of(0))) {
+      characteristic = characteristic.toBuilder().withSampleSize(OptionalInt.empty()).build();
     }
 
     if (!CharacteristicConstraints.characteristicConstraintsOk(

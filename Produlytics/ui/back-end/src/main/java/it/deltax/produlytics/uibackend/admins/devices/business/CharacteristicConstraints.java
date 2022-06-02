@@ -12,7 +12,8 @@ public interface CharacteristicConstraints {
    */
   static boolean characteristicConstraintsOk(CharacteristicConstraintsToCheck toCheck) {
     final boolean autoAdjust = toCheck.autoAdjust();
-    final boolean technicalLimits = toCheck.upperLimit().isPresent() && toCheck.lowerLimit().isPresent();
+    final boolean technicalLimits =
+        toCheck.upperLimit().isPresent() && toCheck.lowerLimit().isPresent();
 
     return autoAdjust || technicalLimits;
   }
