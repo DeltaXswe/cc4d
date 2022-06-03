@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="back-end-ui [spring-boot:run]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+  <configuration default="false" name="back-end-ui [spring-boot:run...]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
     <MavenSettings>
       <option name="myGeneralSettings" />
       <option name="myRunnerSettings" />
@@ -11,6 +11,7 @@
           <option name="goals">
             <list>
               <option value="spring-boot:run" />
+              <option value="-Dspring-boot.run.fork=false" />
             </list>
           </option>
           <option name="pomFileName" />
