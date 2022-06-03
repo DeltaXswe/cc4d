@@ -18,6 +18,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatCardModule} from "@angular/material/card";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 const routes: Routes = [
   {
@@ -48,7 +49,8 @@ const routes: Routes = [
         MatPaginatorModule,
         MatSortModule,
         MatSlideToggleModule,
-        MatCardModule
+        MatCardModule,
+        MatTooltipModule
     ]
 })
 export class AccountsModule { }

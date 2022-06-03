@@ -80,18 +80,28 @@ export class AccountsComponent implements OnInit {
   toggleStatus(account: Account): void {
     if (account.archived) {
       this.accountService.recoverAccount(account)
-        .subscribe(() => {
-          this.initTable();
-          this.notificationService.notify('Utente ripristinato con successo');
+        .subscribe({
+          next: () => {
+            this.initTable();
+            this.notificationService.notify('Utente ripristinato con successo');
+          },
+          error: err => {
+            this.notificationService.unexpectedError(err);
+          }
         });
     } else {
       this.notificationService.requireConfirm(`L'utente ${account.username} verrà disabilitato.`)
         .subscribe(confirm => {
           if (confirm) {
             this.accountService.archiveAccount(account)
-              .subscribe(() => {
-                this.initTable();
-                this.notificationService.notify('Utente archiviato con successo');
+              .subscribe({
+                next: () => {
+                  this.initTable();
+                  this.notificationService.notify('Utente archiviato con successo');
+                },
+                error: err => {
+                  this.notificationService.unexpectedError(err);
+                }
               });
           }
       });

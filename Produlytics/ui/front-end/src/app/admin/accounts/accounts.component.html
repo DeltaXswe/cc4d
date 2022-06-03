@@ -41,7 +41,12 @@
         <ng-container matColumnDef="status">
           <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
           <mat-cell *matCellDef="let account" fxFlex="64px">
-            <button mat-icon-button *ngIf="!isLoggedUser(account)" (click)="toggleStatus(account)">
+            <button
+              mat-icon-button
+              *ngIf="!isLoggedUser(account)"
+              (click)="toggleStatus(account)"
+              [matTooltip]="account.archived ? 'Ripristina utente' : 'Archivia utente'"
+            >
               <mat-icon [ngClass]="{
               'red-text': !account.archived
             }">
