@@ -102,7 +102,7 @@ export class DeviceDetailComponent implements OnInit {
               this.initTable();
               this.notificationService.notify('Caratteristica aggiunta con successo');
             },
-            error: err => {
+            error: (err: { error: StandardError }) => {
               this.notificationService.unexpectedError(`Errore imprevisto: "${JSON.stringify(err)}"`);
             }
           });

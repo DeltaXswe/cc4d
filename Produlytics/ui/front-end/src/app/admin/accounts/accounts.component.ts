@@ -7,6 +7,7 @@ import {AccountFormDialogComponent} from "./account-form-dialog/account-form-dia
 import {AccountsDataSource} from "./accounts.data-source";
 import {LoginAbstractService} from "../../model/login/login-abstract.service";
 import {NotificationService} from "../../utils/notification.service";
+import {StandardError} from "../../../lib/standard-error";
 
 @Component({
   selector: 'app-accounts',
@@ -85,8 +86,8 @@ export class AccountsComponent implements OnInit {
             this.initTable();
             this.notificationService.notify('Utente ripristinato con successo');
           },
-          error: err => {
-            this.notificationService.unexpectedError(err);
+          error: (err: { error: StandardError }) => {
+            this.notificationService.unexpectedError(`Errore imprevisto: "${JSON.stringify(err)}"`);
           }
         });
     } else {
@@ -99,8 +100,8 @@ export class AccountsComponent implements OnInit {
                   this.initTable();
                   this.notificationService.notify('Utente archiviato con successo');
                 },
-                error: err => {
-                  this.notificationService.unexpectedError(err);
+                error: (err: { error: StandardError }) => {
+                  this.notificationService.unexpectedError(`Errore imprevisto: "${JSON.stringify(err)}"`);
                 }
               });
           }
@@ -128,8 +129,8 @@ export class AccountsComponent implements OnInit {
       next: value => {
         this.accounts.setData(value);
       },
-      error: err => {
-        this.notificationService.unexpectedError(err);
+      error: (err: { error: StandardError }) => {
+        this.notificationService.unexpectedError(`Errore imprevisto: "${JSON.stringify(err)}"`);
       }
     })
   }

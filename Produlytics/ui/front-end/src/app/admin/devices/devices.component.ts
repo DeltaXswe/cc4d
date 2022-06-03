@@ -6,6 +6,7 @@ import {map, Observer} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {DeviceDataSource} from "./device.data-source";
 import {NotificationService} from "../../utils/notification.service";
+import {StandardError} from "../../../lib/standard-error";
 
 @Component({
   selector: 'app-devices',
@@ -20,7 +21,7 @@ export class DevicesComponent implements OnInit {
     next: () => {
       this.initTable();
     },
-    error: err => {
+    error: (err: { error: StandardError }) => {
       this.notificationService.unexpectedError(`Errore inaspettato: ${JSON.stringify(err)}`);
     },
     complete: () => {
@@ -124,7 +125,7 @@ export class DevicesComponent implements OnInit {
         next: value => {
           this.devices.setData(value);
         },
-        error: err => {
+        error: (err: { error: StandardError }) => {
           this.notificationService.unexpectedError(`Errore inaspettato: ${JSON.stringify(err)}`);
         }
       });
