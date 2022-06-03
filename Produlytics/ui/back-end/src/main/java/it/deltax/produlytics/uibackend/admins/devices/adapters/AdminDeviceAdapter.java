@@ -104,8 +104,8 @@ public class AdminDeviceAdapter
                 new DetailedDevice(
                     device.getId(),
                     device.getName(),
-                    device.getArchived(),
                     device.getDeactivated(),
+                    device.getArchived(),
                     device.getApikey()));
   }
 
