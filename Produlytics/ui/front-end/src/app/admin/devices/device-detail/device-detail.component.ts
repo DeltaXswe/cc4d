@@ -70,11 +70,11 @@ export class DeviceDetailComponent implements OnInit {
             window.location.reload();
           }
         },
-        error: (err: StandardError) => {
-          if (err.errorCode === 'duplicateDeviceName') {
+        error: (err: { error: StandardError }) => {
+          if (err.error.errorCode === 'duplicateDeviceName') {
             this.deviceNameControl.setErrors({duplicateDeviceName: true});
           } else {
-            this.notificationService.unexpectedError(err.toString());
+            this.notificationService.unexpectedError(`Errore imprevisto: "${JSON.stringify(err)}"`);
           }
           // this.deviceNameForm.get('name')?.updateValueAndValidity();
         }
