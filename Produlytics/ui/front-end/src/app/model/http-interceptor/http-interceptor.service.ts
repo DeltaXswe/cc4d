@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { catchError, Observable, of, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { LoginAbstractService } from "../login/login-abstract.service";
 
 /**
@@ -36,17 +36,17 @@ export class XhrInterceptor implements HttpInterceptor {
     req.headers.set('X-XSRF-TOKEN', csrfToken);
 
     return next.handle(req)
-    .pipe(
-      catchError(
-        (error: HttpErrorResponse) => {
-          /* if (error.status === 401) {
-              this.loginService.logout();
+      .pipe(
+        catchError(
+          (error: HttpErrorResponse) => {
+            // if (error.status === 401) {
+            //     this.loginService.logout();
+            //
+            //     return of();
+            // }
 
-              return of();
-          } */
-
-          return throwError(() => error);
-      })
-    );
+            return throwError(() => error);
+        })
+      );
   }
 }
