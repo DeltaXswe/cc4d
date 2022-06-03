@@ -9,6 +9,7 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindDet
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.UpdateCharacteristicPort;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
+import java.util.OptionalInt;
 
 /** Il service per la modifica di una caratteristica. */
 public class UpdateCharacteristicService implements UpdateCharacteristicUseCase {
@@ -47,6 +48,10 @@ public class UpdateCharacteristicService implements UpdateCharacteristicUseCase 
         .findByDeviceAndName(toUpdate.deviceId(), toUpdate.name())
         .isEmpty()) {
       throw new BusinessException("duplicateCharacteristicName", ErrorType.GENERIC);
+    }
+
+    if (toUpdate.sampleSize().equals(OptionalInt.of(0))) {
+      toUpdate = toUpdate.toBuilder().withSampleSize(OptionalInt.empty()).build();
     }
 
     if (!CharacteristicConstraints.characteristicConstraintsOk(

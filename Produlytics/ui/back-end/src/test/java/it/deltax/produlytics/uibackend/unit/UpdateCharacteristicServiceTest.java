@@ -110,24 +110,18 @@ public class UpdateCharacteristicServiceTest {
   }
 
   @Test
-  void testUpdateCharacteristicWithAutoAdjustAndNoSampleSize() {
+  void testUpdateCharacteristicWithAutoAdjustAndNoSampleSize() throws BusinessException {
     UpdateCharacteristicService service =
         new UpdateCharacteristicService(
             new FindDetailedCharacteristicPortMock(), new UpdateCharacteristicPortMock());
 
-    BusinessException exception =
-        assertThrows(
-            BusinessException.class,
-            () ->
-                service.updateCharacteristic(
-                    CharacteristicToUpdate.builder()
-                        .withId(1)
-                        .withDeviceId(1)
-                        .withName("pressione")
-                        .withAutoAdjust(true)
-                        .build()));
-    assert exception.getCode().equals("invalidValues");
-    assert exception.getType() == ErrorType.GENERIC;
+    service.updateCharacteristic(
+        CharacteristicToUpdate.builder()
+            .withId(1)
+            .withDeviceId(1)
+            .withName("pressione")
+            .withAutoAdjust(true)
+            .build());
   }
 
   @Test

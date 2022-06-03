@@ -51,7 +51,7 @@ public class UpdateCharacteristicTests {
 
     archivedCharacteristicId =
         this.characteristicRepository
-            .save(new CharacteristicEntity(deviceId, "pressione", 50d, -10d, false, 0, true))
+            .save(new CharacteristicEntity(deviceId, "pressione", 50d, -10d, false, null, true))
             .getId();
   }
 
@@ -220,20 +220,25 @@ public class UpdateCharacteristicTests {
    *     viene rilevato l'errore
    */
   @Test
-  void testUpdateCharacteristicNoSampleSizeError() throws Exception {
+  void testUpdateCharacteristicNoSampleSize() throws Exception {
     JSONObject body = new JSONObject().put("name", "frequenza").put("autoAdjust", true);
-
-    JSONObject response = new JSONObject().put("errorCode", "invalidValues");
 
     this.mockMvc
         .perform(
-            put("/admin/devices/" + deviceId + "/characteristics/" + characteristicId)
+            put("/admin/devices/" + deviceId + "/characteristics/" + archivedCharacteristicId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body.toString())
                 .characterEncoding("utf-8"))
         .andDo(print())
-        .andExpect(status().isBadRequest())
-        .andExpect(content().json(response.toString()));
+        .andExpect(status().isNoContent());
+
+    CharacteristicEntity characteristic =
+        this.characteristicRepository
+            .findById(new CharacteristicEntityId(deviceId, archivedCharacteristicId))
+            .get();
+
+    assertThat(characteristic.getName()).isEqualTo("frequenza");
+    assertThat(characteristic.getAutoAdjust()).isEqualTo(true);
   }
 
   /**
