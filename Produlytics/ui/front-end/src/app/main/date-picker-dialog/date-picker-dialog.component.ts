@@ -43,7 +43,7 @@ export class DatePickerDialogComponent implements OnInit {
         this.dateForm.getRawValue().end) + (
         (this.endTime.hour * 3600 + this.endTime.minute * 60 + this.endTime.second) * 1000)
     };
-    if (data.start < data.end){
+    if (data.start < data.end && data.end <= ((new Date).getTime())) {
       this.matDialogRef.close(data);
     } else {
       this.matSnackbar.open('Date inserite non valide', 'Ok');

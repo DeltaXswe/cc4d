@@ -39,11 +39,11 @@ export class XhrInterceptor implements HttpInterceptor {
     .pipe(
       catchError(
         (error: HttpErrorResponse) => {
-          if (error.status === 401) {
+          /* if (error.status === 401) {
               this.loginService.logout();
 
               return of();
-          }
+          } */
 
           return throwError(() => error);
       })

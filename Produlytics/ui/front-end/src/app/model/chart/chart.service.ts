@@ -73,7 +73,7 @@ export class ChartService implements ChartAbstractService{
   getOldPoints(start: number, end: number, deviceId: number, characteristicId: number): Observable<ChartPointReturn> {
     const limit = (end - start)/1000;
     const paramsObj = {
-      newerThan: start,
+      olderThan: end,
       limit: limit
     }
     const params: HttpParams = new HttpParams({fromObject: paramsObj});
