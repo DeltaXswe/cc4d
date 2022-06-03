@@ -96,7 +96,7 @@ export class DevicesComponent implements OnInit {
       this.deviceService.restoreDevice(device)
         .pipe(
           map(() => {
-            this.notificationService.notify('Macchina disattivata con successo.');
+            this.notificationService.notify('Macchina ripristinata con successo.');
           })
         )
         .subscribe(this.reloader);
@@ -107,7 +107,7 @@ export class DevicesComponent implements OnInit {
             this.deviceService.archiveDevice(device)
               .pipe(
                 map(() => {
-                  this.notificationService.notify('Macchina disattivata con successo.');
+                  this.notificationService.notify('Macchina archiviata con successo.');
                 })
               )
               .subscribe(this.reloader);
