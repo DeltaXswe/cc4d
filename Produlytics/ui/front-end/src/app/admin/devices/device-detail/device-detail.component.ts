@@ -151,6 +151,7 @@ export class DeviceDetailComponent implements OnInit {
       this.characteristicService.recoverCharacteristic(this.device.id, characteristic.id)
         .subscribe(() => {
           this.initTable();
+          this.notificationService.notify('Caratteristica ripristinata con successo');
         });
     } else {
       this.notificationService.requireConfirm(
@@ -160,6 +161,7 @@ export class DeviceDetailComponent implements OnInit {
           this.characteristicService.archiveCharacteristic(this.device.id, characteristic.id)
             .subscribe(() => {
               this.initTable();
+              this.notificationService.notify('Caratteristica archiviata con successo');
             });
         }
       });

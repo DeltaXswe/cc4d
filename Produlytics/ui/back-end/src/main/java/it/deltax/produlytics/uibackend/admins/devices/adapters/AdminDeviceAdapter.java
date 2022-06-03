@@ -116,8 +116,14 @@ public class AdminDeviceAdapter
    */
   @Override
   public void updateDeviceArchiveStatus(DetailedDevice device) {
-    this.repo.save(
-        new DeviceEntity(device.name(), device.archived(), device.deactivated(), device.apiKey()));
+    DeviceEntity update = new DeviceEntity(
+        device.id(),
+        device.name(),
+        device.archived(),
+        device.deactivated(),
+        device.apiKey()
+    );
+    this.repo.save(update);
   }
 
   /**
@@ -127,8 +133,14 @@ public class AdminDeviceAdapter
    */
   @Override
   public void updateDeviceDeactivateStatus(DetailedDevice device) {
-    this.repo.save(
-        new DeviceEntity(device.name(), device.archived(), device.deactivated(), device.apiKey()));
+    DeviceEntity update = new DeviceEntity(
+        device.id(),
+        device.name(),
+        device.archived(),
+        device.deactivated(),
+        device.apiKey()
+    );
+    this.repo.save(update);
   }
 
   /**
