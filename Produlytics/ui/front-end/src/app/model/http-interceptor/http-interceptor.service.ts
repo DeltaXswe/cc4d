@@ -5,7 +5,7 @@ import { catchError, Observable, of, throwError } from 'rxjs';
 import { LoginAbstractService } from "../login/login-abstract.service";
 
 /**
- * Questo service intercetta ogni chiamta uscente per aggiungerci un token di
+ * Questo service intercetta ogni chiamata uscente per aggiungerci un token di
  * accesso agli header
  */
 @Injectable()
@@ -32,6 +32,9 @@ export class XhrInterceptor implements HttpInterceptor {
     req = req.clone({
       headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
     });
+    const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
+    req.headers.set('X-XSRF-TOKEN', csrfToken);
+
     return next.handle(req)
     .pipe(
       catchError(
