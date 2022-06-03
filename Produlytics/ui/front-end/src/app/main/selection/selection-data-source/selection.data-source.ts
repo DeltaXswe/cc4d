@@ -31,7 +31,7 @@ export class SelectionDataSource implements DataSource<SelectionNode> {
   ) {
     this.unarchivedDeviceService.getDevices()
       .subscribe(values => {
-        this.dataStream.next(values.map(
+        this.dataStream.next((values || []).map(
           device => new DeviceNode(device)
         ));
         this._loading = false;
@@ -49,9 +49,9 @@ export class SelectionDataSource implements DataSource<SelectionNode> {
       collectionViewer.viewChange,
       this.dataStream
     ).pipe(
-      map(
-        () => this.dataStream.value
-      )
+      map((_?) => {
+        return this.dataStream.value;
+      })
     );
   }
 
