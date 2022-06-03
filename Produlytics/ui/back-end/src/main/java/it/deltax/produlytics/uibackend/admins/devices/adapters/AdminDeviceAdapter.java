@@ -57,8 +57,8 @@ public class AdminDeviceAdapter
                 new Device(
                     device.getId(),
                     device.getName(),
-                    device.getArchived(),
-                    device.getDeactivated()))
+                    device.getDeactivated(),
+                    device.getArchived()))
         .toList();
   }
 
