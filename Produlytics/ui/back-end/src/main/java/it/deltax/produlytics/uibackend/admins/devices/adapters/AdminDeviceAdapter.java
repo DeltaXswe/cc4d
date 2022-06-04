@@ -51,7 +51,7 @@ public class AdminDeviceAdapter
    */
   @Override
   public List<Device> getDevices() {
-    return StreamSupport.stream(this.repo.findAll().spliterator(), false)
+    return this.repo.findAll().stream()
         .map(
             device ->
                 new Device(
