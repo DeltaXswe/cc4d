@@ -57,8 +57,8 @@ public class AdminDeviceAdapter
                 new Device(
                     device.getId(),
                     device.getName(),
-                    device.getDeactivated(),
-                    device.getArchived()))
+                    device.getArchived(),
+                    device.getDeactivated()))
         .toList();
   }
 
@@ -104,8 +104,8 @@ public class AdminDeviceAdapter
                 new DetailedDevice(
                     device.getId(),
                     device.getName(),
-                    device.getDeactivated(),
                     device.getArchived(),
+                    device.getDeactivated(),
                     device.getApikey()));
   }
 
@@ -116,13 +116,9 @@ public class AdminDeviceAdapter
    */
   @Override
   public void updateDeviceArchiveStatus(DetailedDevice device) {
-    DeviceEntity update = new DeviceEntity(
-        device.id(),
-        device.name(),
-        device.archived(),
-        device.deactivated(),
-        device.apiKey()
-    );
+    DeviceEntity update =
+        new DeviceEntity(
+            device.id(), device.name(), device.archived(), device.deactivated(), device.apiKey());
     this.repo.save(update);
   }
 
@@ -133,13 +129,9 @@ public class AdminDeviceAdapter
    */
   @Override
   public void updateDeviceDeactivateStatus(DetailedDevice device) {
-    DeviceEntity update = new DeviceEntity(
-        device.id(),
-        device.name(),
-        device.archived(),
-        device.deactivated(),
-        device.apiKey()
-    );
+    DeviceEntity update =
+        new DeviceEntity(
+            device.id(), device.name(), device.archived(), device.deactivated(), device.apiKey());
     this.repo.save(update);
   }
 
