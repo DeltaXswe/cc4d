@@ -36,9 +36,14 @@ export class LoginService implements LoginAbstractService{
     };
     return this.http.get('/login', httpOptions).pipe(
       tap((res: any) => {
-        localStorage.setItem('username', command.username)
-        localStorage.setItem('admin', res['admin'])
-        localStorage.setItem('accessToken', res["token"]);
+        sessionStorage.setItem('username', command.username)
+        sessionStorage.setItem('admin', res['admin'])
+        sessionStorage.setItem('accessToken', res["token"]);
+        if (command.rememberMe) {
+          localStorage.setItem('username', command.username)
+          localStorage.setItem('admin', res['admin'])
+          localStorage.setItem('accessToken', res["token"]);
+        }
         this.router.navigate(['/']);
       }));
   }
@@ -47,17 +52,24 @@ export class LoginService implements LoginAbstractService{
    * @returns True se l'utente è autenticato, false altrimenti
    */
   isLogged(): boolean{
-    if (localStorage.getItem('accessToken'))
+    if (sessionStorage.getItem('accessToken') || localStorage.getItem('accessToken')) {
       return true;
-    else
+    }
+    else {
       return false;
+    }
   }
 
   /**
    * @returns True se l'utente è un amministratore, false altrimenti
    */
   isAdmin(): boolean{
-    let admin = localStorage.getItem('admin');
+    let admin = null;
+    if (sessionStorage.getItem('admin')) {
+      admin = sessionStorage.getItem('admin');
+    } else {
+      admin = localStorage.getItem('admin');
+    }
     if (admin)
       return admin == "true";
     else
@@ -70,6 +82,7 @@ export class LoginService implements LoginAbstractService{
    */
   logout(): Observable<any>{
     localStorage.clear();
+    sessionStorage.clear();
     return this.http.post('/logout', {});
   }
 
@@ -77,7 +90,12 @@ export class LoginService implements LoginAbstractService{
    * @returns Il nome utente
    */
   getUsername(): string{
-    let username = localStorage.getItem('username');
+    let username = null;
+    if (sessionStorage.getItem('username')) {
+      username = sessionStorage.getItem('username');
+    } else {
+      username = localStorage.getItem('username');
+    }
     if (username)
       return username;
     else
