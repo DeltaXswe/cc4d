@@ -114,7 +114,7 @@ public class AdminDevicesTests {
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isBadRequest())
-        .andExpect(content().string("{\"errorCode\":\"duplicateDeviceName\"}"));
+        .andExpect(content().json("{\"errorCode\":\"duplicateDeviceName\"}"));
   }
 
   /**
@@ -190,7 +190,7 @@ public class AdminDevicesTests {
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNotFound())
-        .andExpect(content().string("{\"errorCode\":\"deviceNotFound\"}"));
+        .andExpect(content().json("{\"errorCode\":\"deviceNotFound\"}"));
   }
 
   /**
@@ -211,7 +211,7 @@ public class AdminDevicesTests {
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isBadRequest())
-        .andExpect(content().string("{\"errorCode\":\"duplicateDeviceName\"}"));
+        .andExpect(content().json("{\"errorCode\":\"duplicateDeviceName\"}"));
   }
 
   /**
@@ -246,7 +246,7 @@ public class AdminDevicesTests {
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNotFound())
-        .andExpect(content().string("{\"errorCode\":\"deviceNotFound\"}"));
+        .andExpect(content().json("{\"errorCode\":\"deviceNotFound\"}"));
   }
 
   /**
@@ -281,7 +281,7 @@ public class AdminDevicesTests {
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNotFound())
-        .andExpect(content().string("{\"errorCode\":\"deviceNotFound\"}"));
+        .andExpect(content().json("{\"errorCode\":\"deviceNotFound\"}"));
   }
 
   /**
@@ -317,7 +317,7 @@ public class AdminDevicesTests {
         .perform(get("/admin/devices/111"))
         .andDo(print())
         .andExpect(status().isNotFound())
-        .andExpect(content().string("{\"errorCode\":\"deviceNotFound\"}"));
+        .andExpect(content().json("{\"errorCode\":\"deviceNotFound\"}"));
     ;
   }
 }
