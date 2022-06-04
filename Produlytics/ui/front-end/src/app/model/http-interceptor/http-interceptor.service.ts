@@ -32,6 +32,18 @@ export class XhrInterceptor implements HttpInterceptor {
     req = req.clone({
       headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
     });
+
+    /**
+     * Spring Boot di default è impostato in modo tale da bloccare le richieste REST che fanno del side effect
+     * (POST, PUT, DELETE, PATCH). Il modo per attivarle è mettere un header che si chiami X-XSFR-TOKEN e valorizzarlo
+     * con un cookie che ci dà il server. Questo è quanto si evince dalla documentazione di Spring Boot e da questo
+     * articolo https://www.baeldung.com/spring-security-csrf#2-front-end-configuration, da cui ho preso questa
+     * soluzione.
+     *
+     * Tutto ciò è parzialmente vero perché all'inizio il server non bloccava le POST, ma solo le PUT. Quindi potrebbe
+     * esserci dietro un bug di Spring Boot che non le impedisce. Resta il fatot che mettendo
+     * queste due linee di codice ora tutto funziona.
+     * */
     const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
     req.headers.set('X-XSRF-TOKEN', csrfToken);
 
