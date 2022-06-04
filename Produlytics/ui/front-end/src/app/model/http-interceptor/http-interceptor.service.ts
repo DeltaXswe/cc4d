@@ -3,6 +3,7 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Router } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
 import { LoginAbstractService } from "../login/login-abstract.service";
+import {CookieService} from "ngx-cookie-service";
 
 /**
  * Questo service intercetta ogni chiamata uscente per aggiungerci un token di
@@ -13,7 +14,9 @@ export class XhrInterceptor implements HttpInterceptor {
 
   constructor(
     public router: Router,
-    private loginService: LoginAbstractService) { }
+    private loginService: LoginAbstractService,
+    private cookieService: CookieService
+  ) { }
 
   /**
    * Aggiunge il token di accesso agli header di ogni chiamata. Se il back-end
@@ -43,9 +46,13 @@ export class XhrInterceptor implements HttpInterceptor {
      * Tutto ciò è parzialmente vero perché all'inizio il server non bloccava le POST, ma solo le PUT. Quindi potrebbe
      * esserci dietro un bug di Spring Boot che non le impedisce. Resta il fatto che mettendo
      * queste due linee di codice ora tutto funziona.
+     *
+     * Il cookie non dovrebbe essere HttpOnly, quindi non dovrebbe dare problemi questa get.
      * */
-    const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
-    req.headers.set('X-XSRF-TOKEN', csrfToken);
+    const csrfToken = this.cookieService.get('XSRF-TOKEN');
+    if (csrfToken) {
+      req.headers.set('X-XSRF-TOKEN', csrfToken);
+    }
 
     return next.handle(req)
       .pipe(
