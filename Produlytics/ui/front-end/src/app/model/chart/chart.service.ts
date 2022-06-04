@@ -64,8 +64,8 @@ export class ChartService implements ChartAbstractService{
   /**
    * Effettua una richiesta HTTP GET al back-end chiedendo un determinato numero di rilevazioni
    * comprese fra {@link start} e {@link end}
-   * @param start L'istante di tempo rispetto al quale tutte le rilevazioni ottenute saranno più recenti
-   * @param end L'istante di tempo rispetto al quale tutte le rilevazioni ottenute saranno più vecchie
+   * @param start L'istante di tempo rispetto al quale tutte le rilevazioni ottenute saranno più vecchie
+   * @param end L'istante di tempo rispetto al quale tutte le rilevazioni ottenute saranno più recenti
    * @param deviceId L'id della macchina
    * @param characteristicId L'id della caratteristica
    * @returns Un {@link Observable} contenente le rilevazioni richieste
