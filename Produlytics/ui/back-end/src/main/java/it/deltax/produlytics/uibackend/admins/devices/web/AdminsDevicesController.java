@@ -117,7 +117,6 @@ public class AdminsDevicesController {
   public ResponseEntity<String> updateDeviceName(
       @PathVariable("id") int id, @RequestBody JsonNode body) throws BusinessException {
     String name = body.get("name").asText();
-    System.out.println(name);
     this.updateDeviceNameUseCase.updateDeviceName(new TinyDevice(id, name));
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
@@ -131,7 +130,7 @@ public class AdminsDevicesController {
    * @return lo stato HTTP
    * @throws BusinessException se la macchina non è stata trovata
    */
-  @PutMapping("devices/{id}/archived")
+  @PutMapping("/devices/{id}/archived")
   public ResponseEntity<String> updateDeviceArchiveStatus(
       @PathVariable("id") int id, @RequestBody JsonNode body) throws BusinessException {
     boolean archived = body.asBoolean();
