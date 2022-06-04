@@ -14,10 +14,7 @@ import {CookieService} from "ngx-cookie-service";
 import {AccountEntity} from "./account-entity";
 import {ModifyPwAbstractService} from "../../model/modify-pw/modify-pw-abstract.service";
 import {ModifyPwCommand} from "../../model/modify-pw/modify-pw-command";
-
-const userNotFoundError = {
-  errorCode: 'userNotFound'
-};
+import {wrapError} from "../utils";
 
 @Injectable({
   providedIn: 'root'
@@ -46,7 +43,7 @@ export class FakeAccountService implements
       source.archived = true;
       return of({});
     } else {
-      return throwError(userNotFoundError);
+      return wrapError('userNotFound');
     }
   }
 
@@ -56,20 +53,16 @@ export class FakeAccountService implements
       source.archived = false;
       return of({});
     } else {
-      return throwError(userNotFoundError);
+      return wrapError('userNotFound');
     }
   }
 
   insertAccount(command: AccountSaveCommand): Observable<{ username: string }> {
     if (!command.password || command.password.length < 6) {
-      return throwError({
-        errorCode: 'invalidPassword'
-      });
+      return wrapError('invalidPassword');
     }
     if (users.find(account => account.username === command.username)) {
-      return throwError({
-        errorCode: 'duplicateUsername'
-      });
+      return wrapError('duplicateUsername');
     } else {
       users.push(AccountEntity.CREATE(command));
       return of(command);
@@ -82,7 +75,7 @@ export class FakeAccountService implements
       source.update(command);
       return of({});
     } else {
-      return throwError(userNotFoundError);
+      return wrapError('userNotFound');
     }
   }
 
