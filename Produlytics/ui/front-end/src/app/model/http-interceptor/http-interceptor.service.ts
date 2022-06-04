@@ -54,18 +54,6 @@ export class XhrInterceptor implements HttpInterceptor {
       req.headers.set('X-XSRF-TOKEN', csrfToken);
     }
 
-    return next.handle(req)
-      .pipe(
-        catchError(
-          (error: HttpErrorResponse) => {
-            // if (error.status === 401) {
-            //     this.loginService.logout();
-            //
-            //     return of();
-            // }
-
-            return throwError(() => error);
-        })
-      );
+    return next.handle(req);
   }
 }
