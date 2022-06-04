@@ -76,7 +76,6 @@ export class DeviceDetailComponent implements OnInit {
           } else {
             this.notificationService.unexpectedError(`Errore imprevisto: "${JSON.stringify(err)}"`);
           }
-          // this.deviceNameForm.get('name')?.updateValueAndValidity();
         }
       });
   }

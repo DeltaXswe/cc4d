@@ -41,7 +41,7 @@ export class XhrInterceptor implements HttpInterceptor {
      * soluzione.
      *
      * Tutto ciò è parzialmente vero perché all'inizio il server non bloccava le POST, ma solo le PUT. Quindi potrebbe
-     * esserci dietro un bug di Spring Boot che non le impedisce. Resta il fatot che mettendo
+     * esserci dietro un bug di Spring Boot che non le impedisce. Resta il fatto che mettendo
      * queste due linee di codice ora tutto funziona.
      * */
     const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
