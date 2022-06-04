@@ -71,6 +71,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .key(encoder.getEncoder().encode("produlytics"))
         .userDetailsService(userDetailsAdapter)
         .and()
+        .logout()
+        .logoutUrl("/logout")
+        .logoutSuccessUrl("/")
+        .deleteCookies("PRODULYTICS_S", "PRODULYTICS_RM")
+        .and()
         .csrf()
         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
   }
