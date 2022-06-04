@@ -295,7 +295,7 @@ public class AdminDevicesTests {
         new JSONObject()
             .put("id", deviceId1)
             .put("name", "macchina1")
-            .put("archived", false)
+            .put("archived", true)
             .put("deactivated", false)
             .toString();
 
