@@ -115,7 +115,7 @@ public class AccountTests {
                 .content(json.toString())
                 .characterEncoding("utf-8"))
         .andDo(print())
-        .andExpect(status().isUnauthorized())
+        .andExpect(status().isForbidden())
         .andExpect(content().string("{\"errorCode\":\"wrongCurrentPassword\"}"));
     ;
   }
