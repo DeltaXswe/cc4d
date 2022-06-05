@@ -8,6 +8,7 @@ import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DeviceCreationCommand} from "../../../model/admin-device/new/device-creation-command";
 import {NotificationService} from "../../../utils/notification.service";
+import {StandardError} from "../../../../lib/standard-error";
 
 @Component({
   selector: 'app-new-device',
@@ -80,8 +81,8 @@ export class NewDeviceComponent implements OnInit {
         this.router.navigate(['gestione-macchine', value.id]);
         this.notificationService.notify('Macchina creata con successo');
       },
-      error: err => {
-        if (err.errorCode === 'duplicateDeviceName') {
+      error: (err: { error: StandardError }) => {
+        if (err.error.errorCode === 'duplicateDeviceName') {
           this.formGroup.get('name')?.setErrors({
             duplicateDeviceName: true
           });

@@ -10,9 +10,8 @@ import { ModifyPwCommand } from 'src/app/model/modify-pw/modify-pw-command';
   selector: 'app-modify-pw',
   templateUrl: './modify-pw.component.html',
   styleUrls: ['./modify-pw.component.css'],
-  encapsulation: ViewEncapsulation.None 
+  encapsulation: ViewEncapsulation.None
 })
-
 /**
  * Questo component permette all'utente di modificare la propria password.
  */
@@ -27,11 +26,11 @@ export class ModifyPwComponent implements OnInit {
         oldPassword: new FormControl('', Validators.required),
         newPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
         newPasswordRe: new FormControl('', Validators.required)
-      }, { validators: [this.checkPasswords]})}; 
+      }, { validators: [this.checkPasswords]})};
 
-  
+
   ngOnInit(): void { }
-  
+
   /**
    * Validatore personalizzato che controlla che:
    * - password nuova e sua ripetizione siano uguali;
@@ -68,13 +67,22 @@ export class ModifyPwComponent implements OnInit {
     const command: ModifyPwCommand = {
       currentPassword: rawValue.oldPassword,
       newPassword: rawValue.newPassword,
-    }  
+    }
     if (this.modifyPw.invalid) {
       return;
     }
     this.modifyPwService.modifyPw(this.loginService.getUsername(), command)
-      .subscribe({next: (data) => this.matDialogRef.close(data),
-        error: (error) => this.matDialogRef.close(error.status)
+      .subscribe({
+        next: (data) => this.matDialogRef.close(data),
+        error: (error) => {
+          if (error.error.errorCode === 'wrongCurrentPassword') {
+            this.modifyPw.get('oldPassword')?.setErrors({
+              wrongCurrentPassword: true
+            });
+          } else {
+            this.matDialogRef.close(error.status);
+          }
+        }
       });
   }
 

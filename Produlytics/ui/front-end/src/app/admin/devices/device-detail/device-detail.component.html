@@ -82,7 +82,11 @@
         <ng-container matColumnDef="edit">
           <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
           <mat-cell *matCellDef="let characteristic" fxFlex="64px">
-            <button mat-icon-button (click)="openUpdateCharacteristicFormDialog(characteristic)">
+            <button
+              mat-icon-button
+              (click)="openUpdateCharacteristicFormDialog(characteristic)"
+              matTooltip="Modifica caratteristica"
+            >
               <mat-icon>
                 edit
               </mat-icon>
@@ -92,7 +96,11 @@
         <ng-container matColumnDef="status">
           <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
           <mat-cell *matCellDef="let characteristic" fxFlex="64px">
-            <button mat-icon-button (click)="toggleCharacteristicStatus(characteristic)">
+            <button
+              mat-icon-button
+              (click)="toggleCharacteristicStatus(characteristic)"
+              [matTooltip]="device.archived ? 'Ripristina caratteristica' : 'Archivia caratteristica'"
+            >
               <mat-icon [ngClass]="{
               'red-text': !characteristic.archived
             }">

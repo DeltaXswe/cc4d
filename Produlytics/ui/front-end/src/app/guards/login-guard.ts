@@ -10,10 +10,10 @@ export class LoginGuard implements CanActivate{
    constructor(private router: Router, private loginService: LoginAbstractService){}
 
    canActivate(): boolean | UrlTree {
-      if (!this.loginService.isLogged()){
-         return true;
-      } else {
-         return this.router.parseUrl('');
-      }
+     if (this.loginService.isLogged()) {
+       return this.router.parseUrl('');
+     } else {
+       return true;
+     }
    }
 }

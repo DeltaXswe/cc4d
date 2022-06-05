@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpEvent, HttpEventType,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest, HttpResponse
+} from '@angular/common/http';
 import { Router } from '@angular/router';
-import { catchError, Observable, of, throwError } from 'rxjs';
+import { catchError, EMPTY, Observable, throwError } from 'rxjs';
 import { LoginAbstractService } from "../login/login-abstract.service";
 
 /**
- * Questo service intercetta ogni chiamta uscente per aggiungerci un token di
+ * Questo service intercetta ogni chiamata uscente per aggiungerci un token di
  * accesso agli header
  */
 @Injectable()
@@ -13,7 +19,8 @@ export class XhrInterceptor implements HttpInterceptor {
 
   constructor(
     public router: Router,
-    private loginService: LoginAbstractService) { }
+    private loginService: LoginAbstractService
+  ) { }
 
   /**
    * Aggiunge il token di accesso agli header di ogni chiamata. Se il back-end
@@ -23,27 +30,17 @@ export class XhrInterceptor implements HttpInterceptor {
    * @returns Un {@link Observable} della richiesta trasformata
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let user = localStorage.getItem('accessToken');
-    if (user) {
-      req = req.clone({
-        headers: req.headers.set('X-Auth-Token', user)
-      });
-    }
-    req = req.clone({
-      headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
-    });
     return next.handle(req)
-    .pipe(
-      catchError(
-        (error: HttpErrorResponse) => {
-          if (error.status === 401) {
-              this.loginService.logout();
-
-              return of();
-          }
-
-          return throwError(() => error);
-      })
-    );
+      .pipe(
+        catchError(
+          (error: HttpErrorResponse) => {
+            if (error.status === 401) {
+              this.loginService.logout().subscribe(_ => this.router.navigate(["/login"]));
+              return EMPTY;
+            } else {
+              return throwError(() => error);
+            }
+          })
+      );
   }
 }

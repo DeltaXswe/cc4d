@@ -6,6 +6,7 @@ import {map, Observer} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {DeviceDataSource} from "./device.data-source";
 import {NotificationService} from "../../utils/notification.service";
+import {StandardError} from "../../../lib/standard-error";
 
 @Component({
   selector: 'app-devices',
@@ -20,7 +21,7 @@ export class DevicesComponent implements OnInit {
     next: () => {
       this.initTable();
     },
-    error: err => {
+    error: (err: { error: StandardError }) => {
       this.notificationService.unexpectedError(`Errore inaspettato: ${JSON.stringify(err)}`);
     },
     complete: () => {
@@ -95,7 +96,7 @@ export class DevicesComponent implements OnInit {
       this.deviceService.restoreDevice(device)
         .pipe(
           map(() => {
-            this.notificationService.notify('Macchina disattivata con successo.');
+            this.notificationService.notify('Macchina ripristinata con successo.');
           })
         )
         .subscribe(this.reloader);
@@ -106,7 +107,7 @@ export class DevicesComponent implements OnInit {
             this.deviceService.archiveDevice(device)
               .pipe(
                 map(() => {
-                  this.notificationService.notify('Macchina disattivata con successo.');
+                  this.notificationService.notify('Macchina archiviata con successo.');
                 })
               )
               .subscribe(this.reloader);
@@ -124,7 +125,7 @@ export class DevicesComponent implements OnInit {
         next: value => {
           this.devices.setData(value);
         },
-        error: err => {
+        error: (err: { error: StandardError }) => {
           this.notificationService.unexpectedError(`Errore inaspettato: ${JSON.stringify(err)}`);
         }
       });

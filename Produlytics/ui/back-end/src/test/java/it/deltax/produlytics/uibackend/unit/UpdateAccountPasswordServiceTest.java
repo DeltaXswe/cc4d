@@ -53,7 +53,7 @@ public class UpdateAccountPasswordServiceTest {
     BusinessException exception =
         assertThrows(BusinessException.class, () -> service.updatePasswordByUsername(account));
     assert exception.getCode().equals("wrongCurrentPassword");
-    assert exception.getType() == ErrorType.AUTHENTICATION;
+    assert exception.getType() == ErrorType.FORBIDDEN;
   }
 
   /**

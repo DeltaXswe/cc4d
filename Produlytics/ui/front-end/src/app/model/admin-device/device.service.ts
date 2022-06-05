@@ -13,20 +13,20 @@ export class DeviceService implements DeviceAbstractService {
     private httpClient: HttpClient
   ) { }
 
-  activateDevice(device: Device): Observable<{}> {
-    return this.httpClient.put(`admin/devices/${device.id}/deactivated`, false);
-  }
-
-  archiveDevice(device: Device): Observable<{}> {
-    return this.httpClient.put(`admin/devices/${device.id}/archived`, true);
+  getDevices(): Observable<Device[]> {
+    return this.httpClient.get<Device[]>(`admin/devices`);
   }
 
   deactivateDevice(device: Device): Observable<{}> {
     return this.httpClient.put(`admin/devices/${device.id}/deactivated`, true);
   }
 
-  getDevices(): Observable<Device[]> {
-    return this.httpClient.get<Device[]>(`admin/devices`);
+  activateDevice(device: Device): Observable<{}> {
+    return this.httpClient.put(`admin/devices/${device.id}/deactivated`, false);
+  }
+
+  archiveDevice(device: Device): Observable<{}> {
+    return this.httpClient.put(`admin/devices/${device.id}/archived`, true);
   }
 
   restoreDevice(device: Device): Observable<{}> {

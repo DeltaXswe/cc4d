@@ -38,7 +38,8 @@ export class ToolbarComponent implements OnInit {
       dialogRef.afterClosed().subscribe(data => {
         if (data == 400){
           this.notificationService.unexpectedError('La nuova password inserita non è valida');
-        }else if (data == 401){
+        }else if (data == 403){
+          // fallback: lo teniamo ma aggiungo anche un altro errore nella form
           this.notificationService.unexpectedError('La password corrente è errata');
         }else {
           if (data){

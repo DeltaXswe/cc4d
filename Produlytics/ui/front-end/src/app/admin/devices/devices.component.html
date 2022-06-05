@@ -1,9 +1,6 @@
-<!-- HEADER -->
-
-<!-- / HEADER -->
-<!-- CONTENT -->
 <div class="deltax-content">
   <mat-card>
+    <!-- HEADER -->
     <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
       <h1>
         Gestione macchine
@@ -12,6 +9,7 @@
         Nuova macchina
       </button>
     </mat-toolbar>
+    <!-- CONTENT -->
     <mat-card-content>
       <mat-table [dataSource]="devices" matSort>
         <ng-container matColumnDef="name">
@@ -25,9 +23,9 @@
         <ng-container matColumnDef="edit">
           <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
           <mat-cell *matCellDef="let device" fxFlex="64px">
-            <button mat-icon-button (click)="openDeviceDetail(device)">
+            <button mat-icon-button (click)="openDeviceDetail(device)" matTooltip="Apri dettaglio">
               <mat-icon>
-                edit
+                manage_search
               </mat-icon>
             </button>
           </mat-cell>
@@ -35,7 +33,11 @@
         <ng-container matColumnDef="activation">
           <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
           <mat-cell *matCellDef="let device" fxFlex="64px">
-            <button mat-icon-button (click)="toggleActivationDevice(device)">
+            <button
+              mat-icon-button
+              (click)="toggleActivationDevice(device)"
+              [matTooltip]="device.deactivated ? 'Attiva macchina' : 'Disattiva macchina'"
+            >
               <mat-icon [ngClass]="{
               'green-text': !device.deactivated,
               'red-text': device.deactivated
@@ -48,7 +50,11 @@
         <ng-container matColumnDef="status">
           <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
           <mat-cell *matCellDef="let device" fxFlex="64px">
-            <button mat-icon-button (click)="toggleStatusDevice(device)">
+            <button
+              mat-icon-button
+              (click)="toggleStatusDevice(device)"
+              [matTooltip]="device.archived ? 'Ripristina macchina' : 'Archivia macchina'"
+            >
               <mat-icon [ngClass]="{
               'red-text': !device.archived
             }">
@@ -66,4 +72,3 @@
     </mat-card-content>
   </mat-card>
 </div>
-<!-- / CONTENT -->

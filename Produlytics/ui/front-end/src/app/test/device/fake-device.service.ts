@@ -15,6 +15,7 @@ import {
   UpdateCharacteristicAbstractService
 } from "../../model/admin-device/characteristic/update-characteristic-abstract.service";
 import {CharacteristicUpdateCommand} from "../../model/admin-device/characteristic/characteristic-update-command";
+import {wrapError} from "../utils";
 
 export class CharacteristicMock implements Characteristic {
   id: number;
@@ -176,9 +177,7 @@ export class FakeDeviceService implements
       source.deactivated = false;
       return of({});
     } else {
-      return throwError({
-        errorCode: 'deviceNotFound'
-      });
+      return wrapError('deviceNotFound');
     }
   }
 
@@ -188,9 +187,7 @@ export class FakeDeviceService implements
       source.archived = true;
       return of({});
     } else {
-      return throwError({
-        errorCode: 'deviceNotFound'
-      });
+      return wrapError('deviceNotFound');
     }
   }
 
@@ -200,9 +197,7 @@ export class FakeDeviceService implements
       source.deactivated = true;
       return of({});
     } else {
-      return throwError({
-        errorCode: 'deviceNotFound'
-      });
+      return wrapError('deviceNotFound');
     }
   }
 
@@ -212,18 +207,14 @@ export class FakeDeviceService implements
       source.archived = false;
       return of({});
     } else {
-      return throwError({
-        errorCode: 'deviceNotFound'
-      });
+      return wrapError('deviceNotFound');
     }
   }
 
   insertDevice(deviceCreationCommand: DeviceCreationCommand): Observable<{ id: number }> {
     const sameName = this.devices.find(device => device.name === deviceCreationCommand.name);
     if (sameName) {
-      return throwError({
-        errorCode: 'duplicateDeviceName'
-      });
+      return wrapError('duplicateDeviceName');
     }
     const nextId = this.getNextId();
     const newDevice = new DeviceMock({
@@ -246,9 +237,7 @@ export class FakeDeviceService implements
     if (device) {
       return of(device);
     } else {
-      return throwError({
-        errorCode: 'deviceNotFound'
-      });
+      return wrapError('deviceNotFound');
     }
   }
 
@@ -257,23 +246,17 @@ export class FakeDeviceService implements
     if (device?.characteristics) {
       return of(device?.characteristics);
     } else {
-      return throwError({
-        errorCode: 'deviceNotFound'
-      });
+      return wrapError('deviceNotFound');
     }
   }
 
   addCharacteristic(deviceId: number, command: CharacteristicCreationCommand): Observable<{ id: number }> {
     const device = this.devices.find(device => device.id === deviceId);
     if (!device) {
-      return throwError({
-        errorCode: 'deviceNotFound'
-      });
+      return wrapError('deviceNotFound');
     }
     if (device?.characteristics.find(char => char.name === command.name)) {
-      return throwError({
-        errorCode: 'duplicateCharacteristicName'
-      });
+      return wrapError('duplicateCharacteristicName');
     } else {
       // TODO refine
       const newId = Math.max(...device.characteristics.map(device => device.id)) + 1;
@@ -299,9 +282,7 @@ export class FakeDeviceService implements
       char.archived = true;
       return of({});
     } catch (err) {
-      return throwError({
-        errorCode: 'characteristicNotFound'
-      });
+      return wrapError('characteristicNotFound');
     }
   }
 
@@ -312,9 +293,7 @@ export class FakeDeviceService implements
       char.archived = false;
       return of({});
     } catch (err) {
-      return throwError({
-        errorCode: 'characteristicNotFound'
-      });
+      return wrapError('characteristicNotFound');
     }
   }
 
@@ -326,14 +305,10 @@ export class FakeDeviceService implements
         device.name = newName;
         return of({});
       } else {
-        return throwError({
-          errorCode: 'duplicateDeviceName'
-        });
+        return wrapError('duplicateDeviceName');
       }
     } else {
-      return throwError({
-        errorCode: 'deviceNotFound'
-      });
+      return wrapError('deviceNotFound');
     }
   }
 
@@ -342,15 +317,11 @@ export class FakeDeviceService implements
     if (device) {
       const sameName = device.characteristics.find(char => char.name === command.name);
       if (sameName) {
-        return throwError({
-          errorCode: 'duplicateCharacteristicName'
-        });
+        return wrapError('duplicateCharacteristicName');
       }
       const existing = device.characteristics.find(char => char.id === command.id);
       if (!existing) {
-        return throwError({
-          errorCode: 'characteristicNotFound'
-        });
+        return wrapError('characteristicNotFound');
       } else {
         existing.name = command.name;
         existing.autoAdjust = command.autoAdjust;
@@ -360,9 +331,7 @@ export class FakeDeviceService implements
         return of({});
       }
     } else {
-      return throwError({
-        errorCode: 'characteristicNotFound'
-      });
+      return wrapError('characteristicNotFound');
     }
   }
 

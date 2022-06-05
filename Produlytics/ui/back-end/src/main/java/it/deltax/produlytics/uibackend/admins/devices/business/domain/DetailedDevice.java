@@ -6,8 +6,8 @@ import lombok.Builder;
 public record DetailedDevice(
     int id,
     String name,
-    boolean deactivated,
     boolean archived,
+    boolean deactivated,
     String apiKey
 ) {
   @Builder(toBuilder = true, builderMethodName = "", setterPrefix = "with")

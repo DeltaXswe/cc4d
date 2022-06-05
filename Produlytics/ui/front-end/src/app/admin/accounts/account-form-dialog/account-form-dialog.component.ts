@@ -92,8 +92,8 @@ export class AccountFormDialogComponent implements OnInit {
       next: () => {
         this.matDialogRef.close(true);
       },
-      error: (err: StandardError) => {
-        this.showError(err);
+      error: (err: { error: StandardError }) => {
+        this.showError(err.error);
       }
     });
   }
