@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
   HttpErrorResponse,
-  HttpEvent,
+  HttpEvent, HttpEventType,
   HttpHandler,
   HttpInterceptor,
-  HttpRequest
+  HttpRequest, HttpResponse
 } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {catchError, Observable, of, throwError} from 'rxjs';
@@ -39,10 +39,15 @@ export class XhrInterceptor implements HttpInterceptor {
         catchError(
           (error: HttpErrorResponse) => {
             if (error.status === 401) {
-                this.loginService.logout();
+              this.loginService.logout();
+              return of(new HttpResponse({
+                headers: error.headers,
+                status: 204,
+                statusText: '204 No content'
+              }));
+            } else {
+              return throwError(() => error);
             }
-
-            return throwError(() => error);
           })
       );
   }
