@@ -163,7 +163,7 @@ public class AdminDevicesTests {
         .perform(
             put("/admin/devices/" + deviceId1 + "/name")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("macchina11")
+                .content("\"macchina11\"")
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNoContent());
@@ -201,7 +201,7 @@ public class AdminDevicesTests {
         .perform(
             put("/admin/devices/" + deviceId1 + "/name")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("macchina2")
+                .content("\"macchina2\"")
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isBadRequest())
