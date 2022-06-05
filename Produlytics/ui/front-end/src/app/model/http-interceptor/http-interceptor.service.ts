@@ -7,7 +7,7 @@ import {
   HttpRequest, HttpResponse
 } from '@angular/common/http';
 import { Router } from '@angular/router';
-import {catchError, Observable, of, throwError} from 'rxjs';
+import { catchError, EMPTY, Observable, throwError } from 'rxjs';
 import { LoginAbstractService } from "../login/login-abstract.service";
 
 /**
@@ -39,12 +39,8 @@ export class XhrInterceptor implements HttpInterceptor {
         catchError(
           (error: HttpErrorResponse) => {
             if (error.status === 401) {
-              this.loginService.logout();
-              return of(new HttpResponse({
-                headers: error.headers,
-                status: 204,
-                statusText: '204 No content'
-              }));
+              this.loginService.logout().subscribe(_ => this.router.navigate(["/login"]));
+              return EMPTY;
             } else {
               return throwError(() => error);
             }
