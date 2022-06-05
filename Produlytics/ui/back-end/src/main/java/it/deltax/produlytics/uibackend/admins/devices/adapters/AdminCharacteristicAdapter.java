@@ -80,10 +80,9 @@ public class AdminCharacteristicAdapter
    * @return la lista delle caratteristiche trovate
    */
   @Override
-  public List<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
-    return this.repo.findByDeviceIdAndName(deviceId, name).stream()
-        .map(ConvertCharacteristic::toDetailed)
-        .toList();
+  public Optional<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
+    return this.repo.findByDeviceIdAndName(deviceId, name)
+        .map(ConvertCharacteristic::toDetailed);
   }
 
   /**

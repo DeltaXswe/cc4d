@@ -179,10 +179,10 @@ public class UpdateCharacteristicServiceTest {
     }
 
     @Override
-    public List<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
+    public Optional<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
       return mockCharacteristics.stream()
           .filter(c -> c.deviceId() == deviceId && c.name() == name)
-          .toList();
+          .findFirst();
     }
   }
 

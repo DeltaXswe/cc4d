@@ -9,7 +9,6 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.FindDet
 import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.UpdateCharacteristicPort;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
-import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
 
@@ -47,16 +46,13 @@ public class UpdateCharacteristicService implements UpdateCharacteristicUseCase 
             .archived();
 
     // Trovo gli stesso-nome-stessa-macchina
-    List<DetailedCharacteristic> omonimi = this.findCharacteristicPort
-        .findByDeviceAndName(toUpdate.deviceId(), toUpdate.name());
-
-    for (DetailedCharacteristic omonimo: omonimi) {
-      // beh, se ha stesso nome, stessa macchina, e stesso id allora è se stesso e
-      // si sta facendo l'update senza modificare il nome
-      // altrimenti, è un nome duplicato
-      if (omonimo.id() != toUpdate.id()) {
-        throw new BusinessException("duplicateCharacteristicName", ErrorType.GENERIC);
-      }
+    Optional<DetailedCharacteristic> omonimo =
+        this.findCharacteristicPort.findByDeviceAndName(toUpdate.deviceId(), toUpdate.name());
+    // beh, se ha stesso nome, stessa macchina, e stesso id allora è se stesso e
+    // si sta facendo l'update senza modificare il nome
+    // altrimenti, è un nome duplicato
+    if (omonimo.isPresent() && omonimo.get().id() != toUpdate.id()) {
+      throw new BusinessException("duplicateCharacteristicName", ErrorType.GENERIC);
     }
 
     if (toUpdate.sampleSize().equals(OptionalInt.of(0))) {

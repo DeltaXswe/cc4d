@@ -8,5 +8,5 @@ import java.util.Optional;
 public interface FindDetailedCharacteristicPort {
   Optional<DetailedCharacteristic> findByCharacteristic(int deviceId, int characteristicId);
 
-  List<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name);
+  Optional<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name);
 }

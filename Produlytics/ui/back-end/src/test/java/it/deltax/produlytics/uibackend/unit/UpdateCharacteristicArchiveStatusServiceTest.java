@@ -7,7 +7,6 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.UpdateC
 import it.deltax.produlytics.uibackend.admins.devices.business.services.UpdateCharacteristicArchiveStatusService;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
-import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
@@ -69,8 +68,8 @@ public class UpdateCharacteristicArchiveStatusServiceTest {
     }
 
     @Override
-    public List<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
-      return null;
+    public Optional<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
+      return Optional.empty();
     }
   }
 
@@ -93,8 +92,8 @@ public class UpdateCharacteristicArchiveStatusServiceTest {
     }
 
     @Override
-    public List<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
-      return null;
+    public Optional<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
+      return Optional.empty();
     }
   }
 
@@ -107,8 +106,8 @@ public class UpdateCharacteristicArchiveStatusServiceTest {
     }
 
     @Override
-    public List<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
-      return null;
+    public Optional<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
+      return Optional.empty();
     }
   }
 
