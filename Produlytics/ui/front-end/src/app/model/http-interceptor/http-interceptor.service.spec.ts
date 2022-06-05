@@ -6,6 +6,7 @@ import { HTTP_INTERCEPTORS, HttpClient, HttpErrorResponse } from "@angular/commo
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { LoginAbstractService } from "../login/login-abstract.service";
 import { LoginService } from "../login/login.service";
+import {of} from "rxjs";
 
 describe('HttpInterceptorService', () => {
   let interceptor: XhrInterceptor;
@@ -41,28 +42,20 @@ describe('HttpInterceptorService', () => {
     expect(interceptor).toBeTruthy();
   });
 
-  it('positive-http-call', () => {
-    httpClient.get('/target').subscribe();
-    const req = httpTestingController.expectOne('/target');
-    req.flush('');
-    httpTestingController.verify();
-    expect(req.request.headers.get('X-Auth-Token')).toEqual(
-      'accessToken :D');
-  })
-
   it('401-http-call', () => {
-    let logoutSpy = spyOn(loginService, 'logout');
+    let logoutSpy = spyOn(loginService, 'logout').and.callThrough();
     const errMsg = '401 error';
     const mockErrorResponse = {status: 401, statusText: 'unauthorized'};
     httpClient.get('/target').subscribe(res => fail('Ci dovrebbe essere un 401 qui...'));
     let req = httpTestingController.expectOne('/target');
     req.flush(errMsg, mockErrorResponse);
+    httpTestingController.expectOne('/logout');
     httpTestingController.verify();
     expect(logoutSpy).toHaveBeenCalledTimes(1);
   })
 
   it('other-error-http-call', () => {
-    let logoutSpy = spyOn(loginService, 'logout');
+    let logoutSpy = spyOn(loginService, 'logout').and.callThrough();
     const errMsg = '404 error';
     const mockErrorResponse = {status: 404, statusText: 'errore strano'};
     httpClient

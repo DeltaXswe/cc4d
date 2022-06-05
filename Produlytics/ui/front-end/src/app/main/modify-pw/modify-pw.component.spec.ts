@@ -141,6 +141,7 @@ describe('ModifyPwComponentIntegration', () => {
   let fixture: ComponentFixture<ModifyPwComponent>;
   let mockDialogRef: MatDialogRef<any>;
   let httpClient: HttpClient;
+  let modifyPwService: ModifyPwAbstractService;
   let httpTestingController: HttpTestingController;
 
   beforeEach(async () => {
@@ -174,6 +175,7 @@ describe('ModifyPwComponentIntegration', () => {
       .compileComponents();
     localStorage.clear();
     httpTestingController = TestBed.inject(HttpTestingController);
+    modifyPwService = TestBed.inject(ModifyPwAbstractService);
     fixture = TestBed.createComponent(ModifyPwComponent);
     mockDialogRef = TestBed.inject(MatDialogRef);
     localStorage.setItem('username', 'Gianni');
@@ -190,6 +192,21 @@ describe('ModifyPwComponentIntegration', () => {
     const req = httpTestingController.expectOne(`/accounts/${gianniUser.username}/password`);
     expect(req.request.method).toEqual('PUT');
     req.flush({});
+    httpTestingController.verify();
+  })
+
+  it('modifypwserviceerror', async () => {
+    const error = {
+      status: 401,
+      statusText: 'wrongCurrentPassword'
+    }
+    component.modifyPw.controls['oldPassword'].setValue('Gianni3');
+    component.modifyPw.controls['newPassword'].setValue('Gianni2');
+    component.modifyPw.controls['newPasswordRe'].setValue('Gianni2');
+    component.confirm();
+    const req = httpTestingController.expectOne(`/accounts/${gianniUser.username}/password`);
+    expect(req.request.method).toEqual('PUT');
+    req.flush('401 error', error);
     httpTestingController.verify();
   })
 });

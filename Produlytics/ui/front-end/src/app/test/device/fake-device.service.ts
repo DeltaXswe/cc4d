@@ -139,7 +139,7 @@ export const locomotivaDevice = new DeviceMock({
   }
 ]);
 
-export const devices: DeviceMock[] = [
+const devices: DeviceMock[] = [
   locomotivaDevice,
   filaioDevice,
   valvolaDevice
@@ -158,7 +158,7 @@ export class FakeDeviceService implements
   UpdateCharacteristicAbstractService
 {
 
-  devices = devices;
+  private devices = devices;
 
   constructor() { }
 

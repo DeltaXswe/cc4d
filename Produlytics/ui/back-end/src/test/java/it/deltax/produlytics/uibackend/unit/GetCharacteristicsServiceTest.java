@@ -6,14 +6,31 @@ import it.deltax.produlytics.uibackend.admins.devices.business.services.GetChara
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 /** Test di unità della classe GetCharacteristicsService */
 public class GetCharacteristicsServiceTest {
-  private static final Characteristic characteristic1 = new Characteristic(1, "temperatura", false);
+  private static final Characteristic characteristic1 = new Characteristic(
+      1,
+      "temperatura",
+      false,
+      Optional.empty(),
+      Optional.empty(),
+      Optional.empty(),
+      false
+  );
 
-  private static final Characteristic characteristic2 = new Characteristic(2, "pressione", true);
+  private static final Characteristic characteristic2 = new Characteristic(
+      2,
+      "pressione",
+      false,
+      Optional.empty(),
+      Optional.empty(),
+      Optional.empty(),
+      true
+  );
 
   @Test
   void testGetCharacteristics() throws BusinessException {

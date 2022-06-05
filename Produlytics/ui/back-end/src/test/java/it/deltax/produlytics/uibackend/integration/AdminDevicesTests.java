@@ -159,14 +159,11 @@ public class AdminDevicesTests {
    */
   @Test
   public void testModifyDevice() throws Exception {
-    JSONObject json = new JSONObject();
-    json.put("name", "macchina11");
-
     this.mockMvc
         .perform(
             put("/admin/devices/" + deviceId1 + "/name")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(json.toString())
+                .content("\"macchina11\"")
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNoContent());
@@ -200,14 +197,11 @@ public class AdminDevicesTests {
    */
   @Test
   public void testModifyDeviceDuplicateName() throws Exception {
-    JSONObject json = new JSONObject();
-    json.put("name", "macchina2");
-
     this.mockMvc
         .perform(
             put("/admin/devices/" + deviceId1 + "/name")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(json.toString())
+                .content("\"macchina2\"")
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isBadRequest())

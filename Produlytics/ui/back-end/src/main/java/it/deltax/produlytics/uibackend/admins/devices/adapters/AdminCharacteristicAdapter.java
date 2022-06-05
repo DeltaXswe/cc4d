@@ -49,6 +49,10 @@ public class AdminCharacteristicAdapter
                 Characteristic.builder()
                     .withId(characteristic.getId())
                     .withName(characteristic.getName())
+                    .withAutoAdjust(characteristic.getAutoAdjust())
+                    .withLowerLimit(Optional.ofNullable(characteristic.getLowerLimit()))
+                    .withUpperLimit(Optional.ofNullable(characteristic.getUpperLimit()))
+                    .withSampleSize(Optional.ofNullable(characteristic.getSampleSize()))
                     .withArchived(characteristic.getArchived())
                     .build())
         .toList();
@@ -76,10 +80,9 @@ public class AdminCharacteristicAdapter
    * @return la lista delle caratteristiche trovate
    */
   @Override
-  public List<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
-    return this.repo.findByDeviceIdAndName(deviceId, name).stream()
-        .map(ConvertCharacteristic::toDetailed)
-        .toList();
+  public Optional<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
+    return this.repo.findByDeviceIdAndName(deviceId, name)
+        .map(ConvertCharacteristic::toDetailed);
   }
 
   /**

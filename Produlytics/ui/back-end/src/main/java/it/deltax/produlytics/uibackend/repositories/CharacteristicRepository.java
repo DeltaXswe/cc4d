@@ -56,7 +56,6 @@ public interface CharacteristicRepository
         AND d.id = :deviceId
         AND NOT ch.archived
         AND NOT d.archived
-        AND NOT d.deactivated
     """, nativeQuery = true)
   Optional<LimitsEntity> findLimits(
       @Param("deviceId") int deviceId, @Param("characteristicId") int characteristicId);

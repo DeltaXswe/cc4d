@@ -116,7 +116,7 @@ public class AdminsDevicesController {
   @PutMapping("/devices/{id}/name")
   public ResponseEntity<String> updateDeviceName(
       @PathVariable("id") int id, @RequestBody JsonNode body) throws BusinessException {
-    String name = body.get("name").asText();
+    String name = body.asText();
     this.updateDeviceNameUseCase.updateDeviceName(new TinyDevice(id, name));
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }

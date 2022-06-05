@@ -31,11 +31,13 @@ describe('AuthenticatedUserGuard', () => {
     authGuard = TestBed.inject(AuthenticatedUserGuard);
     loginService = TestBed.inject(LoginAbstractService);
     router = TestBed.inject(Router);
+    sessionStorage.clear();
     localStorage.clear();
     localStorage.setItem('accessToken', 'accessToken :D');
   });
 
   afterEach(() => {
+    sessionStorage.clear();
     localStorage.clear();
   })
 
@@ -49,6 +51,7 @@ describe('AuthenticatedUserGuard', () => {
   });
 
   it('user-not-logged-canActivate', () => {
+    sessionStorage.clear();
     localStorage.clear();
     const url = router.parseUrl('/login');
     const canActivate = authGuard.canActivate();

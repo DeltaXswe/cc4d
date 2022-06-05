@@ -143,7 +143,7 @@ public class AdminDeviceAdapter
   @Override
   public void updateDeviceName(DetailedDevice device) {
     this.repo.save(
-        new DeviceEntity(device.name(), device.archived(), device.deactivated(), device.apiKey()));
+        new DeviceEntity(device.id(), device.name(), device.archived(), device.deactivated(), device.apiKey()));
   }
 
   /**

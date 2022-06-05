@@ -121,7 +121,7 @@ export class DeviceDetailComponent implements OnInit {
     const dialogRef = this.matDialog.open(UpdateCharacteristicDialogComponent, {
       data: {
         deviceId: this.device.id,
-        characteristic: characteristic
+        characteristic
       }
     });
     dialogRef.afterClosed().subscribe(reload => {
