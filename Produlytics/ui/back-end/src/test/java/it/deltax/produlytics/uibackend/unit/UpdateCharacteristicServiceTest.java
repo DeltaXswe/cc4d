@@ -7,7 +7,6 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.UpdateC
 import it.deltax.produlytics.uibackend.admins.devices.business.services.UpdateCharacteristicService;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -27,7 +26,7 @@ public class UpdateCharacteristicServiceTest {
         CharacteristicToUpdate.builder()
             .withId(1)
             .withDeviceId(1)
-            .withName("pressione")
+            .withName("lunghezza")
             .withLowerLimit(OptionalDouble.of(10d))
             .withUpperLimit(OptionalDouble.of(100d))
             .withAutoAdjust(false)
@@ -44,7 +43,7 @@ public class UpdateCharacteristicServiceTest {
         CharacteristicToUpdate.builder()
             .withId(1)
             .withDeviceId(1)
-            .withName("pressione")
+            .withName("lunghezza")
             .withAutoAdjust(true)
             .withSampleSize(OptionalInt.of(0))
             .build());
@@ -54,13 +53,13 @@ public class UpdateCharacteristicServiceTest {
   void testUpdateArchivedCharacteristic() throws BusinessException {
     UpdateCharacteristicService service =
         new UpdateCharacteristicService(
-            new FindArchivedDetailedCharacteristicPortMock(), new UpdateCharacteristicPortMock());
+            new FindDetailedCharacteristicPortMock(), new UpdateCharacteristicPortMock());
 
     service.updateCharacteristic(
         CharacteristicToUpdate.builder()
-            .withId(1)
+            .withId(2)
             .withDeviceId(1)
-            .withName("pressione")
+            .withName("lunghezza")
             .withAutoAdjust(true)
             .withSampleSize(OptionalInt.of(0))
             .build());
@@ -70,7 +69,7 @@ public class UpdateCharacteristicServiceTest {
   void testUpdateDuplicateCharacteristic() {
     UpdateCharacteristicService service =
         new UpdateCharacteristicService(
-            new FindDetailedCharacteristicDuplicatePortMock(), new UpdateCharacteristicPortMock());
+            new FindDetailedCharacteristicPortMock(), new UpdateCharacteristicPortMock());
 
     BusinessException exception =
         assertThrows(
@@ -102,7 +101,7 @@ public class UpdateCharacteristicServiceTest {
                     CharacteristicToUpdate.builder()
                         .withId(1)
                         .withDeviceId(1)
-                        .withName("pressione")
+                        .withName("lunghezza")
                         .withAutoAdjust(false)
                         .build()));
     assert exception.getCode().equals("invalidValues");
@@ -119,7 +118,7 @@ public class UpdateCharacteristicServiceTest {
         CharacteristicToUpdate.builder()
             .withId(1)
             .withDeviceId(1)
-            .withName("pressione")
+            .withName("lunghezza")
             .withAutoAdjust(true)
             .build());
   }
@@ -128,7 +127,7 @@ public class UpdateCharacteristicServiceTest {
   void testUpdateCharacteristicNotFound() {
     UpdateCharacteristicService service =
         new UpdateCharacteristicService(
-            new FindDetailedCharacteristicNotFoundPortMock(), new UpdateCharacteristicPortMock());
+            new FindDetailedCharacteristicPortMock(), new UpdateCharacteristicPortMock());
 
     BusinessException exception =
         assertThrows(
@@ -136,9 +135,9 @@ public class UpdateCharacteristicServiceTest {
             () ->
                 service.updateCharacteristic(
                     CharacteristicToUpdate.builder()
-                        .withId(1)
+                        .withId(3)
                         .withDeviceId(1)
-                        .withName("pressione")
+                        .withName("lunghezza")
                         .withAutoAdjust(true)
                         .withSampleSize(OptionalInt.of(0))
                         .build()));
@@ -149,92 +148,41 @@ public class UpdateCharacteristicServiceTest {
   // Classi mock
   private static class FindDetailedCharacteristicPortMock
       implements FindDetailedCharacteristicPort {
+    private static final List<DetailedCharacteristic> mockCharacteristics =
+        List.of(
+            DetailedCharacteristic.builder()
+                .withId(1)
+                .withDeviceId(1)
+                .withName("temperatura")
+                .withLowerLimit(OptionalDouble.of(10d))
+                .withUpperLimit(OptionalDouble.of(100d))
+                .withAutoAdjust(true)
+                .withSampleSize(OptionalInt.of(0))
+                .build(),
+            DetailedCharacteristic.builder()
+                .withId(2)
+                .withDeviceId(1)
+                .withName("pressione")
+                .withLowerLimit(OptionalDouble.of(10d))
+                .withUpperLimit(OptionalDouble.of(100d))
+                .withAutoAdjust(true)
+                .withSampleSize(OptionalInt.of(0))
+                .withArchived(true)
+                .build());
+
     @Override
     public Optional<DetailedCharacteristic> findByCharacteristic(
         int deviceId, int characteristicId) {
-      return Optional.of(
-          DetailedCharacteristic.builder()
-              .withId(1)
-              .withDeviceId(1)
-              .withName("temperatura")
-              .withLowerLimit(OptionalDouble.of(10d))
-              .withUpperLimit(OptionalDouble.of(100d))
-              .withAutoAdjust(true)
-              .withSampleSize(OptionalInt.of(0))
-              .build());
+      return mockCharacteristics.stream()
+          .filter(c -> c.deviceId() == deviceId && c.id() == characteristicId)
+          .findFirst();
     }
 
     @Override
     public List<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
-      return Collections.emptyList();
-    }
-  }
-
-  private static class FindArchivedDetailedCharacteristicPortMock
-      implements FindDetailedCharacteristicPort {
-    @Override
-    public Optional<DetailedCharacteristic> findByCharacteristic(
-        int deviceId, int characteristicId) {
-      return Optional.of(
-          DetailedCharacteristic.builder()
-              .withId(1)
-              .withDeviceId(1)
-              .withName("temperatura")
-              .withLowerLimit(OptionalDouble.of(10d))
-              .withUpperLimit(OptionalDouble.of(100d))
-              .withAutoAdjust(true)
-              .withSampleSize(OptionalInt.of(0))
-              .withArchived(true)
-              .build());
-    }
-
-    @Override
-    public List<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
-      return Collections.emptyList();
-    }
-  }
-
-  private static class FindDetailedCharacteristicDuplicatePortMock
-      implements FindDetailedCharacteristicPort {
-    @Override
-    public Optional<DetailedCharacteristic> findByCharacteristic(
-        int deviceId, int characteristicId) {
-      return Optional.of(
-          DetailedCharacteristic.builder()
-              .withId(1)
-              .withDeviceId(1)
-              .withName("temperatura")
-              .withLowerLimit(OptionalDouble.of(10d))
-              .withUpperLimit(OptionalDouble.of(100d))
-              .withAutoAdjust(true)
-              .withSampleSize(OptionalInt.of(0))
-              .build());
-    }
-
-    @Override
-    public List<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
-      return List.of(
-          DetailedCharacteristic.builder()
-              .withId(1)
-              .withDeviceId(1)
-              .withName("pressione")
-              .withAutoAdjust(true)
-              .withSampleSize(OptionalInt.of(0))
-              .build());
-    }
-  }
-
-  private static class FindDetailedCharacteristicNotFoundPortMock
-      implements FindDetailedCharacteristicPort {
-    @Override
-    public Optional<DetailedCharacteristic> findByCharacteristic(
-        int deviceId, int characteristicId) {
-      return Optional.empty();
-    }
-
-    @Override
-    public List<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
-      return Collections.emptyList();
+      return mockCharacteristics.stream()
+          .filter(c -> c.deviceId() == deviceId && c.name() == name)
+          .toList();
     }
   }
 
