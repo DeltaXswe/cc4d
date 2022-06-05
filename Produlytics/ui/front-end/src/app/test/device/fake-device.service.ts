@@ -158,7 +158,7 @@ export class FakeDeviceService implements
   UpdateCharacteristicAbstractService
 {
 
-  devices = devices;
+  private devices = devices;
 
   constructor() { }
 

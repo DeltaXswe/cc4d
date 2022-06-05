@@ -305,10 +305,10 @@ describe('SelectionComponent Integration', () => {
   it('init', () => {
     let req = httpTestingController.expectOne('/devices');
     expect(req.request.method).toEqual('GET');
-    req.flush({
+    req.flush([{
       id: 1,
       name: 'Pompa a immersione'
-    });
+    }]);
     httpTestingController.verify();
   });
 
