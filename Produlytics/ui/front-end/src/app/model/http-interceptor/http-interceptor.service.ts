@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest
+} from '@angular/common/http';
 import { Router } from '@angular/router';
-import { catchError, Observable, throwError } from 'rxjs';
+import {catchError, Observable, of, throwError} from 'rxjs';
 import { LoginAbstractService } from "../login/login-abstract.service";
-import {CookieService} from "ngx-cookie-service";
 
 /**
  * Questo service intercetta ogni chiamata uscente per aggiungerci un token di
@@ -14,8 +19,7 @@ export class XhrInterceptor implements HttpInterceptor {
 
   constructor(
     public router: Router,
-    private loginService: LoginAbstractService,
-    private cookieService: CookieService
+    private loginService: LoginAbstractService
   ) { }
 
   /**
@@ -30,6 +34,16 @@ export class XhrInterceptor implements HttpInterceptor {
       headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
     });
 
-    return next.handle(req);
+    return next.handle(req)
+      .pipe(
+        catchError(
+          (error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                this.loginService.logout();
+            }
+
+            return throwError(() => error);
+          })
+      );
   }
 }
