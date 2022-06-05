@@ -49,6 +49,10 @@ public class AdminCharacteristicAdapter
                 Characteristic.builder()
                     .withId(characteristic.getId())
                     .withName(characteristic.getName())
+                    .withAutoAdjust(characteristic.getAutoAdjust())
+                    .withLowerLimit(Optional.ofNullable(characteristic.getLowerLimit()))
+                    .withUpperLimit(Optional.ofNullable(characteristic.getUpperLimit()))
+                    .withSampleSize(Optional.ofNullable(characteristic.getSampleSize()))
                     .withArchived(characteristic.getArchived())
                     .build())
         .toList();
