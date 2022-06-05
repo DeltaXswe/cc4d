@@ -30,10 +30,6 @@ export class XhrInterceptor implements HttpInterceptor {
    * @returns Un {@link Observable} della richiesta trasformata
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    req = req.clone({
-      headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
-    });
-
     return next.handle(req)
       .pipe(
         catchError(
