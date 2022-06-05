@@ -43,18 +43,19 @@ describe('HttpInterceptorService', () => {
   });
 
   it('401-http-call', () => {
-    let logoutSpy = spyOn(loginService, 'logout');
+    let logoutSpy = spyOn(loginService, 'logout').and.callThrough();
     const errMsg = '401 error';
     const mockErrorResponse = {status: 401, statusText: 'unauthorized'};
     httpClient.get('/target').subscribe(res => fail('Ci dovrebbe essere un 401 qui...'));
     let req = httpTestingController.expectOne('/target');
     req.flush(errMsg, mockErrorResponse);
+    httpTestingController.expectOne('/logout');
     httpTestingController.verify();
     expect(logoutSpy).toHaveBeenCalledTimes(1);
   })
 
   it('other-error-http-call', () => {
-    let logoutSpy = spyOn(loginService, 'logout').and.returnValue(of({}));
+    let logoutSpy = spyOn(loginService, 'logout').and.callThrough();
     const errMsg = '404 error';
     const mockErrorResponse = {status: 404, statusText: 'errore strano'};
     httpClient
