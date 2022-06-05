@@ -73,7 +73,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
         .logout()
         .logoutUrl("/logout")
-        .logoutSuccessUrl("/")
         .deleteCookies("PRODULYTICS_S", "PRODULYTICS_RM")
         .and()
         .csrf()
