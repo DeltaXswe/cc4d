@@ -6,6 +6,7 @@ import { HTTP_INTERCEPTORS, HttpClient, HttpErrorResponse } from "@angular/commo
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { LoginAbstractService } from "../login/login-abstract.service";
 import { LoginService } from "../login/login.service";
+import {of} from "rxjs";
 
 describe('HttpInterceptorService', () => {
   let interceptor: XhrInterceptor;
@@ -41,15 +42,6 @@ describe('HttpInterceptorService', () => {
     expect(interceptor).toBeTruthy();
   });
 
-  it('positive-http-call', () => {
-    httpClient.get('/target').subscribe();
-    const req = httpTestingController.expectOne('/target');
-    req.flush('');
-    httpTestingController.verify();
-    expect(req.request.headers.get('X-Auth-Token')).toEqual(
-      'accessToken :D');
-  })
-
   it('401-http-call', () => {
     let logoutSpy = spyOn(loginService, 'logout');
     const errMsg = '401 error';
@@ -62,7 +54,7 @@ describe('HttpInterceptorService', () => {
   })
 
   it('other-error-http-call', () => {
-    let logoutSpy = spyOn(loginService, 'logout');
+    let logoutSpy = spyOn(loginService, 'logout').and.returnValue(of({}));
     const errMsg = '404 error';
     const mockErrorResponse = {status: 404, statusText: 'errore strano'};
     httpClient
