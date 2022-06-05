@@ -139,7 +139,7 @@ export const locomotivaDevice = new DeviceMock({
   }
 ]);
 
-export const devices: DeviceMock[] = [
+const devices: DeviceMock[] = [
   locomotivaDevice,
   filaioDevice,
   valvolaDevice

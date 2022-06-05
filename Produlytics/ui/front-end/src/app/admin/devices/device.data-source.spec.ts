@@ -1,7 +1,5 @@
-import {DataSource} from "@angular/cdk/collections";
 import {DeviceDataSource} from "./device.data-source";
-import {devices, filaioDevice, locomotivaDevice} from "../../test/device/fake-device.service";
-import {fakeAsync, tick} from "@angular/core/testing";
+import {filaioDevice, locomotivaDevice, valvolaDevice} from "../../test/device/fake-device.service";
 import {take} from "rxjs";
 import {Device} from "../../model/admin-device/device";
 
@@ -34,7 +32,7 @@ describe('DeviceDataSource', () => {
   });
 
   it('ordinare-macchine', async () => {
-    dataSource.setData(devices);
+    dataSource.setData([filaioDevice, locomotivaDevice, valvolaDevice]);
     dataSource.sortData({
       active: 'name',
       direction: 'asc'
