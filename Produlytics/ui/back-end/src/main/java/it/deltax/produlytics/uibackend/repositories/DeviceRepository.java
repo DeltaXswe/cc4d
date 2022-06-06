@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 /** Rappresenta il repository delle macchine. */
 @Repository
 public interface DeviceRepository extends JpaRepository<DeviceEntity, Integer> {
-  Iterable<TinyDevice> findByArchived(boolean archived);
+  Iterable<TinyDevice> findByArchivedOrderById(boolean archived);
 
   List<TinyDevice> findByName(String name);
+
+  List<DeviceEntity> findAllByOrderById();
 }

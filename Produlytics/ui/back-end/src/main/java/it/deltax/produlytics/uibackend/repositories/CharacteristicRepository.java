@@ -13,12 +13,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CharacteristicRepository
     extends JpaRepository<CharacteristicEntity, CharacteristicEntityId> {
-  List<CharacteristicEntity> findByArchivedFalseAndDeviceId(int deviceId);
+  List<CharacteristicEntity> findByArchivedFalseAndDeviceIdOrderByName(int deviceId);
 
   Optional<CharacteristicEntity> findByArchivedFalseAndDeviceIdAndId(
       int deviceId, int characteristicId);
 
-  List<CharacteristicEntity> findByDeviceId(int deviceId);
+  List<CharacteristicEntity> findAllByDeviceIdOrderByName(int deviceId);
 
   @Query(
       value = "SELECT * FROM characteristic WHERE device_id = :deviceId AND name = :name",

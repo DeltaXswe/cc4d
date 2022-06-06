@@ -16,7 +16,6 @@ import it.deltax.produlytics.uibackend.devices.business.domain.TinyDevice;
 import it.deltax.produlytics.uibackend.repositories.DeviceRepository;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 import org.springframework.stereotype.Component;
 
 /**
@@ -51,7 +50,7 @@ public class AdminDeviceAdapter
    */
   @Override
   public List<Device> getDevices() {
-    return this.repo.findAll().stream()
+    return this.repo.findAllByOrderById().stream()
         .map(
             device ->
                 new Device(
