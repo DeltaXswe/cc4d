@@ -11,7 +11,7 @@
     </mat-toolbar>
     <!-- CONTENT -->
     <mat-card-content>
-      <mat-table [dataSource]="devices" matSort>
+      <mat-table [dataSource]="devices" matSort (matSortChange)="devices.sortData($event)">
         <ng-container matColumnDef="name">
           <mat-header-cell *matHeaderCellDef mat-sort-header="name">
             Nome
