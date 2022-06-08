@@ -47,35 +47,38 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [
-    DevicesComponent,
-    NewDeviceComponent,
-    NewCharacteristicDialogComponent,
-    DeviceDetailComponent,
-    UpdateCharacteristicDialogComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    FlexLayoutModule,
-    MatTableModule,
-    MatToolbarModule,
-    MatSnackBarModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatListModule,
-    MatCardModule,
-    MatIconModule,
-    MatDialogModule,
-    MatCheckboxModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatChipsModule,
-    MatTooltipModule,
-    ClipboardModule,
-    ComponentsModule
-  ]
+    declarations: [
+        DevicesComponent,
+        NewDeviceComponent,
+        NewCharacteristicDialogComponent,
+        DeviceDetailComponent,
+        UpdateCharacteristicDialogComponent
+    ],
+    exports: [
+        DevicesComponent
+    ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        FlexLayoutModule,
+        MatTableModule,
+        MatToolbarModule,
+        MatSnackBarModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatListModule,
+        MatCardModule,
+        MatIconModule,
+        MatDialogModule,
+        MatCheckboxModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatChipsModule,
+        MatTooltipModule,
+        ClipboardModule,
+        ComponentsModule
+    ]
 })
 export class DevicesModule { }

@@ -1,22 +1,23 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import * as d3 from 'd3';
-import { Subscription, interval } from 'rxjs';
-import { concatMap } from 'rxjs/operators';
+import {interval, Subscription} from 'rxjs';
+import {concatMap} from 'rxjs/operators';
 
-import { ChartPoint } from '../../model/chart/chart-point';
-import { ChartAbstractService } from "../../model/chart/chart-abstract.service";
-import { CharacteristicNode } from '../selection/selection-data-source/characteristic-node';
-import { Limits } from '../../model/chart/limits';
-import { MatDialog } from '@angular/material/dialog';
-import { DatePickerDialogComponent } from '../date-picker-dialog/date-picker-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { NotificationService } from "../../utils/notification.service";
+import {ChartPoint} from '../../model/chart/chart-point';
+import {ChartAbstractService} from "../../model/chart/chart-abstract.service";
+import {CharacteristicNode} from '../selection/selection-data-source/characteristic-node';
+import {Limits} from '../../model/chart/limits';
+import {MatDialog} from '@angular/material/dialog';
+import {DatePickerDialogComponent} from '../date-picker-dialog/date-picker-dialog.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {NotificationService} from "../../utils/notification.service";
 
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -116,7 +117,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   createChart() {
       this.svg = d3
-        .select(`#d3svg${this.index}`)
+        .selectAll(`#d3svg${this.index}`)
         .style('width', this.chartWidth)
         .style('height', 550 + 'px')
         .append('g')

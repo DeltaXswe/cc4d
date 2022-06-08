@@ -32,11 +32,24 @@
       </mat-tree>
     </ng-container>
 
-    <!--Grafici-->
   </mat-sidenav>
   <mat-sidenav-content class="deltax-content">
+    <mat-slide-toggle [(ngModel)]="showCarousel">Modalità carosello</mat-slide-toggle>
+    <!--Carosello-->
+    <ngb-carousel *ngIf="showCarousel">
+      <ng-container *ngFor="let tile of checkedNodes; let i = index">
+        <ng-template ngbSlide class="slide1">
+          <app-chart [currentNode]=tile [index]=i></app-chart>
+        </ng-template>
+      </ng-container>
+    </ngb-carousel>
+    <!--Grafici-->
+    <div *ngIf="!showCarousel">
     <div fxLayout="column" fxLayoutGap="16px" class="chart-container" *ngFor="let tile of checkedNodes; let i = index">
       <app-chart [currentNode]=tile [index]=i></app-chart>
     </div>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+

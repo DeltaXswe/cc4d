@@ -17,6 +17,7 @@ export class SelectionComponent implements OnInit {
   @Output()
   devicesChanged = new EventEmitter<CharacteristicNode[]>();
 
+  showCarousel: Boolean = false;
   treeControl: FlatTreeControl<SelectionNode>;
   dataSource: SelectionDataSource;
 
