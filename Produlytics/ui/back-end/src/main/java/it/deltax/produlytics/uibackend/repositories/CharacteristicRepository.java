@@ -15,9 +15,6 @@ public interface CharacteristicRepository
     extends JpaRepository<CharacteristicEntity, CharacteristicEntityId> {
   List<CharacteristicEntity> findByArchivedFalseAndDeviceIdOrderByName(int deviceId);
 
-  Optional<CharacteristicEntity> findByArchivedFalseAndDeviceIdAndId(
-      int deviceId, int characteristicId);
-
   List<CharacteristicEntity> findAllByDeviceIdOrderByName(int deviceId);
 
   @Query(
