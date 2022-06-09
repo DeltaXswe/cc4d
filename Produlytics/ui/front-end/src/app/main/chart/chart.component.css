@@ -1,5 +1,6 @@
 .container{
   height: 530px;
+  width: fit-content;
 }
 .y-container{
   float: left;
@@ -13,9 +14,7 @@
   width: 1150px;
   height: 550px;
 }
-mat-card.mat-elevation-z2 {
 
-}
 .d3svg line.line-zona-c-up, .d3svg line.line-zona-c-down {
   stroke: green;
   opacity: 30%;

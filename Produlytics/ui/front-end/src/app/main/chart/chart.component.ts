@@ -124,7 +124,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
         .attr('transform', `translate(0, ${this.margin.top})`);
 
       this.svgy = d3
-        .select(`#vertical${this.index}`)
+        .selectAll(`#vertical${this.index}`)
         .style('width', 100 + 'px')
         .style('height', 550 + 'px')
         .append('g')
