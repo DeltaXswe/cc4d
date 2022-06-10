@@ -106,7 +106,7 @@ public class AdminAccountAdapter
    */
   @Override
   public List<TinyAccount> getTinyAccounts() {
-    return StreamSupport.stream(this.repo.findAllByOrderByUsername().spliterator(), false)
+    return this.repo.findAllByOrderByUsername().stream()
         .map(
             account ->
                 new TinyAccount(
