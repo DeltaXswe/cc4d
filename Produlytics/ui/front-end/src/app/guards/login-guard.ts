@@ -12,7 +12,6 @@ export class LoginGuard implements CanActivate{
    constructor(private router: Router, private loginService: LoginAbstractService){}
 
    canActivate(): Observable<boolean | UrlTree> | UrlTree {
-     console.log('LoginGuard canActivate');
      if (this.loginService.isLogged()) {
        return this.router.parseUrl('');
      } else {

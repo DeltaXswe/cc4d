@@ -13,7 +13,6 @@ export class AuthenticatedUserGuard implements CanActivate{
    constructor(private router: Router, private loginService: LoginAbstractService){}
 
    canActivate(): boolean | Observable<boolean | UrlTree> {
-     console.log('AuthenticateUserGuard canActivate');
      if (this.loginService.isLogged()) {
        return true;
      } else {
