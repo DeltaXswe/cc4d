@@ -32,7 +32,7 @@ public class UnarchivedCharacteristicAdapter
    */
   @Override
   public List<TinyCharacteristic> findAllByDeviceId(int deviceId) {
-    return this.repo.findByArchivedFalseAndDeviceId(deviceId).stream()
+    return this.repo.findByArchivedFalseAndDeviceIdOrderByName(deviceId).stream()
         .map(
             characteristicEntity ->
                 new TinyCharacteristic(

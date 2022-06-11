@@ -43,7 +43,7 @@ public class AdminCharacteristicAdapter
    */
   @Override
   public List<Characteristic> findAllByDeviceId(int deviceId) {
-    return repo.findByDeviceId(deviceId).stream()
+    return this.repo.findAllByDeviceIdOrderByName(deviceId).stream()
         .map(
             characteristic ->
                 Characteristic.builder()
