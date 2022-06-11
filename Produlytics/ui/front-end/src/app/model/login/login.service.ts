@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { LoginAbstractService } from './login-abstract.service';
-import { LoginCommand } from './login-command';
-import { LoginResponse } from "./login-response";
+import {Injectable} from '@angular/core';
+import {Observable, of, tap} from 'rxjs';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {LoginAbstractService} from './login-abstract.service';
+import {LoginCommand} from './login-command';
+import {LoginResponse} from './login-response';
+import {CookieService} from "ngx-cookie-service";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +16,18 @@ import { LoginResponse } from "./login-response";
  * effettuare operazioni come login e logout. Offre inoltre metodi per
  * capire se l'utente è autenticato o amministartore
  */
-export class LoginService implements LoginAbstractService{
+export class LoginService implements LoginAbstractService {
+
+  private static USERNAME_STORAGE_KEY = 'username';
+  private static ADMIN_STORAGE_KEY = 'admin';
+  private static ACCESS_TOKEN_STORAGE_KEY = 'accessToken';
 
   constructor(
     private http: HttpClient,
-    public router: Router
-  ) { }
+    private router: Router,
+    private cookieService: CookieService
+  ) {
+  }
 
   /**
    * Effettua una richiesta HTTP GET per effettuare un tentativo di login.
@@ -28,41 +36,60 @@ export class LoginService implements LoginAbstractService{
    * @param command Contiene nome utente, password, e rememberMe
    * @returns Un {@link Observable} contente la risposta del back-end
    */
-  login(command: LoginCommand): Observable<LoginResponse>{
-    const httpOptions = {
-      headers: new HttpHeaders()
-        .set('Authorization', `Basic ${btoa(command.username + ':' + command.password)}`),
-      params: new HttpParams()
-        .set('remember-me', `${command.rememberMe}`)
+  login(command?: LoginCommand): Observable<LoginResponse> {
+    // la situazione fallback è il login con solo il token remember-me: non servono header e
+    // basta mettere il remember me true
+    const headers = new HttpHeaders();
+    const params = new HttpParams().set('remember-me', 'true');
+    let httpOptions = {
+      headers,
+      params
     };
+    if (command) {
+      // se c'è il command allora aggiungo gli header e sovrascrivo la scelta di remember-me
+      headers.set('Authorization', `Basic ${btoa(command.username + ':' + command.password)}`);
+      params.set('remember-me', command.rememberMe);
+    }
     return this.http.get<LoginResponse>('/login', httpOptions).pipe(
-      tap((res: LoginResponse) => {
-        sessionStorage.setItem('username', res.username)
-        sessionStorage.setItem('admin', res.administrator.toString())
-        sessionStorage.setItem('accessToken', res.accessToken);
-        this.router.navigate(['/']);
-      }));
+      tap(
+        (res: LoginResponse) => {
+          // il server mi restituirà
+          sessionStorage.setItem(LoginService.USERNAME_STORAGE_KEY, res.username)
+          sessionStorage.setItem(LoginService.ADMIN_STORAGE_KEY, res.administrator.toString())
+          sessionStorage.setItem(LoginService.ACCESS_TOKEN_STORAGE_KEY, res.accessToken);
+          this.router.navigate(['/']);
+        }
+      )
+    );
   }
 
   /**
    * @returns True se l'utente è autenticato, false altrimenti
    */
-  isLogged(): boolean {
-    return !!sessionStorage.getItem('accessToken');
+  isLogged(): Observable<boolean> {
+    const sessionCookie = this.cookieService.get('PRODULYTICS_S');
+    if (!sessionCookie) {
+      return this.login().pipe(map(Boolean));
+    } else {
+      return of(!!sessionStorage.getItem(LoginService.ACCESS_TOKEN_STORAGE_KEY));
+    }
   }
 
   /**
    * @returns True se l'utente è un amministratore, false altrimenti
    */
-  isAdmin(): boolean {
-    return sessionStorage.getItem('admin') === 'true';
+  isAdmin(): Observable<boolean> {
+    return this.isLogged()
+      .pipe(
+        map(isLogged => isLogged && sessionStorage.getItem(LoginService.ADMIN_STORAGE_KEY) === 'true')
+      );
   }
 
   /**
    * Effettua una richiesta HTTP POST per effettuare il logout
    * @returns Un {@link Observable} contente la risposta del back-end
    */
-  logout(): Observable<any>{
+  logout(): Observable<any> {
     sessionStorage.clear();
     return this.http.post('/logout', {});
   }
@@ -70,7 +97,9 @@ export class LoginService implements LoginAbstractService{
   /**
    * @returns Il nome utente
    */
-  getUsername(): string{
-    return sessionStorage.getItem('username') || '';
+  getUsername(): string {
+    // che sia loggato o meno non ci interessa
+    return sessionStorage.getItem(LoginService.USERNAME_STORAGE_KEY)
+    || 'Utente non riconosciuto'
   }
 }

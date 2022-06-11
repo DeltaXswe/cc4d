@@ -104,14 +104,14 @@ export class FakeAccountService implements
     }
   }
 
-  isLogged(): boolean {
+  isLogged(): Observable<boolean> {
     if (localStorage.getItem('accessToken'))
       return true;
     else
       return false;
   }
 
-  isAdmin(): boolean{
+  isAdmin(): Observable<boolean>{
     let user = localStorage.getItem('admin');
     if (user)
       return true;
@@ -126,7 +126,7 @@ export class FakeAccountService implements
     return of([]);
   }
 
-  getUsername(){
+  getUsername(): string {
     let user = localStorage.getItem('username');
     if (user)
       return user;
