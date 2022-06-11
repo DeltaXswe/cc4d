@@ -29,7 +29,8 @@ export class LoginService implements LoginAbstractService {
   /**
    * Effettua una richiesta HTTP GET per effettuare un tentativo di login.
    * Nome utente e password vengono passati tramite header, mentre il rememberMe
-   * viene passato tramite query.
+   * viene passato tramite query. Se non viene fornito nessun parametro, l'autenticazione
+   * sarà tentata con il cookie remember-me.
    * @param command Contiene nome utente, password, e rememberMe
    * @returns Un {@link Observable} contente la risposta del back-end
    */
@@ -41,6 +42,7 @@ export class LoginService implements LoginAbstractService {
         params: new HttpParams().set('remember-me', command.rememberMe)
       }
     } else {
+      // Non è possibile fare controlli sul cookie remember me visto che è httpOnly
       httpOptions = {
         headers: new HttpHeaders(),
         params: new HttpParams().set('remember-me', 'true')
@@ -64,20 +66,6 @@ export class LoginService implements LoginAbstractService {
   }
 
   /**
-   * @returns True se l'utente è autenticato, false altrimenti
-   */
-  isLogged(): boolean {
-    return !!sessionStorage.getItem('accessToken');
-  }
-
-  /**
-   * @returns True se l'utente è un amministratore, false altrimenti
-   */
-  isAdmin(): boolean {
-    return sessionStorage.getItem('admin') === 'true';
-  }
-
-  /**
    * Effettua una richiesta HTTP POST per effettuare il logout
    * @returns Un {@link Observable} contente la risposta del back-end
    */
@@ -87,9 +75,23 @@ export class LoginService implements LoginAbstractService {
   }
 
   /**
+   * @returns True se l'utente è autenticato, false altrimenti
+   */
+  isLogged(): boolean {
+    return !!sessionStorage.getItem(LoginService.ACCESS_TOKEN_STORAGE_KEY);
+  }
+
+  /**
+   * @returns True se l'utente è un amministratore, false altrimenti
+   */
+  isAdmin(): boolean {
+    return sessionStorage.getItem(LoginService.ADMIN_STORAGE_KEY) === 'true';
+  }
+
+  /**
    * @returns Il nome utente
    */
   getUsername(): string{
-    return sessionStorage.getItem('username') || '';
+    return sessionStorage.getItem(LoginService.USERNAME_STORAGE_KEY) || '';
   }
 }
