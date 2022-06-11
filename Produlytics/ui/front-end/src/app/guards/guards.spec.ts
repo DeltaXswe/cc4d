@@ -7,6 +7,7 @@ import {RouterTestingModule} from "@angular/router/testing";
 import {testModules} from "../test/utils";
 import {AdminGuard} from "./admin-guard";
 import {LoginGuard} from "./login-guard";
+import {Observable} from "rxjs";
 
 describe('AuthenticatedUserGuard', () => {
   let authGuard: AuthenticatedUserGuard;
@@ -55,7 +56,13 @@ describe('AuthenticatedUserGuard', () => {
     localStorage.clear();
     const url = router.parseUrl('/login');
     const canActivate = authGuard.canActivate();
-    expect(canActivate).toEqual(url);
+    if (canActivate === true) { // se non è true è un observable
+      fail();
+    } else {
+      canActivate.subscribe(value => {
+        expect(value).toEqual(url);
+      });
+    }
   });
 });
 
@@ -151,6 +158,12 @@ describe('AuthenticatedUserGuard', () => {
         localStorage.setItem('accessToken', 'accessToken :D');
         const url = router.parseUrl('');
         const canActivate = loginGuard.canActivate();
-        expect(canActivate).toEqual(url);
+        if (canActivate instanceof Observable) {
+          canActivate.subscribe(value => {
+            expect(value).toEqual(url);
+          });
+        } else {
+          fail();
+        }
       });
 });

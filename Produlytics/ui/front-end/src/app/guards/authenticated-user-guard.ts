@@ -12,7 +12,7 @@ import {map} from "rxjs/operators";
 export class AuthenticatedUserGuard implements CanActivate{
    constructor(private router: Router, private loginService: LoginAbstractService){}
 
-   canActivate(): boolean | Observable<boolean | UrlTree> {
+   canActivate(): true | Observable<boolean | UrlTree> {
      if (this.loginService.isLogged()) {
        return true;
      } else {

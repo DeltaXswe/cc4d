@@ -3,7 +3,6 @@ import {catchError, Observable, tap, throwError} from 'rxjs';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import { LoginAbstractService } from './login-abstract.service';
 import { LoginCommand } from './login-command';
-import {CookieService} from "ngx-cookie-service";
 import {LoginResponse} from "./login-response";
 
 @Injectable({
@@ -21,8 +20,7 @@ export class LoginService implements LoginAbstractService {
   private static ACCESS_TOKEN_STORAGE_KEY = 'accessToken';
 
   constructor(
-    private http: HttpClient,
-    private cookieService: CookieService
+    private http: HttpClient
   ) {
   }
 
@@ -69,7 +67,7 @@ export class LoginService implements LoginAbstractService {
    * Effettua una richiesta HTTP POST per effettuare il logout
    * @returns Un {@link Observable} contente la risposta del back-end
    */
-  logout(): Observable<any>{
+  logout(): Observable<{}>{
     sessionStorage.clear();
     return this.http.post('/logout', {});
   }

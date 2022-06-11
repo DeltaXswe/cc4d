@@ -143,6 +143,7 @@ describe('ModifyPwComponentIntegration', () => {
   let httpClient: HttpClient;
   let modifyPwService: ModifyPwAbstractService;
   let httpTestingController: HttpTestingController;
+  let loginService: LoginService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -178,10 +179,22 @@ describe('ModifyPwComponentIntegration', () => {
     modifyPwService = TestBed.inject(ModifyPwAbstractService);
     fixture = TestBed.createComponent(ModifyPwComponent);
     mockDialogRef = TestBed.inject(MatDialogRef);
-    localStorage.setItem('username', 'Gianni');
     component = fixture.componentInstance;
     fixture.detectChanges();
     httpClient = TestBed.inject(HttpClient);
+    loginService = TestBed.inject(LoginService);
+    loginService.login({
+      username: 'Gianni',
+      password: 'stegodiego',
+      rememberMe: false
+    }).subscribe();
+    const req = httpTestingController.expectOne('/login?remember-me=false');
+    expect(req.request.method).toEqual('GET');
+    req.flush({
+      username: 'Gianni',
+      admin: true,
+      accessToken: 'STEGODIEGO'
+    });
   });
 
   it('modifypwservicePUT', async () => {
