@@ -4,7 +4,7 @@ import { LoginCommand } from './login-command';
 
 @Injectable()
 export abstract class LoginAbstractService {
-  public abstract login(command: LoginCommand): Observable<any>;
+  public abstract login(command?: LoginCommand): Observable<any>;
 
   public abstract isLogged(): boolean;
 

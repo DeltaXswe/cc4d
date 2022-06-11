@@ -31,16 +31,17 @@ export class XhrInterceptor implements HttpInterceptor {
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req)
-      .pipe(
-        catchError(
-          (error: HttpErrorResponse) => {
-            if (error.status === 401) {
-              this.loginService.logout().subscribe(_ => this.router.navigate(["/login"]));
-              return EMPTY;
-            } else {
-              return throwError(() => error);
-            }
-          })
-      );
+      // .pipe(
+      //   catchError(
+      //     (error: HttpErrorResponse) => {
+      //       if (error.status === 401) {
+      //         this.loginService.logout().subscribe(_ => this.router.navigate(["/login"]));
+      //         return EMPTY;
+      //       } else {
+      //         return throwError(() => error);
+      //       }
+      //     })
+      // )
+      ;
   }
 }

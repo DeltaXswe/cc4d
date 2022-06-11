@@ -11,6 +11,7 @@ export class AdminGuard implements CanActivate{
    constructor(private router: Router, private loginService: LoginAbstractService){}
 
    canActivate(): boolean | UrlTree {
+      console.log('AdminGuard canActivate');
       if (!this.loginService.isAdmin()){
          return this.router.parseUrl('');
       } else {
