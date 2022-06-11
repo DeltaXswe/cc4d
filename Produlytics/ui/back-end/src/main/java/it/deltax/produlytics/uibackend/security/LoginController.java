@@ -18,7 +18,12 @@ public class LoginController {
       var authorities = authentication.getAuthorities();
       var adminAuthority = ProdulyticsGrantedAuthority.ADMIN.getAuthority();
       var admin = authorities.stream().anyMatch(auth -> auth.getAuthority().equals(adminAuthority));
-      return Map.of("accessToken", session.getId(), "admin", Boolean.toString(admin));
+      var username = authentication.getName();
+      return Map.of(
+          "accessToken", session.getId(),
+          "admin", Boolean.toString(admin),
+          "username", username
+          );
     } else {
       return Map.of();
     }
