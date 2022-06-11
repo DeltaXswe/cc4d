@@ -34,24 +34,21 @@ export class LoginService implements LoginAbstractService {
    * @returns Un {@link Observable} contente la risposta del back-end
    */
   login(command?: LoginCommand): Observable<LoginResponse> {
-    // la situazione fallback è il login con solo il token remember-me: non servono header e
-    // basta mettere il remember me true
-    const headers = new HttpHeaders();
-    const params = new HttpParams().set('remember-me', 'true');
-    let httpOptions = {
-      headers,
-      params
-    };
-    console.log('command is ' + (command?.toString() || 'undefined'));
+    let httpOptions: {headers?: HttpHeaders, params?: HttpParams};
     if (command) {
-      // se c'è il command allora aggiungo gli header e sovrascrivo la scelta di remember-me
-      headers.set('Authorization', `Basic ${btoa(command.username + ':' + command.password)}`);
-      params.set('remember-me', command.rememberMe);
+      httpOptions = {
+        headers: new HttpHeaders().set('Authorization', `Basic ${btoa(command.username + ':' + command.password)}`),
+        params: new HttpParams().set('remember-me', command.rememberMe)
+      }
+    } else {
+      httpOptions = {
+        headers: new HttpHeaders(),
+        params: new HttpParams().set('remember-me', 'true')
+      }
     }
     return this.http.get<LoginResponse>('/login', httpOptions).pipe(
       tap(
         (res: LoginResponse) => {
-          // il server mi restituirà
           sessionStorage.setItem(LoginService.USERNAME_STORAGE_KEY, res.username)
           sessionStorage.setItem(LoginService.ADMIN_STORAGE_KEY, res.administrator.toString())
           sessionStorage.setItem(LoginService.ACCESS_TOKEN_STORAGE_KEY, res.accessToken);
