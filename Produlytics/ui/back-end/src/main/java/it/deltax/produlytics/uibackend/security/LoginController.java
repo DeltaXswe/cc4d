@@ -29,7 +29,7 @@ public class LoginController {
           "username", username
           );
     } else {
-      throw new BusinessException("invalidTokens", ErrorType.UNAUTHORIZED);
+      throw new BusinessException("unauthorized", ErrorType.UNAUTHORIZED);
     }
   }
 }
