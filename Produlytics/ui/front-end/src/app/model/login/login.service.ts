@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LoginAbstractService } from './login-abstract.service';
 import { LoginCommand } from './login-command';
-import { CookieService } from 'ngx-cookie-service';
+import { LoginResponse } from "./login-response";
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +16,10 @@ import { CookieService } from 'ngx-cookie-service';
  */
 export class LoginService implements LoginAbstractService{
 
-  constructor(private http: HttpClient,
-    public router: Router,
-    private cookieService: CookieService) { }
+  constructor(
+    private http: HttpClient,
+    public router: Router
+  ) { }
 
   /**
    * Effettua una richiesta HTTP GET per effettuare un tentativo di login.
@@ -27,23 +28,18 @@ export class LoginService implements LoginAbstractService{
    * @param command Contiene nome utente, password, e rememberMe
    * @returns Un {@link Observable} contente la risposta del back-end
    */
-  login(command: LoginCommand): Observable<any>{
+  login(command: LoginCommand): Observable<LoginResponse>{
     const httpOptions = {
       headers: new HttpHeaders()
         .set('Authorization', `Basic ${btoa(command.username + ':' + command.password)}`),
       params: new HttpParams()
         .set('remember-me', `${command.rememberMe}`)
     };
-    return this.http.get('/login', httpOptions).pipe(
-      tap((res: any) => {
-        sessionStorage.setItem('username', command.username)
-        sessionStorage.setItem('admin', res['admin'])
-        sessionStorage.setItem('accessToken', res["token"]);
-        if (command.rememberMe) {
-          localStorage.setItem('username', command.username)
-          localStorage.setItem('admin', res['admin'])
-          localStorage.setItem('accessToken', res["token"]);
-        }
+    return this.http.get<LoginResponse>('/login', httpOptions).pipe(
+      tap((res: LoginResponse) => {
+        sessionStorage.setItem('username', res.username)
+        sessionStorage.setItem('admin', res.administrator.toString())
+        sessionStorage.setItem('accessToken', res.accessToken);
         this.router.navigate(['/']);
       }));
   }
@@ -51,29 +47,15 @@ export class LoginService implements LoginAbstractService{
   /**
    * @returns True se l'utente è autenticato, false altrimenti
    */
-  isLogged(): boolean{
-    if (sessionStorage.getItem('accessToken') || localStorage.getItem('accessToken')) {
-      return true;
-    }
-    else {
-      return false;
-    }
+  isLogged(): boolean {
+    return !!sessionStorage.getItem('accessToken');
   }
 
   /**
    * @returns True se l'utente è un amministratore, false altrimenti
    */
-  isAdmin(): boolean{
-    let admin = null;
-    if (sessionStorage.getItem('admin')) {
-      admin = sessionStorage.getItem('admin');
-    } else {
-      admin = localStorage.getItem('admin');
-    }
-    if (admin)
-      return admin == "true";
-    else
-      return false;
+  isAdmin(): boolean {
+    return sessionStorage.getItem('admin') === 'true';
   }
 
   /**
@@ -81,7 +63,6 @@ export class LoginService implements LoginAbstractService{
    * @returns Un {@link Observable} contente la risposta del back-end
    */
   logout(): Observable<any>{
-    localStorage.clear();
     sessionStorage.clear();
     return this.http.post('/logout', {});
   }
@@ -90,15 +71,6 @@ export class LoginService implements LoginAbstractService{
    * @returns Il nome utente
    */
   getUsername(): string{
-    let username = null;
-    if (sessionStorage.getItem('username')) {
-      username = sessionStorage.getItem('username');
-    } else {
-      username = localStorage.getItem('username');
-    }
-    if (username)
-      return username;
-    else
-      return 'username';
+    return sessionStorage.getItem('username') || '';
   }
 }

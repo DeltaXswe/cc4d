@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
   /** Riceve le chiamate all'endpoint REST per l'autenticazione. */
   @GetMapping
-  public Map<String, String> login(HttpSession session, Authentication authentication) {
+  public Map<String, Object> login(HttpSession session, Authentication authentication) {
     if(authentication != null) {
       var authorities = authentication.getAuthorities();
       var adminAuthority = ProdulyticsGrantedAuthority.ADMIN.getAuthority();
@@ -21,7 +21,7 @@ public class LoginController {
       var username = authentication.getName();
       return Map.of(
           "accessToken", session.getId(),
-          "admin", Boolean.toString(admin),
+          "admin", admin,
           "username", username
           );
     } else {
