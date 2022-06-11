@@ -6,9 +6,9 @@ import { LoginCommand } from './login-command';
 export abstract class LoginAbstractService {
   public abstract login(command: LoginCommand): Observable<any>;
 
-  public abstract isLogged(): Observable<boolean>;
+  public abstract isLogged(): boolean;
 
-  public abstract isAdmin(): Observable<boolean>;
+  public abstract isAdmin(): boolean;
 
   public abstract getUsername(): string;
 
