@@ -17,7 +17,7 @@ import {MatInputModule} from '@angular/material/input';
 import {BrowserModule} from "@angular/platform-browser";
 import {FlexLayoutModule, FlexModule} from "@angular/flex-layout";
 import {AppRoutingModule} from "./app-routing.module";
-import {HttpClientModule, HTTP_INTERCEPTORS} from "@angular/common/http";
+import {HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {ChartAbstractService} from "./model/chart/chart-abstract.service";
@@ -56,7 +56,6 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerDialogComponent } from './main/date-picker-dialog/date-picker-dialog.component';
-import { XhrInterceptor } from './model/http-interceptor/http-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -110,10 +109,6 @@ import { XhrInterceptor } from './model/http-interceptor/http-interceptor.servic
     {
       provide: MAT_DATE_LOCALE, useValue: 'en-GB'
     },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: XhrInterceptor,
-      multi: true },
     {
       provide: ChartAbstractService,
       useExisting: environment.chartService

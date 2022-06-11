@@ -50,16 +50,15 @@ export class LoginService implements LoginAbstractService {
       tap(
         (res: LoginResponse) => {
           sessionStorage.setItem(LoginService.USERNAME_STORAGE_KEY, res.username)
-          sessionStorage.setItem(LoginService.ADMIN_STORAGE_KEY, res.administrator.toString())
+          sessionStorage.setItem(LoginService.ADMIN_STORAGE_KEY, res.admin.toString())
           sessionStorage.setItem(LoginService.ACCESS_TOKEN_STORAGE_KEY, res.accessToken);
         }
       ),
       catchError((err: HttpErrorResponse) => {
         if (err.status === 401) {
-          return this.logout();
-        } else {
-          return throwError(() => err);
+          this.logout();
         }
+        return throwError(() => err);
       })
     );
   }
