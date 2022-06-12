@@ -8,11 +8,15 @@ import {testModules} from "../test/utils";
 import {AdminGuard} from "./admin-guard";
 import {LoginGuard} from "./login-guard";
 import {Observable} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {HttpTestingController} from "@angular/common/http/testing";
 
 describe('AuthenticatedUserGuard', () => {
   let authGuard: AuthenticatedUserGuard;
   let loginService: LoginAbstractService;
   let router: Router;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -32,9 +36,12 @@ describe('AuthenticatedUserGuard', () => {
     authGuard = TestBed.inject(AuthenticatedUserGuard);
     loginService = TestBed.inject(LoginAbstractService);
     router = TestBed.inject(Router);
+    httpClient = TestBed.inject(HttpClient);
+    httpTestingController = TestBed.inject(HttpTestingController);
     sessionStorage.clear();
     sessionStorage.clear();
     sessionStorage.setItem('accessToken', 'accessToken :D');
+    sessionStorage.setItem('username', 'Roberto');
   });
 
   afterEach(() => {
@@ -61,6 +68,28 @@ describe('AuthenticatedUserGuard', () => {
     } else {
       canActivate.subscribe(value => {
         expect(value).toEqual(url);
+      });
+      const req = httpTestingController.expectOne('/login?remember-me=true');
+      expect(req.request.method).toEqual('GET');
+      req.flush({}, { status: 401, statusText: 'Unauthorized' });
+    }
+  });
+
+  it('user-not-logged-auto-skip-login', () => {
+    sessionStorage.clear();
+    const canActivate = authGuard.canActivate();
+    if (canActivate === true) { // se non è true è un observable
+      fail();
+    } else {
+      canActivate.subscribe(value => {
+        expect(value).toBeTrue();
+      });
+      const req = httpTestingController.expectOne('/login?remember-me=true');
+      expect(req.request.method).toEqual('GET');
+      req.flush({
+        username: 'Roberto',
+        admin: false,
+        accessToken: 'accessToken :D'
       });
     }
   });
@@ -92,6 +121,7 @@ describe('AuthenticatedUserGuard', () => {
       sessionStorage.clear();
       sessionStorage.setItem('accessToken', 'accessToken :D');
       sessionStorage.setItem('admin', 'true');
+      sessionStorage.setItem('username', 'Roberto');
     });
 
     afterEach(() => {
@@ -115,55 +145,90 @@ describe('AuthenticatedUserGuard', () => {
     });
   });
 
-    describe('LoginGuard', () => {
-      let loginGuard: LoginGuard;
-      let loginService: LoginAbstractService;
-      let router: Router;
+describe('LoginGuard', () => {
+  let loginGuard: LoginGuard;
+  let loginService: LoginAbstractService;
+  let router: Router;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
 
-      beforeEach(() => {
-        TestBed.configureTestingModule({
-          imports: [
-            RouterTestingModule,
-            testModules
-          ],
-          providers: [
-            LoginGuard,
-            {
-              provide: LoginAbstractService,
-              useExisting: LoginService
-            }
-          ]
-        })
-          .compileComponents();
-        loginGuard = TestBed.inject(LoginGuard);
-        loginService = TestBed.inject(LoginAbstractService);
-        router = TestBed.inject(Router);
-        sessionStorage.clear();
-      });
-
-      afterEach(() => {
-        sessionStorage.clear();
-      })
-
-      it('should-create', () => {
-        expect(loginGuard).toBeTruthy();
-      });
-
-      it('not-authenticated-canActivate', () => {
-        const canActivate = loginGuard.canActivate();
-        expect(canActivate).toBeTruthy();
-      });
-
-      it('authenticated-canActivate', () => {
-        sessionStorage.setItem('accessToken', 'accessToken :D');
-        const url = router.parseUrl('');
-        const canActivate = loginGuard.canActivate();
-        if (canActivate instanceof Observable) {
-          canActivate.subscribe(value => {
-            expect(value).toEqual(url);
-          });
-        } else {
-          expect(canActivate).toEqual(url);
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        testModules
+      ],
+      providers: [
+        LoginGuard,
+        {
+          provide: LoginAbstractService,
+          useExisting: LoginService
         }
+      ]
+    })
+      .compileComponents();
+    loginGuard = TestBed.inject(LoginGuard);
+    loginService = TestBed.inject(LoginAbstractService);
+    router = TestBed.inject(Router);
+    httpClient = TestBed.inject(HttpClient);
+    httpTestingController = TestBed.inject(HttpTestingController);
+    sessionStorage.clear();
+  });
+
+  afterEach(() => {
+    sessionStorage.clear();
+  });
+
+  it('should-create', () => {
+    expect(loginGuard).toBeTruthy();
+  });
+
+  it('not-authenticated-canActivate', () => {
+    sessionStorage.clear();
+    const canActivate = loginGuard.canActivate();
+    if (canActivate instanceof Observable) {
+      canActivate.subscribe(value => {
+        expect(value).toBeTrue();
       });
+      const req = httpTestingController.expectOne('/login?remember-me=true');
+      expect(req.request.method).toEqual('GET');
+      req.flush({}, {
+        status: 401,
+        statusText: 'Unauthorized'
+      });
+    } else {
+      fail();
+    }
+  });
+
+  it('authenticated-canActivate', () => {
+    sessionStorage.setItem('accessToken', 'accessToken :D');
+    const url = router.parseUrl('');
+    const canActivate = loginGuard.canActivate();
+    if (canActivate instanceof Observable) {
+      fail();
+    } else {
+      expect(canActivate).toEqual(url);
+    }
+  });
+
+  it('user-not-logged-remain-login', () => {
+    sessionStorage.clear();
+    const url = router.parseUrl('');
+    const canActivate = loginGuard.canActivate();
+    if (canActivate instanceof Observable) {
+      canActivate.subscribe(value => {
+        expect(value).toEqual(url);
+      });
+      const req = httpTestingController.expectOne('/login?remember-me=true');
+      expect(req.request.method).toEqual('GET');
+      req.flush({
+        username: 'Roberto',
+        admin: false,
+        accessToken: 'accessToken :D'
+      });
+    } else {
+      fail();
+    }
+  });
 });

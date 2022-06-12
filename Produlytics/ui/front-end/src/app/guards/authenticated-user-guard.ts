@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { CanActivate, Router, UrlTree } from "@angular/router";
 import { LoginAbstractService } from "../model/login/login-abstract.service";
 import {catchError, Observable, of} from "rxjs";
-import {HttpErrorResponse} from "@angular/common/http";
 import {map} from "rxjs/operators";
 /**
  * Questa guardia impedisce ad un utente non autenticato di navigare
