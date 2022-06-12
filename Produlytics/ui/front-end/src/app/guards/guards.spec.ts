@@ -163,7 +163,7 @@ describe('AuthenticatedUserGuard', () => {
             expect(value).toEqual(url);
           });
         } else {
-          fail();
+          expect(canActivate).toEqual(url);
         }
       });
 });
