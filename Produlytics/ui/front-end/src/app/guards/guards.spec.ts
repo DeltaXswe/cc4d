@@ -33,13 +33,13 @@ describe('AuthenticatedUserGuard', () => {
     loginService = TestBed.inject(LoginAbstractService);
     router = TestBed.inject(Router);
     sessionStorage.clear();
-    localStorage.clear();
-    localStorage.setItem('accessToken', 'accessToken :D');
+    sessionStorage.clear();
+    sessionStorage.setItem('accessToken', 'accessToken :D');
   });
 
   afterEach(() => {
     sessionStorage.clear();
-    localStorage.clear();
+    sessionStorage.clear();
   })
 
   it('should-create', () => {
@@ -53,7 +53,7 @@ describe('AuthenticatedUserGuard', () => {
 
   it('user-not-logged-canActivate', () => {
     sessionStorage.clear();
-    localStorage.clear();
+    sessionStorage.clear();
     const url = router.parseUrl('/login');
     const canActivate = authGuard.canActivate();
     if (canActivate === true) { // se non è true è un observable
@@ -89,13 +89,13 @@ describe('AuthenticatedUserGuard', () => {
       adminGuard = TestBed.inject(AdminGuard);
       loginService = TestBed.inject(LoginAbstractService);
       router = TestBed.inject(Router);
-      localStorage.clear();
-      localStorage.setItem('accessToken', 'accessToken :D');
-      localStorage.setItem('admin', 'true');
+      sessionStorage.clear();
+      sessionStorage.setItem('accessToken', 'accessToken :D');
+      sessionStorage.setItem('admin', 'true');
     });
 
     afterEach(() => {
-      localStorage.clear();
+      sessionStorage.clear();
     })
 
     it('should-create', () => {
@@ -108,7 +108,7 @@ describe('AuthenticatedUserGuard', () => {
     });
 
     it('not-admin-canActivate', () => {
-      localStorage.removeItem('admin');
+      sessionStorage.removeItem('admin');
       const url = router.parseUrl('');
       const canActivate = adminGuard.canActivate();
       expect(canActivate).toEqual(url);
@@ -138,11 +138,11 @@ describe('AuthenticatedUserGuard', () => {
         loginGuard = TestBed.inject(LoginGuard);
         loginService = TestBed.inject(LoginAbstractService);
         router = TestBed.inject(Router);
-        localStorage.clear();
+        sessionStorage.clear();
       });
 
       afterEach(() => {
-        localStorage.clear();
+        sessionStorage.clear();
       })
 
       it('should-create', () => {
@@ -155,7 +155,7 @@ describe('AuthenticatedUserGuard', () => {
       });
 
       it('authenticated-canActivate', () => {
-        localStorage.setItem('accessToken', 'accessToken :D');
+        sessionStorage.setItem('accessToken', 'accessToken :D');
         const url = router.parseUrl('');
         const canActivate = loginGuard.canActivate();
         if (canActivate instanceof Observable) {
