@@ -34,9 +34,22 @@
 
   </mat-sidenav>
   <mat-sidenav-content class="deltax-content">
-    <mat-slide-toggle [(ngModel)]="showCarousel">Modalità carosello</mat-slide-toggle>
+    <div fxLayout="row">
+      <mat-slide-toggle [(ngModel)]="showCarousel">Modalità carosello</mat-slide-toggle>
+      <div *ngIf="showCarousel">
+      <button mat-button (click)="toggleCarouselPause()">
+        {{isCarouselPaused ? 'Cicla' : 'Metti in pausa' }}
+      </button>
+      </div>
+    <div *ngIf="showCarousel">
+      <mat-form-field>
+        <mat-label>Intervallo carosello</mat-label>
+        <input matInput type="text" [(ngModel)]="carouselInterval">
+      </mat-form-field>
+    </div>
+    </div>
     <!--Carosello-->
-    <ngb-carousel *ngIf="showCarousel">
+    <ngb-carousel #carousel [interval]="carouselInterval*1000" *ngIf="showCarousel">
       <ng-container *ngFor="let tile of checkedNodes; let i = index">
         <ng-template ngbSlide class="slide1">
           <app-chart [currentNode]=tile [index]=i></app-chart>

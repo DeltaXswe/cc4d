@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import { FlatTreeControl } from "@angular/cdk/tree";
 import {
   UnarchivedCharacteristicAbstractService
@@ -7,6 +7,7 @@ import { UnarchivedDeviceAbstractService } from "../../model/device/unarchived-d
 import { SelectionNode } from './selection-data-source/selection-node';
 import { SelectionDataSource } from './selection-data-source/selection.data-source';
 import { CharacteristicNode } from './selection-data-source/characteristic-node';
+import {NgbCarousel} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-selection',
@@ -17,6 +18,10 @@ export class SelectionComponent implements OnInit {
   @Output()
   devicesChanged = new EventEmitter<CharacteristicNode[]>();
 
+  @ViewChild('carousel') carousel!: NgbCarousel;
+
+  carouselInterval: number = 5;
+  isCarouselPaused: boolean = false;
   showCarousel: Boolean = false;
   treeControl: FlatTreeControl<SelectionNode>;
   dataSource: SelectionDataSource;
@@ -42,6 +47,14 @@ export class SelectionComponent implements OnInit {
 
   ngOnInit(): void { }
 
+  toggleCarouselPause() {
+    if (this.isCarouselPaused) {
+      this.carousel.cycle();
+    } else {
+      this.carousel.pause();
+    }
+    this.isCarouselPaused = !this.isCarouselPaused;
+  }
   hasChildren(_index: number, node: SelectionNode): boolean {
     return node.expandable;
   }
