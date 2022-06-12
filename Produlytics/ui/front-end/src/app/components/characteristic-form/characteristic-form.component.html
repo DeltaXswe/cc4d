@@ -20,15 +20,15 @@
     </mat-label>
     <input matInput formControlName="sampleSize" name="sample-size" type="number" />
   </mat-form-field>
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px">
-    <mat-form-field fxFlex="50" appearance="outline" floatLabel="always">
+  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="start center" fxLayoutAlign.lt-md="start stretch" fxLayoutGap="4px">
+    <mat-form-field fxFlex="50" fxFlex.lt-md="100" appearance="outline" floatLabel="always">
       <mat-label>
         Limite inferiore
       </mat-label>
       <input matInput formControlName="lowerLimit" name="lower-limit" type="number" />
       <mat-error>Il campo è richiesto</mat-error>
     </mat-form-field>
-    <mat-form-field fxFlex="50" appearance="outline" floatLabel="always" *ngIf="formGroup.get('upperLimit') as formControl">
+    <mat-form-field fxFlex="50" fxFlex.lt-md="100" appearance="outline" floatLabel="always" *ngIf="formGroup.get('upperLimit') as formControl">
       <mat-label>
         Limite superiore
       </mat-label>

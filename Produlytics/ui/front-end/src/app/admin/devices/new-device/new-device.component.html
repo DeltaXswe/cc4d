@@ -9,13 +9,18 @@
       <span fxFlex>
         Nuova macchina
       </span>
-      <button mat-raised-button [disabled]="formGroup.invalid || formGroup.pristine || characteristics.length === 0" (click)="insertDevice()">
+      <button mat-raised-button [disabled]="formGroup.invalid || formGroup.pristine || characteristics.length === 0" (click)="insertDevice()" fxHide.lt-sm>
         Conferma dati
+      </button>
+      <button mat-mini-fab [disabled]="formGroup.invalid || formGroup.pristine || characteristics.length === 0" (click)="insertDevice()" fxHide.gt-xs>
+        <mat-icon>
+          save
+        </mat-icon>
       </button>
     </mat-toolbar>
     <mat-card-content>
       <form [formGroup]="formGroup">
-        <mat-form-field *ngIf="formGroup.get('name') as field" appearance="outline" floatLabel="always">
+        <mat-form-field fxFlex.lt-sm="100" *ngIf="formGroup.get('name') as field" appearance="outline" floatLabel="always">
           <mat-label>
             Nome
           </mat-label>
@@ -33,24 +38,29 @@
         <span>
           Caratteristiche
         </span>
-        <button mat-stroked-button color="accent" (click)="openNewCharacteristicDialog()">
+        <button mat-stroked-button color="accent" (click)="openNewCharacteristicDialog()" fxHide.lt-sm>
           Nuova caratteristica
+        </button>
+        <button mat-mini-fab color="accent" (click)="openNewCharacteristicDialog()" fxHide.gt-xs>
+          <mat-icon>
+            add
+          </mat-icon>
         </button>
       </mat-card-subtitle>
       <mat-table [dataSource]="characteristics">
         <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef fxFlex="15">
+          <mat-header-cell *matHeaderCellDef fxFlex="15" fxFlex.lt-sm>
             Nome
           </mat-header-cell>
-          <mat-cell *matCellDef="let row" fxFlex="15">
+          <mat-cell *matCellDef="let row" fxFlex="15" fxFlex.lt-sm>
             {{row.name}}
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="limits">
-          <mat-header-cell *matHeaderCellDef>
+          <mat-header-cell *matHeaderCellDef fxHide.lt-sm>
             Limiti
           </mat-header-cell>
-          <mat-cell *matCellDef="let row">
+          <mat-cell *matCellDef="let row" fxHide.lt-sm>
             <ng-container *ngIf="row.autoAdjust" class="green-text">
               <ng-container *ngIf="row.sampleSize">
                 Calcolo dei limiti automatico su un campione di {{row.sampleSize}} elementi.
@@ -65,8 +75,8 @@
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="delete">
-          <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
-          <mat-cell *matCellDef="let row" fxFlex="64px">
+          <mat-header-cell *matHeaderCellDef fxFlex="64px" fxFlex.lt-sm="40px"></mat-header-cell>
+          <mat-cell *matCellDef="let row" fxFlex="64px" fxFlex.lt-sm="40px">
             <button mat-icon-button (click)="removeCharacteristic(row)">
               <mat-icon class="red-text">
                 delete
