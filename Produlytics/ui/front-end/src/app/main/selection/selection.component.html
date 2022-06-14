@@ -34,17 +34,19 @@
 
   </mat-sidenav>
   <mat-sidenav-content class="deltax-content">
-    <div fxLayout="row">
+    <div class="carousel-options" fxLayout="row" fxLayoutGap="12px">
+      <div class="carousel-slider">
       <mat-slide-toggle [(ngModel)]="showCarousel">Modalità carosello</mat-slide-toggle>
+      </div>
       <div *ngIf="showCarousel">
-      <button mat-button (click)="toggleCarouselPause()">
+      <button mat-stroked-button color="primary" class="carousel-pause" (click)="toggleCarouselPause()">
         {{isCarouselPaused ? 'Cicla' : 'Metti in pausa' }}
       </button>
       </div>
     <div *ngIf="showCarousel">
       <mat-form-field>
         <mat-label>Intervallo carosello</mat-label>
-        <input matInput type="text" [(ngModel)]="carouselInterval">
+        <input matInput type="number" [(ngModel)]="carouselInterval">
       </mat-form-field>
     </div>
     </div>

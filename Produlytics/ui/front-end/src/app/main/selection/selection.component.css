@@ -7,6 +7,21 @@ mat-sidenav-container{
   height: calc(100vh - 70px);
 }
 
+.carousel-pause{
+  width: 120px;
+ margin-top: -1px;
+}
+
+.carousel-slider{
+  margin-top: 5px;
+}
+.carousel-options{
+  vertical-align: center;
+  margin-top: -20px;
+  margin-bottom: 5px;
+  height: 30px;
+}
+
 .sidenav-title-container {
   padding: 6px;
   height: 48px;
