@@ -15,7 +15,7 @@ import {AccountEntity} from "./account-entity";
 import {ModifyPwAbstractService} from "../../model/modify-pw/modify-pw-abstract.service";
 import {ModifyPwCommand} from "../../model/modify-pw/modify-pw-command";
 import {wrapError} from "../utils";
-import {LoginResponse} from "../../model/login/login-response";
+import {SessionInfo} from "../../model/login/session-info";
 
 @Injectable({
   providedIn: 'root'
@@ -80,7 +80,7 @@ export class FakeAccountService implements
     }
   }
 
-  login(command?: LoginCommand): Observable<LoginResponse> {
+  login(command?: LoginCommand): Observable<SessionInfo> {
     if (!command ) {
       const rmCookie = this.cookieService.get('PRODULYTICS_RM');
       console.log(`Just a lil check ${rmCookie} fr rn`);
@@ -91,7 +91,7 @@ export class FakeAccountService implements
         return of({
           accessToken: 'SHAMALAMADINGDONG',
           username,
-          admin: user.administrator
+          administrator: user.administrator
         });
       } else {
         const error = new HttpErrorResponse({ status: 401 });
@@ -120,7 +120,7 @@ export class FakeAccountService implements
       return of({
         accessToken: 'SHAMALAMADINGDONG',
         username: command.username,
-        admin: user.administrator
+        administrator: user.administrator
       });
     } else {
       const error = new HttpErrorResponse({ status: 401 });

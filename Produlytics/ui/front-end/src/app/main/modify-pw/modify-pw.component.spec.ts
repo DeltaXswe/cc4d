@@ -192,7 +192,7 @@ describe('ModifyPwComponentIntegration', () => {
     expect(req.request.method).toEqual('GET');
     req.flush({
       username: 'Gianni',
-      admin: true,
+      administrator: true,
       accessToken: 'STEGODIEGO'
     });
   });

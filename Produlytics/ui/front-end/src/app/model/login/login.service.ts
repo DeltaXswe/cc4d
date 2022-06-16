@@ -3,7 +3,7 @@ import {catchError, Observable, tap, throwError} from 'rxjs';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import { LoginAbstractService } from './login-abstract.service';
 import { LoginCommand } from './login-command';
-import {LoginResponse} from "./login-response";
+import {SessionInfo} from "./session-info";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,6 @@ export class LoginService implements LoginAbstractService {
 
   private static USERNAME_STORAGE_KEY = 'username';
   private static ADMIN_STORAGE_KEY = 'admin';
-  private static ACCESS_TOKEN_STORAGE_KEY = 'accessToken';
 
   constructor(
     private http: HttpClient
@@ -32,7 +31,7 @@ export class LoginService implements LoginAbstractService {
    * @param command Contiene nome utente, password, e rememberMe
    * @returns Un {@link Observable} contente la risposta del back-end
    */
-  login(command?: LoginCommand): Observable<LoginResponse> {
+  login(command?: LoginCommand): Observable<SessionInfo> {
     let httpOptions: {headers?: HttpHeaders, params?: HttpParams};
     if (command) {
       httpOptions = {
@@ -46,12 +45,11 @@ export class LoginService implements LoginAbstractService {
         params: new HttpParams().set('remember-me', 'true')
       }
     }
-    return this.http.get<LoginResponse>('/login', httpOptions).pipe(
+    return this.http.get<SessionInfo>('/login', httpOptions).pipe(
       tap(
-        (res: LoginResponse) => {
+        (res: SessionInfo) => {
           sessionStorage.setItem(LoginService.USERNAME_STORAGE_KEY, res.username)
-          sessionStorage.setItem(LoginService.ADMIN_STORAGE_KEY, res.admin.toString())
-          sessionStorage.setItem(LoginService.ACCESS_TOKEN_STORAGE_KEY, res.accessToken);
+          sessionStorage.setItem(LoginService.ADMIN_STORAGE_KEY, res.administrator.toString())
         }
       ),
       catchError((err: HttpErrorResponse) => {
@@ -76,7 +74,7 @@ export class LoginService implements LoginAbstractService {
    * @returns True se l'utente è autenticato, false altrimenti
    */
   isLogged(): boolean {
-    return !!sessionStorage.getItem(LoginService.ACCESS_TOKEN_STORAGE_KEY);
+    return !!sessionStorage.getItem(LoginService.USERNAME_STORAGE_KEY);
   }
 
   /**

@@ -88,7 +88,7 @@ describe('AuthenticatedUserGuard', () => {
       expect(req.request.method).toEqual('GET');
       req.flush({
         username: 'Roberto',
-        admin: false,
+        administrator: false,
         accessToken: 'accessToken :D'
       });
     }
@@ -203,6 +203,7 @@ describe('LoginGuard', () => {
 
   it('authenticated-canActivate', () => {
     sessionStorage.setItem('accessToken', 'accessToken :D');
+    sessionStorage.setItem('username', 'Roberto');
     const url = router.parseUrl('');
     const canActivate = loginGuard.canActivate();
     if (canActivate instanceof Observable) {
@@ -224,8 +225,8 @@ describe('LoginGuard', () => {
       expect(req.request.method).toEqual('GET');
       req.flush({
         username: 'Roberto',
-        admin: false,
-        accessToken: 'accessToken :D'
+        administrator: false,
+        accessToken: 'accessToken :D' // farewell, my friend
       });
     } else {
       fail();
