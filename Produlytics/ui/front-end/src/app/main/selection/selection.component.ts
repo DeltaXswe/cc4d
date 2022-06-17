@@ -28,6 +28,8 @@ export class SelectionComponent implements OnInit {
 
   checkedNodes: CharacteristicNode[] = [];
 
+  mobile = window.matchMedia('screen and (min-width: 1280px)');
+
   private pendingSelection: CharacteristicNode[] = [];
 
   constructor(
@@ -77,5 +79,8 @@ export class SelectionComponent implements OnInit {
       // l'abc dell'hack in angular - spesso il runtime di angular ha bisogno di "aspettare" un momento
       this.checkedNodes = this.pendingSelection.slice();
     });
+    if (this.mobile) {
+
+    }
   }
 }

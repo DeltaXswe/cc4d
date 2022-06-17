@@ -264,7 +264,10 @@ $altTheme: (
 // custom layout
 
 .deltax-content {
-  padding: 24px;
+
+  @media screen and (min-width: 1280px) {
+    padding: 24px;
+  }
 
   display: flex;
   justify-content: center;

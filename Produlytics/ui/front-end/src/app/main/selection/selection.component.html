@@ -1,13 +1,13 @@
 <!--Selezione macchine-->
 <mat-sidenav-container id="selection">
-  <mat-sidenav mode="side" opened>
+  <mat-sidenav #selectionSidenav mode="side" [opened]="!mobile">
     <mat-progress-bar mode="indeterminate" *ngIf="dataSource.loading"></mat-progress-bar>
     <ng-container *ngIf="!dataSource.loading">
       <div fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-title-container">
         <span class="sidenav-title" matTooltip="Per iniziare, si espanda una macchina per visualizzare le caratteristiche. Per monitorare le caratteristiche, selezionarle tramite le caselle di controllo e infine confermare la scelta tramite l'apposito bottone.">
           Monitoraggio caratteristiche
         </span>
-        <button mat-stroked-button color="primary" (click)="notifyChange()">
+        <button mat-stroked-button color="primary" (click)="notifyChange(); mobile && selectionSidenav.close()">
           Conferma
         </button>
       </div>
@@ -34,21 +34,30 @@
 
   </mat-sidenav>
   <mat-sidenav-content class="deltax-content">
-    <div class="carousel-options" fxLayout="row" fxLayoutGap="12px">
-      <div class="carousel-slider">
-      <mat-slide-toggle [(ngModel)]="showCarousel">Modalità carosello</mat-slide-toggle>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <div>
+        <button fxHide.gt-md mat-icon-button (click)="selectionSidenav.toggle()">
+          <mat-icon>
+            {{selectionSidenav.opened ? 'arrow_back' : 'menu'}}
+          </mat-icon>
+        </button>
       </div>
-      <div *ngIf="showCarousel">
-      <button mat-stroked-button color="primary" class="carousel-pause" (click)="toggleCarouselPause()">
-        {{isCarouselPaused ? 'Cicla' : 'Metti in pausa' }}
-      </button>
+      <div fxLayout="row" fxLayoutGap="12px">
+        <div>
+          <mat-slide-toggle [(ngModel)]="showCarousel">Modalità carosello</mat-slide-toggle>
+        </div>
+        <div *ngIf="showCarousel">
+          <button mat-stroked-button color="primary" class="carousel-pause" (click)="toggleCarouselPause()">
+            {{isCarouselPaused ? 'Cicla' : 'Metti in pausa' }}
+          </button>
+        </div>
+        <div *ngIf="showCarousel">
+          <mat-form-field>
+            <mat-label>Intervallo carosello</mat-label>
+            <input matInput type="number" [(ngModel)]="carouselInterval">
+          </mat-form-field>
+        </div>
       </div>
-    <div *ngIf="showCarousel">
-      <mat-form-field>
-        <mat-label>Intervallo carosello</mat-label>
-        <input matInput type="number" [(ngModel)]="carouselInterval">
-      </mat-form-field>
-    </div>
     </div>
     <!--Carosello-->
     <ngb-carousel #carousel [interval]="carouselInterval*1000" *ngIf="showCarousel">
