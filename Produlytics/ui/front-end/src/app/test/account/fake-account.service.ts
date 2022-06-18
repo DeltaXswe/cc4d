@@ -102,7 +102,7 @@ export class FakeAccountService implements
       if (command.rememberMe)
         this.cookieService.set('PRODULYTICS_RM', 'valore');
       // this.router.navigate(['/']);
-      return of();
+      return of(void 0);
     } else {
       const error = new HttpErrorResponse({ status: 401 });
       return throwError(() => (error));
