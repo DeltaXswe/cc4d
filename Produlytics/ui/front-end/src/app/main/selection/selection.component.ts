@@ -8,6 +8,8 @@ import { SelectionNode } from './selection-data-source/selection-node';
 import { SelectionDataSource } from './selection-data-source/selection.data-source';
 import { CharacteristicNode } from './selection-data-source/characteristic-node';
 import {NgbCarousel} from "@ng-bootstrap/ng-bootstrap";
+import { MatDialog } from '@angular/material/dialog';
+import { CarouselOptionsDialogComponent } from '../carousel-options-dialog/carousel-options-dialog/carousel-options-dialog.component';
 
 @Component({
   selector: 'app-selection',
@@ -32,7 +34,8 @@ export class SelectionComponent implements OnInit {
 
   constructor(
     unarchivedDeviceService: UnarchivedDeviceAbstractService,
-    unarchivedCharacteristicService: UnarchivedCharacteristicAbstractService
+    unarchivedCharacteristicService: UnarchivedCharacteristicAbstractService,
+    public dialog: MatDialog
   ) {
     this.treeControl = new FlatTreeControl<SelectionNode>(
       node => node.level,
@@ -49,6 +52,27 @@ export class SelectionComponent implements OnInit {
     return window.matchMedia('screen and (max-width: 1279px)').matches;
   }
 
+  openCarouselDialog(): void {
+    const dialogRef = this.dialog.open(CarouselOptionsDialogComponent, {
+      data: {
+        isCarouselOn: this.showCarousel,
+        isCarouselPaused: this.isCarouselPaused,
+        carouselInterval: this.carouselInterval
+      }
+    }
+      );
+    dialogRef.afterClosed().subscribe(data => {
+      this.showCarousel = data.isCarouselOn;
+      this.isCarouselPaused = data.isCarouselPaused;
+      this.carouselInterval = data.carouselInterval;
+      if (this.isCarouselPaused) {
+        this.carousel.cycle();
+      } else {
+        this.carousel.pause();
+      }
+    })
+  }
+
   ngOnInit(): void { }
 
   toggleCarouselPause() {
@@ -57,8 +81,8 @@ export class SelectionComponent implements OnInit {
     } else {
       this.carousel.pause();
     }
-    this.isCarouselPaused = !this.isCarouselPaused;
   }
+
   hasChildren(_index: number, node: SelectionNode): boolean {
     return node.expandable;
   }

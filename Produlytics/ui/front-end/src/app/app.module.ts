@@ -58,6 +58,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerDialogComponent } from './main/date-picker-dialog/date-picker-dialog.component';
 import {HttpInterceptorService} from "./model/http-interceptor.service";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import { CarouselOptionsDialogComponent } from './main/carousel-options-dialog/carousel-options-dialog/carousel-options-dialog.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     ToolbarComponent,
     LoginComponent,
     ModifyPwComponent,
-    DatePickerDialogComponent
+    DatePickerDialogComponent,
+    CarouselOptionsDialogComponent
   ],
     imports: [
         // angular

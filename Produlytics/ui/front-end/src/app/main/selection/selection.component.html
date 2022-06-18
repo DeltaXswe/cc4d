@@ -44,23 +44,12 @@
       </div>
       <div fxLayout="row" fxLayoutGap="12px">
         <div>
-          <mat-slide-toggle [(ngModel)]="showCarousel">Modalità carosello</mat-slide-toggle>
-        </div>
-        <div *ngIf="showCarousel">
-          <button mat-stroked-button color="primary" class="carousel-pause" (click)="toggleCarouselPause()">
-            {{isCarouselPaused ? 'Cicla' : 'Metti in pausa' }}
-          </button>
-        </div>
-        <div *ngIf="showCarousel">
-          <mat-form-field>
-            <mat-label>Intervallo carosello</mat-label>
-            <input matInput type="number" [(ngModel)]="carouselInterval">
-          </mat-form-field>
+          <button mat-stroked-button (click)="openCarouselDialog()">Carosello</button>
         </div>
       </div>
-    </div>
+      </div>
     <!--Carosello-->
-    <ngb-carousel #carousel [interval]="carouselInterval*1000" *ngIf="showCarousel">
+    <ngb-carousel #carousel [interval]="carouselInterval*1000" [pauseOnHover]="false" [pauseOnFocus]="false" *ngIf="showCarousel">
       <ng-container *ngFor="let tile of checkedNodes; let i = index">
         <ng-template ngbSlide class="slide1">
           <app-chart [currentNode]=tile [index]=i></app-chart>
