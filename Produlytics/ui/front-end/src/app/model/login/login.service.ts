@@ -77,31 +77,11 @@ export class LoginService implements LoginAbstractService {
     if (!username) {
       return undefined;
     } else {
+      const administrator = sessionStorage.getItem(LoginService.ADMIN_STORAGE_KEY) === 'true';
       return {
         username,
-        administrator: this.isAdmin()
+        administrator
       };
     }
-  }
-
-  /**
-   * @returns True se l'utente è autenticato, false altrimenti
-   */
-  isLogged(): boolean {
-    return !!sessionStorage.getItem(LoginService.USERNAME_STORAGE_KEY);
-  }
-
-  /**
-   * @returns True se l'utente è un amministratore, false altrimenti
-   */
-  isAdmin(): boolean {
-    return sessionStorage.getItem(LoginService.ADMIN_STORAGE_KEY) === 'true';
-  }
-
-  /**
-   * @returns Il nome utente
-   */
-  getUsername(): string{
-    return sessionStorage.getItem(LoginService.USERNAME_STORAGE_KEY) || '';
   }
 }
