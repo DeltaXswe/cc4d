@@ -26,39 +26,17 @@ export class LoginService implements LoginAbstractService {
   /**
    * Effettua una richiesta HTTP GET per effettuare un tentativo di login.
    * Nome utente e password vengono passati tramite header, mentre il rememberMe
-   * viene passato tramite query. Se non viene fornito nessun parametro, l'autenticazione
-   * sarà tentata con il cookie remember-me.
+   * viene passato tramite query.
    * @param command Contiene nome utente, password, e rememberMe
-   * @returns Un {@link Observable} contente la risposta del back-end
+   * @returns Un {@link Observable} contente la risposta del back-end, che dovrebbe essere vuota.
    */
-  login(command?: LoginCommand): Observable<SessionInfo> {
-    let httpOptions: {headers?: HttpHeaders, params?: HttpParams};
-    if (command) {
-      httpOptions = {
-        headers: new HttpHeaders().set('Authorization', `Basic ${btoa(command.username + ':' + command.password)}`),
-        params: new HttpParams().set('remember-me', command.rememberMe)
-      }
-    } else {
-      // Non è possibile fare controlli sul cookie remember me visto che è httpOnly
-      httpOptions = {
-        headers: new HttpHeaders(),
-        params: new HttpParams().set('remember-me', 'true')
-      }
+  login(command: LoginCommand): Observable<SessionInfo> {
+    const httpOptions = {
+      headers: new HttpHeaders().set('Authorization', `Basic ${btoa(command.username + ':' + command.password)}`),
+      params: new HttpParams().set('remember-me', command.rememberMe)
     }
-    return this.http.get<SessionInfo>('/login', httpOptions).pipe(
-      tap(
-        (res: SessionInfo) => {
-          sessionStorage.setItem(LoginService.USERNAME_STORAGE_KEY, res.username)
-          sessionStorage.setItem(LoginService.ADMIN_STORAGE_KEY, res.administrator.toString())
-        }
-      ),
-      catchError((err: HttpErrorResponse) => {
-        if (err.status === 401) {
-          this.logout();
-        }
-        return throwError(() => err);
-      })
-    );
+
+    return this.http.get<SessionInfo>('/login', httpOptions);
   }
 
   /**
@@ -68,6 +46,22 @@ export class LoginService implements LoginAbstractService {
   logout(): Observable<{}>{
     sessionStorage.clear();
     return this.http.post('/logout', {});
+  }
+
+  /**
+   * Tenta l'autenticazione automatica se non ci sono le informazioni nel session storage.
+   *
+   * */
+  autoLogIn(): Observable<SessionInfo> {
+    return this.http.get('/accounts/info')
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          if (err.status === 401) {
+            this.logout();
+          }
+          return throwError(() => err);
+        })
+      )
   }
 
   /**
