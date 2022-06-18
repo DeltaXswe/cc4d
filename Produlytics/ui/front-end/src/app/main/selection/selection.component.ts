@@ -23,7 +23,7 @@ export class SelectionComponent implements OnInit {
   @ViewChild('carousel') carousel!: NgbCarousel;
 
   carouselInterval: number = 5;
-  isCarouselPaused: boolean = false;
+  isCarouselCycling: boolean = false;
   showCarousel: Boolean = false;
   treeControl: FlatTreeControl<SelectionNode>;
   dataSource: SelectionDataSource;
@@ -56,14 +56,14 @@ export class SelectionComponent implements OnInit {
     const dialogRef = this.dialog.open(CarouselOptionsDialogComponent, {
       data: {
         isCarouselOn: this.showCarousel,
-        isCarouselPaused: this.isCarouselPaused,
+        isCarouselCycling: this.isCarouselCycling,
         carouselInterval: this.carouselInterval
       }
     }
       );
     dialogRef.afterClosed().subscribe(data => {
       this.showCarousel = data.isCarouselOn;
-      this.isCarouselPaused = data.isCarouselPaused;
+      this.isCarouselCycling = data.isCarouselCycling;
       this.carouselInterval = data.carouselInterval;
       this.toggleCarouselPause();
     })
@@ -72,7 +72,7 @@ export class SelectionComponent implements OnInit {
   ngOnInit(): void { }
 
   toggleCarouselPause() {
-    if (this.isCarouselPaused) {
+    if (this.isCarouselCycling) {
       this.carousel.cycle();
     } else {
       this.carousel.pause();

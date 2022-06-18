@@ -6,14 +6,10 @@ mat-sidenav {
 mat-sidenav-container{
   height: calc(100vh - 70px);
 }
-
-.carousel-pause{
-  width: 120px;
- margin-top: -1px;
-}
-
-.carousel-slider{
-  margin-top: 5px;
+@media screen and (min-width: 1280px){
+  .carousel-button {
+      margin-top: -20px;
+  }
 }
 
 .sidenav-title-container {
@@ -28,8 +24,8 @@ mat-sidenav-container{
 }
 
 .sidenav-content {
-  height: calc(100% - 48px);
-  max-height: calc(100% - 48px);
+  height: calc(100% - 100px);
+  max-height: calc(100% - 100px);
   overflow-y: auto;
 }
 
