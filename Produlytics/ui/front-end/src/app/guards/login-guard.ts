@@ -13,6 +13,7 @@ export class LoginGuard implements CanActivate{
 
    canActivate(): Observable<boolean | UrlTree> | UrlTree {
      const sessionInfo = this.loginService.getSessionInfo();
+     console.log('Login Guard says hello');
      if (sessionInfo) {
        return this.router.parseUrl('');
      } else {
