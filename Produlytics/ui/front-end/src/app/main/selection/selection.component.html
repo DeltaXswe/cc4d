@@ -49,7 +49,8 @@
       </div>
       </div>
     <!--Carosello-->
-    <ngb-carousel #carousel [interval]="carouselInterval*1000" [pauseOnHover]="false" [pauseOnFocus]="false" *ngIf="showCarousel">
+    <ngb-carousel #carousel [interval]="carouselInterval*1000"
+     [pauseOnHover]="false" [pauseOnFocus]="false" *ngIf="showCarousel" [showNavigationIndicators]="false">
       <ng-container *ngFor="let tile of checkedNodes; let i = index">
         <ng-template ngbSlide class="slide1">
           <app-chart [currentNode]=tile [index]=i></app-chart>
