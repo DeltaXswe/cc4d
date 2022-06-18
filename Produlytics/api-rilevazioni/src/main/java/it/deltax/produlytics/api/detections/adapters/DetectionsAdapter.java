@@ -171,8 +171,7 @@ public class DetectionsAdapter
       } else {
         meanStddevEntity =
             this.characteristicRepository.meanStddevWithoutSampleSize(
-                characteristicId.deviceId(),
-                characteristicId.characteristicId());
+                characteristicId.deviceId(), characteristicId.characteristicId());
       }
       double mean = meanStddevEntity.getMean();
       double stddev = meanStddevEntity.getStddev();
