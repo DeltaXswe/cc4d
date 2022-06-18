@@ -6,7 +6,7 @@ import {Injectable} from "@angular/core";
 @Injectable({
   providedIn: 'root'
 })
-export class InterceptorService implements HttpInterceptor {
+export class HttpInterceptorService implements HttpInterceptor {
 
   constructor(
     private router: Router

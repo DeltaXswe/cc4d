@@ -56,7 +56,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerDialogComponent } from './main/date-picker-dialog/date-picker-dialog.component';
-import {InterceptorService} from "./model/interceptor.service";
+import {HttpInterceptorService} from "./model/http-interceptor.service";
 
 @NgModule({
   declarations: [
@@ -112,7 +112,7 @@ import {InterceptorService} from "./model/interceptor.service";
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: InterceptorService,
+      useClass: HttpInterceptorService,
       multi: true
     },
     {
