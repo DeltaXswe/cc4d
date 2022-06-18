@@ -161,7 +161,6 @@ public class DetectionsAdapter
 
     Optional<MeanStddev> meanStddev = Optional.empty();
     if (characteristicEntity.getAutoAdjust()) {
-      int sampleSize = characteristicEntity.getSampleSize();
       MeanStddevEntity meanStddevEntity;
       if (characteristicEntity.getSampleSize() != null) {
         meanStddevEntity =
