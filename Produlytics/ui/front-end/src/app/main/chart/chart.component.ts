@@ -273,7 +273,12 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       )
       .subscribe({ next: (new_points) => {
         if (new_points){
-          new_points.detections.forEach((p) => this.points.push(p));
+          this.points.push(new_points.detections[new_points.detections.length-1]);
+          if (new_points.detections.length > 13) {
+            for (let i = 0; i < 14; i++) {
+              this.points[this.points.length-14+i] = new_points.detections[i];
+            }
+          }
           this.points = this.points.slice();
           if(this.points.length > 100) {
             this.points = this.points.slice(this.points.length - 100);
