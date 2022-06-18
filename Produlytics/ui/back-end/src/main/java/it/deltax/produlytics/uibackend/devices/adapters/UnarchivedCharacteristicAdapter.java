@@ -5,6 +5,7 @@ import it.deltax.produlytics.uibackend.devices.business.domain.TinyCharacteristi
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindAllUnarchivedCharacteristicsPort;
 import it.deltax.produlytics.uibackend.devices.business.ports.out.FindCharacteristicLimitsPort;
 import it.deltax.produlytics.uibackend.repositories.CharacteristicRepository;
+import it.deltax.produlytics.uibackend.repositories.MeanStddevEntity;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
@@ -49,20 +50,32 @@ public class UnarchivedCharacteristicAdapter
    */
   @Override
   public Optional<CharacteristicLimits> findByCharacteristic(int deviceId, int characteristicId) {
-    return this.repo.findLimits(deviceId, characteristicId).map(limits -> {
-      if(limits.getTechnicalLowerLimit().isPresent() && limits.getTechnicalUpperLimit().isPresent()) {
-        return new CharacteristicLimits(
-            limits.getTechnicalLowerLimit().get(),
-            limits.getTechnicalUpperLimit().get(),
-            (limits.getTechnicalLowerLimit().get() + limits.getTechnicalUpperLimit().get()) / 2
-        );
-      } else {
-        return new CharacteristicLimits(
-            limits.getComputedMean() - 3 * limits.getComputedStddev(),
-            limits.getComputedMean() + 3 * limits.getComputedStddev(),
-            limits.getComputedMean()
-        );
-      }
-    });
+    return this.repo
+        .findActiveByDeviceIdAndId(deviceId, characteristicId)
+        .map(
+            characteristicEntity -> {
+              if (characteristicEntity.getLowerLimit() != null
+                  && characteristicEntity.getUpperLimit() != null) {
+                return new CharacteristicLimits(
+                    characteristicEntity.getLowerLimit(),
+                    characteristicEntity.getUpperLimit(),
+                    (characteristicEntity.getLowerLimit() + characteristicEntity.getUpperLimit())
+                        / 2);
+              } else {
+                MeanStddevEntity meanStddevEntity;
+                if (characteristicEntity.getSampleSize() != null) {
+                  meanStddevEntity =
+                      this.repo.meanStddevWithSampleSize(
+                          deviceId, characteristicId, characteristicEntity.getSampleSize());
+                } else {
+                  meanStddevEntity =
+                      this.repo.meanStddevWithoutSampleSize(deviceId, characteristicId);
+                }
+                return new CharacteristicLimits(
+                    meanStddevEntity.getMean() - 3 * meanStddevEntity.getStddev(),
+                    meanStddevEntity.getMean() + 3 * meanStddevEntity.getStddev(),
+                    meanStddevEntity.getMean());
+              }
+            });
   }
 }

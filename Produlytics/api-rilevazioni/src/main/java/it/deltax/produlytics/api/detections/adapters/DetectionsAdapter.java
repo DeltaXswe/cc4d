@@ -16,7 +16,8 @@ import it.deltax.produlytics.api.detections.business.ports.out.MarkOutlierPort;
 import it.deltax.produlytics.api.repositories.CharacteristicRepository;
 import it.deltax.produlytics.api.repositories.DetectionRepository;
 import it.deltax.produlytics.api.repositories.DeviceRepository;
-import it.deltax.produlytics.api.repositories.LimitsEntity;
+import it.deltax.produlytics.api.repositories.MeanStddevEntity;
+import it.deltax.produlytics.persistence.CharacteristicEntity;
 import it.deltax.produlytics.persistence.DetectionEntity;
 import java.util.List;
 import java.util.Optional;
@@ -101,8 +102,8 @@ public class DetectionsAdapter
    *     rilevazioni da ottenere. Si può assumere che esista una caratteristica con tale
    *     identificativo
    * @param count il numero di rilevazioni da ottenere
-   * @return una lista delle ultime {@code count} rilevazioni della caratteristica con identificativo
-   *     `characteristicId, o meno se non ce ne sono abbastanza
+   * @return una lista delle ultime {@code count} rilevazioni della caratteristica con
+   *     identificativo `characteristicId, o meno se non ce ne sono abbastanza
    */
   @Override
   public List<Detection> findLastDetections(CharacteristicId characteristicId, int count) {
@@ -146,22 +147,36 @@ public class DetectionsAdapter
    */
   @Override
   public LimitsInfo findLimits(CharacteristicId characteristicId) {
-    LimitsEntity limitsEntity =
-        this.characteristicRepository.findLimits(
+    CharacteristicEntity characteristicEntity =
+        this.characteristicRepository.findByDeviceIdAndId(
             characteristicId.deviceId(), characteristicId.characteristicId());
 
     Optional<TechnicalLimits> technicalLimits = Optional.empty();
-    if (limitsEntity.getTechnicalLowerLimit().isPresent()
-        && limitsEntity.getTechnicalUpperLimit().isPresent()) {
-      double lowerLimit = limitsEntity.getTechnicalLowerLimit().get();
-      double upperLimit = limitsEntity.getTechnicalUpperLimit().get();
+    if (characteristicEntity.getLowerLimit() != null
+        && characteristicEntity.getUpperLimit() != null) {
+      double lowerLimit = characteristicEntity.getLowerLimit();
+      double upperLimit = characteristicEntity.getUpperLimit();
       technicalLimits = Optional.of(new TechnicalLimits(lowerLimit, upperLimit));
     }
 
     Optional<MeanStddev> meanStddev = Optional.empty();
-    if (limitsEntity.getAutoAdjust()) {
-      double mean = limitsEntity.getComputedMean();
-      double stddev = limitsEntity.getComputedStddev();
+    if (characteristicEntity.getAutoAdjust()) {
+      int sampleSize = characteristicEntity.getSampleSize();
+      MeanStddevEntity meanStddevEntity;
+      if (characteristicEntity.getSampleSize() != null) {
+        meanStddevEntity =
+            this.characteristicRepository.meanStddevWithSampleSize(
+                characteristicId.deviceId(),
+                characteristicId.characteristicId(),
+                characteristicEntity.getSampleSize());
+      } else {
+        meanStddevEntity =
+            this.characteristicRepository.meanStddevWithoutSampleSize(
+                characteristicId.deviceId(),
+                characteristicId.characteristicId());
+      }
+      double mean = meanStddevEntity.getMean();
+      double stddev = meanStddevEntity.getStddev();
       meanStddev = Optional.of(new MeanStddev(mean, stddev));
     }
 
