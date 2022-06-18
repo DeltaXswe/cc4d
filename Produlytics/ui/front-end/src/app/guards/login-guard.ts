@@ -12,10 +12,11 @@ export class LoginGuard implements CanActivate{
    constructor(private router: Router, private loginService: LoginAbstractService){}
 
    canActivate(): Observable<boolean | UrlTree> | UrlTree {
-     if (this.loginService.isLogged()) {
+     const sessionInfo = this.loginService.getSessionInfo();
+     if (sessionInfo) {
        return this.router.parseUrl('');
      } else {
-       return this.loginService.login()
+       return this.loginService.autoLogin()
          .pipe(
            map(() => this.router.parseUrl('')),
            catchError(() => of(true))

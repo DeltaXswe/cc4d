@@ -1,5 +1,5 @@
 import {TestBed} from '@angular/core/testing';
-import {Router} from '@angular/router';
+import {Router, UrlTree} from '@angular/router';
 import {AuthenticatedUserGuard} from './authenticated-user-guard';
 import {LoginService} from "../model/login/login.service";
 import {LoginAbstractService} from "../model/login/login-abstract.service";
@@ -63,13 +63,13 @@ describe('AuthenticatedUserGuard', () => {
     sessionStorage.clear();
     const url = router.parseUrl('/login');
     const canActivate = authGuard.canActivate();
-    if (canActivate === true) { // se non è true è un observable
+    if (canActivate === true) {
       fail();
     } else {
-      canActivate.subscribe(value => {
+      (canActivate as Observable<UrlTree>).subscribe(value => {
         expect(value).toEqual(url);
       });
-      const req = httpTestingController.expectOne('/login?remember-me=true');
+      const req = httpTestingController.expectOne('/accounts/info');
       expect(req.request.method).toEqual('GET');
       req.flush({}, { status: 401, statusText: 'Unauthorized' });
     }
@@ -78,13 +78,13 @@ describe('AuthenticatedUserGuard', () => {
   it('user-not-logged-auto-skip-login', () => {
     sessionStorage.clear();
     const canActivate = authGuard.canActivate();
-    if (canActivate === true) { // se non è true è un observable
+    if (canActivate === true) { // se non è true è un observable, ma il compilatore non lo sa
       fail();
     } else {
-      canActivate.subscribe(value => {
+      (canActivate as Observable<UrlTree>).subscribe(value => {
         expect(value).toBeTrue();
       });
-      const req = httpTestingController.expectOne('/login?remember-me=true');
+      const req = httpTestingController.expectOne('/accounts/info');
       expect(req.request.method).toEqual('GET');
       req.flush({
         username: 'Roberto',
@@ -138,10 +138,22 @@ describe('AuthenticatedUserGuard', () => {
     });
 
     it('not-admin-canActivate', () => {
+      sessionStorage.setItem('username', 'Gianni');
       sessionStorage.removeItem('admin');
       const url = router.parseUrl('');
       const canActivate = adminGuard.canActivate();
-      expect(canActivate).toEqual(url);
+      if (canActivate === true) {
+        fail();
+      } else {
+        if (!!(canActivate as any)['subscribe']) {
+          (canActivate as Observable<UrlTree>).subscribe(value => {
+            expect(value).toEqual(url);
+          });
+        } else {
+          expect(canActivate).toEqual(url);
+        }
+
+      }
     });
   });
 
@@ -190,7 +202,7 @@ describe('LoginGuard', () => {
       canActivate.subscribe(value => {
         expect(value).toBeTrue();
       });
-      const req = httpTestingController.expectOne('/login?remember-me=true');
+      const req = httpTestingController.expectOne('/accounts/info');
       expect(req.request.method).toEqual('GET');
       req.flush({}, {
         status: 401,
@@ -221,7 +233,7 @@ describe('LoginGuard', () => {
       canActivate.subscribe(value => {
         expect(value).toEqual(url);
       });
-      const req = httpTestingController.expectOne('/login?remember-me=true');
+      const req = httpTestingController.expectOne('/accounts/info');
       expect(req.request.method).toEqual('GET');
       req.flush({
         username: 'Roberto',

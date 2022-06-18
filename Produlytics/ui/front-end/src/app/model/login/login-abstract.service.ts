@@ -5,13 +5,11 @@ import {SessionInfo} from "./session-info";
 
 @Injectable()
 export abstract class LoginAbstractService {
-  public abstract login(command?: LoginCommand): Observable<SessionInfo>;
+  public abstract login(command: LoginCommand): Observable<void>;
 
-  public abstract isLogged(): boolean;
+  public abstract autoLogin(): Observable<SessionInfo>
 
-  public abstract isAdmin(): boolean;
+  public abstract getSessionInfo(): SessionInfo | undefined;
 
-  public abstract getUsername(): string;
-
-  public abstract logout(): Observable<{}>;
+  public abstract logout(): Observable<void>;
 }

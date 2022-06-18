@@ -115,7 +115,7 @@ export class AccountsComponent implements OnInit {
    * @param account l'utente da verificare se è registrato o meno.
    */
   isLoggedUser(account: Account): boolean {
-    return account.username === this.loginService.getUsername();
+    return account.username === this.loginService.getSessionInfo()?.username;
   }
 
   /**

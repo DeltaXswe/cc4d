@@ -80,24 +80,9 @@ export class FakeAccountService implements
     }
   }
 
-  login(command?: LoginCommand): Observable<SessionInfo> {
-    if (!command ) {
-      const rmCookie = this.cookieService.get('PRODULYTICS_RM');
-      console.log(`Just a lil check ${rmCookie} fr rn`);
-      const username = localStorage.getItem('username');
-      const user = users.find(account => account.username === username);
-      if (username && user) {
-        localStorage.setItem('accessToken', 'SHAMALAMADINGDONG');
-        return of({
-          accessToken: 'SHAMALAMADINGDONG',
-          username,
-          administrator: user.administrator
-        });
-      } else {
-        const error = new HttpErrorResponse({ status: 401 });
-        return throwError(() => (error));
-      }
-    } else if(
+  login(command: LoginCommand): Observable<void> {
+
+    if (
       users.find(account => account.username === command.username &&
       users.find(account => account.password === command.password))
     ) {
@@ -117,11 +102,7 @@ export class FakeAccountService implements
       if (command.rememberMe)
         this.cookieService.set('PRODULYTICS_RM', 'valore');
       // this.router.navigate(['/']);
-      return of({
-        accessToken: 'SHAMALAMADINGDONG',
-        username: command.username,
-        administrator: user.administrator
-      });
+      return of();
     } else {
       const error = new HttpErrorResponse({ status: 401 });
       return throwError(() => (error));
@@ -166,6 +147,38 @@ export class FakeAccountService implements
     } else{
       const error = new HttpErrorResponse({ status: 401 });
       return throwError(() => error);
+    }
+  }
+
+  autoLogin(): Observable<SessionInfo> {
+
+    const rmCookie = this.cookieService.get('PRODULYTICS_RM');
+    console.log(`Just a lil check ${rmCookie} fr rn`);
+    const username = localStorage.getItem('username');
+    const user = users.find(account => account.username === username);
+    if (username && user) {
+      localStorage.setItem('accessToken', 'SHAMALAMADINGDONG');
+      return of({
+        accessToken: 'SHAMALAMADINGDONG',
+        username,
+        administrator: user.administrator
+      });
+    } else {
+      const error = new HttpErrorResponse({ status: 401 });
+      return throwError(() => (error));
+    }
+  }
+
+  getSessionInfo(): SessionInfo | undefined {
+    const username = localStorage.getItem('username');
+    const administrator = localStorage.getItem('admin') === 'true';
+    if (!username) {
+      return undefined;
+    } else {
+      return {
+        username,
+        administrator
+      }
     }
   }
 }

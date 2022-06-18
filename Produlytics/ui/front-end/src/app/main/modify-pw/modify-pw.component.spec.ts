@@ -198,6 +198,7 @@ describe('ModifyPwComponentIntegration', () => {
   });
 
   it('modifypwservicePUT', async () => {
+    sessionStorage.setItem('username', gianniUser.username);
     component.modifyPw.controls['oldPassword'].setValue('Gianni');
     component.modifyPw.controls['newPassword'].setValue('Gianni2');
     component.modifyPw.controls['newPasswordRe'].setValue('Gianni2');
@@ -213,6 +214,7 @@ describe('ModifyPwComponentIntegration', () => {
       status: 401,
       statusText: 'wrongCurrentPassword'
     }
+    sessionStorage.setItem('username', gianniUser.username);
     component.modifyPw.controls['oldPassword'].setValue('Gianni3');
     component.modifyPw.controls['newPassword'].setValue('Gianni2');
     component.modifyPw.controls['newPasswordRe'].setValue('Gianni2');
