@@ -12,6 +12,24 @@ mat-sidenav-container{
   }
 }
 
+.carousel-control-prev {
+  width: 3rem;
+}
+
+.carousel-control-next {
+  width: 3rem;
+}
+
+.carousel-control-prev-icon {
+  background-image: url('https://apufpel.com.br/assets/img/seta_prim.png');
+  width: 1.5rem;
+}
+
+.carousel-control-next-icon {
+  background-image: url('https://apufpel.com.br/assets/img/seta_ult.png');
+  width: 1.5rem;
+}
+
 .sidenav-title-container {
   padding: 6px;
   height: 48px;

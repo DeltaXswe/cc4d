@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 import { FlatTreeControl } from "@angular/cdk/tree";
 import {
   UnarchivedCharacteristicAbstractService
@@ -14,7 +14,8 @@ import { CarouselOptionsDialogComponent } from '../carousel-options-dialog/carou
 @Component({
   selector: 'app-selection',
   templateUrl: './selection.component.html',
-  styleUrls: ['./selection.component.css']
+  styleUrls: ['./selection.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SelectionComponent implements OnInit {
   @Output()
@@ -22,7 +23,7 @@ export class SelectionComponent implements OnInit {
 
   @ViewChild('carousel') carousel!: NgbCarousel;
 
-  carouselInterval: number = 5;
+  carouselInterval: number = 0;
   isCarouselCycling: boolean = false;
   showCarousel: Boolean = false;
   treeControl: FlatTreeControl<SelectionNode>;
@@ -69,7 +70,7 @@ export class SelectionComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {  }
 
   toggleCarouselPause() {
     if (this.isCarouselCycling) {
