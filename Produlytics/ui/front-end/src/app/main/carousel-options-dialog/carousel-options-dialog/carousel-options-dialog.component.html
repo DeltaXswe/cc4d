@@ -1,0 +1,33 @@
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+   <h2>
+     Opzioni carosello
+   </h2>
+   <button mat-icon-button (click)="cancel()" tabindex="-1">
+     <mat-icon>
+       close
+     </mat-icon>
+   </button>
+ </mat-toolbar>
+ <div mat-dialog-content>
+   <div fxLayout="column" fxLayoutGap="8px">
+      <div>
+         <mat-slide-toggle [(ngModel)]="data.isCarouselOn">Carosello attivo</mat-slide-toggle>
+      </div>
+      <div>
+         <mat-slide-toggle [(ngModel)]="data.isCarouselPaused">Ciclo automatico</mat-slide-toggle>
+      </div>
+      <mat-form-field>
+         <mat-label>Intervallo carosello</mat-label>
+         <input matInput type="number" [(ngModel)]="data.carouselInterval">
+      </mat-form-field>
+   </div>
+   <mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
+     <button mat-raised-button (click)="cancel()">
+       Annulla
+     </button>
+     <button mat-raised-button color="accent" (click)="confirm()">
+       Conferma
+     </button>
+   </mat-dialog-actions>
+ </div>
+ 
