@@ -28,8 +28,6 @@ export class SelectionComponent implements OnInit {
 
   checkedNodes: CharacteristicNode[] = [];
 
-  mobile = window.matchMedia('screen and (min-width: 1280px)');
-
   private pendingSelection: CharacteristicNode[] = [];
 
   constructor(
@@ -45,6 +43,10 @@ export class SelectionComponent implements OnInit {
       unarchivedDeviceService,
       unarchivedCharacteristicService
     );
+  }
+
+  get mobile() {
+    return window.matchMedia('screen and (max-width: 1279px)').matches;
   }
 
   ngOnInit(): void { }
