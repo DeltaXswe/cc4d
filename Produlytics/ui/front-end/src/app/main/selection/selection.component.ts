@@ -65,11 +65,7 @@ export class SelectionComponent implements OnInit {
       this.showCarousel = data.isCarouselOn;
       this.isCarouselPaused = data.isCarouselPaused;
       this.carouselInterval = data.carouselInterval;
-      if (this.isCarouselPaused) {
-        this.carousel.cycle();
-      } else {
-        this.carousel.pause();
-      }
+      this.toggleCarouselPause();
     })
   }
 
