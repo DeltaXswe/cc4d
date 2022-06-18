@@ -14,19 +14,20 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-    console.log(`Errore inside `);
-    return next.handle(req)
-      .pipe(
-        catchError((err: HttpResponse<any>) => {
-          console.log(`Errore inside `);
-          if (err.status === 401) {
-            sessionStorage.clear();
-            this.router.navigate(['/login']);
-          }
-          return throwError(() => err);
-        })
-      );
+    if (req.headers.get('Skip-Interceptor') === 'true') {
+      return next.handle(req);
+    } else {
+      return next.handle(req)
+        .pipe(
+          catchError((err: HttpResponse<any>) => {
+            if (err.status === 401) {
+              sessionStorage.clear();
+              this.router.navigate(['/login']);
+            }
+            return throwError(() => err);
+          })
+        );
+    }
   }
 
 }

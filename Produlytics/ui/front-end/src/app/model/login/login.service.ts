@@ -53,7 +53,9 @@ export class LoginService implements LoginAbstractService {
    *
    * */
   autoLogin(): Observable<SessionInfo> {
-    return this.http.get<SessionInfo>('/accounts/info')
+    return this.http.get<SessionInfo>('/accounts/info', {
+        headers: new HttpHeaders().set('Skip-Interceptor', 'true')
+      })
       .pipe(
         tap(values => {
           sessionStorage.setItem(LoginService.USERNAME_STORAGE_KEY, values.username);
