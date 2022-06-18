@@ -3,7 +3,7 @@ import {catchError, mergeMap, Observable, tap, throwError} from 'rxjs';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import { LoginAbstractService } from './login-abstract.service';
 import { LoginCommand } from './login-command';
-import {SessionInfo} from "./session-info";
+import {SessionInfo} from './session-info';
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +55,10 @@ export class LoginService implements LoginAbstractService {
   autoLogin(): Observable<SessionInfo> {
     return this.http.get<SessionInfo>('/accounts/info')
       .pipe(
+        tap(values => {
+          sessionStorage.setItem(LoginService.USERNAME_STORAGE_KEY, values.username);
+          sessionStorage.setItem(LoginService.ADMIN_STORAGE_KEY, values.administrator.toString());
+        }),
         catchError((err: HttpErrorResponse) => {
           if (err.status === 401) {
             return this.logout()

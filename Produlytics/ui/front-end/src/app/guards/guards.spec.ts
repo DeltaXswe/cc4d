@@ -152,7 +152,6 @@ describe('AuthenticatedUserGuard', () => {
         } else {
           expect(canActivate).toEqual(url);
         }
-
       }
     });
   });

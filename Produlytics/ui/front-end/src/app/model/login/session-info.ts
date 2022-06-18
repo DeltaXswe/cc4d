@@ -1,4 +1,4 @@
 export interface SessionInfo {
-  username: string;
-  administrator: boolean;
+  readonly username: string;
+  readonly administrator: boolean;
 }
