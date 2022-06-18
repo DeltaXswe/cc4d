@@ -24,7 +24,6 @@ public class BusinessExceptionHandler {
       case GENERIC -> HttpStatus.BAD_REQUEST;
       case FORBIDDEN -> HttpStatus.FORBIDDEN;
       case NOT_FOUND -> HttpStatus.NOT_FOUND;
-      case UNAUTHORIZED -> HttpStatus.UNAUTHORIZED;
     };
     return new ResponseEntity<>(error, httpStatus);
   }
