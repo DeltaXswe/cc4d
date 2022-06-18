@@ -30,6 +30,10 @@ mat-sidenav-container{
   width: 1.5rem;
 }
 
+.carousel-button {
+  margin-right: 16px;
+}
+
 .sidenav-title-container {
   padding: 6px;
   height: 48px;
@@ -39,6 +43,12 @@ mat-sidenav-container{
 .sidenav-title {
   font-weight: bold;
   text-decoration: underline;
+}
+
+@media screen and (min-width: 1280px){
+  .app-chart {
+    width: 1170px;
+  }
 }
 
 .sidenav-content {
