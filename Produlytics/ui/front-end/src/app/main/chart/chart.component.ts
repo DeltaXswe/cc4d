@@ -267,7 +267,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
           this.chartService.getNextPoints(
             this.currentNode.device.id,
             this.currentNode.id,
-            this.points.length < 14 ? this.points[0].creationTime : this.points[this.points.length-14].creationTime
+            this.points.length < 15 ? this.points[0].creationTime : this.points[this.points.length-15].creationTime
           )
         )
       )
@@ -279,11 +279,9 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
               this.points.push(element);
             }
           });
-          if (new_points.detections.length > 14) {
-            for (let i = 0; i < 14; i++) {
-              console.log('sono nel for');
-              this.points[this.points.length-14+i] = new_points.detections[i];
-            }
+          for (let i = 0; i < new_points.detections.length; i++) {
+            console.log('sono nel for');
+            this.points[this.points.length-new_points.detections.length+i] = new_points.detections[i];
           }
           this.points = this.points.slice();
           if(this.points.length > 100) {
