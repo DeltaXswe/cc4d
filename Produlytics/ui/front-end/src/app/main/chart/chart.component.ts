@@ -263,23 +263,25 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   subscribeToUpdates(): void {
     this.updateSubscription = interval(1000)
       .pipe(
-        concatMap(() =>
+        concatMap(() => 
           this.chartService.getNextPoints(
             this.currentNode.device.id,
             this.currentNode.id,
-            this.nextNew
+            this.points.length < 14 ? this.points[0].creationTime : this.points[this.points.length-14].creationTime
           )
         )
       )
       .subscribe({ next: (new_points) => {
         if (new_points){
+          console.log(new_points.detections.length)
           new_points.detections.forEach(element => {
             if (element.creationTime >= this.nextNew) {
               this.points.push(element);
             }
           });
-          if (new_points.detections.length > 13) {
+          if (new_points.detections.length > 14) {
             for (let i = 0; i < 14; i++) {
+              console.log('sono nel for');
               this.points[this.points.length-14+i] = new_points.detections[i];
             }
           }
