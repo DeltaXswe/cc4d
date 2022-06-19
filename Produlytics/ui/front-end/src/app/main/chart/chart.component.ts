@@ -21,6 +21,9 @@ import {NotificationService} from "../../utils/notification.service";
 })
 export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
 
+
+  private static MAX_DETECTIONS_CHANGEABLE = 15;
+
   @Input()
   currentNode!: CharacteristicNode;
 
@@ -263,11 +266,13 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   subscribeToUpdates(): void {
     this.updateSubscription = interval(1000)
       .pipe(
-        concatMap(() => 
+        concatMap(() =>
           this.chartService.getNextPoints(
             this.currentNode.device.id,
             this.currentNode.id,
-            this.points.length < 15 ? this.points[0].creationTime : this.points[this.points.length-15].creationTime
+            this.points.length < ChartComponent.MAX_DETECTIONS_CHANGEABLE
+              ? this.points[0].creationTime
+              : this.points[this.points.length-ChartComponent.MAX_DETECTIONS_CHANGEABLE].creationTime
           )
         )
       )
