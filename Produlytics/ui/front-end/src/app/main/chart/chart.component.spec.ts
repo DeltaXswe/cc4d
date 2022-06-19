@@ -183,12 +183,12 @@ describe('ChartComponentIntegration', () => {
     reqPoints1.flush({
       detections: [
         {
-          creationTime: 11000000,
+          creationTime: (new Date()),
           value: 500,
           outlier: false
         }],
-      nextOld: 1000000,
-      nextNew: 1000000
+      nextOld: 1655677250,
+      nextNew: 1655677250
     });
     const reqLimits = httpTestingController.expectOne(`/devices/3/characteristics/1/limits`);
     expect(reqLimits.request.method).toEqual('GET');
@@ -203,12 +203,12 @@ describe('ChartComponentIntegration', () => {
     reqPoints2.flush({
       detections: [
         {
-          creationTime: 11000000,
+          creationTime: new Date(),
           value: 500,
           outlier: false
         }],
-      nextOld: 1000000,
-      nextNew: 1000000
+      nextOld: 1655678250,
+      nextNew: 1655678250
     });
     component.clearChart();
     tick();
