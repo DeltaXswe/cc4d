@@ -13,11 +13,16 @@ mat-sidenav-container{
 }
 
 .carousel-control-prev {
+  position: absolute;
+  vertical-align: center;
   width: 3rem;
+  height: 5rem;
 }
 
 .carousel-control-next {
+  position: absolute;
   width: 3rem;
+  height: 5rem;
 }
 
 .carousel-control-prev-icon {

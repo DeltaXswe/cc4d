@@ -12,6 +12,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {DatePickerDialogComponent} from '../date-picker-dialog/date-picker-dialog.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {NotificationService} from "../../utils/notification.service";
+import { now } from 'd3';
 
 @Component({
   selector: 'app-chart',
@@ -201,7 +202,8 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     const [ymin, ymax] = d3.extent(this.points, (p) => p.value);
 
     this.xScale.domain(
-      d3.extent(this.points, (p) => new Date(p.creationTime)) as [Date, Date]
+      //d3.extent(this.points, (p) => new Date(p.creationTime)) as [Date, Date]
+      [new Date(this.points[0].creationTime), new Date()]
     );
 
     this.yScale.domain([
