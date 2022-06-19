@@ -33,7 +33,7 @@ export class LoginService implements LoginAbstractService {
   login(command: LoginCommand): Observable<void> {
     const httpOptions = {
       headers: new HttpHeaders().set('Authorization', `Basic ${btoa(command.username + ':' + command.password)}`),
-      params: new HttpParams().set('remember-me', command.rememberMe)
+      params: new HttpParams().set('remember-me', command.rememberMe).set('Skip-Interceptor', 'true')
     }
 
     return this.http.get<void>('/login', httpOptions);
