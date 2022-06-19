@@ -59,7 +59,6 @@ describe('ToolbarComponent', () => {
     component = fixture.componentInstance;
     loginService = TestBed.inject(LoginAbstractService);
     location = TestBed.inject(Location);
-    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 

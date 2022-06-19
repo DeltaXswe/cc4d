@@ -25,7 +25,7 @@ export class SelectionComponent implements OnInit {
 
   carouselInterval: number = 0;
   isCarouselCycling: boolean = false;
-  showCarousel: Boolean = false;
+  showCarousel: boolean = false;
   treeControl: FlatTreeControl<SelectionNode>;
   dataSource: SelectionDataSource;
 

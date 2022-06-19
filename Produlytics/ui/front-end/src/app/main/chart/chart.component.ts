@@ -216,7 +216,12 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     ]);
 
     this.xAxis
-      .call(d3.axisBottom(this.xScale).ticks(d3.timeSecond.every(5)))
+      .call(
+        d3.axisBottom(this.xScale)
+          .ticks(
+            d3.timeSecond.every(5)
+          )
+      )
       .select('.tick')
       .attr('transform', `translate(10, 0)`);
 

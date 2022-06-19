@@ -1,5 +1,6 @@
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {CarouselOptions} from "./carousel-options.types";
 
 @Component({
   selector: 'app-carousel-options-dialog',
@@ -9,8 +10,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class CarouselOptionsDialogComponent implements OnInit {
 
-  constructor(private matDialogRef: MatDialogRef<CarouselOptionsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(
+    private matDialogRef: MatDialogRef<CarouselOptionsDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: CarouselOptions
+  ) {
+  }
 
   ngOnInit(): void {
   }
