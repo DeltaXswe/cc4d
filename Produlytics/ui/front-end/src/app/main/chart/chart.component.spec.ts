@@ -24,7 +24,7 @@ describe('ChartComponent', () => {
       providers: [
         {
           provide: ChartAbstractService,
-          useExisting: FakeChartService
+          useExisting: ChartService
         }
       ]
     })

@@ -12,7 +12,6 @@ import {MatDialog} from '@angular/material/dialog';
 import {DatePickerDialogComponent} from '../date-picker-dialog/date-picker-dialog.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {NotificationService} from "../../utils/notification.service";
-import { now } from 'd3';
 
 @Component({
   selector: 'app-chart',
@@ -196,7 +195,6 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.points.length == 0) {
       return;
     }
-    console.log('drawChart' + this.points.length);
     const delta = Math.floor((this.limits.upperLimit - this.limits.lowerLimit) / 6);
 
     const [ymin, ymax] = d3.extent(this.points, (p) => p.value);
@@ -215,12 +213,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       Math.max(this.limits.upperLimit + delta, ...(ymax ? [ymax] : [])),
     ]);
 
-    this.xAxis
-      .call(
-        d3.axisBottom(this.xScale)
-          .ticks(
-            d3.timeSecond.every(5)
-          )
+    this.xAxis.call(d3.axisBottom(this.xScale).ticks(d3.timeSecond.every(5))
       )
       .select('.tick')
       .attr('transform', `translate(10, 0)`);
@@ -297,7 +290,6 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
           for (let i = 0; i < new_points.detections.length; i++) {
             this.points[this.points.length-new_points.detections.length+i] = new_points.detections[i];
           }
-          console.log('subscribeNewPoints' + this.points.length);
           this.points = this.points.slice();
           if(this.points.length > 100) {
             this.points = this.points.slice(this.points.length - 100);
