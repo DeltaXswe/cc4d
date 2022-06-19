@@ -9,11 +9,11 @@
   overflow-x: auto;
   overflow-y: hidden;
 }
-.d3svg{
+/* .d3svg{
   width: 1150px;
   height: 550px;
 }
-
+ */
 .d3svg line.line-zona-c-up, .d3svg line.line-zona-c-down {
   stroke: green;
   opacity: 30%;

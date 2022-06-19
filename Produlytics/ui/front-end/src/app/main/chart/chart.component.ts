@@ -51,10 +51,8 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   ngAfterViewInit(): void {
     this.getData(this.currentNode?.device.id, this.currentNode?.id);
-    //if (this.points){
-      this.createChart();
-      this.subscribeToUpdates();
-    //}
+    this.createChart();
+    this.subscribeToUpdates();
   }
 
   ngOnDestroy(): void {
@@ -70,10 +68,11 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
    * permettendo di uno scroll orizzontale.
    */
   get chartWidth(): number {
-    if (this.points.length <= 100) {
+    if (this.points.length === 0) {
       return 1100;
     } else {
-      return 1100 + this.points.length*10;
+      //return 1100 + this.points.length*10;
+      return Math.max((Date.now() - this.points[0].creationTime)*5/1000, 1100);
     }
   }
 
@@ -145,7 +144,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       const createGuideLine = (cls: string) => {
         this.svg
           .append('line')
-          .attr('class', cls)
+          .attr('class', `${cls}${this.index}`)
           .attr('x1', 0)
           .attr('x2', this.chartWidth);
       };
@@ -196,10 +195,36 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.points.length == 0) {
       return;
     }
-
+    console.log('drawChart' + this.points.length);
     const delta = Math.floor((this.limits.upperLimit - this.limits.lowerLimit) / 6);
 
     const [ymin, ymax] = d3.extent(this.points, (p) => p.value);
+
+    d3.selectAll(`#d3svg${this.index}`).style('width', this.chartWidth);
+
+    d3.selectAll(`.line-media${this.index}`)
+    .attr('x1', 0)
+    .attr('x2', this.chartWidth);
+    d3.selectAll(`.line-limite line-limite-min${this.index}`)
+    .attr('x1', 0)
+    .attr('x2', this.chartWidth);
+    d3.selectAll(`.line-limite line-limite-max${this.index}`)
+    .attr('x1', 0)
+    .attr('x2', this.chartWidth);
+    d3.selectAll(`.line-zona-c-up${this.index}`)
+    .attr('x1', 0)
+    .attr('x2', this.chartWidth);
+    d3.selectAll(`.line-zona-c-down${this.index}`)
+    .attr('x1', 0)
+    .attr('x2', this.chartWidth);
+    d3.selectAll(`.line-zona-b-up${this.index}`)
+    .attr('x1', 0)
+    .attr('x2', this.chartWidth);
+    d3.selectAll(`.line-zona-b-down${this.index}`)
+    .attr('x1', 0)
+    .attr('x2', this.chartWidth);
+
+    this.xScale = d3.scaleTime().range([0, this.chartWidth]);
 
     this.xScale.domain(
       //d3.extent(this.points, (p) => new Date(p.creationTime)) as [Date, Date]
@@ -221,16 +246,16 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     const setGuideLine = (cls: string, y: number) => {
       this.svg.select(cls).attr('y1', y).attr('y2', y);
     };
-    setGuideLine('.line-media', this.yScale(this.limits.mean));
-    setGuideLine('.line-limite-min', this.yScale(this.limits.lowerLimit));
-    setGuideLine('.line-limite-max', this.yScale(this.limits.upperLimit));
+    setGuideLine(`.line-media${this.index}`, this.yScale(this.limits.mean));
+    setGuideLine(`.line-limite-min${this.index}`, this.yScale(this.limits.lowerLimit));
+    setGuideLine(`.line-limite-max${this.index}`, this.yScale(this.limits.upperLimit));
 
     const deviation = (this.limits.upperLimit - this.limits.mean)/3;
 
-    setGuideLine('.line-zona-c-up', this.yScale(this.limits.mean + deviation));
-    setGuideLine('.line-zona-c-down', this.yScale(this.limits.mean - deviation));
-    setGuideLine('.line-zona-b-up', this.yScale(this.limits.mean + 2*deviation));
-    setGuideLine('.line-zona-b-down', this.yScale(this.limits.mean - 2*deviation));
+    setGuideLine(`.line-zona-c-up${this.index}`, this.yScale(this.limits.mean + deviation));
+    setGuideLine(`.line-zona-c-down${this.index}`, this.yScale(this.limits.mean - deviation));
+    setGuideLine(`.line-zona-b-up${this.index}`, this.yScale(this.limits.mean + 2*deviation));
+    setGuideLine(`.line-zona-b-down${this.index}`, this.yScale(this.limits.mean - 2*deviation));
 
     let xp = (p: ChartPoint) => this.xScale(p.creationTime);
     let yp = (p: ChartPoint) => this.yScale(p.value);
@@ -280,16 +305,15 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       )
       .subscribe({ next: (new_points) => {
         if (new_points){
-          console.log(new_points.detections.length)
           new_points.detections.forEach(element => {
             if (element.creationTime >= this.nextNew) {
               this.points.push(element);
             }
           });
           for (let i = 0; i < new_points.detections.length; i++) {
-            console.log('sono nel for');
             this.points[this.points.length-new_points.detections.length+i] = new_points.detections[i];
           }
+          console.log('subscribeNewPoints' + this.points.length);
           this.points = this.points.slice();
           if(this.points.length > 100) {
             this.points = this.points.slice(this.points.length - 100);
