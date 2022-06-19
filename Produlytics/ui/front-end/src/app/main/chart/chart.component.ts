@@ -306,7 +306,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe({ next: (new_points) => {
         if (new_points){
           new_points.detections.forEach(element => {
-            if (element.creationTime >= this.nextNew) {
+            if (element.creationTime > this.nextNew) {
               this.points.push(element);
             }
           });
