@@ -144,14 +144,15 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       const createGuideLine = (cls: string) => {
         this.svg
           .append('line')
-          .attr('class', `${cls}${this.index}`)
+          .attr('class', cls)
+          .attr('id', `${cls}${this.index}`)
           .attr('x1', 0)
           .attr('x2', this.chartWidth);
       };
 
       createGuideLine('line-media');
-      createGuideLine('line-limite line-limite-min');
-      createGuideLine('line-limite line-limite-max');
+      createGuideLine('line-limite-min');
+      createGuideLine('line-limite-max');
       createGuideLine('line-zona-c-up');
       createGuideLine('line-zona-c-down');
       createGuideLine('line-zona-b-up');
@@ -202,28 +203,6 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
 
     d3.selectAll(`#d3svg${this.index}`).style('width', this.chartWidth);
 
-    d3.selectAll(`.line-media${this.index}`)
-    .attr('x1', 0)
-    .attr('x2', this.chartWidth);
-    d3.selectAll(`.line-limite line-limite-min${this.index}`)
-    .attr('x1', 0)
-    .attr('x2', this.chartWidth);
-    d3.selectAll(`.line-limite line-limite-max${this.index}`)
-    .attr('x1', 0)
-    .attr('x2', this.chartWidth);
-    d3.selectAll(`.line-zona-c-up${this.index}`)
-    .attr('x1', 0)
-    .attr('x2', this.chartWidth);
-    d3.selectAll(`.line-zona-c-down${this.index}`)
-    .attr('x1', 0)
-    .attr('x2', this.chartWidth);
-    d3.selectAll(`.line-zona-b-up${this.index}`)
-    .attr('x1', 0)
-    .attr('x2', this.chartWidth);
-    d3.selectAll(`.line-zona-b-down${this.index}`)
-    .attr('x1', 0)
-    .attr('x2', this.chartWidth);
-
     this.xScale = d3.scaleTime().range([0, this.chartWidth]);
 
     this.xScale.domain(
@@ -244,18 +223,18 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     this.yAxis.call(d3.axisLeft(this.yScale));
 
     const setGuideLine = (cls: string, y: number) => {
-      this.svg.select(cls).attr('y1', y).attr('y2', y);
+      this.svg.select(cls).attr('x1', 0).attr('x2', this.chartWidth).attr('y1', y).attr('y2', y);
     };
-    setGuideLine(`.line-media${this.index}`, this.yScale(this.limits.mean));
-    setGuideLine(`.line-limite-min${this.index}`, this.yScale(this.limits.lowerLimit));
-    setGuideLine(`.line-limite-max${this.index}`, this.yScale(this.limits.upperLimit));
+    setGuideLine(`#line-media${this.index}`, this.yScale(this.limits.mean));
+    setGuideLine(`#line-limite-min${this.index}`, this.yScale(this.limits.lowerLimit));
+    setGuideLine(`#line-limite-max${this.index}`, this.yScale(this.limits.upperLimit));
 
     const deviation = (this.limits.upperLimit - this.limits.mean)/3;
 
-    setGuideLine(`.line-zona-c-up${this.index}`, this.yScale(this.limits.mean + deviation));
-    setGuideLine(`.line-zona-c-down${this.index}`, this.yScale(this.limits.mean - deviation));
-    setGuideLine(`.line-zona-b-up${this.index}`, this.yScale(this.limits.mean + 2*deviation));
-    setGuideLine(`.line-zona-b-down${this.index}`, this.yScale(this.limits.mean - 2*deviation));
+    setGuideLine(`#line-zona-c-up${this.index}`, this.yScale(this.limits.mean + deviation));
+    setGuideLine(`#line-zona-c-down${this.index}`, this.yScale(this.limits.mean - deviation));
+    setGuideLine(`#line-zona-b-up${this.index}`, this.yScale(this.limits.mean + 2*deviation));
+    setGuideLine(`#line-zona-b-down${this.index}`, this.yScale(this.limits.mean - 2*deviation));
 
     let xp = (p: ChartPoint) => this.xScale(p.creationTime);
     let yp = (p: ChartPoint) => this.yScale(p.value);

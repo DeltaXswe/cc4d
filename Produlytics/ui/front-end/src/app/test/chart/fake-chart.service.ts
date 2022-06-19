@@ -76,7 +76,7 @@ export class FakeChartService implements ChartAbstractService {
   });
 
   constructor() { 
-    interval(1000).subscribe(() => {
+    /* interval(1000).subscribe(() => {
     
       let creationTime: number = Date.now();
       let value: number = Math.floor(Math.random() * (500));
@@ -96,7 +96,7 @@ export class FakeChartService implements ChartAbstractService {
       })
       point.detections = points;
       this.fakeInitialPoints2.next(point)
-    });
+    }); */
   }
 
   getInitialPoints(deviceId: number, characteristicId: number): Observable<ChartPointReturn> {
@@ -107,13 +107,22 @@ export class FakeChartService implements ChartAbstractService {
   }
 
   getNextPoints(macchina: number, caratteristica: number, latestcreationTime: number): Observable<ChartPointReturn> {
-    return this.fakeInitialPoints2.pipe(map(chartPoint => {
-      return {
-        detections: chartPoint.detections.filter(detection => detection.creationTime > latestcreationTime),
-        nextOld: chartPoint.nextOld,
-        nextNew: chartPoint.nextNew
-      }
-    }))
+    let creationTime: number = latestcreationTime+1000;
+    let value: number = Math.floor(Math.random() * (500));
+    value *= Math.round(Math.random()) ? 1 : -1;
+    let outlier: boolean = Math.random() < 0.5;
+    const point: ChartPointReturn = {
+      detections: [
+      {
+        creationTime: creationTime,
+        value: value,
+        outlier: outlier
+      }],
+      nextOld: creationTime,
+      nextNew: creationTime
+    }
+
+    return of(point);
   }
 
   getLimits(deviceId: number, characteristicId: number){

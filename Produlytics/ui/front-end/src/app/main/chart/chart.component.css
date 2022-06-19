@@ -43,7 +43,7 @@
   stroke: green;
 }
 
- .d3svg line.line-limite {
+ .d3svg line.line-limite-min, .d3svg line.line-limite-max {
   stroke: red;
 }
 
