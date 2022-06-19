@@ -15,6 +15,7 @@ import {AccountEntity} from "./account-entity";
 import {ModifyPwAbstractService} from "../../model/modify-pw/modify-pw-abstract.service";
 import {ModifyPwCommand} from "../../model/modify-pw/modify-pw-command";
 import {wrapError} from "../utils";
+import {SessionInfo} from "../../model/login/session-info";
 
 @Injectable({
   providedIn: 'root'
@@ -79,14 +80,18 @@ export class FakeAccountService implements
     }
   }
 
-  login(command: LoginCommand): Observable<any> {
-    if(users.find(account => account.username === command.username &&
-      users.find(account => account.password === command.password))){
+  login(command: LoginCommand): Observable<void> {
+
+    if (
+      users.find(account => account.username === command.username &&
+      users.find(account => account.password === command.password))
+    ) {
+      const user = users.find(account => account.username === command.username && account.password === command.password)!;
       localStorage.setItem('accessToken', JSON.stringify(
         users.find(wow => wow.username === command.username))
       );
       localStorage.setItem('username', command.username)
-      localStorage.setItem('admin', command.password)
+      localStorage.setItem('admin', user.administrator ? 'true' : '')
       const httpOptions = {
         headers: new HttpHeaders()
           .set('Authorization', `Basic ${btoa(command.username + ':' + command.password)}`),
@@ -96,8 +101,8 @@ export class FakeAccountService implements
       console.log(httpOptions);
       if (command.rememberMe)
         this.cookieService.set('PRODULYTICS_RM', 'valore');
-      this.router.navigate(['/']);
-      return of({});
+      // this.router.navigate(['/']);
+      return of(void 0);
     } else {
       const error = new HttpErrorResponse({ status: 401 });
       return throwError(() => (error));
@@ -120,7 +125,7 @@ export class FakeAccountService implements
   }
 
   logout(): Observable<any> {
-    localStorage.removeItem('accessToken');
+    localStorage.clear();
     this.cookieService.delete('PRODULYTICS_RM');
     this.router.navigate(['/login']);
     return of([]);
@@ -142,6 +147,38 @@ export class FakeAccountService implements
     } else{
       const error = new HttpErrorResponse({ status: 401 });
       return throwError(() => error);
+    }
+  }
+
+  autoLogin(): Observable<SessionInfo> {
+
+    const rmCookie = this.cookieService.get('PRODULYTICS_RM');
+    console.log(`Just a lil check ${rmCookie} fr rn`);
+    const username = localStorage.getItem('username');
+    const user = users.find(account => account.username === username);
+    if (username && user) {
+      localStorage.setItem('accessToken', 'SHAMALAMADINGDONG');
+      return of({
+        accessToken: 'SHAMALAMADINGDONG',
+        username,
+        administrator: user.administrator
+      });
+    } else {
+      const error = new HttpErrorResponse({ status: 401 });
+      return throwError(() => (error));
+    }
+  }
+
+  getSessionInfo(): SessionInfo | undefined {
+    const username = localStorage.getItem('username');
+    const administrator = localStorage.getItem('admin') === 'true';
+    if (!username) {
+      return undefined;
+    } else {
+      return {
+        username,
+        administrator
+      }
     }
   }
 }

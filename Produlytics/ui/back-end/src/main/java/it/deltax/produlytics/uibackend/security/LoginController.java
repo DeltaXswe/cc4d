@@ -1,8 +1,5 @@
 package it.deltax.produlytics.uibackend.security;
 
-import java.util.Map;
-import javax.servlet.http.HttpSession;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,14 +10,5 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
   /** Riceve le chiamate all'endpoint REST per l'autenticazione. */
   @GetMapping
-  public Map<String, String> login(HttpSession session, Authentication authentication) {
-    if(authentication != null) {
-      var authorities = authentication.getAuthorities();
-      var adminAuthority = ProdulyticsGrantedAuthority.ADMIN.getAuthority();
-      var admin = authorities.stream().anyMatch(auth -> auth.getAuthority().equals(adminAuthority));
-      return Map.of("accessToken", session.getId(), "admin", Boolean.toString(admin));
-    } else {
-      return Map.of();
-    }
-  }
+  public void login() {}
 }

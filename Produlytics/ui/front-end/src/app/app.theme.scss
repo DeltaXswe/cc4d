@@ -336,3 +336,14 @@ a[routerLink] {
   color: #b9cee3;
 }
 
+@media (max-width: 767px) {
+  .cdk-overlay-pane {
+    max-width: 90vw!important; // gaggi be like >:(
+  }
+}
+
+@media (max-width: 767px) {
+  .mat-form-field-infix {
+    width: auto!important;
+  }
+}

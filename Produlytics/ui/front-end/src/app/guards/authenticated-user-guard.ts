@@ -1,19 +1,18 @@
 import { Injectable } from "@angular/core";
-import { CanActivate, Router, UrlTree } from "@angular/router";
+import {Router, UrlTree} from "@angular/router";
 import { LoginAbstractService } from "../model/login/login-abstract.service";
+import {AbstractAuthenticationGuard} from "./abstract-authentication-guard";
 /**
  * Questa guardia impedisce ad un utente non autenticato di navigare
  * tramite URL a qualsiasi pagina eccetto '/login'.
  */
 @Injectable({providedIn: 'root'})
-export class AuthenticatedUserGuard implements CanActivate{
-   constructor(private router: Router, private loginService: LoginAbstractService){}
+export class AuthenticatedUserGuard extends AbstractAuthenticationGuard {
+   constructor(router: Router, loginService: LoginAbstractService) {
+     super(router, loginService);
+   }
 
-   canActivate(): boolean | UrlTree {
-     if (this.loginService.isLogged()) {
-       return true;
-     } else {
-       return this.router.parseUrl('/login');
-     }
+   protected authorizationLevelMatcher(): true | UrlTree {
+     return true;
    }
 }

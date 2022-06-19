@@ -71,7 +71,7 @@ export class ModifyPwComponent implements OnInit {
     if (this.modifyPw.invalid) {
       return;
     }
-    this.modifyPwService.modifyPw(this.loginService.getUsername(), command)
+    this.modifyPwService.modifyPw(this.loginService.getSessionInfo()!.username, command)
       .subscribe({
         next: (data) => this.matDialogRef.close(data),
         error: (error) => {

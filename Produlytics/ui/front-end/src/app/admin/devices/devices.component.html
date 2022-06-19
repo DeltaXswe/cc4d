@@ -5,8 +5,13 @@
       <h1>
         Gestione macchine
       </h1>
-      <button mat-stroked-button (click)="createDevice()">
+      <button mat-stroked-button (click)="createDevice()" fxHide.lt-sm>
         Nuova macchina
+      </button>
+      <button mat-mini-fab (click)="createDevice()" fxHide.gt-xs>
+        <mat-icon>
+          add
+        </mat-icon>
       </button>
     </mat-toolbar>
     <!-- CONTENT -->
@@ -16,13 +21,18 @@
           <mat-header-cell *matHeaderCellDef mat-sort-header="name">
             Nome
           </mat-header-cell>
-          <mat-cell *matCellDef="let device">
-            {{device.name}}
+          <mat-cell *matCellDef="let device" >
+            <span fxHide.lt-sm>
+              {{device.name}}
+            </span>
+            <span fxHide.gt-xs (click)="openDeviceDetail(device)">
+              {{device.name}}
+            </span>
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="edit">
-          <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
-          <mat-cell *matCellDef="let device" fxFlex="64px">
+          <mat-header-cell *matHeaderCellDef fxFlex="64px" fxHide.lt-sm></mat-header-cell>
+          <mat-cell *matCellDef="let device" fxFlex="64px" fxHide.lt-sm>
             <button mat-icon-button (click)="openDeviceDetail(device)" matTooltip="Apri dettaglio">
               <mat-icon>
                 manage_search
@@ -31,8 +41,8 @@
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="activation">
-          <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
-          <mat-cell *matCellDef="let device" fxFlex="64px">
+          <mat-header-cell *matHeaderCellDef fxFlex="64px" fxFlex.lt-sm="40px"></mat-header-cell>
+          <mat-cell *matCellDef="let device" fxFlex="64px" fxFlex.lt-sm="40px">
             <button
               mat-icon-button
               (click)="toggleActivationDevice(device)"
@@ -48,8 +58,8 @@
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="status">
-          <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
-          <mat-cell *matCellDef="let device" fxFlex="64px">
+          <mat-header-cell *matHeaderCellDef fxFlex="64px" fxFlex.lt-sm="40px"></mat-header-cell>
+          <mat-cell *matCellDef="let device" fxFlex="64px" fxFlex.lt-sm="40px">
             <button
               mat-icon-button
               (click)="toggleStatusDevice(device)"
