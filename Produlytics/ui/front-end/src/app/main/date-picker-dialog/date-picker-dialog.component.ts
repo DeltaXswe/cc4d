@@ -47,7 +47,6 @@ export class DatePickerDialogComponent implements OnInit {
       this.matDialogRef.close(data);
     } else {
       this.matSnackbar.open('Date inserite non valide', 'Ok');
-      return;
     }
 
   }

@@ -7,14 +7,16 @@ import {FakeUnarchivedService} from "../../test/unarchived/fake-unarchived.servi
 import {
   UnarchivedCharacteristicAbstractService
 } from "../../model/characteristic/unarchived-characteristic-abstract.service";
-import {testModules} from "../../test/utils";
+import {MockDialog, MockDialogAlwaysConfirm, MockDialogRef, testModules} from "../../test/utils";
 import {DeviceNode} from "./selection-data-source/device-node";
 import {CharacteristicNode} from "./selection-data-source/characteristic-node";
 import {HttpClient} from "@angular/common/http";
 import {HttpTestingController} from "@angular/common/http/testing";
 import {UnarchivedDeviceService} from "../../model/device/unarchived-device.service";
 import {UnarchivedCharacteristicService} from "../../model/characteristic/unarchived-characteristic.service";
-import {NEVER} from "rxjs";
+import {BehaviorSubject, NEVER, Subject} from "rxjs";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {CarouselOptions} from "../carousel-options-dialog/carousel-options-dialog/carousel-options.types";
 
 describe('SelectionComponent', () => {
   let component: SelectionComponent;
@@ -344,3 +346,64 @@ describe('SelectionComponent Integration', () => {
     httpTestingController.verify();
   });
 });
+
+class SelectionCarouselMatDialog {
+  open(_?: any) {
+    return new SelectionCarouselMatDialogRef();
+  }
+}
+
+class SelectionCarouselMatDialogRef {
+  private _afterClosed = new BehaviorSubject<CarouselOptions | undefined>(undefined);
+  constructor() {
+    this._afterClosed.next({
+      isCarouselCycling: true,
+      carouselInterval: 10,
+      isCarouselOn: true
+    });
+  }
+  public afterClosed() {
+    return this._afterClosed.asObservable();
+  }
+}
+
+describe('SelectionComponent CarouselComponent', () => {
+  let component: SelectionComponent;
+  let fixture: ComponentFixture<SelectionComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+        imports: testModules,
+        declarations: [ SelectionComponent ],
+        providers: [
+          FakeDeviceService,
+          {
+            provide: UnarchivedDeviceAbstractService,
+            useExisting: FakeDeviceService
+          },
+          FakeUnarchivedService,
+          {
+            provide: UnarchivedCharacteristicAbstractService,
+            useExisting: FakeUnarchivedService
+          },
+          SelectionCarouselMatDialog,
+          {
+            provide: MatDialog,
+            useExisting: SelectionCarouselMatDialog
+          }
+        ]
+      })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(SelectionComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('open-carousel-dialog', () => {
+    component.openCarouselDialog();
+    expect(component.isCarouselCycling).toBeTrue();
+    expect(component.showCarousel).toBeTrue();
+    expect(component.carouselInterval).toEqual(10);
+  });
+})
