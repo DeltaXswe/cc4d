@@ -14,13 +14,14 @@ mat-sidenav-container{
 
 .carousel-control-prev {
   position: absolute;
-  vertical-align: center;
+  top: 40%;
   width: 3rem;
   height: 5rem;
 }
 
 .carousel-control-next {
   position: absolute;
+  top: 40%;
   width: 3rem;
   height: 5rem;
 }

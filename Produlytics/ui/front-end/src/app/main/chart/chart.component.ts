@@ -51,6 +51,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     this.getData(this.currentNode?.device.id, this.currentNode?.id);
     this.createChart();
+    this.drawChart();
     this.subscribeToUpdates();
   }
 
@@ -70,7 +71,6 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.points.length === 0) {
       return 1100;
     } else {
-      //return 1100 + this.points.length*10;
       return Math.max((Date.now() - this.points[0].creationTime)*5/1000, 1100);
     }
   }
@@ -100,7 +100,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
             next: (points) => {
               this.points = points.detections
               this.createChart();
-              this.drawChart();
+              this.drawChart(true);
             },
             error: () => this.notificationService.unexpectedError('Caratteristica non trovata')
           });
@@ -160,7 +160,6 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.svg.append('path').attr('class', 'chart-path');
       this.svg.append('g').attr('class', 'chart-points');
-      this.drawChart();
   }
 
   /**
@@ -191,7 +190,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Rappresenta gli elementi precedentemente inizializzati da {@link createChart()}
    */
-  drawChart(): void {
+  drawChart(isPast?: Boolean): void {
     if (this.points.length == 0) {
       return;
     }
@@ -203,10 +202,15 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.xScale = d3.scaleTime().range([0, this.chartWidth]);
 
-    this.xScale.domain(
-      //d3.extent(this.points, (p) => new Date(p.creationTime)) as [Date, Date]
-      [new Date(this.points[0].creationTime), new Date()]
-    );
+    if(isPast) {
+      this.xScale.domain(
+        d3.extent(this.points, (p) => new Date(p.creationTime)) as [Date, Date]
+      );
+    } else {
+      this.xScale.domain(
+        [new Date(this.points[0].creationTime), new Date()]
+      );
+    }
 
     this.yScale.domain([
       Math.min(this.limits.lowerLimit - delta, ...(ymin ? [ymin] : [])),
@@ -317,6 +321,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
     this.clearChart();
     this.getData(this.currentNode?.device.id, this.currentNode?.id);
     this.createChart();
+    this.drawChart();
     this.subscribeToUpdates();
   }
 }

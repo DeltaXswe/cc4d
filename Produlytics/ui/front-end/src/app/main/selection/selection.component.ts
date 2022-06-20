@@ -63,10 +63,12 @@ export class SelectionComponent implements OnInit {
     }
       );
     dialogRef.afterClosed().subscribe(data => {
-      this.showCarousel = data.isCarouselOn;
-      this.isCarouselCycling = data.isCarouselCycling;
-      this.carouselInterval = data.carouselInterval;
-      this.toggleCarouselPause();
+      if (data) {
+        this.showCarousel = data.isCarouselOn;
+        this.isCarouselCycling = data.isCarouselCycling;
+        this.carouselInterval = data.carouselInterval;
+        this.toggleCarouselPause();
+      }
     })
   }
 
