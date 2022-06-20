@@ -17,7 +17,7 @@
          <mat-slide-toggle [(ngModel)]="data.isCarouselCycling" [disabled]="!data.isCarouselOn">Ciclo automatico</mat-slide-toggle>
       </div>
       <mat-form-field>
-         <mat-label >Intervallo carosello</mat-label>
+         <mat-label >Intervallo carosello (secondi)</mat-label>
          <input matInput type="number" [disabled]="!data.isCarouselOn || !data.isCarouselCycling" [(ngModel)]="data.carouselInterval">
       </mat-form-field>
    </div>
@@ -30,4 +30,4 @@
      </button>
    </mat-dialog-actions>
  </div>
- 
+

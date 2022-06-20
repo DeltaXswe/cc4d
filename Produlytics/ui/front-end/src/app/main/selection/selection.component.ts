@@ -23,8 +23,8 @@ export class SelectionComponent implements OnInit {
 
   @ViewChild('carousel') carousel!: NgbCarousel;
 
-  carouselInterval: number = 0;
-  isCarouselCycling: boolean = false;
+  carouselInterval: number = 10;
+  isCarouselCycling: boolean = true;
   showCarousel: boolean = false;
   treeControl: FlatTreeControl<SelectionNode>;
   dataSource: SelectionDataSource;
