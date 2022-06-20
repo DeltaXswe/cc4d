@@ -65,7 +65,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
    * @returns la larghezza del grafico.
    * Se il nuero di punti da rappresentare è minore o uguale a 100, la imposta
    * in modo da occupare tutto il div che contiene il grafico, altrimenti lo allunga
-   * permettendo di uno scroll orizzontale.
+   * permettendo l'uso di uno scroll orizzontale.
    */
   get chartWidth(): number {
     if (this.points.length === 0) {
@@ -114,8 +114,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   private yScale!: d3.ScaleLinear<number, number, never>;
 
   /**
-   * Inizializza gli attributi della classe, chiamando poi {@link drawChart()} per
-   * disegnare il grafico.
+   * Inizializza gli attributi della classe.
    */
   createChart() {
       this.svg = d3
@@ -165,7 +164,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Tramite un service che implementa {@link ChartAbstractService}, cerca di
    * ottenere prima i punti iniziali e poi i limiti e la media del grafico.
-   * In caso di errore notifica l'utente con {@link MatSnackBar}
+   * In caso di errore notifica l'utente con un messaggio di errore.
    * @param deviceId l'identificativo della macchina
    * @param characteristicId l'identificativo della caratteristica
    */
@@ -266,6 +265,8 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Ogni secondo tenta di ottenere nuove rilevazioni tramite un service che
    * implementa {@link ChartAbstractService}.
+   * Oltre alle nuove rilevazioni vengono anche richieste le 15 più recenti,
+   * in modo da visualizzare correttamente le anomalie di alcune carte di controllo.
    * In caso vengano ottenute, le aggiunge a {@link points}.
    * Se points è però troppo lunga vengono aggiunte le nuove rilevazioni
    * e rimosse rilevazioni vecchie in modo che si rappresentino non più

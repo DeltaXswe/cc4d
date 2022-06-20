@@ -35,10 +35,12 @@ export class ChartService implements ChartAbstractService{
   }
 
   /**
-   * Effettua una richiesta HTTP GET al back-end chiedendo una rilevazione più recente
+   * Effettua una richiesta HTTP GET al back-end chiedendo le ultime 15 rilevazioni che già si
+   * hanno più una nuova rilevazione.
    * @param deviceId L'id della macchina
    * @param characteristicId L'id della caratteristica
-   * @param newerThan La coordinata temporale dell'ultima rilevazione mostrata nel front-end
+   * @param newerThan La coordinata temporale rispetto alla quale le rilevazioni ottenute saranno
+   * più recenti
    * @returns Un {@link Observable} contente la rilevazione richiesta
    */
   getNextPoints(deviceId: number, characteristicId: number, newerThan: number): Observable<ChartPointReturn> {
