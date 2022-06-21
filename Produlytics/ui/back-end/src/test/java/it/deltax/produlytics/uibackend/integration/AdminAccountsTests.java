@@ -160,7 +160,7 @@ public class AdminAccountsTests {
   @Test
   public void testUpdateAccountOk() throws Exception {
     JSONObject json = new JSONObject();
-    json.put("newPassword", "passwordNuova");
+    json.put("password", "passwordNuova");
     json.put("administrator", "false");
 
     this.mockMvc
@@ -181,7 +181,7 @@ public class AdminAccountsTests {
   @Test
   public void testUpdateAccountInvalidNewPassword() throws Exception {
     JSONObject json = new JSONObject();
-    json.put("newPassword", "p");
+    json.put("password", "p");
     json.put("administrator", "false");
 
     this.mockMvc
@@ -203,7 +203,7 @@ public class AdminAccountsTests {
   @Test
   public void testUpdateAccountNotFound() throws Exception {
     JSONObject json = new JSONObject();
-    json.put("newPassword", "passwordNuova");
+    json.put("password", "passwordNuova");
     json.put("administrator", "false");
 
     this.mockMvc
