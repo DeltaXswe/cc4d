@@ -55,10 +55,12 @@ public interface CharacteristicRepository
    */
   @Query(value = """
       SELECT COALESCE(AVG(value), 0) as mean, COALESCE(STDDEV_SAMP(value), 1) as stddev
-      FROM detection
-      WHERE device_id = :deviceId AND characteristic_id = :characteristicId
-      ORDER BY creation_time DESC
-      LIMIT :sampleSize
+      FROM (
+          SELECT * FROM detection
+          WHERE device_id = :deviceId AND characteristic_id = :characteristicId
+          ORDER BY creation_time DESC
+          LIMIT :sampleSize
+      ) helper
       """, nativeQuery = true)
   MeanStddevEntity meanStddevWithSampleSize(
       @Param("deviceId") int deviceId,
