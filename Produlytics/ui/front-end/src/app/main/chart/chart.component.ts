@@ -119,7 +119,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   createChart() {
       this.svg = d3
         .selectAll(`#d3svg${this.index}`)
-        .style('width', this.chartWidth)
+        .style('width', this.chartWidth + 'px')
         .style('height', 550 + 'px')
         .append('g')
         .attr('transform', `translate(0, ${this.margin.top})`);

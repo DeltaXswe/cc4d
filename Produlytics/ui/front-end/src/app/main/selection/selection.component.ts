@@ -7,7 +7,7 @@ import { UnarchivedDeviceAbstractService } from "../../model/device/unarchived-d
 import { SelectionNode } from './selection-data-source/selection-node';
 import { SelectionDataSource } from './selection-data-source/selection.data-source';
 import { CharacteristicNode } from './selection-data-source/characteristic-node';
-import {NgbCarousel} from "@ng-bootstrap/ng-bootstrap";
+import {NgbCarousel, NgbCarouselConfig} from "@ng-bootstrap/ng-bootstrap";
 import { MatDialog } from '@angular/material/dialog';
 import { CarouselOptionsDialogComponent } from '../carousel-options-dialog/carousel-options-dialog/carousel-options-dialog.component';
 
@@ -15,13 +15,18 @@ import { CarouselOptionsDialogComponent } from '../carousel-options-dialog/carou
   selector: 'app-selection',
   templateUrl: './selection.component.html',
   styleUrls: ['./selection.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [NgbCarouselConfig]
 })
 export class SelectionComponent implements OnInit {
   @Output()
   devicesChanged = new EventEmitter<CharacteristicNode[]>();
 
-  @ViewChild('carousel') carousel!: NgbCarousel;
+  @ViewChild('carousel', {static: false}) set carousel(carousel: NgbCarousel){
+    if (carousel) {
+      this.carousel = carousel;
+    }
+  }
 
   carouselInterval: number = 10;
   isCarouselCycling: boolean = true;

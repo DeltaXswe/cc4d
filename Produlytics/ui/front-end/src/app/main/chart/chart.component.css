@@ -1,6 +1,8 @@
 .container{
-  height: 530px;
+  height: 530px; 
+  width: 100%;
 }
+
 .y-container{
   float: left;
   width: 10px;
@@ -9,11 +11,7 @@
   overflow-x: auto;
   overflow-y: hidden;
 }
-/* .d3svg{
-  width: 1150px;
-  height: 550px;
-}
- */
+
 .d3svg line.line-zona-c-up, .d3svg line.line-zona-c-down {
   stroke: green;
   opacity: 30%;
