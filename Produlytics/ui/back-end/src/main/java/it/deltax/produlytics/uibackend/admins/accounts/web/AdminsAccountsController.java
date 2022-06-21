@@ -93,7 +93,7 @@ public class AdminsAccountsController {
       @PathVariable("username") String username, @RequestBody AccountDataToUpdate body)
       throws BusinessException {
     this.updateAccountByAdminUseCase.updateByUsername(
-        new AccountUpdatedByAdmin(username, body.newPassword(), body.administrator()));
+        new AccountUpdatedByAdmin(username, body.password(), body.administrator()));
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
