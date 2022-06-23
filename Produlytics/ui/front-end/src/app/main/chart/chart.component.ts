@@ -220,7 +220,17 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
       Math.max(this.limits.upperLimit + delta, ...(ymax ? [ymax] : [])),
     ]);
 
-    this.xAxis.call(d3.axisBottom(this.xScale).ticks(d3.timeSecond.every(5))
+    this.xAxis.call(d3.axisBottom<Date>(this.xScale)
+        .ticks(d3.timeSecond.every(5))
+        .tickFormat(function(date) {
+          if (d3.timeMinute(date) < date) {
+            return d3.timeFormat('%S:')(date);
+          } else if (d3.timeHour(date) < date) {
+            return d3.timeFormat('%H:%M')(date);
+          } else {
+            return d3.timeFormat('%d/%m')(date);
+          }
+        })
       )
       .select('.tick')
       .attr('transform', `translate(10, 0)`);
