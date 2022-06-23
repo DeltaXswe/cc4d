@@ -28,7 +28,7 @@ export class ChartService implements ChartAbstractService{
     const yesterday = new Date(); // all my troubles seemed so far away
     yesterday.setDate(yesterday.getDate() - 1);
     const paramsObj = {
-      olderThan: yesterday.getTime(),
+      newerThan: yesterday.getTime(),
       limit: 100
     }
     const params: HttpParams = new HttpParams({fromObject: paramsObj})
