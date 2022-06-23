@@ -49,16 +49,14 @@
       </div>
       </div>
     <!--Carosello-->
-    <div *ngIf="showCarousel">
-    <ngb-carousel #carousel [interval]="carouselInterval*1000"
-     [pauseOnHover]="false" [pauseOnFocus]="false"  [showNavigationIndicators]="false">
-      <ng-container *ngFor="let tile of checkedNodes; let i = index">
-        <ng-template ngbSlide class="slide1">
-          <app-chart [currentNode]=tile [index]=i></app-chart>
-        </ng-template>
-      </ng-container>
-    </ngb-carousel>
-    </div>
+      <ngb-carousel *ngIf="showCarousel" #carousel [interval]="carouselInterval*1000"
+       [pauseOnHover]="false" [pauseOnFocus]="false"  [showNavigationIndicators]="false">
+        <ng-container *ngFor="let tile of checkedNodes; let i = index">
+          <ng-template ngbSlide>
+            <app-chart [currentNode]=tile [index]=i></app-chart>
+          </ng-template>
+        </ng-container>
+      </ngb-carousel>
     <!--Grafici-->
     <div *ngIf="!showCarousel">
     <div fxLayout="column" fxLayoutGap="16px" class="chart-container" *ngFor="let tile of checkedNodes; let i = index">

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 import { FlatTreeControl } from "@angular/cdk/tree";
 import {
   UnarchivedCharacteristicAbstractService
@@ -22,9 +22,11 @@ export class SelectionComponent implements OnInit {
   @Output()
   devicesChanged = new EventEmitter<CharacteristicNode[]>();
 
-  @ViewChild('carousel', {static: false}) set carousel(carousel: NgbCarousel){
-    if (carousel) {
-      this.carousel = carousel;
+  private carousel!: NgbCarousel;
+
+  @ViewChild('carousel', {static: false}) set carouselContent(carouselContent: NgbCarousel){
+    if (carouselContent) {
+      this.carousel = carouselContent;
     }
   }
 
@@ -72,7 +74,9 @@ export class SelectionComponent implements OnInit {
         this.showCarousel = data.isCarouselOn;
         this.isCarouselCycling = data.isCarouselCycling;
         this.carouselInterval = data.carouselInterval;
-        this.toggleCarouselPause();
+        setTimeout(() => {
+          this.toggleCarouselPause();
+        });
       }
     })
   }

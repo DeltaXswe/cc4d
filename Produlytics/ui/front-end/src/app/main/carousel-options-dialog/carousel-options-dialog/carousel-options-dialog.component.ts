@@ -16,8 +16,7 @@ export class CarouselOptionsDialogComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {  }
 
   /**
    * Chiude il dialog passando a {@link SelectionComponent} il parametro
