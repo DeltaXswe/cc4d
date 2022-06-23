@@ -30,6 +30,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input()
   index: number = 0;
 
+  private isChartShowingOldPoints: Boolean = false;
   public limits!: Limits;
   private points: ChartPoint[] = [];
   private updateSubscription?: Subscription;
@@ -70,6 +71,8 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   get chartWidth(): number {
     if (this.points.length === 0) {
       return 1100;
+    } else if (this.isChartShowingOldPoints){
+      return Math.max((this.points[this.points.length-1].creationTime - this.points[0].creationTime)*5/1000, 1100);
     } else {
       return Math.max((Date.now() - this.points[0].creationTime)*5/1000, 1100);
     }
@@ -98,9 +101,10 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
         this.chartService.getOldPoints(res.start, res.end, this.currentNode?.device.id, this.currentNode?.id)
           .subscribe({
             next: (points) => {
-              this.points = points.detections
+              this.points = points.detections;
+              this.isChartShowingOldPoints = true;
               this.createChart();
-              this.drawChart(true);
+              this.drawChart();
             },
             error: () => this.notificationService.unexpectedError('Caratteristica non trovata')
           });
@@ -189,7 +193,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Rappresenta gli elementi precedentemente inizializzati da {@link createChart()}
    */
-  drawChart(isPast?: Boolean): void {
+  drawChart(): void {
     if (this.points.length == 0) {
       return;
     }
@@ -201,7 +205,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.xScale = d3.scaleTime().range([0, this.chartWidth]);
 
-    if(isPast) {
+    if(this.isChartShowingOldPoints) {
       this.xScale.domain(
         d3.extent(this.points, (p) => new Date(p.creationTime)) as [Date, Date]
       );
@@ -320,6 +324,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   refresh(): void{
     this.clearChart();
+    this.isChartShowingOldPoints = false;
     this.getData(this.currentNode?.device.id, this.currentNode?.id);
     this.createChart();
     this.drawChart();
