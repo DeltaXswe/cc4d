@@ -25,8 +25,10 @@ export class ChartService implements ChartAbstractService{
    * @returns Un {@link Observable} contente le rilevazioni richieste
    */
   getInitialPoints(deviceId: number, characteristicId: number): Observable<ChartPointReturn> {
+    const yesterday = new Date(); // all my troubles seemed so far away
+    yesterday.setDate(yesterday.getDate() - 1);
     const paramsObj = {
-      olderThan: (new Date).getTime(),
+      olderThan: yesterday.getTime(),
       limit: 100
     }
     const params: HttpParams = new HttpParams({fromObject: paramsObj})

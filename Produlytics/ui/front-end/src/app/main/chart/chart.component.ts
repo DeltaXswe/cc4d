@@ -279,34 +279,42 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
   subscribeToUpdates(): void {
     this.updateSubscription = interval(1000)
       .pipe(
-        concatMap(() =>
-          this.chartService.getNextPoints(
+        concatMap(() => {
+          let ultimoUtc;
+          if (this.points.length === 0) {
+            ultimoUtc = (new Date()).getTime();
+          } else if (this.points.length < ChartComponent.MAX_DETECTIONS_CHANGEABLE) {
+            ultimoUtc = this.points[0].creationTime
+          } else {
+            ultimoUtc = this.points[this.points.length-ChartComponent.MAX_DETECTIONS_CHANGEABLE].creationTime;
+          }
+          return this.chartService.getNextPoints(
             this.currentNode.device.id,
             this.currentNode.id,
-            this.points.length < ChartComponent.MAX_DETECTIONS_CHANGEABLE
-              ? this.points[0].creationTime
-              : this.points[this.points.length-ChartComponent.MAX_DETECTIONS_CHANGEABLE].creationTime
+            ultimoUtc
           )
-        )
+        })
       )
-      .subscribe({ next: (new_points) => {
-        if (new_points){
-          new_points.detections.forEach(element => {
-            if (element.creationTime > this.nextNew) {
-              this.points.push(element);
+      .subscribe({
+        next: (new_points) => {
+          if (new_points) {
+            new_points.detections.forEach(element => {
+              if (element.creationTime > this.nextNew) {
+                this.points.push(element);
+              }
+            });
+            for (let i = 0; i < new_points.detections.length; i++) {
+              this.points[this.points.length-new_points.detections.length+i] = new_points.detections[i];
             }
-          });
-          for (let i = 0; i < new_points.detections.length; i++) {
-            this.points[this.points.length-new_points.detections.length+i] = new_points.detections[i];
+            this.points = this.points.slice();
+            if(this.points.length > 100) {
+              this.points = this.points.slice(this.points.length - 100);
+            }
+            this.nextNew = new_points.nextNew;
+            this.drawChart();
           }
-          this.points = this.points.slice();
-          if(this.points.length > 100) {
-            this.points = this.points.slice(this.points.length - 100);
-          }
-          this.nextNew = new_points.nextNew;
-          this.drawChart();
-      }},
-      error: () => this.notificationService.unexpectedError('Caratteristica non trovata')
+        },
+        error: () => this.notificationService.unexpectedError('Caratteristica non trovassa')
       });
   }
 
