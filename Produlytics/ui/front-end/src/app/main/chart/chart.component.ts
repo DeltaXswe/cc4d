@@ -324,7 +324,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
             this.drawChart();
           }
         },
-        error: () => this.notificationService.unexpectedError('Caratteristica non trovassa')
+        error: () => this.notificationService.unexpectedError('Caratteristica non trovata')
       });
   }
 
