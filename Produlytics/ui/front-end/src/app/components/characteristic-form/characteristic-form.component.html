@@ -19,6 +19,7 @@
       Dimensione del campione per il calcolo automatico
     </mat-label>
     <input matInput formControlName="sampleSize" name="sample-size" type="number" />
+    <mat-error>Il numero deve essere un numero intero positivo, scritto senza virgole e senza punti.</mat-error>
   </mat-form-field>
   <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="start center" fxLayoutAlign.lt-md="start stretch" fxLayoutGap="4px">
     <mat-form-field fxFlex="50" fxFlex.lt-md="100" appearance="outline" floatLabel="always">
