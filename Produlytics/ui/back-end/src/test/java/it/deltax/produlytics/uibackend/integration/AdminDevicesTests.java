@@ -198,11 +198,7 @@ public class AdminDevicesTests {
   @Test
   public void testModifyDeviceDuplicateName() throws Exception {
     this.mockMvc
-        .perform(
-            put("/admin/devices/" + deviceId1 + "/name")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("\"macchina2\"")
-                .characterEncoding("utf-8"))
+        .perform(put("/admin/devices/" + deviceId1 + "/name").content("macchina2"))
         .andDo(print())
         .andExpect(status().isBadRequest())
         .andExpect(content().json("{\"errorCode\":\"duplicateDeviceName\"}"));
