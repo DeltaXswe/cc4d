@@ -4,7 +4,7 @@
     <mat-progress-bar mode="indeterminate" *ngIf="dataSource.loading"></mat-progress-bar>
     <ng-container *ngIf="!dataSource.loading">
       <div fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-title-container">
-        <span class="sidenav-title" matTooltip="Per iniziare, si espanda una macchina per visualizzare le caratteristiche. Per monitorare le caratteristiche, selezionarle tramite le caselle di controllo e infine confermare la scelta tramite l'apposito bottone.">
+        <span class="sidenav-title">
           Monitoraggio caratteristiche
         </span>
         <button mat-stroked-button color="primary" (click)="notifyChange(); mobile && selectionSidenav.close()">
