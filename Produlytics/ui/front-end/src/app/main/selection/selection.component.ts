@@ -10,6 +10,7 @@ import { CharacteristicNode } from './selection-data-source/characteristic-node'
 import {NgbCarousel, NgbCarouselConfig} from "@ng-bootstrap/ng-bootstrap";
 import { MatDialog } from '@angular/material/dialog';
 import { CarouselOptionsDialogComponent } from '../carousel-options-dialog/carousel-options-dialog/carousel-options-dialog.component';
+import {NotificationService} from "../../utils/notification.service";
 
 @Component({
   selector: 'app-selection',
@@ -43,7 +44,8 @@ export class SelectionComponent implements OnInit {
   constructor(
     unarchivedDeviceService: UnarchivedDeviceAbstractService,
     unarchivedCharacteristicService: UnarchivedCharacteristicAbstractService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private notificationService: NotificationService
   ) {
     this.treeControl = new FlatTreeControl<SelectionNode>(
       node => node.level,
@@ -108,13 +110,14 @@ export class SelectionComponent implements OnInit {
   }
 
   notifyChange(): void {
+    if (this.pendingSelection.length === 0) {
+      this.notificationService.unexpectedError('Non hai selezionato nessuna caratteristica!');
+      return;
+    }
     this.checkedNodes = [];
     setTimeout(() => {
       // l'abc dell'hack in angular - spesso il runtime di angular ha bisogno di "aspettare" un momento
       this.checkedNodes = this.pendingSelection.slice();
     });
-    if (this.mobile) {
-
-    }
   }
 }

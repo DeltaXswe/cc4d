@@ -59,9 +59,9 @@
       </ngb-carousel>
     <!--Grafici-->
     <div *ngIf="!showCarousel">
-    <div fxLayout="column" fxLayoutGap="16px" class="chart-container" *ngFor="let tile of checkedNodes; let i = index">
-      <app-chart class="app-chart" [currentNode]=tile [index]=i></app-chart>
-    </div>
+      <div fxLayout="column" fxLayoutGap="16px" class="chart-container" *ngFor="let tile of checkedNodes; let i = index">
+        <app-chart [currentNode]=tile [index]=i></app-chart>
+      </div>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
