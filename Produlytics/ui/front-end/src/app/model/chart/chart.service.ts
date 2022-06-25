@@ -16,6 +16,8 @@ import { Limits } from './limits';
  */
 export class ChartService implements ChartAbstractService{
 
+  private static readonly SHIFT_SIZE = 8 * 60 * 60 * 1000; // 8 ore
+
   constructor(private httpClient: HttpClient) {}
 
   /**
@@ -25,8 +27,17 @@ export class ChartService implements ChartAbstractService{
    * @returns Un {@link Observable} contente le rilevazioni richieste
    */
   getInitialPoints(deviceId: number, characteristicId: number): Observable<ChartPointReturn> {
+    const lastShift = Date.now() - ChartService.SHIFT_SIZE;
+    /*
+     * Se si caricano le ultime 100 sempre, se c'è un grande lasso temporale dove la macchina è stata spenta (con
+     * grande intendo 1 giorno, quindi se la macchina rimane spenta per esempio durante il weekend questa cosa succede)
+     * il grafo di d3 diventa veramente oneroso per il client perché diventa STRAGROSSO.
+     *
+     * Visto che granularità = 1/s e le rilevazioni più vecchie di 14 ormai sono storico, se ignoriamo le rilevazioni
+     * prima delle ultime 8 ore dovrebbe andare bene comunque all'utente finale.
+     * */
     const paramsObj = {
-      olderThan: (new Date).getTime(),
+      newerThan: lastShift,
       limit: 100
     }
     const params: HttpParams = new HttpParams({fromObject: paramsObj})
@@ -35,16 +46,18 @@ export class ChartService implements ChartAbstractService{
   }
 
   /**
-   * Effettua una richiesta HTTP GET al back-end chiedendo una rilevazione più recente
+   * Effettua una richiesta HTTP GET al back-end chiedendo le ultime 15 rilevazioni che già si
+   * hanno più una nuova rilevazione.
    * @param deviceId L'id della macchina
    * @param characteristicId L'id della caratteristica
-   * @param newerThan La coordinata temporale dell'ultima rilevazione mostrata nel front-end
+   * @param newerThan La coordinata temporale rispetto alla quale le rilevazioni ottenute saranno
+   * più recenti
    * @returns Un {@link Observable} contente la rilevazione richiesta
    */
   getNextPoints(deviceId: number, characteristicId: number, newerThan: number): Observable<ChartPointReturn> {
     const paramsObj = {
       newerThan: newerThan,
-      limit: 1
+      limit: 16
     }
     const params: HttpParams = new HttpParams({fromObject: paramsObj})
     return this.httpClient.get<ChartPointReturn>(`/devices/${deviceId}/characteristics/${characteristicId}/detections`

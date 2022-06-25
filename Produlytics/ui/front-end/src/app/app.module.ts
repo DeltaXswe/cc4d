@@ -57,6 +57,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerDialogComponent } from './main/date-picker-dialog/date-picker-dialog.component';
 import {HttpInterceptorService} from "./model/http-interceptor.service";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import { CarouselOptionsDialogComponent } from './main/carousel-options-dialog/carousel-options-dialog/carousel-options-dialog.component';
 
 @NgModule({
   declarations: [
@@ -66,46 +68,48 @@ import {HttpInterceptorService} from "./model/http-interceptor.service";
     ToolbarComponent,
     LoginComponent,
     ModifyPwComponent,
-    DatePickerDialogComponent
+    DatePickerDialogComponent,
+    CarouselOptionsDialogComponent
   ],
-  imports: [
-    // angular
-    ClipboardModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    // flex style
-    FlexModule,
-    FlexLayoutModule,
-    // material
-    MatToolbarModule,
-    MatTabsModule,
-    MatCardModule,
-    MatDividerModule,
-    MatListModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatDialogModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    // routing
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatSnackBarModule,
-    // other
-    MatSidenavModule,
-    MatTreeModule,
-    MatProgressBarModule,
-    MatProgressSpinnerModule,
-    MatGridListModule,
-    NgbModule
-  ],
+    imports: [
+        // angular
+        ClipboardModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        // flex style
+        FlexModule,
+        FlexLayoutModule,
+        // material
+        MatToolbarModule,
+        MatTabsModule,
+        MatCardModule,
+        MatDividerModule,
+        MatListModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatDialogModule,
+        MatMenuModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatCheckboxModule,
+        // routing
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+        // other
+        MatSidenavModule,
+        MatTreeModule,
+        MatProgressBarModule,
+        MatProgressSpinnerModule,
+        MatGridListModule,
+        NgbModule,
+        MatSlideToggleModule
+    ],
   providers: [
     {
       provide: MAT_DATE_LOCALE, useValue: 'en-GB'

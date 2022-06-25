@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ChartAbstractService } from "../../model/chart/chart-abstract.service";
-import { BehaviorSubject, Observable, of } from "rxjs";
+import { BehaviorSubject, interval, map, Observable, of } from "rxjs";
 import { ChartPoint } from "../../model/chart/chart-point";
 import { Limits } from '../../model/chart/limits';
 import { ChartPointReturn } from '../../model/chart/chart-point-return';
+import { now } from 'd3';
 
 @Injectable({
   providedIn: "root"
@@ -74,7 +75,29 @@ export class FakeChartService implements ChartAbstractService {
   nextNew: 1650067203000
   });
 
-  constructor() { }
+  constructor() { 
+    /* interval(1000).subscribe(() => {
+    
+      let creationTime: number = Date.now();
+      let value: number = Math.floor(Math.random() * (500));
+      value *= Math.round(Math.random()) ? 1 : -1;
+      let outlier: boolean = Math.random() < 0.5;
+      const point: ChartPointReturn = {
+        detections: [
+          ],
+        nextOld: creationTime,
+        nextNew: creationTime
+      }
+      const points = this.fakeInitialPoints2.value.detections;
+      points.push({
+        creationTime: creationTime,
+        value: value,
+        outlier: outlier
+      })
+      point.detections = points;
+      this.fakeInitialPoints2.next(point)
+    }); */
+  }
 
   getInitialPoints(deviceId: number, characteristicId: number): Observable<ChartPointReturn> {
     if(deviceId == 2)

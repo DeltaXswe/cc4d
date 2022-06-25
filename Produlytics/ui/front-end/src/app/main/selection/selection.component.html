@@ -1,13 +1,13 @@
 <!--Selezione macchine-->
 <mat-sidenav-container id="selection">
-  <mat-sidenav mode="side" opened>
+  <mat-sidenav #selectionSidenav mode="side" [opened]="!mobile">
     <mat-progress-bar mode="indeterminate" *ngIf="dataSource.loading"></mat-progress-bar>
     <ng-container *ngIf="!dataSource.loading">
       <div fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-title-container">
-        <span class="sidenav-title" matTooltip="Per iniziare, si espanda una macchina per visualizzare le caratteristiche. Per monitorare le caratteristiche, selezionarle tramite le caselle di controllo e infine confermare la scelta tramite l'apposito bottone.">
+        <span class="sidenav-title">
           Monitoraggio caratteristiche
         </span>
-        <button mat-stroked-button color="primary" (click)="notifyChange()">
+        <button mat-stroked-button color="primary" (click)="notifyChange(); mobile && selectionSidenav.close()">
           Conferma
         </button>
       </div>
@@ -32,11 +32,38 @@
       </mat-tree>
     </ng-container>
 
-    <!--Grafici-->
   </mat-sidenav>
   <mat-sidenav-content class="deltax-content">
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <div>
+        <button fxHide.gt-md mat-icon-button (click)="selectionSidenav.toggle()">
+          <mat-icon>
+            {{selectionSidenav.opened ? 'arrow_back' : 'menu'}}
+          </mat-icon>
+        </button>
+      </div>
+      <div fxLayout="row" fxLayoutGap="12px">
+        <div class="carousel-button">
+          <button mat-stroked-button color="primary" (click)="openCarouselDialog()">Carosello</button>
+        </div>
+      </div>
+      </div>
+    <!--Carosello-->
+      <ngb-carousel *ngIf="showCarousel" #carousel [interval]="carouselInterval*1000"
+       [pauseOnHover]="false" [pauseOnFocus]="false"  [showNavigationIndicators]="false">
+        <ng-container *ngFor="let tile of checkedNodes; let i = index">
+          <ng-template ngbSlide>
+            <app-chart [currentNode]=tile [index]=i></app-chart>
+          </ng-template>
+        </ng-container>
+      </ngb-carousel>
+    <!--Grafici-->
+    <div *ngIf="!showCarousel">
     <div fxLayout="column" fxLayoutGap="16px" class="chart-container" *ngFor="let tile of checkedNodes; let i = index">
-      <app-chart [currentNode]=tile [index]=i></app-chart>
+      <app-chart class="app-chart" [currentNode]=tile [index]=i></app-chart>
+    </div>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+

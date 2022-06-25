@@ -63,7 +63,11 @@ describe('AccountsComponent', () => {
   });
 
   it('apri-modifica-utente', (doneFn) => {
-    component.openNewAccountDialog();
+    component.openEditAccountDialog({
+      username: 'Robert',
+      administrator: true,
+      archived: false
+    });
     component.accounts.connect().subscribe(val => {
       expect(val).toEqual(users);
       doneFn();

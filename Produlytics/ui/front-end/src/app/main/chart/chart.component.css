@@ -1,60 +1,58 @@
 .container{
-  height: 530px;
+  height: 530px; 
+  width: 100%;
 }
+
 .y-container{
   float: left;
-  z-index: -100;
+  width: 10px;
 }
 .chart-container{
   overflow-x: auto;
   overflow-y: hidden;
 }
-.d3svg{
-  width: 1150px;
-  height: 550px;
-}
 
-::ng-deep .d3svg line.line-zona-c-up, ::ng-deep .d3svg line.line-zona-c-down {
+.d3svg line.line-zona-c-up, .d3svg line.line-zona-c-down {
   stroke: green;
   opacity: 30%;
 }
 
-::ng-deep .d3svg line.line-zona-b-up, ::ng-deep .d3svg line.line-zona-b-down {
+ .d3svg line.line-zona-b-up, .d3svg line.line-zona-b-down {
   stroke: red;
   opacity: 30%;
 }
 
-::ng-deep .d3svg title {
+ .d3svg title {
   fill: black;
   text-anchor: middle;
 }
 
-::ng-deep .d3svg line,
-::ng-deep .d3svg path {
+.d3svg line,
+ .d3svg path {
   fill: none;
   stroke-width: 1.5;
 }
 
-::ng-deep .d3svg path.chart-path {
+ .d3svg path.chart-path {
   stroke: #69b3a2;
 }
 
-::ng-deep .d3svg line.line-media {
+ .d3svg line.line-media {
   stroke: green;
 }
 
-::ng-deep .d3svg line.line-limite {
+ .d3svg line.line-limite-min, .d3svg line.line-limite-max {
   stroke: red;
 }
 
-::ng-deep .d3svg circle {
+.d3svg circle {
   r: 0.3em;
 }
 
-::ng-deep .d3svg circle.circle-normal {
+ .d3svg circle.circle-normal {
   fill: #69b3a2;
 }
 
-::ng-deep .d3svg circle.circle-anomalo {
+ .d3svg circle.circle-anomalo {
   fill: red
 }
