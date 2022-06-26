@@ -13,12 +13,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CharacteristicRepository
     extends JpaRepository<CharacteristicEntity, CharacteristicEntityId> {
-  List<CharacteristicEntity> findByArchivedFalseAndDeviceId(int deviceId);
+  List<CharacteristicEntity> findByArchivedFalseAndDeviceIdOrderByName(int deviceId);
 
-  Optional<CharacteristicEntity> findByArchivedFalseAndDeviceIdAndId(
-      int deviceId, int characteristicId);
-
-  List<CharacteristicEntity> findByDeviceId(int deviceId);
+  List<CharacteristicEntity> findAllByDeviceIdOrderByName(int deviceId);
 
   @Query(
       value = "SELECT * FROM characteristic WHERE device_id = :deviceId AND name = :name",
@@ -26,41 +23,66 @@ public interface CharacteristicRepository
   Optional<CharacteristicEntity> findByDeviceIdAndName(
       @Param("deviceId") int deviceId, @Param("name") String name);
 
-  @Query(value = """
-    SELECT
-      ch.auto_adjust as autoAdjust,
-      ch.lower_limit as technicalLowerLimit,
-      ch.upper_limit as technicalUpperLimit,
-      mean_stddev.mean as computedMean,
-      mean_stddev.stddev as computedStddev
-    FROM characteristic ch, device d, (
-      SELECT AVG(helper.value) as mean, COALESCE(STDDEV_SAMP(helper.value), 1) as stddev
-      FROM (
-        SELECT dt.value as value
-        FROM detection dt
-        WHERE dt.device_id = :deviceId AND dt.characteristic_id = :characteristicId
-        ORDER BY dt.creation_time DESC
-        LIMIT (
-          SELECT COALESCE(sample_size, 0)
-          FROM characteristic ch2
-          WHERE ch2.device_id = :deviceId AND ch2.id = :characteristicId
-        )
-      ) helper
-    ) mean_stddev
-    WHERE ch.device_id = :deviceId
-        AND ch.id = :characteristicId
-        AND NOT ch.archived
-        AND NOT d.archived
-        AND NOT d.deactivated
-    """, nativeQuery = true)
-  Optional<LimitsEntity> findLimits(
-      @Param("deviceId") int deviceId, @Param("characteristicId") int characteristicId);
 
-  interface LimitsEntity {
-    boolean getAutoAdjust();
-    Optional<Double> getTechnicalLowerLimit();
-    Optional<Double> getTechnicalUpperLimit();
-    double getComputedMean();
-    double getComputedStddev();
-  }
+  /**
+   * Questo metodo si occupa di cercare una caratteristica dato il suo identificativo globale.
+   *
+   * @param deviceId l'identificativo della macchina, che deve esistere, a cui appartiene la
+   *     caratteristica da cercare
+   * @param characteristicId l'identificativo della caratteristica all'interno della macchina
+   * @return ritorna un entità rappresentante la caratteristica, se esiste, altrimenti ritorna
+   *     {@code Optional.empty()}
+   */
+  @Query(value = """
+      SELECT *
+      FROM characteristic
+      WHERE device_id = :deviceId
+        AND id = :characteristicId
+        AND NOT archived
+        AND NOT (SELECT archived FROM device where id = :deviceId)
+      """,
+      nativeQuery = true)
+  Optional<CharacteristicEntity> findActiveByDeviceIdAndId(int deviceId, int characteristicId);
+
+  /**
+   * Questo metodo si occupa di ottenere media e deviazione standard delle ultime rilevazioni
+   * della caratteristica specificata dai suoi argomenti.
+   *
+   * @param deviceId l'identificativo della macchina a cui appartiene la caratteristica
+   * @param characteristicId l'identificativo della caratteristica all'interno della macchina
+   * @param sampleSize il numero di rilevazioni da considerare
+   * @return media e deviazione standard della caratteristica cercata
+   */
+  @Query(value = """
+      SELECT COALESCE(AVG(value), 0) as mean, COALESCE(STDDEV_SAMP(value), 1) as stddev
+      FROM (
+          SELECT * FROM detection
+          WHERE device_id = :deviceId AND characteristic_id = :characteristicId
+          ORDER BY creation_time DESC
+          LIMIT :sampleSize
+      ) helper
+      """, nativeQuery = true)
+  MeanStddevEntity meanStddevWithSampleSize(
+      @Param("deviceId") int deviceId,
+      @Param("characteristicId") int characteristicId,
+      @Param("sampleSize") double sampleSize
+  );
+
+  /**
+   * Questo metodo si occupa di ottenere media e deviazione standard delle rilevazioni
+   * della caratteristica specificata dai suoi argomenti.
+   *
+   * @param deviceId l'identificativo della macchina a cui appartiene la caratteristica
+   * @param characteristicId l'identificativo della caratteristica all'interno della macchina
+   * @return media e deviazione standard della caratteristica cercata
+   */
+  @Query(value = """
+      SELECT COALESCE(AVG(value), 0) as mean, COALESCE(STDDEV_SAMP(value), 1) as stddev
+      FROM detection
+      WHERE device_id = :deviceId AND characteristic_id = :characteristicId
+      """, nativeQuery = true)
+  MeanStddevEntity meanStddevWithoutSampleSize(
+      @Param("deviceId") int deviceId,
+      @Param("characteristicId") int characteristicId
+  );
 }

@@ -1,54 +1,70 @@
-<!-- HEADER -->
-
-<!-- / HEADER -->
-<!-- CONTENT -->
 <div class="deltax-content">
   <mat-card>
+    <!-- HEADER -->
     <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
       <h1>
         Gestione macchine
       </h1>
-      <button mat-stroked-button (click)="createDevice()">
+      <button mat-stroked-button (click)="createDevice()" fxHide.lt-sm>
         Nuova macchina
       </button>
+      <button mat-mini-fab (click)="createDevice()" fxHide.gt-xs>
+        <mat-icon>
+          add
+        </mat-icon>
+      </button>
     </mat-toolbar>
+    <!-- CONTENT -->
     <mat-card-content>
-      <mat-table [dataSource]="devices" matSort>
+      <mat-table [dataSource]="devices" matSort (matSortChange)="devices.sortData($event)">
         <ng-container matColumnDef="name">
           <mat-header-cell *matHeaderCellDef mat-sort-header="name">
             Nome
           </mat-header-cell>
-          <mat-cell *matCellDef="let device">
-            {{device.name}}
+          <mat-cell *matCellDef="let device" >
+            <span fxHide.lt-sm>
+              {{device.name}}
+            </span>
+            <span fxHide.gt-xs (click)="openDeviceDetail(device)">
+              {{device.name}}
+            </span>
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="edit">
-          <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
-          <mat-cell *matCellDef="let device" fxFlex="64px">
-            <button mat-icon-button (click)="openDeviceDetail(device)">
+          <mat-header-cell *matHeaderCellDef fxFlex="64px" fxHide.lt-sm></mat-header-cell>
+          <mat-cell *matCellDef="let device" fxFlex="64px" fxHide.lt-sm>
+            <button mat-icon-button (click)="openDeviceDetail(device)" matTooltip="Apri dettaglio">
               <mat-icon>
-                edit
+                manage_search
               </mat-icon>
             </button>
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="activation">
-          <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
-          <mat-cell *matCellDef="let device" fxFlex="64px">
-            <button mat-icon-button (click)="toggleActivationDevice(device)">
+          <mat-header-cell *matHeaderCellDef fxFlex="64px" fxFlex.lt-sm="40px"></mat-header-cell>
+          <mat-cell *matCellDef="let device" fxFlex="64px" fxFlex.lt-sm="40px">
+            <button
+              mat-icon-button
+              (click)="toggleActivationDevice(device)"
+              [matTooltip]="device.deactivated ? 'Attiva macchina' : 'Disattiva macchina'"
+            >
               <mat-icon [ngClass]="{
               'green-text': !device.deactivated,
               'red-text': device.deactivated
             }">
-                {{device.deactivated ? 'toggle_on' : 'toggle_off'}}
+                {{device.deactivated ? 'toggle_off' : 'toggle_on'}}
               </mat-icon>
             </button>
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="status">
-          <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
-          <mat-cell *matCellDef="let device" fxFlex="64px">
-            <button mat-icon-button (click)="toggleStatusDevice(device)">
+          <mat-header-cell *matHeaderCellDef fxFlex="64px" fxFlex.lt-sm="40px"></mat-header-cell>
+          <mat-cell *matCellDef="let device" fxFlex="64px" fxFlex.lt-sm="40px">
+            <button
+              mat-icon-button
+              (click)="toggleStatusDevice(device)"
+              [matTooltip]="device.archived ? 'Ripristina macchina' : 'Archivia macchina'"
+            >
               <mat-icon [ngClass]="{
               'red-text': !device.archived
             }">
@@ -61,9 +77,6 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
-
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
     </mat-card-content>
   </mat-card>
 </div>
-<!-- / CONTENT -->

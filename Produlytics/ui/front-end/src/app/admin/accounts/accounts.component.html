@@ -4,8 +4,13 @@
       <span fxFlex>
         Gestione utenti
       </span>
-      <button mat-stroked-button (click)="openNewAccountDialog()">
+      <button mat-stroked-button fxHide.lt-sm (click)="openNewAccountDialog()">
         Nuovo utente
+      </button>
+      <button mat-mini-fab fxHide.gt-xs (click)="openNewAccountDialog()">
+        <mat-icon>
+          add
+        </mat-icon>
       </button>
     </mat-toolbar>
     <mat-card-content>
@@ -15,23 +20,28 @@
             Username
           </mat-header-cell>
           <mat-cell *matCellDef="let account">
-            {{account.username}}
+            <span fxHide.lt-sm>
+              {{account.username}}
+            </span>
+            <span fxHide.gt-xs [ngClass]="{'green-text': account.administrator}">
+              {{account.username}}
+            </span>
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="admin">
-          <mat-header-cell *matHeaderCellDef fxFlex="104px" mat-sort-header="administrator">
+          <mat-header-cell *matHeaderCellDef fxHide.lt-sm fxFlex="104px" mat-sort-header="administrator" fxLayoutAlign="center center">
             Amministratore
           </mat-header-cell>
-          <mat-cell *matCellDef="let account" fxFlex="104px">
+          <mat-cell *matCellDef="let account" fxHide.lt-sm fxFlex="104px" fxLayoutAlign="center center">
             <mat-icon *ngIf="account.administrator" class="green-text">
               done
             </mat-icon>
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="edit">
-          <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
-          <mat-cell *matCellDef="let account" fxFlex="64px">
-            <button mat-icon-button (click)="openEditAccountDialog(account)">
+          <mat-header-cell *matHeaderCellDef fxFlex="64px" fxFlex.lt-sm="40px"></mat-header-cell>
+          <mat-cell *matCellDef="let account" fxFlex="64px" fxFlex.lt-sm="40px">
+            <button mat-icon-button (click)="openEditAccountDialog(account)" matTooltip="Modifica utente">
               <mat-icon>
                 edit
               </mat-icon>
@@ -39,9 +49,14 @@
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="status">
-          <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
-          <mat-cell *matCellDef="let account" fxFlex="64px">
-            <button mat-icon-button *ngIf="!isLoggedUser(account)" (click)="toggleStatus(account)">
+          <mat-header-cell *matHeaderCellDef fxFlex="64px" fxFlex.lt-sm="40px"></mat-header-cell>
+          <mat-cell *matCellDef="let account" fxFlex="64px" fxFlex.lt-sm="40px">
+            <button
+              mat-icon-button
+              *ngIf="!isLoggedUser(account)"
+              (click)="toggleStatus(account)"
+              [matTooltip]="account.archived ? 'Ripristina utente' : 'Archivia utente'"
+            >
               <mat-icon [ngClass]="{
               'red-text': !account.archived
             }">
@@ -55,8 +70,6 @@
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
       </mat-table>
-
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
     </mat-card-content>
   </mat-card>
 </div>

@@ -27,7 +27,7 @@ public interface ConvertCharacteristic {
                 : OptionalDouble.empty())
         .withUpperLimit(
             characteristic.getUpperLimit() != null
-                ? OptionalDouble.of(characteristic.getSampleSize())
+                ? OptionalDouble.of(characteristic.getUpperLimit())
                 : OptionalDouble.empty())
         .withAutoAdjust(characteristic.getAutoAdjust())
         .withSampleSize(

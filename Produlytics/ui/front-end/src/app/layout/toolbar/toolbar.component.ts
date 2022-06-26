@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -38,7 +38,8 @@ export class ToolbarComponent implements OnInit {
       dialogRef.afterClosed().subscribe(data => {
         if (data == 400){
           this.notificationService.unexpectedError('La nuova password inserita non è valida');
-        }else if (data == 401){
+        }else if (data == 403){
+          // fallback: lo teniamo ma aggiungo anche un altro errore nella form
           this.notificationService.unexpectedError('La password corrente è errata');
         }else {
           if (data){
@@ -52,7 +53,7 @@ export class ToolbarComponent implements OnInit {
      * @returns true se l'utente è autenticato, false altrimenti.
      */
     isLogged(): boolean{
-      return this.loginService.isLogged();
+      return !!this.loginService.getSessionInfo();
     }
 
     /**
@@ -60,7 +61,7 @@ export class ToolbarComponent implements OnInit {
      * @returns true se l'utente è un amministratore, false altrimenti.
      */
     isAdmin(): boolean{
-      return this.loginService.isAdmin();
+      return this.loginService.getSessionInfo()?.administrator || false;
     }
 
     /**
@@ -68,7 +69,7 @@ export class ToolbarComponent implements OnInit {
      * @returns lo username dell'utente.
      */
     getUsername(): string{
-      return this.loginService.getUsername();
+      return this.loginService.getSessionInfo()?.username || '';
     }
 
     /**

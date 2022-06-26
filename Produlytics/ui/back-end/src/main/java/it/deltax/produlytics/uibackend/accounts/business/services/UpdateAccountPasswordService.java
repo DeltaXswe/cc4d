@@ -62,7 +62,7 @@ public class UpdateAccountPasswordService implements UpdateAccountPasswordUseCas
       toUpdate.withHashedPassword(hashedNewPassword);
       this.updateAccountPasswordPort.updateAccountPassword(toUpdate.build());
     } else {
-      throw new BusinessException("wrongCurrentPassword", ErrorType.AUTHENTICATION);
+      throw new BusinessException("wrongCurrentPassword", ErrorType.FORBIDDEN);
     }
   }
 }

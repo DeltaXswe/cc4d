@@ -56,14 +56,22 @@ describe('AccountsComponent', () => {
 
   it('apri-nuovo-utente', (doneFn) => {
     component.openNewAccountDialog();
-    component.accounts.connect().subscribe(() => {
+    component.accounts.connect().subscribe(val => {
+      expect(val).toEqual(users);
       doneFn();
     });
   });
 
   it('apri-modifica-utente', (doneFn) => {
-    component.openNewAccountDialog();
-    component.accounts.connect().subscribe(doneFn);
+    component.openEditAccountDialog({
+      username: 'Robert',
+      administrator: true,
+      archived: false
+    });
+    component.accounts.connect().subscribe(val => {
+      expect(val).toEqual(users);
+      doneFn();
+    });
   });
 
   it('archivia-utente', () => {

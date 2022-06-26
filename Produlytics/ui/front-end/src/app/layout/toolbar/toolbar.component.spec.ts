@@ -49,9 +49,9 @@ describe('ToolbarComponent', () => {
       ]
     })
       .compileComponents();
-    localStorage.clear();
-    localStorage.setItem('username', 'Cosimo');
-    localStorage.setItem('accessToken', 'Cosimo');
+    sessionStorage.clear();
+    sessionStorage.setItem('username', 'Cosimo');
+    sessionStorage.setItem('accessToken', 'Cosimo');
     //localStorage.setItem('admin', 'Cosimo');
     httpTestingController = TestBed.inject(HttpTestingController);
     httpClient = TestBed.inject(HttpClient);
@@ -59,7 +59,6 @@ describe('ToolbarComponent', () => {
     component = fixture.componentInstance;
     loginService = TestBed.inject(LoginAbstractService);
     location = TestBed.inject(Location);
-    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 

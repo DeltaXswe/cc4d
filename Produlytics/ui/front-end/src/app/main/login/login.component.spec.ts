@@ -116,7 +116,10 @@ describe('LoginComponent', () => {
     component.onSubmit();
     const req = httpTestingController.expectOne('/login?remember-me=true');
     expect(req.request.method).toEqual('GET');
-    req.flush({});
+    req.flush({
+      username: 'Gianni',
+      administrator: true
+    });
     httpTestingController.verify();
   });
 });

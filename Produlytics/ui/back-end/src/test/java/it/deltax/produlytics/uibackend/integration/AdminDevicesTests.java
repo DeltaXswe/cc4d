@@ -114,7 +114,7 @@ public class AdminDevicesTests {
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isBadRequest())
-        .andExpect(content().string("{\"errorCode\":\"duplicateDeviceName\"}"));
+        .andExpect(content().json("{\"errorCode\":\"duplicateDeviceName\"}"));
   }
 
   /**
@@ -159,14 +159,11 @@ public class AdminDevicesTests {
    */
   @Test
   public void testModifyDevice() throws Exception {
-    JSONObject json = new JSONObject();
-    json.put("name", "macchina11");
-
     this.mockMvc
         .perform(
             put("/admin/devices/" + deviceId1 + "/name")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(json.toString())
+                .content("\"macchina11\"")
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNoContent());
@@ -190,7 +187,7 @@ public class AdminDevicesTests {
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNotFound())
-        .andExpect(content().string("{\"errorCode\":\"deviceNotFound\"}"));
+        .andExpect(content().json("{\"errorCode\":\"deviceNotFound\"}"));
   }
 
   /**
@@ -200,18 +197,11 @@ public class AdminDevicesTests {
    */
   @Test
   public void testModifyDeviceDuplicateName() throws Exception {
-    JSONObject json = new JSONObject();
-    json.put("name", "macchina2");
-
     this.mockMvc
-        .perform(
-            put("/admin/devices/" + deviceId1 + "/name")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json.toString())
-                .characterEncoding("utf-8"))
+        .perform(put("/admin/devices/" + deviceId1 + "/name").content("macchina2"))
         .andDo(print())
         .andExpect(status().isBadRequest())
-        .andExpect(content().string("{\"errorCode\":\"duplicateDeviceName\"}"));
+        .andExpect(content().json("{\"errorCode\":\"duplicateDeviceName\"}"));
   }
 
   /**
@@ -246,7 +236,7 @@ public class AdminDevicesTests {
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNotFound())
-        .andExpect(content().string("{\"errorCode\":\"deviceNotFound\"}"));
+        .andExpect(content().json("{\"errorCode\":\"deviceNotFound\"}"));
   }
 
   /**
@@ -281,7 +271,7 @@ public class AdminDevicesTests {
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNotFound())
-        .andExpect(content().string("{\"errorCode\":\"deviceNotFound\"}"));
+        .andExpect(content().json("{\"errorCode\":\"deviceNotFound\"}"));
   }
 
   /**
@@ -295,7 +285,7 @@ public class AdminDevicesTests {
         new JSONObject()
             .put("id", deviceId1)
             .put("name", "macchina1")
-            .put("archived", false)
+            .put("archived", true)
             .put("deactivated", false)
             .toString();
 
@@ -317,7 +307,7 @@ public class AdminDevicesTests {
         .perform(get("/admin/devices/111"))
         .andDo(print())
         .andExpect(status().isNotFound())
-        .andExpect(content().string("{\"errorCode\":\"deviceNotFound\"}"));
+        .andExpect(content().json("{\"errorCode\":\"deviceNotFound\"}"));
     ;
   }
 }

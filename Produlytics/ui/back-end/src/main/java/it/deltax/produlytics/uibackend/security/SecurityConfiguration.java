@@ -4,11 +4,14 @@ import it.deltax.produlytics.uibackend.accounts.EncoderConfig;
 import it.deltax.produlytics.uibackend.accounts.business.ports.in.FindAccountUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 /** Configurazione di Spring Security. */
@@ -57,19 +60,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     http.authorizeRequests()
         .antMatchers("/admin/**")
         .hasAuthority(ProdulyticsGrantedAuthority.ADMIN.getAuthority())
-        .antMatchers("/devices", "/accounts", "/logout")
+        .antMatchers("/devices/**", "/accounts/**", "/logout")
         .hasAuthority(ProdulyticsGrantedAuthority.ACCOUNT.getAuthority())
-        .antMatchers("/index.html", "/*", "/login")
+        .antMatchers("/index.html", "/*")
         .permitAll()
         .anyRequest()
         .authenticated()
         .and()
         .httpBasic()
+        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
         .and()
         .rememberMe()
         .rememberMeCookieName("PRODULYTICS_RM")
         .key(encoder.getEncoder().encode("produlytics"))
         .userDetailsService(userDetailsAdapter)
+        .and()
+        .logout()
+        .logoutUrl("/logout")
+        .logoutSuccessHandler((new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)))
+        .deleteCookies("PRODULYTICS_S", "PRODULYTICS_RM")
         .and()
         .csrf()
         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());

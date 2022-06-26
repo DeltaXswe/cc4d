@@ -49,7 +49,7 @@ export class AccountFormDialogComponent implements OnInit {
         : this.passwordValidators
       )
     });
-    if (this.editMode && loginService.getUsername() === data?.account.username) {
+    if (this.editMode && loginService.getSessionInfo()?.username === data?.account.username) {
       this.formGroup.get('administrator')!.disable();
     }
   }
@@ -92,8 +92,8 @@ export class AccountFormDialogComponent implements OnInit {
       next: () => {
         this.matDialogRef.close(true);
       },
-      error: (err: StandardError) => {
-        this.showError(err);
+      error: (err: { error: StandardError }) => {
+        this.showError(err.error);
       }
     });
   }

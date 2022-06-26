@@ -264,7 +264,13 @@ $altTheme: (
 // custom layout
 
 .deltax-content {
-  padding: 24px;
+
+  @media screen and (min-width: 1280px) {
+    //padding: 24px;
+    padding-left: 20px;
+    padding-top: 24px;
+    padding-right: 12px;
+  }
 
   display: flex;
   justify-content: center;
@@ -336,3 +342,14 @@ a[routerLink] {
   color: #b9cee3;
 }
 
+@media (max-width: 767px) {
+  .cdk-overlay-pane {
+    max-width: 90vw!important; // gaggi be like >:(
+  }
+}
+
+@media (max-width: 767px) {
+  .mat-form-field-infix {
+    width: auto!important;
+  }
+}

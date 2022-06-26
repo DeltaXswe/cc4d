@@ -31,8 +31,14 @@
           </mat-error>
         </mat-form-field>
 
-        <button mat-stroked-button (click)="updateDeviceName()" [disabled]="newNameInvalid()">
+        <button mat-stroked-button fxHide.lt-sm (click)="updateDeviceName()" [disabled]="newNameInvalid()">
           Aggiorna nome
+        </button>
+
+        <button mat-icon-button fxHide.gt-xs (click)="updateDeviceName()" [disabled]="newNameInvalid()">
+          <mat-icon>
+            save
+          </mat-icon>
         </button>
       </div>
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
@@ -66,8 +72,13 @@
         <span>
           Caratteristiche
         </span>
-        <button mat-stroked-button color="accent" (click)="openNewCharacteristicDialog()">
+        <button mat-stroked-button color="accent" fxHide.lt-sm (click)="openNewCharacteristicDialog()">
           Nuova caratteristica
+        </button>
+        <button mat-icon-button color="primary" fxHide.gt-xs (click)="openNewCharacteristicDialog()">
+          <mat-icon>
+            add
+          </mat-icon>
         </button>
       </mat-card-subtitle>
       <mat-table [dataSource]="characteristics">
@@ -80,9 +91,13 @@
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="edit">
-          <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
-          <mat-cell *matCellDef="let characteristic" fxFlex="64px">
-            <button mat-icon-button (click)="openUpdateCharacteristicFormDialog(characteristic)">
+          <mat-header-cell *matHeaderCellDef fxFlex="64px" fxFlex.lt-sm="40px"></mat-header-cell>
+          <mat-cell *matCellDef="let characteristic" fxFlex="64px" fxFlex.lt-sm="40px">
+            <button
+              mat-icon-button
+              (click)="openUpdateCharacteristicFormDialog(characteristic)"
+              matTooltip="Modifica caratteristica"
+            >
               <mat-icon>
                 edit
               </mat-icon>
@@ -90,9 +105,13 @@
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="status">
-          <mat-header-cell *matHeaderCellDef fxFlex="64px"></mat-header-cell>
-          <mat-cell *matCellDef="let characteristic" fxFlex="64px">
-            <button mat-icon-button (click)="toggleCharacteristicStatus(characteristic)">
+          <mat-header-cell *matHeaderCellDef fxFlex="64px" fxFlex.lt-sm="40px"></mat-header-cell>
+          <mat-cell *matCellDef="let characteristic" fxFlex="64px" fxFlex.lt-sm="40px">
+            <button
+              mat-icon-button
+              (click)="toggleCharacteristicStatus(characteristic)"
+              [matTooltip]="device.archived ? 'Ripristina caratteristica' : 'Archivia caratteristica'"
+            >
               <mat-icon [ngClass]="{
               'red-text': !characteristic.archived
             }">
@@ -104,7 +123,6 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 20, 100]" aria-label="Select page of characteristic"></mat-paginator>
     </mat-card-content>
   </mat-card>
 </div>

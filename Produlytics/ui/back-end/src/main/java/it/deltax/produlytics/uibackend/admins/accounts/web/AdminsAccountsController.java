@@ -88,12 +88,12 @@ public class AdminsAccountsController {
    * @return lo stato HTTP
    * @throws BusinessException se l'utente non è stato trovato o la nuova password non è valida
    */
-  @PutMapping("/{username}")
+  @PutMapping("/accounts/{username}")
   public ResponseEntity<String> updateAccount(
       @PathVariable("username") String username, @RequestBody AccountDataToUpdate body)
       throws BusinessException {
     this.updateAccountByAdminUseCase.updateByUsername(
-        new AccountUpdatedByAdmin(username, body.newPassword(), body.administrator()));
+        new AccountUpdatedByAdmin(username, body.password(), body.administrator()));
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
@@ -106,7 +106,7 @@ public class AdminsAccountsController {
    * @return lo stato HTTP
    * @throws BusinessException se l'utente non è stato trovato
    */
-  @PutMapping("accounts/{username}/archived")
+  @PutMapping("/accounts/{username}/archived")
   public ResponseEntity<String> updateAccountArchiveStatus(
       @PathVariable("username") String username, @RequestBody JsonNode body)
       throws BusinessException {

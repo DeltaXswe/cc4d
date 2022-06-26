@@ -48,16 +48,14 @@ public class InsertCharacteristicService implements InsertCharacteristicUseCase 
         .findDetailedDevice(deviceId)
         .orElseThrow(() -> new BusinessException("deviceNotFound", ErrorType.NOT_FOUND));
 
-    if (!this.findCharacteristicPort
+    if (this.findCharacteristicPort
         .findByDeviceAndName(deviceId, characteristic.name())
-        .isEmpty()) {
+        .isPresent()) {
       throw new BusinessException("duplicateCharacteristicName", ErrorType.GENERIC);
     }
 
-    if (characteristic.autoAdjust() && characteristic.sampleSize().isEmpty()) {
-      characteristic = characteristic.toBuilder()
-          .withSampleSize(OptionalInt.of(0))
-          .build();
+    if (characteristic.sampleSize().equals(OptionalInt.of(0))) {
+      characteristic = characteristic.toBuilder().withSampleSize(OptionalInt.empty()).build();
     }
 
     if (!CharacteristicConstraints.characteristicConstraintsOk(

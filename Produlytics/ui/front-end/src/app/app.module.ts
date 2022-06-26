@@ -17,7 +17,7 @@ import {MatInputModule} from '@angular/material/input';
 import {BrowserModule} from "@angular/platform-browser";
 import {FlexLayoutModule, FlexModule} from "@angular/flex-layout";
 import {AppRoutingModule} from "./app-routing.module";
-import {HttpClientModule, HTTP_INTERCEPTORS} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {ChartAbstractService} from "./model/chart/chart-abstract.service";
@@ -56,7 +56,9 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerDialogComponent } from './main/date-picker-dialog/date-picker-dialog.component';
-import { XhrInterceptor } from './model/http-interceptor/http-interceptor.service';
+import {HttpInterceptorService} from "./model/http-interceptor.service";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import { CarouselOptionsDialogComponent } from './main/carousel-options-dialog/carousel-options-dialog/carousel-options-dialog.component';
 
 @NgModule({
   declarations: [
@@ -66,54 +68,57 @@ import { XhrInterceptor } from './model/http-interceptor/http-interceptor.servic
     ToolbarComponent,
     LoginComponent,
     ModifyPwComponent,
-    DatePickerDialogComponent
+    DatePickerDialogComponent,
+    CarouselOptionsDialogComponent
   ],
-  imports: [
-    // angular
-    ClipboardModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    // flex style
-    FlexModule,
-    FlexLayoutModule,
-    // material
-    MatToolbarModule,
-    MatTabsModule,
-    MatCardModule,
-    MatDividerModule,
-    MatListModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatDialogModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    // routing
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatSnackBarModule,
-    // other
-    MatSidenavModule,
-    MatTreeModule,
-    MatProgressBarModule,
-    MatProgressSpinnerModule,
-    MatGridListModule,
-    NgbModule
-  ],
+    imports: [
+        // angular
+        ClipboardModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        // flex style
+        FlexModule,
+        FlexLayoutModule,
+        // material
+        MatToolbarModule,
+        MatTabsModule,
+        MatCardModule,
+        MatDividerModule,
+        MatListModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatDialogModule,
+        MatMenuModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatCheckboxModule,
+        // routing
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+        // other
+        MatSidenavModule,
+        MatTreeModule,
+        MatProgressBarModule,
+        MatProgressSpinnerModule,
+        MatGridListModule,
+        NgbModule,
+        MatSlideToggleModule
+    ],
   providers: [
     {
       provide: MAT_DATE_LOCALE, useValue: 'en-GB'
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: XhrInterceptor,
-      multi: true },
+      useClass: HttpInterceptorService,
+      multi: true
+    },
     {
       provide: ChartAbstractService,
       useExisting: environment.chartService

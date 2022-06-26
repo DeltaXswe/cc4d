@@ -9,8 +9,6 @@ import it.deltax.produlytics.uibackend.admins.devices.business.ports.out.InsertC
 import it.deltax.produlytics.uibackend.admins.devices.business.services.InsertCharacteristicService;
 import it.deltax.produlytics.uibackend.exceptions.BusinessException;
 import it.deltax.produlytics.uibackend.exceptions.ErrorType;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
@@ -107,11 +105,7 @@ public class InsertCharacteristicServiceTest {
             new FindDetailedCharacteristicPortMock());
 
     assert service.insertByDevice(
-        1,
-        NewCharacteristic.builder()
-            .withName("pressione")
-            .withAutoAdjust(true)
-            .build())
+            1, NewCharacteristic.builder().withName("pressione").withAutoAdjust(true).build())
         == 1;
   }
 
@@ -188,12 +182,12 @@ public class InsertCharacteristicServiceTest {
     @Override
     public Optional<DetailedCharacteristic> findByCharacteristic(
         int deviceId, int characteristicId) {
-      return null;
+      return Optional.empty();
     }
 
     @Override
-    public List<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
-      return Collections.emptyList();
+    public Optional<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
+      return Optional.empty();
     }
   }
 
@@ -202,12 +196,12 @@ public class InsertCharacteristicServiceTest {
     @Override
     public Optional<DetailedCharacteristic> findByCharacteristic(
         int deviceId, int characteristicId) {
-      return null;
+      return Optional.empty();
     }
 
     @Override
-    public List<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
-      return List.of(
+    public Optional<DetailedCharacteristic> findByDeviceAndName(int deviceId, String name) {
+      return Optional.of(
           DetailedCharacteristic.builder()
               .withId(1)
               .withDeviceId(1)

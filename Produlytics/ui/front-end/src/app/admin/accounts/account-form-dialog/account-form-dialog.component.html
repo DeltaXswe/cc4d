@@ -2,15 +2,15 @@
   <h2>
     {{editMode ? 'Modifica utente' : 'Inserisci un nuovo utente'}}
   </h2>
-  <button mat-icon-button (click)="cancel()">
+  <button mat-icon-button (click)="cancel()" tabindex="-1">
     <mat-icon>
       close
     </mat-icon>
   </button>
 </mat-toolbar>
 <div mat-dialog-content>
-  <form [formGroup]="formGroup" fxLayout="column" fxLayoutAlign="start stretch">
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+  <form [formGroup]="formGroup" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="8px">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayout.lt-sm="column"  fxLayoutAlign.lt-sm="start stretch" fxLayoutGap="8px">
       <mat-form-field *ngIf="formGroup.get('username') as field" appearance="outline" floatLabel="always">
         <mat-label>
           Nome utente
@@ -27,7 +27,7 @@
         Amministratore
       </mat-checkbox>
     </div>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayout.lt-sm="column-reverse"  fxLayoutAlign.lt-sm="start stretch" fxLayoutGap="4px">
       <mat-form-field appearance="outline" floatLabel="always">
         <mat-label>
           Password

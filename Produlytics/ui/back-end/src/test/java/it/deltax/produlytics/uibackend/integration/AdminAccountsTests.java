@@ -77,7 +77,7 @@ public class AdminAccountsTests {
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(content().string("{\"username\":\"utente3\"}"));
+        .andExpect(content().json("{\"username\":\"utente3\"}"));
   }
 
   /**
@@ -100,7 +100,7 @@ public class AdminAccountsTests {
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isBadRequest())
-        .andExpect(content().string("{\"errorCode\":\"duplicateUsername\"}"));
+        .andExpect(content().json("{\"errorCode\":\"duplicateUsername\"}"));
   }
 
   /**
@@ -123,7 +123,7 @@ public class AdminAccountsTests {
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isBadRequest())
-        .andExpect(content().string("{\"errorCode\":\"invalidPassword\"}"));
+        .andExpect(content().json("{\"errorCode\":\"invalidPassword\"}"));
   }
 
   /**
@@ -160,12 +160,12 @@ public class AdminAccountsTests {
   @Test
   public void testUpdateAccountOk() throws Exception {
     JSONObject json = new JSONObject();
-    json.put("newPassword", "passwordNuova");
+    json.put("password", "passwordNuova");
     json.put("administrator", "false");
 
     this.mockMvc
         .perform(
-            put("/admin/utente1")
+            put("/admin/accounts/utente1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json.toString())
                 .characterEncoding("utf-8"))
@@ -181,18 +181,18 @@ public class AdminAccountsTests {
   @Test
   public void testUpdateAccountInvalidNewPassword() throws Exception {
     JSONObject json = new JSONObject();
-    json.put("newPassword", "p");
+    json.put("password", "p");
     json.put("administrator", "false");
 
     this.mockMvc
         .perform(
-            put("/admin/utente1")
+            put("/admin/accounts/utente1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json.toString())
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isBadRequest())
-        .andExpect(content().string("{\"errorCode\":\"invalidNewPassword\"}"));
+        .andExpect(content().json("{\"errorCode\":\"invalidNewPassword\"}"));
   }
 
   /**
@@ -203,18 +203,18 @@ public class AdminAccountsTests {
   @Test
   public void testUpdateAccountNotFound() throws Exception {
     JSONObject json = new JSONObject();
-    json.put("newPassword", "passwordNuova");
+    json.put("password", "passwordNuova");
     json.put("administrator", "false");
 
     this.mockMvc
         .perform(
-            put("/admin/nomeCheNonEsiste")
+            put("/admin/accounts/nomeCheNonEsiste")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json.toString())
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNotFound())
-        .andExpect(content().string("{\"errorCode\":\"accountNotFound\"}"));
+        .andExpect(content().json("{\"errorCode\":\"accountNotFound\"}"));
   }
 
   /**
@@ -229,7 +229,7 @@ public class AdminAccountsTests {
 
     this.mockMvc
         .perform(
-            put("/admin/utente1")
+            put("/admin/accounts/utente1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json.toString())
                 .characterEncoding("utf-8"))
@@ -269,6 +269,6 @@ public class AdminAccountsTests {
                 .characterEncoding("utf-8"))
         .andDo(print())
         .andExpect(status().isNotFound())
-        .andExpect(content().string("{\"errorCode\":\"accountNotFound\"}"));
+        .andExpect(content().json("{\"errorCode\":\"accountNotFound\"}"));
   }
 }

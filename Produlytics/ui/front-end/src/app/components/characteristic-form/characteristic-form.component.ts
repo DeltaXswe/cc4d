@@ -29,7 +29,7 @@ export class CharacteristicFormComponent implements OnInit {
       autoAdjust: new FormControl(false),
       upperLimit: new FormControl(''),
       lowerLimit: new FormControl(''),
-      sampleSize: new FormControl('')
+      sampleSize: new FormControl('', [Validators.min(0), Validators.pattern("^[0-9]*$")])
     });
   }
 

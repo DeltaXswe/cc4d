@@ -22,7 +22,7 @@ public class BusinessExceptionHandler {
     var error = Map.of("errorCode", exception.getCode());
     HttpStatus httpStatus = switch (exception.getType()) {
       case GENERIC -> HttpStatus.BAD_REQUEST;
-      case AUTHENTICATION -> HttpStatus.UNAUTHORIZED;
+      case FORBIDDEN -> HttpStatus.FORBIDDEN;
       case NOT_FOUND -> HttpStatus.NOT_FOUND;
     };
     return new ResponseEntity<>(error, httpStatus);

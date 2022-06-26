@@ -14,7 +14,7 @@ import {SaveAccountAbstractService} from "../model/admin-account/save-account-ab
 import {LoginService} from "../model/login/login.service";
 import {LoginAbstractService} from "../model/login/login-abstract.service";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {BehaviorSubject, Observable, Subject} from "rxjs";
+import {BehaviorSubject, Observable, Subject, throwError} from "rxjs";
 import {MatCardModule} from "@angular/material/card";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
@@ -33,6 +33,11 @@ import {AuthenticatedUserGuard} from "../guards/authenticated-user-guard";
 import {AdminGuard} from "../guards/admin-guard";
 import {LoginGuard} from "../guards/login-guard";
 import {ClipboardModule} from "@angular/cdk/clipboard";
+import {MatTreeModule} from "@angular/material/tree";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {StandardError} from "../../lib/standard-error";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 const routes: Routes = [
   {
@@ -81,7 +86,11 @@ export const testModules = [
   MatDividerModule,
   MatListModule,
   MatMenuModule,
-  MatChipsModule
+  MatChipsModule,
+  MatTreeModule,
+  MatSidenavModule,
+  MatProgressBarModule,
+  MatTooltipModule
 ];
 
 // per i test d'integrazione
@@ -149,4 +158,12 @@ export class MockSnack {
   open(message: string, action?: string, config?: any): any {
     return undefined;
   }
+}
+
+export function wrapError(errorCode: string): Observable<never> {
+  return throwError(() => ({
+    error: {
+      errorCode
+    }
+  }));
 }

@@ -1,5 +1,6 @@
 package it.deltax.produlytics.uibackend.admins.devices.business.domain;
 
+import java.util.Optional;
 import lombok.Builder;
 
 /**
@@ -10,6 +11,10 @@ import lombok.Builder;
 public record Characteristic(
     int id,
     String name,
+    boolean autoAdjust,
+    Optional<Double> lowerLimit,
+    Optional<Double> upperLimit,
+    Optional<Integer> sampleSize,
     boolean archived
 ) {
   @Builder(toBuilder = true, builderMethodName = "", setterPrefix = "with")
