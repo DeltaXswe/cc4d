@@ -1,11 +1,7 @@
-.mat-dialog-container {
-   min-width: 500px;
-   max-width: 500px;
-   width: 500px;
-   padding: 0;
- }
- 
- .mat-dialog-content {
+
+
+
+.mat-dialog-content {
    margin: 0;
    padding: 24px;
  }

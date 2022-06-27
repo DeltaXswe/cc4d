@@ -353,3 +353,24 @@ a[routerLink] {
     width: auto!important;
   }
 }
+
+.mat-dialog-container {
+  padding: 0!important;
+}
+
+@media (min-width: 767px) {
+  .mat-dialog-container {
+    min-width: 500px;
+    max-width: 500px;
+    width: 500px;
+  }
+}
+
+@media (max-width: 767px) {
+  .mat-dialog-container {
+
+    min-width: 90vw;
+    max-width: 90vw;
+    width: 90vw;
+  }
+}
