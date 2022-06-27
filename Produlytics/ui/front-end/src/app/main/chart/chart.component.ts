@@ -101,7 +101,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
         this.chartService.getOldPoints(res.start, res.end, this.currentNode?.device.id, this.currentNode?.id)
           .subscribe({
             next: (points) => {
-              this.points = points.detections;
+              this.points = points.detections.filter(element => element && element.creationTime >= res.start);
               this.isChartShowingOldPoints = true;
               this.createChart();
               this.drawChart();
