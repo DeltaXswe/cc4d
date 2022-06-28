@@ -194,25 +194,36 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
    * Rappresenta gli elementi precedentemente inizializzati da {@link createChart()}
    */
   drawChart(): void {
-    if (this.points.length == 0) {
-      return;
+    if (!this.limits) {
+      this.limits = {
+        upperLimit: 300,
+        lowerLimit: 100,
+        mean: 200
+      }
     }
     const delta = Math.floor((this.limits.upperLimit - this.limits.lowerLimit) / 6);
 
-    const [ymin, ymax] = d3.extent(this.points, (p) => p.value);
+    const [ymin, ymax] = this.points.length > 0 ? d3.extent(this.points, (p) => p.value) : [400, 0];
 
     d3.selectAll(`#d3svg${this.index}`).style('width', this.chartWidth);
 
     this.xScale = d3.scaleTime().range([0, this.chartWidth]);
 
     if(this.isChartShowingOldPoints) {
+      this.points.length > 0 ?
       this.xScale.domain(
         d3.extent(this.points, (p) => new Date(p.creationTime)) as [Date, Date]
-      );
+      ) :
+        this.xScale.domain(
+          [Date.now() - 5000, Date.now()])
     } else {
-      this.xScale.domain(
-        [new Date(this.points[0].creationTime), new Date()]
-      );
+      this.points.length > 0 ?
+        this.xScale.domain(
+          [new Date(this.points[0].creationTime), new Date()]
+        ) :
+        this.xScale.domain(
+          [Date.now() - 5000, Date.now()]
+        )
     }
 
     this.yScale.domain([
@@ -333,6 +344,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
    */
    clearChart(): void{
     this.updateSubscription?.unsubscribe();
+    this.points = [];
     this.svg.selectAll("*").remove();
     this.svgy.selectAll("*").remove();
   }
