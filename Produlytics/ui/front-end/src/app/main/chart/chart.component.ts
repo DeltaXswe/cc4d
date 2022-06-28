@@ -222,7 +222,7 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
           [new Date(this.points[0].creationTime), new Date()]
         ) :
         this.xScale.domain(
-          [Date.now() - 5000, Date.now()]
+          [Date.now() - 10000, Date.now()]
         )
     }
 
@@ -332,8 +332,8 @@ export class ChartComponent implements OnInit, OnDestroy, AfterViewInit {
               this.points = this.points.slice(this.points.length - 100);
             }
             this.nextNew = new_points.nextNew;
-            this.drawChart();
           }
+          this.drawChart();
         },
         error: () => this.notificationService.unexpectedError('Caratteristica non trovata')
       });
